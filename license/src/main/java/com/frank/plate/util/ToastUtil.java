@@ -9,7 +9,6 @@ public class ToastUtil {
 
     public static void ToastCenter(String message) {
 
-        Toast.makeText(MyApplication.getInstance(), message, Toast.LENGTH_SHORT).show();
 
 
     }

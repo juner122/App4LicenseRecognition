@@ -61,4 +61,11 @@ public class MainFragment1 extends BaseFragment {
         }
 
     }
+
+    public static final String TAG = "MainFragment1";
+    @Override
+    protected String setTAG() {
+        return TAG;
+    }
+
 }

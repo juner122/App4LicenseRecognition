@@ -17,6 +17,7 @@ import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.BillEntityItem;
 import com.frank.plate.util.MathUtil;
 import com.frank.plate.view.DatePickerDialogUtil;
+import com.tamic.novate.Throwable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,6 +85,11 @@ public class BillListActivity extends BaseActivity {
                 tv_money2.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
                 tv_money3.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
                 tv_money4.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
             }
         });
 

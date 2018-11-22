@@ -72,4 +72,10 @@ public class MainFragment4 extends BaseFragment {
 
 
     }
+
+    public static final String TAG = "MainFragment4";
+    @Override
+    protected String setTAG() {
+        return TAG;
+    }
 }

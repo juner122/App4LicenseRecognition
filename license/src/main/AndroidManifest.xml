@@ -58,10 +58,11 @@
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
         <activity android:name=".activity.BillListItemInfoActivity"/>
+        <activity android:name=".activity.OrderInfoActivity"/>
 
 
 
-        <activity android:name="com.frank.plate.activity.PreviewActivity"/>//车牌扫描测试
+        <activity android:name=".activity.PreviewActivity"/>//车牌扫描测试
 
 
 

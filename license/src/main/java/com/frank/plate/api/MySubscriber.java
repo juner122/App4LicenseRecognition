@@ -3,7 +3,6 @@ package com.frank.plate.api;
 import android.content.Context;
 import android.util.Log;
 
-import com.frank.plate.util.ToastUtil;
 import com.tamic.novate.BaseSubscriber;
 import com.tamic.novate.Throwable;
 
@@ -66,15 +65,15 @@ public class MySubscriber<T> extends BaseSubscriber implements ProgressCancelLis
     /**
      * 对错误进行统一处理
      * 隐藏ProgressDialog
+     *
      * @param e
      */
     @Override
     public void onError(Throwable e) {
+        Log.d("MySubscriber", "onError----->" + e.getMessage());
+        onCompleted();
+        mOnNextListener.onError(e);
 
-
-        ToastUtil.ToastCenter(e.getMessage());
-        e.printStackTrace();
-        dismissProgressDialog();
 
     }
 

@@ -2,6 +2,7 @@ package com.frank.plate.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.tv_title)
     protected TextView tv_title;
+    @BindView(R.id.tv_title_r)
+    protected TextView tv_title_r;
 
     @BindView(R.id.head_view)
     View head_view;
@@ -53,6 +56,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
+    public void setRTitle(String str) {
+        tv_title_r.setVisibility(View.VISIBLE);
+        tv_title_r.setText(str);
+    }
 
     protected abstract void init();
 
@@ -86,9 +93,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void toActivity(Class c, Intent intent) {
+    protected void toActivity(Class c, Parcelable p, String key) {
 
-        startActivity(new Intent(this, c));
+
+        Intent intent = new Intent(this, c);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(key, p);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
     }
 

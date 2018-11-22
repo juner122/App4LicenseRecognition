@@ -2,8 +2,10 @@ package com.frank.plate.activity.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +22,24 @@ public abstract class BaseFragment extends Fragment {
                 false);
         ButterKnife.bind(this, rootView);
         mContext = getContext();
+
         setUpView();
+
+        Log.d(setTAG(),"---->>>>onCreateView");
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(setTAG(),"---->>>>onResume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(setTAG(),"---->>>>onPause");
+    }
 
     /**
      * 此方法用于返回Fragment设置ContentView的布局文件资源ID
@@ -42,7 +58,8 @@ public abstract class BaseFragment extends Fragment {
 
         startActivity(new Intent(getContext(), c));
 
-
     }
+
+    protected abstract String setTAG();
 
 }

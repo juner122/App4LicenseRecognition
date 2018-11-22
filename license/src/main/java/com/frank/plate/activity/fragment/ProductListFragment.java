@@ -78,6 +78,10 @@ public class ProductListFragment extends BaseFragment {
 
 
     }
-
+    public static final String TAG = "ProductListFragment";
+    @Override
+    protected String setTAG() {
+        return TAG;
+    }
 
 }

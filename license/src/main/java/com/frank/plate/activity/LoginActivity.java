@@ -7,6 +7,7 @@ import com.frank.plate.R;
 import com.frank.plate.api.MySubscriber;
 import com.frank.plate.api.SubscribeOnNextListener;
 import com.frank.plate.bean.UserInfo;
+import com.tamic.novate.Throwable;
 
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
                 tv_code.setClickable(false);
                 final Observable observable = Observable //计时器
                         .interval(0, 1, TimeUnit.SECONDS)
-                        .take(61)
+                        .take(61)//次数
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
                 MySubscriber mySubscriber = new MySubscriber<>(this, new SubscribeOnNextListener<UserInfo>() {
@@ -82,6 +83,11 @@ public class LoginActivity extends BaseActivity {
                                 tv_code.setClickable(true);
                             }
                         });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
                     }
                 });
                 Api().getUserInfo(mySubscriber, "1");

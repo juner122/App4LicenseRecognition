@@ -7,8 +7,10 @@ import com.frank.plate.Configure;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.MyBalanceEntity;
+import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.UserInfo;
 import com.tamic.novate.Novate;
+import com.tamic.novate.exception.NovateException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -92,6 +94,20 @@ public class RetrofitClient {
         novate.call(apiService.getUserBillList(map).map(new HttpResultFunc<BillEntity>()), bodyBaseSubscriber);
     }
 
+
+    /**
+     * 拍照接单自动查找订单或车况
+     *
+     */
+    public void queryByCar(MySubscriber<QueryByCarEntity> bodyBaseSubscriber, int car_no) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", "1");
+        map.put("car_no", car_no);
+
+        novate.call(apiService.queryByCar(map).map(new HttpResultFunc<QueryByCarEntity>()), bodyBaseSubscriber);
+    }
+
+
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
      *
@@ -102,6 +118,7 @@ public class RetrofitClient {
         @Override
         public T call(BaseBean<T> httpResult) {
             if (httpResult.getErrno() != 0) {
+
                 throw new ApiException(httpResult.getErrmsg());
             }
             return httpResult.getData();

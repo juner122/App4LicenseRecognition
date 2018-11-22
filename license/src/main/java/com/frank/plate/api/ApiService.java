@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.MyBalanceEntity;
+import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.UserInfo;
 
 import java.util.Map;
@@ -31,6 +32,7 @@ public interface ApiService {
     Observable<BaseBean<UserInfo>> getUserInfo(@FieldMap Map<String, Object> maps);
 
 
+    //余额信息
     @POST("userbalance/getInfo")
     @FormUrlEncoded
     Observable<BaseBean<MyBalanceEntity>> getUserBalanceInfo(@FieldMap Map<String, Object> maps);
@@ -44,7 +46,12 @@ public interface ApiService {
 
 
 
-    @POST("getPhoneCode")
+
+    //拍照接单自动查找订单或车况
+    @POST("order/queryByCar")
     @FormUrlEncoded
-    Observable<BaseBean<Nullable>> getPhoneCode(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<QueryByCarEntity>> queryByCar(@FieldMap Map<String, Object> maps);
+
+
+
 }

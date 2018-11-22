@@ -53,4 +53,11 @@ public class MainFragment2 extends BaseFragment {
         recyclerView.setAdapter(new OrderListAdapter(R.layout.item_fragment2_main, list));
 
     }
+
+    public static final String TAG = "MainFragment2";
+    @Override
+    protected String setTAG() {
+        return TAG;
+    }
+
 }

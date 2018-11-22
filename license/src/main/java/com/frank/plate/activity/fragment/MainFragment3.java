@@ -50,7 +50,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     @BindView(R.id.e7)
     EditText et7;
 
-
+    String car_number;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -59,10 +59,8 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
                 case PlateRecognition.MSG_RESULT://recognize finish
                     String result = (String) msg.obj;
                     Toast.makeText(getContext(), "车牌号=" + result, Toast.LENGTH_SHORT).show();
-
-
+                    car_number = result;
                     try {
-
                         et1.setText(String.valueOf(result.charAt(0)));
                         et2.setText(String.valueOf(result.charAt(1)));
                         et3.setText(String.valueOf(result.charAt(2)));
@@ -87,7 +85,6 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     public int setLayoutResourceID() {
         return R.layout.fragment3_main;
     }
-
 
 
     public void init() {
@@ -120,10 +117,15 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+//        init();
+    }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onPause() {
+        super.onPause();
         if (plateRecognition != null) {
             //release plate recognizer
             plateRecognition.releaseRecognizer();
@@ -135,16 +137,35 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
         }
     }
 
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        if (plateRecognition != null) {
+//            //release plate recognizer
+//            plateRecognition.releaseRecognizer();
+//        }
+//        if (recognizeThread != null) {
+//            recognizeThread.setRunning(false);
+//            recognizeThread.interrupt();
+//            recognizeThread = null;
+//        }
+//    }
+
     @Override
     protected void setUpView() {
-        init();
+
     }
 
 
     @OnClick(R.id.but_next)
     public void onClick(View view) {
 
-        toActivity(MemberInfoInputActivity.class);
+
+        switch (view.getId()) {
+            case R.id.but_next:
+                toActivity(MemberInfoInputActivity.class);
+                break;
+        }
 
 
     }
@@ -165,5 +186,12 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
         if (recognizeThread != null) {
             recognizeThread.addMat(dstMat);
         }
+    }
+
+    public static final String TAG = "MainFragment3";
+
+    @Override
+    protected String setTAG() {
+        return TAG;
     }
 }
