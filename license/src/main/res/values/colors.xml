@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FEE600</color>
+    <color name="colorPrimaryDark">#FEE600</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="fff">#fff</color>
+
+
+
+
+    <color name="appColor">#FEE600</color>
+    <color name="appColoree">#ccFEE600</color>
+</resources>

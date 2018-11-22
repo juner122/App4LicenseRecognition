@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:background="#aaa"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        tools:srcCompat="@tools:sample/avatars[5]" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发动机时刻保护  除碳排毒套餐"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="MKD油路除水剂（融水剂）-8311
+MKD引擎抗磨保护剂-8205
+油箱及油管清洗剂-M2616  q
+MKD电子气门高活性清洁剂-8306"
+                android:textColor="#ff666666"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_price1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="现价：700"
+                    android:textColor="#fff23325"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_price2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="原价：820"
+                    android:textColor="#ff999999"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_action"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:background="@drawable/button_background_b"
+                android:gravity="center"
+                android:text="添加"
+                android:textColor="#ff000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

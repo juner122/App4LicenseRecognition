@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.frank.plate">
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!-- 4.2以上的手机需要的权限 -->
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <!-- 访问INTERNET的权限 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 手机信息 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- ************************************* -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 在SD卡中创建文件与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 传感器 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <!-- 开启闪光灯权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.frank.plate.activity.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MemberManagementActivity" />
+        <activity android:name=".activity.StaffManagementActivity" />
+        <activity android:name=".activity.ProductListActivity" />
+        <activity android:name=".activity.ActivityPackageListActivity" />
+        <activity android:name=".activity.BillListActivity" />
+        <activity android:name=".activity.MemberInfoInputActivity" />
+        <activity android:name=".activity.CarInfoInputActivity" />
+        <activity android:name=".activity.MakeOrderActivity" />
+        <activity android:name=".activity.MealListActivity" />
+        <activity android:name=".activity.TechnicianListActivity" />
+        <activity android:name=".activity.MakeOrderSuccessActivity" />
+        <activity android:name=".activity.OrderPayActivity" />
+        <activity android:name=".activity.OrderDoneActivity" />
+        <activity android:name=".activity.MyBalanceActivity" />
+        <activity android:name=".activity.BillListItemInfoActivity"/>
+
+
+
+        <activity android:name="com.frank.plate.activity.PreviewActivity"/>//车牌扫描测试
+
+
+
+
+
+    </application>
+
+</manifest>

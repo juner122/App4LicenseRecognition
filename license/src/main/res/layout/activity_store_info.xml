@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/head_view" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="178dp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#fff"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="17dp"
+            android:text="华南新城店"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
+
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:background="#FFF23325" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:paddingRight="17dp"
+            android:text="营业时间：8:00 — —18:00
+节假日无休"
+            android:textColor="#ff666666"
+            android:textSize="10sp" />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:padding="17dp"
+        android:text="联系电话：020-87763813"
+        android:textColor="#ff666666"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:padding="17dp"
+        android:text="广州市天河区天河路490号壬丰大厦地下负一楼"
+        android:textColor="#ff666666"
+        android:textSize="14sp" />
+</LinearLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="horizontal"
+    android:padding="11dp">
+
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#444"
+        tools:srcCompat="@tools:sample/avatars[6]" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="12dp"
+        android:orientation="vertical">
+
+
+        <TextView
+
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="倍耐力P7防爆轮胎/……"
+            android:textColor="#ff010101"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_product_ts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:minLines="2"
+            android:text="225 235 245 255 275/40 45 50 55 R17 18 19 20"
+            android:textColor="#ff666666"
+            android:textSize="12sp" />
+
+
+        <LinearLayout
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="¥ 500.00"
+                android:textColor="#fff23325"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_plus" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
