@@ -19,9 +19,7 @@ public class CarListAdapter extends BaseQuickAdapter<CarEntity, BaseViewHolder> 
     @Override
     protected void convert(BaseViewHolder helper, CarEntity item) {
 
-        helper.setText(R.id.tv_car_no, item.getCarNo()).
-                addOnClickListener(R.id.tv_to_make_order)
-                .addOnClickListener(R.id.tv_to_car_info);
+        helper.setText(R.id.tv_car_no, item.getCarNo());
 
     }
 }

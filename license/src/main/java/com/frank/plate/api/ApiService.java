@@ -1,12 +1,10 @@
 package com.frank.plate.api;
 
-
-import android.support.annotation.Nullable;
-
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.QueryByCarEntity;
+import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.UserInfo;
 
 import java.util.Map;
@@ -51,6 +49,12 @@ public interface ApiService {
     @POST("order/queryByCar")
     @FormUrlEncoded
     Observable<BaseBean<QueryByCarEntity>> queryByCar(@FieldMap Map<String, Object> maps);
+
+
+    //会员录入
+    @POST("user/saveUserAndCar")
+    @FormUrlEncoded
+    Observable<BaseBean<SaveUserAndCarEntity>> saveUserAndCar(@FieldMap Map<String, Object> maps);
 
 
 
