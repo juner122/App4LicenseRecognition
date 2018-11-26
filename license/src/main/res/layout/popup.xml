@@ -16,6 +16,7 @@
         android:paddingBottom="12dp"
         android:paddingRight="20dp"
         android:text="popupWindow"
+        android:background="@drawable/radiobutton_background_a"
         android:textColor="#ff000000"
         android:textSize="12sp" />
     <View

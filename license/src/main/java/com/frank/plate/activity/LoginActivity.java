@@ -96,6 +96,8 @@ public class LoginActivity extends BaseActivity {
 
             case R.id.but_login:
                 toActivity(MainActivity.class);
+                finish();
+//                toActivity(PreviewActivity.class);
                 break;
         }
 

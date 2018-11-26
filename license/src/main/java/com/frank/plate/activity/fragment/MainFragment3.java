@@ -88,21 +88,21 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
 
 
     public void init() {
-
-        plateRecognition = new PlateRecognition(getContext(), mHandler);
-        //init plate recognizer
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                plateRecognition.initRecognizer("pr");
-            }
-        }).start();
-
-        recognizerView.setRotation(180);
-        recognizerView.setOnNewFrameListener(this);
-        recognizeThread = new RecognizeThread(plateRecognition);
-        recognizeThread.start();
-        initOpenCV();
+//
+//        plateRecognition = new PlateRecognition(getContext(), mHandler);
+//        //init plate recognizer
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                plateRecognition.initRecognizer("pr");
+//            }
+//        }).start();
+//
+//        recognizerView.setRotation(180);
+//        recognizerView.setOnNewFrameListener(this);
+//        recognizeThread = new RecognizeThread(plateRecognition);
+//        recognizeThread.start();
+//        initOpenCV();
 
 
     }
@@ -120,7 +120,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     @Override
     public void onResume() {
         super.onResume();
-//        init();
+        init();
     }
 
     @Override
@@ -178,10 +178,10 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
         }
         newFrame.copyTo(dstMat);
 
-
-        //竖屏识别 帧数据旋转
-        Core.transpose(dstMat, dstMat);
-        Core.flip(dstMat, dstMat, 1);
+//
+//        //竖屏识别 帧数据旋转
+//        Core.transpose(dstMat, dstMat);
+//        Core.flip(dstMat, dstMat, 1);
 
         if (recognizeThread != null) {
             recognizeThread.addMat(dstMat);

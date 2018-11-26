@@ -13,7 +13,7 @@ public class OrderInfoEntity implements Parcelable {
     String order_status;
     String shipping_status;
     String pay_status;
-    String consignee;//李鹏军
+    String consignee;//
     String mobile;
     String order_status_text;//未付款
     String add_time;//

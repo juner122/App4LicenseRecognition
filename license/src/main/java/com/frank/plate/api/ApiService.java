@@ -2,7 +2,10 @@ package com.frank.plate.api;
 
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
+import com.frank.plate.bean.CategoryBrandList;
+import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.MyBalanceEntity;
+import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.UserInfo;
@@ -55,6 +58,25 @@ public interface ApiService {
     @POST("user/saveUserAndCar")
     @FormUrlEncoded
     Observable<BaseBean<SaveUserAndCarEntity>> saveUserAndCar(@FieldMap Map<String, Object> maps);
+
+
+    //车况录入
+    @POST("usercarcondition/save")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> saveCarInfo(@FieldMap Map<String, Object> maps);
+
+
+    //查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
+    @POST("goods/queryAnyGoods")
+    @FormUrlEncoded
+    Observable<BaseBean<GoodsListEntity>> queryAnyGoods(@FieldMap Map<String, Object> maps);
+
+
+
+    //分类下品牌列表加第一个品牌第一页下商品
+    @POST("brand/categoryBrandList")
+    @FormUrlEncoded
+    Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
 
 
 

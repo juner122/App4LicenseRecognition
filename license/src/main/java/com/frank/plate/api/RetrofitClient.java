@@ -6,7 +6,10 @@ import android.util.Log;
 import com.frank.plate.Configure;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
+import com.frank.plate.bean.CategoryBrandList;
+import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.MyBalanceEntity;
+import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.UserInfo;
@@ -109,7 +112,7 @@ public class RetrofitClient {
 
 
     /**
-     * 会员录入和创建车况
+     * 会员录入
      */
     public void saveUserAndCar(MySubscriber<SaveUserAndCarEntity> bodyBaseSubscriber, String car_no, String mobile, String username) {
         Map<String, Object> map = new HashMap<>();
@@ -119,6 +122,43 @@ public class RetrofitClient {
         map.put("username", username);
 
         novate.call(apiService.saveUserAndCar(map).map(new HttpResultFunc<SaveUserAndCarEntity>()), bodyBaseSubscriber);
+    }
+
+    /**
+     * 车况录入
+     */
+    public void saveCarInfo(MySubscriber<NullDataEntity> bodyBaseSubscriber, String car_no, String userId, String carModel, String postscript) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", "1");
+        map.put("car_no", car_no);
+        map.put("userId", userId);
+        map.put("carModel", carModel);
+        map.put("postscript", postscript);
+
+        novate.call(apiService.saveCarInfo(map).map(new HttpResultFunc<NullDataEntity>()), bodyBaseSubscriber);
+    }
+
+    /**
+     * 查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
+     */
+    public void queryAnyGoods(MySubscriber<GoodsListEntity> bodyBaseSubscriber, String category_id, String brand_id, String name) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", "1");
+        map.put("category_id", category_id); //商品类别
+        map.put("brand_id", brand_id);//品牌
+        map.put("name", name);//查询关键字
+
+        novate.call(apiService.queryAnyGoods(map).map(new HttpResultFunc<GoodsListEntity>()), bodyBaseSubscriber);
+    }
+
+
+    /**
+     * 分类下品牌列表加第一个品牌第一页下商品
+     */
+    public void categoryBrandList(MySubscriber<CategoryBrandList> bodyBaseSubscriber) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", "1");
+        novate.call(apiService.categoryBrandList(map).map(new HttpResultFunc<CategoryBrandList>()), bodyBaseSubscriber);
     }
 
 

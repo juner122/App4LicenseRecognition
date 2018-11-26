@@ -48,7 +48,7 @@
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
                     android:textColorHint="#ff000000"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_e1"
@@ -57,7 +57,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="(必填)"
                     android:textColor="#F23325"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -98,7 +98,7 @@
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
                     android:textColorHint="#ff000000"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_e2"
@@ -107,7 +107,7 @@
                     android:layout_marginLeft="5dp"
                     android:text="(必填)"
                     android:textColor="#F23325"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
