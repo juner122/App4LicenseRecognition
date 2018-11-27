@@ -50,7 +50,6 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="end"
-                        android:text="苏JRE890"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
                 </LinearLayout>

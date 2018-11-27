@@ -5,15 +5,22 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
-import com.frank.plate.api.RetrofitClient;
+import com.frank.plate.api.ApiLoader;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -21,12 +28,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextView tv_title;
     @BindView(R.id.tv_title_r)
     protected TextView tv_title_r;
+    @BindView(R.id.iv_r)
+    protected View iv_r;
 
     @BindView(R.id.head_view)
     View head_view;
 
     private Unbinder mUnbinder;
 
+    ApiLoader apiLoader;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +56,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public RetrofitClient Api() {
-        return RetrofitClient.getInstance(this);
+    public ApiLoader Api() {
+        if (apiLoader == null)
+            apiLoader = new ApiLoader();
+        return apiLoader;
 
     }
 
@@ -60,6 +72,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         tv_title_r.setVisibility(View.VISIBLE);
         tv_title_r.setText(str);
     }
+
+    public void shwoProgressBar() {
+        iv_r.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar() {
+        iv_r.setVisibility(View.GONE);
+    }
+
 
     protected abstract void init();
 
@@ -102,6 +123,34 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
 
+    }
+
+    protected void toActivity(Class c, String key, String str) {
+
+
+        Intent intent = new Intent(this, c);
+
+        intent.putExtra(key, str);
+        startActivity(intent);
+
+    }
+
+    protected void msgManagement(int what, int tag) {
+    }
+
+    /**
+     * 发送不延时的消息
+     *
+     * @param what 发送的消息
+     */
+    public void sendMsg(final int what, final int tag) {
+
+        Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
+            @Override
+            public void run() throws Exception {
+                msgManagement(what, tag);
+            }
+        }).subscribe();
     }
 
 

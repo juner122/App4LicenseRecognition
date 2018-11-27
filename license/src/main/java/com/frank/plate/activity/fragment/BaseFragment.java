@@ -4,11 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.frank.plate.MyApplication;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.ButterKnife;
 
@@ -25,20 +30,20 @@ public abstract class BaseFragment extends Fragment {
 
         setUpView();
 
-        Log.d(setTAG(),"---->>>>onCreateView");
+        Log.d(setTAG(), "---->>>>onCreateView");
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(setTAG(),"---->>>>onResume");
+        Log.d(setTAG(), "---->>>>onResume");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(setTAG(),"---->>>>onPause");
+        Log.d(setTAG(), "---->>>>onPause");
     }
 
     /**
@@ -60,6 +65,18 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    protected void toActivity(Class c, String key, String str) {
+
+
+        Intent intent = new Intent(this.getActivity(), c);
+
+        intent.putExtra(key, str);
+        startActivity(intent);
+
+    }
+
     protected abstract String setTAG();
+
+
 
 }

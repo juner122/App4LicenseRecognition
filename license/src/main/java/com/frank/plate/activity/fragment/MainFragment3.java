@@ -8,12 +8,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.frank.plate.Configure;
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.activity.MemberInfoInputActivity;
 import com.frank.plate.PlateRecognition;
 import com.frank.plate.listener.OnNewFrameListener;
 import com.frank.plate.thread.RecognizeThread;
 import com.frank.plate.view.PlateRecognizerView;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
@@ -50,7 +54,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     @BindView(R.id.e7)
     EditText et7;
 
-    String car_number;
+    String car_number = "粤A88888";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -60,6 +64,8 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
                     String result = (String) msg.obj;
                     Toast.makeText(getContext(), "车牌号=" + result, Toast.LENGTH_SHORT).show();
                     car_number = result;
+
+                    new AppPreferences(getContext()).put(Configure.car_no, car_number);
                     try {
                         et1.setText(String.valueOf(result.charAt(0)));
                         et2.setText(String.valueOf(result.charAt(1)));
@@ -163,6 +169,11 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
 
         switch (view.getId()) {
             case R.id.but_next:
+
+                // save a key value pair
+                new AppPreferences(getActivity()).put(Configure.car_no, car_number);
+
+
                 toActivity(MemberInfoInputActivity.class);
                 break;
         }

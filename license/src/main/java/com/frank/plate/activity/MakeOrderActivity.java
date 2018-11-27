@@ -1,8 +1,13 @@
 package com.frank.plate.activity;
 
 import android.view.View;
+import android.widget.TextView;
 
+import com.frank.plate.Configure;
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -12,14 +17,20 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.bto_top1)
     View view;
 
+    @BindView(R.id.tv_car_no)
+    TextView tv_car_no;
+    String car_number;
+
     @Override
     protected void init() {
         tv_title.setText("下单信息");
+        car_number =   new AppPreferences(this).getString(Configure.car_no,"");
+        tv_car_no.setText(car_number);
+
     }
 
     @Override
     protected void setUpView() {
-
 
 
     }

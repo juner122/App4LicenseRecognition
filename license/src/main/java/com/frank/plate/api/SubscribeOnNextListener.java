@@ -1,5 +1,4 @@
 package com.frank.plate.api;
-import com.tamic.novate.Throwable;
 
 public interface SubscribeOnNextListener<T> {
 

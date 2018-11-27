@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.frank.plate.R;
+import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -42,6 +43,7 @@ public class GridImageAdapter extends
     private int selectMax = 9;
     private Context context;
     private int requestCode;
+    private PictureSelector pictureSelector;
     /**
      * 点击添加图片跳转
      */
@@ -49,7 +51,8 @@ public class GridImageAdapter extends
 
     public interface onAddPicClickListener {
         void onAddPicClick();
-        void onAddPicClick(int requestCode);//指定requestCode
+
+        void onAddPicClick(int requestCode,PictureSelector pictureSelector,List<LocalMedia> list);//指定requestCode
     }
 
     public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
@@ -63,6 +66,14 @@ public class GridImageAdapter extends
         mInflater = LayoutInflater.from(context);
         this.mOnAddPicClickListener = mOnAddPicClickListener;
         this.requestCode = requestCode;
+    }
+
+    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener, int requestCode, PictureSelector pictureSelector) {
+        this.context = context;
+        mInflater = LayoutInflater.from(context);
+        this.mOnAddPicClickListener = mOnAddPicClickListener;
+        this.requestCode = requestCode;
+        this.pictureSelector = pictureSelector;
     }
 
     public void setSelectMax(int selectMax) {
@@ -132,7 +143,7 @@ public class GridImageAdapter extends
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnAddPicClickListener.onAddPicClick(requestCode);
+                    mOnAddPicClickListener.onAddPicClick(requestCode,pictureSelector,list);
                 }
             });
             viewHolder.ll_del.setVisibility(View.INVISIBLE);

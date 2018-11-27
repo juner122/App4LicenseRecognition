@@ -12,6 +12,11 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.luck.picture.lib.entity.LocalMedia;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 图片处理工具类
  * Created by frank on 2018/1/6.
@@ -21,7 +26,7 @@ public class ImageUtil {
     private final static String TAG = ImageUtil.class.getSimpleName();
     private Context context;
 
-    public ImageUtil(Context context){
+    public ImageUtil(Context context) {
         this.context = context;
     }
 
@@ -29,14 +34,14 @@ public class ImageUtil {
      * Get the value of the data column for this Uri. This is useful for
      * MediaStore Uris, and other file-based ContentProviders.
      *
-     * @param context The context.
-     * @param uri The Uri to query.
-     * @param selection (Optional) Filter used in the query.
+     * @param context       The context.
+     * @param uri           The Uri to query.
+     * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
      * @return The value of the _data column, which is typically a file path.
      */
     private static String getDataColumn(Context context, Uri uri, String selection,
-                                       String[] selectionArgs) {
+                                        String[] selectionArgs) {
 
         Cursor cursor = null;
         final String column = "_data";
@@ -60,6 +65,7 @@ public class ImageUtil {
 
     /**
      * get path by Uri
+     *
      * @param uri uri
      * @return path
      */
@@ -75,11 +81,11 @@ public class ImageUtil {
             }
 
             final String selection = "_id=?";
-            final String[] selectionArgs = new String[] {split[1]};
+            final String[] selectionArgs = new String[]{split[1]};
             return getDataColumn(context, contentUri, selection, selectionArgs);
         }
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor imageCursor = ((Activity)context).managedQuery(uri, projection, null, null, null);
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor imageCursor = ((Activity) context).managedQuery(uri, projection, null, null, null);
         int actual_image_column_index = imageCursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         imageCursor.moveToFirst();
         String img_path = imageCursor.getString(actual_image_column_index);
@@ -92,6 +98,7 @@ public class ImageUtil {
 
     /**
      * get bitmap from the given path
+     *
      * @param path path
      * @return Bitmap
      */
@@ -126,6 +133,22 @@ public class ImageUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public static List<String> toListString(List<LocalMedia> localMediaList) {
+        if (localMediaList.size() == 0)
+            return null;
+
+        List<String> list = new ArrayList<>();
+
+        for (LocalMedia localMedia : localMediaList) {
+            list.add(localMedia.getPath());
+        }
+
+        return list;
+
+
     }
 
 }

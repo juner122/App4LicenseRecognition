@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -17,19 +18,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductListFragment;
 import com.frank.plate.adapter.Brandadapter;
-
-import com.frank.plate.api.MySubscriber;
-import com.frank.plate.api.SubscribeOnNextListener;
 import com.frank.plate.bean.Category;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.SubCategoryEntity;
 import com.frank.plate.view.CommonPopupWindow;
-import com.tamic.novate.Throwable;
 
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class ProductListActivity extends BaseActivity {
 
@@ -42,23 +42,24 @@ public class ProductListActivity extends BaseActivity {
     Integer checkedTag;
 
     List<Category> categories;
+    CompositeDisposable compositeDisposable;
 
 
+    @SuppressLint("CheckResult")
     @Override
     protected void init() {
         tv_title.setText("商品列表");
         replaceFragment();
+        compositeDisposable = new CompositeDisposable();
 
-        Api().categoryBrandList(new MySubscriber<>(this, new SubscribeOnNextListener<CategoryBrandList>() {
+        Disposable disposable = Api().categoryBrandList().subscribe(new Consumer<CategoryBrandList>() {
             @Override
-            public void onNext(CategoryBrandList categoryBrandList) {
+            public void accept(CategoryBrandList categoryBrandList) {
                 fragment.switchData(categoryBrandList.getGoodList());
-
                 categories = categoryBrandList.getCategoryList();
                 checkedTag = 0;
-
-
                 for (int i = 0; i < categories.size(); i++) {
+
                     RadioButton radioButton = new RadioButton(ProductListActivity.this);
                     RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
@@ -75,19 +76,17 @@ public class ProductListActivity extends BaseActivity {
                             showPopupWindow(view);
                         }
                     });
+
                     radioGroup.addView(radioButton);
                 }
-
-
             }
-
+        }, new Consumer<Throwable>() {
             @Override
-            public void onError(Throwable e) {
-                Toast.makeText(ProductListActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void accept(Throwable throwable) {
+                Toast.makeText(ProductListActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }));
-
-
+        });
+        compositeDisposable.add(disposable);
     }
 
     private void showPopupWindow(View v) {
@@ -145,21 +144,22 @@ public class ProductListActivity extends BaseActivity {
 
     private void onQueryAnyGoods(String category_id, String brand_id, String name) {
 
-        Toast.makeText(ProductListActivity.this, "商品类别ID：" + category_id + "\n品牌ID:" + brand_id, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(ProductListActivity.this, "商品类别ID：" + category_id + "\n品牌ID:" + brand_id, Toast.LENGTH_SHORT).show();
 
 
-        Api().queryAnyGoods(new MySubscriber<>(ProductListActivity.this, new SubscribeOnNextListener<GoodsListEntity>() {
+        Disposable disposable = Api().queryAnyGoods(category_id, brand_id, name).subscribe(new Consumer<GoodsListEntity>() {
             @Override
-            public void onNext(GoodsListEntity goodsListEntity) {
+            public void accept(GoodsListEntity goodsListEntity) {
                 fragment.switchData(goodsListEntity.getGoodsList());
-
             }
-
+        }, new Consumer<Throwable>() {
             @Override
-            public void onError(Throwable e) {
-                Log.v("BaseQuickAdapter", e.getMessage());
+            public void accept(Throwable throwable) {
+                Log.v("BaseQuickAdapter", throwable.getMessage());
             }
-        }), category_id, brand_id, name);
+        });
+        compositeDisposable.add(disposable);
+
     }
 
 
@@ -183,4 +183,10 @@ public class ProductListActivity extends BaseActivity {
         return R.layout.activity_product_list;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
+
+    }
 }

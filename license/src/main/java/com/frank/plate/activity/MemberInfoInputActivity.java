@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,16 +12,19 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.frank.plate.Configure;
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.adapter.CarListAdapter;
-import com.frank.plate.api.MySubscriber;
-import com.frank.plate.api.SubscribeOnNextListener;
+import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
-import com.tamic.novate.Throwable;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class MemberInfoInputActivity extends BaseActivity {
     public final static String key = "queryByCarEntity";
@@ -41,21 +45,20 @@ public class MemberInfoInputActivity extends BaseActivity {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     CarListAdapter carListAdapter = new CarListAdapter(null);
+    String car_number;
 
-
+    @SuppressLint("CheckResult")
     @Override
     protected void init() {
 
+        car_number = new AppPreferences(this).getString(Configure.car_no, "");
 
-        Api().queryByCar(new MySubscriber<>(this, new SubscribeOnNextListener<QueryByCarEntity>() {
+        Api().queryByCar(car_number).subscribe(new Consumer<QueryByCarEntity>() {
             @Override
-            public void onNext(QueryByCarEntity entity) {
-
+            public void accept(QueryByCarEntity entity) {
                 Log.d("MemberInfoInputActivity", entity.toString());
-
                 queryByCarEntity = entity;
                 if (entity.getOrderInfo() != null) {//有订单 跳到订单详情
-
                     toActivity(OrderInfoActivity.class, queryByCarEntity, key);
                     finish();
 
@@ -70,14 +73,13 @@ public class MemberInfoInputActivity extends BaseActivity {
                     carListAdapter.setNewData(queryByCarEntity.getCarList());
                 }
             }
-
+        }, new Consumer<Throwable>() {
             @Override
-            public void onError(Throwable e) {
+            public void accept(Throwable throwable) {
                 //没订单 有车况信息
-                Toast.makeText(MemberInfoInputActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MemberInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }), 1111);
-
+        });
 
     }
 
@@ -90,7 +92,8 @@ public class MemberInfoInputActivity extends BaseActivity {
         carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(CarInfoInputActivity.class);
+                //查看更新车况
+                toActivity(CarInfoInputActivity.class, Configure.car_no, ((CarEntity) adapter.getData().get(position)).getCarNo());
             }
         });
 
@@ -112,18 +115,21 @@ public class MemberInfoInputActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_enter_order:
-
-                Api().saveUserAndCar(new MySubscriber<>(this, new SubscribeOnNextListener<SaveUserAndCarEntity>() {
+                Api().saveUserAndCar(car_number, mobile.getText().toString(), name.getText().toString()).subscribe(new Consumer<SaveUserAndCarEntity>() {
                     @Override
-                    public void onNext(SaveUserAndCarEntity entity) {
+                    public void accept(SaveUserAndCarEntity saveUserAndCarEntity) {
                         toActivity(MakeOrderActivity.class);
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(MemberInfoInputActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }), "11", mobile.getText().toString(), name.getText().toString());
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) {
+                        Toast.makeText(MemberInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
                 break;
             case R.id.tv_add_car:
                 toActivity(CarInfoInputActivity.class);

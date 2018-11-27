@@ -3,11 +3,8 @@ package com.frank.plate.api;
 import android.content.Context;
 import android.util.Log;
 
-import com.tamic.novate.BaseSubscriber;
-import com.tamic.novate.Throwable;
 
-
-public class MySubscriber<T> extends BaseSubscriber implements ProgressCancelListener {
+public class MySubscriber<T>  implements ProgressCancelListener {
 
 
     private SubscribeOnNextListener mOnNextListener;
@@ -50,46 +47,51 @@ public class MySubscriber<T> extends BaseSubscriber implements ProgressCancelLis
         mProgressHandler.dismissProgressDialog();
     }
 
-
     @Override
-    public void onStart() {
-        super.onStart();
-        showProgressDialog();
-    }
-
-    @Override
-    public void onCompleted() {
-        dismissProgressDialog();
-    }
-
-    /**
-     * 对错误进行统一处理
-     * 隐藏ProgressDialog
-     *
-     * @param e
-     */
-    @Override
-    public void onError(Throwable e) {
-        Log.d("MySubscriber", "onError----->" + e.getMessage());
-        onCompleted();
-        mOnNextListener.onError(e);
-
+    public void onProgressCanceled() {
 
     }
 
-    @Override
-    public void onNext(Object o) {
-        if (mOnNextListener != null) {
-            Log.d("MySubscriber", "onNext------>" + o.toString());
-            mOnNextListener.onNext(o);
-        }
-    }
 
-    @Override
-    public void onProgressCanceled() {//取消请求
-        if (mUnsubscribable && !isUnsubscribed()) {
-            unsubscribe();
-        }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        showProgressDialog();
+//    }
+//
+//    @Override
+//    public void onCompleted() {
+//        dismissProgressDialog();
+//    }
 
-    }
+//    /**
+//     * 对错误进行统一处理
+//     * 隐藏ProgressDialog
+//     *
+//     * @param e
+//     */
+//    @Override
+//    public void onError(Throwable e) {
+//        Log.d("MySubscriber", "onError----->" + e.getMessage());
+//        onCompleted();
+//        mOnNextListener.onError(e);
+//
+//
+//    }
+//
+//    @Override
+//    public void onNext(Object o) {
+//        if (mOnNextListener != null) {
+//            Log.d("MySubscriber", "onNext------>" + o.toString());
+//            mOnNextListener.onNext(o);
+//        }
+//    }
+//
+//    @Override
+//    public void onProgressCanceled() {//取消请求
+//        if (mUnsubscribable && !isUnsubscribed()) {
+//            unsubscribe();
+//        }
+//
+//    }
 }

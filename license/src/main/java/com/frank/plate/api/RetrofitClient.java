@@ -13,19 +13,21 @@ import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.UserInfo;
-import com.tamic.novate.Novate;
-import com.tamic.novate.exception.NovateException;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import rx.functions.Func1;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
     private ApiService apiService;
-
-    private Novate novate;
 
     public static String baseUrl = Configure.BaseUrl;
 
@@ -47,11 +49,17 @@ public class RetrofitClient {
 
     private RetrofitClient(Context context) {
 
-        novate = new Novate.Builder(context)
-                .addLog(true)
-                .baseUrl(baseUrl).build();
-        apiService = novate.create(ApiService.class);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                //增加返回值为Gson的支持(以实体类返回)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+
+        apiService = retrofit.create(ApiService.class);
     }
+
 
     /**
      * 获取用户信息
@@ -61,14 +69,6 @@ public class RetrofitClient {
         map.put("X-Nideshop-Token", token);
 
 
-        novate.call(apiService.getUserInfo(map).map(new HttpResultFunc<UserInfo>()), bodyBaseSubscriber);
-    }
-
-
-    public void getPhoneCode(MySubscriber<BaseBean<UserInfo>> bodyBaseSubscriber, String phoneNumber) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("phone", phoneNumber);
-        novate.call(apiService.getUserInfo(map), bodyBaseSubscriber);
     }
 
     /**
@@ -78,7 +78,6 @@ public class RetrofitClient {
         Map<String, Object> map = new HashMap<>();
         map.put("X-Nideshop-Token", "1");
 
-        novate.call(apiService.getUserBalanceInfo(map).map(new HttpResultFunc<MyBalanceEntity>()), bodyBaseSubscriber);
 
     }
 
@@ -95,7 +94,7 @@ public class RetrofitClient {
         map.put("sidx", sidx);
         map.put("order", order);
 
-        novate.call(apiService.getUserBillList(map).map(new HttpResultFunc<BillEntity>()), bodyBaseSubscriber);
+
     }
 
 
@@ -107,7 +106,7 @@ public class RetrofitClient {
         map.put("X-Nideshop-Token", "1");
         map.put("car_no", car_no);
 
-        novate.call(apiService.queryByCar(map).map(new HttpResultFunc<QueryByCarEntity>()), bodyBaseSubscriber);
+
     }
 
 
@@ -121,7 +120,7 @@ public class RetrofitClient {
         map.put("mobile", mobile);
         map.put("username", username);
 
-        novate.call(apiService.saveUserAndCar(map).map(new HttpResultFunc<SaveUserAndCarEntity>()), bodyBaseSubscriber);
+
     }
 
     /**
@@ -135,7 +134,7 @@ public class RetrofitClient {
         map.put("carModel", carModel);
         map.put("postscript", postscript);
 
-        novate.call(apiService.saveCarInfo(map).map(new HttpResultFunc<NullDataEntity>()), bodyBaseSubscriber);
+
     }
 
     /**
@@ -148,7 +147,6 @@ public class RetrofitClient {
         map.put("brand_id", brand_id);//品牌
         map.put("name", name);//查询关键字
 
-        novate.call(apiService.queryAnyGoods(map).map(new HttpResultFunc<GoodsListEntity>()), bodyBaseSubscriber);
     }
 
 
@@ -158,26 +156,38 @@ public class RetrofitClient {
     public void categoryBrandList(MySubscriber<CategoryBrandList> bodyBaseSubscriber) {
         Map<String, Object> map = new HashMap<>();
         map.put("X-Nideshop-Token", "1");
-        novate.call(apiService.categoryBrandList(map).map(new HttpResultFunc<CategoryBrandList>()), bodyBaseSubscriber);
     }
 
 
     /**
-     * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
-     *
-     * @param <T> Subscriber真正需要的数据类型，也就是Data部分的数据类型
+     * 分类下品牌列表加第一个品牌第一页下商品
      */
-    private class HttpResultFunc<T> implements Func1<BaseBean<T>, T> {
+    public void categoryBrandList2(Callback<BaseBean<CategoryBrandList>> callback) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", "1");
 
-        @Override
-        public T call(BaseBean<T> httpResult) {
-            if (httpResult.getErrno() != 0) {
 
-                throw new ApiException(httpResult.getErrmsg());
-            }
-            return httpResult.getData();
-        }
+        apiService.categoryBrandList(map).subscribe();
+
     }
+
+
+//    /**
+//     * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
+//     *
+//     * @param <T> Subscriber真正需要的数据类型，也就是Data部分的数据类型
+//     */
+//    private class HttpResultFunc<T> implements Func1<BaseBean<T>, T> {
+//
+//        @Override
+//        public T call(BaseBean<T> httpResult) {
+//            if (httpResult.getErrno() != 0) {
+//
+//                throw new ApiException(httpResult.getErrmsg());
+//            }
+//            return httpResult.getData();
+//        }
+//    }
 
 
 }

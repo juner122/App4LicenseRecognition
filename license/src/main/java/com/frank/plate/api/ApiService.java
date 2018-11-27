@@ -12,12 +12,13 @@ import com.frank.plate.bean.UserInfo;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import rx.Observable;
 
 public interface ApiService {
 
@@ -60,10 +61,16 @@ public interface ApiService {
     Observable<BaseBean<SaveUserAndCarEntity>> saveUserAndCar(@FieldMap Map<String, Object> maps);
 
 
-    //车况录入
+    //更新车况
     @POST("usercarcondition/save")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> saveCarInfo(@FieldMap Map<String, Object> maps);
+
+
+    //新增车况
+    @POST("usercarcondition/save")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> addCarInfo(@FieldMap Map<String, Object> maps);
 
 
     //查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
@@ -77,6 +84,8 @@ public interface ApiService {
     @POST("brand/categoryBrandList")
     @FormUrlEncoded
     Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
+
+
 
 
 

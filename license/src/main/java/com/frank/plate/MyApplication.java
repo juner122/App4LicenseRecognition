@@ -2,9 +2,9 @@ package com.frank.plate;
 
 import android.app.Application;
 
+
 public class MyApplication extends Application {
     private static MyApplication app;
-
 
 
     public static MyApplication getInstance() {
@@ -17,9 +17,7 @@ public class MyApplication extends Application {
         super.onCreate();
         app = this;
 
-
     }
-
 
 
 }

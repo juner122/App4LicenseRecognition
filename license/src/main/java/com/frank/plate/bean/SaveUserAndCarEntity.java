@@ -3,17 +3,9 @@ package com.frank.plate.bean;
 public class SaveUserAndCarEntity {
 
 
-    String code;
     String user_id;
     String car_id;
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public String getUser_id() {
         return user_id;
@@ -33,8 +25,7 @@ public class SaveUserAndCarEntity {
 
     @Override
     public String toString() {
-        return "SaveUserAndCarEntity{" +
-                "code='" + code + '\'' +
+        return "SaveUserAndCarEntity{" + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", car_id='" + car_id + '\'' +
                 '}';

@@ -42,8 +42,6 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'
 
-
-
     //github.com/H07000223/FlycoTabLayout
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
@@ -52,20 +50,30 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
 
-
     //Adapter封装
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
 
-    //基于Retrofit和RxJava封装的链式网络库
-    implementation 'com.tamic.novate:novate:1.5.2.3'
-
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-
 
     //七牛
     implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
 
     //PictureSelector 2.0
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'//导入retrofit
+    implementation 'com.google.code.gson:gson:2.8.2'//Gson 库
+    //下面两个是RxJava 和 RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'//转换器，请求结果转换成Model
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'//配合Rxjava 使用
+
+
+    // a SharedPreferences replacement for Android
+    implementation 'net.grandcentrix.tray:tray:0.12.0'
+
 }
