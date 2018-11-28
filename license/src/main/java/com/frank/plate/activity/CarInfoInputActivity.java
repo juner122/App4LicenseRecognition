@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,10 @@ import android.widget.Toast;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.GridImageAdapter;
+import com.frank.plate.bean.CarEntity;
+import com.frank.plate.bean.CarInfoEntity;
+import com.frank.plate.bean.CarInfoRequestParameters;
+import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.UpDataPicEntity;
 import com.frank.plate.util.Auth;
 import com.frank.plate.util.CommonUtil;
@@ -30,8 +35,6 @@ import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 
-import net.grandcentrix.tray.AppPreferences;
-
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -39,8 +42,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 public class CarInfoInputActivity extends BaseActivity {
 
@@ -89,38 +95,95 @@ public class CarInfoInputActivity extends BaseActivity {
     PictureSelector pictureSelector2;
     PictureSelector pictureSelector3;
 
+
+//    private CarInfoRequestParameters parameters;//请求参数
+
+    int type_action;//页面逻辑  1 添加车况 2修改车况
+    CarEntity carEntity;//上个页面转递
+    CompositeDisposable compositeDisposable;
+
+    @SuppressLint("CheckResult")
     @OnClick({R.id.tv_enter_order})
     public void onclick() {
-//        Api().saveCarInfo(new MySubscriber<>(this, new SubscribeOnNextListener<NullDataEntity>() {
-//            @Override
-//            public void onNext(NullDataEntity o) {
-//                Toast.makeText(CarInfoInputActivity.this, "保存车况成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                Toast.makeText(CarInfoInputActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        }), tv_car_no.getText().toString(), "23", tv_car_model.getText().toString(), et_remarks.getText().toString());
+
+        Observable<NullDataEntity> observable;
+
+        if (type_action == 1) {
+            observable = Api().addCarInfo(makeParameters());
+        } else {
+            observable = Api().fixCarInfo(makeParameters());
+        }
+        Disposable disposable = observable.subscribe(new Consumer<NullDataEntity>() {
+            @Override
+            public void accept(NullDataEntity nullDataEntity) {
+                Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                Toast.makeText(CarInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        compositeDisposable.add(disposable);
+
+
+    }
+
+    private CarInfoRequestParameters makeParameters() {
+        CarInfoRequestParameters parameters = new CarInfoRequestParameters();
+        parameters.setUserId(carEntity.getUserId());
+        parameters.setId(carEntity.getId());
+        parameters.setCarNo(carEntity.getCarNo());
+        parameters.setBrandId("");
+        parameters.setBrand(tv_car_model.getText().toString());
+        parameters.setName("");
+        parameters.setNameId("");
+        parameters.setPostscript("");
+        parameters.setImagesList(upDataPicEntities);
+
+        Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
+        return parameters;
 
 
     }
 
     @Override
     protected void init() {
+        compositeDisposable = new CompositeDisposable();
 
-        String car_no = getIntent().getStringExtra(Configure.car_no);
+        carEntity = getIntent().getParcelableExtra("CarEntity");
 
+        if (null == carEntity) {
 
-        if ("".equals(car_no)) {
-
-            tv_car_no.setFocusable(false);
-        } else {
-            tv_car_no.setText(car_no);
             tv_car_no.setFocusable(true);
+            tv_title.setText("车况录入");
+            type_action = 1;
+        } else {
+            tv_car_no.setText(carEntity.getCarNo());
+            tv_car_no.setFocusable(false);
+            tv_title.setText("车况确认");
+            type_action = 2;
+            Toast.makeText(CarInfoInputActivity.this, "carEntity.getid==" + carEntity.getId(), Toast.LENGTH_SHORT).show();
+
+            Api().showCarInfo(carEntity.getId()).subscribe(new Consumer<CarInfoRequestParameters>() {
+                @Override
+                public void accept(CarInfoRequestParameters entity) {
+
+                    tv_car_model.setText(entity.getBrand());
+
+
+                }
+            }, new Consumer<Throwable>() {
+                @Override
+                public void accept(Throwable throwable) {
+                    Toast.makeText(CarInfoInputActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+
         }
 
-        tv_title.setText("车况录入");
 
         pictureSelector = PictureSelector.create(CarInfoInputActivity.this);
         pictureSelector2 = PictureSelector.create(CarInfoInputActivity.this);
@@ -209,6 +272,7 @@ public class CarInfoInputActivity extends BaseActivity {
                     public void onComplete() {
                     }
                 });
+
 
     }
 
@@ -406,4 +470,9 @@ public class CarInfoInputActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose();
+    }
 }

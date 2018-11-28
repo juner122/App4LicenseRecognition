@@ -1,6 +1,7 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -19,7 +20,10 @@ public class CarListAdapter extends BaseQuickAdapter<CarEntity, BaseViewHolder> 
     @Override
     protected void convert(BaseViewHolder helper, CarEntity item) {
 
-        helper.setText(R.id.tv_car_no, item.getCarNo());
+        helper.setText(R.id.tv_car_no, item.getCarNo())
+                .addOnClickListener(R.id.tv_check_car);
 
     }
+
+
 }

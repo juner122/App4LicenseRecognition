@@ -172,8 +172,6 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
 
                 // save a key value pair
                 new AppPreferences(getActivity()).put(Configure.car_no, car_number);
-
-
                 toActivity(MemberInfoInputActivity.class);
                 break;
         }

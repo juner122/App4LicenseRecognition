@@ -58,7 +58,6 @@
                     android:text="(必填)"
                     android:textColor="#F23325"
                     android:textSize="12sp" />
-
             </LinearLayout>
         </LinearLayout>
 
@@ -109,6 +108,22 @@
                     android:textColor="#F23325"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/tv_check"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_background_b"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:text="检测"
+                    android:textColor="#FF000000"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -118,10 +133,10 @@
             android:background="#D9D9D9" />
 
         <LinearLayout
-
+            android:id="@+id/ll_car_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
 
             <LinearLayout
@@ -141,18 +156,19 @@
                     android:id="@+id/tv_add_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
                     android:background="@drawable/button_check_selector"
+                    android:padding="15dp"
                     android:src="@mipmap/icon_add"
                     android:textSize="14sp" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#D9D9D9" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:background="#D9D9D9" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"

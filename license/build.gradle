@@ -76,4 +76,11 @@ dependencies {
     // a SharedPreferences replacement for Android
     implementation 'net.grandcentrix.tray:tray:0.12.0'
 
+
+    //fastjson
+    implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+
+
+
+
 }

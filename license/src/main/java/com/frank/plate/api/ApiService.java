@@ -1,7 +1,10 @@
 package com.frank.plate.api;
 
+import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BillEntity;
+import com.frank.plate.bean.CarInfoEntity;
+import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.MyBalanceEntity;
@@ -15,6 +18,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -61,6 +65,12 @@ public interface ApiService {
     Observable<BaseBean<SaveUserAndCarEntity>> saveUserAndCar(@FieldMap Map<String, Object> maps);
 
 
+    //会员手机号快捷录入或老会员车况查询列表
+    @POST("user/addUser")
+    @FormUrlEncoded
+    Observable<BaseBean<SaveUserAndCarEntity>> addUser(@FieldMap Map<String, Object> maps);
+
+
     //更新车况
     @POST("usercarcondition/save")
     @FormUrlEncoded
@@ -69,8 +79,16 @@ public interface ApiService {
 
     //新增车况
     @POST("usercarcondition/save")
+    Observable<BaseBean<NullDataEntity>> addCarInfo(@Body CarInfoRequestParameters event);
+
+    //修改车况
+    @POST("usercarcondition/update")
+    Observable<BaseBean<NullDataEntity>> fixCarInfo(@Body CarInfoRequestParameters event);
+
+    //车况详情显示
+    @POST("usercarcondition/info")
     @FormUrlEncoded
-    Observable<BaseBean<NullDataEntity>> addCarInfo(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<CarInfoRequestParameters>> showCarInfo(@FieldMap Map<String, Object> maps);
 
 
     //查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
@@ -84,6 +102,13 @@ public interface ApiService {
     @POST("brand/categoryBrandList")
     @FormUrlEncoded
     Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
+
+
+
+    //活动列表
+    @POST("activity/list")
+    @FormUrlEncoded
+    Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
 
 
 

@@ -9,7 +9,9 @@
 
 
     <ImageView
+        android:id="@+id/iv1"
         android:src="@mipmap/icon_pick"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -24,10 +26,12 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/tv_check_car"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/button_background_a"
         android:paddingLeft="15dp"
         android:paddingTop="7dp"
         android:paddingRight="15dp"
