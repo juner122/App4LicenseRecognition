@@ -138,6 +138,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void msgManagement(int what, int tag) {
     }
 
+    protected void msgManagement(int what) {
+    }
+
     /**
      * 发送不延时的消息
      *
@@ -147,8 +150,23 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
             @Override
-            public void run() throws Exception {
+            public void run() {
                 msgManagement(what, tag);
+            }
+        }).subscribe();
+    }
+
+    /**
+     * 发送不延时的消息
+     *
+     * @param what 发送的消息
+     */
+    public void sendMsg(final int what) {
+
+        Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
+            @Override
+            public void run() {
+                msgManagement(what);
             }
         }).subscribe();
     }

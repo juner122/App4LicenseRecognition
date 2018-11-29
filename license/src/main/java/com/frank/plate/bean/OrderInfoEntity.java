@@ -3,9 +3,10 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+import java.util.List;
+
 public class OrderInfoEntity implements Parcelable {
-
-
 
     String id;
     String order_sn;
@@ -15,9 +16,58 @@ public class OrderInfoEntity implements Parcelable {
     String pay_status;
     String consignee;//
     String mobile;
+    String car_id;
+    String postscript;
     String order_status_text;//未付款
     String add_time;//
+    String car_no;//
+    Date confirm_time;//确认时间
+    String  planfinishi_time;//预计完成时间
 
+    public String getPlanfinishi_time() {
+        return planfinishi_time;
+    }
+
+    public void setPlanfinishi_time(String planfinishi_time) {
+        this.planfinishi_time = planfinishi_time;
+    }
+
+
+    public Date getConfirm_time() {
+        return confirm_time;
+    }
+
+    public void setConfirm_time(Date confirm_time) {
+        this.confirm_time = confirm_time;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderInfoEntity{" +
+                "id='" + id + '\'' +
+                ", order_sn='" + order_sn + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", order_status='" + order_status + '\'' +
+                ", shipping_status='" + shipping_status + '\'' +
+                ", pay_status='" + pay_status + '\'' +
+                ", consignee='" + consignee + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", car_id='" + car_id + '\'' +
+                ", postscript='" + postscript + '\'' +
+                ", order_status_text='" + order_status_text + '\'' +
+                ", add_time='" + add_time + '\'' +
+                ", car_no='" + car_no + '\'' +
+                ", confirm_time=" + confirm_time +
+                ", planfinishi_time=" + planfinishi_time +
+                '}';
+    }
+
+    public OrderInfoEntity(String user_id, String moblie, String car_id, String car_number) {
+        this.user_id = user_id;
+        this.mobile = moblie;
+        this.car_id = car_id;
+        this.car_no = car_number;
+    }
 
     public String getId() {
         return id;
@@ -83,6 +133,22 @@ public class OrderInfoEntity implements Parcelable {
         this.mobile = mobile;
     }
 
+    public String getCar_id() {
+        return car_id;
+    }
+
+    public void setCar_id(String car_id) {
+        this.car_id = car_id;
+    }
+
+    public String getPostscript() {
+        return postscript;
+    }
+
+    public void setPostscript(String postscript) {
+        this.postscript = postscript;
+    }
+
     public String getOrder_status_text() {
         return order_status_text;
     }
@@ -99,20 +165,15 @@ public class OrderInfoEntity implements Parcelable {
         this.add_time = add_time;
     }
 
-    @Override
-    public String toString() {
-        return "OrderInfoEntity{" +
-                "id='" + id + '\'' +
-                ", order_sn='" + order_sn + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", order_status='" + order_status + '\'' +
-                ", shipping_status='" + shipping_status + '\'' +
-                ", pay_status='" + pay_status + '\'' +
-                ", consignee='" + consignee + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", order_status_text='" + order_status_text + '\'' +
-                ", add_time='" + add_time + '\'' +
-                '}';
+    public String getCar_no() {
+        return car_no;
+    }
+
+    public void setCar_no(String car_no) {
+        this.car_no = car_no;
+    }
+
+    public OrderInfoEntity() {
     }
 
     @Override
@@ -130,11 +191,13 @@ public class OrderInfoEntity implements Parcelable {
         dest.writeString(this.pay_status);
         dest.writeString(this.consignee);
         dest.writeString(this.mobile);
+        dest.writeString(this.car_id);
+        dest.writeString(this.postscript);
         dest.writeString(this.order_status_text);
         dest.writeString(this.add_time);
-    }
-
-    public OrderInfoEntity() {
+        dest.writeString(this.car_no);
+        dest.writeLong(this.confirm_time != null ? this.confirm_time.getTime() : -1);
+        dest.writeString(this.planfinishi_time);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -146,11 +209,17 @@ public class OrderInfoEntity implements Parcelable {
         this.pay_status = in.readString();
         this.consignee = in.readString();
         this.mobile = in.readString();
+        this.car_id = in.readString();
+        this.postscript = in.readString();
         this.order_status_text = in.readString();
         this.add_time = in.readString();
+        this.car_no = in.readString();
+        long tmpConfirm_time = in.readLong();
+        this.confirm_time = tmpConfirm_time == -1 ? null : new Date(tmpConfirm_time);
+        this.planfinishi_time = in.readString();
     }
 
-    public static final Parcelable.Creator<OrderInfoEntity> CREATOR = new Parcelable.Creator<OrderInfoEntity>() {
+    public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {
         @Override
         public OrderInfoEntity createFromParcel(Parcel source) {
             return new OrderInfoEntity(source);

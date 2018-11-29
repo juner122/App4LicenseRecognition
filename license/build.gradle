@@ -81,6 +81,8 @@ dependencies {
     implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
 
 
+    //PickerView控件
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
 
 
 }

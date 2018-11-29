@@ -9,6 +9,8 @@ import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.NullDataEntity;
+import com.frank.plate.bean.OrderInfo;
+import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.UserInfo;
@@ -31,8 +33,6 @@ public interface ApiService {
     Observable<ResponseBody> login();
 
 
-
-
     @POST("user/getInfo")
     @FormUrlEncoded
     Observable<BaseBean<UserInfo>> getUserInfo(@FieldMap Map<String, Object> maps);
@@ -44,13 +44,10 @@ public interface ApiService {
     Observable<BaseBean<MyBalanceEntity>> getUserBalanceInfo(@FieldMap Map<String, Object> maps);
 
 
-
     //账单列表
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps);
-
-
 
 
     //拍照接单自动查找订单或车况
@@ -85,6 +82,14 @@ public interface ApiService {
     @POST("usercarcondition/update")
     Observable<BaseBean<NullDataEntity>> fixCarInfo(@Body CarInfoRequestParameters event);
 
+    //4.批量删除车况图片
+    @POST("usercarconditionpicture/delete")
+    Observable<BaseBean<NullDataEntity>> delete(@Body Integer[] ids);
+
+    //确认下单
+    @POST("order/submit")
+    Observable<BaseBean<OrderInfo>> submit(@Body OrderInfoEntity infoEntity);
+
     //车况详情显示
     @POST("usercarcondition/info")
     @FormUrlEncoded
@@ -97,21 +102,16 @@ public interface ApiService {
     Observable<BaseBean<GoodsListEntity>> queryAnyGoods(@FieldMap Map<String, Object> maps);
 
 
-
     //分类下品牌列表加第一个品牌第一页下商品
     @POST("brand/categoryBrandList")
     @FormUrlEncoded
     Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
 
 
-
     //活动列表
     @POST("activity/list")
     @FormUrlEncoded
     Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
-
-
-
 
 
 }

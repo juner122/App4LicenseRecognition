@@ -32,13 +32,15 @@
                 android:paddingBottom="12dp">
 
                 <TextView
+                    android:id="@+id/tv_order_sn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单编号：  XGX100010"
+                    android:text="订单编号："
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
 
                 <View
+
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
                     android:layout_marginTop="8dp"
@@ -46,25 +48,30 @@
                     android:background="#D9D9D9" />
 
                 <TextView
+
+                    android:id="@+id/tv_car_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="车牌号码：  粤A 999999"
+                    android:text="车牌号码："
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
                 <TextView
+
+                    android:id="@+id/tv_make_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
-                    android:text="下单时间：  2018-12-12 14：00"
+                    android:text="下单时间："
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_expect_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="预计完成：  2018-12-12 16：00"
+                    android:text="预计完成："
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -191,6 +198,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_remarks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -241,6 +249,7 @@
                 android:paddingBottom="12dp">
 
                 <TextView
+                    android:id="@+id/tv_shopName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="岗顶店—新干线汽车服务连锁"
@@ -255,25 +264,28 @@
                     android:background="#D9D9D9" />
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="门店店长：  张店长"
+                    android:text="门店店长："
                     android:textColor="#333"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:layout_marginBottom="6dp"
-                    android:text="联系方式：  020-87763813"
+                    android:text="联系方式："
                     android:textColor="#333"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="地      址：  广州市天河区天河路490号壬丰大厦地下负一楼"
+                    android:text="地          址："
                     android:textColor="#333"
                     android:textSize="12sp" />
             </LinearLayout>

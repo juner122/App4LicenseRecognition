@@ -17,7 +17,10 @@ public class Configure {
 
 
 
-    public static final String car_no = "car_no";//图片上传空间名
+    public static final String car_no = "car_no";//车牌号
+    public static final String user_id = "user_id";//
+    public static final String moblie = "moblie";//
+    public static final String car_id = "car_id";//
 
 
 

@@ -2,6 +2,7 @@ package com.frank.plate.activity;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -53,12 +54,12 @@ public class MemberInfoInputActivity extends BaseActivity {
     RecyclerView recyclerView;
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
-    String car_number;
+    String car_number, car_id;
 
 
     int activity_state;//页面状态   1（有订单） 2（无订单有车况） 3（无订单无车况）
 
-    String user_id;
+    String user_id, mobile_id;
 
     @SuppressLint("CheckResult")
     @Override
@@ -67,7 +68,16 @@ public class MemberInfoInputActivity extends BaseActivity {
         car_number = new AppPreferences(this).getString(Configure.car_no, "");
 //        car_number = "闽AE7888";
         car_number = "测试A1126";
-        car_number = "111";
+        car_number = "121";
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Toast.makeText(MemberInfoInputActivity.this, "车牌号：" + car_number, Toast.LENGTH_SHORT).show();
 
         Api().queryByCar(car_number).subscribe(new Consumer<QueryByCarEntity>() {
             @Override
@@ -87,6 +97,8 @@ public class MemberInfoInputActivity extends BaseActivity {
                     name.setFocusable(false);
                     carListAdapter.setNewData(queryByCarEntity.getCarList());
                     activity_state = 2;
+                    user_id = entity.getUser().getUserId();
+                    mobile_id = entity.getUser().getMobile();
 
                 }
             }
@@ -98,17 +110,12 @@ public class MemberInfoInputActivity extends BaseActivity {
                 activity_state = 3;
                 tv_check.setVisibility(View.VISIBLE);
                 ll_car_list.setVisibility(View.GONE);
-                tv_enter_order.setVisibility(View.GONE);
-
-
                 //测试
-
                 name.setText("李进武");
                 mobile.setText("15737226472");
 
             }
         });
-
     }
 
     @Override
@@ -130,9 +137,12 @@ public class MemberInfoInputActivity extends BaseActivity {
         carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                tv_enter_order.setVisibility(View.VISIBLE);
 
+                tv_enter_order.setVisibility(View.VISIBLE);
+                car_number = carListAdapter.getData().get(position).getCarNo();
+                car_id = carListAdapter.getData().get(position).getId();
                 new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_no, car_number);//选择车辆时更新car_no  保存到Preferences
+                new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_id, car_id);//选择车辆时更新car_no  保存到Preferences
                 adapter.getViewByPosition(recyclerView, position, R.id.iv1).setVisibility(View.VISIBLE);
 
                 for (int i = 0; i < adapter.getData().size(); i++) {
@@ -164,9 +174,14 @@ public class MemberInfoInputActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_enter_order:
 
+                new AppPreferences(this).put(Configure.user_id, user_id);
+                new AppPreferences(this).put(Configure.moblie, mobile_id);
+
                 toActivity(MakeOrderActivity.class);
                 break;
             case R.id.tv_add_car:
+
+                new AppPreferences(this).put(Configure.user_id, user_id);
                 toActivity(CarInfoInputActivity.class);
                 break;
             case R.id.tv_check:
@@ -188,10 +203,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                                 Toast.makeText(MemberInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
                                 //保存UserID
                                 user_id = entity.getUser_id();
-
-
                                 carListAdapter.setNewData(entity.getCarList());
-
                                 tv_check.setVisibility(View.GONE);
                                 mobile.setFocusable(false);
                                 name.setFocusable(false);

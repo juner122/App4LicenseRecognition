@@ -7,6 +7,8 @@ import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.NullDataEntity;
+import com.frank.plate.bean.OrderInfo;
+import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 
@@ -75,6 +77,26 @@ public class ApiLoader extends ObjectLoader {
      */
     public Observable<NullDataEntity> fixCarInfo(CarInfoRequestParameters parameters) {
         return observe(apiService.fixCarInfo(parameters)).map(new PayLoad<NullDataEntity>());
+    }
+
+
+  /**
+     * 4.批量删除车况图片
+     *
+     * @return
+     */
+    public Observable<NullDataEntity> delete(Integer[] ids) {
+        return observe(apiService.delete(ids)).map(new PayLoad<NullDataEntity>());
+    }
+
+
+  /**
+     * 确认下单
+     *
+     * @return
+     */
+    public Observable<OrderInfo> submit(OrderInfoEntity infoEntity) {
+        return observe(apiService.submit(infoEntity)).map(new PayLoad<OrderInfo>());
     }
 
 

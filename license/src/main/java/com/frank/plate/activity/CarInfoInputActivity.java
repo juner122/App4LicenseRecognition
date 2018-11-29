@@ -35,6 +35,8 @@ import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -56,10 +58,20 @@ public class CarInfoInputActivity extends BaseActivity {
     private final static int requestCode3 = 1003;
 
 
-    //图片本地路径
+    //图片本地路径   要上传的
     private List<LocalMedia> selectList = new ArrayList<>();
     private List<LocalMedia> selectList2 = new ArrayList<>();
     private List<LocalMedia> selectList3 = new ArrayList<>();
+
+    //图片网络路径  之前上传成功
+    private List<LocalMedia> netList = new ArrayList<>();
+    private List<LocalMedia> netList2 = new ArrayList<>();
+    private List<LocalMedia> netList3 = new ArrayList<>();
+
+    //图片路径   回到页面要显示的 所有
+    private List<LocalMedia> showlist = new ArrayList<>();
+    private List<LocalMedia> showlist2 = new ArrayList<>();
+    private List<LocalMedia> showlist3 = new ArrayList<>();
 
 
     //图片云路径
@@ -91,12 +103,12 @@ public class CarInfoInputActivity extends BaseActivity {
     int uploadTaskCount2;//七牛上传图片完成计数
     int uploadTaskCount3;//七牛上传图片完成计数
 
+    int uploadTaskCount;//七牛上传图片完成计数
+
     PictureSelector pictureSelector;
     PictureSelector pictureSelector2;
     PictureSelector pictureSelector3;
 
-
-//    private CarInfoRequestParameters parameters;//请求参数
 
     int type_action;//页面逻辑  1 添加车况 2修改车况
     CarEntity carEntity;//上个页面转递
@@ -105,47 +117,9 @@ public class CarInfoInputActivity extends BaseActivity {
     @SuppressLint("CheckResult")
     @OnClick({R.id.tv_enter_order})
     public void onclick() {
-
-        Observable<NullDataEntity> observable;
-
-        if (type_action == 1) {
-            observable = Api().addCarInfo(makeParameters());
-        } else {
-            observable = Api().fixCarInfo(makeParameters());
-        }
-        Disposable disposable = observable.subscribe(new Consumer<NullDataEntity>() {
-            @Override
-            public void accept(NullDataEntity nullDataEntity) {
-                Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) {
-                Toast.makeText(CarInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        compositeDisposable.add(disposable);
-
-
+        uploadImg2QiNiu2();
     }
 
-    private CarInfoRequestParameters makeParameters() {
-        CarInfoRequestParameters parameters = new CarInfoRequestParameters();
-        parameters.setUserId(carEntity.getUserId());
-        parameters.setId(carEntity.getId());
-        parameters.setCarNo(carEntity.getCarNo());
-        parameters.setBrandId("");
-        parameters.setBrand(tv_car_model.getText().toString());
-        parameters.setName("");
-        parameters.setNameId("");
-        parameters.setPostscript("");
-        parameters.setImagesList(upDataPicEntities);
-
-        Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
-        return parameters;
-
-
-    }
 
     @Override
     protected void init() {
@@ -171,6 +145,36 @@ public class CarInfoInputActivity extends BaseActivity {
 
                     tv_car_model.setText(entity.getBrand());
 
+
+                    for (UpDataPicEntity picEntity : entity.getImagesList()) {
+
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setPath(picEntity.getImageUrl());
+
+                        switch (picEntity.getType()) {
+                            case "1":
+                                netList.add(localMedia);
+                                break;
+                            case "2":
+                                netList2.add(localMedia);
+                                break;
+                            case "3":
+                                netList3.add(localMedia);
+                                break;
+                        }
+                    }
+
+                    showlist.addAll(netList);
+                    showlist2.addAll(netList2);
+                    showlist3.addAll(netList3);
+
+
+                    adapter.setList(showlist);
+                    adapter.notifyDataSetChanged();
+                    adapter2.setList(showlist2);
+                    adapter2.notifyDataSetChanged();
+                    adapter3.setList(showlist3);
+                    adapter3.notifyDataSetChanged();
 
                 }
             }, new Consumer<Throwable>() {
@@ -198,47 +202,47 @@ public class CarInfoInputActivity extends BaseActivity {
         recyclerView3.setLayoutManager(manager3);
 
         adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector);
-        adapter.setList(selectList);
+        adapter.setList(showlist);
         adapter.setSelectMax(maxSelectNum);
         recyclerView1.setAdapter(adapter);
         adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                if (selectList.size() > 0) {
+                if (showlist.size() > 0) {
                     // 预览图片 可自定长按保存路径
                     //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                    pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList);
+                    pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist);
 
                 }
             }
         });
 
         adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2);
-        adapter2.setList(selectList2);
+        adapter2.setList(showlist2);
         adapter2.setSelectMax(maxSelectNum);
         recyclerView2.setAdapter(adapter2);
         adapter2.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                if (selectList2.size() > 0) {
+                if (showlist2.size() > 0) {
                     // 预览图片 可自定长按保存路径
                     //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                    pictureSelector2.themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList2);
+                    pictureSelector2.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist2);
                 }
             }
         });
 
         adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3);
-        adapter3.setList(selectList3);
+        adapter3.setList(showlist3);
         adapter3.setSelectMax(maxSelectNum);
         recyclerView3.setAdapter(adapter3);
         adapter3.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                if (selectList3.size() > 0) {
+                if (showlist3.size() > 0) {
                     // 预览图片 可自定长按保存路径
                     //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                    pictureSelector3.themeStyle(R.style.picture_default_style).openExternalPreview(position, selectList3);
+                    pictureSelector3.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist3);
 
                 }
             }
@@ -286,8 +290,8 @@ public class CarInfoInputActivity extends BaseActivity {
         @Override
         public void onAddPicClick(int requestCode, PictureSelector pictureSelector, List<LocalMedia> list) {
             pictureSelector.openGallery(PictureMimeType.ofImage())
-                    .maxSelectNum(maxSelectNum)// 最大图片选择数量
-                    .selectionMedia(list)// 是否传入已选图片
+                    .maxSelectNum(maxSelectNum - list.size())// 最大图片选择数量
+//                    .selectionMedia(list)// 是否传入已选图片
                     .minSelectNum(1)// 最小选择数量
                     .imageSpanCount(4)// 每行显示个数
                     .minimumCompressSize(50)// 小于100kb的图片不压缩
@@ -308,59 +312,38 @@ public class CarInfoInputActivity extends BaseActivity {
                 case requestCode1:
                     // 图片选择结果回调
                     selectList = pictureSelector.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
                     for (LocalMedia media : selectList) {
-                        Log.i("图片1-----》", media.getPath());
+                        Log.i("添加的图片1-----》", media.getPath());
                     }
-                    adapter.setList(selectList);
+
+                    showlist.addAll(selectList);
+                    adapter.setList(showlist);
                     adapter.notifyDataSetChanged();
-
-                    //上传到七牛
-
-                    uploadTaskCount1 = 0;
-                    uploadImg2QiNiu(ImageUtil.toListString(selectList), requestCode1);
 
                     break;
                 case requestCode2:
                     // 图片选择结果回调
-                    selectList2 = pictureSelector2.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+                    selectList2 = pictureSelector2.obtainMultipleResult(data);//
                     for (LocalMedia media : selectList2) {
-                        Log.i("图片2-----》", media.getPath());
+                        Log.i("添加的图片2-----》", media.getPath());
                     }
-                    adapter2.setList(selectList2);
+
+                    showlist2.addAll(selectList2);
+                    adapter2.setList(showlist2);
                     adapter2.notifyDataSetChanged();
-
-
-                    uploadTaskCount2 = 0;
-                    uploadImg2QiNiu(ImageUtil.toListString(selectList2), requestCode2);
-
                     break;
                 case requestCode3:
                     // 图片选择结果回调
                     selectList3 = pictureSelector3.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
+
                     for (LocalMedia media : selectList3) {
-                        Log.i("图片3-----》", media.getPath());
+                        Log.i("添加的图片3-----》", media.getPath());
                     }
-                    adapter3.setList(selectList3);
+
+
+                    showlist3.addAll(selectList3);
+                    adapter3.setList(showlist3);
                     adapter3.notifyDataSetChanged();
-
-                    uploadTaskCount3 = 0;
-                    uploadImg2QiNiu(ImageUtil.toListString(selectList3), requestCode3);
-
                     break;
             }
         }
@@ -424,6 +407,106 @@ public class CarInfoInputActivity extends BaseActivity {
         }
     }
 
+    private void uploadImg2QiNiu2() {
+
+        // 设置图片名字
+        final int allup_size = selectList.size() + selectList2.size() + selectList3.size();//所有要上传的图片
+        Log.i(TAG, "上传总数=" + allup_size + "\nselectList1.size()=" + selectList.size() + "\nselectList3.size()=" + selectList2.size() + "\nselectList3.size()=" + selectList3.size());//上传进度
+
+        if (allup_size == 0) {
+
+            onAddCarInfoOfFixCarInfo();
+            return;
+        }
+
+
+        shwoProgressBar();
+        UploadManager uploadManager = new UploadManager();
+        UploadOptions uploadOptions = new UploadOptions(null, null, false,
+                new UpProgressHandler() {
+                    public void progress(String key, double percent) {
+                        Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
+                        if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
+                        {
+                            sendMsg(allup_size);
+                        }
+                    }
+                }, null);
+
+        for (int i = 0; i < selectList.size(); i++) {
+            String key = "pic_" + CommonUtil.getTimeStame();
+            String path = selectList.get(i).getPath();
+            Log.i(TAG, "picPath: " + path);
+            final int finalI = i;
+            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject res) {
+                            // info.error中包含了错误信息，可打印调试
+                            // 上传成功后将key值上传到自己的服务器
+                            if (info.isOK()) {
+                                Log.i(TAG, "selectList      ResponseInfo: " + info + "\nkey::" + key);
+                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
+                                upDataPicEntity.setType("1");
+                                upDataPicEntity.setImageUrl(Configure.Domain + key);
+                                upDataPicEntity.setSort(finalI);
+                                upDataPicEntities.add(upDataPicEntity);
+                            } else {
+                                Log.i(TAG, "info:error====> " + info.error);
+                            }
+                        }
+                    }, uploadOptions
+            );
+        }
+        for (int i = 0; i < selectList2.size(); i++) {
+            String key = "pic_" + CommonUtil.getTimeStame();
+            String path = selectList2.get(i).getPath();
+            Log.i(TAG, "picPath: " + selectList2.get(i).getPath());
+            final int finalI = i;
+            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject res) {
+                            // info.error中包含了错误信息，可打印调试
+                            // 上传成功后将key值上传到自己的服务器
+                            if (info.isOK()) {
+                                Log.i(TAG, "selectList2     ResponseInfo: " + info + "\nkey::" + key);
+                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
+                                upDataPicEntity.setType("2");
+                                upDataPicEntity.setImageUrl(Configure.Domain + key);
+                                upDataPicEntity.setSort(finalI);
+                                upDataPicEntities.add(upDataPicEntity);
+                            } else {
+                                Log.i(TAG, "info:error====> " + info.error);
+                            }
+                        }
+                    }, uploadOptions
+            );
+        }
+        for (int i = 0; i < selectList3.size(); i++) {
+            String key = "pic_" + CommonUtil.getTimeStame();
+            String path = selectList3.get(i).getPath();
+            Log.i(TAG, "picPath: " + path);
+            final int finalI = i;
+            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject res) {
+                            // info.error中包含了错误信息，可打印调试
+                            // 上传成功后将key值上传到自己的服务器
+                            if (info.isOK()) {
+                                Log.i(TAG, "selectList3      ResponseInfo: " + info + "\nkey::" + key);
+                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
+                                upDataPicEntity.setType("3");
+                                upDataPicEntity.setImageUrl(Configure.Domain + key);
+                                upDataPicEntity.setSort(finalI);
+                                upDataPicEntities.add(upDataPicEntity);
+                            } else {
+                                Log.i(TAG, "info:error====> " + info.error);
+                            }
+                        }
+                    }, uploadOptions
+            );
+        }
+    }
+
 
     @Override
     protected void msgManagement(int what, int tag) {
@@ -455,6 +538,21 @@ public class CarInfoInputActivity extends BaseActivity {
     }
 
     @Override
+    protected void msgManagement(int what) {
+        super.msgManagement(what);
+
+
+        uploadTaskCount++;
+        if (uploadTaskCount == what) {//容器中图片全部上传完成
+            hideProgressBar();
+            Toast.makeText(CarInfoInputActivity.this, "图片全部上传完成", Toast.LENGTH_SHORT).show();
+            onAddCarInfoOfFixCarInfo();//接口提交
+        }
+
+
+    }
+
+    @Override
     protected void setUpView() {
 
     }
@@ -474,5 +572,54 @@ public class CarInfoInputActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         compositeDisposable.dispose();
+    }
+
+    private void onAddCarInfoOfFixCarInfo() {
+
+        Observable<NullDataEntity> observable;
+        if (type_action == 1) {
+            observable = Api().addCarInfo(makeParameters());
+        } else {
+            observable = Api().fixCarInfo(makeParameters());
+        }
+        Disposable disposable = observable.subscribe(new Consumer<NullDataEntity>() {
+            @Override
+            public void accept(NullDataEntity nullDataEntity) {
+                Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) {
+                Toast.makeText(CarInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        compositeDisposable.add(disposable);
+
+    }
+
+
+    private CarInfoRequestParameters makeParameters() {
+        CarInfoRequestParameters parameters = new CarInfoRequestParameters();
+
+        if (null == carEntity) {
+            parameters.setUserId(new AppPreferences(this).getString(Configure.user_id, ""));
+            parameters.setCarNo(tv_car_no.getText().toString());
+        } else {
+
+            parameters.setUserId(carEntity.getUserId());
+            parameters.setId(carEntity.getId());
+            parameters.setCarNo(carEntity.getCarNo());
+        }
+
+        parameters.setBrandId("");
+        parameters.setBrand(tv_car_model.getText().toString());
+        parameters.setName("");
+        parameters.setNameId("");
+        parameters.setPostscript("");
+        parameters.setImagesList(upDataPicEntities);
+
+        Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
+        return parameters;
     }
 }

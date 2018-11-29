@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.frank.plate.R;
+import com.frank.plate.bean.UpDataPicEntity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -40,6 +41,7 @@ public class GridImageAdapter extends
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
+    private List<UpDataPicEntity> showlist = new ArrayList<>();
     private int selectMax = 9;
     private Context context;
     private int requestCode;
@@ -52,7 +54,7 @@ public class GridImageAdapter extends
     public interface onAddPicClickListener {
         void onAddPicClick();
 
-        void onAddPicClick(int requestCode,PictureSelector pictureSelector,List<LocalMedia> list);//指定requestCode
+        void onAddPicClick(int requestCode, PictureSelector pictureSelector, List<LocalMedia> list);//指定requestCode
     }
 
     public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
@@ -82,6 +84,10 @@ public class GridImageAdapter extends
 
     public void setList(List<LocalMedia> list) {
         this.list = list;
+    }
+
+    public void setShowList(List<UpDataPicEntity> list) {
+        this.showlist = list;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -143,7 +149,7 @@ public class GridImageAdapter extends
             viewHolder.mImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnAddPicClickListener.onAddPicClick(requestCode,pictureSelector,list);
+                    mOnAddPicClickListener.onAddPicClick(requestCode, pictureSelector, list);
                 }
             });
             viewHolder.ll_del.setVisibility(View.INVISIBLE);
@@ -162,6 +168,7 @@ public class GridImageAdapter extends
                     }
                 }
             });
+
             LocalMedia media = list.get(position);
             int mimeType = media.getMimeType();
             String path = "";
@@ -220,6 +227,7 @@ public class GridImageAdapter extends
                     }
                 });
             }
+
         }
     }
 

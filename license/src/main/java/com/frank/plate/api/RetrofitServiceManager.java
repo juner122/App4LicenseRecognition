@@ -32,8 +32,8 @@ public class RetrofitServiceManager {
         mRetrofit = new Retrofit.Builder()
                 .client(builder.build())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .addConverterFactory(GsonConverterFactory.create())//Gson
-                .addConverterFactory(FastJsonConverterFactory.create())//Fastjson
+                .addConverterFactory(GsonConverterFactory.create())//Gson
+//                .addConverterFactory(FastJsonConverterFactory.create())//Fastjson
                 .baseUrl(Configure.BaseUrl)
                 .build();
     }

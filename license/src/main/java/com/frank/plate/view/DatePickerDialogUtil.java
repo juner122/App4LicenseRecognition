@@ -23,10 +23,7 @@ public class DatePickerDialogUtil {
         mYear = ca.get(Calendar.YEAR);
         mMonth = ca.get(Calendar.MONTH);
         mDay = ca.get(Calendar.DAY_OF_MONTH);
-
-
     }
-
     public void show(int y,int m,int d) {
 
         pickerDialog = new DatePickerDialog(mContext, DatePickerDialog.THEME_DEVICE_DEFAULT_DARK,

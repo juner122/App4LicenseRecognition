@@ -5,6 +5,15 @@ public class UpDataPicEntity {
 
     String imageUrl;
     String type;
+    int sort;
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -22,11 +31,13 @@ public class UpDataPicEntity {
         this.type = type;
     }
 
+
     @Override
     public String toString() {
         return "UpDataPicEntity{" +
                 "imageUrl='" + imageUrl + '\'' +
                 ", type='" + type + '\'' +
+                ", sort='" + sort + '\'' +
                 '}';
     }
 }
