@@ -1,7 +1,9 @@
 package com.frank.plate.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.MainFragment1;
 import com.frank.plate.activity.fragment.MainFragment2;
@@ -97,5 +99,17 @@ public class MainActivity extends BaseActivity {
     public void setCurrentTab(int i) {
         commonTabLayout.setCurrentTab(i);
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
+
+        setCurrentTab(fragment);
+
+
+    }
+
 
 }

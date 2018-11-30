@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.GridImageAdapter;
+import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
@@ -112,18 +113,31 @@ public class CarInfoInputActivity extends BaseActivity {
 
     int type_action;//页面逻辑  1 添加车况 2修改车况
     CarEntity carEntity;//上个页面转递
-    CompositeDisposable compositeDisposable;
 
-    @SuppressLint("CheckResult")
-    @OnClick({R.id.tv_enter_order})
-    public void onclick() {
-        uploadImg2QiNiu2();
+
+    @OnClick({R.id.tv_enter_order, R.id.tv_car_model})
+    public void onclick(View v) {
+        switch (v.getId()) {
+
+            case R.id.tv_car_model:
+
+                toActivity(AutoBrandActivity.class);
+
+
+                break;
+
+            case R.id.tv_enter_order:
+
+                uploadImg2QiNiu2();
+                break;
+        }
+
     }
 
 
     @Override
     protected void init() {
-        compositeDisposable = new CompositeDisposable();
+
 
         carEntity = getIntent().getParcelableExtra("CarEntity");
 
@@ -139,14 +153,11 @@ public class CarInfoInputActivity extends BaseActivity {
             type_action = 2;
             Toast.makeText(CarInfoInputActivity.this, "carEntity.getid==" + carEntity.getId(), Toast.LENGTH_SHORT).show();
 
-            Api().showCarInfo(carEntity.getId()).subscribe(new Consumer<CarInfoRequestParameters>() {
+            Api().showCarInfo(carEntity.getId()).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
                 @Override
-                public void accept(CarInfoRequestParameters entity) {
-
-                    tv_car_model.setText(entity.getBrand());
-
-
-                    for (UpDataPicEntity picEntity : entity.getImagesList()) {
+                protected void _onNext(CarInfoRequestParameters o) {
+                    tv_car_model.setText(o.getBrand());
+                    for (UpDataPicEntity picEntity : o.getImagesList()) {
 
                         LocalMedia localMedia = new LocalMedia();
                         localMedia.setPath(picEntity.getImageUrl());
@@ -167,20 +178,17 @@ public class CarInfoInputActivity extends BaseActivity {
                     showlist.addAll(netList);
                     showlist2.addAll(netList2);
                     showlist3.addAll(netList3);
-
-
                     adapter.setList(showlist);
                     adapter.notifyDataSetChanged();
                     adapter2.setList(showlist2);
                     adapter2.notifyDataSetChanged();
                     adapter3.setList(showlist3);
                     adapter3.notifyDataSetChanged();
-
                 }
-            }, new Consumer<Throwable>() {
+
                 @Override
-                public void accept(Throwable throwable) {
-                    Toast.makeText(CarInfoInputActivity.this, throwable.toString(), Toast.LENGTH_SHORT).show();
+                protected void _onError(String message) {
+                    Toast.makeText(CarInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -349,64 +357,6 @@ public class CarInfoInputActivity extends BaseActivity {
         }
     }
 
-    private void uploadImg2QiNiu(final List<String> list, final int requestCode) {
-
-        if (list == null || list.size() == 0)
-            return;
-        shwoProgressBar();
-
-        UploadManager uploadManager = new UploadManager();
-
-        // 设置图片名字
-
-        for (String picPath : list) {
-            String key = "pic_" + CommonUtil.getTimeStame();
-            Log.i(TAG, "picPath: " + picPath);
-            uploadManager.put(picPath, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
-                        @Override
-                        public void complete(String key, ResponseInfo info, JSONObject res) {
-                            // info.error中包含了错误信息，可打印调试
-                            // 上传成功后将key值上传到自己的服务器
-                            if (info.isOK()) {
-                                Log.i(TAG, "ResponseInfo: " + info + "\nkey::" + key);
-                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
-                                switch (requestCode) {
-
-                                    case requestCode1:
-                                        upDataPicEntity.setType("1");
-                                        break;
-
-                                    case requestCode2:
-                                        upDataPicEntity.setType("2");
-                                        break;
-                                    case requestCode3:
-                                        upDataPicEntity.setType("3");
-                                        break;
-                                }
-                                upDataPicEntity.setImageUrl(Configure.Domain + key);
-                                upDataPicEntities.add(upDataPicEntity);
-
-                            } else {
-                                Log.i(TAG, "info:error====> " + info.error);
-                            }
-
-
-                        }
-                    }, new UploadOptions(null, null, false,
-                            new UpProgressHandler() {
-                                public void progress(String key, double percent) {
-                                    Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
-                                    if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
-                                    {
-                                        sendMsg(list.size(), requestCode);
-                                    }
-
-                                }
-                            }, null)
-            );
-        }
-    }
-
     private void uploadImg2QiNiu2() {
 
         // 设置图片名字
@@ -567,13 +517,6 @@ public class CarInfoInputActivity extends BaseActivity {
         return R.layout.activity_car_status_entry;
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose();
-    }
-
     private void onAddCarInfoOfFixCarInfo() {
 
         Observable<NullDataEntity> observable;
@@ -582,19 +525,22 @@ public class CarInfoInputActivity extends BaseActivity {
         } else {
             observable = Api().fixCarInfo(makeParameters());
         }
-        Disposable disposable = observable.subscribe(new Consumer<NullDataEntity>() {
+
+
+        observable.subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
-            public void accept(NullDataEntity nullDataEntity) {
+            protected void _onNext(NullDataEntity nullDataEntity) {
                 Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
                 finish();
             }
-        }, new Consumer<Throwable>() {
+
             @Override
-            public void accept(Throwable throwable) {
-                Toast.makeText(CarInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            protected void _onError(String message) {
+                Toast.makeText(CarInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
+
             }
         });
-        compositeDisposable.add(disposable);
+
 
     }
 

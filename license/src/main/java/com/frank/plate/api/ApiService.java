@@ -1,7 +1,9 @@
 package com.frank.plate.api;
 
 import com.frank.plate.bean.ActivityEntity;
+import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.BaseBean;
+import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
@@ -13,8 +15,10 @@ import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.UserInfo;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -95,6 +99,10 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<CarInfoRequestParameters>> showCarInfo(@FieldMap Map<String, Object> maps);
 
+    //15.当前门店用户（技师）列表
+    @POST("sysuser/list")
+    Observable<BaseBean<BasePage<Technician>>> sysuserList();
+
 
     //查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
     @POST("goods/queryAnyGoods")
@@ -104,14 +112,17 @@ public interface ApiService {
 
     //分类下品牌列表加第一个品牌第一页下商品
     @POST("brand/categoryBrandList")
-    @FormUrlEncoded
-    Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<CategoryBrandList>> categoryBrandList();
 
 
     //活动列表
     @POST("activity/list")
     @FormUrlEncoded
     Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
+
+   //品牌查询列表
+    @POST("carbrand/listByName")
+    Observable<BaseBean<List<AutoBrand>>> listByName();
 
 
 }

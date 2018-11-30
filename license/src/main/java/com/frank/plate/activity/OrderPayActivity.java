@@ -4,14 +4,23 @@ package com.frank.plate.activity;
 import android.view.View;
 
 import com.frank.plate.R;
+import com.frank.plate.bean.BasePage;
+import com.frank.plate.bean.Technician;
 
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 public class OrderPayActivity extends BaseActivity {
 
     @Override
     protected void init() {
         tv_title.setText("订单收款");
+
+
+
+
+
+
     }
 
     @Override

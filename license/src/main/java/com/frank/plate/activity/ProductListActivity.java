@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductListFragment;
 import com.frank.plate.adapter.Brandadapter;
+import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Category;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
@@ -40,26 +41,21 @@ public class ProductListActivity extends BaseActivity {
     RecyclerView commonPopupRecyclerView;
     Brandadapter brandadapter;
     Integer checkedTag;
-
     List<Category> categories;
-    CompositeDisposable compositeDisposable;
-
 
     @SuppressLint("CheckResult")
     @Override
     protected void init() {
         tv_title.setText("商品列表");
         replaceFragment();
-        compositeDisposable = new CompositeDisposable();
 
-        Disposable disposable = Api().categoryBrandList().subscribe(new Consumer<CategoryBrandList>() {
+        Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
             @Override
-            public void accept(CategoryBrandList categoryBrandList) {
-                fragment.switchData(categoryBrandList.getGoodList());
-                categories = categoryBrandList.getCategoryList();
+            protected void _onNext(CategoryBrandList o) {
+                fragment.switchData(o.getGoodList());
+                categories = o.getCategoryList();
                 checkedTag = 0;
                 for (int i = 0; i < categories.size(); i++) {
-
                     RadioButton radioButton = new RadioButton(ProductListActivity.this);
                     RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
@@ -76,17 +72,17 @@ public class ProductListActivity extends BaseActivity {
                             showPopupWindow(view);
                         }
                     });
-
                     radioGroup.addView(radioButton);
                 }
             }
-        }, new Consumer<Throwable>() {
+
             @Override
-            public void accept(Throwable throwable) {
-                Toast.makeText(ProductListActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            protected void _onError(String message) {
+                Toast.makeText(ProductListActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
-        compositeDisposable.add(disposable);
+
+
     }
 
     private void showPopupWindow(View v) {
@@ -144,21 +140,18 @@ public class ProductListActivity extends BaseActivity {
 
     private void onQueryAnyGoods(String category_id, String brand_id, String name) {
 
-//        Toast.makeText(ProductListActivity.this, "商品类别ID：" + category_id + "\n品牌ID:" + brand_id, Toast.LENGTH_SHORT).show();
-
-
-        Disposable disposable = Api().queryAnyGoods(category_id, brand_id, name).subscribe(new Consumer<GoodsListEntity>() {
+        Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
             @Override
-            public void accept(GoodsListEntity goodsListEntity) {
+            protected void _onNext(GoodsListEntity goodsListEntity) {
                 fragment.switchData(goodsListEntity.getGoodsList());
             }
-        }, new Consumer<Throwable>() {
+
             @Override
-            public void accept(Throwable throwable) {
-                Log.v("BaseQuickAdapter", throwable.getMessage());
+            protected void _onError(String message) {
+                Log.v("BaseQuickAdapter", message);
             }
         });
-        compositeDisposable.add(disposable);
+
 
     }
 
@@ -183,10 +176,4 @@ public class ProductListActivity extends BaseActivity {
         return R.layout.activity_product_list;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose();
-
-    }
 }

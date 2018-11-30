@@ -22,13 +22,13 @@ public class OrderInfoEntity implements Parcelable {
     String add_time;//
     String car_no;//
     Date confirm_time;//确认时间
-    String  planfinishi_time;//预计完成时间
+    Long  planfinishi_time;//预计完成时间
 
-    public String getPlanfinishi_time() {
+    public Long getPlanfinishi_time() {
         return planfinishi_time;
     }
 
-    public void setPlanfinishi_time(String planfinishi_time) {
+    public void setPlanfinishi_time(Long planfinishi_time) {
         this.planfinishi_time = planfinishi_time;
     }
 
@@ -197,7 +197,7 @@ public class OrderInfoEntity implements Parcelable {
         dest.writeString(this.add_time);
         dest.writeString(this.car_no);
         dest.writeLong(this.confirm_time != null ? this.confirm_time.getTime() : -1);
-        dest.writeString(this.planfinishi_time);
+        dest.writeValue(this.planfinishi_time);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -216,7 +216,7 @@ public class OrderInfoEntity implements Parcelable {
         this.car_no = in.readString();
         long tmpConfirm_time = in.readLong();
         this.confirm_time = tmpConfirm_time == -1 ? null : new Date(tmpConfirm_time);
-        this.planfinishi_time = in.readString();
+        this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

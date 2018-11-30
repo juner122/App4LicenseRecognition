@@ -13,6 +13,11 @@ public class DateUtil {
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
         return sDateFormat.format(new Date(l));
     }
+  public static String getFormatedDateTime(Long dateTime) {
+
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
+        return sDateFormat.format(new Date(dateTime));
+    }
 
     public static String getFormatedDateTime(Date dateTime) {
 

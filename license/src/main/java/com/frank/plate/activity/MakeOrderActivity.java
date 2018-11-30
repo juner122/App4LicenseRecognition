@@ -1,28 +1,28 @@
 package com.frank.plate.activity;
 
-import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.frank.plate.Configure;
-import com.frank.plate.MyApplication;
 import com.frank.plate.R;
+import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.bean.Technician;
 import com.frank.plate.util.DateUtil;
 
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +42,8 @@ public class MakeOrderActivity extends BaseActivity {
 
     @BindView(R.id.but_set_date)
     TextView but_set_date;
+    @BindView(R.id.but_to_technician_list)
+    TextView but_to_technician_list;
 
 
     String car_number, user_id, moblie, car_id;
@@ -52,6 +54,7 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("下单信息");
+
         car_number = new AppPreferences(this).getString(Configure.car_no, "null_car_no");
         user_id = new AppPreferences(this).getString(Configure.user_id, "null_user_id");
         moblie = new AppPreferences(this).getString(Configure.moblie, "null_moblie");
@@ -90,19 +93,32 @@ public class MakeOrderActivity extends BaseActivity {
                 toActivity(MealListActivity.class);
                 break;
             case R.id.but_to_technician_list:
-                toActivity(TechnicianListActivity.class);
+
+                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
+                    @Override
+                    public void resultOk(Intent data) {
+                        //to do what you want when resultCode == RESULT_OK
+                        but_to_technician_list.setText("");
+                        List<Technician> s = data.getParcelableArrayListExtra("Technician");
+                        for (Technician t : s) {
+
+                            but_to_technician_list.append(t.getUsername() + "\t");
+
+                        }
+
+
+                    }
+                });
+
                 break;
 
             case R.id.but_set_date:
 
 
                 Calendar startDate = Calendar.getInstance();
-                //startDate.set(2013,1,1);
                 Calendar endDate = Calendar.getInstance();
-                //endDate.set(2020,1,1);
-
-                //正确设置方式 原因：注意事项有说明
-                startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH) + 1, startDate.get(Calendar.DATE), startDate.get(Calendar.HOUR_OF_DAY), startDate.get(Calendar.MINUTE));
+                //正确设置方式 原因：注意事有说明
+                startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH) + 1, startDate.get(Calendar.DATE), startDate.get(Calendar.HOUR_OF_DAY) + 1, startDate.get(Calendar.MINUTE));
                 endDate.set(2020, 11, 31);
 
 
@@ -110,9 +126,8 @@ public class MakeOrderActivity extends BaseActivity {
                     @Override
                     public void onTimeSelect(Date date, View v) {
                         but_set_date.setText(DateUtil.getFormatedDateTime(date));
-                        infoEntity.setPlanfinishi_time(DateUtil.getFormatedDateTime(date));
-
-
+//                        infoEntity.setPlanfinishi_time(DateUtil.getFormatedDateTime(date));
+                        infoEntity.setPlanfinishi_time(date.getTime());
                     }
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
                         .setSubmitColor(Color.BLACK)//确定按钮文字颜色
@@ -140,18 +155,17 @@ public class MakeOrderActivity extends BaseActivity {
     private void onMakeOrder() {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
-
-
-        Api().submit(infoEntity).subscribe(new Consumer<OrderInfo>() {
+        Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this,true) {
             @Override
-            public void accept(OrderInfo infoEntity) {
+            protected void _onNext(OrderInfo orderInfo) {
                 toActivity(MakeOrderSuccessActivity.class, infoEntity, "orderInfo");
             }
-        }, new Consumer<Throwable>() {
             @Override
-            public void accept(Throwable throwable) {
-                Log.e(TAG, throwable.toString());
+            protected void _onError(String message) {
+                Log.e(TAG, message);
+
             }
         });
     }
+
 }

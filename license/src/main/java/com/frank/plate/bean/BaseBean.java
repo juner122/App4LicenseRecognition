@@ -32,6 +32,12 @@ public class BaseBean<T> {
         this.data = data;
     }
 
+
+    public boolean ifSuccess() {
+        return errno == 0;
+    }
+
+
     @Override
     public String toString() {
         return "BaseBea{" +

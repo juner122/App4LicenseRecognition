@@ -7,10 +7,10 @@
     <!-- 4.2以上的手机需要的权限 -->
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
     <!-- 访问INTERNET的权限 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 手机信息 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- ************************************* -->
@@ -20,7 +20,7 @@
     <!-- 传感器 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 摄像头权限 -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -42,7 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask">
+        </activity>
         <activity android:name=".activity.MemberManagementActivity" />
         <activity android:name=".activity.StaffManagementActivity" />
         <activity android:name=".activity.ProductListActivity" />
@@ -57,15 +60,12 @@
         <activity android:name=".activity.OrderPayActivity" />
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
-        <activity android:name=".activity.BillListItemInfoActivity"/>
-        <activity android:name=".activity.OrderInfoActivity"/>
+        <activity android:name=".activity.BillListItemInfoActivity" />
+        <activity android:name=".activity.OrderInfoActivity" />
+        <activity android:name=".activity.AutoBrandActivity" />
 
 
-
-        <activity android:name=".activity.PreviewActivity"/>//车牌扫描测试
-
-
-
+        <activity android:name=".activity.PreviewActivity" />//车牌扫描测试
 
 
     </application>

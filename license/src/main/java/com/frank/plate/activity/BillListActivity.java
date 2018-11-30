@@ -11,8 +11,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
 import com.frank.plate.adapter.BillListAdpter;
-import com.frank.plate.api.MySubscriber;
-import com.frank.plate.api.SubscribeOnNextListener;
+import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.BillEntityItem;
 import com.frank.plate.util.MathUtil;
@@ -51,7 +50,6 @@ public class BillListActivity extends BaseActivity {
 
 
     int count;
-    MySubscriber subscriber;
     DatePickerDialogUtil dialogUti1, dialogUti2;
     int y1, y2, m1, m2, d1, d2;
 
@@ -72,27 +70,6 @@ public class BillListActivity extends BaseActivity {
             }
         });
 
-
-        subscriber = new MySubscriber<>(this, new SubscribeOnNextListener<BillEntity>() {
-            @Override
-            public void onNext(BillEntity bean) {
-                if (bean == null)
-                    return;
-                list = bean.getPage().getList();
-                adpter.addData(list);
-                tv_money1.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
-                tv_money2.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
-                tv_money3.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
-                tv_money4.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-        });
-
-
     }
 
 
@@ -106,7 +83,24 @@ public class BillListActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
-//        Api().getUserBillList(subscriber, count, 10, "", "");
+        Api().getUserBillList(count, 10, 0, 0).subscribe(new RxSubscribe<BillEntity>(this,true) {
+            @Override
+            protected void _onNext(BillEntity bean) {
+                if (bean == null)
+                    return;
+                list = bean.getPage().getList();
+                adpter.addData(list);
+                tv_money1.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
+                tv_money2.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
+                tv_money3.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
+                tv_money4.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        });
 
 
     }

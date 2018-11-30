@@ -4,11 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.R;
-import com.frank.plate.api.MySubscriber;
-import com.frank.plate.api.SubscribeOnNextListener;
-import com.frank.plate.bean.UserInfo;
-
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;

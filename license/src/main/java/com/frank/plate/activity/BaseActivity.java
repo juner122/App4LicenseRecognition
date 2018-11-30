@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
-import com.frank.plate.MyApplication;
+
 import com.frank.plate.R;
 import com.frank.plate.api.ApiLoader;
 
-import net.grandcentrix.tray.AppPreferences;
+
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +32,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextView tv_title_r;
     @BindView(R.id.iv_r)
     protected View iv_r;
+    @BindView(R.id.tv_back)
+    protected View tv_back;
 
     @BindView(R.id.head_view)
     View head_view;
@@ -102,6 +106,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         head_view.setVisibility(View.GONE);
     }
 
+    protected void hideReturnView() {
+        tv_back.setVisibility(View.GONE);
+    }
+
+    protected void showRView(String str) {
+        tv_title_r.setVisibility(View.VISIBLE);
+        tv_title_r.setText(str);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -111,6 +124,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void toActivity(Class c) {
 
         startActivity(new Intent(this, c));
+
+    }
+
+    protected void toActivity(Intent intent) {
+
+        startActivity(intent);
 
     }
 
@@ -169,6 +188,26 @@ public abstract class BaseActivity extends AppCompatActivity {
                 msgManagement(what);
             }
         }).subscribe();
+    }
+
+    private ArrayList<ResultBack> list = new ArrayList<>();//保存所有activity返回的回调，跟随activity生命周期
+
+    public synchronized void startActivityForResult(Intent intent, ResultBack resultBack) {
+        if (list.indexOf(resultBack) < 0) {
+            list.add(resultBack);
+            startActivityForResult(intent, list.size() - 1);//requestCode就是list的Index，哈哈哈
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            list.get(requestCode).resultOk(data);
+        } else {
+            list.get(requestCode).resultElse(resultCode, data);
+        }
+        list.set(requestCode, null);//释放已返回的ResultBack，不用remove防止乱序
     }
 
 

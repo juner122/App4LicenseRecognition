@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.CarListAdapter;
+import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
@@ -68,7 +69,7 @@ public class MemberInfoInputActivity extends BaseActivity {
         car_number = new AppPreferences(this).getString(Configure.car_no, "");
 //        car_number = "闽AE7888";
         car_number = "测试A1126";
-        car_number = "121";
+        car_number = "12122";
 
 
     }
@@ -78,10 +79,9 @@ public class MemberInfoInputActivity extends BaseActivity {
         super.onResume();
 
         Toast.makeText(MemberInfoInputActivity.this, "车牌号：" + car_number, Toast.LENGTH_SHORT).show();
-
-        Api().queryByCar(car_number).subscribe(new Consumer<QueryByCarEntity>() {
+        Api().queryByCar(car_number).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
-            public void accept(QueryByCarEntity entity) {
+            protected void _onNext(QueryByCarEntity entity) {
                 Log.d("MemberInfoInputActivity", entity.toString());
                 queryByCarEntity = entity;
                 if (entity.getOrderInfo() != null) {//有订单 跳到订单详情
@@ -102,18 +102,16 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                 }
             }
-        }, new Consumer<Throwable>() {
+
             @Override
-            public void accept(Throwable throwable) {
+            protected void _onError(String message) {
                 //没订单 没车况信息
-//                Toast.makeText(MemberInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
                 activity_state = 3;
                 tv_check.setVisibility(View.VISIBLE);
                 ll_car_list.setVisibility(View.GONE);
                 //测试
                 name.setText("李进武");
                 mobile.setText("15737226472");
-
             }
         });
     }
@@ -197,23 +195,22 @@ public class MemberInfoInputActivity extends BaseActivity {
                     public void doConfirm() {
                         // TODO Auto-generated method stub
                         confirmDialog.dismiss();
-                        Api().addUser(mobile.getText().toString(), name.getText().toString()).subscribe(new Consumer<SaveUserAndCarEntity>() {
+                        Api().addUser(mobile.getText().toString(), name.getText().toString()).subscribe(new RxSubscribe<SaveUserAndCarEntity>(MemberInfoInputActivity.this, true) {
                             @Override
-                            public void accept(SaveUserAndCarEntity entity) {
-                                Toast.makeText(MemberInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
+                            protected void _onNext(SaveUserAndCarEntity s) {
+
                                 //保存UserID
-                                user_id = entity.getUser_id();
-                                carListAdapter.setNewData(entity.getCarList());
+                                user_id = s.getUser_id();
+                                carListAdapter.setNewData(s.getCarList());
                                 tv_check.setVisibility(View.GONE);
                                 mobile.setFocusable(false);
                                 name.setFocusable(false);
                                 ll_car_list.setVisibility(View.VISIBLE);
-
                             }
-                        }, new Consumer<Throwable>() {
+
                             @Override
-                            public void accept(Throwable throwable) {
-                                Toast.makeText(MemberInfoInputActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                            protected void _onError(String message) {
+                                Toast.makeText(MemberInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
 
                             }
                         });

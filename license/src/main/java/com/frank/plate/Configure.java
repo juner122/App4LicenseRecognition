@@ -25,4 +25,11 @@ public class Configure {
 
 
 
+    public static final String show_fragment = "fragment";//
+
+
+
+
+
+
 }
