@@ -2,24 +2,23 @@ package com.frank.plate.activity.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.frank.plate.MyApplication;
-
-import net.grandcentrix.tray.AppPreferences;
+import com.frank.plate.api.ApiLoader;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 public abstract class BaseFragment extends Fragment {
-    private Context mContext;
-
+    public Context mContext;
+    ApiLoader apiLoader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -28,10 +27,19 @@ public abstract class BaseFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         mContext = getContext();
 
+
         setUpView();
+
 
         Log.d(setTAG(), "---->>>>onCreateView");
         return rootView;
+    }
+
+    public ApiLoader Api() {
+        if (apiLoader == null)
+            apiLoader = new ApiLoader();
+        return apiLoader;
+
     }
 
     @Override
@@ -78,5 +86,24 @@ public abstract class BaseFragment extends Fragment {
     protected abstract String setTAG();
 
 
+    protected void msgManagement(double what) {
+
+
+    }
+
+    /**
+     * 发送不延时的消息
+     *
+     * @param what 发送的消息
+     */
+    public void sendMsg(final double what) {
+
+        Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
+            @Override
+            public void run() {
+                msgManagement(what);
+            }
+        }).subscribe();
+    }
 
 }

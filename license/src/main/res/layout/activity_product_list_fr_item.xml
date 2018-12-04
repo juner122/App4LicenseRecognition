@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:orientation="horizontal"
-    android:padding="11dp">
+    android:padding="8dp">
 
 
     <ImageView
@@ -19,34 +19,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="8dp"
         android:orientation="vertical">
 
 
         <TextView
-
             android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="倍耐力P7防爆轮胎/……"
             android:textColor="#ff010101"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_product_ts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_weight="1"
-            android:minLines="2"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="225 235 245 255 275/40 45 50 55 R17 18 19 20"
             android:textColor="#ff666666"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
 
         <LinearLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -56,14 +55,39 @@
                 android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
+                android:maxLines="1"
                 android:text="¥ 500.00"
                 android:textColor="#fff23325"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
-            <ImageView
+            <ImageButton
+                android:id="@+id/ib_reduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="5dp"
+                android:src="@mipmap/icon_reduce"
+                android:visibility="invisible" />
+
+
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="11"
+                android:visibility="invisible" />
+
+
+            <ImageButton
+                android:id="@+id/ib_plus"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:padding="5dp"
                 android:src="@mipmap/icon_plus" />
 
         </LinearLayout>

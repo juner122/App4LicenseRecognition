@@ -26,6 +26,7 @@ public class Configure {
 
 
     public static final String show_fragment = "fragment";//
+    public static final String JSON_CART = "JSON_CART";//
 
 
 

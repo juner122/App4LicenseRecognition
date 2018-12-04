@@ -1,42 +1,33 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
+import com.frank.plate.bean.BillEntityItem;
 import com.frank.plate.bean.GoodsEntity;
-import com.frank.plate.bean.ProductListItemEntity;
+import com.frank.plate.util.MathUtil;
 
 import java.util.List;
 
-public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
+public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
 
-    Fragment fragment;
-
-    public ProductListAdapter(Fragment fragment, @Nullable List<GoodsEntity> data) {
-        super(R.layout.activity_product_list_fr_item, data);
-        this.fragment = fragment;
+    public SimpleGoodInfoAdpter(@Nullable List<GoodsEntity> data) {
+        super(R.layout.activity_simple_good_list_item, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
-        helper.setText(R.id.tv_product_name, item.getName())
-                .setText(R.id.tv_product_ts, item.getGoods_brief())
-                .setText(R.id.tv_number, String.valueOf(item.getNumber() ))
-                .setText(R.id.tv_price, String.format("￥%s", item.getRetail_price()))
+
+        helper.setText(R.id.name, item.getName())
+                .setText(R.id.price, "￥" + item.getRetail_price())
+                .setText(R.id.tv_number, String.valueOf(item.getNumber()))
                 .addOnClickListener(R.id.ib_plus)
                 .addOnClickListener(R.id.ib_reduce);
-
-        Glide.with(fragment)
-                .load(item.getPrimary_pic_url())
-                .into((ImageView) helper.getView(R.id.iv_pic));
-
         View ib_reduce = helper.getView(R.id.ib_reduce);
+        View ib_plus = helper.getView(R.id.ib_plus);
         View tv_number = helper.getView(R.id.tv_number);
 
         if (item.getNumber() == 0) {
@@ -47,6 +38,7 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
             tv_number.setVisibility(View.VISIBLE);
         }
 
-
     }
+
+
 }

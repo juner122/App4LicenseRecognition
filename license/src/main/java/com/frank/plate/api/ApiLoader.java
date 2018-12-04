@@ -171,8 +171,40 @@ public class ApiLoader {
         map.put("brand_id", brand_id);//品牌
         map.put("name", name);//查询关键字
 
-
         return apiService.queryAnyGoods(map).compose(RxHelper.<GoodsListEntity>observe());
+    }
+
+    /**
+     * 10.四个火热商品
+     *
+     * @return
+     */
+    public Observable<GoodsListEntity> queryAnyGoods() {
+        Map<String, Object> map = new HashMap<>();
+        int is_hot = 1;
+        map.put("is_hot", is_hot);
+        return apiService.queryAnyGoods(map).compose(RxHelper.<GoodsListEntity>observe());
+    }
+
+    /**
+     * 确认支付
+     *
+     * @return
+     */
+    public Observable<OrderInfo> confirmPay(OrderInfoEntity infoEntity) {
+
+        return apiService.confirmPay(infoEntity).compose(RxHelper.<OrderInfo>observe());
+    }
+
+
+    /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderList() {
+
+        return apiService.orderList().compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
 

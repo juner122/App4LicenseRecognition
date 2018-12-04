@@ -28,6 +28,7 @@
             android:paddingBottom="12dp">
 
             <TextView
+                android:id="@+id/tv_order_sn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="订单编号：  XGX100010"
@@ -42,33 +43,41 @@
                 android:background="#D9D9D9" />
 
             <TextView
+                android:id="@+id/tv_car_no"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="车牌号码：  粤A 999999"
+                android:text="车牌号码："
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 
             <TextView
+
+                android:id="@+id/tv_make_date"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
-                android:text="下单时间：  2018-12-12 14：00"
+                android:text="下单时间："
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_expect_date"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="预计完成：  2018-12-12 16：00"
+                android:text="预计完成："
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tv_order_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="订单金额：  200.00元"
+                android:text="订单金额："
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 
@@ -93,14 +102,16 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_coupon_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="已选择 2 张"
+                    android:text="已选择 0 张"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv_pick_coupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -109,7 +120,7 @@
                     android:gravity="end"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
-                    android:text="请选择优惠券"
+                    android:text="请选择优惠卡券"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -134,15 +145,19 @@
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/et_discount"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/button_background_f"
+                    android:digits="0123456789."
                     android:gravity="center"
+                    android:hint="输入折扣"
+                    android:inputType="number"
+                    android:maxLength="1"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="输入折扣"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
@@ -154,33 +169,24 @@
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
-                <TextView
+                <EditText
+
+                    android:id="@+id/et_discount2"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/button_background_f"
                     android:gravity="center"
+                    android:hint="输入金额"
+                    android:inputType="number"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="输入金额"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="#D9D9D9" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="实收金额：200.00元"
-                android:textColor="#ff000000"
-                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -197,7 +203,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="支付方式"
+                android:text="请选择收款方式"
                 android:textColor="#ff000000"
                 android:textSize="12sp" />
 
@@ -225,10 +231,12 @@
                     android:textColor="#ff000000"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_pick" />
+                <CheckBox
+                    android:id="@+id/cb_weixin"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/check_bok_background_a"
+                    android:button="@null" />
 
 
             </LinearLayout>
@@ -257,10 +265,18 @@
                     android:textColor="#ff000000"
                     android:textSize="14sp" />
 
-                <ImageView
+
+                <TextView
+                    android:id="@+id/tv_code"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_unpick" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableRight="@mipmap/icon_enter"
+                    android:drawablePadding="20dp"
+                    android:gravity="center_vertical|end"
+                    android:text=""
+                    android:textColor="#666"
+                    android:textSize="13sp" />
 
 
             </LinearLayout>
@@ -289,14 +305,20 @@
                     android:textColor="#ff000000"
                     android:textSize="14sp" />
 
-                <ImageView
+
+                <TextView
+                    android:id="@+id/tv_pick_pay_type"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_unpick" />
+                    android:layout_height="match_parent"
+                    android:drawableRight="@mipmap/icon_xiala"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical|end"
+                    android:text="收款方式"
+                    android:textColor="#FF666666"
+                    android:textSize="13sp" />
 
 
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -312,21 +334,29 @@
 
 
         <TextView
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="开始服务"
+            android:layout_height="wrap_content"
+            android:text="结算金额：￥"
             android:textColor="#ff000000"
-            android:visibility="invisible" />
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#ff000000"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_enter_pay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/button_background_c"
             android:gravity="center"
-            android:text="确认支付"
+            android:text="确认收款"
             android:textColor="#ff000000"
             android:textSize="14sp" />
 

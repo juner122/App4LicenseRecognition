@@ -1,7 +1,5 @@
 package com.frank.plate.activity;
 
-
-import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -12,22 +10,30 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductListFragment;
 import com.frank.plate.adapter.Brandadapter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Category;
 import com.frank.plate.bean.CategoryBrandList;
+import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.SubCategoryEntity;
+import com.frank.plate.util.CartUtils;
 import com.frank.plate.view.CommonPopupWindow;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -36,6 +42,10 @@ public class ProductListActivity extends BaseActivity {
 
     @BindView(R.id.rg_type)
     RadioGroup radioGroup;
+
+
+    @BindView(R.id.tv_totalPrice)
+    TextView tv_totalPrice;
     ProductListFragment fragment;
     CommonPopupWindow popupWindow;
     RecyclerView commonPopupRecyclerView;
@@ -43,16 +53,33 @@ public class ProductListActivity extends BaseActivity {
     Integer checkedTag;
     List<Category> categories;
 
-    @SuppressLint("CheckResult")
+    private double TotalPrice;//总价格
+
+
+    private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
+
+
+    private List<GoodsEntity> pickGoods;//选择了的商品
+
+
     @Override
     protected void init() {
+
+
+
+
         tv_title.setText("商品列表");
+        tv_totalPrice.append(String.valueOf(TotalPrice));
+
+
         replaceFragment();
 
         Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
             @Override
             protected void _onNext(CategoryBrandList o) {
-                fragment.switchData(o.getGoodList());
+                listMap.put(o.getCategoryList().get(0).getId() + "", o.getGoodList());//保存初始List<GoodsEntity> key为种类id+品牌id
+
+                fragment.switchData(o.getCategoryList().get(0).getId(), "", o.getGoodList());
                 categories = o.getCategoryList();
                 checkedTag = 0;
                 for (int i = 0; i < categories.size(); i++) {
@@ -83,6 +110,12 @@ public class ProductListActivity extends BaseActivity {
         });
 
 
+    }
+
+    @OnClick({R.id.but_enter_order})
+    public void onClick() {
+
+      finish();
     }
 
     private void showPopupWindow(View v) {
@@ -125,33 +158,50 @@ public class ProductListActivity extends BaseActivity {
         commonPopupRecyclerView.setAdapter(brandadapter);
 
         popupWindow = new CommonPopupWindow.Builder(this)
-                //设置PopupWindow布局
-//                .setView(R.layout.popup)
                 .setView(commonPopupRecyclerView)
-                //设置动画
-//                .setAnimationStyle(R.style.animHorizontal)
-                //设置背景颜色，取值范围0.0f-1.0f 值越小越暗 1.0f为透明
-//                .setBackGroundLevel(0.5f)
-                //设置PopupWindow里的子View及点击事件
-                //开始构建
                 .create();
     }
 
 
-    private void onQueryAnyGoods(String category_id, String brand_id, String name) {
+    private void onQueryAnyGoods(final String category_id, final String brand_id, String name) {
 
-        Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
-            @Override
-            protected void _onNext(GoodsListEntity goodsListEntity) {
-                fragment.switchData(goodsListEntity.getGoodsList());
-            }
 
-            @Override
-            protected void _onError(String message) {
-                Log.v("BaseQuickAdapter", message);
-            }
-        });
+        if (null != listMap && null != listMap.get(category_id + brand_id)) {
+            fragment.switchData(category_id, brand_id, listMap.get(category_id + brand_id));
 
+
+        } else {
+            Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
+                @Override
+                protected void _onNext(GoodsListEntity goodsListEntity) {
+
+//                    List<GoodsEntity> all = listMap.get(category_id);//同category_id种类下所有商品
+                    List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
+//                    if (null != all) {
+//
+//                        for (int i = 0; i < all.size(); i++) {
+//                            GoodsEntity category_good = all.get(i);
+//                            for (int j = 0; j < brand_all.size(); j++) {
+//                                if (category_good.getBrand_id().equals(brand_all.get(j).getBrand_id())) {
+//
+//                                    brand_all.get(j).setNumber(category_good.getNumber());
+//                                }
+//                            }
+//                        }
+//
+//                    }
+                    listMap.put(category_id + brand_id, brand_all);
+                    fragment.switchData(category_id, brand_id, brand_all);
+
+
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    Log.v("BaseQuickAdapter", message);
+                }
+            });
+        }
 
     }
 
@@ -162,8 +212,6 @@ public class ProductListActivity extends BaseActivity {
     }
 
     private void replaceFragment() {
-
-
         fragment = new ProductListFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -175,5 +223,18 @@ public class ProductListActivity extends BaseActivity {
     public int setLayoutResourceID() {
         return R.layout.activity_product_list;
     }
+
+
+    public void onPulsTotalPrice(double t) {
+        TotalPrice = TotalPrice + t;
+        tv_totalPrice.setText(String.format("合计：￥%s", TotalPrice));
+
+    }
+
+    public void setListMap(String category_id, String brand_id, List<GoodsEntity> list) {
+        this.listMap.put(category_id + brand_id, list);
+
+    }
+
 
 }

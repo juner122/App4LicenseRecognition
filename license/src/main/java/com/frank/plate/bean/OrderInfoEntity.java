@@ -3,6 +3,7 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,22 +24,56 @@ public class OrderInfoEntity implements Parcelable {
     String car_no;//
     Date confirm_time;//确认时间
     Long  planfinishi_time;//预计完成时间
+    double  order_price;//预计完成时间
+    int pay_type;
+    String discount_price;//自定义折扣
+    String custom_cut_price;//自定义减免
 
-    public Long getPlanfinishi_time() {
-        return planfinishi_time;
+    public int getPay_type() {
+        return pay_type;
     }
 
-    public void setPlanfinishi_time(Long planfinishi_time) {
-        this.planfinishi_time = planfinishi_time;
+    public void setPay_type(int pay_type) {
+        this.pay_type = pay_type;
     }
 
-
-    public Date getConfirm_time() {
-        return confirm_time;
+    public String getDiscount_price() {
+        return discount_price;
     }
 
-    public void setConfirm_time(Date confirm_time) {
-        this.confirm_time = confirm_time;
+    public void setDiscount_price(String discount_price) {
+        this.discount_price = discount_price;
+    }
+
+    public String getCustom_cut_price() {
+        return custom_cut_price;
+    }
+
+    public void setCustom_cut_price(String custom_cut_price) {
+        this.custom_cut_price = custom_cut_price;
+    }
+
+    public double getOrder_price() {
+        return order_price;
+    }
+
+    public void setOrder_price(double order_price) {
+        this.order_price = order_price;
+    }
+
+    List<GoodsEntity> goodsList;
+    List<Technician> sysUserList;
+
+    public List<GoodsEntity> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<GoodsEntity> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public List<Technician> getSysUserList() {
+        return sysUserList;
     }
 
     @Override
@@ -59,7 +94,30 @@ public class OrderInfoEntity implements Parcelable {
                 ", car_no='" + car_no + '\'' +
                 ", confirm_time=" + confirm_time +
                 ", planfinishi_time=" + planfinishi_time +
+                ", goodsList=" + goodsList +
+                ", sysUserList=" + sysUserList +
                 '}';
+    }
+
+    public void setSysUserList(List<Technician> sysUserList) {
+        this.sysUserList = sysUserList;
+    }
+
+    public Long getPlanfinishi_time() {
+        return planfinishi_time;
+    }
+
+    public void setPlanfinishi_time(Long planfinishi_time) {
+        this.planfinishi_time = planfinishi_time;
+    }
+
+
+    public Date getConfirm_time() {
+        return confirm_time;
+    }
+
+    public void setConfirm_time(Date confirm_time) {
+        this.confirm_time = confirm_time;
     }
 
     public OrderInfoEntity(String user_id, String moblie, String car_id, String car_number) {
@@ -198,6 +256,12 @@ public class OrderInfoEntity implements Parcelable {
         dest.writeString(this.car_no);
         dest.writeLong(this.confirm_time != null ? this.confirm_time.getTime() : -1);
         dest.writeValue(this.planfinishi_time);
+        dest.writeDouble(this.order_price);
+        dest.writeInt(this.pay_type);
+        dest.writeString(this.discount_price);
+        dest.writeString(this.custom_cut_price);
+        dest.writeTypedList(this.goodsList);
+        dest.writeTypedList(this.sysUserList);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -217,6 +281,12 @@ public class OrderInfoEntity implements Parcelable {
         long tmpConfirm_time = in.readLong();
         this.confirm_time = tmpConfirm_time == -1 ? null : new Date(tmpConfirm_time);
         this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());
+        this.order_price = in.readDouble();
+        this.pay_type = in.readInt();
+        this.discount_price = in.readString();
+        this.custom_cut_price = in.readString();
+        this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
+        this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

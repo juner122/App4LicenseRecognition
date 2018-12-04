@@ -3,12 +3,14 @@ package com.frank.plate.activity.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.frank.plate.R;
 import com.frank.plate.adapter.OrderListAdapter;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.BasePage;
+import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.OrderListItemEntity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,11 +20,13 @@ import butterknife.BindView;
  * 主页页面：订单
  */
 public class MainFragment2 extends BaseFragment {
+
+    public static final String TAG = "MainFragment2";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    List<OrderListItemEntity> list;
-
+    List<OrderInfoEntity> list;
+    OrderListAdapter ola;
 
     @Override
     public int setLayoutResourceID() {
@@ -31,30 +35,33 @@ public class MainFragment2 extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
-        list = new ArrayList<>();
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-        list.add(new OrderListItemEntity("粤A78397", "订单号：XGX235678", "2018-12-03 14:20", "服务中", "$200"));
-
+        ola = new OrderListAdapter(R.layout.item_fragment2_main, list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new OrderListAdapter(R.layout.item_fragment2_main, list));
+        recyclerView.setAdapter(ola);
+        ola.setEmptyView(R.layout.order_list_empty_view,recyclerView);
+
+        Api().orderList().subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext,true) {
+            @Override
+            protected void _onNext(BasePage<OrderInfoEntity> basePage) {
+
+                ola.setNewData(basePage.getList());
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG,message);
+            }
+        });
+
+
+
+
+
 
     }
 
-    public static final String TAG = "MainFragment2";
+
     @Override
     protected String setTAG() {
         return TAG;

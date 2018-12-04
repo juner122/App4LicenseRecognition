@@ -1,11 +1,14 @@
 package com.frank.plate.activity;
 
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
+import com.frank.plate.adapter.SimpleGoodInfo2Adpter;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.Technician;
@@ -36,26 +39,41 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     TextView tv_phone;
     @BindView(R.id.tv_address)
     TextView tv_address;
+
+    @BindView(R.id.rv_goods)
+    RecyclerView rv_goods;
+
+
     OrderInfo infoEntity;
+    SimpleGoodInfo2Adpter simpleGoodInfo2Adpter;
+
 
     @Override
     protected void init() {
         hideReturnView();
-        showRView("打印凭证");
+//        showRView("打印凭证");
         tv_title.setText("下单成功");
         infoEntity = getIntent().getParcelableExtra("orderInfo");
 
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
         tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
+
         tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
+
+
         tv_remarks.setText(infoEntity.getOrderInfo().getPostscript());
 
 
-//        tv_shopName.append(null == infoEntity.getShop().getShopName() ? "-" : infoEntity.getShop().getShopName());
-//        tv_name.append(null == infoEntity.getShop().getName() ? "-" : infoEntity.getShop().getName());
-//        tv_phone.append(null == infoEntity.getShop().getPhone() ? "-" : infoEntity.getShop().getPhone());
-//        tv_address.append(null == infoEntity.getShop().getAddress() ? "-" : infoEntity.getShop().getAddress());
+        tv_shopName.append(null == infoEntity.getShop().getShopName() ? "-" : infoEntity.getShop().getShopName());
+        tv_name.append(null == infoEntity.getShop().getName() ? "-" : infoEntity.getShop().getName());
+        tv_phone.append(null == infoEntity.getShop().getPhone() ? "-" : infoEntity.getShop().getPhone());
+        tv_address.append(null == infoEntity.getShop().getAddress() ? "-" : infoEntity.getShop().getAddress());
+
+        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(infoEntity.getOrderInfo().getGoodsList());
+        rv_goods.setLayoutManager(new LinearLayoutManager(this));
+        rv_goods.setAdapter(simpleGoodInfo2Adpter);
+
 
     }
 
@@ -79,8 +97,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_now_pay:
-                toActivity(OrderPayActivity.class);
 
+                toActivity(OrderPayActivity.class, infoEntity, "orderInfo");
                 break;
             case R.id.tv_start_service:
                 Intent intent = new Intent(MakeOrderSuccessActivity.this, MainActivity.class);

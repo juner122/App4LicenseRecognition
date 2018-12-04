@@ -94,6 +94,14 @@ public interface ApiService {
     @POST("order/submit")
     Observable<BaseBean<OrderInfo>> submit(@Body OrderInfoEntity infoEntity);
 
+    //确认支付
+    @POST("order/confirmPay")
+    Observable<BaseBean<OrderInfo>> confirmPay(@Body OrderInfoEntity infoEntity);
+
+    //任意条件订单列表 不同订单查询看备注
+    @POST("order/list")
+    Observable<BaseBean<BasePage<OrderInfoEntity>>> orderList();
+
     //车况详情显示
     @POST("usercarcondition/info")
     @FormUrlEncoded
@@ -120,7 +128,7 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
 
-   //品牌查询列表
+    //品牌查询列表
     @POST("carbrand/listByName")
     Observable<BaseBean<List<AutoBrand>>> listByName();
 

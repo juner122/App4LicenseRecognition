@@ -9,6 +9,9 @@ public class OrderInfo implements Parcelable {
 
     OrderInfoEntity orderInfo;
 
+
+
+
     public ShopEntity getShop() {
         return shop;
     }

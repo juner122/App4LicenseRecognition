@@ -15,6 +15,11 @@ public class DateUtil {
     }
   public static String getFormatedDateTime(Long dateTime) {
 
+        if(null == dateTime){
+            return "-";
+        }
+
+
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
         return sDateFormat.format(new Date(dateTime));
     }

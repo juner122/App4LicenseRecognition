@@ -5,26 +5,25 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
+import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.OrderListItemEntity;
 
 import java.util.List;
 
-public class OrderListAdapter extends BaseQuickAdapter<OrderListItemEntity, BaseViewHolder> {
+public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseViewHolder> {
 
 
-
-    public OrderListAdapter(int layoutResId, @Nullable List<OrderListItemEntity> data) {
+    public OrderListAdapter(int layoutResId, @Nullable List<OrderInfoEntity> data) {
         super(layoutResId, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderListItemEntity item) {
-        helper.setText(R.id.tv_plate_number, item.getPlateNumber());
-        helper.setText(R.id.tv_order_number, item.getOrderNumber());
-        helper.setText(R.id.tv_date, item.getDate());
-        helper.setText(R.id.tv_order_state, item.getOrderState());
-        helper.setText(R.id.tv_money, item.getMoney());
-
+    protected void convert(BaseViewHolder helper, OrderInfoEntity item) {
+        helper.setText(R.id.tv_plate_number, item.getCar_no());
+        helper.setText(R.id.tv_order_number, item.getOrder_sn());
+        helper.setText(R.id.tv_date, item.getAdd_time());
+        helper.setText(R.id.tv_order_state, item.getOrder_status_text());
+        helper.setText(R.id.tv_money, String.valueOf(item.getOrder_price()));
 
 
     }

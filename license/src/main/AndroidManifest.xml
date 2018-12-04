@@ -29,6 +29,7 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -44,20 +45,25 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity android:name=".activity.MemberManagementActivity" />
         <activity android:name=".activity.StaffManagementActivity" />
-        <activity android:name=".activity.ProductListActivity" />
+        <activity
+            android:name=".activity.ProductListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.ActivityPackageListActivity" />
         <activity android:name=".activity.BillListActivity" />
         <activity android:name=".activity.MemberInfoInputActivity" />
         <activity android:name=".activity.CarInfoInputActivity" />
-        <activity android:name=".activity.MakeOrderActivity" />
+        <activity
+            android:name=".activity.MakeOrderActivity"
+            android:launchMode="singleTop" />
         <activity android:name=".activity.MealListActivity" />
         <activity android:name=".activity.TechnicianListActivity" />
         <activity android:name=".activity.MakeOrderSuccessActivity" />
-        <activity android:name=".activity.OrderPayActivity" />
+        <activity
+            android:name=".activity.OrderPayActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
         <activity android:name=".activity.BillListItemInfoActivity" />

@@ -13,7 +13,6 @@ import com.frank.plate.R;
 import com.frank.plate.api.ApiLoader;
 
 
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -202,6 +201,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (null == list) return;
         if (resultCode == RESULT_OK) {
             list.get(requestCode).resultOk(data);
         } else {

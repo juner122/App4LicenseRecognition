@@ -77,7 +77,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        tv_enter_order.setVisibility(View.GONE);
         Toast.makeText(MemberInfoInputActivity.this, "车牌号：" + car_number, Toast.LENGTH_SHORT).show();
         Api().queryByCar(car_number).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
@@ -136,18 +136,23 @@ public class MemberInfoInputActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                tv_enter_order.setVisibility(View.VISIBLE);
-                car_number = carListAdapter.getData().get(position).getCarNo();
-                car_id = carListAdapter.getData().get(position).getId();
-                new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_no, car_number);//选择车辆时更新car_no  保存到Preferences
-                new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_id, car_id);//选择车辆时更新car_no  保存到Preferences
-                adapter.getViewByPosition(recyclerView, position, R.id.iv1).setVisibility(View.VISIBLE);
+                try {
 
-                for (int i = 0; i < adapter.getData().size(); i++) {
-                    if (i != position)
-                        adapter.getViewByPosition(recyclerView, i, R.id.iv1).setVisibility(View.INVISIBLE);
+                    tv_enter_order.setVisibility(View.VISIBLE);
+                    car_number = carListAdapter.getData().get(position).getCarNo();
+                    car_id = carListAdapter.getData().get(position).getId();
+                    new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_no, car_number);//选择车辆时更新car_no  保存到Preferences
+                    new AppPreferences(MemberInfoInputActivity.this).put(Configure.car_id, car_id);//选择车辆时更新car_no  保存到Preferences
+                    adapter.getViewByPosition(recyclerView, position, R.id.iv1).setVisibility(View.VISIBLE);
+
+                    for (int i = 0; i < adapter.getData().size(); i++) {
+                        if (i != position)
+                            adapter.getViewByPosition(recyclerView, i, R.id.iv1).setVisibility(View.INVISIBLE);
+                    }
+                } catch (Exception e) {
+
+                    e.printStackTrace();
                 }
-
 
             }
         });
@@ -201,6 +206,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                                 //保存UserID
                                 user_id = s.getUser_id();
+                                mobile_id = mobile.getText().toString();
                                 carListAdapter.setNewData(s.getCarList());
                                 tv_check.setVisibility(View.GONE);
                                 mobile.setFocusable(false);

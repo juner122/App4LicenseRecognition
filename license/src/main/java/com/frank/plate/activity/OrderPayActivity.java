@@ -1,24 +1,162 @@
 package com.frank.plate.activity;
 
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
-import com.frank.plate.bean.BasePage;
-import com.frank.plate.bean.Technician;
+import com.frank.plate.adapter.Brandadapter2;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.OrderInfo;
+import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.util.DateUtil;
+import com.frank.plate.view.CommonPopupWindow;
 
+import com.frank.plate.view.ConfirmDialog2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 public class OrderPayActivity extends BaseActivity {
+
+    OrderInfo infoEntity;
+
+    @BindView(R.id.tv_order_sn)
+    TextView tv_order_sn;
+    @BindView(R.id.tv_car_no)
+    TextView tv_car_no;
+    @BindView(R.id.tv_make_date)
+    TextView tv_make_date;
+    @BindView(R.id.tv_expect_date)
+    TextView tv_expect_date;
+    @BindView(R.id.tv_order_price)
+    TextView tv_order_price;
+
+    @BindView(R.id.tv_pick_pay_type)
+    TextView tv_pick_pay_type;
+
+    @BindView(R.id.et_discount)
+    EditText et_discount;
+
+    @BindView(R.id.et_discount2)
+    EditText et_discount2;
+
+
+    @BindView(R.id.cb_weixin)
+    CheckBox cb_weixin;
+
+    RecyclerView commonPopupRecyclerView;
+
+    CommonPopupWindow popupWindow;
+    Brandadapter2 brandadapter;
+
+
+    int pay_type = 22;//支付方式  1嗨卡 11微信 21 掌贝 22 现金
+
+    double balance_price;//结算金额
+    @BindView(R.id.tv_price)
+    TextView tv_price;
 
     @Override
     protected void init() {
         tv_title.setText("订单收款");
 
+        infoEntity = getIntent().getParcelableExtra("orderInfo");
+
+        tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
+        tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
+        tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
+        tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
+        tv_order_price.append(String.format("￥%s", infoEntity.getOrderInfo().getOrder_price()));
+        tv_price.setText(String.format("%s", infoEntity.getOrderInfo().getOrder_price()));
+
+        balance_price = infoEntity.getOrderInfo().getOrder_price();
 
 
+        final List<String> strings = new ArrayList<>();
+        strings.add("掌贝收款");
+        strings.add("现金收款");
+        strings.add("其他支付");
 
+        brandadapter = new Brandadapter2(strings);
+        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                popupWindow.dismiss();
+                tv_pick_pay_type.setText(strings.get(position));
+            }
+
+        });
+        commonPopupRecyclerView = new RecyclerView(this);
+        commonPopupRecyclerView.setAdapter(brandadapter);
+        commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        popupWindow = new CommonPopupWindow.Builder(this)
+                .setView(commonPopupRecyclerView)
+                .create();
+
+
+        et_discount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable e) {
+
+                if (e.length() != 0) {
+                    double d = Double.parseDouble(e.toString());
+                    tv_price.setText(String.valueOf((balance_price * d) / 10));
+                } else {
+                    tv_price.setText(String.valueOf(balance_price));
+                }
+            }
+        });
+
+
+        et_discount2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable e) {
+
+                if (e.length() != 0) {
+                    double d = Double.parseDouble(e.toString());
+
+                    if (balance_price < d) {
+                        tv_price.setText("0");
+                    } else
+
+                        tv_price.setText(String.valueOf((balance_price - d)));
+                } else {
+                    tv_price.setText(String.valueOf(balance_price));
+                }
+            }
+        });
 
 
     }
@@ -39,16 +177,74 @@ public class OrderPayActivity extends BaseActivity {
     }
 
 
-
-    @OnClick({R.id.tv_enter_pay})
-    public void onClick(View view) {
+    @OnClick({R.id.tv_enter_pay, R.id.tv_pick_pay_type})
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
-                toActivity(OrderDoneActivity.class);
+
+                getPostInfo();
+                // 确认支付
+                Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+                    @Override
+                    protected void _onNext(OrderInfo o) {
+
+                        Log.i("OrderPayActivity", "成功");
+                        toActivity(OrderDoneActivity.class, infoEntity, "orderInfo");
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        Log.i("OrderPayActivity", message);
+                    }
+                });
+
+
+                break;
+
+            case R.id.tv_pick_pay_type:
+
+                popupWindow.showAsDropDown(view, 0, 0);
+                break;
+
+
+            case R.id.tv_code:
+
+
+                final ConfirmDialog2 confirmDialog = new ConfirmDialog2(this);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog2.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String code) {
+                        ((TextView) view).setText("嗨卡码：" + code);
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        confirmDialog.dismiss();
+                    }
+                });
+
                 break;
 
         }
 
     }
+
+    private void getPostInfo() {
+        if (cb_weixin.isChecked()) {
+            //微信支付
+
+            pay_type = 11;
+
+        }
+
+        infoEntity.getOrderInfo().setPay_type(pay_type);
+        infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
+        infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
+
+
+    }
+
 
 }
