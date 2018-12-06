@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:padding="5dp">
 
 
                 <TextView
@@ -34,7 +34,7 @@
                     android:layout_alignParentStart="true"
                     android:text="订单号:"
                     android:textColor="#ff666666"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/tv2"
@@ -43,17 +43,19 @@
                     android:layout_alignParentRight="true"
                     android:text=""
                     android:textColor="#ff666666"
-                    android:textSize="12sp" />
+                    android:textSize="11sp" />
 
                 <TextView
+
+                    android:id="@+id/tv3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv2"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="5dp"
-                    android:text=""
+                    android:text="完成时间:"
                     android:textColor="#ff666666"
-                    android:textSize="12sp" />
+                    android:textSize="11sp"
+                    android:visibility="gone" />
 
 
             </RelativeLayout>
@@ -91,7 +93,7 @@
                         android:gravity="end|center_vertical"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="粤A 999999"
+                        android:text=""
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 
@@ -130,6 +132,7 @@
                             android:id="@+id/tv_mobile"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
                             android:background="@null"
                             android:gravity="end|center_vertical"
                             android:paddingTop="18dp"
@@ -169,6 +172,7 @@
                             android:id="@+id/tv_consignee"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
                             android:background="@null"
                             android:gravity="end|center_vertical"
                             android:paddingTop="18dp"
@@ -188,6 +192,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="#fff"
                 android:orientation="vertical">
 
@@ -207,13 +212,14 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_goods_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥0.00"
+                        android:text="已选：￥"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -223,8 +229,8 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/button_check_selector"
                         android:padding="10dp"
-                        android:visibility="invisible"
-                        android:src="@mipmap/icon_add" />
+                        android:src="@mipmap/icon_add"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <View
@@ -233,6 +239,7 @@
                     android:background="#D9D9D9" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -276,9 +283,9 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/button_check_selector"
                         android:padding="10dp"
-                        android:visibility="invisible"
+                        android:src="@mipmap/icon_add"
 
-                        android:src="@mipmap/icon_add" />
+                        android:visibility="invisible" />
                 </LinearLayout>
 
                 <View
@@ -287,6 +294,7 @@
                     android:background="#D9D9D9" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -313,7 +321,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-
+                        android:id="@+id/tv_technician"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -331,8 +339,8 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/button_check_selector"
                         android:padding="15dp"
-                        android:visibility="invisible"
-                        android:src="@mipmap/icon_enter" />
+                        android:src="@mipmap/icon_enter"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -374,10 +382,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_pick_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:orientation="vertical">
 
@@ -396,6 +404,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_pick_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -408,13 +417,13 @@
                         android:textSize="14sp" />
 
                     <ImageButton
-                        android:id="@+id/tv_pick_date"
+                        android:id="@+id/ib_pick_date"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@drawable/button_check_selector"
                         android:padding="15dp"
-                        android:visibility="invisible"
-                        android:src="@mipmap/icon_enter" />
+                        android:src="@mipmap/icon_enter"
+                        android:visibility="invisible" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -422,13 +431,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingTop="20dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="10dp">
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -492,12 +499,147 @@
                     android:textSize="11sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:padding="10dp">
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品金额"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_price1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="￥"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+
+                android:background="#fff"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="优惠券"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_price2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="-￥"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_price3"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="优惠金额"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_price3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="-￥"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#fff"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/tv_price4_s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="应收金额"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_price4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="￥"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:background="#fff"
+                android:padding="10dp">
+
+                <TextView
+
+                    android:id="@+id/tv_pay_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="支付方式："
+                    android:layout_marginBottom="10dp"
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+                <TextView
+
+                    android:id="@+id/tv_pay_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="支付状态："
+                    android:textColor="#ff000000"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
         </LinearLayout>
 
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -513,7 +655,7 @@
             android:text="修改订单"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_enter_order"

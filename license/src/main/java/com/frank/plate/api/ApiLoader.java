@@ -7,12 +7,17 @@ import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
+import com.frank.plate.bean.Member;
+import com.frank.plate.bean.MemberOrder;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.Shop;
+import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
+import com.frank.plate.bean.WorkIndex;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +96,7 @@ public class ApiLoader {
         return apiService.addCarInfo(parameters).compose(RxHelper.<NullDataEntity>observe());
     }
 
+
     /**
      * 8.修改车况
      *
@@ -122,6 +128,19 @@ public class ApiLoader {
 
 
         return apiService.submit(infoEntity).compose(RxHelper.<OrderInfo>observe());
+    }
+
+
+    /**
+     * 4.开始服务(修改订单状态为服务中)
+     * @return
+     */
+    public Observable<NullDataEntity> beginServe(int order_id,String order_sn) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("order_id", order_id);
+        map.put("order_sn", order_sn);
+        return apiService.beginServe(map).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -187,13 +206,26 @@ public class ApiLoader {
     }
 
     /**
+     * 确认订单最后完成
+     *
+     * @return
+     */
+    public Observable<NullDataEntity> confirmFinish(int order_id) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("order_id", order_id);
+        return apiService.confirmFinish(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
      * 确认支付
      *
      * @return
      */
-    public Observable<OrderInfo> confirmPay(OrderInfoEntity infoEntity) {
+    public Observable<NullDataEntity> confirmPay(OrderInfoEntity infoEntity) {
 
-        return apiService.confirmPay(infoEntity).compose(RxHelper.<OrderInfo>observe());
+        return apiService.confirmPay(infoEntity).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -206,6 +238,20 @@ public class ApiLoader {
 
         return apiService.orderList().compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
+
+
+    /**
+     * 订单详情页
+     *
+     * @returnD
+     */
+    public Observable<OrderInfo> orderDetail(int id) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("id", id);//=1.平台活动 =3.门店活动
+        return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
+    }
+
 
 
     /**
@@ -225,8 +271,45 @@ public class ApiLoader {
      */
     public Observable<List<AutoBrand>> listByName() {
 
-
         return apiService.listByName().compose(RxHelper.<List<AutoBrand>>observe());
+    }
+
+
+   /**
+     * 工作台首页
+     */
+    public Observable<WorkIndex> workIndex() {
+
+        return apiService.workIndex().compose(RxHelper.<WorkIndex>observe());
+    }
+
+
+   /**
+     * 会员管理页面数据
+     */
+    public Observable<Member> memberList() {
+
+        return apiService.memberList().compose(RxHelper.<Member>observe());
+    }
+
+
+   /**
+     * 查看会员信息及订单记录
+     */
+    public Observable<MemberOrder> memberOrderList(int user_id) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("user_id", user_id);
+
+        return apiService.memberOrderList(map).compose(RxHelper.<MemberOrder>observe());
+    }
+
+   /**
+     * 门店信息
+     */
+    public Observable<Shop> shopInfo() {
+
+        return apiService.shopInfo().compose(RxHelper.<Shop>observe());
     }
 
 

@@ -139,13 +139,14 @@ public class CarInfoInputActivity extends BaseActivity {
     protected void init() {
 
 
-        carEntity = getIntent().getParcelableExtra("CarEntity");
+        carEntity = getIntent().getParcelableExtra(Configure.CARINFO);
 
         if (null == carEntity) {
 
             tv_car_no.setFocusable(true);
             tv_title.setText("车况录入");
             type_action = 1;
+            tv_car_no.setText(new AppPreferences(this).getString(Configure.car_no, ""));
         } else {
             tv_car_no.setText(carEntity.getCarNo());
             tv_car_no.setFocusable(false);

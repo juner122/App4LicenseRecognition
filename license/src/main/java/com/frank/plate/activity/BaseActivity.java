@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.api.ApiLoader;
 
@@ -22,6 +23,8 @@ import butterknife.Unbinder;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
+
+import static com.frank.plate.Configure.ORDERINFO;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -150,6 +153,35 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         intent.putExtra(key, str);
         startActivity(intent);
+
+    }
+
+    protected void toActivity(Class c, String key, int str) {
+
+
+        Intent intent = new Intent(this, c);
+
+        intent.putExtra(key, str);
+        startActivity(intent);
+
+    }
+
+    protected void sendOrderInfo(Class c, Parcelable p) {
+
+
+        Intent intent = new Intent(this, c);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(ORDERINFO, p);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+    protected void toMain(int fragment_p) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        toActivity(intent);
 
     }
 

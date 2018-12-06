@@ -131,14 +131,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -146,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
                     android:text="本月"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -159,10 +157,10 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/price1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="2000.00"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -185,7 +183,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
+
                     android:text="今日"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -198,10 +197,11 @@
                     android:textSize="10sp" />
 
                 <TextView
+
+                    android:id="@+id/price2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="200.00"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -275,7 +275,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
+
                     android:text="本月"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -288,10 +289,10 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/number1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="20"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -314,7 +315,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
+
                     android:text="今日"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -327,10 +329,10 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/number2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="2"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -403,7 +405,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
+
                     android:text="本月"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -416,10 +419,10 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/number3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="20"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -442,7 +445,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="5dp"
                     android:text="今日"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -455,10 +458,10 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/number4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="2"
                     android:textColor="#ff000000"
                     android:textSize="20sp" />
             </LinearLayout>

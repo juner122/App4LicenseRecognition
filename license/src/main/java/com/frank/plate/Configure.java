@@ -21,12 +21,19 @@ public class Configure {
     public static final String user_id = "user_id";//
     public static final String moblie = "moblie";//
     public static final String car_id = "car_id";//
+    public static final String user_name = "user_name";//
 
 
 
 
     public static final String show_fragment = "fragment";//
     public static final String JSON_CART = "JSON_CART";//
+    public static final String CARID = "carid";//
+    public static final String CARINFO = "carinfo";//
+
+    public static final String ORDERINFO = "orderInfo";//
+    public static final String ORDERINFOID = "orderInfoId";//
+    public static final String QUERYBYCARINFO = "QueryByCarInfo";//
 
 
 

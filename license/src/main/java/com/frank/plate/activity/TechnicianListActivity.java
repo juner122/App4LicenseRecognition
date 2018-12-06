@@ -45,9 +45,7 @@ public class TechnicianListActivity extends BaseActivity {
             @Override
             protected void _onNext(BasePage<Technician> t) {
 
-                list.addAll(t.getList());
-                list.addAll(t.getList());
-                list.addAll(t.getList());
+                list = t.getList();
 
                 adpter.setNewData(list);
             }

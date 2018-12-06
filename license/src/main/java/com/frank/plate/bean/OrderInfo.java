@@ -3,12 +3,13 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class OrderInfo implements Parcelable {
 
     ShopEntity shop;
 
     OrderInfoEntity orderInfo;
-
 
 
 
@@ -36,6 +37,9 @@ public class OrderInfo implements Parcelable {
                 '}';
     }
 
+    public OrderInfo() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -45,17 +49,16 @@ public class OrderInfo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.shop, flags);
         dest.writeParcelable(this.orderInfo, flags);
-    }
 
-    public OrderInfo() {
     }
 
     protected OrderInfo(Parcel in) {
         this.shop = in.readParcelable(ShopEntity.class.getClassLoader());
         this.orderInfo = in.readParcelable(OrderInfoEntity.class.getClassLoader());
+
     }
 
-    public static final Parcelable.Creator<OrderInfo> CREATOR = new Parcelable.Creator<OrderInfo>() {
+    public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
         @Override
         public OrderInfo createFromParcel(Parcel source) {
             return new OrderInfo(source);

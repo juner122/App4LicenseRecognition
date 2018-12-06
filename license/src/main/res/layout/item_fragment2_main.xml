@@ -3,22 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#F2F2F2"
-    android:paddingBottom="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="10dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:background="#fff"
-        android:padding="10dp"
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:padding="15dp">
 
 
         <TextView
             android:id="@+id/tv_plate_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="粤A78397"
+            android:text=""
             android:textColor="#000000"
             android:textSize="14sp" />
 
@@ -26,7 +27,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal">
 
 
@@ -48,7 +48,7 @@
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018-12-03 14:20"
+                    android:text=""
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -56,7 +56,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-
                 android:layout_weight="1"
                 android:gravity="center_vertical|end"
                 android:orientation="vertical">
@@ -67,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="3dp"
-                    android:text="服务中"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
 
@@ -75,69 +74,82 @@
                     android:id="@+id/tv_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="¥200.00"
+                    android:text=""
                     android:textColor="#ff000000"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:src="@mipmap/icon_down" />
 
         </LinearLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#ffd9d9d9" />
-
-
         <LinearLayout
+            android:id="@+id/ll_button_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/button_show_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_background_a"
-                android:gravity="center"
-                android:paddingLeft="35dp"
-                android:paddingTop="6dp"
-                android:paddingRight="35dp"
-                android:paddingBottom="6dp"
-                android:text="查看详情"
-                android:textColor="#ff000000"
-                android:textSize="14sp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
-                android:layout_width="0.1dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:background="#ffd9d9d9" />
 
-            <TextView
-                android:id="@+id/button_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_background_b"
-                android:gravity="center"
-                android:paddingLeft="35dp"
-                android:paddingTop="6dp"
-                android:paddingRight="35dp"
-                android:paddingBottom="6dp"
-                android:text="完成订单"
-                android:textColor="#ff000000"
-                android:textSize="14sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/button_show_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_f"
+                    android:gravity="center"
+                    android:paddingLeft="35dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="35dp"
+                    android:paddingBottom="6dp"
+                    android:text="查看详情"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="0.1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#ffd9d9d9" />
+
+                <TextView
+                    android:id="@+id/button_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_background_b"
+                    android:gravity="center"
+                    android:paddingLeft="35dp"
+                    android:paddingTop="6dp"
+                    android:paddingRight="35dp"
+                    android:paddingBottom="6dp"
+                    android:text="完成订单"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

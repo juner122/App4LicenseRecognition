@@ -36,7 +36,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.frank.plate.activity.LoginActivity">
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +45,8 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.MemberManagementActivity" />
         <activity android:name=".activity.StaffManagementActivity" />
         <activity
@@ -69,11 +70,11 @@
         <activity android:name=".activity.BillListItemInfoActivity" />
         <activity android:name=".activity.OrderInfoActivity" />
         <activity android:name=".activity.AutoBrandActivity" />
-
-
-        <activity android:name=".activity.PreviewActivity" />//车牌扫描测试
-
-
+        <activity android:name=".activity.PreviewActivity" />
+        //车牌扫描测试
+        <activity android:name=".activity.MemberManagementInfoActivity" />
+        <activity android:name=".activity.ShopInfoActivity" />
+        <activity android:name=".activity.CarInfoActivity"></activity>
     </application>
 
 </manifest>

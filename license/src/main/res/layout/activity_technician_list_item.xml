@@ -19,12 +19,10 @@
 
     <CheckBox
         android:id="@+id/cb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingLeft="15dp"
-        android:paddingBottom="15dp"
-
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:button="@null"
+        android:background="@drawable/check_bok_background_a"
         />
 
 </LinearLayout>

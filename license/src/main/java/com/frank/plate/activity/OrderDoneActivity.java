@@ -1,11 +1,15 @@
 package com.frank.plate.activity;
 
 import android.content.Intent;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.util.DateUtil;
@@ -15,6 +19,7 @@ import butterknife.OnClick;
 
 public class OrderDoneActivity extends BaseActivity {
 
+    private static final String TAG = "OrderDoneActivity";
     OrderInfo infoEntity;
 
     @BindView(R.id.tv_order_sn)
@@ -44,7 +49,7 @@ public class OrderDoneActivity extends BaseActivity {
         tv_title.setText("完成订单");
 
 
-        infoEntity = getIntent().getParcelableExtra("orderInfo");
+        infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
         tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
@@ -79,9 +84,22 @@ public class OrderDoneActivity extends BaseActivity {
     @OnClick({R.id.tv_done})
     public void onClick(View v) {
 
-        Intent intent = new Intent(OrderDoneActivity.this, MainActivity.class);
-        intent.putExtra(Configure.show_fragment, 1);
-        toActivity(intent);
+
+        Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                toMain(1);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+            }
+        });
+
+
+
 
 
     }

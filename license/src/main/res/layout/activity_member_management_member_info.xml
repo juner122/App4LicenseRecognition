@@ -54,11 +54,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="18866666666"
+            android:text=""
             android:textColor="#ff666666"
             android:textSize="12sp" />
 
@@ -87,11 +88,12 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="end"
-            android:text="张三"
+            android:text=""
             android:textColor="#ff666666"
             android:textSize="12sp" />
 
@@ -125,7 +127,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_add"
             android:textColor="#ff666666"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -136,6 +139,7 @@
         android:background="#FFD9D9D9" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -170,6 +174,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

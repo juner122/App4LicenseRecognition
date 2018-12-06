@@ -54,7 +54,7 @@ public class PreviewActivity extends AppCompatActivity implements OnNewFrameList
             }
         }).start();
 
-        recognizerView = (PlateRecognizerView) findViewById(R.id.surface_view);
+        recognizerView =  findViewById(R.id.surface_view);
         recognizerView.setOnNewFrameListener(this);
         recognizeThread = new RecognizeThread(plateRecognition);
         recognizeThread.start();

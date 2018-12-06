@@ -121,7 +121,6 @@ public class CartUtils {
         List<GoodsEntity> carts = sparsesToList();
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
-
             totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;

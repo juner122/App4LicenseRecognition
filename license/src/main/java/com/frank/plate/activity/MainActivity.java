@@ -104,12 +104,12 @@ public class MainActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+
         int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
 
         setCurrentTab(fragment);
-
-
     }
+
 
 
 }

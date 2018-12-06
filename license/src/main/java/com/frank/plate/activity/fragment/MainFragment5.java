@@ -2,16 +2,27 @@ package com.frank.plate.activity.fragment;
 
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.frank.plate.R;
 import com.frank.plate.activity.MyBalanceActivity;
+import com.frank.plate.activity.ShopInfoActivity;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.Shop;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * 主页页面：扫描
  */
 public class MainFragment5 extends BaseFragment {
+    @BindView(R.id.tv_name)
+    TextView tv_name;
+
+
+    @BindView(R.id.tv_phone_number)
+    TextView tv_phone_number;
 
     @Override
     public int setLayoutResourceID() {
@@ -21,18 +32,36 @@ public class MainFragment5 extends BaseFragment {
     @Override
     protected void setUpView() {
 
+        Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
+            @Override
+            protected void _onNext(Shop shop) {
+
+                tv_name.setText(shop.getShop().getShopName());
+                tv_phone_number.append(shop.getShop().getPhone());
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        });
+
     }
 
-
-    @OnClick({R.id.tv_my_balance})
+    @OnClick({R.id.tv_my_balance, R.id.rl_to_info})
     public void onclick(View v) {
-
 
         switch (v.getId()) {
 
             case R.id.tv_my_balance:
 
                 toActivity(MyBalanceActivity.class);
+
+                break;
+
+            case R.id.rl_to_info:
+
+                toActivity(ShopInfoActivity.class);
 
                 break;
 
@@ -43,6 +72,7 @@ public class MainFragment5 extends BaseFragment {
     }
 
     public static final String TAG = "MainFragment5";
+
     @Override
     protected String setTAG() {
         return TAG;

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
@@ -26,6 +26,7 @@ import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.util.CartUtils;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.String2Utils;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -67,7 +68,7 @@ public class MakeOrderActivity extends BaseActivity {
     TextView tv_total_price;
 
 
-    String car_number, user_id, moblie, car_id;
+    String car_number, user_id, moblie, car_id, user_name;
 
 
     OrderInfoEntity infoEntity;
@@ -149,7 +150,8 @@ public class MakeOrderActivity extends BaseActivity {
         user_id = new AppPreferences(this).getString(Configure.user_id, "null_user_id");
         moblie = new AppPreferences(this).getString(Configure.moblie, "null_moblie");
         car_id = new AppPreferences(this).getString(Configure.car_id, "null_car_id");
-        infoEntity = new OrderInfoEntity(user_id, moblie, car_id, car_number);
+        user_name = new AppPreferences(this).getString(Configure.user_name, "null_user_name");
+        infoEntity = new OrderInfoEntity(user_id, moblie, car_id, car_number, user_name);
         tv_car_no.setText(car_number);
 
 
@@ -188,10 +190,7 @@ public class MakeOrderActivity extends BaseActivity {
                         //to do what you want when resultCode == RESULT_OK
                         but_to_technician_list.setText("");
                         technicians = data.getParcelableArrayListExtra("Technician");
-                        for (Technician t : technicians) {
-                            but_to_technician_list.append(t.getUsername() + "\t");
-
-                        }
+                        but_to_technician_list.setText(String2Utils.getString(technicians));
                     }
                 });
 
@@ -298,10 +297,12 @@ public class MakeOrderActivity extends BaseActivity {
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getDataFromLocal());
         infoEntity.setSysUserList(technicians);
+
+        Log.e(TAG, "下单信息：" + infoEntity.toString());
         Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
-                toActivity(MakeOrderSuccessActivity.class, orderInfo, "orderInfo");
+                sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
 
             }
 

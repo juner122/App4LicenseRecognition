@@ -252,7 +252,7 @@
                     android:id="@+id/tv_shopName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="岗顶店—新干线汽车服务连锁"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
 

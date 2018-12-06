@@ -9,14 +9,19 @@ import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsListEntity;
+import com.frank.plate.bean.Member;
+import com.frank.plate.bean.MemberOrder;
 import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.Shop;
+import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.UserInfo;
+import com.frank.plate.bean.WorkIndex;
 
 import java.util.List;
 import java.util.Map;
@@ -86,6 +91,11 @@ public interface ApiService {
     @POST("usercarcondition/update")
     Observable<BaseBean<NullDataEntity>> fixCarInfo(@Body CarInfoRequestParameters event);
 
+
+    //门店信息
+    @POST("shop/info")
+    Observable<BaseBean<Shop>> shopInfo();
+
     //4.批量删除车况图片
     @POST("usercarconditionpicture/delete")
     Observable<BaseBean<NullDataEntity>> delete(@Body Integer[] ids);
@@ -96,11 +106,29 @@ public interface ApiService {
 
     //确认支付
     @POST("order/confirmPay")
-    Observable<BaseBean<OrderInfo>> confirmPay(@Body OrderInfoEntity infoEntity);
+    Observable<BaseBean<NullDataEntity>> confirmPay(@Body OrderInfoEntity infoEntity);
+
+
+    //确认订单最后完成
+    @POST("order/confirmFinish")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> confirmFinish(@FieldMap Map<String, Object> maps);
+
+
+    //4.开始服务(修改订单状态为服务中)
+    @POST("order/beginServe")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> beginServe(@FieldMap Map<String, Object> maps);
+
 
     //任意条件订单列表 不同订单查询看备注
     @POST("order/list")
     Observable<BaseBean<BasePage<OrderInfoEntity>>> orderList();
+
+    //2.订单详情页
+    @POST("order/detail")
+    @FormUrlEncoded
+    Observable<BaseBean<OrderInfo>> orderDetail(@FieldMap Map<String, Object> maps);
 
     //车况详情显示
     @POST("usercarcondition/info")
@@ -131,6 +159,21 @@ public interface ApiService {
     //品牌查询列表
     @POST("carbrand/listByName")
     Observable<BaseBean<List<AutoBrand>>> listByName();
+
+
+    //工作台首页
+    @POST("work/index")
+    Observable<BaseBean<WorkIndex>> workIndex();
+
+
+    //会员管理页面数据
+    @POST("user/memberList")
+    Observable<BaseBean<Member>> memberList();
+
+    //查看会员信息及订单记录
+    @POST("user/memberOrderList")
+    @FormUrlEncoded
+    Observable<BaseBean<MemberOrder>> memberOrderList(@FieldMap Map<String, Object> maps);
 
 
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-    static String format = "yyyy-MM-dd HH:mm:ss";
+    static String format = "yyyy-MM-dd HH:mm";
 
     public static String getFormatedDateTime(String dateTime) {
         Long l = Long.valueOf(dateTime);
@@ -18,7 +18,6 @@ public class DateUtil {
         if(null == dateTime){
             return "-";
         }
-
 
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
         return sDateFormat.format(new Date(dateTime));

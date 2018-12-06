@@ -16,11 +16,13 @@
         android:textSize="16sp" />
 
     <RelativeLayout
+        android:id="@+id/rl_to_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+
         android:layout_marginBottom="10dp"
-        android:background="#fff"
+        android:background="@drawable/button_check_selector"
         android:gravity="center_vertical"
         android:padding="12dp">
 
@@ -52,7 +54,7 @@
                 android:id="@+id/tv_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机号码：13888888888"
+                android:text="手机号码："
                 android:textColor="#ff898989"
                 android:textSize="12sp" />
         </LinearLayout>

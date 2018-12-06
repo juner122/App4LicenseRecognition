@@ -27,12 +27,10 @@ import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
-
 public class MemberInfoInputActivity extends BaseActivity {
     public final static String key = "queryByCarEntity";
 
-    private QueryByCarEntity queryByCarEntity;
+
 
 
     @BindView(R.id.et_user_mobile)
@@ -55,89 +53,55 @@ public class MemberInfoInputActivity extends BaseActivity {
     RecyclerView recyclerView;
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
-    String car_number, car_id;
+    String car_number, car_id, user_name;
 
-
-    int activity_state;//页面状态   1（有订单） 2（无订单有车况） 3（无订单无车况）
 
     String user_id, mobile_id;
-
+    QueryByCarEntity entity;
     @SuppressLint("CheckResult")
     @Override
     protected void init() {
 
         car_number = new AppPreferences(this).getString(Configure.car_no, "");
-//        car_number = "闽AE7888";
-        car_number = "测试A1126";
-        car_number = "12122";
 
+        entity = getIntent().getParcelableExtra(Configure.QUERYBYCARINFO);
+        if(null!= entity){
+            tv_e1.setVisibility(View.GONE);
+            tv_e2.setVisibility(View.GONE);
+            mobile.setText(entity.getUser().getMobile());
+            name.setText(entity.getUser().getUsername());
+            mobile.setFocusable(false);
+            name.setFocusable(false);
+            carListAdapter.setNewData(entity.getCarList());
+            user_id = entity.getUser().getUserId();
+            mobile_id = entity.getUser().getMobile();
+            user_name = entity.getUser().getUsername();
+        }else {
+            tv_check.setVisibility(View.VISIBLE);
+            ll_car_list.setVisibility(View.GONE);
+            //测试
+            name.setText("");
+            mobile.setText("");
+        }
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        tv_enter_order.setVisibility(View.GONE);
-        Toast.makeText(MemberInfoInputActivity.this, "车牌号：" + car_number, Toast.LENGTH_SHORT).show();
-        Api().queryByCar(car_number).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
-            @Override
-            protected void _onNext(QueryByCarEntity entity) {
-                Log.d("MemberInfoInputActivity", entity.toString());
-                queryByCarEntity = entity;
-                if (entity.getOrderInfo() != null) {//有订单 跳到订单详情
-                    toActivity(OrderInfoActivity.class, queryByCarEntity, key);
-                    finish();
-
-                } else if (entity.getUser() != null) {//没订单 有车况信息
-                    tv_e1.setVisibility(View.GONE);
-                    tv_e2.setVisibility(View.GONE);
-                    mobile.setText(entity.getUser().getMobile());
-                    name.setText(entity.getUser().getUsername());
-                    mobile.setFocusable(false);
-                    name.setFocusable(false);
-                    carListAdapter.setNewData(queryByCarEntity.getCarList());
-                    activity_state = 2;
-                    user_id = entity.getUser().getUserId();
-                    mobile_id = entity.getUser().getMobile();
-
-                }
-            }
-
-            @Override
-            protected void _onError(String message) {
-                //没订单 没车况信息
-                activity_state = 3;
-                tv_check.setVisibility(View.VISIBLE);
-                ll_car_list.setVisibility(View.GONE);
-                //测试
-                name.setText("李进武");
-                mobile.setText("15737226472");
-            }
-        });
-    }
-
     @Override
     protected void setUpView() {
         tv_title.setText("会员信息录入");
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carListAdapter);
-
         carListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-
                 //查看更新车况
-                toActivity(CarInfoInputActivity.class, ((CarEntity) adapter.getData().get(position)), "CarEntity");
+                toActivity(CarInfoInputActivity.class, ((CarEntity) adapter.getData().get(position)), Configure.CARINFO);
             }
         });
         carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 try {
-
                     tv_enter_order.setVisibility(View.VISIBLE);
                     car_number = carListAdapter.getData().get(position).getCarNo();
                     car_id = carListAdapter.getData().get(position).getId();
@@ -149,8 +113,8 @@ public class MemberInfoInputActivity extends BaseActivity {
                         if (i != position)
                             adapter.getViewByPosition(recyclerView, i, R.id.iv1).setVisibility(View.INVISIBLE);
                     }
-                } catch (Exception e) {
 
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -162,7 +126,6 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     @Override
     protected void setUpData() {
-
 
     }
 
@@ -179,6 +142,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                 new AppPreferences(this).put(Configure.user_id, user_id);
                 new AppPreferences(this).put(Configure.moblie, mobile_id);
+                new AppPreferences(this).put(Configure.user_name, user_name);//选择车辆时更新car_no  保存到Preferences
 
                 toActivity(MakeOrderActivity.class);
                 break;
@@ -207,6 +171,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                                 //保存UserID
                                 user_id = s.getUser_id();
                                 mobile_id = mobile.getText().toString();
+                                user_name = name.getText().toString();
                                 carListAdapter.setNewData(s.getCarList());
                                 tv_check.setVisibility(View.GONE);
                                 mobile.setFocusable(false);
@@ -217,11 +182,9 @@ public class MemberInfoInputActivity extends BaseActivity {
                             @Override
                             protected void _onError(String message) {
                                 Toast.makeText(MemberInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
-
                             }
                         });
                     }
-
                     @Override
                     public void doCancel() {
                         // TODO Auto-generated method stub

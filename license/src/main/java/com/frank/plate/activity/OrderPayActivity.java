@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,11 +11,14 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.Brandadapter2;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.util.DateUtil;
@@ -72,7 +76,7 @@ public class OrderPayActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("订单收款");
 
-        infoEntity = getIntent().getParcelableExtra("orderInfo");
+        infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
 
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
@@ -184,12 +188,18 @@ public class OrderPayActivity extends BaseActivity {
 
                 getPostInfo();
                 // 确认支付
-                Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+                Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
-                    protected void _onNext(OrderInfo o) {
+                    protected void _onNext(NullDataEntity o) {
 
-                        Log.i("OrderPayActivity", "成功");
-                        toActivity(OrderDoneActivity.class, infoEntity, "orderInfo");
+                        Log.i("OrderPayActivity", "成功：" + o.toString());
+                        Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
+
+
+                        if (infoEntity.getOrderInfo().getOrder_status() == 0) {
+                            toMain(1);
+                        } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
+                            sendOrderInfo(OrderDoneActivity.class, infoEntity);
                     }
 
                     @Override

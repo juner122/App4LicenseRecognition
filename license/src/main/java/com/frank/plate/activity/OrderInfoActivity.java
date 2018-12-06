@@ -1,29 +1,68 @@
 package com.frank.plate.activity;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
-import com.frank.plate.bean.QueryByCarEntity;
+import com.frank.plate.adapter.SimpleGoodInfoAdpter;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.OrderInfo;
+import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.util.String2Utils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.frank.plate.util.DateUtil.getFormatedDateTime;
+import static com.frank.plate.util.String2Utils.getPayTypeText;
+
 /**
- * 订单详情 分4种情况     已预约未付款   待服务，服务中，已完成 后三种动态都已付款
+ * 订单详情
  */
 public class OrderInfoActivity extends BaseActivity {
+    private static final String TAG = "OrderInfoActivity";
     private boolean isFixOrder;//是否正在修改订单
 
-    String order_status;
-    public static final String order_status_text1 = "已预约";
-    public static final String order_status_text2 = "待服务";
-    public static final String order_status_text3 = "服务中";
-    public static final String order_status_text4 = "已完成";
-
+    int pay_status; //  订单支付状态   0 未支付,2已支付
+    int order_status; //订单状态 0  待服务：pay_status=2  已预约：pay_status=0        1.(服务中) 2.完成
+    OrderInfoEntity infoEntity;
+    OrderInfo info;
     @BindView(R.id.tv_order_sn)
     TextView tv_order_sn;
+
+    @BindView(R.id.tv_car_no)
+    TextView tv_car_no;
+
+
+    @BindView(R.id.tv_technician)
+    TextView tv_technician;
+
+    @BindView(R.id.tv2)
+    TextView tv2;
+
+    @BindView(R.id.tv3)
+    TextView tv3;
+    @BindView(R.id.tv_price1)
+    TextView tv_price1;
+    @BindView(R.id.tv_price2)
+    TextView tv_price2;
+    @BindView(R.id.tv_price3)
+    TextView tv_price3;
+    @BindView(R.id.tv_price4)
+    TextView tv_price4;
+    @BindView(R.id.tv_price4_s)
+    TextView tv_price4_s;
+
+    @BindView(R.id.tv_pay_type)
+    TextView tv_pay_type;
+    @BindView(R.id.tv_pay_status)
+    TextView tv_pay_status;
+
     @BindView(R.id.tv_mobile)
     TextView tv_mobile;
     @BindView(R.id.tv_consignee)
@@ -32,18 +71,43 @@ public class OrderInfoActivity extends BaseActivity {
     @BindView(R.id.tv_pick_technician)
     ImageButton tv_pick_technician;
 
-    @BindView(R.id.tv_pick_date)
-    ImageButton tv_pick_date;
+    @BindView(R.id.ib_pick_date)
+    ImageButton ib_pick_date;
 
     @BindView(R.id.tv_fix_order)
     TextView tv_fix_order;
+
+    @BindView(R.id.tv_enter_order)
+    TextView tv_enter_order;
+
+    @BindView(R.id.ll_price3)
+    View ll_price3;
+
+
+    @BindView(R.id.ll_bottom)
+    View ll_bottom;
+
+    @BindView(R.id.ll_pick_date)
+    View ll_pick_date;
+
+    @BindView(R.id.tv_pick_date)
+    TextView tv_pick_date;
+
+    @BindView(R.id.tv_goods_price)
+    TextView tv_goods_price;
 
     @BindView(R.id.but_product_list)
     ImageButton but_product_list;
     @BindView(R.id.but_meal_list)
     ImageButton but_meal_list;
 
-    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.tv_pick_date, R.id.tv_car_info})
+
+    @BindView(R.id.rv1)
+    RecyclerView rv1;
+    @BindView(R.id.rv2)
+    RecyclerView rv2;
+
+    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -55,6 +119,29 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
 
             case R.id.tv_enter_order:
+                switch (order_status) {
+                    case 0:
+
+                        confirmOrder();
+
+
+                        break;
+                    case 1://服务中
+
+
+                        if (pay_status == 2)
+                            sendOrderInfo(OrderDoneActivity.class, info);
+                        else
+                            sendOrderInfo(OrderPayActivity.class, info);
+
+                        break;
+                    case 2://完成
+
+
+                        break;
+
+                }
+
 
                 break;
             case R.id.but_meal_list:
@@ -65,9 +152,11 @@ public class OrderInfoActivity extends BaseActivity {
 
             case R.id.tv_pick_technician://选择技师
                 break;
-            case R.id.tv_pick_date://选择时间
+            case R.id.ib_pick_date://选择预计完成时间
                 break;
             case R.id.tv_car_info://车信息
+
+                toActivity(CarInfoActivity.class, Configure.CARID, info.getOrderInfo().getCar_id());
                 break;
         }
 
@@ -75,26 +164,18 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
 
-    private QueryByCarEntity queryByCarEntity;
+    private int id;//订单ID
 
+    private SimpleGoodInfoAdpter adpter1;
 
     @Override
     protected void init() {
 
-        queryByCarEntity = getIntent().getParcelableExtra(MemberInfoInputActivity.key);
-        order_status = queryByCarEntity.getOrderInfo().getOrder_status();
 
-        if (order_status.equals("1")) {//已预约
-            setRTitle(order_status_text1);
-        }
-        if (order_status.equals("2")) {
-            setRTitle(order_status_text2);
+        id = getIntent().getIntExtra(Configure.ORDERINFOID, 0);
 
-        }
-        tv_order_sn.append(queryByCarEntity.getOrderInfo().getOrder_sn());
-        tv_mobile.setText(queryByCarEntity.getOrderInfo().getMobile());
-        tv_consignee.setText(queryByCarEntity.getOrderInfo().getConsignee());
 
+        getOrderInfoData();
 
     }
 
@@ -105,7 +186,7 @@ public class OrderInfoActivity extends BaseActivity {
         but_product_list.setVisibility(View.VISIBLE);
         but_meal_list.setVisibility(View.VISIBLE);
         tv_pick_technician.setVisibility(View.VISIBLE);
-        tv_pick_date.setVisibility(View.VISIBLE);
+        ib_pick_date.setVisibility(View.VISIBLE);
         isFixOrder = true;
     }
 
@@ -115,7 +196,7 @@ public class OrderInfoActivity extends BaseActivity {
         but_product_list.setVisibility(View.INVISIBLE);
         but_meal_list.setVisibility(View.INVISIBLE);
         tv_pick_technician.setVisibility(View.INVISIBLE);
-        tv_pick_date.setVisibility(View.INVISIBLE);
+        ib_pick_date.setVisibility(View.INVISIBLE);
         isFixOrder = false;
     }
 
@@ -123,6 +204,7 @@ public class OrderInfoActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         tv_title.setText("订单详情");
+
 
     }
 
@@ -135,4 +217,115 @@ public class OrderInfoActivity extends BaseActivity {
     public int setLayoutResourceID() {
         return R.layout.activity_order_info;
     }
+
+
+    private void getOrderInfoData() {
+
+        Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                info = o;
+                setInfo(o);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+            }
+        });
+
+    }
+
+    private void setInfo(OrderInfo info) {
+
+        infoEntity = info.getOrderInfo();
+        pay_status = infoEntity.getPay_status();
+        order_status = infoEntity.getOrder_status();
+
+        setRTitle(infoEntity.getOrder_status_text());
+
+        tv_order_sn.append(infoEntity.getOrder_sn());
+        tv_car_no.setText(infoEntity.getCar_no());
+        tv_mobile.setText(infoEntity.getMobile());
+        tv_consignee.setText(infoEntity.getConsignee());
+
+
+        switch (order_status) {
+            case 0://待服务
+                tv2.setText("预约时间:");
+
+                tv_enter_order.setText("确认下单");
+                if (pay_status == 0) {
+                    tv_fix_order.setText("修改订单");
+                    tv_fix_order.setVisibility(View.VISIBLE);
+                } else {
+
+                    tv_fix_order.setVisibility(View.INVISIBLE);
+                }
+
+                ll_pick_date.setVisibility(View.VISIBLE);
+                tv_pick_date.setText(getFormatedDateTime(infoEntity.getPlanfinishi_time()));
+                ll_price3.setVisibility(View.GONE);
+                break;
+            case 1://服务中
+                tv2.setText("下单时间:");
+                tv_fix_order.setText("通知客户取车");
+                if (pay_status == 0)
+                    tv_enter_order.setText("完成去结算");
+                else {
+                    tv_enter_order.setText("确认完成");
+                    tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
+                }
+                ll_pick_date.setVisibility(View.VISIBLE);
+                tv_pick_date.setText(getFormatedDateTime(infoEntity.getPlanfinishi_time()));
+                ll_price3.setVisibility(View.GONE);
+                break;
+            case 2://完成
+                tv2.setText("下单时间:");
+                tv3.setVisibility(View.VISIBLE);
+                tv3.setText(String.format("完成时间:%s", infoEntity.getConfirm_time()));
+                ll_bottom.setVisibility(View.GONE);
+                ll_pick_date.setVisibility(View.GONE);
+                ll_price3.setVisibility(View.VISIBLE);
+                break;
+
+        }
+
+        tv2.append(infoEntity.getAdd_time());
+
+        tv_technician.setText(String2Utils.getString(infoEntity.getSysUserList()));
+
+
+        adpter1 = new SimpleGoodInfoAdpter(infoEntity.getGoodsList());
+
+        rv1.setLayoutManager(new LinearLayoutManager(this));
+        rv1.setAdapter(adpter1);
+
+        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList());
+
+        tv_goods_price.append(String.valueOf(goodsPrice));
+        tv_price1.append(String.valueOf(goodsPrice));
+        tv_price2.append(String.valueOf(0.00d));
+        tv_price3.append(String.valueOf(0.00d));
+        tv_price4.append(String.valueOf(goodsPrice));
+
+        tv_pay_status.append(infoEntity.getPay_status_text());
+        tv_pay_type.append(getPayTypeText(infoEntity.getPay_type()));
+
+        tv_price4_s.setText(infoEntity.getPay_status() == 2 ? "实收金额" : "应收金额");
+
+
+    }
+
+
+    //确认下单
+    private void confirmOrder() {
+
+        sendOrderInfo(MakeOrderSuccessActivity.class, info);
+
+
+    }
+
+
 }
