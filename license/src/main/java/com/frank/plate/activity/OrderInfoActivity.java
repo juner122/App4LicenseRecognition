@@ -93,6 +93,9 @@ public class OrderInfoActivity extends BaseActivity {
     @BindView(R.id.tv_pick_date)
     TextView tv_pick_date;
 
+    @BindView(R.id.tv_jdy)
+    TextView tv_jdy;
+
     @BindView(R.id.tv_goods_price)
     TextView tv_goods_price;
 
@@ -314,7 +317,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_pay_type.append(getPayTypeText(infoEntity.getPay_type()));
 
         tv_price4_s.setText(infoEntity.getPay_status() == 2 ? "实收金额" : "应收金额");
-
+        tv_jdy.setText(info.getReceptionist().getUsername());
 
     }
 

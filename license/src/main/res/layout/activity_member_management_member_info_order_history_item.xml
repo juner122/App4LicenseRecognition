@@ -38,15 +38,14 @@
                     android:id="@+id/tv_order_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
                     android:text="订单号："
                     android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_date"
+                    android:gravity="bottom"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="2018-12-03 14:20"
                     android:textSize="12sp" />
 
@@ -63,8 +62,6 @@
                     android:id="@+id/tv_order_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
                     android:text="服务中"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
@@ -78,7 +75,12 @@
                     android:textSize="14sp" />
 
             </LinearLayout>
-
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:paddingLeft="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/icon_enter" />
         </LinearLayout>
 
     </LinearLayout>

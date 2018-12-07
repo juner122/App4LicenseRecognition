@@ -315,7 +315,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case requestCode1:
@@ -532,7 +532,7 @@ public class CarInfoInputActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
-                finish();
+                toActivity(MemberInfoInputActivity.class);
             }
 
             @Override

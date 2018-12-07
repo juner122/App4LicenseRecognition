@@ -85,5 +85,5 @@ dependencies {
     //PickerView控件
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
 
-
+    implementation 'com.bigkoo:ConvenientBanner:2.1.4'
 }

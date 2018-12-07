@@ -3,19 +3,19 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class CarEntity implements Parcelable {
+public class CarEntity extends SelectedBean implements Parcelable {
 
-    String id;
+    int id;
     String userId;
     String carNo;
     String carModel;
     String postscript;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,6 +62,9 @@ public class CarEntity implements Parcelable {
                 '}';
     }
 
+    public CarEntity() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -69,25 +72,22 @@ public class CarEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeInt(this.id);
         dest.writeString(this.userId);
         dest.writeString(this.carNo);
         dest.writeString(this.carModel);
         dest.writeString(this.postscript);
     }
 
-    public CarEntity() {
-    }
-
     protected CarEntity(Parcel in) {
-        this.id = in.readString();
+        this.id = in.readInt();
         this.userId = in.readString();
         this.carNo = in.readString();
         this.carModel = in.readString();
         this.postscript = in.readString();
     }
 
-    public static final Parcelable.Creator<CarEntity> CREATOR = new Parcelable.Creator<CarEntity>() {
+    public static final Creator<CarEntity> CREATOR = new Creator<CarEntity>() {
         @Override
         public CarEntity createFromParcel(Parcel source) {
             return new CarEntity(source);

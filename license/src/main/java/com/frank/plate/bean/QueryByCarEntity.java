@@ -10,26 +10,16 @@ import java.util.List;
 public class QueryByCarEntity implements Parcelable {
 
 
-    private OrderInfoEntity orderInfo;
-    private List<OrderGoodEntity> orderGoods;
+    private List<OrderInfoEntity> orders;
     private List<CarEntity> carList;
-    private UserEntity user;
+    private UserEntity member;
 
-
-    public OrderInfoEntity getOrderInfo() {
-        return orderInfo;
+    public List<OrderInfoEntity> getOrders() {
+        return orders;
     }
 
-    public void setOrderInfo(OrderInfoEntity orderInfo) {
-        this.orderInfo = orderInfo;
-    }
-
-    public List<OrderGoodEntity> getOrderGoods() {
-        return orderGoods;
-    }
-
-    public void setOrderGoods(List<OrderGoodEntity> orderGoods) {
-        this.orderGoods = orderGoods;
+    public void setOrders(List<OrderInfoEntity> orders) {
+        this.orders = orders;
     }
 
     public List<CarEntity> getCarList() {
@@ -40,21 +30,20 @@ public class QueryByCarEntity implements Parcelable {
         this.carList = carList;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getMember() {
+        return member;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setMember(UserEntity member) {
+        this.member = member;
     }
 
     @Override
     public String toString() {
         return "QueryByCarEntity{" +
-                "orderInfo=" + orderInfo +
-                ", orderGoods=" + orderGoods +
+                "orders=" + orders +
                 ", carList=" + carList +
-                ", user=" + user +
+                ", member=" + member +
                 '}';
     }
 
@@ -65,25 +54,21 @@ public class QueryByCarEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.orderInfo, flags);
-        dest.writeList(this.orderGoods);
-        dest.writeList(this.carList);
-        dest.writeParcelable(this.user, flags);
+        dest.writeTypedList(this.orders);
+        dest.writeTypedList(this.carList);
+        dest.writeParcelable(this.member, flags);
     }
 
     public QueryByCarEntity() {
     }
 
     protected QueryByCarEntity(Parcel in) {
-        this.orderInfo = in.readParcelable(OrderInfoEntity.class.getClassLoader());
-        this.orderGoods = new ArrayList<OrderGoodEntity>();
-        in.readList(this.orderGoods, OrderGoodEntity.class.getClassLoader());
-        this.carList = new ArrayList<CarEntity>();
-        in.readList(this.carList, CarEntity.class.getClassLoader());
-        this.user = in.readParcelable(UserEntity.class.getClassLoader());
+        this.orders = in.createTypedArrayList(OrderInfoEntity.CREATOR);
+        this.carList = in.createTypedArrayList(CarEntity.CREATOR);
+        this.member = in.readParcelable(UserEntity.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<QueryByCarEntity> CREATOR = new Parcelable.Creator<QueryByCarEntity>() {
+    public static final Creator<QueryByCarEntity> CREATOR = new Creator<QueryByCarEntity>() {
         @Override
         public QueryByCarEntity createFromParcel(Parcel source) {
             return new QueryByCarEntity(source);

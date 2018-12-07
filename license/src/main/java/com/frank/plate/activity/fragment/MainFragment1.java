@@ -3,14 +3,17 @@ package com.frank.plate.activity.fragment;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.frank.plate.R;
 import com.frank.plate.activity.ActivityPackageListActivity;
 import com.frank.plate.activity.BillListActivity;
 import com.frank.plate.activity.MainActivity;
 import com.frank.plate.activity.MemberManagementActivity;
 import com.frank.plate.activity.ProductListActivity;
+import com.frank.plate.activity.ShopInfoActivity;
 import com.frank.plate.activity.StaffManagementActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.WorkIndex;
@@ -43,6 +46,10 @@ public class MainFragment1 extends BaseFragment {
     TextView number4;
 
 
+    @BindView(R.id.iv)
+    ImageView iv;
+
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment1_main;
@@ -50,6 +57,12 @@ public class MainFragment1 extends BaseFragment {
 
     @Override
     protected void setUpView() {
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
         Api().workIndex().subscribe(new RxSubscribe<WorkIndex>(getContext(), true) {
             @Override
@@ -69,9 +82,11 @@ public class MainFragment1 extends BaseFragment {
             }
         });
 
+        Glide.with(this)
+                .load(getResources().getDrawable(R.mipmap.banner1))
+                .into(iv);
 
     }
-
 
     @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members})
     public void onClick(View view) {

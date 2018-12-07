@@ -18,6 +18,7 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.Brandadapter2;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
@@ -49,6 +50,9 @@ public class OrderPayActivity extends BaseActivity {
 
     @BindView(R.id.tv_pick_pay_type)
     TextView tv_pick_pay_type;
+
+    @BindView(R.id.tv_coupon_no)
+    TextView tv_coupon_no;
 
     @BindView(R.id.et_discount)
     EditText et_discount;
@@ -181,7 +185,7 @@ public class OrderPayActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_enter_pay, R.id.tv_pick_pay_type})
+    @OnClick({R.id.tv_enter_pay, R.id.tv_pick_pay_type, R.id.tv_pick_coupon})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
@@ -219,7 +223,6 @@ public class OrderPayActivity extends BaseActivity {
 
             case R.id.tv_code:
 
-
                 final ConfirmDialog2 confirmDialog = new ConfirmDialog2(this);
                 confirmDialog.show();
                 confirmDialog.setClicklistener(new ConfirmDialog2.ClickListenerInterface() {
@@ -234,9 +237,17 @@ public class OrderPayActivity extends BaseActivity {
                         confirmDialog.dismiss();
                     }
                 });
-
                 break;
 
+            case R.id.tv_pick_coupon:
+
+                Intent i = new Intent(OrderPayActivity.this, PickCoupons.class);
+                i.putExtra("order_price", String.valueOf(infoEntity.getOrderInfo().getOrder_price()));
+                i.putExtra("order_price", "1000");
+//                i.putExtra(Configure.user_id, infoEntity.getOrderInfo().getUser_id());
+                i.putExtra(Configure.user_id, 1);
+                startActivity(i);
+                break;
         }
 
     }
@@ -256,5 +267,16 @@ public class OrderPayActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
 
+
+        Coupon c = intent.getParcelableExtra("Coupon");
+        tv_coupon_no.setText("已选择 1 张");
+
+        if (balance_price >= c.getMin_amount())
+            tv_price.setText(String.valueOf(balance_price - c.getType_money()));
+
+    }
 }

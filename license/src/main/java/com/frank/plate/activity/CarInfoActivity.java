@@ -44,7 +44,7 @@ public class CarInfoActivity extends BaseActivity {
         recyclerView3.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
 
 
-        Api().showCarInfo(getIntent().getStringExtra(Configure.CARID)).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
+        Api().showCarInfo(getIntent().getIntExtra(Configure.CARID, 0)).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
             @Override
             protected void _onNext(CarInfoRequestParameters o) {
                 tv_car_model.setText(o.getBrand());

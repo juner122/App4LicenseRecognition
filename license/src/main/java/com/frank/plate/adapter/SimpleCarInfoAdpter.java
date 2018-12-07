@@ -24,6 +24,13 @@ public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHol
                 .setText(R.id.tv_car_model, item.getCarModel());
 
 
+        if (item.isSelected())
+            helper.setVisible(R.id.iv, true);
+        else
+            helper.setVisible(R.id.iv, false);
+
+
+
     }
 
 

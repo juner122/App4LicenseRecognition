@@ -68,27 +68,28 @@ public class MainFragment2 extends BaseFragment {
             }
         });
 
+        ola.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                if (list.get(position).isSelected()) {
+                    list.get(position).setSelected(false);
+                } else {
+                    for (OrderInfoEntity o : list) {
+                        o.setSelected(false);
+                    }
+                    list.get(position).setSelected(true);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
 
         ola.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
 
                 switch (view.getId()) {
-                    case R.id.ll://显示of隐藏button
-                        View ll_button = adapter.getViewByPosition(recyclerView, position, R.id.ll_button_view);
-                        View iv_icon = adapter.getViewByPosition(recyclerView, position, R.id.iv_icon);
-                        if (ll_button.getVisibility() == View.VISIBLE) {
-                            ((ImageView) iv_icon).setImageResource(R.mipmap.icon_down);
-                            ll_button.setVisibility(View.GONE);
-                            ll_button.setTag(false);
-
-                        } else {
-                            ((ImageView) iv_icon).setImageResource(R.mipmap.icon_up);
-                            ll_button.setVisibility(View.VISIBLE);
-                            ll_button.setTag(true);
-                        }
-                        break;
-
                     case R.id.button_show_details://查看订单
 
                         toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, list.get(position).getId());

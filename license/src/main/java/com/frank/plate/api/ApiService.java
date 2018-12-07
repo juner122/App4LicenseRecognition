@@ -8,6 +8,7 @@ import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
+import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
@@ -174,6 +175,11 @@ public interface ApiService {
     @POST("user/memberOrderList")
     @FormUrlEncoded
     Observable<BaseBean<MemberOrder>> memberOrderList(@FieldMap Map<String, Object> maps);
+
+    //获取优惠券列表 [达到满减，未到期，未用过]
+    @POST("coupon/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Coupon>>> couponList(@FieldMap Map<String, Object> maps);
 
 
 }

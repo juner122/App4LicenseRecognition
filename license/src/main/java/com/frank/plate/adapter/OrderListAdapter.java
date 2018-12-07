@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -26,7 +27,6 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
     @Override
     protected void convert(BaseViewHolder helper, OrderInfoEntity item) {
 
-        View ll_b = helper.getView(R.id.ll_button_view);
 
         TextView button_action = helper.getView(R.id.button_action);
         TextView tv_order_state = helper.getView(R.id.tv_order_state);
@@ -36,10 +36,8 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
         helper.setText(R.id.tv_date, item.getAdd_time());
         helper.setText(R.id.tv_order_state, item.getOrder_status_text());
         helper.setText(R.id.tv_money, String.format("￥%s", item.getOrder_price()));
-        helper.setGone(R.id.ll_button_view, false);
         helper.addOnClickListener(R.id.button_show_details);
         helper.addOnClickListener(R.id.button_action);
-        helper.addOnClickListener(R.id.ll);
 
 
         switch (item.getOrder_status()) {
@@ -75,15 +73,15 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
         }
 
 
-        if (null != ll_b.getTag()) {
-            if (!(boolean) ll_b.getTag()) {
-                ll_b.setVisibility(View.GONE);
-            } else {
-                ll_b.setVisibility(View.VISIBLE);
-            }
+        if (item.isSelected()) {
+            helper.setGone(R.id.ll_button_view, true);
+            ((ImageView) helper.getView(R.id.iv_icon)).setImageResource(R.mipmap.icon_down);
+        } else {
+            helper.setGone(R.id.ll_button_view, false);
+            ((ImageView) helper.getView(R.id.iv_icon)).setImageResource(R.mipmap.icon_up);
         }
-    }
 
+    }
 
 
 }

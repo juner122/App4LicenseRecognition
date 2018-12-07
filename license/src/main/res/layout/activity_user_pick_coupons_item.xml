@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/ll"
     android:background="@mipmap/background_coupons_unpick"
     android:gravity="center"
     android:orientation="vertical">
@@ -17,7 +18,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="洗车券"
+            android:text="减免券"
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
@@ -25,17 +26,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="（08）"
+            android:visibility="gone"
             android:textColor="#fff23325"
             android:textSize="10sp" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/use_end_date"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="有效期至：2018-12-30"
+        android:text="有效期至："
         android:textColor="#ff666666"
         android:textSize="12sp" />
 
@@ -47,10 +50,11 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/name"
         android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="汽车外观清洗，内饰除尘。"
+        android:text="满100减10元"
         android:textColor="#ff666666"
         android:textSize="12sp" />
 

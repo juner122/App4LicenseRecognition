@@ -14,6 +14,8 @@ import com.frank.plate.R;
 import com.frank.plate.api.ApiLoader;
 
 
+import net.grandcentrix.tray.AppPreferences;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -126,6 +128,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void toActivity(Class c) {
 
         startActivity(new Intent(this, c));
+
+    }
+
+    protected void toMakeOrder(int user_id, int car_id, String moblie, String user_name, String car_number) {
+
+
+        new AppPreferences(this).put(Configure.user_id, user_id);
+        new AppPreferences(this).put(Configure.moblie, moblie);
+        new AppPreferences(this).put(Configure.user_name, user_name);//选择车辆时更新car_no  保存到Preferences
+        new AppPreferences(this).put(Configure.car_id, car_id);//选择车辆时更新car_no  保存到Preferences
+        new AppPreferences(this).put(Configure.car_no, car_number);//选择车辆时更新car_no  保存到Preferences
+
+
+        startActivity(new Intent(this, MakeOrderActivity.class));
 
     }
 

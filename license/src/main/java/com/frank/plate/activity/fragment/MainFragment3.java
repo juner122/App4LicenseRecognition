@@ -9,11 +9,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.frank.plate.Configure;
-import com.frank.plate.MyApplication;
+
 import com.frank.plate.R;
 import com.frank.plate.activity.MemberInfoInputActivity;
 import com.frank.plate.PlateRecognition;
-import com.frank.plate.activity.OrderInfoActivity;
+import com.frank.plate.activity.MemberManagementInfoActivity;
+
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.listener.OnNewFrameListener;
@@ -61,7 +62,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     @BindView(R.id.e7)
     EditText et7;
 
-    String car_number = "粤B88888";
+    String car_number = "";
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -135,6 +136,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
             Log.e("MainFragment3", "主页页面：扫描接单  initOpenCV fail...");
         }
     }
+
     @Override
     protected void onHidden() {
         super.onHidden();
@@ -201,20 +203,23 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
             @Override
             protected void _onNext(QueryByCarEntity entity) {
 
+                Log.d(TAG, "QueryByCarEntity信息：" + entity.toString());
 
-                if (entity.getOrderInfo() != null) {//有订单 跳到订单详情
-                    toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, entity.getOrderInfo().getId());
-                } else if (entity.getUser() != null) {//没订单 有车况信息
-                    toActivity(MemberInfoInputActivity.class, entity, Configure.QUERYBYCARINFO);
+                if (entity.getMember() != null) {
+
+                    toActivity(MemberManagementInfoActivity.class, Configure.user_id, entity.getMember().getUserId());
+                } else {
+                    toActivity(MemberInfoInputActivity.class);
                 }
+
+
             }
 
             @Override
             protected void _onError(String message) {
 
                 Log.d(TAG, message);
-                //没订单 没车况信息
-                toActivity(MemberInfoInputActivity.class);
+
 
             }
         });

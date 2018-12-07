@@ -68,9 +68,9 @@ public class MakeOrderActivity extends BaseActivity {
     TextView tv_total_price;
 
 
-    String car_number, user_id, moblie, car_id, user_name;
+    String car_number, moblie, user_name;
 
-
+    int user_id, car_id;
     OrderInfoEntity infoEntity;
     SimpleGoodInfoAdpter simpleGoodInfoAdpter;
     List<Technician> technicians;
@@ -147,10 +147,12 @@ public class MakeOrderActivity extends BaseActivity {
         tv_title.setText("下单信息");
         getTopData();
         car_number = new AppPreferences(this).getString(Configure.car_no, "null_car_no");
-        user_id = new AppPreferences(this).getString(Configure.user_id, "null_user_id");
+        user_id = new AppPreferences(this).getInt(Configure.user_id, 0);
         moblie = new AppPreferences(this).getString(Configure.moblie, "null_moblie");
-        car_id = new AppPreferences(this).getString(Configure.car_id, "null_car_id");
+        car_id = new AppPreferences(this).getInt(Configure.car_id, 0);
         user_name = new AppPreferences(this).getString(Configure.user_name, "null_user_name");
+
+
         infoEntity = new OrderInfoEntity(user_id, moblie, car_id, car_number, user_name);
         tv_car_no.setText(car_number);
 

@@ -17,6 +17,8 @@ import com.frank.plate.util.DateUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.frank.plate.util.String2Utils.getPayTypeText;
+
 public class OrderDoneActivity extends BaseActivity {
 
     private static final String TAG = "OrderDoneActivity";
@@ -26,12 +28,32 @@ public class OrderDoneActivity extends BaseActivity {
     TextView tv_order_sn;
     @BindView(R.id.tv_car_no)
     TextView tv_car_no;
-    @BindView(R.id.tv_make_date)
-    TextView tv_make_date;
-    @BindView(R.id.tv_expect_date)
-    TextView tv_expect_date;
+
+
+    @BindView(R.id.tv_pay_type)
+    TextView tv_pay_type;
+
+
+    @BindView(R.id.tv_price)
+    TextView tv_price;
+
+
     @BindView(R.id.tv_order_price)
     TextView tv_order_price;
+
+
+    @BindView(R.id.tv_price3)
+    TextView tv_price3;
+
+
+    @BindView(R.id.tv_price4)
+    TextView tv_price4;
+
+
+    @BindView(R.id.tv_expect_date)
+    TextView tv_expect_date;
+    @BindView(R.id.tv_pay_time)
+    TextView tv_pay_time;
 
 
     @BindView(R.id.tv_shopName)
@@ -52,8 +74,15 @@ public class OrderDoneActivity extends BaseActivity {
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
-        tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
-        tv_order_price.append(String.format("￥%s", infoEntity.getOrderInfo().getOrder_price()));
+        tv_pay_type.append(getPayTypeText(infoEntity.getOrderInfo().getPay_type()));
+        tv_pay_time.append(infoEntity.getOrderInfo().getPay_time());
+
+
+        tv_price.append(String.valueOf(infoEntity.getOrderInfo().getActual_price()));
+        tv_order_price.append(String.valueOf(infoEntity.getOrderInfo().getOrder_price()));
+        tv_price3.append(String.valueOf(infoEntity.getOrderInfo().getCoupon_price()));
+        tv_price4.append("0.0");
+
 
         tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
 
@@ -97,9 +126,6 @@ public class OrderDoneActivity extends BaseActivity {
                 Log.d(TAG, message);
             }
         });
-
-
-
 
 
     }

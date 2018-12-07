@@ -9,9 +9,9 @@ public class MemberOrder implements Parcelable {
 
     MemberEntity member;
 
-    List<OrderInfoEntity>  orderList;
+    List<OrderInfoEntity> orderList;
 
-   List<CarEntity> carList;
+    List<CarEntity> carList;
 
     public MemberEntity getMember() {
         return member;

@@ -7,23 +7,25 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderInfoEntity implements Parcelable {
+public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     int id;
     String order_sn;
-    String user_id;
+    int user_id;
     int order_status;
     String shipping_status;
     int pay_status;
     String  pay_status_text;
-
+    double actual_price;
+    double coupon_price;
 
     String consignee;//
     String mobile;
-    String car_id;
+    int car_id;
     String postscript;
     String order_status_text;//未付款
     String add_time;//
+    String pay_time;//
     String car_no;//
     String confirm_time;//确认时间
     Long planfinishi_time;//预计完成时间
@@ -35,6 +37,22 @@ public class OrderInfoEntity implements Parcelable {
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
 
+    public double getCoupon_price() {
+        return coupon_price;
+    }
+
+    public void setCoupon_price(double coupon_price) {
+        this.coupon_price = coupon_price;
+    }
+
+    public double getActual_price() {
+        return actual_price;
+    }
+
+    public void setActual_price(double actual_price) {
+        this.actual_price = actual_price;
+    }
+
     public String getConfirm_time() {
         return confirm_time;
     }
@@ -45,6 +63,14 @@ public class OrderInfoEntity implements Parcelable {
 
     public int getPay_type() {
         return pay_type;
+    }
+
+    public String getPay_time() {
+        return pay_time;
+    }
+
+    public void setPay_time(String pay_time) {
+        this.pay_time = pay_time;
     }
 
     public void setPay_type(int pay_type) {
@@ -130,7 +156,7 @@ public class OrderInfoEntity implements Parcelable {
     }
 
 
-    public OrderInfoEntity(String user_id, String moblie, String car_id, String car_number, String consignee) {
+    public OrderInfoEntity(int user_id, String moblie, int car_id, String car_number, String consignee) {
         this.user_id = user_id;
         this.mobile = moblie;
         this.car_id = car_id;
@@ -154,11 +180,11 @@ public class OrderInfoEntity implements Parcelable {
         this.order_sn = order_sn;
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
@@ -202,11 +228,11 @@ public class OrderInfoEntity implements Parcelable {
         this.mobile = mobile;
     }
 
-    public String getCar_id() {
+    public int getCar_id() {
         return car_id;
     }
 
-    public void setCar_id(String car_id) {
+    public void setCar_id(int car_id) {
         this.car_id = car_id;
     }
 
@@ -254,17 +280,20 @@ public class OrderInfoEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.order_sn);
-        dest.writeString(this.user_id);
+        dest.writeInt(this.user_id);
         dest.writeInt(this.order_status);
         dest.writeString(this.shipping_status);
         dest.writeInt(this.pay_status);
         dest.writeString(this.pay_status_text);
+        dest.writeDouble(this.actual_price);
+        dest.writeDouble(this.coupon_price);
         dest.writeString(this.consignee);
         dest.writeString(this.mobile);
-        dest.writeString(this.car_id);
+        dest.writeInt(this.car_id);
         dest.writeString(this.postscript);
         dest.writeString(this.order_status_text);
         dest.writeString(this.add_time);
+        dest.writeString(this.pay_time);
         dest.writeString(this.car_no);
         dest.writeString(this.confirm_time);
         dest.writeValue(this.planfinishi_time);
@@ -279,17 +308,20 @@ public class OrderInfoEntity implements Parcelable {
     protected OrderInfoEntity(Parcel in) {
         this.id = in.readInt();
         this.order_sn = in.readString();
-        this.user_id = in.readString();
+        this.user_id = in.readInt();
         this.order_status = in.readInt();
         this.shipping_status = in.readString();
         this.pay_status = in.readInt();
         this.pay_status_text = in.readString();
+        this.actual_price = in.readDouble();
+        this.coupon_price = in.readDouble();
         this.consignee = in.readString();
         this.mobile = in.readString();
-        this.car_id = in.readString();
+        this.car_id = in.readInt();
         this.postscript = in.readString();
         this.order_status_text = in.readString();
         this.add_time = in.readString();
+        this.pay_time = in.readString();
         this.car_no = in.readString();
         this.confirm_time = in.readString();
         this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());

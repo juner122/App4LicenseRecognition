@@ -54,7 +54,9 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.ActivityPackageListActivity" />
         <activity android:name=".activity.BillListActivity" />
-        <activity android:name=".activity.MemberInfoInputActivity" />
+        <activity
+            android:name=".activity.MemberInfoInputActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.CarInfoInputActivity" />
         <activity
             android:name=".activity.MakeOrderActivity"
@@ -64,6 +66,7 @@
         <activity android:name=".activity.MakeOrderSuccessActivity" />
         <activity
             android:name=".activity.OrderPayActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
@@ -74,7 +77,8 @@
         //车牌扫描测试
         <activity android:name=".activity.MemberManagementInfoActivity" />
         <activity android:name=".activity.ShopInfoActivity" />
-        <activity android:name=".activity.CarInfoActivity"></activity>
+        <activity android:name=".activity.CarInfoActivity" />
+        <activity android:name=".activity.PickCoupons"></activity>
     </application>
 
 </manifest>

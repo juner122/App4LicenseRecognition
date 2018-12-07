@@ -6,17 +6,17 @@ import android.os.Parcelable;
 public class UserEntity implements Parcelable {
 
 
-    String userId;
+    int userId;
     String username;
     String gender;
     String mobile;
 
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -54,6 +54,9 @@ public class UserEntity implements Parcelable {
                 '}';
     }
 
+    public UserEntity() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -61,23 +64,20 @@ public class UserEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.userId);
+        dest.writeInt(this.userId);
         dest.writeString(this.username);
         dest.writeString(this.gender);
         dest.writeString(this.mobile);
     }
 
-    public UserEntity() {
-    }
-
     protected UserEntity(Parcel in) {
-        this.userId = in.readString();
+        this.userId = in.readInt();
         this.username = in.readString();
         this.gender = in.readString();
         this.mobile = in.readString();
     }
 
-    public static final Parcelable.Creator<UserEntity> CREATOR = new Parcelable.Creator<UserEntity>() {
+    public static final Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
         @Override
         public UserEntity createFromParcel(Parcel source) {
             return new UserEntity(source);

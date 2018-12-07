@@ -5,7 +5,7 @@ import java.util.List;
 public class SaveUserAndCarEntity {
 
 
-    String user_id;
+    int user_id;
     String car_id;
 
     List<CarEntity> carList;
@@ -18,11 +18,11 @@ public class SaveUserAndCarEntity {
         this.carList = carList;
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 

@@ -1,9 +1,7 @@
 package com.frank.plate.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;

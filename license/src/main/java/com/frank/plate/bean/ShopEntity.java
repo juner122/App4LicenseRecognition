@@ -3,6 +3,8 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class ShopEntity implements Parcelable {
 
     String id;
@@ -13,6 +15,15 @@ public class ShopEntity implements Parcelable {
     String status;
     String detail;
     String createTime;
+    List<ShopImage> shopImageList;
+
+    public List<ShopImage> getShopImageList() {
+        return shopImageList;
+    }
+
+    public void setShopImageList(List<ShopImage> shopImageList) {
+        this.shopImageList = shopImageList;
+    }
 
     public String getId() {
         return id;

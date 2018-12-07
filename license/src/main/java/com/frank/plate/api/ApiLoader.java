@@ -6,6 +6,7 @@ import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
+import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
@@ -133,9 +134,10 @@ public class ApiLoader {
 
     /**
      * 4.开始服务(修改订单状态为服务中)
+     *
      * @return
      */
-    public Observable<NullDataEntity> beginServe(int order_id,String order_sn) {
+    public Observable<NullDataEntity> beginServe(int order_id, String order_sn) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("order_id", order_id);
@@ -150,7 +152,7 @@ public class ApiLoader {
      * @param id 车况主键
      * @return
      */
-    public Observable<CarInfoRequestParameters> showCarInfo(String id) {
+    public Observable<CarInfoRequestParameters> showCarInfo(int id) {
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
 
@@ -253,7 +255,6 @@ public class ApiLoader {
     }
 
 
-
     /**
      * 活动列表
      */
@@ -275,7 +276,7 @@ public class ApiLoader {
     }
 
 
-   /**
+    /**
      * 工作台首页
      */
     public Observable<WorkIndex> workIndex() {
@@ -284,7 +285,7 @@ public class ApiLoader {
     }
 
 
-   /**
+    /**
      * 会员管理页面数据
      */
     public Observable<Member> memberList() {
@@ -293,7 +294,7 @@ public class ApiLoader {
     }
 
 
-   /**
+    /**
      * 查看会员信息及订单记录
      */
     public Observable<MemberOrder> memberOrderList(int user_id) {
@@ -304,12 +305,24 @@ public class ApiLoader {
         return apiService.memberOrderList(map).compose(RxHelper.<MemberOrder>observe());
     }
 
-   /**
+    /**
      * 门店信息
      */
     public Observable<Shop> shopInfo() {
 
         return apiService.shopInfo().compose(RxHelper.<Shop>observe());
+    }
+
+
+    /**
+     * 获取优惠券列表 [达到满减，未到期，未用过]
+     */
+    public Observable<List<Coupon>> couponList(String order_price, int user_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("order_price", order_price);
+        map.put("user_id", user_id);
+
+        return apiService.couponList(map).compose(RxHelper.<List<Coupon>>observe());
     }
 
 
