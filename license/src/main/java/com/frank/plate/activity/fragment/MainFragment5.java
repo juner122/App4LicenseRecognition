@@ -5,8 +5,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.R;
+import com.frank.plate.activity.AboutActivity;
+import com.frank.plate.activity.AuthenActivity;
 import com.frank.plate.activity.MyBalanceActivity;
+import com.frank.plate.activity.SetProjectActivity;
 import com.frank.plate.activity.ShopInfoActivity;
+import com.frank.plate.activity.UserReportActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Shop;
 
@@ -48,7 +52,7 @@ public class MainFragment5 extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_my_balance, R.id.rl_to_info})
+    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out})
     public void onclick(View v) {
 
         switch (v.getId()) {
@@ -63,6 +67,35 @@ public class MainFragment5 extends BaseFragment {
 
                 toActivity(ShopInfoActivity.class);
 
+                break;
+            case R.id.auth:
+
+                toActivity(AuthenActivity.class);
+
+                break;
+            case R.id.project:
+
+                toActivity(SetProjectActivity.class);
+
+                break;
+            case R.id.about:
+
+                toActivity(AboutActivity.class);
+
+                break;
+            case R.id.updata:
+
+
+
+                break;
+            case R.id.tv_user_report:
+
+                toActivity(UserReportActivity.class);
+
+                break;
+
+            case R.id.tv_out:
+                getActivity().finish();
                 break;
 
 

@@ -1,33 +1,39 @@
 package com.frank.plate.activity;
 
 
-import android.app.DatePickerDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.BillListAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.BillEntityItem;
+import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.MathUtil;
-import com.frank.plate.view.DatePickerDialogUtil;
+import com.frank.plate.view.MyTimePickerView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.chad.library.adapter.base.BaseQuickAdapter.ALPHAIN;
+import static com.frank.plate.util.DateUtil.getFormatedDateTime;
 
 public class BillListActivity extends BaseActivity {
 
+    private static final String TAG = "BillListActivity";
     List<BillEntityItem> list = new ArrayList<>();
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -47,17 +53,15 @@ public class BillListActivity extends BaseActivity {
     TextView v_date2;
 
     BillListAdpter adpter;
-
-
     int count;
-    DatePickerDialogUtil dialogUti1, dialogUti2;
-    int y1, y2, m1, m2, d1, d2;
 
+
+    Calendar startShowDate = Calendar.getInstance();
+    Calendar endShowDate = Calendar.getInstance();
 
     @Override
     protected void init() {
 
-        initDate();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adpter = new BillListAdpter(list);
@@ -66,7 +70,8 @@ public class BillListActivity extends BaseActivity {
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(BillListItemInfoActivity.class);
+
+                toActivity(BillListItemInfoActivity.class, Configure.order_on, list.get(position).getOrderSn());
             }
         });
 
@@ -78,27 +83,59 @@ public class BillListActivity extends BaseActivity {
         tv_title.setText("账单列表");
 
 
+        pvTimeStart = new MyTimePickerView(this);
+        pvTimeEnd = new MyTimePickerView(this);
+
+        startShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH), startShowDate.get(Calendar.DAY_OF_MONTH));
+        endShowDate.set(startShowDate.get(Calendar.YEAR), endShowDate.get(Calendar.MONTH) + 1, endShowDate.get(Calendar.DAY_OF_MONTH));
+
+        v_date1.setText(getFormatedDateTime(startShowDate.getTime()));
+        v_date2.setText(getFormatedDateTime(endShowDate.getTime()));
+
+
+        pvTimeStart.init(startShowDate, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                ((TextView) v).setText(getFormatedDateTime(date));
+
+                startShowDate.setTime(date);
+                setUpDateData();
+
+            }
+        });
+        pvTimeEnd.init(endShowDate, new OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+
+                ((TextView) v).setText(getFormatedDateTime(date));
+                setUpDateData();
+            }
+        });
+
+
     }
+
 
     @Override
     protected void setUpData() {
 
-        Api().getUserBillList(count, 10, 0, 0).subscribe(new RxSubscribe<BillEntity>(this,true) {
+        Api().getUserBillList(count, 10, 0, 0).subscribe(new RxSubscribe<BillEntity>(this, true) {
             @Override
             protected void _onNext(BillEntity bean) {
                 if (bean == null)
                     return;
-                list = bean.getPage().getList();
-                adpter.addData(list);
-                tv_money1.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
-                tv_money2.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
-                tv_money3.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
-                tv_money4.setText(String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
+                list = bean.getList();
+                adpter.setNewData(list);
+                tv_money1.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
+                tv_money2.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
+                tv_money3.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
+                tv_money4.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
             }
 
             @Override
             protected void _onError(String message) {
 
+                Log.d(TAG, message);
             }
         });
 
@@ -110,67 +147,44 @@ public class BillListActivity extends BaseActivity {
         return R.layout.activity_bill_list;
     }
 
-    //当DatePickerDialog关闭时，更新日期显示
-    private void updateDate(TextView textView, int year, int month, int dayOfMonth) {
-        //在TextView上显示日期
-        textView.setText(String.valueOf(year + "-" + (month + 1) + "-" + dayOfMonth));
-    }
 
+    MyTimePickerView pvTimeStart, pvTimeEnd;
 
-    private void initDate() {
-        Calendar ca = Calendar.getInstance();
-        y1 = ca.get(Calendar.YEAR);
-        m1 = ca.get(Calendar.MONTH);
-        d1 = ca.get(Calendar.DAY_OF_MONTH);
-
-        if (m1 + 1 == 13) {
-            y2 = y1 + 1;
-            m2 = 1;
-        } else {
-            y2 = ca.get(Calendar.YEAR);
-            m2 = ca.get(Calendar.MONTH) + 1;
-        }
-        d2 = ca.get(Calendar.DAY_OF_MONTH);
-
-        updateDate(v_date1, y1, m1, d1);
-        updateDate(v_date2, y2, m2, d1);
-
-        dialogUti1 = new DatePickerDialogUtil(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                y1 = year;
-                m1 = month;
-                d1 = dayOfMonth;
-                updateDate(v_date1, year, month, dayOfMonth);
-            }
-        });
-        dialogUti2 = new DatePickerDialogUtil(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                y2 = year;
-                m2 = month;
-                d2 = dayOfMonth;
-                updateDate(v_date2, year, month, dayOfMonth);
-            }
-        });
-    }
-
-    @OnClick({R.id.iv1, R.id.iv2})
+    @OnClick({R.id.v_date1, R.id.v_date2})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv1:
+            case R.id.v_date1:
 
-                dialogUti1.show(y1, m1, d1);
-
+                pvTimeStart.show(v);
                 break;
 
-            case R.id.iv2:
+            case R.id.v_date2:
 
-                dialogUti2.show(y2, m2, d2);
+                pvTimeEnd.show(v);
 
                 break;
         }
+
     }
 
+    private void setUpDateData() {
+        Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime()).subscribe(new RxSubscribe<BillEntity>(this, true) {
+            @Override
+            protected void _onNext(BillEntity bean) {
+                if (bean == null)
+                    return;
+                list = bean.getList();
+                adpter.setNewData(list);
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                Log.d(TAG, message);
+                Toast.makeText(BillListActivity.this, "查找账单失败，请重试！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
 }

@@ -78,7 +78,14 @@
         <activity android:name=".activity.MemberManagementInfoActivity" />
         <activity android:name=".activity.ShopInfoActivity" />
         <activity android:name=".activity.CarInfoActivity" />
-        <activity android:name=".activity.PickCoupons"></activity>
+        <activity android:name=".activity.PickCoupons" />
+        <activity android:name=".activity.CourseInfoActivity" />
+        <activity android:name=".activity.CourseEnrolmentActivity" />
+        <activity android:name=".activity.CashWithdrawActivity" />
+        <activity android:name=".activity.AuthenActivity" />
+        <activity android:name=".activity.UserReportActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.SetProjectActivity"></activity>
     </application>
 
 </manifest>

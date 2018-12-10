@@ -4,6 +4,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.R;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.MyBalanceEntity;
+import com.frank.plate.util.MathUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,22 +24,21 @@ public class MyBalanceActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        tv_title.setText("我的余额");
 
-//        Api().getUserBalanceInfo(new MySubscriber<>(this, new SubscribeOnNextListener<MyBalanceEntity>() {
-//            @Override
-//            public void onNext(MyBalanceEntity data) {
-//
-//                tv_balance.setText(String.format("￥%s", MathUtil.twoDecimal(Double.valueOf(data.getBalance()))));
-//                tv_in_applied.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAskMoney()))));
-//                tv_forward.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAuthMoney()))));
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//
-//            }
-//        }));
+        Api().balanceInfo().subscribe(new RxSubscribe<MyBalanceEntity>(this, true) {
+            @Override
+            protected void _onNext(MyBalanceEntity data) {
+                tv_balance.setText(String.format("￥%s", MathUtil.twoDecimal(Double.valueOf(data.getBalance()))));
+                tv_in_applied.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAskMoney()))));
+                tv_forward.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAuthMoney()))));
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        });
 
 
     }
@@ -69,6 +71,8 @@ public class MyBalanceActivity extends BaseActivity {
                 break;
             case R.id.tv_action_applied:
 
+
+                toActivity(CashWithdrawActivity.class);
 
                 break;
         }

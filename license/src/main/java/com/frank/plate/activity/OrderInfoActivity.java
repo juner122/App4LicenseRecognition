@@ -222,6 +222,7 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
 
+
     private void getOrderInfoData() {
 
         Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {

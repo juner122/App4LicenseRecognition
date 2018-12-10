@@ -9,12 +9,8 @@
     android:padding="10dp">
 
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        tools:srcCompat="@tools:sample/avatars[4]" />
-
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -23,6 +19,7 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/lv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -32,6 +29,7 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

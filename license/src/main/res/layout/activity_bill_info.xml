@@ -27,9 +27,10 @@
 
 
                 <TextView
+                    android:id="@+id/tv_order_sn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单号:XGX100001"
+                    android:text="订单号:"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
@@ -38,17 +39,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="接单时间  2018-12-12  14:00"
+                    android:text="接单时间:"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/tv3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv2"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
-                    android:text="预计完成  2018-12-12  14:00"
+                    android:text="完成时间:"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
@@ -78,6 +80,7 @@
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_price1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -85,7 +88,7 @@
                         android:gravity="center"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥200.00"
+                        android:text="已选：￥"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -97,6 +100,7 @@
                     android:background="#D9D9D9" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -124,14 +128,14 @@
                         android:textSize="14sp" />
 
                     <TextView
-
+                        android:id="@+id/tv_price2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_weight="1"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥200.00"
+                        android:text="已选：￥"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -144,6 +148,7 @@
                     android:background="#D9D9D9" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -167,6 +172,7 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_price3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -174,7 +180,7 @@
                     android:paddingTop="15dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="15dp"
-                    android:text="400.00元"
+                    android:text="￥"
                     android:textColor="#FFF23325"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -195,6 +201,8 @@
                     android:textSize="14sp" />
 
                 <TextView
+
+                    android:id="@+id/tv_price4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -202,7 +210,7 @@
                     android:paddingTop="15dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="15dp"
-                    android:text="400.00元"
+                    android:text="￥"
                     android:textColor="#FFF23325"
                     android:textSize="14sp" />
             </LinearLayout>

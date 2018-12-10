@@ -3,10 +3,16 @@ package com.frank.plate.activity.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.RadioGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
+import com.frank.plate.activity.CourseInfoActivity;
 import com.frank.plate.adapter.CourseListAdapter;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.Course;
 import com.frank.plate.bean.CourseListItemEntity;
 
 import java.util.ArrayList;
@@ -23,7 +29,7 @@ public class MainFragment4 extends BaseFragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    List<CourseListItemEntity> list, list2;
+    List<Course> list = new ArrayList<>();
     CourseListAdapter courseListAdapter;
 
     @Override
@@ -34,22 +40,10 @@ public class MainFragment4 extends BaseFragment {
     @Override
     protected void setUpView() {
 
-        list = new ArrayList<>();
-        list2 = new ArrayList<>();
-        list.add(new CourseListItemEntity("", "汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list.add(new CourseListItemEntity("", "汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list.add(new CourseListItemEntity("", "汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list.add(new CourseListItemEntity("", "汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list.add(new CourseListItemEntity("", "汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list2.add(new CourseListItemEntity("", "2汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list2.add(new CourseListItemEntity("", "22汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list2.add(new CourseListItemEntity("", "222汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-        list2.add(new CourseListItemEntity("", "222汽车电池知识你了解多少？", "由于锂电池在混合动力汽车和纯电动汽车领域的出色电能和功率特性……", "免费"));
-
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        courseListAdapter = new CourseListAdapter(list);
+        courseListAdapter = new CourseListAdapter(list, this);
         recyclerView.setAdapter(courseListAdapter);
+        getCourseList(2);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -57,11 +51,10 @@ public class MainFragment4 extends BaseFragment {
                 switch (checkedId) {
                     case R.id.rb1:
 
-                        courseListAdapter.setNewData(list);
-
+                        getCourseList(2);
                         break;
                     case R.id.rb2:
-                        courseListAdapter.setNewData(list2);
+                        getCourseList(1);
                         break;
 
 
@@ -71,11 +64,41 @@ public class MainFragment4 extends BaseFragment {
         });
 
 
+        courseListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+                toActivity(CourseInfoActivity.class);
+            }
+        });
+
     }
 
     public static final String TAG = "MainFragment4";
+
     @Override
     protected String setTAG() {
         return TAG;
     }
+
+
+    private void getCourseList(int course_type) {
+        Api().courseList(course_type).subscribe(new RxSubscribe<List<Course>>(getContext(), true) {
+            @Override
+            protected void _onNext(List<Course> course) {
+                courseListAdapter.setNewData(course);
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                Log.e(TAG, message);
+            }
+        });
+
+
+    }
+
+
 }

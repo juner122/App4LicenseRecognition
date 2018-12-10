@@ -8,6 +8,7 @@
     android:padding="10dp">
 
     <ImageView
+        android:id="@+id/iv"
         android:background="#aaa"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -75,6 +76,7 @@ MKD电子气门高活性清洁剂-8306"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="原价：820"
+                    android:visibility="gone"
                     android:textColor="#ff999999"
                     android:textSize="12sp" />
 

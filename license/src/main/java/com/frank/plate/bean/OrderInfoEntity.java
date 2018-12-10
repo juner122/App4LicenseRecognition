@@ -29,7 +29,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String car_no;//
     String confirm_time;//确认时间
     Long planfinishi_time;//预计完成时间
-    double order_price;//预计完成时间
+    double order_price;//
     int pay_type;
     String discount_price;//自定义折扣
     String custom_cut_price;//自定义减免

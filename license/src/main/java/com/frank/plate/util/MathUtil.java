@@ -8,7 +8,10 @@ public class MathUtil {
 
 
     //显示两位小数
-    public static String twoDecimal(Double d) {
+    public static String twoDecimal(double d) {
+
+        if (d == 0) return "0.0";
+
         DecimalFormat format = new DecimalFormat(",##0.00");
         String s = format.format(d);
 
@@ -26,7 +29,6 @@ public class MathUtil {
         date.setTime(l);
         return simpleDateFormat.format(date);
     }
-
 
 
 }

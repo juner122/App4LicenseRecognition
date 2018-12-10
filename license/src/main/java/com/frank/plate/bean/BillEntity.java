@@ -1,24 +1,28 @@
 package com.frank.plate.bean;
 
+import java.util.List;
+
 public class BillEntity {
 
-    String monthIn;
+    String betwInt;
     String dayOut;
-    String monthOut;
+    String betwOut;
     String dayIn;
 
 
-    BasePage<BillEntityItem> page;
+    List<BillEntityItem> list;
 
     public String getMonthIn() {
-        return monthIn;
+        if (null == betwInt) return "0";
+        return betwInt;
     }
 
     public void setMonthIn(String monthIn) {
-        this.monthIn = monthIn;
+        this.betwInt = monthIn;
     }
 
     public String getDayOut() {
+        if (null == dayOut) return "0";
         return dayOut;
     }
 
@@ -27,14 +31,16 @@ public class BillEntity {
     }
 
     public String getMonthOut() {
-        return monthOut;
+        if (null == betwOut) return "0";
+        return betwOut;
     }
 
     public void setMonthOut(String monthOut) {
-        this.monthOut = monthOut;
+        this.betwOut = monthOut;
     }
 
     public String getDayIn() {
+        if (null == dayIn) return "0";
         return dayIn;
     }
 
@@ -42,22 +48,11 @@ public class BillEntity {
         this.dayIn = dayIn;
     }
 
-    public BasePage<BillEntityItem> getPage() {
-        return page;
+    public List<BillEntityItem> getList() {
+        return list;
     }
 
-    public void setPage(BasePage<BillEntityItem> page) {
-        this.page = page;
-    }
-
-    @Override
-    public String toString() {
-        return "BillEntity{" +
-                "monthIn='" + monthIn + '\'' +
-                ", dayOut='" + dayOut + '\'' +
-                ", monthOut='" + monthOut + '\'' +
-                ", dayIn='" + dayIn + '\'' +
-                ", page=" + page +
-                '}';
+    public void setList(List<BillEntityItem> list) {
+        this.list = list;
     }
 }

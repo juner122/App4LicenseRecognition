@@ -63,37 +63,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     EditText et7;
 
     String car_number = "";
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case PlateRecognition.MSG_RESULT://recognize finish
-                    String result = (String) msg.obj;
-                    Toast.makeText(getContext(), "车牌号=" + result, Toast.LENGTH_SHORT).show();
-                    car_number = result;
 
-
-//                    new AppPreferences(getContext()).put(Configure.car_no, car_number);
-                    try {
-                        et1.setText(String.valueOf(result.charAt(0)));
-                        et2.setText(String.valueOf(result.charAt(1)));
-                        et3.setText(String.valueOf(result.charAt(2)));
-                        et4.setText(String.valueOf(result.charAt(3)));
-                        et5.setText(String.valueOf(result.charAt(4)));
-                        et6.setText(String.valueOf(result.charAt(5)));
-                        et7.setText(String.valueOf(result.charAt(6)));
-
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-
-
-                    break;
-            }
-        }
-    };
 
     @Override
     public int setLayoutResourceID() {
@@ -225,5 +195,35 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
         });
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case PlateRecognition.MSG_RESULT://recognize finish
+                    String result = (String) msg.obj;
+                    Toast.makeText(getContext(), "车牌号=" + result, Toast.LENGTH_SHORT).show();
+                    car_number = result;
 
+
+//                    new AppPreferences(getContext()).put(Configure.car_no, car_number);
+                    try {
+                        et1.setText(String.valueOf(result.charAt(0)));
+                        et2.setText(String.valueOf(result.charAt(1)));
+                        et3.setText(String.valueOf(result.charAt(2)));
+                        et4.setText(String.valueOf(result.charAt(3)));
+                        et5.setText(String.valueOf(result.charAt(4)));
+                        et6.setText(String.valueOf(result.charAt(5)));
+                        et7.setText(String.valueOf(result.charAt(6)));
+
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                    break;
+            }
+        }
+    };
 }

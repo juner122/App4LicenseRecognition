@@ -77,7 +77,7 @@ public class PlateRecognition {
      * init recognizer with model files
      * @param assetPath assetPath
      */
-    public void initRecognizer(String assetPath) {
+    public void   initRecognizer(String assetPath) {
         String sdcardPath = Environment.getExternalStorageDirectory() + File.separator + assetPath;
         if(!isFolderExist(sdcardPath)){//copy files to external storage when folder not exist
             copyFilesFromAssets(context, assetPath, sdcardPath);

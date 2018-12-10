@@ -13,9 +13,10 @@ public class DateUtil {
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
         return sDateFormat.format(new Date(l));
     }
-  public static String getFormatedDateTime(Long dateTime) {
 
-        if(null == dateTime){
+    public static String getFormatedDateTime(Long dateTime) {
+
+        if (null == dateTime) {
             return "-";
         }
 
@@ -24,7 +25,7 @@ public class DateUtil {
     }
 
     public static String getFormatedDateTime(Date dateTime) {
-
+        format = "yyyy-MM-dd";
         return new SimpleDateFormat(format).format(dateTime);
     }
 

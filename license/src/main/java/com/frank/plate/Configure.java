@@ -22,6 +22,7 @@ public class Configure {
     public static final String moblie = "moblie";//
     public static final String car_id = "car_id";//
     public static final String user_name = "user_name";//
+    public static final String order_on = "order_on";//
 
 
 

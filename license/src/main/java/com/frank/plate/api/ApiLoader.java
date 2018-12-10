@@ -7,9 +7,11 @@ import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
+import com.frank.plate.bean.Course;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
+import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
@@ -20,6 +22,9 @@ import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.WorkIndex;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,16 +52,45 @@ public class ApiLoader {
     }
 
     /**
-     * 1.拍照接单自动查找订单或车况
+     * 账单统计加列表
      *
      * @return
      */
-    public Observable<BillEntity> getUserBillList(int count, int limit, int sidx, int order) {
+    public Observable<BillEntity> getUserBillList(int page, int limit, int sidx, int order) {
         Map<String, Object> map = new HashMap<>();
-        map.put("count", count);
-        map.put("limit", limit);
-        map.put("sidx", sidx);
-        map.put("order", order);
+
+
+        //选日期需要添加，不添加默认取本月	Date before, Date after
+
+
+        //如需分页则添加	分页参数（int page，int limit，String sidx，String order）
+//        map.put("page", page);
+//        map.put("limit", limit);
+//        map.put("sidx", sidx);
+//        map.put("order", order);
+        return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
+
+    }
+
+    /**
+     * 账单统计加列表
+     *
+     * @return
+     */
+    public Observable<BillEntity> getUserBillList(Date before, Date after) {
+        Map<String, Object> map = new HashMap<>();
+
+
+        //选日期需要添加，不添加默认取本月	Date before, Date after
+
+
+
+
+
+        map.put("before", before.getTime());
+        map.put("after", after.getTime());
+
+
         return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
 
     }
@@ -250,7 +284,18 @@ public class ApiLoader {
     public Observable<OrderInfo> orderDetail(int id) {
         Map<String, Object> map = new HashMap<>();
 
-        map.put("id", id);//=1.平台活动 =3.门店活动
+        map.put("id", id);
+        return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
+    }
+
+    /**
+     * 账单详情（同订单详情一个接口，入参不同）
+     *
+     * @returnD
+     */
+    public Observable<OrderInfo> orderDetail(String order_sn) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("order_sn", order_sn);
         return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
     }
 
@@ -323,6 +368,35 @@ public class ApiLoader {
         map.put("user_id", user_id);
 
         return apiService.couponList(map).compose(RxHelper.<List<Coupon>>observe());
+    }
+
+
+    /**
+     * 获取优惠券列表 [达到满减，未到期，未用过]
+     */
+    public Observable<MyBalanceEntity> balanceInfo() {
+
+        return apiService.balanceInfo().compose(RxHelper.<MyBalanceEntity>observe());
+    }
+
+    /**
+     * 课程列表
+     */
+    public Observable<List<Course>> courseList(int course_type) {
+        // course_type	1为线下 2为线上
+        Map<String, Object> map = new HashMap<>();
+        map.put("course_type", course_type);
+        return apiService.courseList(map).compose(RxHelper.<List<Course>>observe());
+    }
+
+    /**
+     * 课程报名
+     */
+    public Observable<NullDataEntity> coursejoinnameSave(String name, String mobile) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("mobile", mobile);
+        return apiService.coursejoinnameSave(map).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

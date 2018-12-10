@@ -9,6 +9,7 @@ import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
+import com.frank.plate.bean.Course;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
@@ -131,6 +132,8 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<OrderInfo>> orderDetail(@FieldMap Map<String, Object> maps);
 
+
+
     //车况详情显示
     @POST("usercarcondition/info")
     @FormUrlEncoded
@@ -180,6 +183,20 @@ public interface ApiService {
     @POST("coupon/list")
     @FormUrlEncoded
     Observable<BaseBean<List<Coupon>>> couponList(@FieldMap Map<String, Object> maps);
+
+    //我的余额
+    @POST("userbalance/getInfo")
+    Observable<BaseBean<MyBalanceEntity>> balanceInfo();
+
+
+    //课程列表
+    @POST("course/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Course>>> courseList(@FieldMap Map<String, Object> maps);
+    //课程报名
+    @POST("coursejoinname/save")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> coursejoinnameSave(@FieldMap Map<String, Object> maps);
 
 
 }
