@@ -52,7 +52,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     RecyclerView recyclerView;
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
-    String car_number, mobile, user_name;
+    static String car_number, mobile, user_name;
 
 
     int user_id, car_id;
@@ -198,12 +198,12 @@ public class MemberInfoInputActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        queryByCar();
+        queryByCar(intent.getStringExtra(Configure.car_no));
     }
 
-    private void queryByCar() {
+    private void queryByCar(String carNumber) {
 
-        Api().queryByCar(car_number).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
+        Api().queryByCar(carNumber).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
             protected void _onNext(QueryByCarEntity entity) {
 

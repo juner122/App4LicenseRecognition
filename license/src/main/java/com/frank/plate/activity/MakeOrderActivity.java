@@ -179,7 +179,7 @@ public class MakeOrderActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
-                toActivity(ProductListActivity.class);
+                toActivity(ProductListActivity.class, Configure.isShow, 1);
                 break;
             case R.id.but_meal_list:
                 toActivity(MealListActivity.class);
@@ -338,7 +338,7 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void getTopData() {
 
-        Api().queryAnyGoods().subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
+        Api().shopeasyList().subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
             @Override
             protected void _onNext(GoodsListEntity goodsListEntity) {
                 goods_top = goodsListEntity.getGoodsList();

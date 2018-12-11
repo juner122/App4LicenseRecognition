@@ -25,12 +25,19 @@ public class Configure {
     public static final String order_on = "order_on";//
 
 
+    public static final String brand = "brand";//
+    public static final String brandModdel = "brandModdel";//
+
+
 
 
     public static final String show_fragment = "fragment";//
     public static final String JSON_CART = "JSON_CART";//
     public static final String CARID = "carid";//
     public static final String CARINFO = "carinfo";//
+
+
+    public static final String isShow = "isShow";//
 
     public static final String ORDERINFO = "orderInfo";//
     public static final String ORDERINFOID = "orderInfoId";//

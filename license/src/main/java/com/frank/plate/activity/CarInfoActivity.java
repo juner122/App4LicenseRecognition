@@ -47,14 +47,13 @@ public class CarInfoActivity extends BaseActivity {
         Api().showCarInfo(getIntent().getIntExtra(Configure.CARID, 0)).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
             @Override
             protected void _onNext(CarInfoRequestParameters o) {
-                tv_car_model.setText(o.getBrand());
+                tv_car_model.setText(o.getBrand() + "\t" + o.getName());
                 tv_car_no.setText(o.getCarNo());
                 List<UpDataPicEntity> list = new ArrayList<>();
                 List<UpDataPicEntity> list2 = new ArrayList<>();
                 List<UpDataPicEntity> list3 = new ArrayList<>();
 
                 for (UpDataPicEntity u : o.getImagesList()) {
-                    ;
                     if (u.getType().equals("1")) {
                         list.add(u);
                     } else if (u.getType().equals("2")) {

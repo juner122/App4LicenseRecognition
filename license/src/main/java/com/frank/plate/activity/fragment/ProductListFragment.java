@@ -44,6 +44,7 @@ public class ProductListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         productListAdapter = new ProductListAdapter(this, null);
         recyclerView.setAdapter(productListAdapter);
+        productListAdapter.setEmptyView(R.layout.order_list_empty_view_p, recyclerView);
 
         productListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override

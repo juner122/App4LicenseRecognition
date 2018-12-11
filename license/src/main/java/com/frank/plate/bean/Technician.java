@@ -18,7 +18,15 @@ public class Technician implements Parcelable {
     String password;
     String email;
     String mobile;
+    String roleName;
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public int getUserId() {
         return userId;
@@ -107,6 +115,9 @@ public class Technician implements Parcelable {
                 '}';
     }
 
+    public Technician() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -123,9 +134,7 @@ public class Technician implements Parcelable {
         dest.writeString(this.password);
         dest.writeString(this.email);
         dest.writeString(this.mobile);
-    }
-
-    public Technician() {
+        dest.writeString(this.roleName);
     }
 
     protected Technician(Parcel in) {
@@ -138,9 +147,10 @@ public class Technician implements Parcelable {
         this.password = in.readString();
         this.email = in.readString();
         this.mobile = in.readString();
+        this.roleName = in.readString();
     }
 
-    public static final Parcelable.Creator<Technician> CREATOR = new Parcelable.Creator<Technician>() {
+    public static final Creator<Technician> CREATOR = new Creator<Technician>() {
         @Override
         public Technician createFromParcel(Parcel source) {
             return new Technician(source);

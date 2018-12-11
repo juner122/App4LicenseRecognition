@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.frank.plate.R;
-import com.frank.plate.adapter.TechnicianAdpter;
+import com.frank.plate.adapter.TechnicianInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.Technician;
@@ -22,18 +22,7 @@ public class StaffManagementActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    @BindView(R.id.name)
-    TextView name;
-
-
-    @BindView(R.id.lv)
-    TextView lv;
-
-
-    @BindView(R.id.phone)
-    TextView phone;
-
-    TechnicianAdpter adpter;
+    TechnicianInfoAdpter adpter;
 
     List<Technician> list = new ArrayList<>();
 
@@ -48,7 +37,7 @@ public class StaffManagementActivity extends BaseActivity {
 
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adpter = new TechnicianAdpter(list);
+        adpter = new TechnicianInfoAdpter(list);
         rv.setAdapter(adpter);
 
         Api().sysuserList().subscribe(new RxSubscribe<BasePage<Technician>>(this, true) {

@@ -10,6 +10,25 @@ public class CarEntity extends SelectedBean implements Parcelable {
     String carNo;
     String carModel;
     String postscript;
+    String brand;
+    String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getBrand() {
+
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
     public int getId() {
         return id;
@@ -77,6 +96,8 @@ public class CarEntity extends SelectedBean implements Parcelable {
         dest.writeString(this.carNo);
         dest.writeString(this.carModel);
         dest.writeString(this.postscript);
+        dest.writeString(this.brand);
+        dest.writeString(this.name);
     }
 
     protected CarEntity(Parcel in) {
@@ -85,6 +106,8 @@ public class CarEntity extends SelectedBean implements Parcelable {
         this.carNo = in.readString();
         this.carModel = in.readString();
         this.postscript = in.readString();
+        this.brand = in.readString();
+        this.name = in.readString();
     }
 
     public static final Creator<CarEntity> CREATOR = new Creator<CarEntity>() {

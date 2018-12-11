@@ -41,21 +41,7 @@ public class TechnicianListActivity extends BaseActivity {
         rv.setAdapter(adpter);
 
 
-        Api().sysuserList().subscribe(new RxSubscribe<BasePage<Technician>>(this, true) {
-            @Override
-            protected void _onNext(BasePage<Technician> t) {
 
-                list = t.getList();
-
-                adpter.setNewData(list);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Toast.makeText(TechnicianListActivity.this, message, Toast.LENGTH_SHORT).show();
-
-            }
-        });
     }
 
     @OnClick({R.id.but_enter})

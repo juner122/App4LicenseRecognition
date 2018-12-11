@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.ActivityPackageListActivity;
 import com.frank.plate.activity.BillListActivity;
@@ -98,7 +99,7 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(StaffManagementActivity.class);
                 break;
             case R.id.but_top3:
-                toActivity(ProductListActivity.class);
+                toActivity(ProductListActivity.class, Configure.isShow, 0);
                 break;
             case R.id.but_top4:
                 toActivity(ActivityPackageListActivity.class);

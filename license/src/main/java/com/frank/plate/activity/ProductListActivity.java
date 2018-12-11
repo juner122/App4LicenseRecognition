@@ -5,15 +5,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductListFragment;
@@ -44,8 +48,16 @@ public class ProductListActivity extends BaseActivity {
     RadioGroup radioGroup;
 
 
+    @BindView(R.id.et_key)
+    EditText et_key;
+
+
     @BindView(R.id.tv_totalPrice)
     TextView tv_totalPrice;
+
+    @BindView(R.id.ll)
+    View ll;
+
     ProductListFragment fragment;
     CommonPopupWindow popupWindow;
     RecyclerView commonPopupRecyclerView;
@@ -58,15 +70,17 @@ public class ProductListActivity extends BaseActivity {
 
     private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
 
-
-    private List<GoodsEntity> pickGoods;//选择了的商品
-
+    public static int isShow;//是否显示选择数量和价格 0不显示  1显示
 
     @Override
     protected void init() {
+        isShow = getIntent().getIntExtra(Configure.isShow, 0);
 
-
-
+        if (isShow == 0) {
+            ll.setVisibility(View.GONE);
+        } else {
+            ll.setVisibility(View.VISIBLE);
+        }
 
         tv_title.setText("商品列表");
         tv_totalPrice.append(String.valueOf(TotalPrice));
@@ -88,7 +102,8 @@ public class ProductListActivity extends BaseActivity {
                     layoutParams.setMargins(0, 1, 0, 0);
                     radioButton.setPadding(0, 36, 0, 36);
                     radioButton.setText(categories.get(i).getName());
-                    radioButton.setBackground(ContextCompat.getDrawable(ProductListActivity.this, R.drawable.radiobutton_background_a));
+//                    radioButton.setBackground(ContextCompat.getDrawable(ProductListActivity.this, R.drawable.radiobutton_background_a));
+                    radioButton.setBackground(getResources().getDrawable(R.drawable.radiobutton_background_a));
                     radioButton.setButtonDrawable(android.R.color.transparent);//隐藏单选圆形按钮
                     radioButton.setGravity(Gravity.CENTER);
                     radioButton.setLayoutParams(layoutParams);
@@ -99,6 +114,7 @@ public class ProductListActivity extends BaseActivity {
                             showPopupWindow(view);
                         }
                     });
+
                     radioGroup.addView(radioButton);
                 }
             }
@@ -112,10 +128,27 @@ public class ProductListActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.but_enter_order})
-    public void onClick() {
+    @OnClick({R.id.but_enter_order, R.id.iv_search})
+    public void onClick(View v) {
 
-      finish();
+        switch (v.getId()) {
+
+            case R.id.but_enter_order:
+
+                finish();
+                break;
+            case R.id.iv_search:
+
+                if (!TextUtils.isEmpty(et_key.getText()))
+                    onQueryAnyGoods("", "", et_key.getText().toString());
+                else
+                    Toast.makeText(ProductListActivity.this, "请输入搜索关键字！", Toast.LENGTH_SHORT).show();
+
+                break;
+
+        }
+
+
     }
 
     private void showPopupWindow(View v) {
@@ -175,21 +208,8 @@ public class ProductListActivity extends BaseActivity {
                 @Override
                 protected void _onNext(GoodsListEntity goodsListEntity) {
 
-//                    List<GoodsEntity> all = listMap.get(category_id);//同category_id种类下所有商品
                     List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
-//                    if (null != all) {
-//
-//                        for (int i = 0; i < all.size(); i++) {
-//                            GoodsEntity category_good = all.get(i);
-//                            for (int j = 0; j < brand_all.size(); j++) {
-//                                if (category_good.getBrand_id().equals(brand_all.get(j).getBrand_id())) {
-//
-//                                    brand_all.get(j).setNumber(category_good.getNumber());
-//                                }
-//                            }
-//                        }
-//
-//                    }
+
                     listMap.put(category_id + brand_id, brand_all);
                     fragment.switchData(category_id, brand_id, brand_all);
 

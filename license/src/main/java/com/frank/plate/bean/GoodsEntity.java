@@ -15,10 +15,18 @@ public class GoodsEntity implements Parcelable {
     String goods_desc;
     String category_id;
     String primary_pic_url;
-
+    int easy_id;
     int number;
     String retail_price;
     int  is_hot;
+
+    public int getEasy_id() {
+        return easy_id;
+    }
+
+    public void setEasy_id(int easy_id) {
+        this.easy_id = easy_id;
+    }
 
     public int getIs_hot() {
         return is_hot;
@@ -164,6 +172,7 @@ public class GoodsEntity implements Parcelable {
         dest.writeString(this.goods_desc);
         dest.writeString(this.category_id);
         dest.writeString(this.primary_pic_url);
+        dest.writeInt(this.easy_id);
         dest.writeInt(this.number);
         dest.writeString(this.retail_price);
         dest.writeInt(this.is_hot);
@@ -180,6 +189,7 @@ public class GoodsEntity implements Parcelable {
         this.goods_desc = in.readString();
         this.category_id = in.readString();
         this.primary_pic_url = in.readString();
+        this.easy_id = in.readInt();
         this.number = in.readInt();
         this.retail_price = in.readString();
         this.is_hot = in.readInt();

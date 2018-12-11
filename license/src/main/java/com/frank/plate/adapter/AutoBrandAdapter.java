@@ -1,8 +1,11 @@
 package com.frank.plate.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
@@ -16,21 +19,21 @@ public class AutoBrandAdapter extends BaseQuickAdapter<AutoBrand, BaseViewHolder
 
 
     private HashMap<String, Integer> indexMap = new HashMap<>();
+    private Context mContext;
 
     List<AutoBrand> list;
 
-    public AutoBrandAdapter(@Nullable List<AutoBrand> data) {
+    public AutoBrandAdapter(Context context, @Nullable List<AutoBrand> data) {
         super(R.layout.activity_auto_brand, data);
         if (null == data) return;
-
+        this.mContext = context;
         list = data;
 
-
         // 列表特征和分组首项进行关联
-        for (int i = 0; i < data.size(); i++) {
-            AutoBrand ab = data.get(i);
-            String type = ab.getType();
-
+        for (int i = 0; i < list.size(); i++) {
+            AutoBrand city = list.get(i);
+            String type = city.getType();
+            if (type == null || "".equals(type)) continue;
             if (!indexMap.containsKey(type)) {
                 indexMap.put(type, i);
             }
@@ -41,18 +44,28 @@ public class AutoBrandAdapter extends BaseQuickAdapter<AutoBrand, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, AutoBrand item) {
+        if (null == list) return;
+        helper.setText(R.id.name, item.getName()).addOnClickListener(R.id.ll_item);
+        Glide.with(mContext)
+                .load(item.getImage())
+                .into((ImageView) helper.getView(R.id.iv));
 
-        helper.setText(R.id.name, item.getName());
 
-        if (helper.getLayoutPosition() == 0) {
+        int position = helper.getLayoutPosition();
+
+
+        if (position == 0) {
             helper.setVisible(R.id.tvSection, true);
-            helper.setText(R.id.tvSection, item.getType());
+            helper.setText(R.id.tvSection, list.get(position).getType());
         } else {
-            if (!item.getType().equals(list.get(helper.getLayoutPosition() - 1).getType())) {
-                helper.setText(R.id.tvSection, item.getType());
-                helper.setVisible(R.id.tvSection, true);
+            String preLabel = list.get(position - 1).getType();
+
+
+            if (!list.get(position).getType().equals(preLabel)) {
+                helper.setText(R.id.tvSection, list.get(position).getType());
+                helper.setGone(R.id.tvSection, true);
             } else
-                helper.setVisible(R.id.tvSection, false);
+                helper.setGone(R.id.tvSection, false);
 
         }
     }

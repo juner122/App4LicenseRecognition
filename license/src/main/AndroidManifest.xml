@@ -57,7 +57,9 @@
         <activity
             android:name=".activity.MemberInfoInputActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.CarInfoInputActivity" />
+        <activity
+            android:name=".activity.CarInfoInputActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.MakeOrderActivity"
             android:launchMode="singleTop" />
@@ -85,7 +87,8 @@
         <activity android:name=".activity.AuthenActivity" />
         <activity android:name=".activity.UserReportActivity" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.SetProjectActivity"></activity>
+        <activity android:name=".activity.SetProjectActivity" />
+        <activity android:name=".activity.ActivityInfoActivity"></activity>
     </application>
 
 </manifest>

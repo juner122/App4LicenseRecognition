@@ -1,7 +1,9 @@
 package com.frank.plate.api;
 
 import com.frank.plate.bean.ActivityEntity;
+import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
+import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
@@ -149,6 +151,10 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<GoodsListEntity>> queryAnyGoods(@FieldMap Map<String, Object> maps);
 
+    //四个火热商品
+    @POST("shopeasy/list")
+    Observable<BaseBean<GoodsListEntity>> shopeasyList();
+
 
     //分类下品牌列表加第一个品牌第一页下商品
     @POST("brand/categoryBrandList")
@@ -160,9 +166,19 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
 
+    //活动详情
+    @POST("activity/detail")
+    @FormUrlEncoded
+    Observable<BaseBean<ActivityEntityItem>> activityDetail(@FieldMap Map<String, Object> maps);
+
     //品牌查询列表
     @POST("carbrand/listByName")
     Observable<BaseBean<List<AutoBrand>>> listByName();
+
+   //通过品牌查车型列表
+    @POST("carname/listByBrand")
+    @FormUrlEncoded
+    Observable<BaseBean<List<AutoModel>>> listByBrand(@FieldMap Map<String, Object> maps);
 
 
     //工作台首页
@@ -193,10 +209,18 @@ public interface ApiService {
     @POST("course/list")
     @FormUrlEncoded
     Observable<BaseBean<List<Course>>> courseList(@FieldMap Map<String, Object> maps);
+
+
     //课程报名
     @POST("coursejoinname/save")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> coursejoinnameSave(@FieldMap Map<String, Object> maps);
+
+
+    //添加反馈
+    @POST("feedback/save")
+    @FormUrlEncoded
+    Observable<BaseBean<String>> feedbackSave(@FieldMap Map<String, Object> maps);
 
 
 }

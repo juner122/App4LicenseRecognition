@@ -1,7 +1,9 @@
 package com.frank.plate.api;
 
 import com.frank.plate.bean.ActivityEntity;
+import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
+import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
@@ -82,9 +84,6 @@ public class ApiLoader {
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
-
-
-
 
 
         map.put("before", before.getTime());
@@ -234,11 +233,9 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<GoodsListEntity> queryAnyGoods() {
-        Map<String, Object> map = new HashMap<>();
-        int is_hot = 1;
-        map.put("is_hot", is_hot);
-        return apiService.queryAnyGoods(map).compose(RxHelper.<GoodsListEntity>observe());
+    public Observable<GoodsListEntity> shopeasyList() {
+
+        return apiService.shopeasyList().compose(RxHelper.<GoodsListEntity>observe());
     }
 
     /**
@@ -303,7 +300,7 @@ public class ApiLoader {
     /**
      * 活动列表
      */
-    public Observable<ActivityEntity> activityList(String activity_type, String activity_name) {
+    public Observable<ActivityEntity> activityList(int activity_type, String activity_name) {
         Map<String, Object> map = new HashMap<>();
 
         map.put("activity_type", activity_type);//=1.平台活动 =3.门店活动
@@ -313,11 +310,32 @@ public class ApiLoader {
     }
 
     /**
+     * 活动详情
+     */
+    public Observable<ActivityEntityItem> activityDetail(int id) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("id", id);
+
+        return apiService.activityDetail(map).compose(RxHelper.<ActivityEntityItem>observe());
+    }
+
+    /**
      * 品牌查询列表
      */
     public Observable<List<AutoBrand>> listByName() {
 
         return apiService.listByName().compose(RxHelper.<List<AutoBrand>>observe());
+    }
+
+    /**
+     * 通过品牌查车型列表
+     */
+    public Observable<List<AutoModel>> listByBrand(int brand_id) {
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("brand_id", brand_id);
+        return apiService.listByBrand(map).compose(RxHelper.<List<AutoModel>>observe());
     }
 
 
@@ -397,6 +415,16 @@ public class ApiLoader {
         map.put("name", name);
         map.put("mobile", mobile);
         return apiService.coursejoinnameSave(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
+     * 添加反馈
+     */
+    public Observable<String> feedbackSave(String content) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("content", content);
+        return apiService.feedbackSave(map).compose(RxHelper.<String>observe());
     }
 
 

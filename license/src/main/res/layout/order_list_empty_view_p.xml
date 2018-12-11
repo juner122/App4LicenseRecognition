@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_marginTop="50dp"
-        android:background="@mipmap/list_empty_order"
+        android:background="@mipmap/list_empty_p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

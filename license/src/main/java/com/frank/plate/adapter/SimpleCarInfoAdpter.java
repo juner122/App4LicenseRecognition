@@ -21,7 +21,7 @@ public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHol
     protected void convert(BaseViewHolder helper, CarEntity item) {
 
         helper.setText(R.id.tv_car_no, item.getCarNo())
-                .setText(R.id.tv_car_model, item.getCarModel());
+                .setText(R.id.tv_car_model, item.getBrand() + "\t" + item.getName());
 
 
         if (item.isSelected())
@@ -29,6 +29,11 @@ public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHol
         else
             helper.setVisible(R.id.iv, false);
 
+        if (helper.getLayoutPosition() == getData().size() - 1) {
+
+            helper.setVisible(R.id.v, false);
+        } else
+            helper.setVisible(R.id.v, true);
 
 
     }

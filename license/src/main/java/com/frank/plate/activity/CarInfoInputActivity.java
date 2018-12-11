@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.GridImageAdapter;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.AutoBrand;
+import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
@@ -128,12 +131,32 @@ public class CarInfoInputActivity extends BaseActivity {
 
             case R.id.tv_enter_order:
 
+                if (TextUtils.isEmpty(tv_car_no.getText())) {
+                    Toast.makeText(CarInfoInputActivity.this, "请正确填写车牌号码！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 uploadImg2QiNiu2();
                 break;
         }
 
     }
 
+
+    AutoBrand selectAutoBrand;//选中的品牌
+    AutoModel autoModel;//选中的型号
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        selectAutoBrand = intent.getParcelableExtra(Configure.brand);
+        autoModel = intent.getParcelableExtra(Configure.brandModdel);
+
+        tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
+
+
+    }
 
     @Override
     protected void init() {
@@ -152,12 +175,11 @@ public class CarInfoInputActivity extends BaseActivity {
             tv_car_no.setFocusable(false);
             tv_title.setText("车况确认");
             type_action = 2;
-            Toast.makeText(CarInfoInputActivity.this, "carEntity.getid==" + carEntity.getId(), Toast.LENGTH_SHORT).show();
 
             Api().showCarInfo(carEntity.getId()).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
                 @Override
                 protected void _onNext(CarInfoRequestParameters o) {
-                    tv_car_model.setText(o.getBrand());
+                    tv_car_model.setText(o.getBrand() + "\t" + o.getName());
                     for (UpDataPicEntity picEntity : o.getImagesList()) {
 
                         LocalMedia localMedia = new LocalMedia();
@@ -532,7 +554,7 @@ public class CarInfoInputActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
-                toActivity(MemberInfoInputActivity.class);
+                toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
             }
 
             @Override
@@ -559,11 +581,11 @@ public class CarInfoInputActivity extends BaseActivity {
             parameters.setCarNo(carEntity.getCarNo());
         }
 
-        parameters.setBrandId("");
-        parameters.setBrand(tv_car_model.getText().toString());
-        parameters.setName("");
-        parameters.setNameId("");
-        parameters.setPostscript("");
+        parameters.setBrandId(selectAutoBrand.getId());
+        parameters.setBrand(selectAutoBrand.getName());
+        parameters.setName(autoModel.getName());
+        parameters.setNameId(autoModel.getId());
+        parameters.setPostscript(et_remarks.getText().toString());
         parameters.setImagesList(upDataPicEntities);
 
         Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());

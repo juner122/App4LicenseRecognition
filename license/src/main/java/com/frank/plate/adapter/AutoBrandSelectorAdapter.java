@@ -20,7 +20,7 @@ public class AutoBrandSelectorAdapter extends BaseAdapter implements Indexer {
     private final LayoutInflater mInflate;
     private List<AutoBrand> mCitys;
     private Context mContext;
-    private HashMap<String, Integer> indexMap = new HashMap<String, Integer>();
+    private HashMap<String, Integer> indexMap = new HashMap<>();
 
     public AutoBrandSelectorAdapter(Context context, List<AutoBrand> citys) {
         mCitys = citys;
@@ -89,8 +89,9 @@ public class AutoBrandSelectorAdapter extends BaseAdapter implements Indexer {
 
     private void setIndex(TextView section, String str) {
         section.setVisibility(View.VISIBLE);
-        if ("#".equals(str)) section.setText("当前城市");
-        else section.setText(str);
+//        if ("#".equals(str)) section.setText("当前城市");
+//        else
+            section.setText(str);
     }
 
     @Override

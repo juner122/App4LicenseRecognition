@@ -9,6 +9,24 @@ public class ActivityEntityItem {
     String activityImage;
     String activityEnd;
     String activityStart;
+    String activityExplain;
+    String activityPrice;
+
+    public String getActivityPrice() {
+        return activityPrice;
+    }
+
+    public void setActivityPrice(String activityPrice) {
+        this.activityPrice = activityPrice;
+    }
+
+    public String getActivityExplain() {
+        return activityExplain;
+    }
+
+    public void setActivityExplain(String activityExplain) {
+        this.activityExplain = activityExplain;
+    }
 
     public String getId() {
         return id;

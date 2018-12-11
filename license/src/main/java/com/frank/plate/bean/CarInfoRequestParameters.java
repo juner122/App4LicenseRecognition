@@ -9,9 +9,9 @@ public class CarInfoRequestParameters {
 
     private String userId;
     private String carNo;
-    private String brandId;
+    private int brandId;
     private String brand;
-    private String nameId;
+    private int nameId;
     private String name;
     private String postscript;
     private int id;
@@ -42,11 +42,11 @@ public class CarInfoRequestParameters {
         this.carNo = carNo;
     }
 
-    public String getBrandId() {
+    public int getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(String brandId) {
+    public void setBrandId(int brandId) {
         this.brandId = brandId;
     }
 
@@ -58,16 +58,16 @@ public class CarInfoRequestParameters {
         this.brand = brand;
     }
 
-    public String getNameId() {
+    public int getNameId() {
         return nameId;
     }
 
-    public void setNameId(String nameId) {
+    public void setNameId(int nameId) {
         this.nameId = nameId;
     }
 
     public String getName() {
-        return name;
+        return null != name ? name : "";
     }
 
     public void setName(String name) {
