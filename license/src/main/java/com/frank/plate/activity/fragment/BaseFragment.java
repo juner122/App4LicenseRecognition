@@ -30,10 +30,8 @@ public abstract class BaseFragment extends Fragment {
                 false);
         ButterKnife.bind(this, rootView);
         mContext = getContext();
-
-
         setUpView();
-
+        setView(rootView);
 
         Log.d(setTAG(), "---->>>>onCreateView");
         return rootView;
@@ -41,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
 
     public ApiLoader Api() {
         if (apiLoader == null)
-            apiLoader = new ApiLoader();
+            apiLoader = new ApiLoader(getContext());
         return apiLoader;
 
     }
@@ -85,11 +83,12 @@ public abstract class BaseFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if (isVisible())
-            onHidden();
 
         super.onPause();
         Log.d(setTAG(), "---->>>>onPause");
+        if (isVisible())
+            onHidden();
+
     }
 
     @Override
@@ -122,6 +121,9 @@ public abstract class BaseFragment extends Fragment {
      * 一些View的相关操作
      */
     protected abstract void setUpView();
+
+    protected void setView(View v) {
+    }
 
 
     protected void toActivity(Class c) {

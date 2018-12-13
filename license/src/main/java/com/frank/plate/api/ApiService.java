@@ -24,7 +24,9 @@ import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
+import com.frank.plate.bean.Token;
 import com.frank.plate.bean.UserInfo;
+import com.frank.plate.bean.WeixinCode;
 import com.frank.plate.bean.WorkIndex;
 
 import java.util.List;
@@ -34,16 +36,14 @@ import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiService {
-
-
-    @GET("login")
-    Observable<ResponseBody> login();
 
 
     @POST("user/getInfo")
@@ -58,6 +58,10 @@ public interface ApiService {
 
 
     //账单列表
+    @POST("userbalancedetail/list")
+    @FormUrlEncoded
+    Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps, @Field("type") int[] idList);
+  //账单列表
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps);
@@ -89,28 +93,29 @@ public interface ApiService {
 
     //新增车况
     @POST("usercarcondition/save")
-    Observable<BaseBean<NullDataEntity>> addCarInfo(@Body CarInfoRequestParameters event);
+    Observable<BaseBean<NullDataEntity>> addCarInfo(@Header("X-Nideshop-Token") String token, @Body CarInfoRequestParameters event);
 
     //修改车况
     @POST("usercarcondition/update")
-    Observable<BaseBean<NullDataEntity>> fixCarInfo(@Body CarInfoRequestParameters event);
+    Observable<BaseBean<NullDataEntity>> fixCarInfo(@Header("X-Nideshop-Token") String token, @Body CarInfoRequestParameters event);
 
 
     //门店信息
     @POST("shop/info")
-    Observable<BaseBean<Shop>> shopInfo();
+    @FormUrlEncoded
+    Observable<BaseBean<Shop>> shopInfo(@FieldMap Map<String, Object> maps);
 
     //4.批量删除车况图片
     @POST("usercarconditionpicture/delete")
-    Observable<BaseBean<NullDataEntity>> delete(@Body Integer[] ids);
+    Observable<BaseBean<NullDataEntity>> delete(@Header("X-Nideshop-Token") String token, @Body Integer[] ids);
 
     //确认下单
     @POST("order/submit")
-    Observable<BaseBean<OrderInfo>> submit(@Body OrderInfoEntity infoEntity);
+    Observable<BaseBean<OrderInfo>> submit(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
 
     //确认支付
     @POST("order/confirmPay")
-    Observable<BaseBean<NullDataEntity>> confirmPay(@Body OrderInfoEntity infoEntity);
+    Observable<BaseBean<NullDataEntity>> confirmPay(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
 
 
     //确认订单最后完成
@@ -127,13 +132,13 @@ public interface ApiService {
 
     //任意条件订单列表 不同订单查询看备注
     @POST("order/list")
-    Observable<BaseBean<BasePage<OrderInfoEntity>>> orderList();
+    @FormUrlEncoded
+    Observable<BaseBean<BasePage<OrderInfoEntity>>> orderList(@FieldMap Map<String, Object> maps);
 
     //2.订单详情页
     @POST("order/detail")
     @FormUrlEncoded
     Observable<BaseBean<OrderInfo>> orderDetail(@FieldMap Map<String, Object> maps);
-
 
 
     //车况详情显示
@@ -143,7 +148,8 @@ public interface ApiService {
 
     //15.当前门店用户（技师）列表
     @POST("sysuser/list")
-    Observable<BaseBean<BasePage<Technician>>> sysuserList();
+    @FormUrlEncoded
+    Observable<BaseBean<BasePage<Technician>>> sysuserList(@FieldMap Map<String, Object> maps);
 
 
     //查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
@@ -153,12 +159,14 @@ public interface ApiService {
 
     //四个火热商品
     @POST("shopeasy/list")
-    Observable<BaseBean<GoodsListEntity>> shopeasyList();
+    @FormUrlEncoded
+    Observable<BaseBean<GoodsListEntity>> shopeasyList(@FieldMap Map<String, Object> maps);
 
 
     //分类下品牌列表加第一个品牌第一页下商品
     @POST("brand/categoryBrandList")
-    Observable<BaseBean<CategoryBrandList>> categoryBrandList();
+    @FormUrlEncoded
+    Observable<BaseBean<CategoryBrandList>> categoryBrandList(@FieldMap Map<String, Object> maps);
 
 
     //活动列表
@@ -173,9 +181,9 @@ public interface ApiService {
 
     //品牌查询列表
     @POST("carbrand/listByName")
-    Observable<BaseBean<List<AutoBrand>>> listByName();
+    Observable<BaseBean<List<AutoBrand>>> listByName(@Header("X-Nideshop-Token") String token);
 
-   //通过品牌查车型列表
+    //通过品牌查车型列表
     @POST("carname/listByBrand")
     @FormUrlEncoded
     Observable<BaseBean<List<AutoModel>>> listByBrand(@FieldMap Map<String, Object> maps);
@@ -183,12 +191,14 @@ public interface ApiService {
 
     //工作台首页
     @POST("work/index")
-    Observable<BaseBean<WorkIndex>> workIndex();
+    @FormUrlEncoded
+    Observable<BaseBean<WorkIndex>> workIndex(@FieldMap Map<String, Object> maps);
 
 
     //会员管理页面数据
     @POST("user/memberList")
-    Observable<BaseBean<Member>> memberList();
+    @FormUrlEncoded
+    Observable<BaseBean<Member>> memberList(@FieldMap Map<String, Object> maps);
 
     //查看会员信息及订单记录
     @POST("user/memberOrderList")
@@ -202,7 +212,8 @@ public interface ApiService {
 
     //我的余额
     @POST("userbalance/getInfo")
-    Observable<BaseBean<MyBalanceEntity>> balanceInfo();
+    @FormUrlEncoded
+    Observable<BaseBean<MyBalanceEntity>> balanceInfo(@FieldMap Map<String, Object> maps);
 
 
     //课程列表
@@ -221,6 +232,35 @@ public interface ApiService {
     @POST("feedback/save")
     @FormUrlEncoded
     Observable<BaseBean<String>> feedbackSave(@FieldMap Map<String, Object> maps);
+
+    //短信验证码
+    @POST("sms/sendSms")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> smsSendSms(@FieldMap Map<String, Object> maps);
+
+
+    //登陆账号
+    @POST("auth/login")
+    @FormUrlEncoded
+    Observable<BaseBean<Token>> login(@FieldMap Map<String, Object> maps);
+
+
+    //添加银行卡
+    @POST("bank/save")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> bankSave(@FieldMap Map<String, Object> maps);
+
+
+    //服务工时列表 ps：与商品分类一样，初始返回了第一种类的显示服务
+    @POST("catalog/categoryServeList")
+    @FormUrlEncoded
+    Observable<BaseBean<CategoryBrandList>> categoryServeList(@FieldMap Map<String, Object> maps);
+
+
+    //微信收款码支付
+    @POST("pay/prepay")
+    @FormUrlEncoded
+    Observable<BaseBean<WeixinCode>> prepay(@FieldMap Map<String, Object> maps);
 
 
 }

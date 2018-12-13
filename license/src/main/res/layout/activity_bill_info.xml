@@ -123,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:padding="10dp"
-                        android:text="活动套餐"
+                        android:text="服务工时"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 

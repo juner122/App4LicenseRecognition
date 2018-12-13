@@ -15,6 +15,8 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.frank.plate.Configure.JSON_CART;
+
 public class CartUtils {
 
     private static CartUtils instance = null;
@@ -36,7 +38,7 @@ public class CartUtils {
     public CartUtils(Context context) {
 
         data = new SparseArray<>(100);
-        new AppPreferences(context).clear();
+        new AppPreferences(context).remove(JSON_CART);
         this.context = context;
     }
 
@@ -56,7 +58,7 @@ public class CartUtils {
     public List<GoodsEntity> getDataFromLocal() {
         List<GoodsEntity> carts = new ArrayList<>();
         //从本地获取缓存数据
-        String savaJson = new AppPreferences(context).getString(Configure.JSON_CART, "");
+        String savaJson = new AppPreferences(context).getString(JSON_CART, "");
         if (!TextUtils.isEmpty(savaJson)) {
             //把数据转换成列表
             carts = new Gson().fromJson(savaJson, new TypeToken<List<GoodsEntity>>() {
@@ -66,12 +68,53 @@ public class CartUtils {
 
     }
 
+
+    public List<GoodsEntity> getProductList() {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = getDataFromLocal();
+        for (GoodsEntity c : list) {
+            if (c.getType() == 1)
+                carts.add(c);
+        }
+        return carts;
+    }
+
+    public List<GoodsEntity> getServerList() {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = getDataFromLocal();
+        for (GoodsEntity c : list) {
+            if (c.getType() == 2)
+                carts.add(c);
+        }
+        return carts;
+    }
+
+
+    public void addServieData(GoodsEntity good) {
+
+        good.setType(2);
+
+        addData(good);
+    }
+
+    public void addProductData(GoodsEntity good) {
+
+        good.setType(1);
+        addData(good);
+    }
+
+
     public void addData(GoodsEntity good) {
 
         //添加数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
         if (tempCart != null) {
-            tempCart.setNumber(tempCart.getNumber() + 1);
+            if (good.getType() == 1)
+                tempCart.setNumber(tempCart.getNumber() + 1);
+            else
+                tempCart.setRetail_price(good.getRetail_price());
         } else {
             tempCart = good;
             tempCart.setNumber(1);
@@ -105,26 +148,47 @@ public class CartUtils {
         //把parseArray转换成list
         List<GoodsEntity> carts = sparsesToList();
 
-        Log.d("购物车：", "商品总数:" + getTotalGoodsNumber() + "商品种型数为：" + carts.size() + "商品总价格:" + getTotalPrice());
+        Log.d("购物车：", "商品总数:" + getTotalGoodsNumber() + "商品种型数为：" + carts.size() + "商品总价格:" + getProductPrice() + getServerPrice());
 
 
         //把转换成String
         String json = new Gson().toJson(carts);
         // 保存
-        new AppPreferences(context).put(Configure.JSON_CART, json);
+        new AppPreferences(context).put(JSON_CART, json);
 
 
     }
 
-    //计算总价格
-    public double getTotalPrice() {
-        List<GoodsEntity> carts = sparsesToList();
+//    //计算总价格
+//    public double getTotalPrice() {
+//        List<GoodsEntity> carts = sparsesToList();
+//        double totalPrice = 0d;
+//        for (GoodsEntity g : carts) {
+//            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+//        }
+//        return totalPrice;
+//    }
+
+    //计算商品总价格
+    public double getProductPrice() {
+        List<GoodsEntity> carts = getProductList();
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
             totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
     }
+
+    //计算服务总价格
+    public double getServerPrice() {
+        List<GoodsEntity> carts = getServerList();
+        double totalPrice = 0d;
+        for (GoodsEntity g : carts) {
+            totalPrice = g.getRetail_priceTodouble() + totalPrice;
+        }
+        return totalPrice;
+    }
+
 
     //商品总数
     private int getTotalGoodsNumber() {
@@ -152,7 +216,7 @@ public class CartUtils {
 
     public void deleteAllData() {
         data.clear();
-        new AppPreferences(context).clear();
+        new AppPreferences(context).remove(JSON_CART);
 
     }
 

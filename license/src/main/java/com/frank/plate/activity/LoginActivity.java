@@ -1,18 +1,50 @@
 package com.frank.plate.activity;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
+import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.NullDataEntity;
+import com.frank.plate.bean.Token;
+import com.frank.plate.bean.UserInfo;
+
+import net.grandcentrix.tray.AppPreferences;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
 
 
+    private static final String TAG = "LoginActivity";
     @BindView(R.id.btu_get_phone_code)
     protected TextView tv_code;
+
+    @BindView(R.id.et_phone)
+    EditText et_phone;
+
+
+    @BindView(R.id.et_car_code)
+    EditText et_car_code;
+
+
+    Disposable smsDisposable;
 
     @Override
     protected void init() {
@@ -35,61 +67,52 @@ public class LoginActivity extends BaseActivity {
         return R.layout.activity_login;
     }
 
-
     @OnClick({R.id.but_login, R.id.btu_get_phone_code})
     public void onClick(View view) {
+        if (TextUtils.isEmpty(et_phone.getText())) {
+            Toast.makeText(LoginActivity.this, "请输入正确的手机号码！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String phone = et_phone.getText().toString();
 
         switch (view.getId()) {
             case R.id.btu_get_phone_code:
 
-                tv_code.setClickable(false);
-//                final Observable observable = Observable //计时器
-//                        .interval(0, 1, TimeUnit.SECONDS)
-//                        .take(61)//次数
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread());
-//                MySubscriber mySubscriber = new MySubscriber<>(this, new SubscribeOnNextListener<UserInfo>() {
-//                    @Override
-//                    public void onNext(UserInfo responseBody) {
-//
-//                        observable.subscribe(new Action1<Long>() {
-//                            @Override
-//                            public void call(Long aLong) {
-//
-//                                Long l = 59 - aLong;
-//
-//                                tv_code.setText(l + "");
-//                            }
-//                        }, new Action1<Throwable>() {
-//                            @Override
-//                            public void call(Throwable throwable) {
-//
-//                            }
-//                        }, new Action0() {
-//                            @Override
-//                            public void call() {
-//                                tv_code.setText("发送验证码");
-//                                tv_code.setClickable(true);
-//                            }
-//                        });
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//                });
-//                Api().getUserInfo(mySubscriber, "1");
-
+                smsDisposable = Api().smsSendSms(phone, 1, tv_code, LoginActivity.this);
                 break;
 
             case R.id.but_login:
-                toActivity(MainActivity.class);
-                finish();
-//                toActivity(PreviewActivity.class);
+
+                if (TextUtils.isEmpty(et_car_code.getText())) {
+                    Toast.makeText(LoginActivity.this, "请输入验证码！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String code = et_car_code.getText().toString();
+                Api().login(phone, code).subscribe(new RxSubscribe<Token>(LoginActivity.this, true) {
+                    @Override
+                    protected void _onNext(Token token) {
+                        new AppPreferences(LoginActivity.this).put(Configure.Token, token.getToken().getToken());
+                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        toActivity(MainActivity.class);
+                        finish();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        Log.e(TAG, message);
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
                 break;
         }
+    }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != smsDisposable)
+            smsDisposable.dispose();
     }
 }

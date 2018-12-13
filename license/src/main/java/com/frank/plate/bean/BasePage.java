@@ -8,6 +8,9 @@ public class BasePage<T> {
     int pageSize;
     int totalPage;
     int currPage;
+    int dayTotal;
+    int monthTotal;
+
 
     List<T> list;
 
@@ -49,6 +52,23 @@ public class BasePage<T> {
 
     public void setList(List<T> list) {
         this.list = list;
+    }
+
+    public int getMonthTotal() {
+        return monthTotal;
+    }
+
+    public void setMonthTotal(int monthTotal) {
+        this.monthTotal = monthTotal;
+    }
+
+    public int getDayTotal() {
+
+        return dayTotal;
+    }
+
+    public void setDayTotal(int dayTotal) {
+        this.dayTotal = dayTotal;
     }
 
     @Override

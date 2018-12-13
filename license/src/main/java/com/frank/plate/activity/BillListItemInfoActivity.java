@@ -47,7 +47,7 @@ public class BillListItemInfoActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("账单详情");
-        adpter1 = new SimpleGoodInfoAdpter(null);
+        adpter1 = new SimpleGoodInfoAdpter(null, false);
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adpter1);
 
@@ -66,10 +66,11 @@ public class BillListItemInfoActivity extends BaseActivity {
                 tv2.append(o.getOrderInfo().getAdd_time());
                 tv3.append(o.getOrderInfo().getConfirm_time());
 
-                double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList());
+                double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList(), 1);
+                double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList(), 2);
 
                 tv_price1.append(String.valueOf(goodsPrice));
-                tv_price2.append(String.valueOf(0.0));
+                tv_price2.append(String.valueOf(goodsPrice2));
                 tv_price3.append(String.valueOf(o.getOrderInfo().getOrder_price()));
 
             }

@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -35,6 +36,10 @@ public class MainFragment2 extends BaseFragment {
     public static final String TAG = "MainFragment2";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.top_num1)
+    TextView top_num1;
+    @BindView(R.id.top_num2)
+    TextView top_num2;
 
     @BindView(R.id.easylayout)
     EasyRefreshLayout easylayout;
@@ -96,7 +101,6 @@ public class MainFragment2 extends BaseFragment {
                         break;
                     case R.id.button_action://动作按钮
 
-
                         Api().orderDetail(list.get(position).getId()).subscribe(new RxSubscribe<OrderInfo>(getContext(), true) {
                             @Override
                             protected void _onNext(OrderInfo orderInfo) {
@@ -147,10 +151,12 @@ public class MainFragment2 extends BaseFragment {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
                 easylayout.refreshComplete();
-
                 list = basePage.getList();
                 ola.setNewData(list);
+                top_num1.setText(String.valueOf(basePage.getDayTotal()));
+                top_num2.setText(String.valueOf(basePage.getMonthTotal()));
             }
+
 
             @Override
             protected void _onError(String message) {

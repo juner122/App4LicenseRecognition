@@ -4,6 +4,7 @@ package com.frank.plate.activity.fragment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.AboutActivity;
 import com.frank.plate.activity.AuthenActivity;
@@ -13,6 +14,8 @@ import com.frank.plate.activity.ShopInfoActivity;
 import com.frank.plate.activity.UserReportActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Shop;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -86,7 +89,6 @@ public class MainFragment5 extends BaseFragment {
             case R.id.updata:
 
 
-
                 break;
             case R.id.tv_user_report:
 
@@ -95,6 +97,7 @@ public class MainFragment5 extends BaseFragment {
                 break;
 
             case R.id.tv_out:
+                new AppPreferences(getContext()).remove(Configure.Token);
                 getActivity().finish();
                 break;
 

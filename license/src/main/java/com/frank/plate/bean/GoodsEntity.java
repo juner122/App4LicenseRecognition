@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 public class GoodsEntity implements Parcelable {
 
+    int type;//服务商品类型  1 商品，2工时服务
+
+
     Integer id;
     String name;
     String goods_sn;
@@ -18,7 +21,16 @@ public class GoodsEntity implements Parcelable {
     int easy_id;
     int number;
     String retail_price;
-    int  is_hot;
+    int is_hot;
+
+    public int getType() {
+        return type;
+    }
+
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public int getEasy_id() {
         return easy_id;
@@ -162,6 +174,7 @@ public class GoodsEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.type);
         dest.writeValue(this.id);
         dest.writeString(this.name);
         dest.writeString(this.goods_sn);
@@ -179,6 +192,7 @@ public class GoodsEntity implements Parcelable {
     }
 
     protected GoodsEntity(Parcel in) {
+        this.type = in.readInt();
         this.id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.name = in.readString();
         this.goods_sn = in.readString();

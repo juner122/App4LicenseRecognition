@@ -27,6 +27,7 @@ import com.frank.plate.bean.Technician;
 import com.frank.plate.util.CartUtils;
 import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.String2Utils;
+import com.frank.plate.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -48,6 +49,8 @@ public class MakeOrderActivity extends BaseActivity {
 
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
+    @BindView(R.id.rv_servers)
+    RecyclerView rv_servers;
 
     @BindView(R.id.tv_car_no)
     TextView tv_car_no;
@@ -64,6 +67,9 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.tv_goods_price)
     TextView tv_goods_price;
 
+    @BindView(R.id.tv_goods_price2)
+    TextView tv_goods_price2;
+
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
 
@@ -73,6 +79,7 @@ public class MakeOrderActivity extends BaseActivity {
     int user_id, car_id;
     OrderInfoEntity infoEntity;
     SimpleGoodInfoAdpter simpleGoodInfoAdpter;
+    SimpleGoodInfoAdpter simpleGoodInfoAdpter2;
     List<Technician> technicians;
 
     List<GoodsEntity> goods_top;
@@ -88,9 +95,18 @@ public class MakeOrderActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getDataFromLocal());
+        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true);
+
+        simpleGoodInfoAdpter2 = new SimpleGoodInfoAdpter(cartUtils.getServerList(), false);
+
+
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
         rv_goods.setAdapter(simpleGoodInfoAdpter);
+
+        rv_servers.setLayoutManager(new LinearLayoutManager(this));
+        rv_servers.setAdapter(simpleGoodInfoAdpter2);
+
+
         simpleGoodInfoAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -113,7 +129,7 @@ public class MakeOrderActivity extends BaseActivity {
                             }
                             number++;
                             tv_number.setText(String.valueOf(number));
-                            cartUtils.addData(goodsEntities.get(position));
+                            cartUtils.addProductData(goodsEntities.get(position));
                             break;
 
                         case R.id.ib_reduce:
@@ -182,7 +198,7 @@ public class MakeOrderActivity extends BaseActivity {
                 toActivity(ProductListActivity.class, Configure.isShow, 1);
                 break;
             case R.id.but_meal_list:
-                toActivity(MealListActivity.class);
+                toActivity(ServeListActivity.class, Configure.isShow, 1);
                 break;
             case R.id.but_to_technician_list:
 
@@ -233,63 +249,77 @@ public class MakeOrderActivity extends BaseActivity {
 
             case R.id.bto_top1:
 
-                if (!top_button1_pick) {
-
-                    view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    cartUtils.addData(goods_top.get(0));
-                    top_button1_pick = true;
-                } else {
-                    view.setBackgroundColor(getResources().getColor(R.color.white));
-                    cartUtils.reduceData(goods_top.get(0));
+                try {
+                    if (!top_button1_pick) {
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+                        cartUtils.addProductData(goods_top.get(0));
+                        top_button1_pick = true;
+                    } else {
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
+                        cartUtils.reduceData(goods_top.get(0));
+                        top_button1_pick = false;
+                    }
+                    refreshData();
+                } catch (Exception e) {
+                    ToastUtils.showToast("该商品不能选择");
                     top_button1_pick = false;
                 }
-                refreshData();
-
                 break;
             case R.id.bto_top2:
 
-                if (!top_button2_pick) {
+                try {
+                    if (!top_button2_pick) {
 
-                    view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    cartUtils.addData(goods_top.get(1));
-                    top_button2_pick = true;
-                } else {
-                    view.setBackgroundColor(getResources().getColor(R.color.white));
-                    cartUtils.reduceData(goods_top.get(1));
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+                        cartUtils.addProductData(goods_top.get(1));
+                        top_button2_pick = true;
+                    } else {
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
+                        cartUtils.reduceData(goods_top.get(1));
+                        top_button2_pick = false;
+                    }
+                    refreshData();
+                } catch (Exception e) {
+                    ToastUtils.showToast("该商品不能选择");
                     top_button2_pick = false;
                 }
-                refreshData();
-
                 break;
             case R.id.bto_top3:
 
-
-                if (!top_button3_pick) {
-
-                    view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    cartUtils.addData(goods_top.get(2));
-                    top_button3_pick = true;
-                } else {
-                    view.setBackgroundColor(getResources().getColor(R.color.white));
-                    cartUtils.reduceData(goods_top.get(2));
+                try {
+                    if (!top_button3_pick) {
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+                        cartUtils.addProductData(goods_top.get(2));
+                        top_button3_pick = true;
+                    } else {
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
+                        cartUtils.reduceData(goods_top.get(2));
+                        top_button3_pick = false;
+                    }
+                    refreshData();
+                } catch (Exception e) {
+                    ToastUtils.showToast("该商品不能选择");
                     top_button3_pick = false;
                 }
-                refreshData();
+
                 break;
             case R.id.bto_top4:
+                try {
+                    if (!top_button4_pick) {
 
-                if (!top_button4_pick) {
-
-                    view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    cartUtils.addData(goods_top.get(3));
-                    top_button4_pick = true;
-                } else {
-                    view.setBackgroundColor(getResources().getColor(R.color.white));
-                    cartUtils.reduceData(goods_top.get(3));
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+                        cartUtils.addProductData(goods_top.get(3));
+                        top_button4_pick = true;
+                    } else {
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
+                        cartUtils.reduceData(goods_top.get(3));
+                        top_button4_pick = false;
+                    }
+                    refreshData();
+                } catch (Exception e) {
+                    ToastUtils.showToast("该商品不能选择");
                     top_button4_pick = false;
                 }
-                refreshData();
-
                 break;
         }
     }
@@ -298,6 +328,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getDataFromLocal());
+
         infoEntity.setSysUserList(technicians);
 
         Log.e(TAG, "下单信息：" + infoEntity.toString());
@@ -329,9 +360,15 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void setGoodsPric() {
 
+        double goodsPrice = cartUtils.getProductPrice();
+        double serverPrice = cartUtils.getServerPrice();
+        double total = goodsPrice + serverPrice;
 
-        tv_goods_price.setText("已选：￥" + cartUtils.getTotalPrice());
-        tv_total_price.setText("已选：￥" + cartUtils.getTotalPrice());
+        tv_goods_price.setText("已选：￥" + goodsPrice);
+        tv_goods_price2.setText("已选：￥" + serverPrice);
+
+
+        tv_total_price.setText("已选：￥" + total);
 
     }
 
@@ -355,7 +392,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        simpleGoodInfoAdpter.setNewData(cartUtils.getDataFromLocal());
+        simpleGoodInfoAdpter.setNewData(cartUtils.getProductList());
         setGoodsPric();
     }
 }

@@ -1,8 +1,10 @@
 package com.frank.plate.activity.fragment;
 
 
+import android.Manifest;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -34,6 +36,7 @@ import butterknife.OnClick;
 /**
  * 主页页面：扫描接单
  */
+
 public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
 
 
@@ -44,7 +47,7 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     private RecognizeThread recognizeThread;
     private Mat dstMat;
 
-    @BindView(R.id.surface_view)
+    //    @BindView(R.id.surface_view)
     PlateRecognizerView recognizerView;
 
     @BindView(R.id.e1)
@@ -63,13 +66,26 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
     EditText et7;
 
     String car_number = "";
+    private boolean mWorking = false;
 
+    Thread thread;
+    View rootView;
 
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment3_main;
     }
 
+    @Override
+    protected void setView(View v) {
+        super.setView(v);
+
+
+
+
+
+        recognizerView = v.findViewById(R.id.surface_view);
+    }
 
     @Override
     protected void onVisible() {
@@ -77,39 +93,50 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
 //        init();
     }
 
-
     public void init() {
-        plateRecognition = new PlateRecognition(getActivity(), mHandler);
-        //init plate recognizer
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                plateRecognition.initRecognizer("pr");
-            }
-        }).start();
+        start();
 
-
-        recognizerView.setOnNewFrameListener(this);
         recognizeThread = new RecognizeThread(plateRecognition);
         recognizeThread.start();
         initOpenCV();
 
-
     }
 
-    private void initOpenCV() {
-        boolean result = OpenCVLoader.initDebug();
-        if (result) {
-            Log.i("MainFragment3", "主页页面：扫描接单  initOpenCV success...");
-            recognizerView.enableView();
+
+    public void start() {
+        plateRecognition = new PlateRecognition(getActivity(), mHandler);
+        mWorking = true;
+        if (thread != null && thread.isAlive()) {
+            Log.i(TAG, "start: thread is alive");
         } else {
-            Log.e("MainFragment3", "主页页面：扫描接单  initOpenCV fail...");
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    plateRecognition.initRecognizer("pr");
+                }
+            });
+            thread.start();
         }
     }
+
+    public void stop() {
+        if (mWorking) {
+            if (thread != null && thread.isAlive()) {
+                thread.interrupt();
+                thread = null;
+            }
+            mWorking = false;
+        }
+    }
+
 
     @Override
     protected void onHidden() {
         super.onHidden();
+        stop();
+
+        if (recognizerView != null)
+            recognizerView.disableView();
         if (plateRecognition != null) {
             //release plate recognizer
             plateRecognition.releaseRecognizer();
@@ -181,18 +208,32 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
                 } else {
                     toActivity(MemberInfoInputActivity.class);
                 }
-
-
             }
 
             @Override
             protected void _onError(String message) {
-
                 Log.d(TAG, message);
-
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
             }
         });
+    }
+
+    private void initOpenCV() {
+        boolean result = OpenCVLoader.initDebug();
+
+        if (null == recognizerView)
+            recognizerView = rootView.findViewById(R.id.surface_view);
+
+
+        recognizerView.setOnNewFrameListener(this);
+        if (result) {
+            Log.i("MainFragment3", "主页页面：扫描接单  initOpenCV success...");
+            recognizerView.enableView();
+        } else {
+            Log.e("MainFragment3", "主页页面：扫描接单  initOpenCV fail...");
+            recognizerView.disableView();
+        }
     }
 
     private Handler mHandler = new Handler() {
@@ -204,9 +245,6 @@ public class MainFragment3 extends BaseFragment implements OnNewFrameListener {
                     String result = (String) msg.obj;
                     Toast.makeText(getContext(), "车牌号=" + result, Toast.LENGTH_SHORT).show();
                     car_number = result;
-
-
-//                    new AppPreferences(getContext()).put(Configure.car_no, car_number);
                     try {
                         et1.setText(String.valueOf(result.charAt(0)));
                         et2.setText(String.valueOf(result.charAt(1)));

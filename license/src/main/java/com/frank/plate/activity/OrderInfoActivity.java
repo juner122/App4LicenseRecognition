@@ -6,14 +6,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.util.String2Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,6 +104,9 @@ public class OrderInfoActivity extends BaseActivity {
     @BindView(R.id.tv_goods_price)
     TextView tv_goods_price;
 
+    @BindView(R.id.tv_goods_price2)
+    TextView tv_goods_price2;
+
     @BindView(R.id.but_product_list)
     ImageButton but_product_list;
     @BindView(R.id.but_meal_list)
@@ -170,6 +178,7 @@ public class OrderInfoActivity extends BaseActivity {
     private int id;//订单ID
 
     private SimpleGoodInfoAdpter adpter1;
+    private SimpleGoodInfoAdpter adpter2;
 
     @Override
     protected void init() {
@@ -222,7 +231,6 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
 
-
     private void getOrderInfoData() {
 
         Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {
@@ -236,6 +244,7 @@ public class OrderInfoActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.d(TAG, message);
+                Toast.makeText(OrderInfoActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -301,14 +310,24 @@ public class OrderInfoActivity extends BaseActivity {
         tv_technician.setText(String2Utils.getString(infoEntity.getSysUserList()));
 
 
-        adpter1 = new SimpleGoodInfoAdpter(infoEntity.getGoodsList());
-
+        adpter1 = new SimpleGoodInfoAdpter(getList(1, infoEntity.getGoodsList()), false);
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adpter1);
 
-        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList());
+
+        adpter2 = new SimpleGoodInfoAdpter(getList(2, infoEntity.getGoodsList()), false);
+        rv2.setLayoutManager(new LinearLayoutManager(this));
+        rv2.setAdapter(adpter2);
+
+
+        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(),1);
+        double goodsPrice2 = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(),2);
 
         tv_goods_price.append(String.valueOf(goodsPrice));
+
+        tv_goods_price2.append(String.valueOf(goodsPrice2));
+
+
         tv_price1.append(String.valueOf(goodsPrice));
         tv_price2.append(String.valueOf(0.00d));
         tv_price3.append(String.valueOf(0.00d));
@@ -331,5 +350,14 @@ public class OrderInfoActivity extends BaseActivity {
 
     }
 
+
+    private List<GoodsEntity> getList(int type, List<GoodsEntity> list) {
+        List<GoodsEntity> gs = new ArrayList<>();
+        for (GoodsEntity g : list) {
+            if (g.getType() == type)
+                gs.add(g);
+        }
+        return gs;
+    }
 
 }

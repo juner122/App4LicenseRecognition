@@ -24,14 +24,16 @@ public class String2Utils {
 
 
     //计算商品总价
-    public static double getOrderGoodsPrice(List<GoodsEntity> list) {
+    public static double getOrderGoodsPrice(List<GoodsEntity> list, int type) {
 
         if (null == list || list.size() == 0) return 0.00;
 
         double totalPrice = 0.00d;
 
         for (GoodsEntity g : list) {
-            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+
+            if (g.getType() == type)
+                totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
 

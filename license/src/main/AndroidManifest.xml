@@ -31,12 +31,12 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,8 +87,14 @@
         <activity android:name=".activity.AuthenActivity" />
         <activity android:name=".activity.UserReportActivity" />
         <activity android:name=".activity.AboutActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.SetProjectActivity" />
-        <activity android:name=".activity.ActivityInfoActivity"></activity>
+        <activity android:name=".activity.ActivityInfoActivity" />
+        <activity android:name=".activity.ServeListActivity" />
+        <activity android:name=".activity.WeiXinPayCodeActivity" />
+        <activity android:name=".activity.CashWithdrawalActivity"></activity>
     </application>
 
 </manifest>

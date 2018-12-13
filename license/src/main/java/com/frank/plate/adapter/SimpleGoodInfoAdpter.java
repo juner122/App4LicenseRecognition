@@ -14,18 +14,38 @@ import java.util.List;
 
 public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
 
-    public SimpleGoodInfoAdpter(@Nullable List<GoodsEntity> data) {
+
+    boolean isShowPlusAndReduce;
+
+    public SimpleGoodInfoAdpter(@Nullable List<GoodsEntity> data, boolean is) {
         super(R.layout.activity_simple_good_list_item, data);
+        isShowPlusAndReduce = is;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
+
         helper.setText(R.id.name, item.getName())
                 .setText(R.id.price, "￥" + item.getRetail_price())
-                .setText(R.id.tv_number, String.valueOf(item.getNumber()))
+                .setText(R.id.tv_number, String.valueOf(item.getNumber()));
+
+
+        if (!isShowPlusAndReduce) {
+
+            helper.setVisible(R.id.ib_plus, false);
+            helper.setVisible(R.id.ib_reduce, false);
+            return;
+
+
+        }
+
+
+        helper
                 .addOnClickListener(R.id.ib_plus)
                 .addOnClickListener(R.id.ib_reduce);
+
+
         View ib_reduce = helper.getView(R.id.ib_reduce);
         View ib_plus = helper.getView(R.id.ib_plus);
         View tv_number = helper.getView(R.id.tv_number);

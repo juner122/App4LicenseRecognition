@@ -67,7 +67,7 @@ public class ProductListFragment extends BaseFragment {
 
                             tv_number.setText(String.valueOf(number));
 
-                            MyApplication.cartUtils.addData(list.get(position));
+                            MyApplication.cartUtils.addProductData(list.get(position));
 
                             list.get(position).setNumber(number);//设置
 
@@ -82,8 +82,6 @@ public class ProductListFragment extends BaseFragment {
                             number--;
 
                             tv_number.setText(String.valueOf(number));
-
-
                             if (number == 0) {
                                 view.setVisibility(View.INVISIBLE);//隐藏减号
                                 tv_number.setVisibility(View.INVISIBLE);

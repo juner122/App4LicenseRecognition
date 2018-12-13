@@ -1,12 +1,21 @@
 package com.frank.plate.api;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.frank.plate.Configure;
+import com.frank.plate.MyApplication;
 import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
+import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
+import com.frank.plate.bean.Card;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.Course;
@@ -22,23 +31,43 @@ import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
+import com.frank.plate.bean.Token;
+import com.frank.plate.bean.WeixinCode;
 import com.frank.plate.bean.WorkIndex;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class ApiLoader {
 
     private ApiService apiService;
 
-    public ApiLoader() {
+    Map<String, Object> map = new HashMap<>();
+    String token;
+
+    public ApiLoader(Context context) {
+
+        token = new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, "");
+        Log.i("apiService", "X-Nideshop-Token:  " + token);
         apiService = RetrofitServiceManager.getInstance().create(ApiService.class);
+        map.put("X-Nideshop-Token", new AppPreferences(context).getString(Configure.Token, ""));
     }
 
     /**
@@ -47,7 +76,6 @@ public class ApiLoader {
      * @return
      */
     public Observable<QueryByCarEntity> queryByCar(String car_no) {
-        Map<String, Object> map = new HashMap<>();
         map.put("car_no", car_no);
         return apiService.queryByCar(map).compose(RxHelper.<QueryByCarEntity>observe());
 
@@ -59,7 +87,6 @@ public class ApiLoader {
      * @return
      */
     public Observable<BillEntity> getUserBillList(int page, int limit, int sidx, int order) {
-        Map<String, Object> map = new HashMap<>();
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
@@ -70,7 +97,10 @@ public class ApiLoader {
 //        map.put("limit", limit);
 //        map.put("sidx", sidx);
 //        map.put("order", order);
-        return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
+//        map.put("type", type);
+
+        int[] i = {3,4};
+        return apiService.getUserBillList(map, i).compose(RxHelper.<BillEntity>observe());
 
     }
 
@@ -80,7 +110,6 @@ public class ApiLoader {
      * @return
      */
     public Observable<BillEntity> getUserBillList(Date before, Date after) {
-        Map<String, Object> map = new HashMap<>();
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
@@ -100,7 +129,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<SaveUserAndCarEntity> saveUserAndCar(String car_no, String mobile, String username) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("car_no", car_no);
         map.put("mobile", mobile);
         map.put("username", username);
@@ -113,7 +142,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<SaveUserAndCarEntity> addUser(String mobile, String username) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("mobile", mobile);
         map.put("username", username);
 
@@ -127,7 +156,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> addCarInfo(CarInfoRequestParameters parameters) {
 
-        return apiService.addCarInfo(parameters).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.addCarInfo(token, parameters).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -138,7 +167,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> fixCarInfo(CarInfoRequestParameters parameters) {
 
-        return apiService.fixCarInfo(parameters).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.fixCarInfo(token, parameters).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -149,7 +178,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> delete(Integer[] ids) {
 
-        return apiService.delete(ids).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.delete(token, ids).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -161,7 +190,7 @@ public class ApiLoader {
     public Observable<OrderInfo> submit(OrderInfoEntity infoEntity) {
 
 
-        return apiService.submit(infoEntity).compose(RxHelper.<OrderInfo>observe());
+        return apiService.submit(token, infoEntity).compose(RxHelper.<OrderInfo>observe());
     }
 
 
@@ -172,7 +201,6 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> beginServe(int order_id, String order_sn) {
 
-        Map<String, Object> map = new HashMap<>();
         map.put("order_id", order_id);
         map.put("order_sn", order_sn);
         return apiService.beginServe(map).compose(RxHelper.<NullDataEntity>observe());
@@ -186,7 +214,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<CarInfoRequestParameters> showCarInfo(int id) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("id", id);
 
         return apiService.showCarInfo(map).compose(RxHelper.<CarInfoRequestParameters>observe());
@@ -200,9 +228,16 @@ public class ApiLoader {
      */
     public Observable<BasePage<Technician>> sysuserList() {
 
-        return apiService.sysuserList().compose(RxHelper.<BasePage<Technician>>observe());
+        return apiService.sysuserList(map).compose(RxHelper.<BasePage<Technician>>observe());
     }
 
+
+    /**
+     * 服务工时列表 ps：与商品分类一样，初始返回了第一种类的显示服务
+     */
+    public Observable<CategoryBrandList> categoryServeList() {
+        return apiService.categoryServeList(map).compose(RxHelper.<CategoryBrandList>observe());
+    }
 
     /**
      * 9.分类下品牌列表加第一个品牌第一页下商品
@@ -210,7 +245,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<CategoryBrandList> categoryBrandList() {
-        return apiService.categoryBrandList().compose(RxHelper.<CategoryBrandList>observe());
+        return apiService.categoryBrandList(map).compose(RxHelper.<CategoryBrandList>observe());
     }
 
     /**
@@ -219,7 +254,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<GoodsListEntity> queryAnyGoods(String category_id, String brand_id, String name) {
-        Map<String, Object> map = new HashMap<>();
+
 
         map.put("category_id", category_id); //商品类别
         map.put("brand_id", brand_id);//品牌
@@ -235,7 +270,7 @@ public class ApiLoader {
      */
     public Observable<GoodsListEntity> shopeasyList() {
 
-        return apiService.shopeasyList().compose(RxHelper.<GoodsListEntity>observe());
+        return apiService.shopeasyList(map).compose(RxHelper.<GoodsListEntity>observe());
     }
 
     /**
@@ -245,7 +280,6 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> confirmFinish(int order_id) {
 
-        Map<String, Object> map = new HashMap<>();
         map.put("order_id", order_id);
         return apiService.confirmFinish(map).compose(RxHelper.<NullDataEntity>observe());
     }
@@ -258,7 +292,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> confirmPay(OrderInfoEntity infoEntity) {
 
-        return apiService.confirmPay(infoEntity).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.confirmPay(token, infoEntity).compose(RxHelper.<NullDataEntity>observe());
     }
 
 
@@ -269,7 +303,7 @@ public class ApiLoader {
      */
     public Observable<BasePage<OrderInfoEntity>> orderList() {
 
-        return apiService.orderList().compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
 
@@ -279,7 +313,6 @@ public class ApiLoader {
      * @returnD
      */
     public Observable<OrderInfo> orderDetail(int id) {
-        Map<String, Object> map = new HashMap<>();
 
         map.put("id", id);
         return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
@@ -291,7 +324,7 @@ public class ApiLoader {
      * @returnD
      */
     public Observable<OrderInfo> orderDetail(String order_sn) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("order_sn", order_sn);
         return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
     }
@@ -301,7 +334,6 @@ public class ApiLoader {
      * 活动列表
      */
     public Observable<ActivityEntity> activityList(int activity_type, String activity_name) {
-        Map<String, Object> map = new HashMap<>();
 
         map.put("activity_type", activity_type);//=1.平台活动 =3.门店活动
         map.put("activity_name", activity_name);//查询关键字
@@ -313,7 +345,6 @@ public class ApiLoader {
      * 活动详情
      */
     public Observable<ActivityEntityItem> activityDetail(int id) {
-        Map<String, Object> map = new HashMap<>();
 
         map.put("id", id);
 
@@ -325,14 +356,13 @@ public class ApiLoader {
      */
     public Observable<List<AutoBrand>> listByName() {
 
-        return apiService.listByName().compose(RxHelper.<List<AutoBrand>>observe());
+        return apiService.listByName(token).compose(RxHelper.<List<AutoBrand>>observe());
     }
 
     /**
      * 通过品牌查车型列表
      */
     public Observable<List<AutoModel>> listByBrand(int brand_id) {
-        Map<String, Object> map = new HashMap<>();
 
         map.put("brand_id", brand_id);
         return apiService.listByBrand(map).compose(RxHelper.<List<AutoModel>>observe());
@@ -344,7 +374,7 @@ public class ApiLoader {
      */
     public Observable<WorkIndex> workIndex() {
 
-        return apiService.workIndex().compose(RxHelper.<WorkIndex>observe());
+        return apiService.workIndex(map).compose(RxHelper.<WorkIndex>observe());
     }
 
 
@@ -353,7 +383,7 @@ public class ApiLoader {
      */
     public Observable<Member> memberList() {
 
-        return apiService.memberList().compose(RxHelper.<Member>observe());
+        return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 
 
@@ -361,7 +391,6 @@ public class ApiLoader {
      * 查看会员信息及订单记录
      */
     public Observable<MemberOrder> memberOrderList(int user_id) {
-        Map<String, Object> map = new HashMap<>();
 
         map.put("user_id", user_id);
 
@@ -373,7 +402,7 @@ public class ApiLoader {
      */
     public Observable<Shop> shopInfo() {
 
-        return apiService.shopInfo().compose(RxHelper.<Shop>observe());
+        return apiService.shopInfo(map).compose(RxHelper.<Shop>observe());
     }
 
 
@@ -381,7 +410,7 @@ public class ApiLoader {
      * 获取优惠券列表 [达到满减，未到期，未用过]
      */
     public Observable<List<Coupon>> couponList(String order_price, int user_id) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("order_price", order_price);
         map.put("user_id", user_id);
 
@@ -394,7 +423,7 @@ public class ApiLoader {
      */
     public Observable<MyBalanceEntity> balanceInfo() {
 
-        return apiService.balanceInfo().compose(RxHelper.<MyBalanceEntity>observe());
+        return apiService.balanceInfo(map).compose(RxHelper.<MyBalanceEntity>observe());
     }
 
     /**
@@ -402,7 +431,6 @@ public class ApiLoader {
      */
     public Observable<List<Course>> courseList(int course_type) {
         // course_type	1为线下 2为线上
-        Map<String, Object> map = new HashMap<>();
         map.put("course_type", course_type);
         return apiService.courseList(map).compose(RxHelper.<List<Course>>observe());
     }
@@ -411,7 +439,7 @@ public class ApiLoader {
      * 课程报名
      */
     public Observable<NullDataEntity> coursejoinnameSave(String name, String mobile) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("name", name);
         map.put("mobile", mobile);
         return apiService.coursejoinnameSave(map).compose(RxHelper.<NullDataEntity>observe());
@@ -422,9 +450,107 @@ public class ApiLoader {
      * 添加反馈
      */
     public Observable<String> feedbackSave(String content) {
-        Map<String, Object> map = new HashMap<>();
+
         map.put("content", content);
         return apiService.feedbackSave(map).compose(RxHelper.<String>observe());
+    }
+
+
+    /**
+     * 短信验证码
+     */
+    public Observable<NullDataEntity> smsSendSms(String mobile, int type) {
+
+        map.put("mobile", mobile);
+        map.put("type", type);//1登陆2体现3银行卡验证
+        return apiService.smsSendSms(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 短信验证码
+     */
+    public Disposable smsSendSms(String mobile, int type, final TextView tv, final Context context) {
+        final String TAG = "短信验证码:";
+        final int con = 60;
+
+        map.put("mobile", mobile);
+        map.put("type", type);//1登陆2体现3银行卡验证
+        final Disposable[] disposable = new Disposable[1];
+
+        apiService.smsSendSms(map).compose(RxHelper.<NullDataEntity>observe()).subscribe(new RxSubscribe<NullDataEntity>(context, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                disposable[0] = Observable //计时器
+                        .interval(0, 1, TimeUnit.SECONDS)
+                        .take(con)//次数
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) {
+                                Log.e(TAG, "onNext");
+                                Long l = con - aLong;
+                                tv.setText(l + "s");
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                Log.e(TAG, "onError");
+                                tv.setClickable(true);
+                                throwable.printStackTrace();
+                            }
+                        }, new Action() {
+                            @Override
+                            public void run() {
+                                Log.e(TAG, "onComplete");
+                                tv.setText("获取验证码");
+                                tv.setClickable(true);
+                            }
+                        }, new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) {
+                                Log.e(TAG, "onSubscribe");
+                                tv.setClickable(false);
+                            }
+                        });
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+        return disposable[0];
+    }
+
+    /**
+     * 登录
+     */
+    public Observable<Token> login(String mobile, String et_car_code) {
+        map.put("mobile", mobile);
+        map.put("authCode", et_car_code);
+        return apiService.login(map).compose(RxHelper.<Token>observe());
+    }
+
+
+    /**
+     * 添加银行卡
+     */
+    public Observable<NullDataEntity> bankSave(String authCode, Card card) {
+        map.put("authCode", authCode);
+        map.put("cardNumber", card.getCardNumber());
+        map.put("bankName", card.getBankName());
+        map.put("bankAddr", card.getBankAddr());
+        map.put("cardholder", card.getCardholder());
+        return apiService.bankSave(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 微信收款码支付
+     */
+    public Observable<WeixinCode> prepay(int orderId) {
+        map.put("orderId", orderId);
+        return apiService.prepay(map).compose(RxHelper.<WeixinCode>observe());
     }
 
 

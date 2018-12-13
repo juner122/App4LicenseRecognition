@@ -8,8 +8,8 @@ public class BillEntityItem {
     String per;
     String aft;
     String balance;
-    String type;
-    String status;
+    String type; //1是提现，2消费， 3 线上收入 4 线下收入
+    int status;
     String createTime;
     String orderSn;
 
@@ -61,11 +61,26 @@ public class BillEntityItem {
         this.type = type;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public String getStatusString() {
+
+
+        if (status == 1)
+            return "提现";
+        if (status == 2)
+            return "消费";
+        if (status == 3)
+            return "线上收入";
+        if (status == 4)
+            return "线下收入";
+        return "-";
+
+    }
+
+    public void setStatus(int status) {
         this.status = status;
     }
 

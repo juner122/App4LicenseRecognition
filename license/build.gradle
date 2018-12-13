@@ -79,11 +79,16 @@ dependencies {
     // a SharedPreferences replacement for Android
     implementation 'net.grandcentrix.tray:tray:0.12.0'
 
-    //fastjson
-    implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
-
     //PickerView控件
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
 
     implementation 'com.bigkoo:ConvenientBanner:2.1.4'
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
+//    //权限
+//    implementation "com.github.hotchemi:permissionsdispatcher:4.1.0"
+//    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:4.1.0"
 }

@@ -15,7 +15,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     int order_status;
     String shipping_status;
     int pay_status;
-    String  pay_status_text;
+    String pay_status_text;
     double actual_price;
     double coupon_price;
 
@@ -33,9 +33,18 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     int pay_type;
     String discount_price;//自定义折扣
     String custom_cut_price;//自定义减免
+    String goods_unit;//单位
 
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
+
+    public String getGoods_unit() {
+        return goods_unit;
+    }
+
+    public void setGoods_unit(String goods_unit) {
+        this.goods_unit = goods_unit;
+    }
 
     public double getCoupon_price() {
         return coupon_price;
@@ -66,7 +75,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public String getPay_time() {
-        return pay_time;
+        return null != pay_time ? pay_time : "-";
     }
 
     public void setPay_time(String pay_time) {
@@ -147,6 +156,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     public void setPlanfinishi_time(Long planfinishi_time) {
         this.planfinishi_time = planfinishi_time;
     }
+
     public String getPay_status_text() {
         return pay_status_text;
     }
@@ -301,6 +311,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeInt(this.pay_type);
         dest.writeString(this.discount_price);
         dest.writeString(this.custom_cut_price);
+        dest.writeString(this.goods_unit);
         dest.writeTypedList(this.goodsList);
         dest.writeTypedList(this.sysUserList);
     }
@@ -329,6 +340,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.pay_type = in.readInt();
         this.discount_price = in.readString();
         this.custom_cut_price = in.readString();
+        this.goods_unit = in.readString();
         this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
     }

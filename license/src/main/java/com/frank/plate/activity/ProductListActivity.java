@@ -102,7 +102,6 @@ public class ProductListActivity extends BaseActivity {
                     layoutParams.setMargins(0, 1, 0, 0);
                     radioButton.setPadding(0, 36, 0, 36);
                     radioButton.setText(categories.get(i).getName());
-//                    radioButton.setBackground(ContextCompat.getDrawable(ProductListActivity.this, R.drawable.radiobutton_background_a));
                     radioButton.setBackground(getResources().getDrawable(R.drawable.radiobutton_background_a));
                     radioButton.setButtonDrawable(android.R.color.transparent);//隐藏单选圆形按钮
                     radioButton.setGravity(Gravity.CENTER);

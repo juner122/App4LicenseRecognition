@@ -118,10 +118,8 @@ public class MemberInfoInputActivity extends BaseActivity {
                     @Override
                     public void doConfirm() {
                         confirmDialog.dismiss();
-
                         getAddUser();
                     }
-
                     @Override
                     public void doCancel() {
                         confirmDialog.dismiss();

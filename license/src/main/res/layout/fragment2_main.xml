@@ -16,6 +16,7 @@
         android:textSize="16sp" />
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -119,11 +120,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="台"
+                android:text="单"
                 android:textColor="#ff000000"
                 android:textSize="10sp" />
 
             <TextView
+                android:id="@+id/top_num1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
@@ -158,11 +160,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="台"
+                android:text="单"
                 android:textColor="#ff000000"
                 android:textSize="10sp" />
 
             <TextView
+                android:id="@+id/top_num2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"

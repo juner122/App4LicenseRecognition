@@ -82,6 +82,7 @@ public class OrderPayActivity extends BaseActivity {
 
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
 
+
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
         tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
@@ -191,27 +192,41 @@ public class OrderPayActivity extends BaseActivity {
             case R.id.tv_enter_pay:
 
                 getPostInfo();
-                // 确认支付
-                Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-                    @Override
-                    protected void _onNext(NullDataEntity o) {
 
-                        Log.i("OrderPayActivity", "成功：" + o.toString());
-                        Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
+                if (pay_type == 11) {//微信支付
 
 
-                        if (infoEntity.getOrderInfo().getOrder_status() == 0) {
-                            toMain(1);
-                        } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
-                            sendOrderInfo(OrderDoneActivity.class, infoEntity);
-                    }
+                    Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
+                    i.putExtra(Configure.ORDERINFOID, infoEntity.getOrderInfo().getId());
+                    i.putExtra("shop_name", infoEntity.getShop().getShopName());
+                    startActivity(i);
 
-                    @Override
-                    protected void _onError(String message) {
-                        Log.i("OrderPayActivity", message);
-                    }
-                });
 
+                } else {
+
+
+                    // 确认支付
+                    Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                        @Override
+                        protected void _onNext(NullDataEntity o) {
+
+                            Log.i("OrderPayActivity", "成功：" + o.toString());
+                            Log.i("OrderPayActivity", "成功：" + o.toString());
+                            Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
+
+
+                            if (infoEntity.getOrderInfo().getOrder_status() == 0) {
+                                toMain(1);
+                            } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
+                                sendOrderInfo(OrderDoneActivity.class, infoEntity);
+                        }
+
+                        @Override
+                        protected void _onError(String message) {
+                            Log.i("OrderPayActivity", message);
+                        }
+                    });
+                }
 
                 break;
 

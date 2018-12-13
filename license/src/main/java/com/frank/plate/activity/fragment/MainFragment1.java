@@ -70,6 +70,7 @@ public class MainFragment1 extends BaseFragment {
             protected void _onNext(WorkIndex workIndex) {
                 price1.setText(String.valueOf(workIndex.getMonthIn()));
                 price2.setText(String.valueOf(workIndex.getDayIn()));
+
                 number1.setText(String.valueOf(workIndex.getMonthOrder()));
                 number2.setText(String.valueOf(workIndex.getDayOrder()));
                 number3.setText(String.valueOf(workIndex.getMonthMember()));

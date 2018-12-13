@@ -232,18 +232,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="活动套餐"
+                        android:text="服务工时"
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_goods_price2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥0.0"
+                        android:text=""
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -262,6 +263,7 @@
                     android:background="#D9D9D9" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_servers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

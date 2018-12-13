@@ -180,6 +180,7 @@ public class CarInfoInputActivity extends BaseActivity {
                 @Override
                 protected void _onNext(CarInfoRequestParameters o) {
                     tv_car_model.setText(o.getBrand() + "\t" + o.getName());
+                    et_remarks.setText(o.getPostscript());
                     for (UpDataPicEntity picEntity : o.getImagesList()) {
 
                         LocalMedia localMedia = new LocalMedia();
@@ -581,10 +582,10 @@ public class CarInfoInputActivity extends BaseActivity {
             parameters.setCarNo(carEntity.getCarNo());
         }
 
-        parameters.setBrandId(selectAutoBrand.getId());
-        parameters.setBrand(selectAutoBrand.getName());
-        parameters.setName(autoModel.getName());
-        parameters.setNameId(autoModel.getId());
+        parameters.setBrandId(null != selectAutoBrand ? selectAutoBrand.getId() : -1);
+        parameters.setBrand(null != selectAutoBrand ? selectAutoBrand.getName() : "");
+        parameters.setName(null != autoModel ? autoModel.getName() : "");
+        parameters.setNameId(null != autoModel ? autoModel.getId() : -1);
         parameters.setPostscript(et_remarks.getText().toString());
         parameters.setImagesList(upDataPicEntities);
 

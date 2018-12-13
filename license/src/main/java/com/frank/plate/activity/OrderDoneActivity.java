@@ -1,17 +1,15 @@
 package com.frank.plate.activity;
 
-import android.content.Intent;
-import android.nfc.Tag;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
-import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.util.DateUtil;
 
 import butterknife.BindView;
@@ -69,9 +67,27 @@ public class OrderDoneActivity extends BaseActivity {
     protected void init() {
         hideReturnView();
         tv_title.setText("完成订单");
-
-
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
+
+        Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                infoEntity = o;
+                setData();
+
+            }
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+                Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+    }
+    private void setData(){
+
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
         tv_pay_type.append(getPayTypeText(infoEntity.getOrderInfo().getPay_type()));
@@ -90,7 +106,6 @@ public class OrderDoneActivity extends BaseActivity {
         tv_name.append(null == infoEntity.getShop().getName() ? "-" : infoEntity.getShop().getName());
         tv_phone.append(null == infoEntity.getShop().getPhone() ? "-" : infoEntity.getShop().getPhone());
         tv_address.append(null == infoEntity.getShop().getAddress() ? "-" : infoEntity.getShop().getAddress());
-
 
     }
 
@@ -124,6 +139,7 @@ public class OrderDoneActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.d(TAG, message);
+                Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
+    android:orientation="vertical">
 
     <include layout="@layout/head_view" />
 
@@ -31,9 +30,11 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:text="13928732032"
                 android:drawableLeft="@mipmap/icon_login_name"
                 android:drawablePadding="20dp"
                 android:hint="请输入手机号码"
@@ -57,7 +58,7 @@
 
 
                 <EditText
-
+                    android:id="@+id/et_car_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -73,13 +74,13 @@
 
                 <TextView
                     android:id="@+id/btu_get_phone_code"
-                    android:layout_width="60dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_background_b"
                     android:gravity="center"
-                    android:paddingTop="3dp"
-                    android:paddingBottom="3dp"
-                    android:text="验证码"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="获取验证码"
                     android:textColor="#ff000000"
                     android:textSize="10sp" />
             </LinearLayout>
