@@ -20,6 +20,8 @@ import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.Course;
 import com.frank.plate.bean.GoodsListEntity;
+import com.frank.plate.bean.Meal;
+
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
 import com.frank.plate.bean.MyBalanceEntity;
@@ -28,6 +30,7 @@ import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.SetProject;
 import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
@@ -99,7 +102,7 @@ public class ApiLoader {
 //        map.put("order", order);
 //        map.put("type", type);
 
-        int[] i = {3,4};
+        int[] i = {3, 4};
         return apiService.getUserBillList(map, i).compose(RxHelper.<BillEntity>observe());
 
     }
@@ -551,6 +554,30 @@ public class ApiLoader {
     public Observable<WeixinCode> prepay(int orderId) {
         map.put("orderId", orderId);
         return apiService.prepay(map).compose(RxHelper.<WeixinCode>observe());
+    }
+
+
+    /**
+     * 添加快捷主推项目
+     */
+    public Observable<NullDataEntity> shopeasySave(SetProject setProject) {
+        return apiService.shopeasySave(token, setProject).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 修改快捷主推项目
+     */
+    public Observable<NullDataEntity> shopeasyUpdate(SetProject setProject) {
+
+        return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 用户可用套餐列表
+     */
+    public Observable<Meal> queryUserAct(int user_id) {
+        map.put("user_id", user_id);
+        return apiService.queryUserAct(map).compose(RxHelper.<Meal>observe());
     }
 
 

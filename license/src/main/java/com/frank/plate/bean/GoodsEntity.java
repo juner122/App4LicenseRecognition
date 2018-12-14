@@ -12,16 +12,76 @@ public class GoodsEntity implements Parcelable {
     String name;
     String goods_sn;
     String brand_id;
-    String goods_number;
+
     String keywords;
     String goods_brief;
     String goods_desc;
     String category_id;
     String primary_pic_url;
-    int easy_id;
-    int number;
+    int easy_id;//设置项目id
+    int number;//商品数量
     String retail_price;
     int is_hot;
+
+    String activitySn;
+    int activityId;
+    String activityName;
+    int goodsNum;//套餐商品剩余数量
+    int goodsId;//套餐商品id
+    String goodsName;//套餐商品名
+
+
+
+
+    public int getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(int goodsId) {
+        this.goodsId = goodsId;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public int getGoodsNum() {
+        return goodsNum;
+    }
+
+    public void setGoodsNum(int goodsNum) {
+        this.goodsNum = goodsNum;
+    }
+
+    public String getActivitySn() {
+        return activitySn;
+    }
+
+    public void setActivitySn(String activitySn) {
+        this.activitySn = activitySn;
+    }
+
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+
 
     public int getType() {
         return type;
@@ -53,7 +113,9 @@ public class GoodsEntity implements Parcelable {
     }
 
     public double getRetail_priceTodouble() {
-        return Double.parseDouble(retail_price);
+
+
+        return Double.parseDouble(null != retail_price ? retail_price : "0");
     }
 
 
@@ -109,13 +171,7 @@ public class GoodsEntity implements Parcelable {
         this.brand_id = brand_id;
     }
 
-    public String getGoods_number() {
-        return goods_number;
-    }
 
-    public void setGoods_number(String goods_number) {
-        this.goods_number = goods_number;
-    }
 
     public String getKeywords() {
         return keywords;
@@ -149,20 +205,7 @@ public class GoodsEntity implements Parcelable {
         this.category_id = category_id;
     }
 
-    @Override
-    public String toString() {
-        return "GoodsEntity{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", goods_sn='" + goods_sn + '\'' +
-                ", brand_id='" + brand_id + '\'' +
-                ", goods_number='" + goods_number + '\'' +
-                ", keywords='" + keywords + '\'' +
-                ", goods_brief='" + goods_brief + '\'' +
-                ", goods_desc='" + goods_desc + '\'' +
-                ", category_id='" + category_id + '\'' +
-                '}';
-    }
+
 
     public GoodsEntity() {
     }
@@ -179,7 +222,6 @@ public class GoodsEntity implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.goods_sn);
         dest.writeString(this.brand_id);
-        dest.writeString(this.goods_number);
         dest.writeString(this.keywords);
         dest.writeString(this.goods_brief);
         dest.writeString(this.goods_desc);
@@ -189,6 +231,10 @@ public class GoodsEntity implements Parcelable {
         dest.writeInt(this.number);
         dest.writeString(this.retail_price);
         dest.writeInt(this.is_hot);
+        dest.writeString(this.activitySn);
+        dest.writeInt(this.activityId);
+        dest.writeString(this.activityName);
+        dest.writeInt(this.goodsNum);
     }
 
     protected GoodsEntity(Parcel in) {
@@ -197,7 +243,6 @@ public class GoodsEntity implements Parcelable {
         this.name = in.readString();
         this.goods_sn = in.readString();
         this.brand_id = in.readString();
-        this.goods_number = in.readString();
         this.keywords = in.readString();
         this.goods_brief = in.readString();
         this.goods_desc = in.readString();
@@ -207,6 +252,10 @@ public class GoodsEntity implements Parcelable {
         this.number = in.readInt();
         this.retail_price = in.readString();
         this.is_hot = in.readInt();
+        this.activitySn = in.readString();
+        this.activityId = in.readInt();
+        this.activityName = in.readString();
+        this.goodsNum = in.readInt();
     }
 
     public static final Creator<GoodsEntity> CREATOR = new Creator<GoodsEntity>() {

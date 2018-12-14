@@ -5,10 +5,6 @@
     android:background="#F2F2F2"
     android:orientation="vertical">
 
-    <include layout="@layout/head_view" />
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,6 +83,7 @@
 
     </LinearLayout>
 
+
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
@@ -111,10 +108,9 @@
             android:layout_height="40dp"
             android:background="@drawable/button_background_c"
             android:gravity="center"
-            android:text="确认商品"
+            android:text="确认下单"
             android:textColor="#ff000000"
             android:textSize="14sp" />
     </LinearLayout>
-
 
 </LinearLayout>

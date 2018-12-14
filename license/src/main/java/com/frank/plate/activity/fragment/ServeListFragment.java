@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
-import com.frank.plate.activity.ProductListActivity;
+
 import com.frank.plate.activity.ServeListActivity;
 import com.frank.plate.adapter.ProductListAdapter;
 import com.frank.plate.adapter.ServeListAdapter;

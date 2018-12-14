@@ -14,7 +14,6 @@ import com.frank.plate.activity.BillListActivity;
 import com.frank.plate.activity.MainActivity;
 import com.frank.plate.activity.MemberManagementActivity;
 import com.frank.plate.activity.ProductListActivity;
-import com.frank.plate.activity.ShopInfoActivity;
 import com.frank.plate.activity.StaffManagementActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.WorkIndex;

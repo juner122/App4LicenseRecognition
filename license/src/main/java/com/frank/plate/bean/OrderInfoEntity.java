@@ -38,6 +38,17 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
 
+    List<GoodsEntity> userActivityList;
+
+    public List<GoodsEntity> getUserActivityList() {
+        return userActivityList;
+    }
+
+    public void setUserActivityList(List<GoodsEntity> userActivityList) {
+        this.userActivityList = userActivityList;
+    }
+
+
     public String getGoods_unit() {
         return goods_unit;
     }
@@ -314,6 +325,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeString(this.goods_unit);
         dest.writeTypedList(this.goodsList);
         dest.writeTypedList(this.sysUserList);
+        dest.writeList(this.userActivityList);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -343,6 +355,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.goods_unit = in.readString();
         this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
+        this.userActivityList = new ArrayList<GoodsEntity>();
+        in.readList(this.userActivityList, MealEntity.class.getClassLoader());
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

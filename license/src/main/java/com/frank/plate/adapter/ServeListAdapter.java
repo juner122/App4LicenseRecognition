@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
-import com.frank.plate.activity.ProductListActivity;
+
 import com.frank.plate.bean.GoodsEntity;
 
 import java.util.List;

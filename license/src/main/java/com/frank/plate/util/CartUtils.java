@@ -7,6 +7,7 @@ import android.util.SparseArray;
 
 import com.frank.plate.Configure;
 import com.frank.plate.bean.GoodsEntity;
+import com.frank.plate.bean.MealEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,6 +23,8 @@ public class CartUtils {
     private static CartUtils instance = null;
 
     SparseArray data;
+
+
     Context context;
 
     public static synchronized CartUtils getInstance(Context context) {
@@ -30,8 +33,6 @@ public class CartUtils {
         //使用时生成实例，提高了效率！
         if (instance == null)
             instance = new CartUtils(context);
-
-
         return instance;
     }
 
@@ -80,12 +81,37 @@ public class CartUtils {
         return carts;
     }
 
+
+    public List<GoodsEntity> getMealEntityList() {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = getDataFromLocal();
+
+        for (GoodsEntity c : list) {
+            if (c.getType() == 3)
+                carts.add(c);
+        }
+        return carts;
+    }
+
+
     public List<GoodsEntity> getServerList() {
 
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = getDataFromLocal();
         for (GoodsEntity c : list) {
             if (c.getType() == 2)
+                carts.add(c);
+        }
+        return carts;
+    }
+
+    public List<GoodsEntity> getMealList() {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = getDataFromLocal();
+        for (GoodsEntity c : list) {
+            if (c.getType() == 3)
                 carts.add(c);
         }
         return carts;
@@ -103,6 +129,38 @@ public class CartUtils {
 
         good.setType(1);
         addData(good);
+    }
+
+
+    //套餐商品
+    public void addMeal(MealEntity entity) {
+
+        GoodsEntity good = new GoodsEntity();
+
+
+        good.setId(entity.getGoodsId());
+        good.setGoodsId(entity.getGoodsId());
+        good.setName(entity.getGoodsName());
+        good.setGoodsNum(entity.getGoodsNum());
+        good.setActivityId(entity.getActivityId());
+        good.setActivitySn(entity.getActivitySn());
+        good.setActivityName(entity.getActivityName());
+        good.setGoodsName(entity.getGoodsName());
+
+
+        good.setType(3);
+        addData(good);
+    }
+
+    //套餐商品
+    public void reduceMeal(MealEntity entity) {
+
+        GoodsEntity good = new GoodsEntity();
+
+
+        good.setId(entity.getGoodsId());
+        good.setType(3);
+        reduceData(good);
     }
 
 

@@ -1,4 +1,5 @@
-package com.frank.plate.activity;
+package com.frank.plate.activity.fragment;
+
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,17 +10,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.frank.plate.Configure;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
-import com.frank.plate.activity.fragment.ProductListFragment;
+
+
 import com.frank.plate.adapter.Brandadapter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Category;
@@ -27,10 +26,8 @@ import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.SubCategoryEntity;
-
 import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.CommonPopupWindow;
-
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,25 +35,14 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
-public class ProductListActivity extends BaseActivity {
+public class ProductFragment extends BaseFragment {
+
 
     @BindView(R.id.rg_type)
     RadioGroup radioGroup;
-
-
     @BindView(R.id.et_key)
     EditText et_key;
-
-
-    @BindView(R.id.tv_totalPrice)
-    TextView tv_totalPrice;
-
-    @BindView(R.id.ll)
-    View ll;
 
     ProductListFragment fragment;
     CommonPopupWindow popupWindow;
@@ -65,35 +51,30 @@ public class ProductListActivity extends BaseActivity {
     Integer checkedTag;
     List<Category> categories;
 
-    private double TotalPrice;//总价格
-
-
     private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
 
-    public static int isShow;//是否显示选择数量和价格 0不显示  1显示
 
-    public static int setProject;
+    public static ProductFragment getInstance() {
+        ProductFragment sf = new ProductFragment();
+
+        return sf;
+    }
+
 
     @Override
-    protected void init() {
+    public int setLayoutResourceID() {
+        return R.layout.fragment_product_list_fr;
+    }
 
 
-        isShow = getIntent().getIntExtra(Configure.isShow, 0);
-        setProject = getIntent().getIntExtra(Configure.setProject, -1);
-
-        if (isShow == 0) {
-            ll.setVisibility(View.GONE);
-        } else {
-            ll.setVisibility(View.VISIBLE);
-        }
-
-        tv_title.setText("商品列表");
-        tv_totalPrice.append(String.valueOf(TotalPrice));
+    @Override
+    protected void setUpView() {
 
 
         replaceFragment();
 
-        Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
+
+        Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(getContext(), true) {
             @Override
             protected void _onNext(CategoryBrandList o) {
                 listMap.put(o.getCategoryList().get(0).getId() + "", o.getGoodList());//保存初始List<GoodsEntity> key为种类id+品牌id
@@ -102,7 +83,7 @@ public class ProductListActivity extends BaseActivity {
                 categories = o.getCategoryList();
                 checkedTag = 0;
                 for (int i = 0; i < categories.size(); i++) {
-                    RadioButton radioButton = new RadioButton(ProductListActivity.this);
+                    RadioButton radioButton = new RadioButton(getContext());
                     RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
                     layoutParams.setMargins(0, 1, 0, 0);
                     radioButton.setPadding(0, 36, 0, 36);
@@ -130,29 +111,28 @@ public class ProductListActivity extends BaseActivity {
             }
         });
 
+        commonPopupRecyclerView = new RecyclerView(getContext());
+        commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-    }
+        brandadapter = new Brandadapter(null);
+        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.v("BaseQuickAdapter", "第" + position + "项");
 
-    @OnClick({R.id.but_enter_order, R.id.iv_search})
-    public void onClick(View v) {
+                //根据商品类型，品牌，查询商品
+                popupWindow.dismiss();
 
-        switch (v.getId()) {
+                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), "");
 
-            case R.id.but_enter_order:
+            }
 
-                finish();
-                break;
-            case R.id.iv_search:
+        });
+        commonPopupRecyclerView.setAdapter(brandadapter);
 
-                if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods("", "", et_key.getText().toString());
-                else
-                    Toast.makeText(ProductListActivity.this, "请输入搜索关键字！", Toast.LENGTH_SHORT).show();
-
-                break;
-
-        }
-
+        popupWindow = new CommonPopupWindow.Builder(getContext())
+                .setView(commonPopupRecyclerView)
+                .create();
 
     }
 
@@ -173,34 +153,6 @@ public class ProductListActivity extends BaseActivity {
         }
     }
 
-
-    @Override
-    protected void setUpView() {
-        commonPopupRecyclerView = new RecyclerView(this);
-        commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        brandadapter = new Brandadapter(null);
-        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.v("BaseQuickAdapter", "第" + position + "项");
-
-                //根据商品类型，品牌，查询商品
-                popupWindow.dismiss();
-
-                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), "");
-
-            }
-
-        });
-        commonPopupRecyclerView.setAdapter(brandadapter);
-
-        popupWindow = new CommonPopupWindow.Builder(this)
-                .setView(commonPopupRecyclerView)
-                .create();
-    }
-
-
     private void onQueryAnyGoods(final String category_id, final String brand_id, String name) {
 
 
@@ -209,7 +161,7 @@ public class ProductListActivity extends BaseActivity {
 
 
         } else {
-            Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
+            Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(getContext(), true) {
                 @Override
                 protected void _onNext(GoodsListEntity goodsListEntity) {
 
@@ -231,35 +183,39 @@ public class ProductListActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void setUpData() {
+    @OnClick({R.id.iv_search})
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.iv_search:
+
+                if (!TextUtils.isEmpty(et_key.getText()))
+                    onQueryAnyGoods("", "", et_key.getText().toString());
+                else
+                    ToastUtils.showToast("请输入搜索关键字！");
+
+                break;
+
+        }
+
 
     }
 
     private void replaceFragment() {
-        fragment = ProductListFragment.getInstance(0);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragment = ProductListFragment.getInstance(1);
+        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.right_layout, fragment);
         transaction.commit();
     }
 
+
+    public static final String TAG = "ProductListFragment";
+
     @Override
-    public int setLayoutResourceID() {
-        return R.layout.activity_product_list;
+    protected String setTAG() {
+        return TAG;
     }
-
-
-    public void onPulsTotalPrice(double t) {
-        TotalPrice = TotalPrice + t;
-        tv_totalPrice.setText(String.format("合计：￥%s", TotalPrice));
-
-    }
-
-    public void setListMap(String category_id, String brand_id, List<GoodsEntity> list) {
-        this.listMap.put(category_id + brand_id, list);
-
-    }
-
 
 }

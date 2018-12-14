@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/tv_number"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:gravity="center"
             android:text="11" />

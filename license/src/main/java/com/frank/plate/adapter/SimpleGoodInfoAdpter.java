@@ -27,7 +27,7 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
 
 
         helper.setText(R.id.name, item.getName())
-                .setText(R.id.price, "￥" + item.getRetail_price())
+                .setText(R.id.price, null != item.getRetail_price() ? "￥" + item.getRetail_price() : "免费")
                 .setText(R.id.tv_number, String.valueOf(item.getNumber()));
 
 
@@ -57,6 +57,13 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
             ib_reduce.setVisibility(View.VISIBLE);
             tv_number.setVisibility(View.VISIBLE);
         }
+
+
+
+
+
+
+
 
     }
 

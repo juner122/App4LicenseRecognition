@@ -117,6 +117,8 @@ public class OrderInfoActivity extends BaseActivity {
     RecyclerView rv1;
     @BindView(R.id.rv2)
     RecyclerView rv2;
+    @BindView(R.id.rv3)
+    RecyclerView rv3;
 
     @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info})
     public void onClick(View v) {
@@ -320,8 +322,8 @@ public class OrderInfoActivity extends BaseActivity {
         rv2.setAdapter(adpter2);
 
 
-        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(),1);
-        double goodsPrice2 = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(),2);
+        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(), 1);
+        double goodsPrice2 = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(), 2);
 
         tv_goods_price.append(String.valueOf(goodsPrice));
 

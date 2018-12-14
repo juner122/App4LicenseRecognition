@@ -2,8 +2,6 @@ package com.frank.plate.activity;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,21 +12,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+
 import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
-import com.frank.plate.activity.fragment.ProductListFragment;
+
 import com.frank.plate.activity.fragment.ServeListFragment;
-import com.frank.plate.adapter.Brandadapter;
+
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Category;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
-import com.frank.plate.bean.SubCategoryEntity;
+
 import com.frank.plate.util.ToastUtils;
-import com.frank.plate.view.CommonPopupWindow;
+
 
 import java.util.HashMap;
 import java.util.List;

@@ -9,19 +9,21 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
-import com.frank.plate.activity.ProductListActivity;
+
 import com.frank.plate.bean.GoodsEntity;
-import com.frank.plate.bean.ProductListItemEntity;
+
 
 import java.util.List;
 
 public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
 
     Fragment fragment;
+    int isShow;
 
-    public ProductListAdapter(Fragment fragment, @Nullable List<GoodsEntity> data) {
+    public ProductListAdapter(Fragment fragment, @Nullable List<GoodsEntity> data, int isShow) {
         super(R.layout.activity_product_list_fr_item, data);
         this.fragment = fragment;
+        this.isShow = isShow;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
         }
 
 
-        if (ProductListActivity.isShow == 0) {
+        if (isShow == 0) {
             ib_reduce.setVisibility(View.INVISIBLE);
             tv_number.setVisibility(View.INVISIBLE);
             ib_plus.setVisibility(View.INVISIBLE);

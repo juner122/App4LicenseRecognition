@@ -13,6 +13,8 @@ import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.Course;
 import com.frank.plate.bean.GoodsListEntity;
+import com.frank.plate.bean.Meal;
+
 import com.frank.plate.bean.Member;
 import com.frank.plate.bean.MemberOrder;
 import com.frank.plate.bean.MyBalanceEntity;
@@ -21,8 +23,9 @@ import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.SetProject;
 import com.frank.plate.bean.Shop;
-import com.frank.plate.bean.ShopEntity;
+
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.Token;
 import com.frank.plate.bean.UserInfo;
@@ -61,7 +64,8 @@ public interface ApiService {
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps, @Field("type") int[] idList);
-  //账单列表
+
+    //账单列表
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps);
@@ -261,6 +265,22 @@ public interface ApiService {
     @POST("pay/prepay")
     @FormUrlEncoded
     Observable<BaseBean<WeixinCode>> prepay(@FieldMap Map<String, Object> maps);
+
+    //添加快捷主推项目
+    @POST("shopeasy/save")
+    Observable<BaseBean<NullDataEntity>> shopeasySave(@Header("X-Nideshop-Token") String token, @Body SetProject setProject);
+
+
+    //修改快捷主推项目
+    @POST("shopeasy/update")
+
+    Observable<BaseBean<NullDataEntity>> shopeasyUpdate(@Header("X-Nideshop-Token") String token, @Body SetProject setProject);
+
+
+    //用户可用套餐列表
+    @POST("activity/queryUserAct")
+    @FormUrlEncoded
+    Observable<BaseBean<Meal>> queryUserAct(@FieldMap Map<String, Object> maps);
 
 
 }

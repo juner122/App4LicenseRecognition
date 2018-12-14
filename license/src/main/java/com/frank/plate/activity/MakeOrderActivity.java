@@ -18,6 +18,7 @@ import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
+import com.frank.plate.adapter.SimpleMealInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
@@ -49,6 +50,10 @@ public class MakeOrderActivity extends BaseActivity {
 
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
+
+    @BindView(R.id.rv_meal)
+    RecyclerView rv_meal;
+
     @BindView(R.id.rv_servers)
     RecyclerView rv_servers;
 
@@ -80,6 +85,7 @@ public class MakeOrderActivity extends BaseActivity {
     OrderInfoEntity infoEntity;
     SimpleGoodInfoAdpter simpleGoodInfoAdpter;
     SimpleGoodInfoAdpter simpleGoodInfoAdpter2;
+    SimpleMealInfoAdpter sma;
     List<Technician> technicians;
 
     List<GoodsEntity> goods_top;
@@ -100,11 +106,17 @@ public class MakeOrderActivity extends BaseActivity {
         simpleGoodInfoAdpter2 = new SimpleGoodInfoAdpter(cartUtils.getServerList(), false);
 
 
+        sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
+
+
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
         rv_goods.setAdapter(simpleGoodInfoAdpter);
 
         rv_servers.setLayoutManager(new LinearLayoutManager(this));
         rv_servers.setAdapter(simpleGoodInfoAdpter2);
+
+        rv_meal.setLayoutManager(new LinearLayoutManager(this));
+        rv_meal.setAdapter(sma);
 
 
         simpleGoodInfoAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -127,6 +139,7 @@ public class MakeOrderActivity extends BaseActivity {
                                 assert ib_reduce != null;
                                 ib_reduce.setVisibility(View.VISIBLE);
                             }
+
                             number++;
                             tv_number.setText(String.valueOf(number));
                             cartUtils.addProductData(goodsEntities.get(position));
@@ -145,8 +158,6 @@ public class MakeOrderActivity extends BaseActivity {
                             }
                             break;
                     }
-
-
                     refreshData();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -195,7 +206,7 @@ public class MakeOrderActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
-                toActivity(ProductListActivity.class, Configure.isShow, 1);
+                toActivity(ProductMealListActivity.class, Configure.user_id, user_id);
                 break;
             case R.id.but_meal_list:
                 toActivity(ServeListActivity.class, Configure.isShow, 1);
@@ -327,7 +338,10 @@ public class MakeOrderActivity extends BaseActivity {
     private void onMakeOrder() {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
-        infoEntity.setGoodsList(cartUtils.getDataFromLocal());
+        infoEntity.setGoodsList(cartUtils.getProductList());
+
+
+        infoEntity.setUserActivityList(cartUtils.getMealEntityList());
 
         infoEntity.setSysUserList(technicians);
 

@@ -19,7 +19,7 @@ public class TechnicianInfoAdpter extends BaseQuickAdapter<Technician, BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, Technician item) {
         helper.setText(R.id.name, item.getUsername());
-        helper.setText(R.id.phone, item.getUsername());
+        helper.setText(R.id.phone, item.getMobile());
         helper.setText(R.id.lv, item.getRoleName());
     }
 }

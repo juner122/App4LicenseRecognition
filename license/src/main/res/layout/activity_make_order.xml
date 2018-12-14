@@ -212,6 +212,11 @@
                     android:id="@+id/rv_goods"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_meal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <LinearLayout
@@ -439,7 +444,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-                android:textColor="#fff23325"
+            android:textColor="#fff23325"
             android:textSize="14sp" />
 
         <TextView
