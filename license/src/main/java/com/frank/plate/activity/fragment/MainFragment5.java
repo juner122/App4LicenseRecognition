@@ -8,6 +8,7 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.AboutActivity;
 import com.frank.plate.activity.AuthenActivity;
+import com.frank.plate.activity.LoginActivity;
 import com.frank.plate.activity.MyBalanceActivity;
 import com.frank.plate.activity.SetProjectActivity;
 import com.frank.plate.activity.ShopInfoActivity;
@@ -98,6 +99,7 @@ public class MainFragment5 extends BaseFragment {
 
             case R.id.tv_out:
                 new AppPreferences(getContext()).remove(Configure.Token);
+                toActivity(LoginActivity.class);
                 getActivity().finish();
                 break;
 

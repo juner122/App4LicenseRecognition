@@ -47,6 +47,11 @@ public class BillListActivity extends BaseActivity {
     @BindView(R.id.tv_money4)
     TextView tv_money4;
 
+    @BindView(R.id.ll1)
+    View ll1;
+    @BindView(R.id.ll2)
+    View ll2;
+
     @BindView(R.id.v_date1)
     TextView v_date1;
     @BindView(R.id.v_date2)
@@ -54,7 +59,7 @@ public class BillListActivity extends BaseActivity {
 
     BillListAdpter adpter;
     int count;
-
+    int isShowAll;//是否显示收入和支出
 
     Calendar startShowDate = Calendar.getInstance();
     Calendar endShowDate = Calendar.getInstance();
@@ -62,10 +67,22 @@ public class BillListActivity extends BaseActivity {
     @Override
     protected void init() {
 
+        isShowAll = getIntent().getIntExtra("isShowAll", -1);
+
+        if (isShowAll == 0) {
+            ll1.setVisibility(View.GONE);
+            ll2.setVisibility(View.GONE);
+        } else {
+            ll1.setVisibility(View.VISIBLE);
+            ll2.setVisibility(View.VISIBLE);
+
+        }
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adpter = new BillListAdpter(list);
         adpter.openLoadAnimation(ALPHAIN);
+        adpter.setEmptyView(R.layout.order_list_empty_view, recyclerView);
         recyclerView.setAdapter(adpter);
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -119,7 +136,7 @@ public class BillListActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
-        Api().getUserBillList(count, 10, 0, 0).subscribe(new RxSubscribe<BillEntity>(this, true) {
+        Api().getUserBillList(isShowAll).subscribe(new RxSubscribe<BillEntity>(this, true) {
             @Override
             protected void _onNext(BillEntity bean) {
                 if (bean == null)

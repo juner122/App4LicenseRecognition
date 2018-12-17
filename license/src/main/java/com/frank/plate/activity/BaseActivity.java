@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.TextView;
@@ -46,12 +47,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     ApiLoader apiLoader;
 
+    String tag;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //设置布局
         setContentView(setLayoutResourceID());
+
 
         mUnbinder = ButterKnife.bind(this);
         init();
@@ -62,7 +66,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         //初始化数据
         setUpData();
 
+
     }
+
 
     public ApiLoader Api() {
         if (apiLoader == null)
@@ -105,6 +111,8 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return 布局文件资源ID
      */
     public abstract int setLayoutResourceID();
+
+
 
     protected void hideHeadView() {
         head_view.setVisibility(View.GONE);

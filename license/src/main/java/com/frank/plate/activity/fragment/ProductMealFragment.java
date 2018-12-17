@@ -52,21 +52,6 @@ public class ProductMealFragment extends BaseFragment {
         rv.setAdapter(mealListAdapter);
 
 
-        Api().queryUserAct(id).subscribe(new RxSubscribe<Meal>(getContext(), true) {
-            @Override
-            protected void _onNext(Meal mealList) {
-                list = generateData(mealList.getList());
-                mealListAdapter.setNewData(list);
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-            }
-        });
-
-
         mealListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -84,6 +69,28 @@ public class ProductMealFragment extends BaseFragment {
                     MyApplication.cartUtils.reduceMeal(m);
 
 
+            }
+        });
+
+
+    }
+
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+
+        Api().queryUserAct(id).subscribe(new RxSubscribe<Meal>(getContext(), true) {
+            @Override
+            protected void _onNext(Meal mealList) {
+                list = generateData(mealList.getList());
+                mealListAdapter.setNewData(list);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("套餐列表为空");
             }
         });
 

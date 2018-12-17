@@ -1,6 +1,5 @@
 package com.frank.plate.activity;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,17 +10,12 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfo2Adpter;
 import com.frank.plate.api.RxSubscribe;
-import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
-import com.frank.plate.bean.OrderInfoEntity;
-import com.frank.plate.bean.ShopEntity;
-import com.frank.plate.bean.Technician;
 import com.frank.plate.util.DateUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 public class MakeOrderSuccessActivity extends BaseActivity {
 
@@ -130,6 +124,12 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         }
 
+    }
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();//注释掉这行,back键不退出activity
+
+        Log.i(TAG, "onBackPressed");
     }
 
 

@@ -1,12 +1,15 @@
 package com.frank.plate.api;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
+import com.frank.plate.activity.WeiXinPayCodeActivity;
 import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
@@ -89,7 +92,7 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BillEntity> getUserBillList(int page, int limit, int sidx, int order) {
+    public Observable<BillEntity> getUserBillList(int isShowAll) {
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
@@ -102,13 +105,19 @@ public class ApiLoader {
 //        map.put("order", order);
 //        map.put("type", type);
 
-        int[] i = {3, 4};
-        return apiService.getUserBillList(map, i).compose(RxHelper.<BillEntity>observe());
+        if (isShowAll == 0) {
+            List<Integer> list = new ArrayList<>();
+            list.add(3);
+            list.add(4);
+            return apiService.getUserBillList(token, list).compose(RxHelper.<BillEntity>observe());
+        } else
+            return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
+
 
     }
 
     /**
-     * 账单统计加列表
+     * 账单统计加列表 收入账单 与我的账单列表一个接口，多一个参数
      *
      * @return
      */
@@ -305,6 +314,22 @@ public class ApiLoader {
      * @return
      */
     public Observable<BasePage<OrderInfoEntity>> orderList() {
+
+        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+    }
+
+    /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderList(String order_status) {
+
+        if (order_status.equals("00"))
+            order_status = "0";
+
+        map.put("order_status", order_status);
+
 
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
@@ -551,9 +576,19 @@ public class ApiLoader {
     /**
      * 微信收款码支付
      */
-    public Observable<WeixinCode> prepay(int orderId) {
-        map.put("orderId", orderId);
-        return apiService.prepay(map).compose(RxHelper.<WeixinCode>observe());
+    public Observable<WeixinCode> prepay(OrderInfoEntity infoEntity) {
+
+
+        return apiService.prepay(token, infoEntity).compose(RxHelper.<WeixinCode>observe());
+    }
+
+    /**
+     * 查微信支付成功通知
+     */
+    public Observable<NullDataEntity> payQuery(int orderId) {
+        map.put("id", orderId);
+        return apiService.payQuery(map).compose(RxHelper.<NullDataEntity>observe());
+
     }
 
 

@@ -1,14 +1,15 @@
 package com.frank.plate.activity;
 
-import android.Manifest;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
@@ -21,6 +22,8 @@ import com.frank.plate.PlateRecognition;
 
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.QueryByCarEntity;
+import com.frank.plate.util.A2bigA;
+import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.PlateRecognizerView;
 import com.frank.plate.R;
@@ -61,12 +64,244 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     @Override
     protected void init() {
 
-        tv_title.setText("扫描接单");
+
         initOpenCV();
     }
 
     @Override
     protected void setUpView() {
+        tv_title.setText("扫描接单");
+
+        et1.setTransformationMethod(new A2bigA());
+        et2.setTransformationMethod(new A2bigA());
+        et3.setTransformationMethod(new A2bigA());
+        et4.setTransformationMethod(new A2bigA());
+        et5.setTransformationMethod(new A2bigA());
+        et6.setTransformationMethod(new A2bigA());
+        et7.setTransformationMethod(new A2bigA());
+
+
+        et1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et2.getText())) {
+                    et2.requestFocus();
+                }
+            }
+        });
+        et1.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et1.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+
+        et2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et3.getText())) {
+                    et3.requestFocus();
+                }
+            }
+        });
+        et2.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et2.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+
+        et3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et4.getText())) {
+                    et4.requestFocus();
+                }
+            }
+        });
+        et3.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et3.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+        et4.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et5.getText())) {
+                    et5.requestFocus();
+                }
+            }
+        });
+        et4.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et4.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+        et5.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et6.getText())) {
+                    et6.requestFocus();
+                }
+            }
+        });
+        et5.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et5.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+        et6.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et7.getText())) {
+                    et7.requestFocus();
+                }
+            }
+        });
+        et6.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et6.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
+        et7.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (!TextUtils.isEmpty(editable)) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(et7.getWindowToken(), 0); //强制隐藏键盘
+                }
+            }
+        });
+        et7.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus) {
+                    // 获得焦点
+                    et7.setText("");
+                } else {
+                    // 失去焦点
+                }
+            }
+        });
 
     }
 
@@ -84,7 +319,11 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_next:
-                onQueryByCar();
+
+                if (String2Utils.isNullCarNumber(et1, et2, et3, et4, et5, et6, et7))
+                    onQueryByCar();
+                else
+                    ToastUtils.showToast("请输入正确车牌号码");
                 break;
         }
 
@@ -121,26 +360,32 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
 
     private void initOpenCV() {
 
-        plateRecognition = new PlateRecognition(this, mHandler);
-        //init plate recognizer
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                plateRecognition.initRecognizer("pr");
+        try {
+            plateRecognition = new PlateRecognition(this, mHandler);
+            //init plate recognizer
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    plateRecognition.initRecognizer("pr");
+                }
+            }).start();
+
+            recognizerView = findViewById(R.id.surface_view);
+            recognizerView.setOnNewFrameListener(this);
+            recognizeThread = new RecognizeThread(plateRecognition);
+            recognizeThread.start();
+
+            boolean result = OpenCVLoader.initDebug();
+            if (result) {
+                Log.i(TAG, "initOpenCV success...");
+                recognizerView.enableView();
+            } else {
+                Log.e(TAG, "initOpenCV fail...");
             }
-        }).start();
+        } catch (Exception e) {
+            Log.e("车牌扫描功能异常", e.toString());
+            e.printStackTrace();
 
-        recognizerView = findViewById(R.id.surface_view);
-        recognizerView.setOnNewFrameListener(this);
-        recognizeThread = new RecognizeThread(plateRecognition);
-        recognizeThread.start();
-
-        boolean result = OpenCVLoader.initDebug();
-        if (result) {
-            Log.i(TAG, "initOpenCV success...");
-            recognizerView.enableView();
-        } else {
-            Log.e(TAG, "initOpenCV fail...");
         }
     }
 
@@ -148,32 +393,40 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (recognizerView != null)
-            recognizerView.disableView();
-        if (plateRecognition != null) {
-            //release plate recognizer
-            plateRecognition.releaseRecognizer();
-        }
-        if (recognizeThread != null) {
-            recognizeThread.setRunning(false);
-            recognizeThread.interrupt();
-            recognizeThread = null;
+        try {
+            if (recognizerView != null)
+                recognizerView.disableView();
+            if (plateRecognition != null) {
+                //release plate recognizer
+                plateRecognition.releaseRecognizer();
+            }
+            if (recognizeThread != null) {
+                recognizeThread.setRunning(false);
+                recognizeThread.interrupt();
+                recognizeThread = null;
+            }
+        } catch (Exception e) {
+            Log.e("车牌扫描功能异常", e.toString());
+            e.printStackTrace();
         }
     }
 
     @Override
     public void onNewFrame(Mat newFrame) {
-        if (dstMat == null) {
-            dstMat = new Mat(newFrame.rows(), newFrame.cols(), CvType.CV_8UC4);
-        }
-        newFrame.copyTo(dstMat);
-
-
-        //竖屏识别 帧数据旋转
-        Core.transpose(dstMat, dstMat);
-        Core.flip(dstMat, dstMat, 1);
-        if (recognizeThread != null) {
-            recognizeThread.addMat(dstMat);
+        try {
+            if (dstMat == null) {
+                dstMat = new Mat(newFrame.rows(), newFrame.cols(), CvType.CV_8UC4);
+            }
+            newFrame.copyTo(dstMat);
+            //竖屏识别 帧数据旋转
+            Core.transpose(dstMat, dstMat);
+            Core.flip(dstMat, dstMat, 1);
+            if (recognizeThread != null) {
+                recognizeThread.addMat(dstMat);
+            }
+        } catch (Exception e) {
+            Log.e("车牌扫描功能异常", e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -184,9 +437,9 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             switch (msg.what) {
                 case PlateRecognition.MSG_RESULT://recognize finish
                     String result = (String) msg.obj;
+                    car_number = "";
 
-                    ToastUtils.showToast("车牌号=" + result);
-                    car_number = result;
+
                     try {
                         et1.setText(String.valueOf(result.charAt(0)));
                         et2.setText(String.valueOf(result.charAt(1)));
@@ -196,13 +449,13 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                         et6.setText(String.valueOf(result.charAt(5)));
                         et7.setText(String.valueOf(result.charAt(6)));
 
+                        car_number = result;
+
+                        ToastUtils.showToast("车牌号=" + car_number);
+
                     } catch (Exception e) {
-
                         ToastUtils.showToast(e.getMessage());
-
                     }
-
-
                     break;
             }
         }

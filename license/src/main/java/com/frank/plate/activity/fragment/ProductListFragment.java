@@ -1,6 +1,8 @@
 package com.frank.plate.activity.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -35,14 +37,27 @@ public class ProductListFragment extends BaseFragment {
     List<GoodsEntity> list = new ArrayList<>();
     String category_id, brand_id;//种类id,品牌id
 
-    static int isShow = 1;
+    int isShow = 0;
 
     public static ProductListFragment getInstance(int show) {
         ProductListFragment sf = new ProductListFragment();
-        isShow = show;
+        Bundle bundle = new Bundle();
+        bundle.putInt("isShow", show);
+
+        //fragment保存参数，传入一个Bundle对象
+        sf.setArguments(bundle);
         return sf;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            //取出保存的值
+            isShow = getArguments().getInt("isShow", -1);
+        }
+
+    }
 
     @Override
     public int setLayoutResourceID() {
@@ -59,8 +74,6 @@ public class ProductListFragment extends BaseFragment {
 
 
         if (isShow == 1) {
-
-
             productListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -116,9 +129,7 @@ public class ProductListFragment extends BaseFragment {
 
                 }
             });
-        }
-
-        if (ProductListActivity.setProject != -1) {
+        } else if (ProductListActivity.setProject != -1) {
 
 
             productListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

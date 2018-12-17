@@ -90,10 +90,14 @@
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.SetProjectActivity"  android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.SetProjectActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.ActivityInfoActivity" />
         <activity android:name=".activity.ServeListActivity" />
-        <activity android:name=".activity.WeiXinPayCodeActivity" />
+        <activity
+            android:name=".activity.WeiXinPayCodeActivity"
+           />
         <activity android:name=".activity.CashWithdrawalActivity" />
         <activity android:name=".activity.ProductMealListActivity"></activity>
     </application>

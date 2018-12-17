@@ -2,6 +2,7 @@ package com.frank.plate.activity;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,11 +19,12 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.Brandadapter2;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
-import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.CommonPopupWindow;
 
 import com.frank.plate.view.ConfirmDialog2;
@@ -70,7 +72,10 @@ public class OrderPayActivity extends BaseActivity {
     Brandadapter2 brandadapter;
 
 
-    int pay_type = 22;//支付方式  1嗨卡 11微信 21 掌贝 22 现金
+    int pay_type = 11;//支付方式  1嗨卡 11微信 21 掌贝 22 现金
+
+    List<OffLinePayType> olpy;
+
 
     double balance_price;//结算金额
     @BindView(R.id.tv_price)
@@ -93,17 +98,21 @@ public class OrderPayActivity extends BaseActivity {
         balance_price = infoEntity.getOrderInfo().getOrder_price();
 
 
-        final List<String> strings = new ArrayList<>();
-        strings.add("掌贝收款");
-        strings.add("现金收款");
-        strings.add("其他支付");
+        olpy = new ArrayList<>();
+        olpy.add(new OffLinePayType("掌贝收款", 21));
+        olpy.add(new OffLinePayType("现金收款", 22));
 
-        brandadapter = new Brandadapter2(strings);
+        brandadapter = new Brandadapter2(olpy);
         brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
-                tv_pick_pay_type.setText(strings.get(position));
+                tv_pick_pay_type.setText(olpy.get(position).getType_string());
+
+                pay_type = olpy.get(position).pay_type;
+
+                cb_weixin.setChecked(false);
+
             }
 
         });
@@ -191,43 +200,24 @@ public class OrderPayActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
 
+
                 getPostInfo();
 
-                if (pay_type == 11) {//微信支付
-
-
+                if (pay_type == 0)
+                    ToastUtils.showToast("请选择一种支付方式");
+                else if (pay_type == 11) {//微信支付
                     Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
-                    i.putExtra(Configure.ORDERINFOID, infoEntity.getOrderInfo().getId());
+
+
                     i.putExtra("shop_name", infoEntity.getShop().getShopName());
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Configure.ORDERINFO, infoEntity.getOrderInfo());
+                    i.putExtras(bundle);
                     startActivity(i);
 
 
-                } else {
-
-
-                    // 确认支付
-                    Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-                        @Override
-                        protected void _onNext(NullDataEntity o) {
-
-                            Log.i("OrderPayActivity", "成功：" + o.toString());
-                            Log.i("OrderPayActivity", "成功：" + o.toString());
-                            Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
-
-
-                            if (infoEntity.getOrderInfo().getOrder_status() == 0) {
-                                toMain(1);
-                            } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
-                                sendOrderInfo(OrderDoneActivity.class, infoEntity);
-                        }
-
-                        @Override
-                        protected void _onError(String message) {
-                            Log.i("OrderPayActivity", message);
-                        }
-                    });
-                }
-
+                } else
+                    Pay();
                 break;
 
             case R.id.tv_pick_pay_type:
@@ -259,7 +249,6 @@ public class OrderPayActivity extends BaseActivity {
                 Intent i = new Intent(OrderPayActivity.this, PickCoupons.class);
                 i.putExtra("order_price", String.valueOf(infoEntity.getOrderInfo().getOrder_price()));
                 i.putExtra("order_price", "1000");
-//                i.putExtra(Configure.user_id, infoEntity.getOrderInfo().getUser_id());
                 i.putExtra(Configure.user_id, 1);
                 startActivity(i);
                 break;
@@ -268,11 +257,11 @@ public class OrderPayActivity extends BaseActivity {
     }
 
     private void getPostInfo() {
-        if (cb_weixin.isChecked()) {
-            //微信支付
 
+        if (cb_weixin.isChecked())
             pay_type = 11;
-
+        else {
+            pay_type = 0;
         }
 
         infoEntity.getOrderInfo().setPay_type(pay_type);
@@ -285,13 +274,75 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        int code = intent.getIntExtra("code", -1);
+        if (code == 110) {
+
+            Coupon c = intent.getParcelableExtra("Coupon");
+            tv_coupon_no.setText("已选择 1 张");
+
+            if (balance_price >= c.getMin_amount())
+                tv_price.setText(String.valueOf(balance_price - c.getType_money()));
+        } else if (code == 100) {
+
+            sendOrderInfo(OrderDoneActivity.class, infoEntity);
+            finish();
 
 
-        Coupon c = intent.getParcelableExtra("Coupon");
-        tv_coupon_no.setText("已选择 1 张");
+        }
 
-        if (balance_price >= c.getMin_amount())
-            tv_price.setText(String.valueOf(balance_price - c.getType_money()));
+
+    }
+
+
+    public class OffLinePayType {
+        String type_string;
+        int pay_type;
+
+        public OffLinePayType(String type_string, int pay_type) {
+            this.type_string = type_string;
+            this.pay_type = pay_type;
+        }
+
+        public String getType_string() {
+            return type_string;
+        }
+
+        public void setType_string(String type_string) {
+            this.type_string = type_string;
+        }
+
+        public int getPay_type() {
+            return pay_type;
+        }
+
+        public void setPay_type(int pay_type) {
+            this.pay_type = pay_type;
+        }
+    }
+
+    private void Pay() {
+        // 确认支付
+        Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity o) {
+
+                Log.i("OrderPayActivity", "成功：" + o.toString());
+                Log.i("OrderPayActivity", "成功：" + o.toString());
+                Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
+
+
+                if (infoEntity.getOrderInfo().getOrder_status() == 0) {
+                    toMain(1);
+                } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
+                    sendOrderInfo(OrderDoneActivity.class, infoEntity);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.i("OrderPayActivity", message);
+            }
+        });
+
 
     }
 }

@@ -1,5 +1,8 @@
 package com.frank.plate.util;
 
+import android.text.TextUtils;
+import android.widget.EditText;
+
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.Technician;
 
@@ -60,5 +63,14 @@ public class String2Utils {
         }
 
         return "-";
+    }
+
+    public static boolean isNullCarNumber(EditText... editTexts) {
+
+        for (EditText d : editTexts) {
+            if (TextUtils.isEmpty(d.getText()))
+                return false;
+        }
+        return true;
     }
 }

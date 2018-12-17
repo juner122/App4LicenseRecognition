@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="54dp" />
 
+
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tl_button_bar"
         android:layout_width="match_parent"
@@ -26,14 +27,20 @@
         tl:tl_textSelectColor="#020202"
         tl:tl_textUnselectColor="#66000000"
         tl:tl_textsize="12sp"
-        tl:tl_underline_color="#DDDDDD"
-        tl:tl_underline_height="1dp" />
+        tl:tl_underline_color="#000"
+        tl:tl_underline_height="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_alignParentBottom="true"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1A000000" />
 
         <LinearLayout
             android:id="@+id/ll"
@@ -41,8 +48,8 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
 
             <ImageView
                 android:layout_width="23dp"

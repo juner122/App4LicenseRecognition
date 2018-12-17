@@ -73,7 +73,7 @@ public abstract class RxSubscribe<T> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        Log.i("onError", e.getMessage());
+    
         //把底层的一些错误翻译一下用户看不来
         if (e.getMessage() == null || e.getMessage().isEmpty()) {//未知错误
             _onError(mContext.getString(R.string.error_unknown));

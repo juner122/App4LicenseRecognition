@@ -53,6 +53,27 @@ public class MemberManagementActivity extends BaseActivity {
     @Override
     protected void setUpView() {
 
+
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
+
+    @Override
+    public int setLayoutResourceID() {
+        return R.layout.activity_member_management;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        memberList();
+    }
+
+    private void memberList(){
+
         Api().memberList().subscribe(new RxSubscribe<Member>(this, true) {
             @Override
             protected void _onNext(Member member) {
@@ -68,18 +89,6 @@ public class MemberManagementActivity extends BaseActivity {
             }
         });
 
-
     }
-
-    @Override
-    protected void setUpData() {
-
-    }
-
-    @Override
-    public int setLayoutResourceID() {
-        return R.layout.activity_member_management;
-    }
-
 
 }

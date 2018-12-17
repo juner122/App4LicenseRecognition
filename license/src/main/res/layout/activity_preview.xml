@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#f2f2f2"
     android:orientation="vertical">
+
     <include layout="@layout/head_view" />
 
 
@@ -21,16 +22,16 @@
 
             <com.frank.plate.view.PlateRecognizerView
                 android:id="@+id/surface_view"
-                android:background="@mipmap/background_carme"
                 android:layout_width="match_parent"
-                android:layout_height="350dp" />
+                android:layout_height="350dp"
+                android:background="@mipmap/background_carme" />
 
             <TextView
 
-                android:layout_alignParentBottom="true"
-                android:background="#33000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#33000000"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="请将车牌号置于扫描区域内"
@@ -55,76 +56,77 @@
 
             <EditText
                 android:id="@+id/e1"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+
                 android:gravity="center"
-                android:maxLength="1"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e2"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e3"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e4"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e5"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e6"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e7"
-                android:layout_width="wrap_content"
+                style="@style/preview_car_number"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:inputType="number"
-                android:text=""
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
@@ -139,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:background="@drawable/button_background_k"
+            android:background="#fff"
             android:gravity="center_vertical"
             android:padding="10dp"
             android:text="*请核对信息，如有错漏请手动修改"
@@ -147,10 +149,10 @@
             android:textSize="10sp" />
 
         <Button
-            android:background="@drawable/button_background_c"
             android:id="@+id/but_next"
             android:layout_width="120dp"
             android:layout_height="40dp"
+            android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="下一步"
             android:textColor="#ff000000"

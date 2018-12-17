@@ -63,9 +63,13 @@ public interface ApiService {
     //账单列表
     @POST("userbalancedetail/list")
     @FormUrlEncoded
-    Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps, @Field("type") int[] idList);
-
+    Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps, @Field("type") List<Integer> idList);
     //账单列表
+    @POST("userbalancedetail/list")
+//    @FormUrlEncoded
+    Observable<BaseBean<BillEntity>> getUserBillList(@Header("X-Nideshop-Token") String token, @Body List<Integer> integers);
+
+    //账单列表 收入账单 与我的账单列表一个接口，多一个参数
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps);
@@ -263,8 +267,12 @@ public interface ApiService {
 
     //微信收款码支付
     @POST("pay/prepay")
+    Observable<BaseBean<WeixinCode>> prepay(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
+
+    //查微信支付成功通知
+    @POST("pay/query")
     @FormUrlEncoded
-    Observable<BaseBean<WeixinCode>> prepay(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<NullDataEntity>> payQuery(@FieldMap Map<String, Object> maps);
 
     //添加快捷主推项目
     @POST("shopeasy/save")

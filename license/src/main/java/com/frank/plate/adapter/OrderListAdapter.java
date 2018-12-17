@@ -4,6 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +26,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
     public OrderListAdapter(int layoutResId, @Nullable List<OrderInfoEntity> data, Context context) {
         super(layoutResId, data);
         this.context = context;
+
     }
+
 
     @Override
     protected void convert(BaseViewHolder helper, OrderInfoEntity item) {
@@ -72,13 +78,31 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
 
         }
 
+        ImageView imageView = (helper.getView(R.id.iv_icon));
 
         if (item.isSelected()) {
             helper.setGone(R.id.ll_button_view, true);
-            ((ImageView) helper.getView(R.id.iv_icon)).setImageResource(R.mipmap.icon_down);
+//            Animation rotateAnimation = new RotateAnimation(0, 180, imageView.getWidth()/ 2, imageView.getHeight()/ 2);
+//            rotateAnimation.setFillAfter(true);
+//            rotateAnimation.setDuration(500);
+//            rotateAnimation.setRepeatCount(0);
+//            rotateAnimation.setInterpolator(new DecelerateInterpolator());
+//
+//            imageView.startAnimation(rotateAnimation);
+            imageView.setImageResource(R.mipmap.icon_down);
         } else {
+
             helper.setGone(R.id.ll_button_view, false);
-            ((ImageView) helper.getView(R.id.iv_icon)).setImageResource(R.mipmap.icon_up);
+//            Animation rotateAnimation = new RotateAnimation(180, 360, imageView.getWidth()/ 2, imageView.getHeight()/ 2);
+//            rotateAnimation.setFillAfter(true);
+//            rotateAnimation.setDuration(500);
+//            rotateAnimation.setRepeatCount(0);
+//            rotateAnimation.setInterpolator(new DecelerateInterpolator());
+//
+//            imageView.startAnimation(rotateAnimation);
+            imageView.setImageResource(R.mipmap.icon_up);
+
+
         }
 
     }

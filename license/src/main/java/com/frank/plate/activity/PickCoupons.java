@@ -67,6 +67,7 @@ public class PickCoupons extends BaseActivity {
                             Intent i = new Intent(PickCoupons.this, OrderPayActivity.class);
                             Bundle b = new Bundle();
                             b.putParcelable("Coupon", cos.get(position_pick));
+                            b.putInt("code", 110);
                             i.putExtras(b);
                             startActivity(i);
                         }
@@ -114,7 +115,6 @@ public class PickCoupons extends BaseActivity {
     public int setLayoutResourceID() {
         return R.layout.activity_user_pick_coupons;
     }
-
 
 
 }

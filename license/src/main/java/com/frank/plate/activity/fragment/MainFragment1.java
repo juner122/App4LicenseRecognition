@@ -17,6 +17,7 @@ import com.frank.plate.activity.ProductListActivity;
 import com.frank.plate.activity.StaffManagementActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.WorkIndex;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -80,6 +81,7 @@ public class MainFragment1 extends BaseFragment {
             @Override
             protected void _onError(String message) {
                 Log.d(getTag(), message);
+                ToastUtils.showToast(message);
             }
         });
 
@@ -105,7 +107,7 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(ActivityPackageListActivity.class);
                 break;
             case R.id.rv_button_bill:
-                toActivity(BillListActivity.class);
+                toActivity(BillListActivity.class,"isShowAll",0);
                 break;
             case R.id.rv_order_count:
                 ((MainActivity) getActivity()).setCurrentTab(1);

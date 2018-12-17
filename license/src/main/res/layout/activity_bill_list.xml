@@ -31,11 +31,11 @@
                 android:id="@+id/v_date1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/button_background_h"
                 android:drawableRight="@mipmap/icon_calendar"
-                android:drawablePadding="10dp"
+                android:drawablePadding="5dp"
                 android:gravity="center"
                 android:paddingLeft="8dp"
                 android:paddingTop="5dp"
@@ -66,11 +66,11 @@
                 android:id="@+id/v_date2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/button_background_h"
                 android:drawableRight="@mipmap/icon_calendar"
-                android:drawablePadding="10dp"
+                android:drawablePadding="5dp"
                 android:gravity="center"
                 android:paddingLeft="8dp"
                 android:paddingTop="5dp"
@@ -143,9 +143,11 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp">
+                    android:layout_marginTop="7dp"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -178,10 +180,9 @@
 
         <View
             android:layout_width="0.1dp"
-            android:layout_height="45dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
-            android:background="#d9d9d9"
-            android:paddingTop="20dp" />
+            android:background="#d9d9d9" />
 
 
         <RelativeLayout
@@ -238,9 +239,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll2"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp">
+                    android:layout_marginTop="7dp"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"

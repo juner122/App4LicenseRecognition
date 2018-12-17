@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductFragment;
@@ -59,14 +60,15 @@ public class ProductMealListActivity extends BaseActivity {
     protected void setUpView() {
 
         stl.setViewPager(vp, title, this, fragments);
-
-
     }
 
     @Override
     protected void setUpData() {
 
     }
+
+
+
 
     @Override
     public int setLayoutResourceID() {
