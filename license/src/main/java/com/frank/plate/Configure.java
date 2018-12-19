@@ -3,11 +3,10 @@ package com.frank.plate;
 public class Configure {
 
 
-    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+//        public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
     public static final String Domain = "http://qiniu.xgxshop.com/";//域名 图片上传
-
-
 
 
     //七牛
@@ -16,9 +15,7 @@ public class Configure {
     public static final String bucket = "aayc";//图片上传空间名
 
 
-
     public static final String Token = "Token";//Token
-
 
 
     public static final String car_no = "car_no";//车牌号
@@ -31,8 +28,6 @@ public class Configure {
 
     public static final String brand = "brand";//
     public static final String brandModdel = "brandModdel";//
-
-
 
 
     public static final String show_fragment = "fragment";//
@@ -50,10 +45,6 @@ public class Configure {
     public static final String ORDERINFO = "orderInfo";//
     public static final String ORDERINFOID = "orderInfoId";//
     public static final String QUERYBYCARINFO = "QueryByCarInfo";//
-
-
-
-
 
 
 }

@@ -121,6 +121,11 @@ public interface ApiService {
     @POST("order/submit")
     Observable<BaseBean<OrderInfo>> submit(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
 
+
+    //订单修改 orderInfo类
+    @POST("order/remake")
+    Observable<BaseBean<OrderInfo>> remake(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
+
     //确认支付
     @POST("order/confirmPay")
     Observable<BaseBean<NullDataEntity>> confirmPay(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);

@@ -27,7 +27,7 @@ public class String2Utils {
 
 
     //计算商品总价
-    public static double getOrderGoodsPrice(List<GoodsEntity> list, int type) {
+    public static double getOrderGoodsPrice(List<GoodsEntity> list) {
 
         if (null == list || list.size() == 0) return 0.00;
 
@@ -35,12 +35,27 @@ public class String2Utils {
 
         for (GoodsEntity g : list) {
 
-            if (g.getType() == type)
                 totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
 
     }
+
+    //计算商品总价
+    public static double getOrderServicePrice(List<GoodsEntity> list) {
+
+        if (null == list || list.size() == 0) return 0.00;
+
+        double totalPrice = 0.00d;
+
+        for (GoodsEntity g : list) {
+
+                totalPrice = g.getPriceTodouble() + totalPrice;
+        }
+        return totalPrice;
+
+    }
+
 
     public static String getPayTypeText(int payType) {
 

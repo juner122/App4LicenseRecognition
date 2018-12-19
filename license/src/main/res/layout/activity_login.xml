@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:text="13928732032"
+                android:text=""
                 android:drawableLeft="@mipmap/icon_login_name"
                 android:drawablePadding="20dp"
                 android:hint="请输入手机号码"

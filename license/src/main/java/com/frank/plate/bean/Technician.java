@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 //技师
-public class Technician implements Parcelable {
+public class Technician extends SelectedBean implements Parcelable {
 
 
 

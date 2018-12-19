@@ -66,8 +66,8 @@ public class BillListItemInfoActivity extends BaseActivity {
                 tv2.append(o.getOrderInfo().getAdd_time());
                 tv3.append(o.getOrderInfo().getConfirm_time());
 
-                double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList(), 1);
-                double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList(), 2);
+                double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList());
+                double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getSkillList());
 
                 tv_price1.append(String.valueOf(goodsPrice));
                 tv_price2.append(String.valueOf(goodsPrice2));

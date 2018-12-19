@@ -2,6 +2,7 @@ package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,11 +24,12 @@ public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHol
         helper.setText(R.id.tv_car_no, item.getCarNo())
                 .setText(R.id.tv_car_model, item.getBrand() + "\t" + item.getName());
 
+        ImageView iv = helper.getView(R.id.iv);
 
         if (item.isSelected())
-            helper.setVisible(R.id.iv, true);
+            iv.setImageResource(R.mipmap.icon_pick);
         else
-            helper.setVisible(R.id.iv, false);
+            iv.setImageResource(R.mipmap.icon_unpick);
 
         if (helper.getLayoutPosition() == getData().size() - 1) {
 

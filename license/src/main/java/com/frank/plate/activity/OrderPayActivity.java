@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,7 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.Brandadapter2;
 import com.frank.plate.api.RxSubscribe;
-import com.frank.plate.bean.CarEntity;
+
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
@@ -107,11 +108,13 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
+
+                cb_weixin.setChecked(false);
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());
 
                 pay_type = olpy.get(position).pay_type;
 
-                cb_weixin.setChecked(false);
+
 
             }
 
@@ -123,7 +126,18 @@ public class OrderPayActivity extends BaseActivity {
                 .setView(commonPopupRecyclerView)
                 .create();
 
+        cb_weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+                if (b)
+                    pay_type = 11;
+                else
+                    pay_type = 0;
+
+
+            }
+        });
         et_discount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -258,12 +272,6 @@ public class OrderPayActivity extends BaseActivity {
 
     private void getPostInfo() {
 
-        if (cb_weixin.isChecked())
-            pay_type = 11;
-        else {
-            pay_type = 0;
-        }
-
         infoEntity.getOrderInfo().setPay_type(pay_type);
         infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
         infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
@@ -340,6 +348,7 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.i("OrderPayActivity", message);
+                ToastUtils.showToast("收款失败");
             }
         });
 

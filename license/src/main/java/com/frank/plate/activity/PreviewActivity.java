@@ -35,7 +35,6 @@ import net.grandcentrix.tray.AppPreferences;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.frank.plate.activity.MemberInfoInputActivity.car_number;
 
 public class PreviewActivity extends BaseActivity implements OnNewFrameListener {
 
@@ -60,7 +59,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     EditText et6;
     @BindView(R.id.e7)
     EditText et7;
-
+    String car_number;
     @Override
     protected void init() {
 
@@ -320,6 +319,15 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
         switch (view.getId()) {
             case R.id.but_next:
 
+                car_number = "";
+                car_number = et1.getText().toString();
+                car_number = car_number+ et2.getText().toString();
+                car_number = car_number+ et3.getText().toString();
+                car_number = car_number+ et4.getText().toString();
+                car_number = car_number+ et5.getText().toString();
+                car_number = car_number+ et6.getText().toString();
+                car_number = car_number+ et7.getText().toString();
+
                 if (String2Utils.isNullCarNumber(et1, et2, et3, et4, et5, et6, et7))
                     onQueryByCar();
                 else
@@ -332,11 +340,11 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
 
     private void onQueryByCar() {
 
-        new AppPreferences(this).put(Configure.car_no, car_number);
+
         Api().queryByCar(car_number).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
             protected void _onNext(QueryByCarEntity entity) {
-
+                new AppPreferences(PreviewActivity.this).put(Configure.car_no, car_number);
                 Log.d(TAG, "QueryByCarEntity信息：" + entity.toString());
 
                 if (entity.getMember() != null) {
@@ -351,7 +359,8 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             protected void _onError(String message) {
                 Log.d(TAG, message);
 
-                ToastUtils.showToast(message);
+                ToastUtils.showToast(message+"车牌号："+car_number);
+
 
             }
         });
@@ -437,7 +446,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             switch (msg.what) {
                 case PlateRecognition.MSG_RESULT://recognize finish
                     String result = (String) msg.obj;
-                    car_number = "";
+                    car_number = result;
 
 
                     try {
@@ -449,7 +458,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                         et6.setText(String.valueOf(result.charAt(5)));
                         et7.setText(String.valueOf(result.charAt(6)));
 
-                        car_number = result;
 
                         ToastUtils.showToast("车牌号=" + car_number);
 

@@ -21,6 +21,7 @@ public class GoodsEntity implements Parcelable {
     int easy_id;//设置项目id
     int number;//商品数量
     String retail_price;
+    String price;//工时服务价格
     int is_hot;
 
     String activitySn;
@@ -30,8 +31,18 @@ public class GoodsEntity implements Parcelable {
     int goodsId;//套餐商品id
     String goodsName;//套餐商品名
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+    public double getPriceTodouble() {
 
 
+        return Double.parseDouble(null != price ? price : "0");
+    }
 
     public int getGoodsId() {
         return goodsId;
@@ -82,7 +93,6 @@ public class GoodsEntity implements Parcelable {
     }
 
 
-
     public int getType() {
         return type;
     }
@@ -125,6 +135,11 @@ public class GoodsEntity implements Parcelable {
 
     public int getNumber() {
         return number;
+    }
+
+    public String getNumberString() {
+        return number == 0 ? "" : String.valueOf(number);
+
     }
 
     public void setNumber(int number) {
@@ -172,7 +187,6 @@ public class GoodsEntity implements Parcelable {
     }
 
 
-
     public String getKeywords() {
         return keywords;
     }
@@ -206,7 +220,6 @@ public class GoodsEntity implements Parcelable {
     }
 
 
-
     public GoodsEntity() {
     }
 
@@ -230,11 +243,14 @@ public class GoodsEntity implements Parcelable {
         dest.writeInt(this.easy_id);
         dest.writeInt(this.number);
         dest.writeString(this.retail_price);
+        dest.writeString(this.price);
         dest.writeInt(this.is_hot);
         dest.writeString(this.activitySn);
         dest.writeInt(this.activityId);
         dest.writeString(this.activityName);
         dest.writeInt(this.goodsNum);
+        dest.writeInt(this.goodsId);
+        dest.writeString(this.goodsName);
     }
 
     protected GoodsEntity(Parcel in) {
@@ -251,11 +267,14 @@ public class GoodsEntity implements Parcelable {
         this.easy_id = in.readInt();
         this.number = in.readInt();
         this.retail_price = in.readString();
+        this.price = in.readString();
         this.is_hot = in.readInt();
         this.activitySn = in.readString();
         this.activityId = in.readInt();
         this.activityName = in.readString();
         this.goodsNum = in.readInt();
+        this.goodsId = in.readInt();
+        this.goodsName = in.readString();
     }
 
     public static final Creator<GoodsEntity> CREATOR = new Creator<GoodsEntity>() {

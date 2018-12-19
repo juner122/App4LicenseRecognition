@@ -14,6 +14,8 @@ public class OrderInfo implements Parcelable {
 
     Technician receptionist;
 
+
+
     public Technician getReceptionist() {
         return receptionist;
     }

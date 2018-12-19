@@ -75,7 +75,9 @@
         <activity android:name=".activity.BillListItemInfoActivity" />
         <activity android:name=".activity.OrderInfoActivity" />
         <activity android:name=".activity.AutoBrandActivity" />
-        <activity android:name=".activity.PreviewActivity" />
+        <activity
+            android:name=".activity.PreviewActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         //车牌扫描测试
         <activity android:name=".activity.MemberManagementInfoActivity" />
         <activity android:name=".activity.ShopInfoActivity" />
@@ -94,12 +96,12 @@
             android:name=".activity.SetProjectActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.ActivityInfoActivity" />
-        <activity android:name=".activity.ServeListActivity" />
         <activity
-            android:name=".activity.WeiXinPayCodeActivity"
-           />
+            android:name=".activity.ServeListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activity.WeiXinPayCodeActivity" />
         <activity android:name=".activity.CashWithdrawalActivity" />
-        <activity android:name=".activity.ProductMealListActivity"></activity>
+        <activity android:name=".activity.ProductMealListActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>

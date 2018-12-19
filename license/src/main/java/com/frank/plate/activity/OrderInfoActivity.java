@@ -1,27 +1,40 @@
 package com.frank.plate.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
+import com.frank.plate.adapter.SimpleMealInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.OrderInfo;
-import com.frank.plate.bean.OrderInfoEntity;
+
+import com.frank.plate.bean.Technician;
+import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.String2Utils;
+import com.frank.plate.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 
 import static com.frank.plate.util.DateUtil.getFormatedDateTime;
 import static com.frank.plate.util.String2Utils.getPayTypeText;
@@ -35,7 +48,7 @@ public class OrderInfoActivity extends BaseActivity {
 
     int pay_status; //  订单支付状态   0 未支付,2已支付
     int order_status; //订单状态 0  待服务：pay_status=2  已预约：pay_status=0        1.(服务中) 2.完成
-    OrderInfoEntity infoEntity;
+
     OrderInfo info;
     @BindView(R.id.tv_order_sn)
     TextView tv_order_sn;
@@ -107,6 +120,9 @@ public class OrderInfoActivity extends BaseActivity {
     @BindView(R.id.tv_goods_price2)
     TextView tv_goods_price2;
 
+    @BindView(R.id.et_info)
+    TextView et_info;
+
     @BindView(R.id.but_product_list)
     ImageButton but_product_list;
     @BindView(R.id.but_meal_list)
@@ -119,6 +135,10 @@ public class OrderInfoActivity extends BaseActivity {
     RecyclerView rv2;
     @BindView(R.id.rv3)
     RecyclerView rv3;
+
+    SimpleMealInfoAdpter sma;
+
+    List<Technician> technicians;
 
     @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info})
     public void onClick(View v) {
@@ -137,10 +157,8 @@ public class OrderInfoActivity extends BaseActivity {
 
                         confirmOrder();
 
-
                         break;
                     case 1://服务中
-
 
                         if (pay_status == 2)
                             sendOrderInfo(OrderDoneActivity.class, info);
@@ -161,11 +179,49 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
 
             case R.id.but_product_list://选择商品
+
                 break;
 
             case R.id.tv_pick_technician://选择技师
+                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
+                    @Override
+                    public void resultOk(Intent data) {
+                        //to do what you want when resultCode == RESULT_OK
+                        tv_technician.setText("");
+                        technicians = data.getParcelableArrayListExtra("Technician");
+                        tv_technician.setText(String2Utils.getString(technicians));
+                        info.getOrderInfo().setSysUserList(technicians);
+                        remake();
+
+                    }
+                });
+
                 break;
             case R.id.ib_pick_date://选择预计完成时间
+                Calendar startDate = Calendar.getInstance();
+                Calendar endDate = Calendar.getInstance();
+                //正确设置方式 原因：注意事有说明
+                startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH) + 1, startDate.get(Calendar.DATE), startDate.get(Calendar.HOUR_OF_DAY) + 1, startDate.get(Calendar.MINUTE));
+                endDate.set(2020, 11, 31);
+
+
+                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        tv_pick_date.setText(DateUtil.getFormatedDateTime2(date));
+                        info.getOrderInfo().setPlanfinishi_time(date.getTime());
+
+                        remake();
+                    }
+                }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
+                        .setSubmitColor(Color.BLACK)//确定按钮文字颜色
+                        .setCancelColor(Color.BLACK)//取消按钮文字颜色
+                        .setRangDate(startDate, endDate)//起始终止年月日设定
+                        .setTitleBgColor(getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
+                        .build();
+                pvTime.show();
+
+
                 break;
             case R.id.tv_car_info://车信息
 
@@ -199,8 +255,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_fix_order.setText("保存修改");
         but_product_list.setVisibility(View.VISIBLE);
         but_meal_list.setVisibility(View.VISIBLE);
-        tv_pick_technician.setVisibility(View.VISIBLE);
-        ib_pick_date.setVisibility(View.VISIBLE);
+
         isFixOrder = true;
     }
 
@@ -209,8 +264,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_fix_order.setText("修改下单");
         but_product_list.setVisibility(View.INVISIBLE);
         but_meal_list.setVisibility(View.INVISIBLE);
-        tv_pick_technician.setVisibility(View.INVISIBLE);
-        ib_pick_date.setVisibility(View.INVISIBLE);
+
         isFixOrder = false;
     }
 
@@ -234,12 +288,11 @@ public class OrderInfoActivity extends BaseActivity {
 
 
     private void getOrderInfoData() {
-
         Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo o) {
                 info = o;
-                setInfo(o);
+                setInfo();
 
             }
 
@@ -252,19 +305,19 @@ public class OrderInfoActivity extends BaseActivity {
 
     }
 
-    private void setInfo(OrderInfo info) {
+    private void setInfo() {
 
-        infoEntity = info.getOrderInfo();
-        pay_status = infoEntity.getPay_status();
-        order_status = infoEntity.getOrder_status();
 
-        setRTitle(infoEntity.getOrder_status_text());
+        pay_status = info.getOrderInfo().getPay_status();
+        order_status = info.getOrderInfo().getOrder_status();
 
-        tv_order_sn.append(infoEntity.getOrder_sn());
-        tv_car_no.setText(infoEntity.getCar_no());
-        tv_mobile.setText(infoEntity.getMobile());
-        tv_consignee.setText(infoEntity.getConsignee());
+        setRTitle(info.getOrderInfo().getOrder_status_text());
 
+        tv_order_sn.append(info.getOrderInfo().getOrder_sn());
+        tv_car_no.setText(info.getOrderInfo().getCar_no());
+        tv_mobile.setText(info.getOrderInfo().getMobile());
+        tv_consignee.setText(info.getOrderInfo().getConsignee());
+        et_info.setText(info.getOrderInfo().getPostscript());
 
         switch (order_status) {
             case 0://待服务
@@ -273,19 +326,21 @@ public class OrderInfoActivity extends BaseActivity {
                 tv_enter_order.setText("确认下单");
                 if (pay_status == 0) {
                     tv_fix_order.setText("修改订单");
-                    tv_fix_order.setVisibility(View.VISIBLE);
+                    tv_fix_order.setVisibility(View.INVISIBLE);
                 } else {
 
                     tv_fix_order.setVisibility(View.INVISIBLE);
                 }
 
                 ll_pick_date.setVisibility(View.VISIBLE);
-                tv_pick_date.setText(getFormatedDateTime(infoEntity.getPlanfinishi_time()));
+                tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
                 ll_price3.setVisibility(View.GONE);
+                tv_pick_technician.setVisibility(View.VISIBLE);
                 break;
             case 1://服务中
                 tv2.setText("下单时间:");
                 tv_fix_order.setText("通知客户取车");
+                tv_fix_order.setVisibility(View.INVISIBLE);
                 if (pay_status == 0)
                     tv_enter_order.setText("完成去结算");
                 else {
@@ -293,52 +348,61 @@ public class OrderInfoActivity extends BaseActivity {
                     tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
                 }
                 ll_pick_date.setVisibility(View.VISIBLE);
-                tv_pick_date.setText(getFormatedDateTime(infoEntity.getPlanfinishi_time()));
+                tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
                 ll_price3.setVisibility(View.GONE);
+                tv_pick_technician.setVisibility(View.INVISIBLE);
+
                 break;
             case 2://完成
                 tv2.setText("下单时间:");
                 tv3.setVisibility(View.VISIBLE);
-                tv3.setText(String.format("完成时间:%s", infoEntity.getConfirm_time()));
+                tv3.setText(String.format("完成时间:%s", info.getOrderInfo().getConfirm_time()));
                 ll_bottom.setVisibility(View.GONE);
                 ll_pick_date.setVisibility(View.GONE);
                 ll_price3.setVisibility(View.VISIBLE);
+                tv_pick_technician.setVisibility(View.INVISIBLE);
+//                et_info.setEnabled(false);
                 break;
 
         }
 
-        tv2.append(infoEntity.getAdd_time());
+        tv2.append(info.getOrderInfo().getAdd_time());
 
-        tv_technician.setText(String2Utils.getString(infoEntity.getSysUserList()));
+        tv_technician.setText(String2Utils.getString(info.getOrderInfo().getSysUserList()));
 
 
-        adpter1 = new SimpleGoodInfoAdpter(getList(1, infoEntity.getGoodsList()), false);
+        adpter1 = new SimpleGoodInfoAdpter(info.getOrderInfo().getGoodsList(), false);
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adpter1);
 
 
-        adpter2 = new SimpleGoodInfoAdpter(getList(2, infoEntity.getGoodsList()), false);
+        adpter2 = new SimpleGoodInfoAdpter(info.getOrderInfo().getSkillList(), false);
         rv2.setLayoutManager(new LinearLayoutManager(this));
         rv2.setAdapter(adpter2);
 
+        sma = new SimpleMealInfoAdpter(info.getOrderInfo().getUserActivityList());//套餐
+        rv3.setLayoutManager(new LinearLayoutManager(this));
+        rv3.setAdapter(sma);
 
-        double goodsPrice = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(), 1);
-        double goodsPrice2 = String2Utils.getOrderGoodsPrice(infoEntity.getGoodsList(), 2);
+
+        double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
+
+        double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
 
         tv_goods_price.append(String.valueOf(goodsPrice));
 
-        tv_goods_price2.append(String.valueOf(goodsPrice2));
+        tv_goods_price2.append(String.valueOf(ServerPrice));
 
 
-        tv_price1.append(String.valueOf(goodsPrice));
+        tv_price1.append(String.valueOf(goodsPrice + ServerPrice));
         tv_price2.append(String.valueOf(0.00d));
         tv_price3.append(String.valueOf(0.00d));
-        tv_price4.append(String.valueOf(goodsPrice));
+        tv_price4.append(String.valueOf(goodsPrice + ServerPrice));
 
-        tv_pay_status.append(infoEntity.getPay_status_text());
-        tv_pay_type.append(getPayTypeText(infoEntity.getPay_type()));
+        tv_pay_status.append(info.getOrderInfo().getPay_status_text());
+        tv_pay_type.append(getPayTypeText(info.getOrderInfo().getPay_type()));
 
-        tv_price4_s.setText(infoEntity.getPay_status() == 2 ? "实收金额" : "应收金额");
+        tv_price4_s.setText(info.getOrderInfo().getPay_status() == 2 ? "实收金额" : "应收金额");
         tv_jdy.setText(info.getReceptionist().getUsername());
 
     }
@@ -353,13 +417,24 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
 
-    private List<GoodsEntity> getList(int type, List<GoodsEntity> list) {
-        List<GoodsEntity> gs = new ArrayList<>();
-        for (GoodsEntity g : list) {
-            if (g.getType() == type)
-                gs.add(g);
-        }
-        return gs;
-    }
+    //订单修改
+    private void remake() {
+        Api().remake(info.getOrderInfo()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                ToastUtils.showToast("修改成功");
+                info = o;
 
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast("修改失败:" + message);
+
+            }
+        });
+
+    }
 }

@@ -21,8 +21,14 @@ public class MemberListAdpter extends BaseQuickAdapter<MemberEntity, BaseViewHol
         helper.setText(R.id.name, item.getUsername())
                 .setText(R.id.phone, item.getMobile());
 
+        helper.setText(R.id.tv1, item.getUsername().substring(0,1));
+
         int p = helper.getLayoutPosition();
         int s = getData().size();
+
+
+
+
         if (p == s - 1) {
 
             helper.setVisible(R.id.v, false);

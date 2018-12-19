@@ -14,6 +14,7 @@ import com.frank.plate.R;
 import com.frank.plate.adapter.TechnicianAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BasePage;
+import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.Technician;
 
 import java.util.ArrayList;
@@ -40,19 +41,45 @@ public class TechnicianListActivity extends BaseActivity {
         adpter = new TechnicianAdpter(list);
         rv.setAdapter(adpter);
 
+        Api().sysuserList().subscribe(new RxSubscribe<BasePage<Technician>>(this, true) {
+            @Override
+            protected void _onNext(BasePage<Technician> t) {
 
+                list = t.getList();
+
+                adpter.setNewData(list);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Toast.makeText(TechnicianListActivity.this, message, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+                if (list.get(position).isSelected()) {
+                    list.get(position).setSelected(false);
+                    pick_list.remove(list.get(position));
+                } else {
+                    list.get(position).setSelected(true);
+                    pick_list.add(list.get(position));
+                }
+
+                adapter.notifyDataSetChanged();
+
+
+            }
+        });
 
     }
 
     @OnClick({R.id.but_enter})
     public void onClick() {
-        for (int i = 0; i < list.size(); i++) {
-            CheckBox checkBox = (CheckBox) adpter.getViewByPosition(rv, i, R.id.cb);
-            if(checkBox.isChecked()){
-                pick_list.add(list.get(i));
-            }
-        }
-
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();

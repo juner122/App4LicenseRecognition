@@ -19,13 +19,17 @@ public class DateUtil {
         if (null == dateTime) {
             return "-";
         }
-
+        format = "yyyy-MM-dd HH:mm";
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);
         return sDateFormat.format(new Date(dateTime));
     }
 
     public static String getFormatedDateTime(Date dateTime) {
         format = "yyyy-MM-dd";
+        return new SimpleDateFormat(format).format(dateTime);
+    }
+  public static String getFormatedDateTime2(Date dateTime) {
+        format = "yyyy-MM-dd HH:mm";
         return new SimpleDateFormat(format).format(dateTime);
     }
 

@@ -40,6 +40,16 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     List<GoodsEntity> userActivityList;
 
+    List<GoodsEntity> skillList;
+
+    public List<GoodsEntity> getSkillList() {
+        return skillList;
+    }
+
+    public void setSkillList(List<GoodsEntity> skillList) {
+        this.skillList = skillList;
+    }
+
     public List<GoodsEntity> getUserActivityList() {
         return userActivityList;
     }
@@ -132,28 +142,6 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     public List<Technician> getSysUserList() {
         return sysUserList;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderInfoEntity{" +
-                "id='" + id + '\'' +
-                ", order_sn='" + order_sn + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", order_status='" + order_status + '\'' +
-                ", shipping_status='" + shipping_status + '\'' +
-                ", pay_status='" + pay_status + '\'' +
-                ", consignee='" + consignee + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", car_id='" + car_id + '\'' +
-                ", postscript='" + postscript + '\'' +
-                ", order_status_text='" + order_status_text + '\'' +
-                ", add_time='" + add_time + '\'' +
-                ", car_no='" + car_no + '\'' +
-                ", planfinishi_time=" + planfinishi_time +
-                ", goodsList=" + goodsList +
-                ", sysUserList=" + sysUserList +
-                '}';
     }
 
     public void setSysUserList(List<Technician> sysUserList) {
@@ -325,7 +313,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeString(this.goods_unit);
         dest.writeTypedList(this.goodsList);
         dest.writeTypedList(this.sysUserList);
-        dest.writeList(this.userActivityList);
+        dest.writeTypedList(this.userActivityList);
+        dest.writeTypedList(this.skillList);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -355,8 +344,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.goods_unit = in.readString();
         this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
-        this.userActivityList = new ArrayList<GoodsEntity>();
-        in.readList(this.userActivityList, MealEntity.class.getClassLoader());
+        this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
+        this.skillList = in.createTypedArrayList(GoodsEntity.CREATOR);
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {
@@ -370,4 +359,38 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
             return new OrderInfoEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "OrderInfoEntity{" +
+                "id=" + id +
+                ", order_sn='" + order_sn + '\'' +
+                ", user_id=" + user_id +
+                ", order_status=" + order_status +
+                ", shipping_status='" + shipping_status + '\'' +
+                ", pay_status=" + pay_status +
+                ", pay_status_text='" + pay_status_text + '\'' +
+                ", actual_price=" + actual_price +
+                ", coupon_price=" + coupon_price +
+                ", consignee='" + consignee + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", car_id=" + car_id +
+                ", postscript='" + postscript + '\'' +
+                ", order_status_text='" + order_status_text + '\'' +
+                ", add_time='" + add_time + '\'' +
+                ", pay_time='" + pay_time + '\'' +
+                ", car_no='" + car_no + '\'' +
+                ", confirm_time='" + confirm_time + '\'' +
+                ", planfinishi_time=" + planfinishi_time +
+                ", order_price=" + order_price +
+                ", pay_type=" + pay_type +
+                ", discount_price='" + discount_price + '\'' +
+                ", custom_cut_price='" + custom_cut_price + '\'' +
+                ", goods_unit='" + goods_unit + '\'' +
+                ", goodsList=" + goodsList +
+                ", sysUserList=" + sysUserList +
+                ", userActivityList=" + userActivityList +
+                ", skillList=" + skillList +
+                '}';
+    }
 }

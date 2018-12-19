@@ -4,25 +4,57 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="张三奉（电器技师）"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
+        android:gravity="center"
+        android:padding="10dp">
 
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="#ff000000"
+            android:textSize="14sp" />
 
-    <CheckBox
-        android:id="@+id/cb"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:button="@null"
-        android:background="@drawable/check_bok_background_a"
-        />
+        <TextView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#ff666666"
+            android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text=""
+            android:textColor="#ff666666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginLeft="10dp"
+        android:background="#FFD9D9D9" />
 </LinearLayout>

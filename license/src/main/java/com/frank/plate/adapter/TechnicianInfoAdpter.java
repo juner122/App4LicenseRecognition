@@ -21,5 +21,6 @@ public class TechnicianInfoAdpter extends BaseQuickAdapter<Technician, BaseViewH
         helper.setText(R.id.name, item.getUsername());
         helper.setText(R.id.phone, item.getMobile());
         helper.setText(R.id.lv, item.getRoleName());
+        helper.setText(R.id.tv1, item.getUsername().substring(0,1));
     }
 }

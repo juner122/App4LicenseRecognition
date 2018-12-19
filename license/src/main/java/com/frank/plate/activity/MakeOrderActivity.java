@@ -238,8 +238,7 @@ public class MakeOrderActivity extends BaseActivity {
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
-                        but_set_date.setText(DateUtil.getFormatedDateTime(date));
-
+                        but_set_date.setText(DateUtil.getFormatedDateTime2(date));
                         infoEntity.setPlanfinishi_time(date.getTime());
                     }
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
@@ -339,6 +338,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getProductList());
+        infoEntity.setSkillList(cartUtils.getServerList());
 
 
         infoEntity.setUserActivityList(cartUtils.getMealEntityList());

@@ -206,6 +206,18 @@ public class ApiLoader {
     }
 
 
+   /**
+     * 订单修改 orderInfo类
+     *
+     * @return
+     */
+    public Observable<OrderInfo> remake(OrderInfoEntity infoEntity) {
+
+
+        return apiService.remake(token, infoEntity).compose(RxHelper.<OrderInfo>observe());
+    }
+
+
     /**
      * 4.开始服务(修改订单状态为服务中)
      *
@@ -325,11 +337,13 @@ public class ApiLoader {
      */
     public Observable<BasePage<OrderInfoEntity>> orderList(String order_status) {
 
+
         if (order_status.equals("00"))
             order_status = "0";
 
-        map.put("order_status", order_status);
-
+        if (!order_status.equals("")) {
+            map.put("order_status", order_status);
+        }
 
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }

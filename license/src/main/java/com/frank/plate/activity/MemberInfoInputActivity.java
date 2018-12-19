@@ -120,6 +120,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                         confirmDialog.dismiss();
                         getAddUser();
                     }
+
                     @Override
                     public void doCancel() {
                         confirmDialog.dismiss();
@@ -195,12 +196,11 @@ public class MemberInfoInputActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
+        Log.d(TAG, "QueryByCarEntity信息：" + intent.getStringExtra(Configure.car_no));
         queryByCar(intent.getStringExtra(Configure.car_no));
     }
 
     private void queryByCar(String carNumber) {
-
         Api().queryByCar(carNumber).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
             protected void _onNext(QueryByCarEntity entity) {

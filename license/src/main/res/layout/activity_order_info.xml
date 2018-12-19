@@ -333,7 +333,7 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:paddingTop="15dp"
-                        android:paddingRight="15dp"
+                        android:paddingRight="0dp"
                         android:paddingBottom="15dp"
                         android:text="请选择服务技师"
                         android:textColor="#ff000000"
@@ -346,7 +346,7 @@
                         android:background="@drawable/button_check_selector"
                         android:padding="15dp"
                         android:src="@mipmap/icon_enter"
-                        android:visibility="invisible" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -417,7 +417,7 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:paddingTop="15dp"
-                        android:paddingRight="15dp"
+                        android:paddingRight="0dp"
                         android:paddingBottom="15dp"
                         android:text=""
                         android:textColor="#ff000000"
@@ -430,7 +430,7 @@
                         android:background="@drawable/button_check_selector"
                         android:padding="15dp"
                         android:src="@mipmap/icon_enter"
-                        android:visibility="invisible" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -496,9 +496,10 @@
                 </LinearLayout>
 
 
-                <EditText
+                <TextView
+                    android:id="@+id/et_info"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="50dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/button_background_a"
                     android:gravity="top"
