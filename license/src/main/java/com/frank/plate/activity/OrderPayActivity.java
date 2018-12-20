@@ -72,7 +72,7 @@ public class OrderPayActivity extends BaseActivity {
     CommonPopupWindow popupWindow;
     Brandadapter2 brandadapter;
 
-
+    Coupon c;//选择的优惠券
     int pay_type = 11;//支付方式  1嗨卡 11微信 21 掌贝 22 现金
 
     List<OffLinePayType> olpy;
@@ -113,7 +113,6 @@ public class OrderPayActivity extends BaseActivity {
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());
 
                 pay_type = olpy.get(position).pay_type;
-
 
 
             }
@@ -276,6 +275,8 @@ public class OrderPayActivity extends BaseActivity {
         infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
         infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
 
+        infoEntity.getOrderInfo().setCoupon_id(null == c ? 0 : c.getId());
+
 
     }
 
@@ -285,16 +286,11 @@ public class OrderPayActivity extends BaseActivity {
         int code = intent.getIntExtra("code", -1);
         if (code == 110) {
 
-            Coupon c = intent.getParcelableExtra("Coupon");
+            c = intent.getParcelableExtra("Coupon");
             tv_coupon_no.setText("已选择 1 张");
 
             if (balance_price >= c.getMin_amount())
                 tv_price.setText(String.valueOf(balance_price - c.getType_money()));
-        } else if (code == 100) {
-
-            sendOrderInfo(OrderDoneActivity.class, infoEntity);
-            finish();
-
 
         }
 

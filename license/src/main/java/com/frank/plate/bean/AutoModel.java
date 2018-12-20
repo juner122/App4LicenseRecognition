@@ -9,6 +9,11 @@ public class AutoModel implements Parcelable {
     int brandId;
     String typeName;
 
+    public AutoModel(int id, String typeName) {
+        this.id = id;
+        this.typeName = typeName;
+    }
+
     public int getBrandId() {
         return brandId;
     }

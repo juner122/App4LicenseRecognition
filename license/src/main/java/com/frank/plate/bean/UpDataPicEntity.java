@@ -2,10 +2,18 @@ package com.frank.plate.bean;
 
 public class UpDataPicEntity {
 
-
+    int id;
     String imageUrl;
-    String type;
+    int type;
     int sort;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getSort() {
         return sort;
@@ -23,11 +31,11 @@ public class UpDataPicEntity {
         this.imageUrl = imageUrl;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

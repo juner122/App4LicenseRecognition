@@ -12,6 +12,15 @@ public class BillEntityItem {
     int status;
     String createTime;
     String orderSn;
+    int pay_type;
+
+    public int getPay_type() {
+        return pay_type;
+    }
+
+    public void setPay_type(int pay_type) {
+        this.pay_type = pay_type;
+    }
 
     public String getId() {
         return id;
@@ -75,6 +84,21 @@ public class BillEntityItem {
         if (type == 3)
             return "线上收入";
         if (type == 4)
+            return "线下收入";
+        return "-";
+
+    }
+
+    public String getPayTypeString() {
+
+
+        if (pay_type == 1)
+            return "提现";
+        if (pay_type == 2)
+            return "消费";
+        if (pay_type == 3)
+            return "线上收入";
+        if (pay_type == 4)
             return "线下收入";
         return "-";
 

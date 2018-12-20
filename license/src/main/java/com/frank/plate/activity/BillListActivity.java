@@ -188,8 +188,6 @@ public class BillListActivity extends BaseActivity {
         Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime()).subscribe(new RxSubscribe<BillEntity>(this, true) {
             @Override
             protected void _onNext(BillEntity bean) {
-                if (bean == null)
-                    return;
                 list = bean.getList();
                 adpter.setNewData(list);
             }

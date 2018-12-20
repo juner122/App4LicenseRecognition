@@ -114,11 +114,11 @@
             android:background="#FFD9D9D9" />
 
         <LinearLayout
-
+            android:id="@+id/tv_add_car"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:padding="15dp">
 
 
@@ -136,7 +136,7 @@
                 android:src="@mipmap/icon_add"
                 android:textColor="#ff666666"
                 android:textSize="12sp"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </LinearLayout>
 

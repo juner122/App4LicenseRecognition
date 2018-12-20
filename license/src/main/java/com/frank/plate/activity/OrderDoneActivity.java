@@ -11,6 +11,7 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,6 +68,7 @@ public class OrderDoneActivity extends BaseActivity {
     protected void init() {
         hideReturnView();
         tv_title.setText("完成订单");
+        tv_title_r.setText("打印凭证");
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
 
         Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
@@ -76,6 +78,7 @@ public class OrderDoneActivity extends BaseActivity {
                 setData();
 
             }
+
             @Override
             protected void _onError(String message) {
                 Log.d(TAG, message);
@@ -84,9 +87,9 @@ public class OrderDoneActivity extends BaseActivity {
         });
 
 
-
     }
-    private void setData(){
+
+    private void setData() {
 
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
@@ -125,24 +128,32 @@ public class OrderDoneActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_done})
+    @OnClick({R.id.tv_done, R.id.tv_title_r})
     public void onClick(View v) {
 
 
-        Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-            @Override
-            protected void _onNext(NullDataEntity nullDataEntity) {
-
-                toMain(1);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Log.d(TAG, message);
-                Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        switch (R.id.tv_done) {
+            case R.id.tv_done:
 
 
+                Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                    @Override
+                    protected void _onNext(NullDataEntity nullDataEntity) {
+
+                        toMain(1);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        Log.d(TAG, message);
+                        Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+
+            case R.id.tv_title_r:
+                ToastUtils.showToast("蓝牙未连接！");
+                break;
+        }
     }
 }

@@ -11,6 +11,11 @@ public class AutoBrand implements Comparable<AutoBrand>,Parcelable {
     String image;
     String type;
 
+    public AutoBrand(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

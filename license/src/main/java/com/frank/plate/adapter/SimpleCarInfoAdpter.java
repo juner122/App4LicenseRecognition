@@ -22,7 +22,8 @@ public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHol
     protected void convert(BaseViewHolder helper, CarEntity item) {
 
         helper.setText(R.id.tv_car_no, item.getCarNo())
-                .setText(R.id.tv_car_model, item.getBrand() + "\t" + item.getName());
+                .setText(R.id.tv_car_model, item.getBrand() + "\t" + item.getName())
+                .addOnClickListener(R.id.tv_check_car);
 
         ImageView iv = helper.getView(R.id.iv);
 

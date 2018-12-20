@@ -59,6 +59,7 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.CarInfoInputActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.MakeOrderActivity"
@@ -73,7 +74,7 @@
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
         <activity android:name=".activity.BillListItemInfoActivity" />
-        <activity android:name=".activity.OrderInfoActivity" />
+        <activity android:name=".activity.OrderInfoActivity" android:launchMode="singleTask" />
         <activity android:name=".activity.AutoBrandActivity" />
         <activity
             android:name=".activity.PreviewActivity"

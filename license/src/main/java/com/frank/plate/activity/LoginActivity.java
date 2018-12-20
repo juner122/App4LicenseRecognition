@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(LoginActivity.this, "请输入正确的手机号码！", Toast.LENGTH_SHORT).show();
             return;
         }
-        String phone = et_phone.getText().toString();
+        final String phone = et_phone.getText().toString();
 
         switch (view.getId()) {
             case R.id.btu_get_phone_code:
@@ -92,6 +92,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     protected void _onNext(Token token) {
                         new AppPreferences(LoginActivity.this).put(Configure.Token, token.getToken().getToken());
+                        new AppPreferences(LoginActivity.this).put(Configure.moblie, phone);
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         toActivity(MainActivity.class);
                         finish();

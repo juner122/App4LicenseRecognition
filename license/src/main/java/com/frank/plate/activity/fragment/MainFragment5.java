@@ -15,6 +15,7 @@ import com.frank.plate.activity.ShopInfoActivity;
 import com.frank.plate.activity.UserReportActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Shop;
+import com.frank.plate.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -39,18 +40,18 @@ public class MainFragment5 extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
+        tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie,""));
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
             @Override
             protected void _onNext(Shop shop) {
 
                 tv_name.setText(shop.getShop().getShopName());
-                tv_phone_number.append(shop.getShop().getPhone());
+
             }
 
             @Override
             protected void _onError(String message) {
-
+                ToastUtils.showToast(message);
             }
         });
 

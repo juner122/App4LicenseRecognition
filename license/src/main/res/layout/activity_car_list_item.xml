@@ -4,14 +4,12 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:padding="13dp">
 
 
@@ -25,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:text=""
             android:textColor="#FF000000"
             android:textSize="13sp" />
@@ -35,13 +33,25 @@
             android:id="@+id/tv_car_model"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:layout_weight="1"
-            android:gravity="end"
+            android:gravity="center"
             android:text=""
             android:textColor="#FF666666"
             android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/tv_check_car"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_background_a"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="查看车况"
+            android:textColor="#ff000000"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <View

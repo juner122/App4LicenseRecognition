@@ -219,7 +219,7 @@
                         android:gravity="center"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥"
+                        android:text=""
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -279,7 +279,7 @@
                         android:gravity="center"
                         android:paddingTop="18dp"
                         android:paddingBottom="18dp"
-                        android:text="已选：￥"
+                        android:text=""
                         android:textColor="#ff000000"
                         android:textSize="14sp" />
 
@@ -528,7 +528,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="￥"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -555,7 +555,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="-￥"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -582,7 +582,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="-￥"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -609,7 +609,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="￥"
+                    android:text=""
                     android:textColor="#ff000000"
                     android:textSize="14sp" />
             </LinearLayout>

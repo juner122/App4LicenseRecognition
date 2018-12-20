@@ -212,7 +212,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void msgManagement(int what, int tag) {
     }
 
-    protected void msgManagement(int what) {
+    protected void msgManagement(int what,String tag) {
     }
 
     /**
@@ -235,12 +235,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param what 发送的消息
      */
-    public void sendMsg(final int what) {
+    public void sendMsg(final int what,final  String tag) {
 
         Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
             @Override
             public void run() {
-                msgManagement(what);
+                msgManagement(what,tag);
             }
         }).subscribe();
     }
@@ -250,7 +250,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public synchronized void startActivityForResult(Intent intent, ResultBack resultBack) {
         if (list.indexOf(resultBack) < 0) {
             list.add(resultBack);
-            startActivityForResult(intent, list.size() - 1);//requestCode就是list的Index，哈哈哈
+            startActivityForResult(intent, list.size() - 1);//requestCode就是list的Index
         }
     }
 

@@ -188,9 +188,26 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<NullDataEntity> delete(Integer[] ids) {
+    public Observable<NullDataEntity> delete(List<Integer> integers) {
 
-        return apiService.delete(token, ids).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.delete(token, integers).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 4.批量删除车况图片
+     *
+     * @return
+     */
+    public Observable<NullDataEntity> delete(int id) {
+
+
+        List<Integer> integers = new ArrayList<>();
+        integers.add(id);
+
+
+        return delete(integers);
+
+
     }
 
 
@@ -206,7 +223,7 @@ public class ApiLoader {
     }
 
 
-   /**
+    /**
      * 订单修改 orderInfo类
      *
      * @return

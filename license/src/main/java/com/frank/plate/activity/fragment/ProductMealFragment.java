@@ -48,9 +48,10 @@ public class ProductMealFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         mealListAdapter = new MealListAdapter(this, null);
+
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(mealListAdapter);
-
+        mealListAdapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
 
         mealListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -90,7 +91,7 @@ public class ProductMealFragment extends BaseFragment {
 
             @Override
             protected void _onError(String message) {
-                ToastUtils.showToast("套餐列表为空");
+//                ToastUtils.showToast("套餐列表为空");
             }
         });
 

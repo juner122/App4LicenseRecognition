@@ -2,6 +2,7 @@ package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -22,6 +23,15 @@ public class CarListAdapter extends BaseQuickAdapter<CarEntity, BaseViewHolder> 
 
         helper.setText(R.id.tv_car_no, item.getCarNo())
                 .addOnClickListener(R.id.tv_check_car);
+
+
+        ImageView iv = helper.getView(R.id.iv);
+
+        if (item.isSelected())
+            iv.setImageResource(R.mipmap.icon_pick);
+        else
+            iv.setImageResource(R.mipmap.icon_unpick);
+
 
     }
 

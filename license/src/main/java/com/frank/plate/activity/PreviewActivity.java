@@ -60,11 +60,12 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     @BindView(R.id.e7)
     EditText et7;
     String car_number;
+
     @Override
     protected void init() {
 
 
-        initOpenCV();
+
     }
 
     @Override
@@ -366,6 +367,11 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initOpenCV();
+    }
 
     private void initOpenCV() {
 

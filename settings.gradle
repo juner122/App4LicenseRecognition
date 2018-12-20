@@ -1,2 +1,2 @@
-include ':license'
+include ':license' , ':picture_library', ':ucrop'
 include ':openCVLibrary330'

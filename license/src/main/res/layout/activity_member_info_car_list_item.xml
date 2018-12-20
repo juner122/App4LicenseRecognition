@@ -8,10 +8,9 @@
 
 
 
+
     <ImageView
-        android:id="@+id/iv1"
-        android:src="@mipmap/icon_pick"
-        android:visibility="invisible"
+        android:id="@+id/iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

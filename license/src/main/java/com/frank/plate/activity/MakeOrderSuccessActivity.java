@@ -53,7 +53,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     @Override
     protected void init() {
         hideReturnView();
-//        showRView("打印凭证");
+
         tv_title.setText("下单确认");
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
 

@@ -115,7 +115,7 @@ public interface ApiService {
 
     //4.批量删除车况图片
     @POST("usercarconditionpicture/delete")
-    Observable<BaseBean<NullDataEntity>> delete(@Header("X-Nideshop-Token") String token, @Body Integer[] ids);
+    Observable<BaseBean<NullDataEntity>> delete(@Header("X-Nideshop-Token") String token, @Body List<Integer> integers);
 
     //确认下单
     @POST("order/submit")

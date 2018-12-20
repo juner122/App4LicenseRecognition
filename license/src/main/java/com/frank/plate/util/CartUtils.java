@@ -82,19 +82,6 @@ public class CartUtils {
     }
 
 
-    public List<GoodsEntity> getMealEntityList() {
-
-        List<GoodsEntity> carts = new ArrayList<>();
-        List<GoodsEntity> list = getDataFromLocal();
-
-        for (GoodsEntity c : list) {
-            if (c.getType() == 3)
-                carts.add(c);
-        }
-        return carts;
-    }
-
-
     public List<GoodsEntity> getServerList() {
 
         List<GoodsEntity> carts = new ArrayList<>();
@@ -132,6 +119,35 @@ public class CartUtils {
     }
 
 
+    public void setPrductDatas(List<GoodsEntity> goods) {
+
+        for (GoodsEntity g : goods) {
+            addProductData(g);
+        }
+    }
+
+    public void setServieDatas(List<GoodsEntity> goods) {
+
+        for (GoodsEntity g : goods) {
+            addServieData(g);
+        }
+    }
+
+    public void setMealDatas(List<MealEntity> entity) {
+
+        for (MealEntity e : entity) {
+            addMeal(e);
+        }
+    }
+
+    public void setMealDatas2(List<GoodsEntity> entity) {
+
+        for (GoodsEntity e : entity) {
+            addMeal(e);
+        }
+    }
+
+
     //套餐商品
     public void addMeal(MealEntity entity) {
 
@@ -147,6 +163,13 @@ public class CartUtils {
         good.setActivityName(entity.getActivityName());
         good.setGoodsName(entity.getGoodsName());
 
+
+        good.setType(3);
+        addData(good);
+    }
+
+    //套餐商品
+    public void addMeal(GoodsEntity good) {
 
         good.setType(3);
         addData(good);
@@ -242,7 +265,7 @@ public class CartUtils {
         List<GoodsEntity> carts = getServerList();
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
-            totalPrice = g.getRetail_priceTodouble() + totalPrice;
+            totalPrice = g.getPriceTodouble() + totalPrice;
         }
         return totalPrice;
     }

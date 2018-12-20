@@ -3,6 +3,7 @@ package com.frank.plate.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.frank.plate.Configure;
@@ -64,7 +65,11 @@ public class BillListItemInfoActivity extends BaseActivity {
                 adpter1.setNewData(o.getOrderInfo().getGoodsList());
                 tv_order_sn.append(o.getOrderInfo().getOrder_sn());
                 tv2.append(o.getOrderInfo().getAdd_time());
-                tv3.append(o.getOrderInfo().getConfirm_time());
+
+                if (null == o.getOrderInfo().getConfirm_time())
+                    tv3.setVisibility(View.GONE);
+                else
+                    tv3.append(o.getOrderInfo().getConfirm_time());
 
                 double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList());
                 double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getSkillList());
@@ -72,6 +77,7 @@ public class BillListItemInfoActivity extends BaseActivity {
                 tv_price1.append(String.valueOf(goodsPrice));
                 tv_price2.append(String.valueOf(goodsPrice2));
                 tv_price3.append(String.valueOf(o.getOrderInfo().getOrder_price()));
+                tv_price4.append(String.valueOf(o.getOrderInfo().getOrder_price()));
 
             }
 

@@ -20,6 +20,7 @@ import com.frank.plate.bean.UpDataPicEntity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
+
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.DateUtils;
 import com.luck.picture.lib.tools.StringUtils;
@@ -51,6 +52,18 @@ public class GridImageAdapter extends
      */
     private onAddPicClickListener mOnAddPicClickListener;
 
+    protected OnItemClickListener mItemClickListener;
+
+    public OnItemDeleteListener getOnItemDeleteListener() {
+        return onItemDeleteListener;
+    }
+
+    public void setOnItemDeleteListener(OnItemDeleteListener onItemDeleteListener) {
+        this.onItemDeleteListener = onItemDeleteListener;
+    }
+
+    protected OnItemDeleteListener onItemDeleteListener;
+
     public interface onAddPicClickListener {
         void onAddPicClick();
 
@@ -70,12 +83,13 @@ public class GridImageAdapter extends
         this.requestCode = requestCode;
     }
 
-    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener, int requestCode, PictureSelector pictureSelector) {
+    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener, int requestCode, PictureSelector pictureSelector, OnItemDeleteListener onItemDeleteListener) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.mOnAddPicClickListener = mOnAddPicClickListener;
         this.requestCode = requestCode;
         this.pictureSelector = pictureSelector;
+        this.onItemDeleteListener = onItemDeleteListener;
     }
 
     public void setSelectMax(int selectMax) {
@@ -154,10 +168,15 @@ public class GridImageAdapter extends
             });
             viewHolder.ll_del.setVisibility(View.INVISIBLE);
         } else {
+            if (list.get(position).getId() == 0)
+                viewHolder.ll_del.setVisibility(View.INVISIBLE);
+
             viewHolder.ll_del.setVisibility(View.VISIBLE);
             viewHolder.ll_del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    onItemDeleteListener.onItemDelete(list.get(position).getId());
                     int index = viewHolder.getAdapterPosition();
                     // 这里有时会返回-1造成数据下标越界,具体可参考getAdapterPosition()源码，
                     // 通过源码分析应该是bindViewHolder()暂未绘制完成导致，知道原因的也可联系我~感谢
@@ -231,8 +250,6 @@ public class GridImageAdapter extends
         }
     }
 
-    protected OnItemClickListener mItemClickListener;
-
     public interface OnItemClickListener {
         void onItemClick(int position, View v);
     }
@@ -240,4 +257,15 @@ public class GridImageAdapter extends
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mItemClickListener = listener;
     }
+
+
+    public interface OnItemDeleteListener {
+        void onItemDelete(int id);
+    }
+
+    public void setOnItemClickListener(OnItemDeleteListener listener) {
+        this.onItemDeleteListener = listener;
+    }
+
+
 }

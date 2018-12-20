@@ -8,8 +8,10 @@ public class MyBalanceEntity {
     String authMoney;
 
     public String getAskMoney() {
-        return askMoney;
+        return null == askMoney ? "0.0" : askMoney;
     }
+
+
 
     public void setAskMoney(String askMoney) {
         this.askMoney = askMoney;
@@ -19,12 +21,16 @@ public class MyBalanceEntity {
         return balance;
     }
 
+    public double getBalanceDouble() {
+        return Double.parseDouble(balance);
+    }
+
     public void setBalance(String balance) {
         this.balance = balance;
     }
 
     public String getAuthMoney() {
-        return authMoney;
+        return null == authMoney ? "0.0" : authMoney;
     }
 
     public void setAuthMoney(String authMoney) {

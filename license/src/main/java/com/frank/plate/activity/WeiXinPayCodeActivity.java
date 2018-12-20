@@ -73,6 +73,7 @@ public class WeiXinPayCodeActivity extends BaseActivity {
             protected void _onError(String message) {
 
                 ToastUtils.showToast(message);
+                finish();
             }
         });
 
@@ -97,8 +98,14 @@ public class WeiXinPayCodeActivity extends BaseActivity {
                         Api().payQuery(order_id).subscribe(new RxSubscribe<NullDataEntity>(WeiXinPayCodeActivity.this, false) {
                             @Override
                             protected void _onNext(NullDataEntity n) {
-                                toActivity(OrderPayActivity.class, "code", 100);
 
+                                ToastUtils.showToast("收款成功!");
+                                finish();
+
+                                if (infoEntity.getOrder_status() == 0) {
+                                    toMain(1);
+                                } else if (infoEntity.getOrder_status() == 1)
+                                    sendOrderInfo(OrderDoneActivity.class, infoEntity);
                             }
 
                             @Override

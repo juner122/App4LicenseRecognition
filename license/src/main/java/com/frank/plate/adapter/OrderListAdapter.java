@@ -89,7 +89,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
 //            rotateAnimation.setInterpolator(new DecelerateInterpolator());
 //
 //            imageView.startAnimation(rotateAnimation);
-            imageView.setImageResource(R.mipmap.icon_down);
+            imageView.setImageResource(R.mipmap.icon_up);
         } else {
 
             helper.setGone(R.id.ll_button_view, false);
@@ -100,7 +100,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
 //            rotateAnimation.setInterpolator(new DecelerateInterpolator());
 //
 //            imageView.startAnimation(rotateAnimation);
-            imageView.setImageResource(R.mipmap.icon_up);
+            imageView.setImageResource(R.mipmap.icon_down);
 
 
         }

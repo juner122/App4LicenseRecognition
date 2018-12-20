@@ -39,12 +39,25 @@
         android:textSize="12sp"
         android:visibility="gone" />
 
-    <ProgressBar
+    <LinearLayout
         android:id="@+id/iv_r"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
-        android:layout_width="30dp"
-        android:paddingRight="10dp"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片上传中"
+            android:textSize="12sp" />
+
+        <ProgressBar
+
+            style="@android:style/Widget.Holo.Light.ProgressBar.Inverse"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
 </RelativeLayout>

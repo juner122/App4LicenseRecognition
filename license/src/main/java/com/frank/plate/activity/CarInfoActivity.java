@@ -54,9 +54,9 @@ public class CarInfoActivity extends BaseActivity {
                 List<UpDataPicEntity> list3 = new ArrayList<>();
 
                 for (UpDataPicEntity u : o.getImagesList()) {
-                    if (u.getType().equals("1")) {
+                    if (u.getType()==1) {
                         list.add(u);
-                    } else if (u.getType().equals("2")) {
+                    } else if (u.getType()==2) {
                         list2.add(u);
                     } else {
                         list3.add(u);

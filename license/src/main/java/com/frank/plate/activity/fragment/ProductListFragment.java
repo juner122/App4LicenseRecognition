@@ -136,10 +136,7 @@ public class ProductListFragment extends BaseFragment {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                     GoodsEntity g = (GoodsEntity) adapter.getData().get(position);
-
-
                     Intent intent = new Intent(getContext(), SetProjectActivity.class);
-
                     intent.putExtra(valueId, g.getId());
                     intent.putExtra(setProject, ProductListActivity.setProject);
                     intent.putExtra(goodName, g.getName());

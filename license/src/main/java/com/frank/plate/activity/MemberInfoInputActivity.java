@@ -25,6 +25,9 @@ import com.frank.plate.view.ConfirmDialog;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -53,7 +56,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
     static String car_number, mobile, user_name;
-
+    List<CarEntity> cars = new ArrayList<>();
 
     int user_id, car_id;
 
@@ -69,7 +72,7 @@ public class MemberInfoInputActivity extends BaseActivity {
         //测试
         name.setText("");
         et_mobile.setText("");
-
+        carListAdapter = new CarListAdapter(cars);
 
     }
 
@@ -170,23 +173,20 @@ public class MemberInfoInputActivity extends BaseActivity {
         carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                try {
 
 
-                    tv_enter_order.setVisibility(View.VISIBLE);
-                    car_number = carListAdapter.getData().get(position).getCarNo();
-                    car_id = carListAdapter.getData().get(position).getId();
+                tv_enter_order.setVisibility(View.VISIBLE);
+                car_number = carListAdapter.getData().get(position).getCarNo();
+                car_id = carListAdapter.getData().get(position).getId();
 
-                    adapter.getViewByPosition(recyclerView, position, R.id.iv1).setVisibility(View.VISIBLE);
 
-                    for (int i = 0; i < adapter.getData().size(); i++) {
-                        if (i != position)
-                            adapter.getViewByPosition(recyclerView, i, R.id.iv1).setVisibility(View.INVISIBLE);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                for (CarEntity c : cars) {
+                    c.setSelected(false);
                 }
+
+                cars.get(position).setSelected(true);
+                adapter.notifyDataSetChanged();
+
 
             }
         });
@@ -196,7 +196,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Log.d(TAG, "QueryByCarEntity信息：" + intent.getStringExtra(Configure.car_no));
+
         queryByCar(intent.getStringExtra(Configure.car_no));
     }
 
@@ -204,9 +204,9 @@ public class MemberInfoInputActivity extends BaseActivity {
         Api().queryByCar(carNumber).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
             protected void _onNext(QueryByCarEntity entity) {
+                cars = entity.getCarList();
 
-                Log.d(TAG, "QueryByCarEntity信息：" + entity.toString());
-                carListAdapter.setNewData(entity.getCarList());
+                carListAdapter.setNewData(cars);
             }
 
             @Override

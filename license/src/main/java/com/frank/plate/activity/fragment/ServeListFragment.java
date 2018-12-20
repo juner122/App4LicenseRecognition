@@ -64,7 +64,7 @@ public class ServeListFragment extends BaseFragment {
                         confirmDialog.dismiss();
 
                         GoodsEntity goodsEntity = list.get(position);
-                        goodsEntity.setRetail_price(price);
+                        goodsEntity.setPrice(price);
                         MyApplication.cartUtils.addServieData(goodsEntity);
 
                         ((ServeListActivity) getActivity()).onPulsTotalPrice();

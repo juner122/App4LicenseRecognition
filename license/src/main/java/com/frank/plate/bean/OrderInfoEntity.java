@@ -18,6 +18,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String pay_status_text;
     double actual_price;
     double coupon_price;
+    int coupon_id;
 
     String consignee;//
     String mobile;
@@ -41,6 +42,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     List<GoodsEntity> userActivityList;
 
     List<GoodsEntity> skillList;
+
+    public int getCoupon_id() {
+        return coupon_id;
+    }
+
+    public void setCoupon_id(int coupon_id) {
+        this.coupon_id = coupon_id;
+    }
 
     public List<GoodsEntity> getSkillList() {
         return skillList;
@@ -281,86 +290,6 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeString(this.order_sn);
-        dest.writeInt(this.user_id);
-        dest.writeInt(this.order_status);
-        dest.writeString(this.shipping_status);
-        dest.writeInt(this.pay_status);
-        dest.writeString(this.pay_status_text);
-        dest.writeDouble(this.actual_price);
-        dest.writeDouble(this.coupon_price);
-        dest.writeString(this.consignee);
-        dest.writeString(this.mobile);
-        dest.writeInt(this.car_id);
-        dest.writeString(this.postscript);
-        dest.writeString(this.order_status_text);
-        dest.writeString(this.add_time);
-        dest.writeString(this.pay_time);
-        dest.writeString(this.car_no);
-        dest.writeString(this.confirm_time);
-        dest.writeValue(this.planfinishi_time);
-        dest.writeDouble(this.order_price);
-        dest.writeInt(this.pay_type);
-        dest.writeString(this.discount_price);
-        dest.writeString(this.custom_cut_price);
-        dest.writeString(this.goods_unit);
-        dest.writeTypedList(this.goodsList);
-        dest.writeTypedList(this.sysUserList);
-        dest.writeTypedList(this.userActivityList);
-        dest.writeTypedList(this.skillList);
-    }
-
-    protected OrderInfoEntity(Parcel in) {
-        this.id = in.readInt();
-        this.order_sn = in.readString();
-        this.user_id = in.readInt();
-        this.order_status = in.readInt();
-        this.shipping_status = in.readString();
-        this.pay_status = in.readInt();
-        this.pay_status_text = in.readString();
-        this.actual_price = in.readDouble();
-        this.coupon_price = in.readDouble();
-        this.consignee = in.readString();
-        this.mobile = in.readString();
-        this.car_id = in.readInt();
-        this.postscript = in.readString();
-        this.order_status_text = in.readString();
-        this.add_time = in.readString();
-        this.pay_time = in.readString();
-        this.car_no = in.readString();
-        this.confirm_time = in.readString();
-        this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());
-        this.order_price = in.readDouble();
-        this.pay_type = in.readInt();
-        this.discount_price = in.readString();
-        this.custom_cut_price = in.readString();
-        this.goods_unit = in.readString();
-        this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
-        this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
-        this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
-        this.skillList = in.createTypedArrayList(GoodsEntity.CREATOR);
-    }
-
-    public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {
-        @Override
-        public OrderInfoEntity createFromParcel(Parcel source) {
-            return new OrderInfoEntity(source);
-        }
-
-        @Override
-        public OrderInfoEntity[] newArray(int size) {
-            return new OrderInfoEntity[size];
-        }
-    };
-
-    @Override
     public String toString() {
         return "OrderInfoEntity{" +
                 "id=" + id +
@@ -393,4 +322,86 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
                 ", skillList=" + skillList +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.order_sn);
+        dest.writeInt(this.user_id);
+        dest.writeInt(this.order_status);
+        dest.writeString(this.shipping_status);
+        dest.writeInt(this.pay_status);
+        dest.writeString(this.pay_status_text);
+        dest.writeDouble(this.actual_price);
+        dest.writeDouble(this.coupon_price);
+        dest.writeInt(this.coupon_id);
+        dest.writeString(this.consignee);
+        dest.writeString(this.mobile);
+        dest.writeInt(this.car_id);
+        dest.writeString(this.postscript);
+        dest.writeString(this.order_status_text);
+        dest.writeString(this.add_time);
+        dest.writeString(this.pay_time);
+        dest.writeString(this.car_no);
+        dest.writeString(this.confirm_time);
+        dest.writeValue(this.planfinishi_time);
+        dest.writeDouble(this.order_price);
+        dest.writeInt(this.pay_type);
+        dest.writeString(this.discount_price);
+        dest.writeString(this.custom_cut_price);
+        dest.writeString(this.goods_unit);
+        dest.writeTypedList(this.goodsList);
+        dest.writeTypedList(this.sysUserList);
+        dest.writeTypedList(this.userActivityList);
+        dest.writeTypedList(this.skillList);
+    }
+
+    protected OrderInfoEntity(Parcel in) {
+        this.id = in.readInt();
+        this.order_sn = in.readString();
+        this.user_id = in.readInt();
+        this.order_status = in.readInt();
+        this.shipping_status = in.readString();
+        this.pay_status = in.readInt();
+        this.pay_status_text = in.readString();
+        this.actual_price = in.readDouble();
+        this.coupon_price = in.readDouble();
+        this.coupon_id = in.readInt();
+        this.consignee = in.readString();
+        this.mobile = in.readString();
+        this.car_id = in.readInt();
+        this.postscript = in.readString();
+        this.order_status_text = in.readString();
+        this.add_time = in.readString();
+        this.pay_time = in.readString();
+        this.car_no = in.readString();
+        this.confirm_time = in.readString();
+        this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());
+        this.order_price = in.readDouble();
+        this.pay_type = in.readInt();
+        this.discount_price = in.readString();
+        this.custom_cut_price = in.readString();
+        this.goods_unit = in.readString();
+        this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
+        this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
+        this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
+        this.skillList = in.createTypedArrayList(GoodsEntity.CREATOR);
+    }
+
+    public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {
+        @Override
+        public OrderInfoEntity createFromParcel(Parcel source) {
+            return new OrderInfoEntity(source);
+        }
+
+        @Override
+        public OrderInfoEntity[] newArray(int size) {
+            return new OrderInfoEntity[size];
+        }
+    };
 }

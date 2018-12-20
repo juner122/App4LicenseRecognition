@@ -7,6 +7,7 @@ import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.util.MathUtil;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -29,14 +30,14 @@ public class MyBalanceActivity extends BaseActivity {
         Api().balanceInfo().subscribe(new RxSubscribe<MyBalanceEntity>(this, true) {
             @Override
             protected void _onNext(MyBalanceEntity data) {
-                tv_balance.setText(String.format("￥%s", MathUtil.twoDecimal(Double.valueOf(data.getBalance()))));
-                tv_in_applied.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAskMoney()))));
-                tv_forward.setText(String.format("%s元", MathUtil.twoDecimal(Double.valueOf(data.getAuthMoney()))));
+                tv_balance.setText(String.format("￥%s", data.getBalanceDouble()));
+                tv_in_applied.setText(String.format("%s元", data.getAskMoney()));
+                tv_forward.setText(String.format("%s元", data.getAuthMoney()));
             }
 
             @Override
             protected void _onError(String message) {
-
+                ToastUtils.showToast("获取余额失败:" + message);
             }
         });
 
@@ -66,7 +67,7 @@ public class MyBalanceActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.ll_bill_list:
-                toActivity(BillListActivity.class,"isShowAll",1);
+                toActivity(BillListActivity.class, "isShowAll", 1);
 
                 break;
             case R.id.tv_action_applied:

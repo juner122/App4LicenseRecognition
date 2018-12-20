@@ -70,6 +70,13 @@ public class OrderListFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
+
+
+        initData();
+
+    }
+
+    private void initData() {
         ola = new OrderListAdapter(R.layout.item_fragment2_main, list, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(ola);
@@ -154,6 +161,7 @@ public class OrderListFragment extends BaseFragment {
 
 
         getData();
+
     }
 
     private void getData() {

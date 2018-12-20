@@ -19,13 +19,14 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.CarEntity;
-import com.frank.plate.bean.CarInfoEntity;
+
 import com.frank.plate.bean.CarInfoRequestParameters;
+
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.UpDataPicEntity;
 import com.frank.plate.util.Auth;
 import com.frank.plate.util.CommonUtil;
-import com.frank.plate.util.ImageUtil;
+import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.FullyGridLayoutManager;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -50,16 +51,16 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.disposables.CompositeDisposable;
+
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+
 
 public class CarInfoInputActivity extends BaseActivity {
 
     private static final String TAG = "CarInfoInputActivity";
-    private final static int requestCode1 = 1001;
-    private final static int requestCode2 = 1002;
-    private final static int requestCode3 = 1003;
+    private final static int requestCode1 = 1;
+    private final static int requestCode2 = 2;
+    private final static int requestCode3 = 3;
 
 
     //图片本地路径   要上传的
@@ -103,10 +104,6 @@ public class CarInfoInputActivity extends BaseActivity {
     private GridImageAdapter adapter2;
     private GridImageAdapter adapter3;
 
-    int uploadTaskCount1;//七牛上传图片完成计数
-    int uploadTaskCount2;//七牛上传图片完成计数
-    int uploadTaskCount3;//七牛上传图片完成计数
-
     int uploadTaskCount;//七牛上传图片完成计数
 
     PictureSelector pictureSelector;
@@ -136,7 +133,11 @@ public class CarInfoInputActivity extends BaseActivity {
                     return;
                 }
 
-                uploadImg2QiNiu2();
+                if (isUpdata)
+                    onAddCarInfoOfFixCarInfo();//接口提交
+                else
+                    ToastUtils.showToast("请等待图片上传完成");
+
                 break;
         }
 
@@ -145,6 +146,10 @@ public class CarInfoInputActivity extends BaseActivity {
 
     AutoBrand selectAutoBrand;//选中的品牌
     AutoModel autoModel;//选中的型号
+
+
+    boolean isUpdata = true;//图片上传完成，是否可以确认信息，
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -176,24 +181,32 @@ public class CarInfoInputActivity extends BaseActivity {
             tv_title.setText("车况确认");
             type_action = 2;
 
+
             Api().showCarInfo(carEntity.getId()).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
                 @Override
                 protected void _onNext(CarInfoRequestParameters o) {
                     tv_car_model.setText(o.getBrand() + "\t" + o.getName());
                     et_remarks.setText(o.getPostscript());
+
+                    selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
+                    autoModel = new AutoModel(o.getNameId(), o.getName());
+
+
                     for (UpDataPicEntity picEntity : o.getImagesList()) {
 
                         LocalMedia localMedia = new LocalMedia();
                         localMedia.setPath(picEntity.getImageUrl());
+                        localMedia.setId(picEntity.getId());
+
 
                         switch (picEntity.getType()) {
-                            case "1":
+                            case 1:
                                 netList.add(localMedia);
                                 break;
-                            case "2":
+                            case 2:
                                 netList2.add(localMedia);
                                 break;
-                            case "3":
+                            case 3:
                                 netList3.add(localMedia);
                                 break;
                         }
@@ -233,7 +246,7 @@ public class CarInfoInputActivity extends BaseActivity {
         recyclerView2.setLayoutManager(manager2);
         recyclerView3.setLayoutManager(manager3);
 
-        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector);
+        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector, onItemDeleteListener);
         adapter.setList(showlist);
         adapter.setSelectMax(maxSelectNum);
         recyclerView1.setAdapter(adapter);
@@ -249,7 +262,7 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2);
+        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2, onItemDeleteListener);
         adapter2.setList(showlist2);
         adapter2.setSelectMax(maxSelectNum);
         recyclerView2.setAdapter(adapter2);
@@ -264,10 +277,11 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3);
+        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3, onItemDeleteListener);
         adapter3.setList(showlist3);
         adapter3.setSelectMax(maxSelectNum);
         recyclerView3.setAdapter(adapter3);
+
         adapter3.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, View v) {
@@ -336,14 +350,26 @@ public class CarInfoInputActivity extends BaseActivity {
 
     };
 
+
+    private GridImageAdapter.OnItemDeleteListener onItemDeleteListener = new GridImageAdapter.OnItemDeleteListener() {
+        @Override
+        public void onItemDelete(int id) {
+
+            delete(id);
+
+        }
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case requestCode1:
+                    uploadTaskCount = 0;
                     // 图片选择结果回调
                     selectList = pictureSelector.obtainMultipleResult(data);
+
                     for (LocalMedia media : selectList) {
                         Log.i("添加的图片1-----》", media.getPath());
                     }
@@ -352,10 +378,13 @@ public class CarInfoInputActivity extends BaseActivity {
                     adapter.setList(showlist);
                     adapter.notifyDataSetChanged();
 
+                    uploadImg2QiNiu2(selectList, 1, "仪表记录");
                     break;
                 case requestCode2:
                     // 图片选择结果回调
+                    uploadTaskCount = 0;
                     selectList2 = pictureSelector2.obtainMultipleResult(data);//
+
                     for (LocalMedia media : selectList2) {
                         Log.i("添加的图片2-----》", media.getPath());
                     }
@@ -363,36 +392,33 @@ public class CarInfoInputActivity extends BaseActivity {
                     showlist2.addAll(selectList2);
                     adapter2.setList(showlist2);
                     adapter2.notifyDataSetChanged();
+                    uploadImg2QiNiu2(selectList2, 2, "内饰记录");
                     break;
                 case requestCode3:
                     // 图片选择结果回调
+                    uploadTaskCount = 0;
                     selectList3 = pictureSelector3.obtainMultipleResult(data);
 
                     for (LocalMedia media : selectList3) {
                         Log.i("添加的图片3-----》", media.getPath());
                     }
-
-
                     showlist3.addAll(selectList3);
                     adapter3.setList(showlist3);
                     adapter3.notifyDataSetChanged();
+                    uploadImg2QiNiu2(selectList3, 3, "外观记录");
                     break;
             }
+
         }
     }
 
-    private void uploadImg2QiNiu2() {
+    private void uploadImg2QiNiu2(final List<LocalMedia> upList, final int type, final String tag) {
+        Log.i(TAG, "上传总数=" + upList.size());
 
-        // 设置图片名字
-        final int allup_size = selectList.size() + selectList2.size() + selectList3.size();//所有要上传的图片
-        Log.i(TAG, "上传总数=" + allup_size + "\nselectList1.size()=" + selectList.size() + "\nselectList3.size()=" + selectList2.size() + "\nselectList3.size()=" + selectList3.size());//上传进度
-
-        if (allup_size == 0) {
-
-            onAddCarInfoOfFixCarInfo();
+        if (upList.size() == 0) {
             return;
         }
-
+        isUpdata = false;
 
         shwoProgressBar();
         UploadManager uploadManager = new UploadManager();
@@ -402,73 +428,26 @@ public class CarInfoInputActivity extends BaseActivity {
                         Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
                         if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
                         {
-                            sendMsg(allup_size);
+                            sendMsg(upList.size(), tag);
                         }
                     }
                 }, null);
 
-        for (int i = 0; i < selectList.size(); i++) {
+        for (int i = 0; i < upList.size(); i++) {
             String key = "pic_" + CommonUtil.getTimeStame();
-            String path = selectList.get(i).getPath();
+            String path = upList.get(i).getPath();
             Log.i(TAG, "picPath: " + path);
             final int finalI = i;
+
             uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
                         @Override
                         public void complete(String key, ResponseInfo info, JSONObject res) {
                             // info.error中包含了错误信息，可打印调试
                             // 上传成功后将key值上传到自己的服务器
                             if (info.isOK()) {
-                                Log.i(TAG, "selectList      ResponseInfo: " + info + "\nkey::" + key);
+                                Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key);
                                 UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
-                                upDataPicEntity.setType("1");
-                                upDataPicEntity.setImageUrl(Configure.Domain + key);
-                                upDataPicEntity.setSort(finalI);
-                                upDataPicEntities.add(upDataPicEntity);
-                            } else {
-                                Log.i(TAG, "info:error====> " + info.error);
-                            }
-                        }
-                    }, uploadOptions
-            );
-        }
-        for (int i = 0; i < selectList2.size(); i++) {
-            String key = "pic_" + CommonUtil.getTimeStame();
-            String path = selectList2.get(i).getPath();
-            Log.i(TAG, "picPath: " + selectList2.get(i).getPath());
-            final int finalI = i;
-            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
-                        @Override
-                        public void complete(String key, ResponseInfo info, JSONObject res) {
-                            // info.error中包含了错误信息，可打印调试
-                            // 上传成功后将key值上传到自己的服务器
-                            if (info.isOK()) {
-                                Log.i(TAG, "selectList2     ResponseInfo: " + info + "\nkey::" + key);
-                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
-                                upDataPicEntity.setType("2");
-                                upDataPicEntity.setImageUrl(Configure.Domain + key);
-                                upDataPicEntity.setSort(finalI);
-                                upDataPicEntities.add(upDataPicEntity);
-                            } else {
-                                Log.i(TAG, "info:error====> " + info.error);
-                            }
-                        }
-                    }, uploadOptions
-            );
-        }
-        for (int i = 0; i < selectList3.size(); i++) {
-            String key = "pic_" + CommonUtil.getTimeStame();
-            String path = selectList3.get(i).getPath();
-            Log.i(TAG, "picPath: " + path);
-            final int finalI = i;
-            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
-                        @Override
-                        public void complete(String key, ResponseInfo info, JSONObject res) {
-                            // info.error中包含了错误信息，可打印调试
-                            // 上传成功后将key值上传到自己的服务器
-                            if (info.isOK()) {
-                                Log.i(TAG, "selectList3      ResponseInfo: " + info + "\nkey::" + key);
-                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
-                                upDataPicEntity.setType("3");
+                                upDataPicEntity.setType(type);
                                 upDataPicEntity.setImageUrl(Configure.Domain + key);
                                 upDataPicEntity.setSort(finalI);
                                 upDataPicEntities.add(upDataPicEntity);
@@ -481,49 +460,18 @@ public class CarInfoInputActivity extends BaseActivity {
         }
     }
 
-
     @Override
-    protected void msgManagement(int what, int tag) {
+    protected void msgManagement(int what, String tag) {
         super.msgManagement(what, tag);
-
-        switch (tag) {
-            case requestCode1:
-                uploadTaskCount1++;
-                if (uploadTaskCount1 == what) {//容器中图片全部上传完成
-                    hideProgressBar();
-                    Toast.makeText(CarInfoInputActivity.this, "图片1全部上传完成", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case requestCode2:
-                uploadTaskCount2++;
-                if (uploadTaskCount2 == what) {//容器中图片全部上传完成
-                    hideProgressBar();
-                    Toast.makeText(CarInfoInputActivity.this, "图片2全部上传完成", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case requestCode3:
-                uploadTaskCount3++;
-                if (uploadTaskCount3 == what) {//容器中图片全部上传完成
-                    hideProgressBar();
-                    Toast.makeText(CarInfoInputActivity.this, "图片3全部上传完成", Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
-    @Override
-    protected void msgManagement(int what) {
-        super.msgManagement(what);
 
 
         uploadTaskCount++;
         if (uploadTaskCount == what) {//容器中图片全部上传完成
             hideProgressBar();
-            Toast.makeText(CarInfoInputActivity.this, "图片全部上传完成", Toast.LENGTH_SHORT).show();
-            onAddCarInfoOfFixCarInfo();//接口提交
+            ToastUtils.showToast(tag + "图片上传成功");
+            isUpdata = true;
+
         }
-
-
     }
 
     @Override
@@ -554,13 +502,21 @@ public class CarInfoInputActivity extends BaseActivity {
         observable.subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                Toast.makeText(CarInfoInputActivity.this, "操作成功", Toast.LENGTH_SHORT).show();
-                toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
+
+                ToastUtils.showToast("操作成功");
+
+                if (getIntent().getIntExtra("result_code", 0) == 001) {//用户信息页面传过来
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+
+                    toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
+                }
             }
 
             @Override
             protected void _onError(String message) {
-                Toast.makeText(CarInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
+                ToastUtils.showToast(message);
 
             }
         });
@@ -591,5 +547,25 @@ public class CarInfoInputActivity extends BaseActivity {
 
         Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
         return parameters;
+    }
+
+
+    private void delete(int id) {
+
+
+        Api().delete(id).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("删除成功");
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("删除失败");
+            }
+        });
+
+
     }
 }

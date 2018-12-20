@@ -63,8 +63,8 @@ dependencies {
     //七牛
     implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
 
-    //PictureSelector 2.0
-    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+//    //PictureSelector 2.0
+//    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 
 
 
@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    compile project(path: ':picture_library')
 
 //    //权限
 //    implementation "com.github.hotchemi:permissionsdispatcher:4.1.0"

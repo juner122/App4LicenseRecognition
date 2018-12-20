@@ -19,6 +19,7 @@ import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
 import com.frank.plate.adapter.SimpleMealInfoAdpter;
+import com.frank.plate.adapter.SimpleServiceInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
@@ -84,7 +85,7 @@ public class MakeOrderActivity extends BaseActivity {
     int user_id, car_id;
     OrderInfoEntity infoEntity;
     SimpleGoodInfoAdpter simpleGoodInfoAdpter;
-    SimpleGoodInfoAdpter simpleGoodInfoAdpter2;
+    SimpleServiceInfoAdpter simpleServiceInfoAdpter;
     SimpleMealInfoAdpter sma;
     List<Technician> technicians;
 
@@ -103,8 +104,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true);
 
-        simpleGoodInfoAdpter2 = new SimpleGoodInfoAdpter(cartUtils.getServerList(), false);
-
+        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);
 
         sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 
@@ -113,7 +113,7 @@ public class MakeOrderActivity extends BaseActivity {
         rv_goods.setAdapter(simpleGoodInfoAdpter);
 
         rv_servers.setLayoutManager(new LinearLayoutManager(this));
-        rv_servers.setAdapter(simpleGoodInfoAdpter2);
+        rv_servers.setAdapter(simpleServiceInfoAdpter);
 
         rv_meal.setLayoutManager(new LinearLayoutManager(this));
         rv_meal.setAdapter(sma);
@@ -341,7 +341,7 @@ public class MakeOrderActivity extends BaseActivity {
         infoEntity.setSkillList(cartUtils.getServerList());
 
 
-        infoEntity.setUserActivityList(cartUtils.getMealEntityList());
+        infoEntity.setUserActivityList(cartUtils.getMealList());
 
         infoEntity.setSysUserList(technicians);
 

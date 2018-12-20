@@ -19,6 +19,8 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.WorkIndex;
 import com.frank.plate.util.ToastUtils;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -95,6 +97,8 @@ public class MainFragment1 extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_top1:
+                new AppPreferences(getContext()).put(Configure.car_no, "");
+
                 toActivity(MemberManagementActivity.class);
                 break;
             case R.id.but_top2:
@@ -107,7 +111,7 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(ActivityPackageListActivity.class);
                 break;
             case R.id.rv_button_bill:
-                toActivity(BillListActivity.class,"isShowAll",0);
+                toActivity(BillListActivity.class, "isShowAll", 0);
                 break;
             case R.id.rv_order_count:
                 ((MainActivity) getActivity()).setCurrentTab(1);

@@ -64,13 +64,10 @@ public class MainFragment2 extends BaseFragment {
 
 
         stl.setViewPager(vp, title, getActivity(), fragments);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         getData();
     }
+
+
 
     private void getData() {
         Api().orderList().subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
