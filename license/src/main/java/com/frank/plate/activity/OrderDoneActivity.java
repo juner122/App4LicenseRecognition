@@ -64,14 +64,20 @@ public class OrderDoneActivity extends BaseActivity {
     @BindView(R.id.tv_address)
     TextView tv_address;
 
+    int id;
+
     @Override
     protected void init() {
-        hideReturnView();
-        tv_title.setText("完成订单");
-        tv_title_r.setText("打印凭证");
-        infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
 
-        Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+
+        hideReturnView();
+
+        tv_title.setText("完成订单");
+        setRTitle("打印凭证");
+        id = getIntent().getIntExtra(Configure.ORDERINFOID, -1);
+
+
+        Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo o) {
                 infoEntity = o;
@@ -98,9 +104,11 @@ public class OrderDoneActivity extends BaseActivity {
 
 
         tv_price.append(String.valueOf(infoEntity.getOrderInfo().getActual_price()));
+
+
         tv_order_price.append(String.valueOf(infoEntity.getOrderInfo().getOrder_price()));
         tv_price3.append(String.valueOf(infoEntity.getOrderInfo().getCoupon_price()));
-        tv_price4.append("0.0");
+        tv_price4.append(String.valueOf("-￥" + (infoEntity.getOrderInfo().getOrder_price() - infoEntity.getOrderInfo().getActual_price())));
 
 
         tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
@@ -109,6 +117,9 @@ public class OrderDoneActivity extends BaseActivity {
         tv_name.append(null == infoEntity.getShop().getName() ? "-" : infoEntity.getShop().getName());
         tv_phone.append(null == infoEntity.getShop().getPhone() ? "-" : infoEntity.getShop().getPhone());
         tv_address.append(null == infoEntity.getShop().getAddress() ? "-" : infoEntity.getShop().getAddress());
+
+
+
 
     }
 
@@ -130,12 +141,8 @@ public class OrderDoneActivity extends BaseActivity {
 
     @OnClick({R.id.tv_done, R.id.tv_title_r})
     public void onClick(View v) {
-
-
-        switch (R.id.tv_done) {
+        switch (v.getId()) {
             case R.id.tv_done:
-
-
                 Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
@@ -155,5 +162,13 @@ public class OrderDoneActivity extends BaseActivity {
                 ToastUtils.showToast("蓝牙未连接！");
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();//注释掉这行,back键不退出activity
+        Log.i(TAG, "onBackPressed");
+
+        ToastUtils.showToast("请完成订单");
     }
 }

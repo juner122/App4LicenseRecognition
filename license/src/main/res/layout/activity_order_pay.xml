@@ -152,7 +152,7 @@
                     android:digits="0123456789."
                     android:gravity="center"
                     android:hint="输入折扣"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:maxLength="1"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"

@@ -104,15 +104,21 @@ public class ApiLoader {
 //        map.put("sidx", sidx);
 //        map.put("order", order);
 //        map.put("type", type);
-
+        List<Integer> list = new ArrayList<>();
         if (isShowAll == 0) {
-            List<Integer> list = new ArrayList<>();
+
             list.add(3);
             list.add(4);
-            return apiService.getUserBillList(token, list).compose(RxHelper.<BillEntity>observe());
-        } else
-            return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
 
+        } else {
+            list.add(1);
+            list.add(2);
+            list.add(3);
+            list.add(4);
+
+        }
+
+        return apiService.getUserBillList(token, list).compose(RxHelper.<BillEntity>observe());
 
     }
 
@@ -392,10 +398,10 @@ public class ApiLoader {
     /**
      * 活动列表
      */
-    public Observable<ActivityEntity> activityList(int activity_type, String activity_name) {
+    public Observable<ActivityEntity> activityList(int activity_type) {
 
-        map.put("activity_type", activity_type);//=1.平台活动 =3.门店活动
-        map.put("activity_name", activity_name);//查询关键字
+//        map.put("activity_type", activity_type);//=1.平台活动 =3.门店活动
+//        map.put("activity_name", activity_name);//查询关键字
 
         return apiService.activityList(map).compose(RxHelper.<ActivityEntity>observe());
     }
@@ -409,6 +415,16 @@ public class ApiLoader {
 
         return apiService.activityDetail(map).compose(RxHelper.<ActivityEntityItem>observe());
     }
+
+//    /**
+//     * 活动详情
+//     */
+//    public Observable<ActivityEntityItem> activityDetail(int id) {
+//
+//        map.put("id", id);
+//
+//        return apiService.activityDetail(map).compose(RxHelper.<ActivityEntityItem>observe());
+//    }
 
     /**
      * 品牌查询列表

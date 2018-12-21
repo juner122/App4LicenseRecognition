@@ -27,7 +27,6 @@ import butterknife.BindView;
 public class SetProjectActivity extends BaseActivity {
 
 
-
     @BindView(R.id.rv)
     RecyclerView rv;
     SetProjectAdapter setProjectAdapter;
@@ -36,11 +35,6 @@ public class SetProjectActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("设置主推项目");
-
-        setProjects.add(new SetProject("商品/套餐项目名称"));
-        setProjects.add(new SetProject("商品/套餐项目名称"));
-        setProjects.add(new SetProject("商品/套餐项目名称"));
-        setProjects.add(new SetProject("商品/套餐项目名称"));
 
 
         setProjectAdapter = new SetProjectAdapter(setProjects);
@@ -63,17 +57,37 @@ public class SetProjectActivity extends BaseActivity {
     protected void setUpView() {
         Api().shopeasyList().subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
             @Override
-            protected void _onNext(GoodsListEntity goodsListEntity) {
+            protected void _onNext(GoodsListEntity o) {
                 setProjects = new ArrayList<>();
-                for (GoodsEntity ge : goodsListEntity.getGoodsList()) {
+                if (null == o.getGoodsList() || o.getGoodsList().size() == 0) {
+                    setProjects.add(new SetProject("商品/套餐项目名称"));
+                    setProjects.add(new SetProject("商品/套餐项目名称"));
+                    setProjects.add(new SetProject("商品/套餐项目名称"));
+                    setProjects.add(new SetProject("商品/套餐项目名称"));
 
+                } else {
+                    for (GoodsEntity ge : o.getGoodsList()) {
+                        SetProject setProject = new SetProject(ge.getEasy_id(), ge.getId(), ge.getName(), 1);
+                        setProjects.add(setProject);
+                    }
 
-                    SetProject setProject = new SetProject(ge.getEasy_id(), ge.getId(), ge.getName(), 1);
-                    setProjects.add(setProject);
+                    if (o.getGoodsList().size() == 1) {
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+
+                    }
+                    if (o.getGoodsList().size() == 2) {
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+
+                    }
+                    if (o.getGoodsList().size() == 3) {
+                        setProjects.add(new SetProject("商品/套餐项目名称"));
+
+                    }
 
                 }
-
-
                 setProjectAdapter.setNewData(setProjects);
             }
 

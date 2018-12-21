@@ -14,8 +14,10 @@ import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.ShopImage;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class ShopInfoActivity extends BaseActivity {
 
@@ -110,4 +112,13 @@ public class ShopInfoActivity extends BaseActivity {
 
         }
     }
+
+
+    @OnClick({R.id.tv_more})
+    public void onClick() {
+
+
+        ToastUtils.showToast("暂无评论");
+    }
+
 }

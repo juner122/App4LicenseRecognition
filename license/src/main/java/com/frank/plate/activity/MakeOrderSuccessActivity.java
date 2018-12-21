@@ -13,6 +13,8 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.String2Utils;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,6 +44,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     @BindView(R.id.tv_now_pay)
     TextView tv_now_pay;
 
+    @BindView(R.id.all_price)
+    TextView all_price;
+
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
 
@@ -52,10 +57,11 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        hideReturnView();
+//        hideReturnView();
 
-        tv_title.setText("下单确认");
+        tv_title.setText("订单确认");
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
+
 
         tv_order_sn.append(info.getOrderInfo().getOrder_sn());
         tv_car_no.append(info.getOrderInfo().getCar_no());
@@ -78,10 +84,17 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsList());
+
+
+        double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
+
+        double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
+
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
 
 
+        all_price.append(String.valueOf((goodsPrice + ServerPrice)));
     }
 
     @Override
@@ -100,7 +113,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         return R.layout.activity_make_order_success;
     }
 
-    @OnClick({R.id.tv_now_pay, R.id.tv_start_service})
+    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_now_pay:
@@ -120,16 +133,23 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.tv_back:
+                toMain(1);
+                break;
 
 
         }
 
     }
+
     @Override
     public void onBackPressed() {
         // super.onBackPressed();//注释掉这行,back键不退出activity
 
         Log.i(TAG, "onBackPressed");
+
+        toMain(1);
+
     }
 
 

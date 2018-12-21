@@ -228,13 +228,6 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.but_set_date:
 
 
-                Calendar startDate = Calendar.getInstance();
-                Calendar endDate = Calendar.getInstance();
-                //正确设置方式 原因：注意事有说明
-                startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH) + 1, startDate.get(Calendar.DATE), startDate.get(Calendar.HOUR_OF_DAY) + 1, startDate.get(Calendar.MINUTE));
-                endDate.set(2020, 11, 31);
-
-
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
@@ -244,7 +237,7 @@ public class MakeOrderActivity extends BaseActivity {
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
                         .setSubmitColor(Color.BLACK)//确定按钮文字颜色
                         .setCancelColor(Color.BLACK)//取消按钮文字颜色
-                        .setRangDate(startDate, endDate)//起始终止年月日设定
+                        .setRangDate(DateUtil.getStartDate(), DateUtil.getEndDate())//起始终止年月日设定
                         .setTitleBgColor(getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
                         .build();
                 pvTime.show();
@@ -261,32 +254,45 @@ public class MakeOrderActivity extends BaseActivity {
 
                 try {
                     if (!top_button1_pick) {
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+
                         cartUtils.addProductData(goods_top.get(0));
+
                         top_button1_pick = true;
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
                     } else {
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
+
                         cartUtils.reduceData(goods_top.get(0));
                         top_button1_pick = false;
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
                     }
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
+
+
                     top_button1_pick = false;
                 }
                 break;
             case R.id.bto_top2:
 
+
+
+
+
+
+
+
+
                 try {
                     if (!top_button2_pick) {
-
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
                         cartUtils.addProductData(goods_top.get(1));
                         top_button2_pick = true;
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
                     } else {
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
+
                         cartUtils.reduceData(goods_top.get(1));
                         top_button2_pick = false;
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
                     }
                     refreshData();
                 } catch (Exception e) {
@@ -298,13 +304,15 @@ public class MakeOrderActivity extends BaseActivity {
 
                 try {
                     if (!top_button3_pick) {
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+
                         cartUtils.addProductData(goods_top.get(2));
                         top_button3_pick = true;
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
                     } else {
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
+
                         cartUtils.reduceData(goods_top.get(2));
                         top_button3_pick = false;
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
                     }
                     refreshData();
                 } catch (Exception e) {
@@ -317,13 +325,15 @@ public class MakeOrderActivity extends BaseActivity {
                 try {
                     if (!top_button4_pick) {
 
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
+
                         cartUtils.addProductData(goods_top.get(3));
                         top_button4_pick = true;
+                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
                     } else {
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
+
                         cartUtils.reduceData(goods_top.get(3));
                         top_button4_pick = false;
+                        view.setBackgroundColor(getResources().getColor(R.color.white));
                     }
                     refreshData();
                 } catch (Exception e) {
@@ -336,19 +346,23 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void onMakeOrder() {
 
+        if (null == technicians || technicians.size() == 0) {
+            ToastUtils.showToast("请最少选择一个技师");
+            return;
+        }
+
+
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getProductList());
         infoEntity.setSkillList(cartUtils.getServerList());
-
-
         infoEntity.setUserActivityList(cartUtils.getMealList());
-
         infoEntity.setSysUserList(technicians);
 
         Log.e(TAG, "下单信息：" + infoEntity.toString());
         Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
+                ToastUtils.showToast("下单成功");
                 sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
 
             }

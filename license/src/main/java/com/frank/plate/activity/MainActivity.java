@@ -8,7 +8,7 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.MainFragment1;
 import com.frank.plate.activity.fragment.MainFragment2;
-import com.frank.plate.activity.fragment.MainFragment3;
+
 import com.frank.plate.activity.fragment.MainFragment4;
 import com.frank.plate.activity.fragment.MainFragment5;
 import com.flyco.tablayout.CommonTabLayout;

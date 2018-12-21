@@ -503,7 +503,6 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/button_background_a"
                     android:gravity="top"
-                    android:hint="请输入备注内容，或者选择下列备注标签"
                     android:padding="8dp"
                     android:textSize="11sp" />
             </LinearLayout>

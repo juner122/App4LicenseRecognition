@@ -137,10 +137,10 @@ public class OrderListFragment extends BaseFragment {
                                     if (pay_staus == 2)
                                         sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
                                     else
-                                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, list.get(position).getId());
+                                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID,  orderInfo.getOrderInfo().getId());
                                 else if (order_staus == 1) {//服务中
                                     if (pay_staus == 2)
-                                        sendOrderInfo(OrderDoneActivity.class, orderInfo);
+                                        toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
                                     else
                                         sendOrderInfo(OrderPayActivity.class, orderInfo);
                                 } else

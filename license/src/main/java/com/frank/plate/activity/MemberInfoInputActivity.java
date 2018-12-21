@@ -139,19 +139,27 @@ public class MemberInfoInputActivity extends BaseActivity {
         Api().addUser(et_mobile.getText().toString(), name.getText().toString()).subscribe(new RxSubscribe<SaveUserAndCarEntity>(MemberInfoInputActivity.this, true) {
             @Override
             protected void _onNext(SaveUserAndCarEntity s) {
+                if (null != s.getCarList() && s.getCarList().size() > 0) {
 
-                //保存UserID
-                user_id = s.getUser_id();
-                mobile = et_mobile.getText().toString();
-                user_name = name.getText().toString();
+                    toActivity(MemberManagementInfoActivity.class, Configure.user_id, s.getUser_id());
+                    finish();
 
-                tv_check.setVisibility(View.GONE);
-                et_mobile.setFocusable(false);
-                name.setFocusable(false);
-                ll_car_list.setVisibility(View.VISIBLE);
+                } else {
 
-                carListAdapter.setNewData(s.getCarList());
-                initAdapter();
+                    //保存UserID
+                    user_id = s.getUser_id();
+                    mobile = et_mobile.getText().toString();
+                    user_name = name.getText().toString();
+
+                    tv_check.setVisibility(View.GONE);
+                    et_mobile.setFocusable(false);
+                    name.setFocusable(false);
+                    ll_car_list.setVisibility(View.VISIBLE);
+
+
+                    carListAdapter.setNewData(s.getCarList());
+                    initAdapter();
+                }
             }
 
             @Override

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -29,12 +30,16 @@ import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.CommonPopupWindow;
 
 import com.frank.plate.view.ConfirmDialog2;
+import com.frank.plate.view.DecimalInputTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.frank.plate.util.MathUtil.isOnlyPointNumber;
+import static com.frank.plate.util.MathUtil.twoDecimal;
 
 public class OrderPayActivity extends BaseActivity {
 
@@ -137,7 +142,10 @@ public class OrderPayActivity extends BaseActivity {
 
             }
         });
+
+
         et_discount.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -151,15 +159,17 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable e) {
 
+
                 if (e.length() != 0) {
                     double d = Double.parseDouble(e.toString());
-                    tv_price.setText(String.valueOf((balance_price * d) / 10));
+                    tv_price.setText(twoDecimal((balance_price * d) / 10));
                 } else {
-                    tv_price.setText(String.valueOf(balance_price));
+                    tv_price.setText(twoDecimal(balance_price));
                 }
             }
         });
 
+        et_discount.addTextChangedListener(new DecimalInputTextWatcher(et_discount, 1, 1));//限制输入位数：整数3位，小数点后两位
 
         et_discount2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -220,8 +230,6 @@ public class OrderPayActivity extends BaseActivity {
                     ToastUtils.showToast("请选择一种支付方式");
                 else if (pay_type == 11) {//微信支付
                     Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
-
-
                     i.putExtra("shop_name", infoEntity.getShop().getShopName());
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Configure.ORDERINFO, infoEntity.getOrderInfo());
@@ -298,6 +306,31 @@ public class OrderPayActivity extends BaseActivity {
     }
 
 
+    private void Pay() {
+        // 确认支付
+        Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity o) {
+
+
+                ToastUtils.showToast("收款成功");
+
+                if (infoEntity.getOrderInfo().getOrder_status() == 0) {
+                    toMain(1);
+                } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
+                    toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, infoEntity.getOrderInfo().getId());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.i("OrderPayActivity", message);
+                ToastUtils.showToast("收款失败");
+            }
+        });
+
+
+    }
+
     public class OffLinePayType {
         String type_string;
         int pay_type;
@@ -324,30 +357,4 @@ public class OrderPayActivity extends BaseActivity {
         }
     }
 
-    private void Pay() {
-        // 确认支付
-        Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-            @Override
-            protected void _onNext(NullDataEntity o) {
-
-                Log.i("OrderPayActivity", "成功：" + o.toString());
-                Log.i("OrderPayActivity", "成功：" + o.toString());
-                Toast.makeText(OrderPayActivity.this, "收款成功", Toast.LENGTH_SHORT).show();
-
-
-                if (infoEntity.getOrderInfo().getOrder_status() == 0) {
-                    toMain(1);
-                } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
-                    sendOrderInfo(OrderDoneActivity.class, infoEntity);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Log.i("OrderPayActivity", message);
-                ToastUtils.showToast("收款失败");
-            }
-        });
-
-
-    }
 }

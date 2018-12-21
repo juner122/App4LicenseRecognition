@@ -3,6 +3,8 @@ package com.frank.plate.util;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MathUtil {
 
@@ -28,5 +30,18 @@ public class MathUtil {
         return simpleDateFormat.format(date);
     }
 
+
+    /**
+     *      * 保留两位小数正则
+     *      *
+     *      * @param number
+     *      * @return
+     *      
+     */
+    public static boolean isOnlyPointNumber(String number) {
+        Pattern pattern = Pattern.compile("^\\d+\\.?\\d{0,2}$");
+        Matcher matcher = pattern.matcher(number);
+        return matcher.matches();
+    }
 
 }

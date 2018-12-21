@@ -60,15 +60,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
                 android:gravity="center"
+                android:focusable="false"
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/e2"
                 style="@style/preview_car_number"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -93,7 +92,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:inputType="number"
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
@@ -104,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:inputType="number"
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
@@ -115,7 +112,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:inputType="number"
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 
@@ -126,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:inputType="number"
                 android:textColor="#ff000000"
                 android:textSize="16sp" />
 

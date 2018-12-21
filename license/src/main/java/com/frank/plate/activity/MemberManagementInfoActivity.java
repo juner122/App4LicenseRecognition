@@ -113,12 +113,17 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         memberOrderList();
     }
 
-
     private void memberOrderList() {
-
+        new AppPreferences(this).put(Configure.user_id, user_id);
         Api().memberOrderList(user_id).subscribe(new RxSubscribe<MemberOrder>(this, true) {
             @Override
             protected void _onNext(MemberOrder memberOrder) {

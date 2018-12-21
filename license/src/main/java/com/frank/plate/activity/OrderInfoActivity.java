@@ -164,7 +164,7 @@ public class OrderInfoActivity extends BaseActivity {
                     case 1://服务中
 
                         if (pay_status == 2)
-                            sendOrderInfo(OrderDoneActivity.class, info);
+                            toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, info.getOrderInfo().getId());
                         else
                             sendOrderInfo(OrderPayActivity.class, info);
 
@@ -203,12 +203,6 @@ public class OrderInfoActivity extends BaseActivity {
 
                 break;
             case R.id.ib_pick_date://选择预计完成时间
-                Calendar startDate = Calendar.getInstance();
-                Calendar endDate = Calendar.getInstance();
-                //正确设置方式 原因：注意事有说明
-                startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH) + 1, startDate.get(Calendar.DATE), startDate.get(Calendar.HOUR_OF_DAY) + 1, startDate.get(Calendar.MINUTE));
-                endDate.set(2020, 11, 31);
-
 
                 TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
@@ -221,7 +215,7 @@ public class OrderInfoActivity extends BaseActivity {
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
                         .setSubmitColor(Color.BLACK)//确定按钮文字颜色
                         .setCancelColor(Color.BLACK)//取消按钮文字颜色
-                        .setRangDate(startDate, endDate)//起始终止年月日设定
+                        .setRangDate(DateUtil.getStartDate(), DateUtil.getEndDate())//起始终止年月日设定
                         .setTitleBgColor(getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
                         .build();
                 pvTime.show();
@@ -339,8 +333,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         tv_technician.setText(String2Utils.getString(info.getOrderInfo().getSysUserList()));
 
-        tv_jdy.setText(info.getReceptionist().getUsername());
-        tv2.append(info.getOrderInfo().getAdd_time());
+        tv_jdy.setText(null == info.getReceptionist() || null == info.getReceptionist().getUsername() ? "-" : info.getReceptionist().getUsername());
 
         tv_price4_s.setText(info.getOrderInfo().getPay_status() == 2 ? "实收金额" : "应收金额");
         tv_pay_type.append(getPayTypeText(info.getOrderInfo().getPay_type()));
@@ -401,6 +394,7 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
 
         }
+        tv2.append(info.getOrderInfo().getAdd_time());
 
 
         cartUtils.setPrductDatas(info.getOrderInfo().getGoodsList());
@@ -408,6 +402,14 @@ public class OrderInfoActivity extends BaseActivity {
         cartUtils.setMealDatas2(info.getOrderInfo().getUserActivityList());
 
         reSetRecyclerViewData();
+
+
+        tv_price1.setText(String.valueOf("￥" + info.getOrderInfo().getOrder_price()));
+        tv_price2.setText(String.valueOf("-￥" + info.getOrderInfo().getCoupon_price()));//优惠券减少金额
+
+        tv_price3.setText(String.valueOf("-￥" + (info.getOrderInfo().getOrder_price() - info.getOrderInfo().getActual_price())));//优惠金额
+        tv_price4.setText(String.valueOf("￥" + info.getOrderInfo().getActual_price()));
+
     }
 
     @Override
@@ -443,8 +445,6 @@ public class OrderInfoActivity extends BaseActivity {
 
 
         tv_price1.setText(String.valueOf("￥" + (goodsPrice + ServerPrice)));
-        tv_price2.setText(String.valueOf("-￥" + 0.00d));
-        tv_price3.setText(String.valueOf("-￥" + 0.00d));
         tv_price4.setText(String.valueOf("￥" + (goodsPrice + ServerPrice)));
 
 

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
@@ -25,6 +26,7 @@ import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.util.A2bigA;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
+import com.frank.plate.view.CarNoLocationConfirmDialog;
 import com.frank.plate.view.PlateRecognizerView;
 import com.frank.plate.R;
 import com.frank.plate.listener.OnNewFrameListener;
@@ -65,7 +67,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     protected void init() {
 
 
-
     }
 
     @Override
@@ -96,19 +97,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             public void afterTextChanged(Editable editable) {
                 if (!TextUtils.isEmpty(editable) && TextUtils.isEmpty(et2.getText())) {
                     et2.requestFocus();
-                }
-            }
-        });
-        et1.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (hasFocus) {
-                    // 获得焦点
-                    et1.setText("");
-                } else {
-                    // 失去焦点
                 }
             }
         });
@@ -315,24 +303,44 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
         return R.layout.activity_preview;
     }
 
-    @OnClick(R.id.but_next)
+    @OnClick({R.id.but_next, R.id.e1})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_next:
 
                 car_number = "";
                 car_number = et1.getText().toString();
-                car_number = car_number+ et2.getText().toString();
-                car_number = car_number+ et3.getText().toString();
-                car_number = car_number+ et4.getText().toString();
-                car_number = car_number+ et5.getText().toString();
-                car_number = car_number+ et6.getText().toString();
-                car_number = car_number+ et7.getText().toString();
+                car_number = car_number + et2.getText().toString();
+                car_number = car_number + et3.getText().toString();
+                car_number = car_number + et4.getText().toString();
+                car_number = car_number + et5.getText().toString();
+                car_number = car_number + et6.getText().toString();
+                car_number = car_number + et7.getText().toString();
 
                 if (String2Utils.isNullCarNumber(et1, et2, et3, et4, et5, et6, et7))
                     onQueryByCar();
                 else
                     ToastUtils.showToast("请输入正确车牌号码");
+                break;
+
+            case R.id.e1:
+
+                final CarNoLocationConfirmDialog confirmDialog = new CarNoLocationConfirmDialog(this);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new CarNoLocationConfirmDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String location) {
+                        confirmDialog.dismiss();
+                        et1.setText(location);
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+
                 break;
         }
 
@@ -351,8 +359,10 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                 if (entity.getMember() != null) {
 
                     toActivity(MemberManagementInfoActivity.class, Configure.user_id, entity.getMember().getUserId());
+                    finish();
                 } else {
                     toActivity(MemberInfoInputActivity.class);
+                    finish();
                 }
             }
 
@@ -360,7 +370,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             protected void _onError(String message) {
                 Log.d(TAG, message);
 
-                ToastUtils.showToast(message+"车牌号："+car_number);
+                ToastUtils.showToast(message + "车牌号：" + car_number);
 
 
             }

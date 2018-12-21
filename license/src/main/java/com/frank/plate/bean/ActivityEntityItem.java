@@ -11,6 +11,15 @@ public class ActivityEntityItem {
     String activityStart;
     String activityExplain;
     String activityPrice;
+    String joinNum;
+
+    public String getJoinNum() {
+        return joinNum;
+    }
+
+    public void setJoinNum(String joinNum) {
+        this.joinNum = joinNum;
+    }
 
     public String getActivityPrice() {
         return activityPrice;

@@ -16,7 +16,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String shipping_status;
     int pay_status;
     String pay_status_text;
-    double actual_price;
+    double actual_price;//实际支付
     double coupon_price;
     int coupon_id;
 
@@ -255,7 +255,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public String getPostscript() {
-        return postscript;
+        return postscript.equals("") ? "暂无备注" : postscript;
     }
 
     public void setPostscript(String postscript) {

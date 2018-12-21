@@ -87,12 +87,29 @@
                 android:paddingRight="15dp"
                 android:paddingBottom="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="消费项目"
-                    android:textColor="#ff000000"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="消费项目"
+                        android:textColor="#ff000000"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/all_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="总计：￥"
+                        android:textColor="#ff000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -112,25 +129,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/tv_goods_nub"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="2"
-                        android:textColor="#ff666666"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_goods_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="¥100.00"
-                        android:textColor="#ff666666"
-                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.ActivityEntityItem;
+import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -14,6 +15,16 @@ public class ActivityInfoActivity extends BaseActivity {
 
     @BindView(R.id.tv_button)
     TextView tv_button;
+
+
+    @BindView(R.id.tv1)
+    TextView tv1;
+    @BindView(R.id.tv_price)
+    TextView tv_price;
+    @BindView(R.id.tv_join)
+    TextView tv_join;
+
+
     int id;
 
     @Override
@@ -23,19 +34,23 @@ public class ActivityInfoActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-
-
-        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntityItem>(this,true) {
+        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntityItem>(this, true) {
             @Override
-            protected void _onNext(ActivityEntityItem activityEntityItem) {
+            protected void _onNext(ActivityEntityItem a) {
+//                tv1.setText(a.getActivityName());
+//                tv_price.append(a.getActivityPrice());
+//                tv_join.setText(String.format("%s人",a.getJoinNum()));
 
             }
 
             @Override
             protected void _onError(String message) {
 
+                ToastUtils.showToast("活动查询失败："+message);
+
             }
         });
+
     }
 
     @Override
@@ -51,10 +66,27 @@ public class ActivityInfoActivity extends BaseActivity {
 
     @OnClick({R.id.tv_button})
     public void onClick(View v) {
+        ToastUtils.showToast("报名成功");
+        tv_button.setText("已报名");
+        tv_button.setBackground(getResources().getDrawable(R.drawable.button_background_g));
 
+//
+//        ToastUtils.showToast("报名失败");
 
-
-
+//
+//        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntityItem>(this, true) {
+//            @Override
+//            protected void _onNext(ActivityEntityItem activityEntityItem) {
+//
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//
+//
+//            }
+//        });
 
     }
 }

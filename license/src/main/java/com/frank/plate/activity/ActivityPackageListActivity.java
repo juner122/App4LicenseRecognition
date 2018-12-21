@@ -83,7 +83,7 @@ public class ActivityPackageListActivity extends BaseActivity {
 
     private void getActivityList(int type) {
         //1.平台活动 =0.门店活动
-        Api().activityList(type, "").subscribe(new RxSubscribe<ActivityEntity>(this, true) {
+        Api().activityList(type).subscribe(new RxSubscribe<ActivityEntity>(this, true) {
             @Override
             protected void _onNext(ActivityEntity a) {
                 ca.setNewData(a.getPage().getList());
