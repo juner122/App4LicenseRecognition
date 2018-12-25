@@ -18,6 +18,7 @@ import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.BillEntityItem;
 import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.MathUtil;
+import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.MyTimePickerView;
 
 import java.util.ArrayList;
@@ -153,6 +154,8 @@ public class BillListActivity extends BaseActivity {
             protected void _onError(String message) {
 
                 Log.d(TAG, message);
+
+                ToastUtils.showToast("查找账单列表失败！ " + message);
             }
         });
 

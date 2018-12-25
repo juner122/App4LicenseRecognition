@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
@@ -57,10 +58,30 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     @Override
     protected void init() {
-//        hideReturnView();
 
         tv_title.setText("订单确认");
+
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
+
+        Api().orderDetail(info.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                Log.i("OrderInfo订单信息：", o.getOrderInfo().toString());
+                info = o;
+                setInfo();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+                ToastUtils.showToast(message);
+
+            }
+        });
+
+    }
+
+    private void setInfo() {
 
 
         tv_order_sn.append(info.getOrderInfo().getOrder_sn());
@@ -83,7 +104,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         tv_address.append(null == info.getShop().getAddress() ? "-" : info.getShop().getAddress());
 
 
-        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsList());
+        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsAndSkillList());
 
 
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());

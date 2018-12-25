@@ -56,17 +56,16 @@ public class MainFragment2 extends BaseFragment {
     @Override
     protected void setUpView() {
 
-        fragments.add(OrderListFragment.newInstance(""));
-        fragments.add(OrderListFragment.newInstance("0"));
-        fragments.add(OrderListFragment.newInstance("00"));
-        fragments.add(OrderListFragment.newInstance("1"));
-        fragments.add(OrderListFragment.newInstance("2"));
+        fragments.add(OrderListFragment.newInstance("", 1));
+        fragments.add(OrderListFragment.newInstance("0", 0));
+        fragments.add(OrderListFragment.newInstance("0", 2));
+        fragments.add(OrderListFragment.newInstance("1", 1));
+        fragments.add(OrderListFragment.newInstance("2", 2));
 
 
         stl.setViewPager(vp, title, getActivity(), fragments);
         getData();
     }
-
 
 
     private void getData() {

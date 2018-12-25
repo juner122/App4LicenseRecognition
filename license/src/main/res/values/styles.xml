@@ -33,7 +33,7 @@
     <style name="preview_car_number">
         <item name="android:maxLines">1</item>
         <item name="android:maxLength">1</item>
-        <item name="android:inputType">number|textCapCharacters</item>
+        <!--<item name="android:inputType">number|textCapCharacters</item>-->
 
     </style>
 

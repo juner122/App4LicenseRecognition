@@ -43,6 +43,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     List<GoodsEntity> skillList;
 
+
+
+
+
+
     public int getCoupon_id() {
         return coupon_id;
     }
@@ -144,6 +149,15 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     public List<GoodsEntity> getGoodsList() {
         return goodsList;
     }
+
+    public List<GoodsEntity> getGoodsAndSkillList() {
+
+        List<GoodsEntity> list = new ArrayList<>();
+        list.addAll(getGoodsList());
+        list.addAll(getSkillList());
+        return list;
+    }
+
 
     public void setGoodsList(List<GoodsEntity> orderGoods) {
         this.goodsList = orderGoods;

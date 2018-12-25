@@ -1,22 +1,69 @@
 package com.frank.plate.bean;
 
 public class Card {
+    int id;
+    int userId;
+    int status;
+    int shopId;
+    int type;
 
-    //卡号
-    private String cardNumber;
-    //开户行
-    private String bankName;
-    //开户行地址
-    private String bankAddr;
-    //持卡人
-    private String cardholder;
-
-    public String getCardNumber() {
-        return cardNumber;
+    public int getId() {
+        return id;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    //银行卡号码
+    private String bankNum;
+    //银行卡名称
+    private String bankName;
+    //开户行地址
+    private String bankOpenName;
+    //持卡人真实姓名
+    private String bankTrueName;
+
+    private String authCode;
+
+    public String getBankNum() {
+        return bankNum;
+    }
+
+    public void setBankNum(String bankNum) {
+        this.bankNum = bankNum;
     }
 
     public String getBankName() {
@@ -27,29 +74,27 @@ public class Card {
         this.bankName = bankName;
     }
 
-    public String getBankAddr() {
-        return bankAddr;
+    public String getBankOpenName() {
+        return bankOpenName;
     }
 
-    public void setBankAddr(String bankAddr) {
-        this.bankAddr = bankAddr;
+    public void setBankOpenName(String bankOpenName) {
+        this.bankOpenName = bankOpenName;
     }
 
-    public String getCardholder() {
-        return cardholder;
+    public String getBankTrueName() {
+        return bankTrueName;
     }
 
-    public void setCardholder(String cardholder) {
-        this.cardholder = cardholder;
+    public void setBankTrueName(String bankTrueName) {
+        this.bankTrueName = bankTrueName;
     }
 
-    @Override
-    public String toString() {
-        return "Card{" +
-                "cardNumber=" + cardNumber +
-                ", bankName='" + bankName + '\'' +
-                ", bankAddr='" + bankAddr + '\'' +
-                ", cardholder='" + cardholder + '\'' +
-                '}';
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }

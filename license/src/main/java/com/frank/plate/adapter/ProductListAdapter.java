@@ -35,7 +35,8 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
                 .setText(R.id.tv_number, String.valueOf(item.getNumber()))
                 .setText(R.id.tv_price, String.format("￥%s", item.getRetail_price()))
                 .addOnClickListener(R.id.ib_plus)
-                .addOnClickListener(R.id.ib_reduce);
+                .addOnClickListener(R.id.ib_reduce)
+                .addOnClickListener(R.id.tv_product_value);//选择规格
 
         Glide.with(fragment)
                 .load(item.getPrimary_pic_url())
@@ -44,6 +45,22 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
         View ib_reduce = helper.getView(R.id.ib_reduce);
         View tv_number = helper.getView(R.id.tv_number);
         View ib_plus = helper.getView(R.id.ib_plus);
+        View tv_product_value = helper.getView(R.id.tv_product_value);
+
+
+        if (isShow == 0) {
+            ib_reduce.setVisibility(View.INVISIBLE);
+            tv_number.setVisibility(View.INVISIBLE);
+            ib_plus.setVisibility(View.INVISIBLE);
+            tv_product_value.setVisibility(View.INVISIBLE);
+
+        } else {
+            ib_reduce.setVisibility(View.VISIBLE);
+            tv_number.setVisibility(View.VISIBLE);
+            ib_plus.setVisibility(View.VISIBLE);
+            tv_product_value.setVisibility(View.VISIBLE);
+        }
+
 
         if (item.getNumber() == 0) {
             ib_reduce.setVisibility(View.INVISIBLE);
@@ -52,18 +69,6 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
             ib_reduce.setVisibility(View.VISIBLE);
             tv_number.setVisibility(View.VISIBLE);
         }
-
-
-        if (isShow == 0) {
-            ib_reduce.setVisibility(View.INVISIBLE);
-            tv_number.setVisibility(View.INVISIBLE);
-            ib_plus.setVisibility(View.INVISIBLE);
-        } else {
-            ib_reduce.setVisibility(View.VISIBLE);
-            tv_number.setVisibility(View.VISIBLE);
-            ib_plus.setVisibility(View.VISIBLE);
-        }
-
 
     }
 }

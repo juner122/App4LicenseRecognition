@@ -34,7 +34,7 @@ public class CarInfoPicAdpter extends BaseQuickAdapter<UpDataPicEntity, BaseView
 
         ImageView iv = helper.getView(R.id.iv);
         Glide.with(context)
-                .load(item)
+                .load(item.getImageUrl())
                 .into(iv);
 
     }

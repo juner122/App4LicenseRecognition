@@ -14,6 +14,7 @@ import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
+import com.frank.plate.bean.BankList;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
@@ -22,6 +23,7 @@ import com.frank.plate.bean.Card;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.Course;
+import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Meal;
 
@@ -31,6 +33,8 @@ import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.bean.ProductList;
+import com.frank.plate.bean.ProductValue;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.SetProject;
@@ -38,6 +42,7 @@ import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.Token;
+import com.frank.plate.bean.UserBalanceAuthPojo;
 import com.frank.plate.bean.WeixinCode;
 import com.frank.plate.bean.WorkIndex;
 
@@ -353,20 +358,22 @@ public class ApiLoader {
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
+
     /**
      * 任意条件订单列表 不同订单查询看备注
      *
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderList(String order_status) {
+    public Observable<BasePage<OrderInfoEntity>> orderList(String order_status, int pay_status, int page) {
 
+        map.put("page", page);
 
-        if (order_status.equals("00"))
-            order_status = "0";
-
-        if (!order_status.equals("")) {
+        if (!order_status.equals(""))
             map.put("order_status", order_status);
-        }
+
+
+        if (order_status.equals("0"))
+            map.put("pay_status", pay_status);
 
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
@@ -599,6 +606,13 @@ public class ApiLoader {
     }
 
     /**
+     * 银行卡验证短信
+     */
+    public Observable<NullDataEntity> sendBankSms() {
+        return apiService.sendBankSms(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
      * 登录
      */
     public Observable<Token> login(String mobile, String et_car_code) {
@@ -611,13 +625,8 @@ public class ApiLoader {
     /**
      * 添加银行卡
      */
-    public Observable<NullDataEntity> bankSave(String authCode, Card card) {
-        map.put("authCode", authCode);
-        map.put("cardNumber", card.getCardNumber());
-        map.put("bankName", card.getBankName());
-        map.put("bankAddr", card.getBankAddr());
-        map.put("cardholder", card.getCardholder());
-        return apiService.bankSave(map).compose(RxHelper.<NullDataEntity>observe());
+    public Observable<NullDataEntity> bankSave(Card card) {
+        return apiService.bankSave(token, card).compose(RxHelper.<NullDataEntity>observe());
     }
 
     /**
@@ -642,15 +651,16 @@ public class ApiLoader {
     /**
      * 添加快捷主推项目
      */
-    public Observable<NullDataEntity> shopeasySave(SetProject setProject) {
+    public Observable<NullDataEntity> shopeasySave(GoodsEntity setProject) {
+        setProject.setType(1);
         return apiService.shopeasySave(token, setProject).compose(RxHelper.<NullDataEntity>observe());
     }
 
     /**
      * 修改快捷主推项目
      */
-    public Observable<NullDataEntity> shopeasyUpdate(SetProject setProject) {
-
+    public Observable<NullDataEntity> shopeasyUpdate(GoodsEntity setProject) {
+        setProject.setType(1);
         return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.<NullDataEntity>observe());
     }
 
@@ -660,6 +670,30 @@ public class ApiLoader {
     public Observable<Meal> queryUserAct(int user_id) {
         map.put("user_id", user_id);
         return apiService.queryUserAct(map).compose(RxHelper.<Meal>observe());
+    }
+
+    /**
+     * 申请提现
+     */
+    public Observable<NullDataEntity> ask(UserBalanceAuthPojo maps) {
+        return apiService.ask(maps).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
+     * 申请提现
+     */
+    public Observable<ProductList> sku(int id) {
+        map.put("id", id);
+        return apiService.sku(map).compose(RxHelper.<ProductList>observe());
+    }
+
+    /**
+     * 查看银行卡 type=1申请中 2申请成功3申请失败
+     */
+    public Observable<BankList> bankList() {
+
+        return apiService.bankList(token).compose(RxHelper.<BankList>observe());
     }
 
 

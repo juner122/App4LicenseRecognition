@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="¥ 500"
+                android:text="¥ "
                 android:textColor="#fff23325"
                 android:textSize="16sp" />
 
@@ -78,6 +78,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"

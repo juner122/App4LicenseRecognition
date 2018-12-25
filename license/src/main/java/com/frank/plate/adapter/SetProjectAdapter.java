@@ -11,15 +11,15 @@ import com.frank.plate.bean.SetProject;
 
 import java.util.List;
 
-public class SetProjectAdapter extends BaseQuickAdapter<SetProject, BaseViewHolder> {
+public class SetProjectAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
 
 
-    public SetProjectAdapter(@Nullable List<SetProject> data) {
+    public SetProjectAdapter(@Nullable List<GoodsEntity> data) {
         super(R.layout.activity_setproject_item, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SetProject item) {
+    protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
         helper.setText(R.id.tv1, item.getName());
     }

@@ -3,11 +3,16 @@ package com.frank.plate.activity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.BankList;
+import com.frank.plate.bean.Card;
 import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.ToastUtils;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,9 +35,14 @@ public class MyBalanceActivity extends BaseActivity {
         Api().balanceInfo().subscribe(new RxSubscribe<MyBalanceEntity>(this, true) {
             @Override
             protected void _onNext(MyBalanceEntity data) {
+
                 tv_balance.setText(String.format("￥%s", data.getBalanceDouble()));
+
                 tv_in_applied.setText(String.format("%s元", data.getAskMoney()));
                 tv_forward.setText(String.format("%s元", data.getAuthMoney()));
+
+                new AppPreferences(MyBalanceActivity.this).put(Configure.Balance, data.getBalancefloat());
+
             }
 
             @Override
@@ -72,8 +82,25 @@ public class MyBalanceActivity extends BaseActivity {
                 break;
             case R.id.tv_action_applied:
 
+                Api().bankList().subscribe(new RxSubscribe<BankList>(this, true) {
+                    @Override
+                    protected void _onNext(BankList bankList) {
+                        if (bankList.getList().size() > 0 && bankList.getList().get(0).getType() == 2) {
 
-                toActivity(CashWithdrawActivity.class);
+                            new AppPreferences(MyBalanceActivity.this).put("bank_id", bankList.getList().get(0).getId());
+                            toActivity(CashWithdrawActivity.class);
+                        } else {
+                            toActivity(AuthenActivity.class);
+                        }
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+
+                        ToastUtils.showToast(message);
+                    }
+                });
 
                 break;
         }

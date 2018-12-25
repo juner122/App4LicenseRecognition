@@ -38,6 +38,8 @@ public class MemberManagementActivity extends BaseActivity {
         adpter = new MemberListAdpter(null);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
+        adpter.setEmptyView(R.layout.member_list_empty_view, rv);
+
         rv.setAdapter(adpter);
 
 
@@ -72,7 +74,7 @@ public class MemberManagementActivity extends BaseActivity {
         memberList();
     }
 
-    private void memberList(){
+    private void memberList() {
 
         Api().memberList().subscribe(new RxSubscribe<Member>(this, true) {
             @Override

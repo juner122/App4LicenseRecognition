@@ -17,6 +17,7 @@ import com.frank.plate.activity.ProductListActivity;
 import com.frank.plate.activity.StaffManagementActivity;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.WorkIndex;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -70,8 +71,8 @@ public class MainFragment1 extends BaseFragment {
         Api().workIndex().subscribe(new RxSubscribe<WorkIndex>(getContext(), true) {
             @Override
             protected void _onNext(WorkIndex workIndex) {
-                price1.setText(String.valueOf(workIndex.getMonthIn()));
-                price2.setText(String.valueOf(workIndex.getDayIn()));
+                price1.setText(MathUtil.twoDecimal(workIndex.getMonthIn()));
+                price2.setText(MathUtil.twoDecimal(workIndex.getDayIn()));
 
                 number1.setText(String.valueOf(workIndex.getMonthOrder()));
                 number2.setText(String.valueOf(workIndex.getDayOrder()));

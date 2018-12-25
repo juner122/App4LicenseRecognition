@@ -27,6 +27,7 @@ import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.util.CartUtils;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
 
@@ -240,6 +241,10 @@ public class OrderInfoActivity extends BaseActivity {
 
     CartUtils cartUtils;
 
+    List<GoodsEntity> productList = new ArrayList<>();//显示的商品
+    List<GoodsEntity> server = new ArrayList<>();//显示的工时
+    List<GoodsEntity> meal = new ArrayList<>();//显示的套餐
+
     @Override
     protected void init() {
 
@@ -270,12 +275,13 @@ public class OrderInfoActivity extends BaseActivity {
         isFixOrder = false;
 
 
-        info.getOrderInfo().setGoodsList(cartUtils.getProductList());
-        info.getOrderInfo().setSkillList(cartUtils.getServerList());
-        info.getOrderInfo().setUserActivityList(cartUtils.getMealList());
+        if (cartUtils.isNull()) {
+            ToastUtils.showToast("修改内容为空！");
+            return;
+        } else {
 
-        remake();
-
+            remake();
+        }
 
     }
 
@@ -305,13 +311,12 @@ public class OrderInfoActivity extends BaseActivity {
                 Log.i("OrderInfo订单信息：", o.getOrderInfo().toString());
                 info = o;
                 setInfo();
-
             }
 
             @Override
             protected void _onError(String message) {
                 Log.d(TAG, message);
-                Toast.makeText(OrderInfoActivity.this, message, Toast.LENGTH_SHORT).show();
+                ToastUtils.showToast(message);
             }
         });
 
@@ -325,7 +330,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         setRTitle(info.getOrderInfo().getOrder_status_text());
 
-        tv_order_sn.append(info.getOrderInfo().getOrder_sn());
+        tv_order_sn.setText(String.valueOf("订单号:" + info.getOrderInfo().getOrder_sn()));
         tv_car_no.setText(info.getOrderInfo().getCar_no());
         tv_mobile.setText(info.getOrderInfo().getMobile());
         tv_consignee.setText(info.getOrderInfo().getConsignee());
@@ -336,13 +341,15 @@ public class OrderInfoActivity extends BaseActivity {
         tv_jdy.setText(null == info.getReceptionist() || null == info.getReceptionist().getUsername() ? "-" : info.getReceptionist().getUsername());
 
         tv_price4_s.setText(info.getOrderInfo().getPay_status() == 2 ? "实收金额" : "应收金额");
-        tv_pay_type.append(getPayTypeText(info.getOrderInfo().getPay_type()));
 
-        tv_pay_status.append(info.getOrderInfo().getPay_status_text());
+
+        tv_pay_type.setText(String.valueOf("支付方式：" + getPayTypeText(info.getOrderInfo().getPay_type())));
+
+        tv_pay_status.setText(String.valueOf("支付状态：" + info.getOrderInfo().getPay_status_text()));
 
         switch (order_status) {
             case 0://待服务
-                tv2.setText("预约时间:");
+                tv2.setText("预约时间:" + info.getOrderInfo().getAdd_time());
 
                 tv_enter_order.setText("确认下单");
                 if (pay_status == 0) {
@@ -357,16 +364,19 @@ public class OrderInfoActivity extends BaseActivity {
                 tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
                 ll_price3.setVisibility(View.GONE);
                 tv_pick_technician.setVisibility(View.VISIBLE);
+                tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
                 break;
             case 1://服务中
-                tv2.setText("下单时间:");
+                tv2.setText("下单时间:" + info.getOrderInfo().getAdd_time());
                 tv_fix_order.setText("通知客户取车");
                 tv_fix_order.setVisibility(View.VISIBLE);
-                if (pay_status == 0)
+                if (pay_status == 0) {
                     tv_enter_order.setText("完成去结算");
-                else {
+                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
+                } else {
                     tv_enter_order.setText("确认完成");
                     tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
+                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
                 }
                 ll_pick_date.setVisibility(View.VISIBLE);
                 tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
@@ -383,61 +393,72 @@ public class OrderInfoActivity extends BaseActivity {
 
                 break;
             case 2://完成
-                tv2.setText("下单时间:");
+                tv2.setText("下单时间:" + info.getOrderInfo().getAdd_time());
                 tv3.setVisibility(View.VISIBLE);
                 tv3.setText(String.format("完成时间:%s", info.getOrderInfo().getConfirm_time()));
                 ll_bottom.setVisibility(View.GONE);
                 ll_pick_date.setVisibility(View.GONE);
                 ll_price3.setVisibility(View.VISIBLE);
                 tv_pick_technician.setVisibility(View.INVISIBLE);
-
+                tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
                 break;
 
         }
-        tv2.append(info.getOrderInfo().getAdd_time());
+
+        tv_price1.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
+        tv_price2.setText(String.valueOf("-￥" + MathUtil.twoDecimal(info.getOrderInfo().getCoupon_price())));//优惠券减少金额
+        tv_price3.setText(String.valueOf("-￥" + (MathUtil.twoDecimal(info.getOrderInfo().getOrder_price() - info.getOrderInfo().getActual_price()))));//优惠金额
 
 
-        cartUtils.setPrductDatas(info.getOrderInfo().getGoodsList());
-        cartUtils.setServieDatas(info.getOrderInfo().getSkillList());
-        cartUtils.setMealDatas2(info.getOrderInfo().getUserActivityList());
-
-        reSetRecyclerViewData();
+        productList = info.getOrderInfo().getGoodsList();
+        server = info.getOrderInfo().getSkillList();
+        meal = info.getOrderInfo().getUserActivityList();
 
 
-        tv_price1.setText(String.valueOf("￥" + info.getOrderInfo().getOrder_price()));
-        tv_price2.setText(String.valueOf("-￥" + info.getOrderInfo().getCoupon_price()));//优惠券减少金额
+        adpter1 = new SimpleGoodInfoAdpter(productList, false);
+        rv1.setLayoutManager(new LinearLayoutManager(this));
+        rv1.setAdapter(adpter1);
 
-        tv_price3.setText(String.valueOf("-￥" + (info.getOrderInfo().getOrder_price() - info.getOrderInfo().getActual_price())));//优惠金额
-        tv_price4.setText(String.valueOf("￥" + info.getOrderInfo().getActual_price()));
+
+        adpter2 = new SimpleServiceInfoAdpter(server, false);//工时
+        rv2.setLayoutManager(new LinearLayoutManager(this));
+        rv2.setAdapter(adpter2);
+
+        sma = new SimpleMealInfoAdpter(meal);//套餐
+        rv3.setLayoutManager(new LinearLayoutManager(this));
+        rv3.setAdapter(sma);
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        reSetRecyclerViewData();
+        if (!cartUtils.isNull())
+            reSetRecyclerViewData();
     }
 
     private void reSetRecyclerViewData() {
 
+        productList.addAll(cartUtils.getProductList());
 
-        adpter1 = new SimpleGoodInfoAdpter(cartUtils.getProductList(), false);
-        rv1.setLayoutManager(new LinearLayoutManager(this));
-        rv1.setAdapter(adpter1);
+        server.addAll(cartUtils.getServerList());
 
-
-        adpter2 = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);//工时
-        rv2.setLayoutManager(new LinearLayoutManager(this));
-        rv2.setAdapter(adpter2);
-
-        sma = new SimpleMealInfoAdpter(cartUtils.getMealList());//套餐
-        rv3.setLayoutManager(new LinearLayoutManager(this));
-        rv3.setAdapter(sma);
+        meal.addAll(cartUtils.getMealList());
 
 
-        double goodsPrice = String2Utils.getOrderGoodsPrice(cartUtils.getProductList());
+        adpter1.setNewData(productList);
+        adpter2.setNewData(server);
+        sma.setNewData(meal);
 
-        double ServerPrice = String2Utils.getOrderServicePrice(cartUtils.getServerList());
+        reSetData();
+    }
+
+    private void reSetData() {
+
+        double goodsPrice = String2Utils.getOrderGoodsPrice(productList);
+
+        double ServerPrice = String2Utils.getOrderServicePrice(server);
 
         tv_goods_price.setText(String.valueOf("已选：￥" + goodsPrice));
 
@@ -445,6 +466,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 
         tv_price1.setText(String.valueOf("￥" + (goodsPrice + ServerPrice)));
+
         tv_price4.setText(String.valueOf("￥" + (goodsPrice + ServerPrice)));
 
 
@@ -453,25 +475,40 @@ public class OrderInfoActivity extends BaseActivity {
     //确认下单
     private void confirmOrder() {
 
-        if (!isFixOrder)
+        if (!isFixOrder) {
+
+            if (null == info.getOrderInfo().getSysUserList() || info.getOrderInfo().getSysUserList().size() == 0) {
+                ToastUtils.showToast("请最少选择一个技师！");
+                return;
+            }
+
             sendOrderInfo(MakeOrderSuccessActivity.class, info);
-        else {
+
+
+        } else {
             ToastUtils.showToast("请先保存修改！");
         }
+
 
     }
 
 
     //订单修改
     private void remake() {
-
+        info.getOrderInfo().setGoodsList(cartUtils.getProductList());
+        info.getOrderInfo().setSkillList(cartUtils.getServerList());
+        info.getOrderInfo().setUserActivityList(cartUtils.getMealList());
 
         Log.i("OrderInfo订单修改：", info.getOrderInfo().toString());
+
+
         Api().remake(info.getOrderInfo()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo o) {
                 ToastUtils.showToast("修改成功");
+                cartUtils.deleteAllData();
                 info = o;
+                setInfo();
             }
 
             @Override

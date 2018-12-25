@@ -13,6 +13,9 @@ import com.frank.plate.adapter.ActivityListAdapter;
 import com.frank.plate.adapter.CourseListAdapter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.ActivityEntity;
+import com.frank.plate.bean.ActivityEntityItem;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -60,14 +63,6 @@ public class ActivityPackageListActivity extends BaseActivity {
         });
 
 
-        ca.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                toActivity(ActivityInfoActivity.class);
-            }
-        });
-
     }
 
     @Override
@@ -86,8 +81,16 @@ public class ActivityPackageListActivity extends BaseActivity {
         Api().activityList(type).subscribe(new RxSubscribe<ActivityEntity>(this, true) {
             @Override
             protected void _onNext(ActivityEntity a) {
-                ca.setNewData(a.getPage().getList());
+                final List<ActivityEntityItem> list = a.getPage().getList();
+                ca.setNewData(list);
 
+                ca.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                        toActivity(ActivityInfoActivity.class, "activity_id", list.get(position).getActivity().getId());
+                    }
+                });
             }
 
             @Override

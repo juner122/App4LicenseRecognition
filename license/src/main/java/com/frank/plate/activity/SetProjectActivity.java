@@ -30,7 +30,7 @@ public class SetProjectActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
     SetProjectAdapter setProjectAdapter;
-    List<SetProject> setProjects = new ArrayList<>();
+    List<GoodsEntity> setProjects = new ArrayList<>();
 
     @Override
     protected void init() {
@@ -60,31 +60,38 @@ public class SetProjectActivity extends BaseActivity {
             protected void _onNext(GoodsListEntity o) {
                 setProjects = new ArrayList<>();
                 if (null == o.getGoodsList() || o.getGoodsList().size() == 0) {
-                    setProjects.add(new SetProject("商品/套餐项目名称"));
-                    setProjects.add(new SetProject("商品/套餐项目名称"));
-                    setProjects.add(new SetProject("商品/套餐项目名称"));
-                    setProjects.add(new SetProject("商品/套餐项目名称"));
+                    setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                    setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                    setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                    setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
 
                 } else {
-                    for (GoodsEntity ge : o.getGoodsList()) {
-                        SetProject setProject = new SetProject(ge.getEasy_id(), ge.getId(), ge.getName(), 1);
-                        setProjects.add(setProject);
-                    }
-
                     if (o.getGoodsList().size() == 1) {
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
+                        setProjects.add(o.getGoodsList().get(0));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
 
                     }
                     if (o.getGoodsList().size() == 2) {
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
+
+                        setProjects.add(o.getGoodsList().get(0));
+                        setProjects.add(o.getGoodsList().get(1));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
 
                     }
                     if (o.getGoodsList().size() == 3) {
-                        setProjects.add(new SetProject("商品/套餐项目名称"));
-
+                        setProjects.add(o.getGoodsList().get(0));
+                        setProjects.add(o.getGoodsList().get(1));
+                        setProjects.add(o.getGoodsList().get(2));
+                        setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
+                    }
+                    if (o.getGoodsList().size() == 4) {
+                        setProjects.add(o.getGoodsList().get(0));
+                        setProjects.add(o.getGoodsList().get(1));
+                        setProjects.add(o.getGoodsList().get(2));
+                        setProjects.add(o.getGoodsList().get(3));
                     }
 
                 }
@@ -124,48 +131,51 @@ public class SetProjectActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-
-        int goodId = intent.getIntExtra(Configure.valueId, -1);
-        String goodName = intent.getStringExtra(Configure.goodName);
-        int position = intent.getIntExtra(Configure.setProject, -1);
+        final GoodsEntity g = intent.getParcelableExtra(Configure.ORDERINFO);
+        final int position = intent.getIntExtra(Configure.setProject, -1);
 
 
-        setProjects.get(position).setName(goodName);
-        setProjects.get(position).setValueId(goodId);
-
-        setProjectAdapter.setNewData(setProjects);
-
-        if (setProjects.get(position).getId() == 0) {
+        if (!setProjects.get(position).isSet()) {
             //增加
-            Api().shopeasySave(setProjects.get(position)).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            Api().shopeasySave(g).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                 @Override
-                protected void _onNext(NullDataEntity nullDataEntity) {
+                protected void _onNext(NullDataEntity n) {
                     ToastUtils.showToast("设置成功！");
+
+
+                    setProjects.remove(position);
+                    setProjects.add(position, g);
+
+                    setProjectAdapter.setNewData(setProjects);
                 }
 
                 @Override
                 protected void _onError(String message) {
-
                     ToastUtils.showToast(message);
                 }
             });
         } else {
-
-
+            g.setEasy_id(setProjects.get(position).getEasy_id());
             //更新
-            Api().shopeasyUpdate(setProjects.get(position)).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            Api().shopeasyUpdate(g).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                 @Override
-                protected void _onNext(NullDataEntity nullDataEntity) {
-                    ToastUtils.showToast("设置成功！");
+                protected void _onNext(NullDataEntity n) {
+                    ToastUtils.showToast("更新成功！");
+
+                    setProjects.remove(position);
+                    setProjects.add(position, g);
+
+                    setProjectAdapter.setNewData(setProjects);
                 }
 
                 @Override
                 protected void _onError(String message) {
-
                     ToastUtils.showToast(message);
                 }
             });
 
         }
     }
+
+
 }

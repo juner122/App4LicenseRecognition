@@ -25,14 +25,14 @@ public class ActivityListAdapter extends BaseQuickAdapter<ActivityEntityItem, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, ActivityEntityItem item) {
-        helper.setText(R.id.tv_title, item.getActivityName());
-        helper.setText(R.id.tv_type, item.getActivityExplain());
-        helper.setText(R.id.tv_price1, item.getActivityPrice().equals("0.00") ? "免费" : "￥" + item.getActivityPrice());
+        helper.setText(R.id.tv_title, item.getActivity().getActivityName());
+        helper.setText(R.id.tv_type, item.getActivity().getActivityExplain());
+        helper.setText(R.id.tv_price1, item.getActivity().getActivityPrice().equals("0.00") ? "免费" : "￥" + item.getActivity().getActivityPrice());
         helper.setText(R.id.tv_action, "查看详情");
 
-//
-//        Glide.with(context)
-//                .load(item.getCourseImg())
-//                .into((ImageView) helper.getView(R.id.iv));
+
+        Glide.with(context)
+                .load(item.getActivity().getActivityImage())
+                .into((ImageView) helper.getView(R.id.iv));
     }
 }

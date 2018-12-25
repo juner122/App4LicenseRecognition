@@ -13,6 +13,7 @@ import com.frank.plate.adapter.CarInfoPicAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.UpDataPicEntity;
+import com.frank.plate.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +55,9 @@ public class CarInfoActivity extends BaseActivity {
                 List<UpDataPicEntity> list3 = new ArrayList<>();
 
                 for (UpDataPicEntity u : o.getImagesList()) {
-                    if (u.getType()==1) {
+                    if (u.getType() == 1) {
                         list.add(u);
-                    } else if (u.getType()==2) {
+                    } else if (u.getType() == 2) {
                         list2.add(u);
                     } else {
                         list3.add(u);
@@ -71,7 +72,8 @@ public class CarInfoActivity extends BaseActivity {
 
             @Override
             protected void _onError(String message) {
-                Toast.makeText(CarInfoActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                ToastUtils.showToast(message);
             }
         });
 

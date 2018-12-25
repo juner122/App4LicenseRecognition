@@ -7,6 +7,15 @@
 
     <include layout="@layout/head_view" />
 
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +39,8 @@
             android:background="@null"
             android:gravity="end"
             android:hint="请输入银联卡账号"
+            android:inputType="number"
+            android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="15dp"
@@ -63,6 +74,7 @@
             android:background="@null"
             android:gravity="end"
             android:hint="请输入银联卡开户行"
+            android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="15dp"
@@ -94,8 +106,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
+
             android:gravity="end"
             android:hint="请输入银联卡开户支行地址"
+            android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="15dp"
@@ -128,7 +142,9 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
+
             android:hint="请输入持卡人真实姓名"
+            android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="15dp"
@@ -142,39 +158,7 @@
         android:background="#FFD9D9D9" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:paddingLeft="15dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="手机号码"
-            android:textColor="#ff000000"
-            android:textSize="14sp" />
-
-        <EditText
-            android:id="@+id/et_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:gravity="end"
-            android:hint="请输入持卡人手机号码"
-            android:paddingTop="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp"
-            android:textColor="#ff666666"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0.2dp"
-        android:background="#FFD9D9D9" />
-
-    <LinearLayout
+        android:id="@+id/ll_phone_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -196,6 +180,7 @@
             android:background="@null"
             android:gravity="end"
             android:hint="请输入手机收到的验证码"
+            android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"
             android:paddingBottom="15dp"
@@ -217,6 +202,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -226,6 +212,7 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -240,6 +227,7 @@
         android:layout_weight="1" />
 
     <LinearLayout
+        android:id="@+id/ll_enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"

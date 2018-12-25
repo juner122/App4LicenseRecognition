@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="合计：￥"
+            android:text="合计：￥0.00"
             android:textColor="#fff23325"
             android:textSize="14sp" />
 

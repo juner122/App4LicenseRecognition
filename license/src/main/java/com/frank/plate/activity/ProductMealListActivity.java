@@ -53,7 +53,6 @@ public class ProductMealListActivity extends BaseActivity {
         fragments.add(new ProductFragment());
         fragments.add(ProductMealFragment.getInstance(user_id));
 
-
     }
 
     @Override

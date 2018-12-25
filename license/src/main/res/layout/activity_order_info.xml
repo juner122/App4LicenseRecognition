@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/tv2"
                     android:layout_alignParentStart="true"
-                    android:text="订单号:"
+                    android:text=""
                     android:textColor="#ff666666"
                     android:textSize="11sp" />
 

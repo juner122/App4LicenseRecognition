@@ -25,6 +25,10 @@ public class MyBalanceEntity {
         return Double.parseDouble(balance);
     }
 
+    public float getBalancefloat() {
+        return Float.parseFloat(balance);
+    }
+
     public void setBalance(String balance) {
         this.balance = balance;
     }

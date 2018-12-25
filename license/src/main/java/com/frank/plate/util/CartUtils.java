@@ -44,7 +44,7 @@ public class CartUtils {
     }
 
 
-    private void listToSparse(List<GoodsEntity> carts) {
+    public void listToSparse(List<GoodsEntity> carts) {
 
         //放到sparseArry中
         if (carts != null && carts.size() > 0) {
@@ -53,7 +53,10 @@ public class CartUtils {
                 data.put(goodsBean.getId(), goodsBean);
             }
         }
+        commit();
+
     }
+
 
     //本地获取json数据，并且通过Gson解析成list列表数据
     public List<GoodsEntity> getDataFromLocal() {
@@ -115,7 +118,9 @@ public class CartUtils {
     public void addProductData(GoodsEntity good) {
 
         good.setType(1);
+
         addData(good);
+
     }
 
 
@@ -240,16 +245,6 @@ public class CartUtils {
 
     }
 
-//    //计算总价格
-//    public double getTotalPrice() {
-//        List<GoodsEntity> carts = sparsesToList();
-//        double totalPrice = 0d;
-//        for (GoodsEntity g : carts) {
-//            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
-//        }
-//        return totalPrice;
-//    }
-
     //计算商品总价格
     public double getProductPrice() {
         List<GoodsEntity> carts = getProductList();
@@ -301,4 +296,13 @@ public class CartUtils {
 
     }
 
+
+    public boolean isNull() {
+
+        if (sparsesToList().size() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

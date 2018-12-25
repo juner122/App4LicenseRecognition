@@ -28,6 +28,7 @@ import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.util.CartUtils;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
 
@@ -157,6 +158,8 @@ public class MakeOrderActivity extends BaseActivity {
                                 tv_number.setVisibility(View.INVISIBLE);
                             }
                             break;
+
+
                     }
                     refreshData();
                 } catch (Exception e) {
@@ -166,6 +169,7 @@ public class MakeOrderActivity extends BaseActivity {
         });
         refreshData();
     }
+
 
     @Override
     protected void init() {
@@ -276,13 +280,6 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.bto_top2:
 
 
-
-
-
-
-
-
-
                 try {
                     if (!top_button2_pick) {
                         cartUtils.addProductData(goods_top.get(1));
@@ -358,19 +355,21 @@ public class MakeOrderActivity extends BaseActivity {
         infoEntity.setUserActivityList(cartUtils.getMealList());
         infoEntity.setSysUserList(technicians);
 
+
         Log.e(TAG, "下单信息：" + infoEntity.toString());
         Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
                 ToastUtils.showToast("下单成功");
                 sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
-
+                finish();
             }
 
             @Override
             protected void _onError(String message) {
                 Log.e(TAG, message);
-
+                ToastUtils.showToast("下单失败");
+                finish();
             }
         });
 
@@ -392,11 +391,11 @@ public class MakeOrderActivity extends BaseActivity {
         double serverPrice = cartUtils.getServerPrice();
         double total = goodsPrice + serverPrice;
 
-        tv_goods_price.setText("已选：￥" + goodsPrice);
-        tv_goods_price2.setText("已选：￥" + serverPrice);
+        tv_goods_price.setText("已选：￥" + MathUtil.twoDecimal(goodsPrice));
+        tv_goods_price2.setText("已选：￥" + MathUtil.twoDecimal(serverPrice));
 
 
-        tv_total_price.setText("已选：￥" + total);
+        tv_total_price.setText("已选：￥" + MathUtil.twoDecimal(total));
 
     }
 

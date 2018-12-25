@@ -11,6 +11,7 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.ToastUtils;
 
 import butterknife.BindView;
@@ -73,7 +74,7 @@ public class OrderDoneActivity extends BaseActivity {
         hideReturnView();
 
         tv_title.setText("完成订单");
-        setRTitle("打印凭证");
+        setRTitle("凭证打印");
         id = getIntent().getIntExtra(Configure.ORDERINFOID, -1);
 
 
@@ -103,12 +104,12 @@ public class OrderDoneActivity extends BaseActivity {
         tv_pay_time.append(infoEntity.getOrderInfo().getPay_time());
 
 
-        tv_price.append(String.valueOf(infoEntity.getOrderInfo().getActual_price()));
+        tv_price.append(MathUtil.twoDecimal(infoEntity.getOrderInfo().getActual_price()));
 
 
-        tv_order_price.append(String.valueOf(infoEntity.getOrderInfo().getOrder_price()));
-        tv_price3.append(String.valueOf(infoEntity.getOrderInfo().getCoupon_price()));
-        tv_price4.append(String.valueOf("-￥" + (infoEntity.getOrderInfo().getOrder_price() - infoEntity.getOrderInfo().getActual_price())));
+        tv_order_price.append(MathUtil.twoDecimal(infoEntity.getOrderInfo().getOrder_price()));
+        tv_price3.append(MathUtil.twoDecimal(infoEntity.getOrderInfo().getCoupon_price()));
+        tv_price4.append(String.valueOf(MathUtil.twoDecimal(infoEntity.getOrderInfo().getOrder_price() - infoEntity.getOrderInfo().getActual_price())));
 
 
         tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
@@ -117,8 +118,6 @@ public class OrderDoneActivity extends BaseActivity {
         tv_name.append(null == infoEntity.getShop().getName() ? "-" : infoEntity.getShop().getName());
         tv_phone.append(null == infoEntity.getShop().getPhone() ? "-" : infoEntity.getShop().getPhone());
         tv_address.append(null == infoEntity.getShop().getAddress() ? "-" : infoEntity.getShop().getAddress());
-
-
 
 
     }
@@ -159,7 +158,7 @@ public class OrderDoneActivity extends BaseActivity {
                 break;
 
             case R.id.tv_title_r:
-                ToastUtils.showToast("蓝牙未连接！");
+                ToastUtils.showToast("未连接蓝牙打印机！");
                 break;
         }
     }

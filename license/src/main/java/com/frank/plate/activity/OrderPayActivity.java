@@ -92,7 +92,23 @@ public class OrderPayActivity extends BaseActivity {
         tv_title.setText("订单收款");
 
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
+        Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                Log.i("OrderInfo订单信息：", o.getOrderInfo().toString());
+                infoEntity = o;
+                setInfo();
+            }
 
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+    }
+
+    private void setInfo() {
 
         tv_order_sn.append(infoEntity.getOrderInfo().getOrder_sn());
         tv_car_no.append(infoEntity.getOrderInfo().getCar_no());
@@ -199,7 +215,6 @@ public class OrderPayActivity extends BaseActivity {
             }
         });
 
-
     }
 
     @Override
@@ -222,8 +237,6 @@ public class OrderPayActivity extends BaseActivity {
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
-
-
                 getPostInfo();
 
                 if (pay_type == 0)
@@ -280,12 +293,11 @@ public class OrderPayActivity extends BaseActivity {
     private void getPostInfo() {
 
         infoEntity.getOrderInfo().setPay_type(pay_type);
+
         infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
         infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
 
         infoEntity.getOrderInfo().setCoupon_id(null == c ? 0 : c.getId());
-
-
     }
 
     @Override
@@ -312,9 +324,7 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity o) {
 
-
                 ToastUtils.showToast("收款成功");
-
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
                     toMain(1);
                 } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
@@ -324,7 +334,7 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.i("OrderPayActivity", message);
-                ToastUtils.showToast("收款失败");
+                ToastUtils.showToast("收款失败：" + message);
             }
         });
 
@@ -344,17 +354,6 @@ public class OrderPayActivity extends BaseActivity {
             return type_string;
         }
 
-        public void setType_string(String type_string) {
-            this.type_string = type_string;
-        }
-
-        public int getPay_type() {
-            return pay_type;
-        }
-
-        public void setPay_type(int pay_type) {
-            this.pay_type = pay_type;
-        }
     }
 
 }

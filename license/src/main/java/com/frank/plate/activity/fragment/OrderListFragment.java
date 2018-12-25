@@ -25,6 +25,7 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +44,13 @@ public class OrderListFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     String order_status;//订单状态
+    int pay_status;//支付状态
 
-    public static OrderListFragment newInstance(String order_status) {
+    public static OrderListFragment newInstance(String order_status, int pay_status) {
         OrderListFragment fragmentOne = new OrderListFragment();
         Bundle bundle = new Bundle();
         bundle.putString("order_status", order_status);
+        bundle.putInt("pay_status", pay_status);
         //fragment保存参数，传入一个Bundle对象
         fragmentOne.setArguments(bundle);
         return fragmentOne;
@@ -59,6 +62,7 @@ public class OrderListFragment extends BaseFragment {
         if (getArguments() != null) {
             //取出保存的值
             order_status = getArguments().getString("order_status");
+            pay_status = getArguments().getInt("pay_status");
         }
 
     }
@@ -78,20 +82,28 @@ public class OrderListFragment extends BaseFragment {
 
     private void initData() {
         ola = new OrderListAdapter(R.layout.item_fragment2_main, list, getContext());
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(ola);
         ola.setEmptyView(R.layout.order_list_empty_view, recyclerView);
 
 
-        easylayout.setLoadMoreModel(LoadModel.NONE);//只显示下拉刷新
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
+                page++;
+                loadMoreData();
+
+
             }
 
             @Override
             public void onRefreshing() {
+
+                page = 1;
                 getData();
+
             }
         });
 
@@ -137,7 +149,7 @@ public class OrderListFragment extends BaseFragment {
                                     if (pay_staus == 2)
                                         sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
                                     else
-                                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID,  orderInfo.getOrderInfo().getId());
+                                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
                                 else if (order_staus == 1) {//服务中
                                     if (pay_staus == 2)
                                         toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
@@ -165,27 +177,21 @@ public class OrderListFragment extends BaseFragment {
     }
 
     private void getData() {
-        Api().orderList(order_status).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
+        Api().orderList(order_status, pay_status, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
                 easylayout.refreshComplete();
                 list.clear();
-                if (order_status.equals("0")) {
-                    for (OrderInfoEntity o : basePage.getList()) {
-                        if (o.getPay_status() == 0)
-                            list.add(o);
-                    }
-                } else if (order_status.equals("00")) {
-                    for (OrderInfoEntity o : basePage.getList()) {
-                        if (o.getPay_status() == 2)
-                            list.add(o);
-                    }
-                } else {
-                    list = basePage.getList();
-                }
-                ola.setNewData(list);
-            }
+                list = basePage.getList();
 
+
+                ola.setNewData(list);
+
+                if (list.size() < 10)
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
+
+
+            }
 
             @Override
             protected void _onError(String message) {
@@ -193,6 +199,31 @@ public class OrderListFragment extends BaseFragment {
             }
         });
     }
+
+    int page = 1;//第一页
+
+    private void loadMoreData() {
+        Api().orderList(order_status, pay_status, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
+            @Override
+            protected void _onNext(BasePage<OrderInfoEntity> basePage) {
+                easylayout.loadMoreComplete();
+
+                if (basePage.getList().size() == 0) {
+                    ToastUtils.showToast("没有更多了！");
+                    return;
+                }
+
+                list = basePage.getList();
+                ola.addData(list);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                easylayout.loadMoreComplete();
+            }
+        });
+    }
+
 
     @Override
     protected String setTAG() {

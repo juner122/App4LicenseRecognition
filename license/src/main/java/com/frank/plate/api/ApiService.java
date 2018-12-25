@@ -4,14 +4,17 @@ import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
+import com.frank.plate.bean.BankList;
 import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
+import com.frank.plate.bean.Card;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.Course;
+import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.Meal;
 
@@ -21,6 +24,8 @@ import com.frank.plate.bean.MyBalanceEntity;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.bean.ProductList;
+import com.frank.plate.bean.ProductValue;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.bean.SetProject;
@@ -28,6 +33,7 @@ import com.frank.plate.bean.Shop;
 
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.Token;
+import com.frank.plate.bean.UserBalanceAuthPojo;
 import com.frank.plate.bean.UserInfo;
 import com.frank.plate.bean.WeixinCode;
 import com.frank.plate.bean.WorkIndex;
@@ -64,6 +70,7 @@ public interface ApiService {
     @POST("userbalancedetail/list")
     @FormUrlEncoded
     Observable<BaseBean<BillEntity>> getUserBillList(@FieldMap Map<String, Object> maps, @Field("type") List<Integer> idList);
+
     //账单列表
     @POST("userbalancedetail/list")
 //    @FormUrlEncoded
@@ -252,6 +259,12 @@ public interface ApiService {
     Observable<BaseBean<NullDataEntity>> smsSendSms(@FieldMap Map<String, Object> maps);
 
 
+    //银行卡验证短信
+    @POST("sms/sendBankSms")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> sendBankSms(@FieldMap Map<String, Object> maps);
+
+
     //登陆账号
     @POST("auth/login")
     @FormUrlEncoded
@@ -260,8 +273,11 @@ public interface ApiService {
 
     //添加银行卡
     @POST("bank/save")
-    @FormUrlEncoded
-    Observable<BaseBean<NullDataEntity>> bankSave(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<NullDataEntity>> bankSave(@Header("X-Nideshop-Token") String token,@Body Card maps);
+
+    //查看银行卡
+    @POST("bank/list")
+    Observable<BaseBean<BankList>> bankList(@Header("X-Nideshop-Token") String token);
 
 
     //服务工时列表 ps：与商品分类一样，初始返回了第一种类的显示服务
@@ -281,19 +297,29 @@ public interface ApiService {
 
     //添加快捷主推项目
     @POST("shopeasy/save")
-    Observable<BaseBean<NullDataEntity>> shopeasySave(@Header("X-Nideshop-Token") String token, @Body SetProject setProject);
+    Observable<BaseBean<NullDataEntity>> shopeasySave(@Header("X-Nideshop-Token") String token, @Body GoodsEntity setProject);
 
 
     //修改快捷主推项目
     @POST("shopeasy/update")
-
-    Observable<BaseBean<NullDataEntity>> shopeasyUpdate(@Header("X-Nideshop-Token") String token, @Body SetProject setProject);
+    Observable<BaseBean<NullDataEntity>> shopeasyUpdate(@Header("X-Nideshop-Token") String token, @Body GoodsEntity setProject);
 
 
     //用户可用套餐列表
     @POST("activity/queryUserAct")
     @FormUrlEncoded
     Observable<BaseBean<Meal>> queryUserAct(@FieldMap Map<String, Object> maps);
+
+
+    //申请提现
+    @POST("userbalanceauth/ask")
+    Observable<BaseBean<NullDataEntity>> ask(@Body UserBalanceAuthPojo maps);
+
+
+    //商品规格
+    @POST("goods/sku")
+    @FormUrlEncoded
+    Observable<BaseBean<ProductList>> sku(@FieldMap Map<String, Object> maps);
 
 
 }

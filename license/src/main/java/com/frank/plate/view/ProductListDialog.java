@@ -1,0 +1,113 @@
+package com.frank.plate.view;
+
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.frank.plate.R;
+import com.frank.plate.adapter.CarNoLocationAdpter;
+import com.frank.plate.adapter.ProductListAdpter;
+import com.frank.plate.bean.CarNoLocation;
+import com.frank.plate.bean.ProductValue;
+import com.frank.plate.util.Locations;
+
+import java.util.List;
+
+
+public class ProductListDialog extends Dialog {
+
+    private Context context;
+    private ClickListenerInterface clickListenerInterface;
+    List<ProductValue> valueList;
+
+    ProductValue pick_value;
+
+    public interface ClickListenerInterface {
+
+        public void doConfirm(ProductValue productValue);
+
+        public void doCancel();
+    }
+
+    public ProductListDialog(Context context, List<ProductValue> list) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        this.valueList = list;
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        init();
+    }
+
+    public void init() {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_product_list, null);
+        setContentView(view);
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.rv);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 5));
+
+        ProductListAdpter c = new ProductListAdpter(valueList);
+        recyclerView.setAdapter(c);
+
+        c.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+                clickListenerInterface.doConfirm(valueList.get(position));
+            }
+        });
+
+
+        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
+        TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+
+
+        tv_confirm.setOnClickListener(new clickListener());
+        tv_cancel.setOnClickListener(new clickListener());
+
+        Window dialogWindow = getWindow();
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        DisplayMetrics d = context.getResources().getDisplayMetrics(); // 获取屏幕宽、高用
+        lp.width = (int) (d.widthPixels * 0.8); // 高度设置为屏幕的0.6
+        dialogWindow.setAttributes(lp);
+
+    }
+
+    public void setClicklistener(ClickListenerInterface clickListenerInterface) {
+        this.clickListenerInterface = clickListenerInterface;
+    }
+
+    private class clickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            int id = v.getId();
+            switch (id) {
+                case R.id.tv_confirm:
+                    clickListenerInterface.doConfirm(pick_value);
+                    break;
+                case R.id.tv_cancel:
+                    clickListenerInterface.doCancel();
+                    break;
+            }
+        }
+
+    }
+}
