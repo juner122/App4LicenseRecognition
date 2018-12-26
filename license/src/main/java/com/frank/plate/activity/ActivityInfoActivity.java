@@ -1,10 +1,13 @@
 package com.frank.plate.activity;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
 import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.ToastUtils;
@@ -24,6 +27,8 @@ public class ActivityInfoActivity extends BaseActivity {
     TextView tv_price;
     @BindView(R.id.tv_join)
     TextView tv_join;
+    @BindView(R.id.iv)
+    ImageView iv;
 
 
     int id;
@@ -31,18 +36,23 @@ public class ActivityInfoActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("购胎送洗车");
-
     }
 
     @Override
     protected void setUpView() {
         id = getIntent().getIntExtra("activity_id", -1);
-        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntityItem>(this, true) {
+        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntity>(this, true) {
             @Override
-            protected void _onNext(ActivityEntityItem a) {
-//                tv1.setText(a.getActivity().getActivityName());
-//                tv_price.setText(a.getActivity().getActivityPrice());
-//                tv_join.setText(String.format("%s人", a.getActivity().getJoinNum()));
+            protected void _onNext(ActivityEntity a) {
+                tv1.setText(a.getActivity().getActivityName());
+                tv_price.setText(String.valueOf("￥" + a.getActivity().getActivityPrice()));
+                tv_join.setText(String.format("%s人", a.getActivity().getJoinNum()));
+
+
+                Glide.with(ActivityInfoActivity.this)
+                        .load(a.getActivity().getActivityImage())
+                        .into(iv);
+
 
             }
 
@@ -73,21 +83,19 @@ public class ActivityInfoActivity extends BaseActivity {
         tv_button.setText("已报名");
         tv_button.setBackground(getResources().getDrawable(R.drawable.button_background_g));
 
-//
-//        ToastUtils.showToast("报名失败");
 
-//
 //        Api().activityDetail(id).subscribe(new RxSubscribe<ActivityEntityItem>(this, true) {
 //            @Override
 //            protected void _onNext(ActivityEntityItem activityEntityItem) {
+//                tv_button.setText("已报名");
 //            }
 //
 //            @Override
 //            protected void _onError(String message) {
 //
-//
+//                ToastUtils.showToast("报名失败");
 //            }
 //        });
-
+//
     }
 }

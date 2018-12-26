@@ -609,8 +609,8 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:text=""
-                    android:textColor="#ff000000"
-                    android:textSize="14sp" />
+                    android:textColor="#FFF23325"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <LinearLayout

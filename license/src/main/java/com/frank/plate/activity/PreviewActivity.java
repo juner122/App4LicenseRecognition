@@ -310,12 +310,12 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
 
                 car_number = "";
                 car_number = et1.getText().toString();
-                car_number = car_number + et2.getText().toString();
-                car_number = car_number + et3.getText().toString();
-                car_number = car_number + et4.getText().toString();
-                car_number = car_number + et5.getText().toString();
-                car_number = car_number + et6.getText().toString();
-                car_number = car_number + et7.getText().toString();
+                car_number = car_number + et2.getText().toString().toUpperCase();
+                car_number = car_number + et3.getText().toString().toUpperCase();
+                car_number = car_number + et4.getText().toString().toUpperCase();
+                car_number = car_number + et5.getText().toString().toUpperCase();
+                car_number = car_number + et6.getText().toString().toUpperCase();
+                car_number = car_number + et7.getText().toString().toUpperCase();
 
                 if (String2Utils.isNullCarNumber(et1, et2, et3, et4, et5, et6, et7))
                     onQueryByCar();
@@ -414,10 +414,9 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
         }
     }
 
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         try {
             if (recognizerView != null)
                 recognizerView.disableView();
@@ -435,6 +434,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void onNewFrame(Mat newFrame) {

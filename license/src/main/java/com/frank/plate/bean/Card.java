@@ -3,7 +3,7 @@ package com.frank.plate.bean;
 public class Card {
     int id;
     int userId;
-    int status;
+
     int shopId;
     int type;
 
@@ -23,13 +23,6 @@ public class Card {
         this.userId = userId;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 
     public int getShopId() {
         return shopId;

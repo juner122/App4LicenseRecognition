@@ -28,7 +28,7 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
 
         helper.setText(R.id.name, item.getName())
                 .setText(R.id.price, null != item.getRetail_price() ? "￥" + item.getRetail_price() : "免费")
-                .setText(R.id.tv_number, String.valueOf(item.getNumberString()));
+                .setText(R.id.tv_number, String.valueOf(item.getNumberStringX()));
 
 
         if (!isShowPlusAndReduce) {

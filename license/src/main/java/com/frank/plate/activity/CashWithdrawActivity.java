@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
+import com.frank.plate.bean.BankList;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.UserBalanceAuthPojo;
 import com.frank.plate.util.ToastUtils;
@@ -32,6 +33,9 @@ public class CashWithdrawActivity extends BaseActivity {
 
     float balance;
 
+    int bank_id;
+    String band_num;
+
     @OnClick({R.id.tv_all, R.id.tv_action})
     public void onClick(View v) {
 
@@ -50,40 +54,36 @@ public class CashWithdrawActivity extends BaseActivity {
 
                 }
 
-                Api().ask(new UserBalanceAuthPojo(Float.parseFloat(et.getText().toString()), new AppPreferences(CashWithdrawActivity.this).getInt("bank_id", 0))).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                Api().ask(new UserBalanceAuthPojo(Float.parseFloat(et.getText().toString()), bank_id)).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
                         ToastUtils.showToast("提现成功！");
                         finish();
-
                     }
 
                     @Override
                     protected void _onError(String message) {
-                        ToastUtils.showToast("提现失败！");
+                        ToastUtils.showToast("提现失败:" + message);
                     }
                 });
-
-
                 break;
-
         }
-
-
     }
-
 
     @Override
     protected void init() {
         tv_title.setText("申请提现");
         balance = new AppPreferences(CashWithdrawActivity.this).getFloat(Configure.Balance, 0f);
+        bank_id = new AppPreferences(CashWithdrawActivity.this).getInt("bank_id", 0);
+        band_num = new AppPreferences(CashWithdrawActivity.this).getString("band_num", "");
+
     }
 
     @Override
     protected void setUpView() {
 
         tv2.append(String.valueOf(balance));
-        card_num.setText("");
+        card_num.setText(String.valueOf(band_num));
 
 
     }

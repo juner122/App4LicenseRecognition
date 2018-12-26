@@ -24,6 +24,7 @@ import com.frank.plate.bean.CarInfoRequestParameters;
 
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.UpDataPicEntity;
+import com.frank.plate.util.A2bigA;
 import com.frank.plate.util.Auth;
 import com.frank.plate.util.CommonUtil;
 import com.frank.plate.util.ToastUtils;
@@ -168,7 +169,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
         carEntity = getIntent().getParcelableExtra(Configure.CARINFO);
-
+        tv_car_no.setTransformationMethod(new A2bigA());
         if (null == carEntity) {
 
             tv_car_no.setFocusable(true);
@@ -239,14 +240,14 @@ public class CarInfoInputActivity extends BaseActivity {
         pictureSelector3 = PictureSelector.create(CarInfoInputActivity.this);
 
 
-        FullyGridLayoutManager manager = new FullyGridLayoutManager(CarInfoInputActivity.this, 5, GridLayoutManager.VERTICAL, false);
-        FullyGridLayoutManager manager2 = new FullyGridLayoutManager(CarInfoInputActivity.this, 5, GridLayoutManager.VERTICAL, false);
-        FullyGridLayoutManager manager3 = new FullyGridLayoutManager(CarInfoInputActivity.this, 5, GridLayoutManager.VERTICAL, false);
+        FullyGridLayoutManager manager = new FullyGridLayoutManager(CarInfoInputActivity.this, 3, GridLayoutManager.VERTICAL, false);
+        FullyGridLayoutManager manager2 = new FullyGridLayoutManager(CarInfoInputActivity.this, 3, GridLayoutManager.VERTICAL, false);
+        FullyGridLayoutManager manager3 = new FullyGridLayoutManager(CarInfoInputActivity.this, 3, GridLayoutManager.VERTICAL, false);
         recyclerView1.setLayoutManager(manager);
         recyclerView2.setLayoutManager(manager2);
         recyclerView3.setLayoutManager(manager3);
 
-        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector, onItemDeleteListener);
+        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector, onItemDeleteListener,true);
         adapter.setList(showlist);
         adapter.setSelectMax(maxSelectNum);
         recyclerView1.setAdapter(adapter);
@@ -262,7 +263,7 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2, onItemDeleteListener);
+        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2, onItemDeleteListener,true);
         adapter2.setList(showlist2);
         adapter2.setSelectMax(maxSelectNum);
         recyclerView2.setAdapter(adapter2);
@@ -277,7 +278,7 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3, onItemDeleteListener);
+        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3, onItemDeleteListener,true);
         adapter3.setList(showlist3);
         adapter3.setSelectMax(maxSelectNum);
         recyclerView3.setAdapter(adapter3);
@@ -530,7 +531,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
         if (null == carEntity) {
             parameters.setUserId(new AppPreferences(this).getString(Configure.user_id, ""));
-            parameters.setCarNo(tv_car_no.getText().toString());
+            parameters.setCarNo(tv_car_no.getText().toString().toUpperCase());
         } else {
 
             parameters.setUserId(carEntity.getUserId());

@@ -34,6 +34,7 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
                 .setText(R.id.tv_product_ts, item.getGoods_brief())
                 .setText(R.id.tv_number, String.valueOf(item.getNumber()))
                 .setText(R.id.tv_price, String.format("￥%s", item.getRetail_price()))
+                .setText(R.id.tv_product_value, item.getGoods_specifition_name_value())
                 .addOnClickListener(R.id.ib_plus)
                 .addOnClickListener(R.id.ib_reduce)
                 .addOnClickListener(R.id.tv_product_value);//选择规格

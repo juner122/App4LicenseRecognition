@@ -8,6 +8,7 @@
     <include layout="@layout/head_view" />
 
     <ImageView
+        android:id="@+id/iv"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:src="@mipmap/banner2" />
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="购胎终身免费补胎（现在购买还将赠送10次免费洗车，仅限前200名）"
+            android:text=""
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
@@ -94,7 +95,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:drawableLeft="@mipmap/icno_people_number"
                 android:drawablePadding="5dp"

@@ -21,6 +21,7 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.ConfirmDialog;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -112,24 +113,26 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_check:
 
                 if (TextUtils.isEmpty(et_mobile.getText()) || TextUtils.isEmpty(name.getText())) {
-                    Toast.makeText(MemberInfoInputActivity.this, "请完整填写信息", Toast.LENGTH_SHORT).show();
+
+                    ToastUtils.showToast("请完整填写信息");
                     return;
                 }
-                final ConfirmDialog confirmDialog = new ConfirmDialog(this, name.getText().toString(), et_mobile.getText().toString());
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm() {
-                        confirmDialog.dismiss();
-                        getAddUser();
-                    }
+//                final ConfirmDialog confirmDialog = new ConfirmDialog(this, name.getText().toString(), et_mobile.getText().toString());
+//                confirmDialog.show();
+//                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
+//                    @Override
+//                    public void doConfirm() {
+//                        confirmDialog.dismiss();
+//                        getAddUser();
+//                    }
+//
+//                    @Override
+//                    public void doCancel() {
+//                        confirmDialog.dismiss();
+//                    }
+//                });
 
-                    @Override
-                    public void doCancel() {
-                        confirmDialog.dismiss();
-                    }
-                });
-
+                getAddUser();
                 break;
         }
 
@@ -145,7 +148,6 @@ public class MemberInfoInputActivity extends BaseActivity {
                     finish();
 
                 } else {
-
                     //保存UserID
                     user_id = s.getUser_id();
                     mobile = et_mobile.getText().toString();

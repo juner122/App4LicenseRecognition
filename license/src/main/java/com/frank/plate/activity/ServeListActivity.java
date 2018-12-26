@@ -12,7 +12,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
-
 import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
@@ -51,6 +50,8 @@ public class ServeListActivity extends BaseActivity {
 
     @BindView(R.id.ll)
     View ll;
+    @BindView(R.id.ll_search)
+    View ll_search;
 
     ServeListFragment fragment;
 
@@ -67,6 +68,9 @@ public class ServeListActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        ll_search.setVisibility(View.GONE);
+
+
         isShow = getIntent().getIntExtra(Configure.isShow, 0);
 
         if (isShow == 0) {
@@ -74,6 +78,11 @@ public class ServeListActivity extends BaseActivity {
         } else {
             ll.setVisibility(View.VISIBLE);
         }
+
+
+        if (getIntent().getBooleanExtra(Configure.isFixOrder, false))//是否是修改订单 清空购物车
+            MyApplication.cartUtils.deleteAllData();
+
 
         tv_title.setText("服务工时列表");
         tv_totalPrice.append(String.valueOf(TotalPrice));

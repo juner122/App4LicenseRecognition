@@ -10,10 +10,12 @@ import android.widget.RadioGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.R;
 import com.frank.plate.adapter.ActivityListAdapter;
-import com.frank.plate.adapter.CourseListAdapter;
+
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
+import com.frank.plate.bean.ActivityPage;
+import com.frank.plate.util.ToastUtils;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class ActivityPackageListActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
     ActivityListAdapter ca;
+    List<ActivityEntityItem> list;
 
     @Override
     protected void init() {
@@ -38,9 +41,8 @@ public class ActivityPackageListActivity extends BaseActivity {
     protected void setUpView() {
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        ca = new ActivityListAdapter(null, this);
+        ca = new ActivityListAdapter(list, this);
         rv.setAdapter(ca);
-
         getActivityList(0);
 
 
@@ -62,6 +64,13 @@ public class ActivityPackageListActivity extends BaseActivity {
             }
         });
 
+        ca.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                toActivity(ActivityInfoActivity.class, "activity_id", list.get(position).getId());
+            }
+        });
 
     }
 
@@ -78,25 +87,17 @@ public class ActivityPackageListActivity extends BaseActivity {
 
     private void getActivityList(int type) {
         //1.平台活动 =0.门店活动
-        Api().activityList(type).subscribe(new RxSubscribe<ActivityEntity>(this, true) {
+        Api().activityList(type).subscribe(new RxSubscribe<ActivityPage>(this, true) {
             @Override
-            protected void _onNext(ActivityEntity a) {
-                final List<ActivityEntityItem> list = a.getPage().getList();
+            protected void _onNext(ActivityPage a) {
+                list = a.getPage().getList();
                 ca.setNewData(list);
-
-                ca.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                        toActivity(ActivityInfoActivity.class, "activity_id", list.get(position).getActivity().getId());
-                    }
-                });
             }
 
             @Override
             protected void _onError(String message) {
-
                 Log.e(TAG, message);
+                ToastUtils.showToast(message);
             }
         });
 

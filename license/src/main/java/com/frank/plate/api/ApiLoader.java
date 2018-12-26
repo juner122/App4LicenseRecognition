@@ -1,21 +1,16 @@
 package com.frank.plate.api;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
-import com.frank.plate.activity.WeiXinPayCodeActivity;
 import com.frank.plate.bean.ActivityEntity;
-import com.frank.plate.bean.ActivityEntityItem;
+import com.frank.plate.bean.ActivityPage;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.BankList;
-import com.frank.plate.bean.BaseBean;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
@@ -34,22 +29,18 @@ import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.ProductList;
-import com.frank.plate.bean.ProductValue;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
-import com.frank.plate.bean.SetProject;
 import com.frank.plate.bean.Shop;
-import com.frank.plate.bean.ShopEntity;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.Token;
 import com.frank.plate.bean.UserBalanceAuthPojo;
 import com.frank.plate.bean.WeixinCode;
 import com.frank.plate.bean.WorkIndex;
+import com.frank.plate.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -58,12 +49,10 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class ApiLoader {
@@ -111,7 +100,6 @@ public class ApiLoader {
 //        map.put("type", type);
         List<Integer> list = new ArrayList<>();
         if (isShowAll == 0) {
-
             list.add(3);
             list.add(4);
 
@@ -120,10 +108,10 @@ public class ApiLoader {
             list.add(2);
             list.add(3);
             list.add(4);
-
         }
 
-        return apiService.getUserBillList(token, list).compose(RxHelper.<BillEntity>observe());
+        map.put("type", list);
+        return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
 
     }
 
@@ -132,7 +120,7 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BillEntity> getUserBillList(Date before, Date after) {
+    public Observable<BillEntity> getUserBillList(Date after, Date before, int isShowAll) {
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
@@ -142,7 +130,7 @@ public class ApiLoader {
         map.put("after", after.getTime());
 
 
-        return apiService.getUserBillList(map).compose(RxHelper.<BillEntity>observe());
+        return getUserBillList(isShowAll);
 
     }
 
@@ -308,7 +296,7 @@ public class ApiLoader {
     public Observable<GoodsListEntity> queryAnyGoods(String category_id, String brand_id, String name) {
 
 
-        map.put("category_id", category_id); //商品类别
+        map.put("attribute_category", category_id); //商品类别
         map.put("brand_id", brand_id);//品牌
         map.put("name", name);//查询关键字
 
@@ -405,22 +393,22 @@ public class ApiLoader {
     /**
      * 活动列表
      */
-    public Observable<ActivityEntity> activityList(int activity_type) {
+    public Observable<ActivityPage> activityList(int activity_type) {
 
 //        map.put("activity_type", activity_type);//=1.平台活动 =3.门店活动
 //        map.put("activity_name", activity_name);//查询关键字
 
-        return apiService.activityList(map).compose(RxHelper.<ActivityEntity>observe());
+        return apiService.activityList(map).compose(RxHelper.<ActivityPage>observe());
     }
 
     /**
      * 活动详情
      */
-    public Observable<ActivityEntityItem> activityDetail(int id) {
+    public Observable<ActivityEntity> activityDetail(int id) {
 
         map.put("id", id);
 
-        return apiService.activityDetail(map).compose(RxHelper.<ActivityEntityItem>observe());
+        return apiService.activityDetail(map).compose(RxHelper.<ActivityEntity>observe());
     }
 
 //    /**
@@ -563,6 +551,9 @@ public class ApiLoader {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
 
+                ToastUtils.showToast("验证码已发送");
+
+
                 disposable[0] = Observable //计时器
                         .interval(0, 1, TimeUnit.SECONDS)
                         .take(con)//次数
@@ -599,7 +590,7 @@ public class ApiLoader {
 
             @Override
             protected void _onError(String message) {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                ToastUtils.showToast(message);
             }
         });
         return disposable[0];
@@ -676,7 +667,7 @@ public class ApiLoader {
      * 申请提现
      */
     public Observable<NullDataEntity> ask(UserBalanceAuthPojo maps) {
-        return apiService.ask(maps).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.ask(token, maps).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

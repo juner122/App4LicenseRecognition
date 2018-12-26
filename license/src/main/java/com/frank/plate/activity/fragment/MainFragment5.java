@@ -2,8 +2,10 @@ package com.frank.plate.activity.fragment;
 
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.activity.AboutActivity;
@@ -29,6 +31,8 @@ public class MainFragment5 extends BaseFragment {
     @BindView(R.id.tv_name)
     TextView tv_name;
 
+    @BindView(R.id.iv_user_pic)
+    ImageView iv_user_pic;
 
     @BindView(R.id.tv_phone_number)
     TextView tv_phone_number;
@@ -40,12 +44,16 @@ public class MainFragment5 extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie,""));
+        tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie, ""));
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
             @Override
             protected void _onNext(Shop shop) {
-
                 tv_name.setText(shop.getShop().getShopName());
+
+
+                Glide.with(getActivity())//门店图片
+                        .load(shop.getShop().getImage())
+                        .into(iv_user_pic);
 
             }
 
@@ -90,6 +98,7 @@ public class MainFragment5 extends BaseFragment {
                 break;
             case R.id.updata:
 
+                ToastUtils.showToast("已是最新版本！");
 
                 break;
             case R.id.tv_user_report:

@@ -11,6 +11,7 @@ import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.OrderInfo;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 
 import butterknife.BindView;
@@ -74,10 +75,10 @@ public class BillListItemInfoActivity extends BaseActivity {
                 double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList());
                 double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getSkillList());
 
-                tv_price1.append(String.valueOf(goodsPrice));
-                tv_price2.append(String.valueOf(goodsPrice2));
-                tv_price3.append(String.valueOf(o.getOrderInfo().getOrder_price()));
-                tv_price4.append(String.valueOf(o.getOrderInfo().getOrder_price()));
+                tv_price1.append(MathUtil.twoDecimal(goodsPrice));
+                tv_price2.append(MathUtil.twoDecimal(goodsPrice2));
+                tv_price3.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
+                tv_price4.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
 
             }
 

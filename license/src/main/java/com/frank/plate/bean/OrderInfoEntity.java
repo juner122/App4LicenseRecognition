@@ -44,10 +44,6 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     List<GoodsEntity> skillList;
 
 
-
-
-
-
     public int getCoupon_id() {
         return coupon_id;
     }
@@ -269,7 +265,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public String getPostscript() {
-        return postscript.equals("") ? "暂无备注" : postscript;
+        return null == postscript || postscript.equals("") ? "暂无备注" : postscript;
     }
 
     public void setPostscript(String postscript) {

@@ -2,6 +2,7 @@ package com.frank.plate.api;
 
 import com.frank.plate.bean.ActivityEntity;
 import com.frank.plate.bean.ActivityEntityItem;
+import com.frank.plate.bean.ActivityPage;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.BankList;
@@ -192,12 +193,12 @@ public interface ApiService {
     //活动列表
     @POST("activity/list")
     @FormUrlEncoded
-    Observable<BaseBean<ActivityEntity>> activityList(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<ActivityPage>> activityList(@FieldMap Map<String, Object> maps);
 
     //活动详情
     @POST("activity/detail")
     @FormUrlEncoded
-    Observable<BaseBean<ActivityEntityItem>> activityDetail(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<ActivityEntity>> activityDetail(@FieldMap Map<String, Object> maps);
 
     //品牌查询列表
     @POST("carbrand/listByName")
@@ -313,7 +314,7 @@ public interface ApiService {
 
     //申请提现
     @POST("userbalanceauth/ask")
-    Observable<BaseBean<NullDataEntity>> ask(@Body UserBalanceAuthPojo maps);
+    Observable<BaseBean<NullDataEntity>> ask(@Header("X-Nideshop-Token") String token, @Body UserBalanceAuthPojo maps);
 
 
     //商品规格

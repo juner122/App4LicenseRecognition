@@ -4,69 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
-    android:orientation="horizontal"
-    android:padding="8dp">
-
-
-    <ImageView
-        android:id="@+id/iv_pic"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="#444"
-        tools:srcCompat="@tools:sample/avatars[6]" />
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="8dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
-
-        <TextView
-            android:id="@+id/tv_product_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="倍耐力P7防爆轮胎/……"
-            android:textColor="#ff010101"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_product_ts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="225 235 245 255 275/40 45 50 55 R17 18 19 20"
-            android:textColor="#ff666666"
-            android:textSize="11sp" />
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:background="#444"
+            tools:srcCompat="@tools:sample/avatars[6]" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_marginLeft="8dp"
+            android:orientation="vertical">
+
 
             <TextView
-                android:id="@+id/tv_price"
+                android:id="@+id/tv_product_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
+                android:ellipsize="end"
                 android:maxLines="1"
-                android:text="¥ 500.00"
-                android:textColor="#fff23325"
-                android:textSize="13sp" />
+                android:text="倍耐力P7防爆轮胎/……"
+                android:textColor="#ff010101"
+                android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/tv_product_ts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="225 235 245 255 275/40 45 50 55 R17 18 19 20"
+                android:textColor="#ff666666"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/tv_product_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/button_background_b"
                 android:paddingLeft="8dp"
                 android:paddingTop="5dp"
@@ -76,38 +63,61 @@
                 android:textColor="#ff000000"
                 android:textSize="10sp" />
 
-
-            <ImageButton
-                android:id="@+id/ib_reduce"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="5dp"
-                android:src="@mipmap/icon_reduce"
-                android:visibility="invisible" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="¥ 500.00"
+                    android:textColor="#fff23325"
+                    android:textSize="13sp" />
 
 
-            <TextView
-                android:id="@+id/tv_number"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:gravity="center"
-                android:text="11"
-                android:visibility="invisible" />
+                <ImageButton
+                    android:id="@+id/ib_reduce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="3dp"
+                    android:src="@mipmap/icon_reduce"
+                    android:visibility="invisible" />
 
 
-            <ImageButton
-                android:id="@+id/ib_plus"
+                <TextView
+                    android:id="@+id/tv_number"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
+                    android:text="11"
+                    android:visibility="invisible" />
 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:padding="5dp"
-                android:src="@mipmap/icon_plus" />
+
+                <ImageButton
+                    android:id="@+id/ib_plus"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:padding="3dp"
+                    android:src="@mipmap/icon_plus" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#FFD9D9D9" />
 </LinearLayout>

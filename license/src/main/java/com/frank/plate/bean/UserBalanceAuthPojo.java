@@ -9,9 +9,9 @@ public class UserBalanceAuthPojo {
     //备注
     private String remark;
     //银行卡id
-    private Integer bankId;
+    private int bankId;
 
-    public UserBalanceAuthPojo(float balance, Integer bankId) {
+    public UserBalanceAuthPojo(float balance, int bankId) {
         this.balance = balance;
         this.bankId = bankId;
     }
@@ -32,11 +32,11 @@ public class UserBalanceAuthPojo {
         this.remark = remark;
     }
 
-    public Integer getBankId() {
+    public int getBankId() {
         return bankId;
     }
 
-    public void setBankId(Integer bankId) {
+    public void setBankId(int bankId) {
         this.bankId = bankId;
     }
 }

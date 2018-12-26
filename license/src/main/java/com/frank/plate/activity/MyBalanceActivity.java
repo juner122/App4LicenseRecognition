@@ -32,6 +32,12 @@ public class MyBalanceActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("我的余额");
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         Api().balanceInfo().subscribe(new RxSubscribe<MyBalanceEntity>(this, true) {
             @Override
             protected void _onNext(MyBalanceEntity data) {
@@ -50,7 +56,6 @@ public class MyBalanceActivity extends BaseActivity {
                 ToastUtils.showToast("获取余额失败:" + message);
             }
         });
-
 
     }
 
@@ -88,6 +93,7 @@ public class MyBalanceActivity extends BaseActivity {
                         if (bankList.getList().size() > 0 && bankList.getList().get(0).getType() == 2) {
 
                             new AppPreferences(MyBalanceActivity.this).put("bank_id", bankList.getList().get(0).getId());
+                            new AppPreferences(MyBalanceActivity.this).put("band_num", bankList.getList().get(0).getBankNum());
                             toActivity(CashWithdrawActivity.class);
                         } else {
                             toActivity(AuthenActivity.class);

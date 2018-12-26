@@ -14,6 +14,7 @@ import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
 
@@ -115,7 +116,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
 
 
-        all_price.append(String.valueOf((goodsPrice + ServerPrice)));
+        all_price.append(MathUtil.twoDecimal(goodsPrice + ServerPrice));
     }
 
     @Override

@@ -1,22 +1,13 @@
 package com.frank.plate.bean;
 
 public class ActivityEntity {
+    ActivityEntityItem activity;
 
-
-    BasePage<ActivityEntityItem> page;
-
-    public BasePage<ActivityEntityItem> getPage() {
-        return page;
+    public ActivityEntityItem getActivity() {
+        return activity;
     }
 
-    public void setPage(BasePage<ActivityEntityItem> page) {
-        this.page = page;
-    }
-
-    @Override
-    public String toString() {
-        return "ActivityEntity{" +
-                "page=" + page +
-                '}';
+    public void setActivity(ActivityEntityItem activity) {
+        this.activity = activity;
     }
 }

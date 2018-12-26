@@ -59,7 +59,7 @@ public class ShopInfoActivity extends BaseActivity {
 
                     @Override
                     public int getLayoutId() {
-                        return R.layout.item_car_info_pic;
+                        return R.layout.activity_shop_info_pic_item;
                     }
 
 
@@ -98,7 +98,7 @@ public class ShopInfoActivity extends BaseActivity {
 
             imageView = itemView.findViewById(R.id.iv);
 
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
         }
 
         @Override
@@ -115,7 +115,8 @@ public class ShopInfoActivity extends BaseActivity {
 
 
     @OnClick({R.id.tv_more})
-    public void onClick() {
+    public void onClick(View v) {
+
 
 
         ToastUtils.showToast("暂无评论");

@@ -26,7 +26,7 @@ public class SimpleServiceInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseV
 
         helper.setText(R.id.name, item.getName())
                 .setText(R.id.price, null != item.getPrice() ? "￥" + item.getPrice() : "免费")
-                .setText(R.id.tv_number, String.valueOf(item.getNumberString()));
+                .setText(R.id.tv_number, String.valueOf(item.getNumberStringX()));
 
 
         if (!isShowPlusAndReduce) {

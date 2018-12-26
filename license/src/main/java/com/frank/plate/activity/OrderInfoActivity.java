@@ -31,6 +31,8 @@ import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
 
+import org.opencv.core.Mat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -181,11 +183,22 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
             case R.id.but_meal_list:
 
-                toActivity(ServeListActivity.class, Configure.isShow, 1);
+
+                Intent intent2 = new Intent(this, ServeListActivity.class);
+                intent2.putExtra(Configure.isShow, 1);
+                intent2.putExtra(Configure.isFixOrder, true);
+                startActivity(intent2);
+
                 break;
 
             case R.id.but_product_list://选择商品
-                toActivity(ProductMealListActivity.class, Configure.user_id, info.getOrderInfo().getUser_id());
+
+                Intent intent = new Intent(this, ProductMealListActivity.class);
+                intent.putExtra(Configure.user_id, info.getOrderInfo().getUser_id());
+                intent.putExtra(Configure.isFixOrder, true);
+                startActivity(intent);
+
+
                 break;
 
             case R.id.tv_pick_technician://选择技师
@@ -328,6 +341,11 @@ public class OrderInfoActivity extends BaseActivity {
         pay_status = info.getOrderInfo().getPay_status();
         order_status = info.getOrderInfo().getOrder_status();
 
+        productList = info.getOrderInfo().getGoodsList();
+        server = info.getOrderInfo().getSkillList();
+        meal = info.getOrderInfo().getUserActivityList();
+
+
         setRTitle(info.getOrderInfo().getOrder_status_text());
 
         tv_order_sn.setText(String.valueOf("订单号:" + info.getOrderInfo().getOrder_sn()));
@@ -410,9 +428,13 @@ public class OrderInfoActivity extends BaseActivity {
         tv_price3.setText(String.valueOf("-￥" + (MathUtil.twoDecimal(info.getOrderInfo().getOrder_price() - info.getOrderInfo().getActual_price()))));//优惠金额
 
 
-        productList = info.getOrderInfo().getGoodsList();
-        server = info.getOrderInfo().getSkillList();
-        meal = info.getOrderInfo().getUserActivityList();
+        double goodsPrice = String2Utils.getOrderGoodsPrice(productList);
+
+        double ServerPrice = String2Utils.getOrderServicePrice(server);
+
+        tv_goods_price.setText(String.valueOf("已选：￥" + MathUtil.twoDecimal(goodsPrice)));
+
+        tv_goods_price2.setText(String.valueOf("已选：￥" + MathUtil.twoDecimal(ServerPrice)));
 
 
         adpter1 = new SimpleGoodInfoAdpter(productList, false);
@@ -460,9 +482,9 @@ public class OrderInfoActivity extends BaseActivity {
 
         double ServerPrice = String2Utils.getOrderServicePrice(server);
 
-        tv_goods_price.setText(String.valueOf("已选：￥" + goodsPrice));
+        tv_goods_price.setText(String.valueOf("已选：￥" + MathUtil.twoDecimal(goodsPrice)));
 
-        tv_goods_price2.setText(String.valueOf("已选：￥" + ServerPrice));
+        tv_goods_price2.setText(String.valueOf("已选：￥" + MathUtil.twoDecimal(ServerPrice)));
 
 
         tv_price1.setText(String.valueOf("￥" + (goodsPrice + ServerPrice)));

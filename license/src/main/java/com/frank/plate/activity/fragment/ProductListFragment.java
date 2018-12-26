@@ -75,7 +75,7 @@ public class ProductListFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productListAdapter = new ProductListAdapter(this, null, isShow);
+        productListAdapter = new ProductListAdapter(this, list, isShow);
         recyclerView.setAdapter(productListAdapter);
         productListAdapter.setEmptyView(R.layout.order_list_empty_view_p, recyclerView);
 
@@ -87,6 +87,7 @@ public class ProductListFragment extends BaseFragment {
 
                     TextView tv_number = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_number);
                     TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
+                    View ib_reduce = adapter.getViewByPosition(recyclerView, position, R.id.ib_reduce);//减号
 
 
                     int number = list.get(position).getNumber();//获取
@@ -97,6 +98,10 @@ public class ProductListFragment extends BaseFragment {
                                 return;
                             }
                             number++;
+                            if (number > 0) {
+                                ib_reduce.setVisibility(View.VISIBLE);//显示减号
+                                tv_number.setVisibility(View.VISIBLE);
+                            }
 
                             tv_number.setText(String.valueOf(number));
 
@@ -106,7 +111,7 @@ public class ProductListFragment extends BaseFragment {
 
                             sendMsg(Double.parseDouble(list.get(position).getRetail_price()));
 
-                            adapter.notifyDataSetChanged();
+
 
                             break;
 
@@ -115,7 +120,7 @@ public class ProductListFragment extends BaseFragment {
 
                             tv_number.setText(String.valueOf(number));
                             if (number == 0) {
-                                view.setVisibility(View.INVISIBLE);//隐藏减号
+                                ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
                                 tv_number.setVisibility(View.INVISIBLE);
                             }
 
@@ -125,7 +130,6 @@ public class ProductListFragment extends BaseFragment {
                             sendMsg(-Double.parseDouble(list.get(position).getRetail_price()));
 
 
-                            adapter.notifyDataSetChanged();
                             break;
 
                         case R.id.tv_product_value:
@@ -174,6 +178,8 @@ public class ProductListFragment extends BaseFragment {
                         list.get(positions).setPrimary_pic_url(pick_value.getList_pic_url());
                         list.get(positions).setGoods_specifition_name_value(pick_value.getValue());
                         list.get(positions).setGoods_sn(pick_value.getGoods_sn());
+                        productListAdapter.setNewData(list);
+
                     }
 
                     @Override
@@ -215,5 +221,6 @@ public class ProductListFragment extends BaseFragment {
     protected String setTAG() {
         return TAG;
     }
+
 
 }

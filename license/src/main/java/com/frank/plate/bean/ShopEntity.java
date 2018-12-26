@@ -14,6 +14,7 @@ public class ShopEntity implements Parcelable {
     String phone;
     String status;
     String detail;
+    String image;
     String createTime;
     List<ShopImage> shopImageList;
 
@@ -23,6 +24,14 @@ public class ShopEntity implements Parcelable {
 
     public void setShopImageList(List<ShopImage> shopImageList) {
         this.shopImageList = shopImageList;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getId() {

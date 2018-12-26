@@ -80,6 +80,13 @@ public class OrderListFragment extends BaseFragment {
 
     }
 
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        getData();
+
+    }
+
     private void initData() {
         ola = new OrderListAdapter(R.layout.item_fragment2_main, list, getContext());
 
@@ -156,15 +163,15 @@ public class OrderListFragment extends BaseFragment {
                                     else
                                         sendOrderInfo(OrderPayActivity.class, orderInfo);
                                 } else
-                                    Toast.makeText(getContext(), "订单已完成", Toast.LENGTH_SHORT).show();
 
+                                    ToastUtils.showToast("订单已完成");
 
                             }
 
                             @Override
                             protected void _onError(String message) {
                                 Log.d(getTag(), message);
-                                Toast.makeText(getContext(), "查找订单失败", Toast.LENGTH_SHORT).show();
+                                ToastUtils.showToast("查找订单失败");
                             }
                         });
                 }
@@ -172,11 +179,13 @@ public class OrderListFragment extends BaseFragment {
         });
 
 
-        getData();
 
     }
 
     private void getData() {
+
+        Log.e("订单列表++++","getData()");
+
         Api().orderList(order_status, pay_status, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
@@ -210,10 +219,12 @@ public class OrderListFragment extends BaseFragment {
 
                 if (basePage.getList().size() == 0) {
                     ToastUtils.showToast("没有更多了！");
+
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
                     return;
                 }
 
-                list = basePage.getList();
+                list.addAll(basePage.getList());
                 ola.addData(list);
             }
 

@@ -3,6 +3,7 @@ package com.frank.plate.activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.frank.plate.Configure;
+import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 import com.frank.plate.activity.fragment.ProductFragment;
 import com.frank.plate.activity.fragment.ProductMealFragment;
@@ -42,16 +44,21 @@ public class ProductMealListActivity extends BaseActivity {
 
     private double TotalPrice;//总价格
 
-
+    boolean isFixOrder;
 
     @Override
     protected void init() {
         tv_title.setText("商品套餐列表");
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
+        isFixOrder = getIntent().getBooleanExtra(Configure.isFixOrder, false);
+
+        if (isFixOrder)//是否是修改订单 清空购物车
+            MyApplication.cartUtils.deleteAllData();
 
 
         fragments.add(new ProductFragment());
         fragments.add(ProductMealFragment.getInstance(user_id));
+
 
     }
 
@@ -65,8 +72,6 @@ public class ProductMealListActivity extends BaseActivity {
     protected void setUpData() {
 
     }
-
-
 
 
     @Override
@@ -88,6 +93,7 @@ public class ProductMealListActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.but_enter_order:
+                Log.e("购物车+++", MyApplication.cartUtils.getDataFromLocal().toString());
 
                 finish();
                 break;
@@ -96,7 +102,6 @@ public class ProductMealListActivity extends BaseActivity {
 
 
     }
-
 
 
 }

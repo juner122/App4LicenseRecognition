@@ -75,8 +75,6 @@ public class AuthenActivity extends BaseActivity {
                     card = bankList.getList().get(0);
                     initView();
                 }
-
-
             }
 
             @Override
@@ -239,7 +237,8 @@ public class AuthenActivity extends BaseActivity {
         Api().bankSave(card).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                Toast.makeText(AuthenActivity.this, "认证成功！", Toast.LENGTH_SHORT).show();
+
+                ToastUtils.showToast("认证成功！");
                 finish();
             }
 

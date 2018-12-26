@@ -14,7 +14,6 @@ public class GoodsEntity implements Parcelable {
     String brand_id;
 
 
-
     String keywords;
     String goods_brief;
     String goods_desc;
@@ -43,7 +42,6 @@ public class GoodsEntity implements Parcelable {
     String market_price;
 
 
-
     public int getProduct_id() {
         return product_id;
     }
@@ -56,6 +54,7 @@ public class GoodsEntity implements Parcelable {
         this.name = name;
         this.isSet = isSet;
     }
+
     public boolean isSet() {
         return isSet;
     }
@@ -65,7 +64,7 @@ public class GoodsEntity implements Parcelable {
     }
 
     public String getGoods_specifition_name_value() {
-        return goods_specifition_name_value;
+        return product_id == 0 ? "选择规格" : goods_specifition_name_value;
     }
 
     public void setGoods_specifition_name_value(String goods_specifition_name_value) {
@@ -198,6 +197,10 @@ public class GoodsEntity implements Parcelable {
     public String getNumberString() {
         return number == 0 ? "" : String.valueOf(number);
 
+    }
+
+    public String getNumberStringX() {
+        return number == 0 ? "" : String.valueOf("x"+number);
     }
 
     public void setNumber(int number) {
@@ -356,4 +359,36 @@ public class GoodsEntity implements Parcelable {
             return new GoodsEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "GoodsEntity{" +
+                "type=" + type +
+                ", isSet=" + isSet +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", goods_sn='" + goods_sn + '\'' +
+                ", brand_id='" + brand_id + '\'' +
+                ", keywords='" + keywords + '\'' +
+                ", goods_brief='" + goods_brief + '\'' +
+                ", goods_desc='" + goods_desc + '\'' +
+                ", category_id='" + category_id + '\'' +
+                ", list_pic_url='" + list_pic_url + '\'' +
+                ", easy_id=" + easy_id +
+                ", number=" + number +
+                ", price='" + price + '\'' +
+                ", is_hot=" + is_hot +
+                ", activitySn='" + activitySn + '\'' +
+                ", activityId=" + activityId +
+                ", activityName='" + activityName + '\'' +
+                ", goodsNum=" + goodsNum +
+                ", goodsId=" + goodsId +
+                ", goodsName='" + goodsName + '\'' +
+                ", goods_specifition_name_value='" + goods_specifition_name_value + '\'' +
+                ", goods_specifition_ids='" + goods_specifition_ids + '\'' +
+                ", product_id=" + product_id +
+                ", retail_price='" + retail_price + '\'' +
+                ", market_price='" + market_price + '\'' +
+                '}';
+    }
 }

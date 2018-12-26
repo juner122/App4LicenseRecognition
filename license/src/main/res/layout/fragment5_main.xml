@@ -74,17 +74,16 @@
         android:textSize="14sp" />
 
 
-
     <TextView
         android:id="@+id/auth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/button_check_selector"
         android:drawableLeft="@mipmap/icon_renzheng"
         android:drawablePadding="29dp"
         android:gravity="center_vertical"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
         android:padding="15dp"
         android:text="我的认证"
         android:textColor="#ff000000"
@@ -119,22 +118,20 @@
         android:textSize="14sp" />
 
 
-
     <TextView
         android:id="@+id/updata"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
         android:background="@drawable/button_check_selector"
         android:drawableLeft="@mipmap/icon_updata"
         android:drawablePadding="29dp"
         android:gravity="center_vertical"
         android:padding="15dp"
         android:text="检查更新"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
         android:textColor="#ff000000"
         android:textSize="14sp" />
-
 
 
     <TextView

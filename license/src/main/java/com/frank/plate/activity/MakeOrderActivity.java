@@ -210,10 +210,23 @@ public class MakeOrderActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
-                toActivity(ProductMealListActivity.class, Configure.user_id, user_id);
+
+
+                Intent intent = new Intent(this, ProductMealListActivity.class);
+                intent.putExtra(Configure.user_id, user_id);
+                intent.putExtra(Configure.isFixOrder, false);
+                startActivity(intent);
+
+
                 break;
             case R.id.but_meal_list:
-                toActivity(ServeListActivity.class, Configure.isShow, 1);
+
+
+                Intent intent2 = new Intent(this, ServeListActivity.class);
+                intent2.putExtra(Configure.isShow, 1);
+                intent2.putExtra(Configure.isFixOrder, false);
+                startActivity(intent2);
+
                 break;
             case R.id.but_to_technician_list:
 
@@ -342,6 +355,10 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
     private void onMakeOrder() {
+        if (cartUtils.isNull()) {
+            ToastUtils.showToast("请最少选择一项商品或服务");
+            return;
+        }
 
         if (null == technicians || technicians.size() == 0) {
             ToastUtils.showToast("请最少选择一个技师");

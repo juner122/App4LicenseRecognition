@@ -126,6 +126,7 @@ public class BillListActivity extends BaseActivity {
             public void onTimeSelect(Date date, View v) {
 
                 ((TextView) v).setText(getFormatedDateTime(date));
+                endShowDate.setTime(date);
                 setUpDateData();
             }
         });
@@ -188,7 +189,7 @@ public class BillListActivity extends BaseActivity {
     }
 
     private void setUpDateData() {
-        Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime()).subscribe(new RxSubscribe<BillEntity>(this, true) {
+        Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime(), isShowAll).subscribe(new RxSubscribe<BillEntity>(this, true) {
             @Override
             protected void _onNext(BillEntity bean) {
                 list = bean.getList();
@@ -199,7 +200,7 @@ public class BillListActivity extends BaseActivity {
             protected void _onError(String message) {
 
                 Log.d(TAG, message);
-                Toast.makeText(BillListActivity.this, "查找账单失败，请重试！", Toast.LENGTH_SHORT).show();
+                ToastUtils.showToast("查找账单失败:" + message);
             }
         });
 

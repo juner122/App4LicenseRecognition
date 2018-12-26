@@ -326,7 +326,13 @@ public class OrderPayActivity extends BaseActivity {
 
                 ToastUtils.showToast("收款成功");
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
+
+
+
                     toMain(1);
+
+
+
                 } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
                     toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, infoEntity.getOrderInfo().getId());
             }
