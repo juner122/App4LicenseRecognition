@@ -43,29 +43,80 @@
             android:background="#1A000000" />
 
         <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="25dp"
-            android:paddingRight="25dp">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:layout_marginBottom="2dp"
-                android:src="@mipmap/icon_bottom_button3_unselect" />
-
-
-            <TextView
+            <View
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="接单"
-                android:textColor="#66000000"
-                android:textSize="12sp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:visibility="invisible" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+
+
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp">
+
+                <ImageView
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@mipmap/icon_bottom_button3_unselect" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="接单"
+                    android:textColor="#66000000"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+            <View
+                android:id="@+id/ll2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:visibility="invisible" />
 
         </LinearLayout>
+
 
     </LinearLayout>
 

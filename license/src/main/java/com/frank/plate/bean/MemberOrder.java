@@ -3,6 +3,7 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemberOrder implements Parcelable {
@@ -11,7 +12,7 @@ public class MemberOrder implements Parcelable {
 
     List<OrderInfoEntity> orderList;
 
-    List<CarEntity> carList;
+    List<CarInfoRequestParameters> carList;
 
     public MemberEntity getMember() {
         return member;
@@ -29,12 +30,15 @@ public class MemberOrder implements Parcelable {
         this.orderList = orderList;
     }
 
-    public List<CarEntity> getCarList() {
+    public List<CarInfoRequestParameters> getCarList() {
         return carList;
     }
 
-    public void setCarList(List<CarEntity> carList) {
+    public void setCarList(List<CarInfoRequestParameters> carList) {
         this.carList = carList;
+    }
+
+    public MemberOrder() {
     }
 
     @Override
@@ -46,16 +50,14 @@ public class MemberOrder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.member, flags);
         dest.writeTypedList(this.orderList);
-        dest.writeTypedList(this.carList);
-    }
-
-    public MemberOrder() {
+        dest.writeList(this.carList);
     }
 
     protected MemberOrder(Parcel in) {
         this.member = in.readParcelable(MemberEntity.class.getClassLoader());
         this.orderList = in.createTypedArrayList(OrderInfoEntity.CREATOR);
-        this.carList = in.createTypedArrayList(CarEntity.CREATOR);
+        this.carList = new ArrayList<CarInfoRequestParameters>();
+        in.readList(this.carList, CarInfoRequestParameters.class.getClassLoader());
     }
 
     public static final Creator<MemberOrder> CREATOR = new Creator<MemberOrder>() {

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
+
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,7 +14,7 @@ import com.frank.plate.R;
 import com.frank.plate.adapter.TechnicianAdpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.BasePage;
-import com.frank.plate.bean.CarEntity;
+
 import com.frank.plate.bean.Technician;
 
 import java.util.ArrayList;

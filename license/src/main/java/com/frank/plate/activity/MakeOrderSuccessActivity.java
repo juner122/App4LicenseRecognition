@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfo2Adpter;
+import com.frank.plate.adapter.SimpleServerInfo2Adpter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.NullDataEntity;
 import com.frank.plate.bean.OrderInfo;
@@ -51,10 +52,13 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
+    @BindView(R.id.rv_servers)
+    RecyclerView rv_servers;
 
 
     OrderInfo info;
     SimpleGoodInfo2Adpter simpleGoodInfo2Adpter;
+    SimpleServerInfo2Adpter serverInfo2Adpter;
 
 
     @Override
@@ -106,6 +110,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsAndSkillList());
+        serverInfo2Adpter = new SimpleServerInfo2Adpter(info.getOrderInfo().getSkillList());
 
 
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
@@ -114,6 +119,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
+
+        rv_servers.setLayoutManager(new LinearLayoutManager(this));
+        rv_servers.setAdapter(serverInfo2Adpter);
 
 
         all_price.append(MathUtil.twoDecimal(goodsPrice + ServerPrice));

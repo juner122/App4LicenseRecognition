@@ -1,12 +1,16 @@
 package com.frank.plate.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
 //添加车况 传参方式为一个对象
-public class CarInfoRequestParameters {
+public class CarInfoRequestParameters extends SelectedBean implements Parcelable {
 
-
+    private int id;
     private String userId;
     private String carNo;
     private int brandId;
@@ -14,7 +18,7 @@ public class CarInfoRequestParameters {
     private int nameId;
     private String name;
     private String postscript;
-    private int id;
+
 
     public int getId() {
         return id;
@@ -75,7 +79,7 @@ public class CarInfoRequestParameters {
     }
 
     public String getPostscript() {
-        return postscript;
+        return null == postscript || postscript.equals("") ? "暂无备注" : postscript;
     }
 
     public void setPostscript(String postscript) {
@@ -107,4 +111,49 @@ public class CarInfoRequestParameters {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.userId);
+        dest.writeString(this.carNo);
+        dest.writeInt(this.brandId);
+        dest.writeString(this.brand);
+        dest.writeInt(this.nameId);
+        dest.writeString(this.name);
+        dest.writeString(this.postscript);
+        dest.writeList(this.imagesList);
+    }
+
+    public CarInfoRequestParameters() {
+    }
+
+    protected CarInfoRequestParameters(Parcel in) {
+        this.id = in.readInt();
+        this.userId = in.readString();
+        this.carNo = in.readString();
+        this.brandId = in.readInt();
+        this.brand = in.readString();
+        this.nameId = in.readInt();
+        this.name = in.readString();
+        this.postscript = in.readString();
+        this.imagesList = new ArrayList<UpDataPicEntity>();
+        in.readList(this.imagesList, UpDataPicEntity.class.getClassLoader());
+    }
+
+    public static final Creator<CarInfoRequestParameters> CREATOR = new Creator<CarInfoRequestParameters>() {
+        @Override
+        public CarInfoRequestParameters createFromParcel(Parcel source) {
+            return new CarInfoRequestParameters(source);
+        }
+
+        @Override
+        public CarInfoRequestParameters[] newArray(int size) {
+            return new CarInfoRequestParameters[size];
+        }
+    };
 }

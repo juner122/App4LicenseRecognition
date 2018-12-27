@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -88,6 +89,8 @@ public class BillListActivity extends BaseActivity {
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
 
                 toActivity(BillListItemInfoActivity.class, Configure.order_on, list.get(position).getOrderSn());
             }

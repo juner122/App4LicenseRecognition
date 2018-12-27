@@ -11,7 +11,7 @@ public class QueryByCarEntity implements Parcelable {
 
 
     private List<OrderInfoEntity> orders;
-    private List<CarEntity> carList;
+    private List<CarInfoRequestParameters> carList;
     private UserEntity member;
 
     public List<OrderInfoEntity> getOrders() {
@@ -22,11 +22,11 @@ public class QueryByCarEntity implements Parcelable {
         this.orders = orders;
     }
 
-    public List<CarEntity> getCarList() {
+    public List<CarInfoRequestParameters> getCarList() {
         return carList;
     }
 
-    public void setCarList(List<CarEntity> carList) {
+    public void setCarList(List<CarInfoRequestParameters> carList) {
         this.carList = carList;
     }
 
@@ -47,6 +47,7 @@ public class QueryByCarEntity implements Parcelable {
                 '}';
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,7 +56,7 @@ public class QueryByCarEntity implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(this.orders);
-        dest.writeTypedList(this.carList);
+        dest.writeList(this.carList);
         dest.writeParcelable(this.member, flags);
     }
 
@@ -64,7 +65,8 @@ public class QueryByCarEntity implements Parcelable {
 
     protected QueryByCarEntity(Parcel in) {
         this.orders = in.createTypedArrayList(OrderInfoEntity.CREATOR);
-        this.carList = in.createTypedArrayList(CarEntity.CREATOR);
+        this.carList = new ArrayList<CarInfoRequestParameters>();
+        in.readList(this.carList, CarInfoRequestParameters.class.getClassLoader());
         this.member = in.readParcelable(UserEntity.class.getClassLoader());
     }
 

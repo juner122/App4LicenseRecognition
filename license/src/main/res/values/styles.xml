@@ -33,7 +33,20 @@
     <style name="preview_car_number">
         <item name="android:maxLines">1</item>
         <item name="android:maxLength">1</item>
-        <item name="android:digits">0123456789QWERTYUIOPLKJHGFDSAZXCVBNM</item>
+        <item name="android:digits">0123456789QqwertyuiopasdfghjklzxcvbnmWERTYUIOPLKJHGFDSAZXCVBNM</item>
+
+
+    </style>
+
+    <style name="my_list_item">
+        <item name="android:background">@drawable/button_check_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff000000</item>
 
 
     </style>

@@ -5,9 +5,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
-import com.frank.plate.Configure;
+
 import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.MealEntity;
+import com.frank.plate.bean.Server;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -113,6 +114,11 @@ public class CartUtils {
         good.setType(2);
 
         addData(good);
+    }
+
+    public void addServieData(Server server) {
+
+
     }
 
     public void addProductData(GoodsEntity good) {
@@ -278,6 +284,8 @@ public class CartUtils {
     }
 
 
+
+    //商品
     private List<GoodsEntity> sparsesToList() {
         List<GoodsEntity> carts = new ArrayList<>();
         if (data != null && data.size() > 0) {

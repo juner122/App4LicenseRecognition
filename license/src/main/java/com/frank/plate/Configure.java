@@ -34,7 +34,7 @@ public class Configure {
 
     public static final String show_fragment = "fragment";//
     public static final String JSON_CART = "JSON_CART";//
-    public static final String JSON_CART2 = "JSON_CART2";//
+    public static final String JSON_ServerCART = "JSON_ServerCART";//
     public static final String CARID = "carid";//
     public static final String CARINFO = "carinfo";//
 
@@ -51,6 +51,8 @@ public class Configure {
 
 
     public static final String isFixOrder = "isFixOrder";//是否是修改订单
+    public static final String pick_servers = "pick_servers";//选择的服务列表
+    public static final String Class = "Calss";//选择的服务列表的activity
 
 
 

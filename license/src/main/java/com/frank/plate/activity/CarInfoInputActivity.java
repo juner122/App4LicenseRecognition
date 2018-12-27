@@ -1,7 +1,6 @@
 package com.frank.plate.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.frank.plate.adapter.GridImageAdapter;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
-import com.frank.plate.bean.CarEntity;
 
 import com.frank.plate.bean.CarInfoRequestParameters;
 
@@ -113,7 +111,8 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
     int type_action;//页面逻辑  1 添加车况 2修改车况
-    CarEntity carEntity;//上个页面转递
+    CarInfoRequestParameters carEntity;//
+    int car_id;//上个页面转递
 
 
     @OnClick({R.id.tv_enter_order, R.id.tv_car_model})
@@ -130,7 +129,7 @@ public class CarInfoInputActivity extends BaseActivity {
             case R.id.tv_enter_order:
 
                 if (TextUtils.isEmpty(tv_car_no.getText())) {
-                    Toast.makeText(CarInfoInputActivity.this, "请正确填写车牌号码！", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast("请正确填写车牌号码！");
                     return;
                 }
 
@@ -168,24 +167,29 @@ public class CarInfoInputActivity extends BaseActivity {
     protected void init() {
 
 
-        carEntity = getIntent().getParcelableExtra(Configure.CARINFO);
+
+        car_id = getIntent().getIntExtra(Configure.CARID,0);
+
+
         tv_car_no.setTransformationMethod(new A2bigA());
-        if (null == carEntity) {
+        if (0 == car_id) {
 
             tv_car_no.setFocusable(true);
             tv_title.setText("车况录入");
             type_action = 1;
             tv_car_no.setText(new AppPreferences(this).getString(Configure.car_no, ""));
         } else {
-            tv_car_no.setText(carEntity.getCarNo());
+
             tv_car_no.setFocusable(false);
             tv_title.setText("车况确认");
             type_action = 2;
 
 
-            Api().showCarInfo(carEntity.getId()).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
+            Api().showCarInfo(car_id).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
                 @Override
                 protected void _onNext(CarInfoRequestParameters o) {
+                    carEntity = o;
+                    tv_car_no.setText(carEntity.getCarNo());
                     tv_car_model.setText(o.getBrand() + "\t" + o.getName());
                     et_remarks.setText(o.getPostscript());
 
@@ -247,7 +251,7 @@ public class CarInfoInputActivity extends BaseActivity {
         recyclerView2.setLayoutManager(manager2);
         recyclerView3.setLayoutManager(manager3);
 
-        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector, onItemDeleteListener,true);
+        adapter = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode1, pictureSelector, onItemDeleteListener, true);
         adapter.setList(showlist);
         adapter.setSelectMax(maxSelectNum);
         recyclerView1.setAdapter(adapter);
@@ -263,7 +267,7 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2, onItemDeleteListener,true);
+        adapter2 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode2, pictureSelector2, onItemDeleteListener, true);
         adapter2.setList(showlist2);
         adapter2.setSelectMax(maxSelectNum);
         recyclerView2.setAdapter(adapter2);
@@ -278,7 +282,7 @@ public class CarInfoInputActivity extends BaseActivity {
             }
         });
 
-        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3, onItemDeleteListener,true);
+        adapter3 = new GridImageAdapter(CarInfoInputActivity.this, onAddPicClickListener, requestCode3, pictureSelector3, onItemDeleteListener, true);
         adapter3.setList(showlist3);
         adapter3.setSelectMax(maxSelectNum);
         recyclerView3.setAdapter(adapter3);

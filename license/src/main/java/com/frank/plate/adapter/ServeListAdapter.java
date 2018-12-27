@@ -1,39 +1,44 @@
 package com.frank.plate.adapter;
 
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
 
-import com.frank.plate.bean.GoodsEntity;
+import com.frank.plate.bean.Server;
+
 
 import java.util.List;
 
-public class ServeListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
+public class ServeListAdapter extends BaseQuickAdapter<Server, BaseViewHolder> {
 
-    Fragment fragment;
 
-    public ServeListAdapter(Fragment fragment, @Nullable List<GoodsEntity> data) {
-        super(R.layout.activity_server_list_fr_item, data);
-        this.fragment = fragment;
+    public ServeListAdapter(@Nullable List<Server> data) {
+        super(R.layout.activity_server_list_item, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GoodsEntity item) {
+    protected void convert(BaseViewHolder helper, Server item) {
 
 
         helper.setText(R.id.tv_product_name, item.getName())
-                .setText(R.id.tv_product_ts, item.getGoods_brief())
-                .setText(R.id.tv_price, String.format("￥%s", item.getRetail_price()));
+                .setText(R.id.tv_product_ts, item.getExplain())
+                .setText(R.id.tv_price, String.format("现价：￥%s", item.getPrice()));
+        TextView tv_market_price = helper.getView(R.id.tv_market_price);
+        //添加删除线
+        tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        tv_market_price.setText(String.format("市场价：￥%s", item.getMarketPrice()));
 
+        ImageView iv = helper.getView(R.id.iv);
 
-        Glide.with(fragment)
-                .load(item.getPrimary_pic_url())
-                .into((ImageView) helper.getView(R.id.iv_pic));
+        if (item.isSelected())
+            iv.setImageResource(R.mipmap.icon_pick);
+        else
+            iv.setImageResource(R.mipmap.icon_unpick);
+
     }
 }

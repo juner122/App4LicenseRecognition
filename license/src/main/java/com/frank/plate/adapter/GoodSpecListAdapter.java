@@ -1,12 +1,10 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
-import com.frank.plate.bean.CarEntity;
 import com.frank.plate.bean.GoodsSpec;
 
 import java.util.List;

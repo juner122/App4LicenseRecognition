@@ -14,10 +14,9 @@ import com.frank.plate.R;
 import com.frank.plate.adapter.OrderList2Adapter;
 import com.frank.plate.adapter.SimpleCarInfoAdpter;
 import com.frank.plate.api.RxSubscribe;
-import com.frank.plate.bean.CarEntity;
+import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.MemberOrder;
 import com.frank.plate.bean.OrderInfoEntity;
-import com.frank.plate.util.String2Utils;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -47,7 +46,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
     int user_id, car_id;
 
 
-    List<CarEntity> cars = new ArrayList<>();
+    List<CarInfoRequestParameters> cars = new ArrayList<>();
 
     @Override
     protected void init() {
@@ -72,7 +71,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 car_number = cars.get(position).getCarNo();
                 car_id = cars.get(position).getId();
 
-                for (CarEntity c : cars) {
+                for (CarInfoRequestParameters c : cars) {
                     c.setSelected(false);
                 }
 
@@ -88,10 +87,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                 //查看更新车况
-//                toActivity(CarInfoInputActivity.class, ((CarEntity) adapter.getData().get(position)), Configure.CARINFO);
                 Intent intent = new Intent(MemberManagementInfoActivity.this, CarInfoInputActivity.class);
                 intent.putExtra("result_code", 001);
-                intent.putExtra(Configure.CARINFO, ((CarEntity) adapter.getData().get(position)));
+                intent.putExtra(Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
                 reCarListInfo(intent);
 
 

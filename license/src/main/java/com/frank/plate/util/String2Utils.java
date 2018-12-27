@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.frank.plate.bean.GoodsEntity;
+import com.frank.plate.bean.Server;
 import com.frank.plate.bean.Technician;
 
 import java.util.List;
@@ -42,15 +43,15 @@ public class String2Utils {
     }
 
     //计算商品总价
-    public static double getOrderServicePrice(List<GoodsEntity> list) {
+    public static double getOrderServicePrice(List<Server> list) {
 
         if (null == list || list.size() == 0) return 0.00;
 
         double totalPrice = 0.00d;
 
-        for (GoodsEntity g : list) {
+        for (Server g : list) {
 
-                totalPrice = g.getPriceTodouble() + totalPrice;
+                totalPrice = g.getPrice() + totalPrice;
         }
         return totalPrice;
 

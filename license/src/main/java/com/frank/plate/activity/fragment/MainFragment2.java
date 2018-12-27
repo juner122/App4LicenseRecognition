@@ -44,6 +44,14 @@ public class MainFragment2 extends BaseFragment {
     @BindView(R.id.top_num2)
     TextView top_num2;
 
+    public TextView getTop_num1() {
+        return top_num1;
+    }
+
+    public TextView getTop_num2() {
+        return top_num2;
+    }
+
     @BindView(R.id.st)
     SlidingTabLayout stl;
     @BindView(R.id.vp)
@@ -51,6 +59,7 @@ public class MainFragment2 extends BaseFragment {
     private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
 
     ArrayList<Fragment> fragments = new ArrayList<>();
+
 
 
     @Override
@@ -64,9 +73,14 @@ public class MainFragment2 extends BaseFragment {
 
 
         stl.setViewPager(vp, title, getActivity(), fragments);
-        getData();
+//        getData();
     }
 
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        getData();
+    }
 
     private void getData() {
         Api().orderList().subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {

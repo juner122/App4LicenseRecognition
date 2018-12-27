@@ -70,7 +70,7 @@ public class ActivityEntityItem {
     }
 
     public String getActivityPrice() {
-        return activityPrice;
+        return null == activityPrice || activityPrice.equals("") ? "0.00" : activityPrice;
     }
 
     public void setActivityPrice(String activityPrice) {

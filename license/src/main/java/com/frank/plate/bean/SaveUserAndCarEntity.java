@@ -8,13 +8,13 @@ public class SaveUserAndCarEntity {
     int user_id;
     String car_id;
 
-    List<CarEntity> carList;
+    List<CarInfoRequestParameters> carList;
 
-    public List<CarEntity> getCarList() {
+    public List<CarInfoRequestParameters> getCarList() {
         return carList;
     }
 
-    public void setCarList(List<CarEntity> carList) {
+    public void setCarList(List<CarInfoRequestParameters> carList) {
         this.carList = carList;
     }
 

@@ -60,7 +60,7 @@ public class ProductListDialog extends Dialog {
 
 
         RecyclerView recyclerView = view.findViewById(R.id.rv);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 5));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
 
         ProductListAdpter c = new ProductListAdpter(valueList);
         recyclerView.setAdapter(c);

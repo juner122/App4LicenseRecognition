@@ -31,6 +31,7 @@ import com.frank.plate.bean.OrderInfoEntity;
 import com.frank.plate.bean.ProductList;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.ServerList;
 import com.frank.plate.bean.Shop;
 import com.frank.plate.bean.Technician;
 import com.frank.plate.bean.Token;
@@ -277,6 +278,13 @@ public class ApiLoader {
      */
     public Observable<CategoryBrandList> categoryServeList() {
         return apiService.categoryServeList(map).compose(RxHelper.<CategoryBrandList>observe());
+    }
+
+    /**
+     * 门店服务列表
+     */
+    public Observable<ServerList> goodsServeList() {
+        return apiService.goodsServeList(token).compose(RxHelper.<ServerList>observe());
     }
 
     /**

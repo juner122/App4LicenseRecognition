@@ -3,6 +3,8 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.frank.plate.util.MathUtil;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,17 +33,17 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String confirm_time;//确认时间
     Long planfinishi_time;//预计完成时间
     double order_price;//
-    int pay_type;
+    int pay_type;// 1嗨卡 11微信 21 掌贝 22 现金
     String discount_price;//自定义折扣
     String custom_cut_price;//自定义减免
+
     String goods_unit;//单位
 
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
-
     List<GoodsEntity> userActivityList;
 
-    List<GoodsEntity> skillList;
+    ArrayList<Server> skillList;
 
 
     public int getCoupon_id() {
@@ -52,11 +54,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.coupon_id = coupon_id;
     }
 
-    public List<GoodsEntity> getSkillList() {
+    public ArrayList<Server> getSkillList() {
         return skillList;
     }
 
-    public void setSkillList(List<GoodsEntity> skillList) {
+    public void setSkillList(ArrayList<Server> skillList) {
         this.skillList = skillList;
     }
 
@@ -68,6 +70,13 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.userActivityList = userActivityList;
     }
 
+
+    public double getYouweijie_price() {
+        if (discount_price.equals("0.00")) {
+            if (custom_cut_price.equals("0.00")) return 0.00d;
+            else return Double.parseDouble(custom_cut_price);
+        } else return Double.parseDouble(discount_price);
+    }
 
     public String getGoods_unit() {
         return goods_unit;
@@ -127,6 +136,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     public String getCustom_cut_price() {
         return custom_cut_price;
+
     }
 
     public void setCustom_cut_price(String custom_cut_price) {
@@ -150,7 +160,6 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
         List<GoodsEntity> list = new ArrayList<>();
         list.addAll(getGoodsList());
-        list.addAll(getSkillList());
         return list;
     }
 
@@ -400,7 +409,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
         this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
-        this.skillList = in.createTypedArrayList(GoodsEntity.CREATOR);
+        this.skillList = in.createTypedArrayList(Server.CREATOR);
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

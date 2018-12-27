@@ -14,6 +14,7 @@ import com.frank.plate.activity.fragment.MainFragment5;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.frank.plate.activity.fragment.MainFragmentPlate;
+import com.frank.plate.util.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -36,9 +37,17 @@ public class MainActivity extends BaseActivity {
             R.mipmap.icon_bottom_button1_select, R.mipmap.icon_bottom_button2_select,
             R.color.fff, R.mipmap.icon_bottom_button4_select, R.mipmap.icon_bottom_button5_select};
 
-    @OnClick({R.id.ll})
+    @OnClick({R.id.ll, R.id.ll2})
     public void onClick(View v) {
-        toActivity(PreviewActivity.class);
+        switch (v.getId()) {
+            case R.id.ll:
+                toActivity(PreviewActivity.class);
+                break;
+            case R.id.ll2:
+                ToastUtils.showToast("学院建设中！");
+
+                break;
+        }
     }
 
 

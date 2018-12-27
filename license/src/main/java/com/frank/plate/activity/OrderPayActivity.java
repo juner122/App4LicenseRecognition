@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -237,6 +238,12 @@ public class OrderPayActivity extends BaseActivity {
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
+
+                if (!TextUtils.isEmpty(et_discount.getText()) && !TextUtils.isEmpty(et_discount2.getText())) {
+                    ToastUtils.showToast("折扣和减免不能同享");
+                    return;
+                }
+
                 getPostInfo();
 
                 if (pay_type == 0)
@@ -292,12 +299,22 @@ public class OrderPayActivity extends BaseActivity {
 
     private void getPostInfo() {
 
+
         infoEntity.getOrderInfo().setPay_type(pay_type);
-
-        infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
-        infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
-
         infoEntity.getOrderInfo().setCoupon_id(null == c ? 0 : c.getId());
+
+        if (!TextUtils.isEmpty(et_discount.getText())) {
+
+            infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
+
+        } else if (!TextUtils.isEmpty(et_discount2.getText())) {
+            infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
+        } else {
+            infoEntity.getOrderInfo().setDiscount_price(null);
+            infoEntity.getOrderInfo().setCustom_cut_price(null);
+        }
+
+
     }
 
     @Override
@@ -319,6 +336,8 @@ public class OrderPayActivity extends BaseActivity {
 
 
     private void Pay() {
+
+
         // 确认支付
         Api().confirmPay(infoEntity.getOrderInfo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
@@ -327,10 +346,7 @@ public class OrderPayActivity extends BaseActivity {
                 ToastUtils.showToast("收款成功");
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
 
-
-
                     toMain(1);
-
 
 
                 } else if (infoEntity.getOrderInfo().getOrder_status() == 1)

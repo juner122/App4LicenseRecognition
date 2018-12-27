@@ -33,7 +33,7 @@ public class CarInfoActivity extends BaseActivity {
     @BindView(R.id.tv_car_model)
     TextView tv_car_model;
     @BindView(R.id.et_remarks)
-    EditText et_remarks;
+    TextView et_remarks;
 
     @BindView(R.id.recycler1)
     RecyclerView recyclerView1;
@@ -63,9 +63,9 @@ public class CarInfoActivity extends BaseActivity {
         pictureSelector2 = PictureSelector.create(CarInfoActivity.this);
         pictureSelector3 = PictureSelector.create(CarInfoActivity.this);
 
-        adapter = new GridImageAdapter(CarInfoActivity.this, null, requestCode1, pictureSelector, null,false);
-        adapter2 = new GridImageAdapter(CarInfoActivity.this, null, requestCode2, pictureSelector, null,false);
-        adapter3 = new GridImageAdapter(CarInfoActivity.this, null, requestCode3, pictureSelector, null,false);
+        adapter = new GridImageAdapter(CarInfoActivity.this, null, requestCode1, pictureSelector, null, false);
+        adapter2 = new GridImageAdapter(CarInfoActivity.this, null, requestCode2, pictureSelector, null, false);
+        adapter3 = new GridImageAdapter(CarInfoActivity.this, null, requestCode3, pictureSelector, null, false);
 
         recyclerView1.setAdapter(adapter);
         recyclerView2.setAdapter(adapter2);
@@ -77,6 +77,7 @@ public class CarInfoActivity extends BaseActivity {
             protected void _onNext(CarInfoRequestParameters o) {
                 tv_car_model.setText(o.getBrand() + "\t" + o.getName());
                 tv_car_no.setText(o.getCarNo());
+                et_remarks.setText(o.getPostscript());
                 final List<LocalMedia> localMedia1 = new ArrayList<>();
                 final List<LocalMedia> localMedia2 = new ArrayList<>();
                 final List<LocalMedia> localMedia3 = new ArrayList<>();

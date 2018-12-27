@@ -59,11 +59,11 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.CarInfoInputActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.MakeOrderActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTask" />
         <activity android:name=".activity.MealListActivity" />
         <activity android:name=".activity.TechnicianListActivity" />
         <activity android:name=".activity.MakeOrderSuccessActivity" />
@@ -74,7 +74,9 @@
         <activity android:name=".activity.OrderDoneActivity" />
         <activity android:name=".activity.MyBalanceActivity" />
         <activity android:name=".activity.BillListItemInfoActivity" />
-        <activity android:name=".activity.OrderInfoActivity" android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.OrderInfoActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.AutoBrandActivity" />
         <activity
             android:name=".activity.PreviewActivity"
@@ -101,8 +103,9 @@
             android:name=".activity.ServeListActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".activity.WeiXinPayCodeActivity" />
-        <activity android:name=".activity.CashWithdrawalActivity" />
-        <activity android:name=".activity.ProductMealListActivity" android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".activity.ProductMealListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>

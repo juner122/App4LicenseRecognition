@@ -1,44 +1,40 @@
 package com.frank.plate.activity;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.frank.plate.Configure;
 import com.frank.plate.MyApplication;
 import com.frank.plate.R;
 
-import com.frank.plate.activity.fragment.ServeListFragment;
 
+import com.frank.plate.adapter.ServeListAdapter;
 import com.frank.plate.api.RxSubscribe;
-import com.frank.plate.bean.Category;
-import com.frank.plate.bean.CategoryBrandList;
-import com.frank.plate.bean.GoodsEntity;
-import com.frank.plate.bean.GoodsListEntity;
 
+
+import com.frank.plate.bean.Server;
+import com.frank.plate.bean.ServerList;
+
+import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.ToastUtils;
 
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ServeListActivity extends BaseActivity {
-
-
-    @BindView(R.id.rg_type)
-    RadioGroup radioGroup;
 
 
     @BindView(R.id.et_key)
@@ -52,77 +48,69 @@ public class ServeListActivity extends BaseActivity {
     View ll;
     @BindView(R.id.ll_search)
     View ll_search;
+    @BindView(R.id.rv)
+    RecyclerView recyclerView;
 
-    ServeListFragment fragment;
-
-
-    Integer checkedTag;
-    List<Category> categories;
-
-    private double TotalPrice;//总价格
+    ServeListAdapter serveListAdapter;
+    List<Server> servers = new ArrayList<>();//所有数据
 
 
-    private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
-
-    public static int isShow;//是否显示选择数量和价格 0不显示  1显示
 
     @Override
     protected void init() {
         ll_search.setVisibility(View.GONE);
 
 
-        isShow = getIntent().getIntExtra(Configure.isShow, 0);
 
-        if (isShow == 0) {
-            ll.setVisibility(View.GONE);
-        } else {
-            ll.setVisibility(View.VISIBLE);
-        }
-
-
-        if (getIntent().getBooleanExtra(Configure.isFixOrder, false))//是否是修改订单 清空购物车
-            MyApplication.cartUtils.deleteAllData();
-
+        //计算总价
+        count();
 
         tv_title.setText("服务工时列表");
-        tv_totalPrice.append(String.valueOf(TotalPrice));
+
+        serveListAdapter = new ServeListAdapter(servers);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(serveListAdapter);
 
 
-        replaceFragment();
-
-        Api().categoryServeList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
+        Api().goodsServeList().subscribe(new RxSubscribe<ServerList>(this, true) {
             @Override
-            protected void _onNext(CategoryBrandList o) {
-                listMap.put(o.getCategoryList().get(0).getId() + "", o.getGoodList());//保存初始List<GoodsEntity> key为种类id+品牌id
+            protected void _onNext(ServerList o) {
 
-                fragment.switchData(o.getCategoryList().get(0).getId(), o.getGoodList());
-                categories = o.getCategoryList();
-                checkedTag = 0;
-                for (int i = 0; i < categories.size(); i++) {
-                    RadioButton radioButton = new RadioButton(ServeListActivity.this);
-                    RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, 1, 0, 0);
-                    radioButton.setPadding(0, 36, 0, 36);
-                    radioButton.setText(categories.get(i).getName());
-                    radioButton.setBackground(getResources().getDrawable(R.drawable.radiobutton_background_a));
-                    radioButton.setButtonDrawable(android.R.color.transparent);//隐藏单选圆形按钮
-                    radioButton.setGravity(Gravity.CENTER);
-                    radioButton.setLayoutParams(layoutParams);
-                    radioButton.setTag(i);
-                    radioButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showPopupWindow(view);
+                servers = o.getList();
+                for (Server ps : MyApplication.cartServerUtils.getServerList()) {
+                    for (int i = 0; i < servers.size(); i++) {
+                        if (ps.getId() == servers.get(i).getId()) {
+                            servers.get(i).setSelected(true);
                         }
-                    });
-
-                    radioGroup.addView(radioButton);
+                    }
                 }
+
+                serveListAdapter.setNewData(servers);
             }
 
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
+            }
+        });
+        serveListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+                if (servers.get(position).isSelected()) {
+                    servers.get(position).setSelected(false);
+                    MyApplication.cartServerUtils.reduceData(servers.get(position));
+                } else {
+                    servers.get(position).setSelected(true);
+                    MyApplication.cartServerUtils.addData(servers.get(position));
+                }
+
+                //计算总价
+                count();
+                adapter.notifyDataSetChanged();
+
+
             }
         });
 
@@ -136,7 +124,11 @@ public class ServeListActivity extends BaseActivity {
 
             case R.id.but_enter_order:
 
+                Log.i("TAG", "选择的服务有" + MyApplication.cartServerUtils.getServerList().size() + "个  " + MyApplication.cartServerUtils.getServerList().toString());
+
                 finish();
+
+
                 break;
             case R.id.iv_search:
 
@@ -147,22 +139,15 @@ public class ServeListActivity extends BaseActivity {
                     ToastUtils.showToast("请输入搜索关键字！");
 
                 break;
-
         }
-
 
     }
 
-    private void showPopupWindow(View v) {
 
-        if (v.getTag() == checkedTag) {//判断当前选择的View Tag是否为已选中的View
-            Log.d("radioGroup", "showPopupWindow+++当前选中的id为：" + v.getTag().toString());
-        } else {
-            checkedTag = (Integer) v.getTag();
-            onQueryAnyGoods(categories.get(checkedTag).getId(), "");
-        }
+    private void count() {
+        tv_totalPrice.setText(String.format("合计：￥%s", MathUtil.twoDecimal(MyApplication.cartServerUtils.getServerPrice())));    //计算总价格
+
     }
-
 
     @Override
     protected void setUpView() {
@@ -172,29 +157,6 @@ public class ServeListActivity extends BaseActivity {
     private void onQueryAnyGoods(final String category_id, String name) {
 
 
-        if (null != listMap && null != listMap.get(category_id)) {
-            fragment.switchData(category_id, listMap.get(category_id));
-
-
-        } else {
-            Api().queryAnyGoods(category_id, "", name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
-                @Override
-                protected void _onNext(GoodsListEntity goodsListEntity) {
-
-                    List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
-
-                    listMap.put(category_id, brand_all);
-                    fragment.switchData(category_id, brand_all);
-
-                }
-
-                @Override
-                protected void _onError(String message) {
-                    Log.v("BaseQuickAdapter", message);
-                }
-            });
-        }
-
     }
 
 
@@ -203,23 +165,10 @@ public class ServeListActivity extends BaseActivity {
 
     }
 
-    private void replaceFragment() {
-        fragment = new ServeListFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.right_layout, fragment);
-        transaction.commit();
-    }
-
     @Override
     public int setLayoutResourceID() {
-        return R.layout.activity_product_list;
+        return R.layout.activity_server_list;
     }
 
-
-    public void onPulsTotalPrice() {
-        tv_totalPrice.setText(String.format("合计：￥%s", MyApplication.cartUtils.getServerPrice()));
-
-    }
 
 }

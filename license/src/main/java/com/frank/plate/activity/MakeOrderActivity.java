@@ -2,6 +2,7 @@ package com.frank.plate.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +26,9 @@ import com.frank.plate.bean.GoodsEntity;
 import com.frank.plate.bean.GoodsListEntity;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.bean.OrderInfoEntity;
+import com.frank.plate.bean.Server;
 import com.frank.plate.bean.Technician;
+import com.frank.plate.util.CartServerUtils;
 import com.frank.plate.util.CartUtils;
 import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.MathUtil;
@@ -34,6 +37,7 @@ import com.frank.plate.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -98,14 +102,16 @@ public class MakeOrderActivity extends BaseActivity {
     boolean top_button3_pick;
     boolean top_button4_pick;
     CartUtils cartUtils;
+    CartServerUtils cartServerUtils;
+
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true);
+        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), false); //false 不显示加减按键
 
-        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);
+        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartServerUtils.getServerList(), false);
 
         sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 
@@ -140,7 +146,6 @@ public class MakeOrderActivity extends BaseActivity {
                                 assert ib_reduce != null;
                                 ib_reduce.setVisibility(View.VISIBLE);
                             }
-
                             number++;
                             tv_number.setText(String.valueOf(number));
                             cartUtils.addProductData(goodsEntities.get(position));
@@ -174,6 +179,7 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void init() {
         cartUtils = MyApplication.cartUtils;
+        cartServerUtils = MyApplication.cartServerUtils;
 
         tv_title.setText("下单信息");
         getTopData();
@@ -223,8 +229,6 @@ public class MakeOrderActivity extends BaseActivity {
 
 
                 Intent intent2 = new Intent(this, ServeListActivity.class);
-                intent2.putExtra(Configure.isShow, 1);
-                intent2.putExtra(Configure.isFixOrder, false);
                 startActivity(intent2);
 
                 break;
@@ -271,13 +275,10 @@ public class MakeOrderActivity extends BaseActivity {
 
                 try {
                     if (!top_button1_pick) {
-
                         cartUtils.addProductData(goods_top.get(0));
-
                         top_button1_pick = true;
                         view.setBackgroundColor(getResources().getColor(R.color.appColor));
                     } else {
-
                         cartUtils.reduceData(goods_top.get(0));
                         top_button1_pick = false;
                         view.setBackgroundColor(getResources().getColor(R.color.white));
@@ -285,14 +286,10 @@ public class MakeOrderActivity extends BaseActivity {
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
-
-
                     top_button1_pick = false;
                 }
                 break;
             case R.id.bto_top2:
-
-
                 try {
                     if (!top_button2_pick) {
                         cartUtils.addProductData(goods_top.get(1));
@@ -355,7 +352,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
     private void onMakeOrder() {
-        if (cartUtils.isNull()) {
+        if (cartUtils.isNull() && cartServerUtils.isNull()) {
             ToastUtils.showToast("请最少选择一项商品或服务");
             return;
         }
@@ -368,7 +365,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getProductList());
-        infoEntity.setSkillList(cartUtils.getServerList());
+        infoEntity.setSkillList(cartServerUtils.getServerList());
         infoEntity.setUserActivityList(cartUtils.getMealList());
         infoEntity.setSysUserList(technicians);
 
@@ -389,15 +386,21 @@ public class MakeOrderActivity extends BaseActivity {
                 finish();
             }
         });
-
-        cartUtils.deleteAllData();
+        carDestroy();
     }
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        carDestroy();
+    }
+
+
+    private void carDestroy() {
         cartUtils.deleteAllData();
+        cartServerUtils.deleteAllData();
+
 
     }
 
@@ -405,7 +408,7 @@ public class MakeOrderActivity extends BaseActivity {
     private void setGoodsPric() {
 
         double goodsPrice = cartUtils.getProductPrice();
-        double serverPrice = cartUtils.getServerPrice();
+        double serverPrice = String2Utils.getOrderServicePrice(cartServerUtils.getServerList());
         double total = goodsPrice + serverPrice;
 
         tv_goods_price.setText("已选：￥" + MathUtil.twoDecimal(goodsPrice));

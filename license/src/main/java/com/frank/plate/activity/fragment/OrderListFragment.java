@@ -179,16 +179,16 @@ public class OrderListFragment extends BaseFragment {
         });
 
 
-
     }
 
     private void getData() {
 
-        Log.e("订单列表++++","getData()");
+        Log.e("订单列表++++", "getData()");
 
         Api().orderList(order_status, pay_status, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
+
                 easylayout.refreshComplete();
                 list.clear();
                 list = basePage.getList();
@@ -215,6 +215,10 @@ public class OrderListFragment extends BaseFragment {
         Api().orderList(order_status, pay_status, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
+
+
+
+
                 easylayout.loadMoreComplete();
 
                 if (basePage.getList().size() == 0) {

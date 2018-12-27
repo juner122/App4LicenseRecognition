@@ -1,28 +1,27 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
 import com.frank.plate.bean.GoodsEntity;
+import com.frank.plate.bean.Server;
+import com.frank.plate.util.MathUtil;
 
 import java.util.List;
 
-public class SimpleGoodInfo2Adpter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
+public class SimpleServerInfo2Adpter extends BaseQuickAdapter<Server, BaseViewHolder> {
 
-    public SimpleGoodInfo2Adpter(@Nullable List<GoodsEntity> data) {
+    public SimpleServerInfo2Adpter(@Nullable List<Server> data) {
         super(R.layout.activity_simple_good_list_item2, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GoodsEntity item) {
+    protected void convert(BaseViewHolder helper, Server item) {
 
 
         helper.setText(R.id.name, item.getName());
-
-        helper.setText(R.id.price, "￥" + item.getRetail_price()).setText(R.id.tv_number, "x"+String.valueOf(item.getNumber())  );
-
+        helper.setText(R.id.price, "￥" + MathUtil.twoDecimal(item.getPrice())).setText(R.id.tv_number,  "x1");
     }
 }

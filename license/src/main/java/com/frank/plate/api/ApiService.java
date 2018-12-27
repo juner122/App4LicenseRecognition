@@ -29,6 +29,7 @@ import com.frank.plate.bean.ProductList;
 import com.frank.plate.bean.ProductValue;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
+import com.frank.plate.bean.ServerList;
 import com.frank.plate.bean.SetProject;
 import com.frank.plate.bean.Shop;
 
@@ -285,6 +286,11 @@ public interface ApiService {
     @POST("catalog/categoryServeList")
     @FormUrlEncoded
     Observable<BaseBean<CategoryBrandList>> categoryServeList(@FieldMap Map<String, Object> maps);
+
+
+    //门店服务列表
+    @POST("goods/serveList")
+    Observable<BaseBean<ServerList>> goodsServeList(@Header("X-Nideshop-Token") String token);
 
 
     //微信收款码支付

@@ -73,12 +73,20 @@ public class BillListItemInfoActivity extends BaseActivity {
                     tv3.append(o.getOrderInfo().getConfirm_time());
 
                 double goodsPrice = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getGoodsList());
-                double goodsPrice2 = String2Utils.getOrderGoodsPrice(o.getOrderInfo().getSkillList());
+                double goodsPrice2 = String2Utils.getOrderServicePrice(o.getOrderInfo().getSkillList());
 
                 tv_price1.append(MathUtil.twoDecimal(goodsPrice));
                 tv_price2.append(MathUtil.twoDecimal(goodsPrice2));
                 tv_price3.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
-                tv_price4.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
+
+                if (o.getOrderInfo().getPay_type() == 11) {
+                    tv_price4.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
+
+                } else {
+                    tv_price4.append("0.00");
+
+                }
+
 
             }
 

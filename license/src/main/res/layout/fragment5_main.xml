@@ -15,150 +15,129 @@
         android:textColor="#000"
         android:textSize="16sp" />
 
-    <RelativeLayout
-        android:id="@+id/rl_to_info"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_check_selector"
-        android:gravity="center_vertical"
-        android:padding="12dp">
-
-
-        <ImageView
-            android:id="@+id/iv_user_pic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            tools:srcCompat="@tools:sample/avatars[3]" />
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/iv_user_pic"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_to_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text=""
-                android:textColor="#ff000000"
-                android:textSize="14sp" />
+                android:layout_marginTop="10dp"
+
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_check_selector"
+                android:gravity="center_vertical"
+                android:padding="12dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_user_pic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    tools:srcCompat="@tools:sample/avatars[3]" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/iv_user_pic"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text=""
+                        android:textColor="#ff000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="手机号码："
+                        android:textColor="#ff898989"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
 
             <TextView
-                android:id="@+id/tv_phone_number"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_my_balance"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="手机号码："
-                android:textColor="#ff898989"
-                android:textSize="12sp" />
+                android:drawableLeft="@mipmap/icon_my_balance"
+                android:text="我的余额" />
+
+
+            <TextView
+                android:id="@+id/auth"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:drawableLeft="@mipmap/icon_renzheng"
+                android:text="我的认证" />
+
+
+            <TextView
+                android:id="@+id/project"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:drawableLeft="@mipmap/icon_projcet"
+                android:text="设置主推项目" />
+
+            <TextView
+                android:id="@+id/about"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_about"
+                android:text="关于安安养车" />
+
+
+            <TextView
+                android:id="@+id/updata"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:drawableLeft="@mipmap/icon_updata"
+                android:text="检查更新" />
+
+
+            <TextView
+                android:id="@+id/tv_user_report"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_user_report"
+                android:text="用户反馈" />
+
+
+            <TextView
+                android:id="@+id/tv_out"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@mipmap/icon_out"
+                android:text="退出当前登录" />
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
-    <TextView
-        android:id="@+id/tv_my_balance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_my_balance"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="我的余额"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-
-    <TextView
-        android:id="@+id/auth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_renzheng"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="我的认证"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-
-    <TextView
-        android:id="@+id/project"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_projcet"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="设置主推项目"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/about"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_about"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="关于安安养车"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-
-    <TextView
-        android:id="@+id/updata"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_updata"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="检查更新"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-
-    <TextView
-        android:id="@+id/tv_user_report"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_user_report"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="用户反馈"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
-
-
-    <TextView
-        android:id="@+id/tv_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_check_selector"
-        android:drawableLeft="@mipmap/icon_out"
-        android:drawablePadding="29dp"
-        android:gravity="center_vertical"
-        android:padding="15dp"
-        android:text="退出当前登录"
-        android:textColor="#ff000000"
-        android:textSize="14sp" />
 </LinearLayout>

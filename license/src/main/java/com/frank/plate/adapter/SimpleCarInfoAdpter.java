@@ -1,25 +1,26 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
-import android.view.View;
+
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.frank.plate.R;
-import com.frank.plate.bean.CarEntity;
-import com.frank.plate.bean.GoodsEntity;
+
+import com.frank.plate.bean.CarInfoRequestParameters;
+
 
 import java.util.List;
 
-public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarEntity, BaseViewHolder> {
+public class SimpleCarInfoAdpter extends BaseQuickAdapter<CarInfoRequestParameters, BaseViewHolder> {
 
-    public SimpleCarInfoAdpter(@Nullable List<CarEntity> data) {
+    public SimpleCarInfoAdpter(@Nullable List<CarInfoRequestParameters> data) {
         super(R.layout.activity_car_list_item, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CarEntity item) {
+    protected void convert(BaseViewHolder helper, CarInfoRequestParameters item) {
 
         helper.setText(R.id.tv_car_no, item.getCarNo())
                 .setText(R.id.tv_car_model, item.getBrand() + "\t" + item.getName())

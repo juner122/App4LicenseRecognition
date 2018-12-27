@@ -18,11 +18,10 @@ import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.CarListAdapter;
 import com.frank.plate.api.RxSubscribe;
-import com.frank.plate.bean.CarEntity;
+import com.frank.plate.bean.CarInfoRequestParameters;
 import com.frank.plate.bean.QueryByCarEntity;
 import com.frank.plate.bean.SaveUserAndCarEntity;
 import com.frank.plate.util.ToastUtils;
-import com.frank.plate.view.ConfirmDialog;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -57,7 +56,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
     static String car_number, mobile, user_name;
-    List<CarEntity> cars = new ArrayList<>();
+    List<CarInfoRequestParameters> cars = new ArrayList<>();
 
     int user_id, car_id;
 
@@ -177,7 +176,9 @@ public class MemberInfoInputActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
                 //查看更新车况
-                toActivity(CarInfoInputActivity.class, ((CarEntity) adapter.getData().get(position)), Configure.CARINFO);
+//                toActivity(CarInfoInputActivity.class, ((CarInfoRequestParameters) adapter.getData().get(position)).getId(), Configure.CARINFO);
+                toActivity(CarInfoInputActivity.class, Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
+
             }
         });
         carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -190,7 +191,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                 car_id = carListAdapter.getData().get(position).getId();
 
 
-                for (CarEntity c : cars) {
+                for (CarInfoRequestParameters c : cars) {
                     c.setSelected(false);
                 }
 

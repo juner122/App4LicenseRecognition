@@ -2,6 +2,7 @@ package com.frank.plate;
 
 import android.app.Application;
 
+import com.frank.plate.util.CartServerUtils;
 import com.frank.plate.util.CartUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
@@ -13,6 +14,7 @@ public class MyApplication extends Application {
 
 
     public static CartUtils cartUtils;
+    public static CartServerUtils cartServerUtils;
 
     public static MyApplication getInstance() {
         return app;
@@ -27,6 +29,7 @@ public class MyApplication extends Application {
 
 
         cartUtils = CartUtils.getInstance(this);
+        cartServerUtils = CartServerUtils.getInstance(this);
 
     }
 
