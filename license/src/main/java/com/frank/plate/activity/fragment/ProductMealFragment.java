@@ -60,14 +60,14 @@ public class ProductMealFragment extends BaseFragment {
                 CheckBox checkBox = (CheckBox) view;
                 ToastUtils.showToast(checkBox.isChecked() ? "选中" : "取消");
 
-
                 MealEntity m = (MealEntity) adapter.getData().get(position);
-
 
                 if (checkBox.isChecked())
                     MyApplication.cartUtils.addMeal(m);
                 else
                     MyApplication.cartUtils.reduceMeal(m);
+
+
 
 
             }

@@ -165,7 +165,7 @@ public class CartUtils {
         GoodsEntity good = new GoodsEntity();
 
 
-        good.setId(entity.getGoodsId());
+        good.setId(entity.getId());
         good.setGoodsId(entity.getGoodsId());
         good.setName(entity.getGoodsName());
         good.setGoodsNum(entity.getGoodsNum());

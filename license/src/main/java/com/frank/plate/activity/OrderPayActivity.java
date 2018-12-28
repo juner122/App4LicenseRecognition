@@ -25,8 +25,10 @@ import com.frank.plate.api.RxSubscribe;
 
 import com.frank.plate.bean.Coupon;
 import com.frank.plate.bean.NullDataEntity;
+import com.frank.plate.bean.OffLinePayType;
 import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
+import com.frank.plate.util.PayTypeList;
 import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.CommonPopupWindow;
 
@@ -79,9 +81,11 @@ public class OrderPayActivity extends BaseActivity {
     Brandadapter2 brandadapter;
 
     Coupon c;//选择的优惠券
-    int pay_type = 11;//支付方式  1嗨卡 11微信 21 掌贝 22 现金
+    int pay_type = 11;//收款方式  31嗨卡   11微信  21 掌贝  22 现金  23团购 24旧商城 25收钱吧 26车行易 27巨会养车 28停洗欢 29百汇通 30 A洗车
 
     List<OffLinePayType> olpy;
+
+    OffLinePayType olpt;//选择的支付方式；不包括11微信
 
 
     double balance_price;//结算金额
@@ -91,7 +95,7 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("订单收款");
-
+        olpy = PayTypeList.getList();
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
         Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
@@ -121,10 +125,6 @@ public class OrderPayActivity extends BaseActivity {
         balance_price = infoEntity.getOrderInfo().getOrder_price();
 
 
-        olpy = new ArrayList<>();
-        olpy.add(new OffLinePayType("掌贝收款", 21));
-        olpy.add(new OffLinePayType("现金收款", 22));
-
         brandadapter = new Brandadapter2(olpy);
         brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -132,9 +132,11 @@ public class OrderPayActivity extends BaseActivity {
                 popupWindow.dismiss();
 
                 cb_weixin.setChecked(false);
+                olpt = olpy.get(position);
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());
+                pay_type = olpy.get(position).getPay_type();
 
-                pay_type = olpy.get(position).pay_type;
+                ToastUtils.showToast("支付方式" + pay_type + olpy.get(position).getType_string());
 
 
             }
@@ -299,16 +301,23 @@ public class OrderPayActivity extends BaseActivity {
 
     private void getPostInfo() {
 
+        if (pay_type == 11) {
+            infoEntity.getOrderInfo().setPay_type(11);
+            infoEntity.getOrderInfo().setPay_name("微信");
+        } else if (pay_type != 0) {
+            infoEntity.getOrderInfo().setPay_type(olpt.getPay_type());
+            infoEntity.getOrderInfo().setPay_name(olpt.getType_string());
+        }
 
-        infoEntity.getOrderInfo().setPay_type(pay_type);
         infoEntity.getOrderInfo().setCoupon_id(null == c ? 0 : c.getId());
 
         if (!TextUtils.isEmpty(et_discount.getText())) {
-
             infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());
+            infoEntity.getOrderInfo().setCustom_cut_price(null);
 
         } else if (!TextUtils.isEmpty(et_discount2.getText())) {
             infoEntity.getOrderInfo().setCustom_cut_price(et_discount2.getText().toString());
+            infoEntity.getOrderInfo().setDiscount_price(null);
         } else {
             infoEntity.getOrderInfo().setDiscount_price(null);
             infoEntity.getOrderInfo().setCustom_cut_price(null);
@@ -363,19 +372,5 @@ public class OrderPayActivity extends BaseActivity {
 
     }
 
-    public class OffLinePayType {
-        String type_string;
-        int pay_type;
-
-        public OffLinePayType(String type_string, int pay_type) {
-            this.type_string = type_string;
-            this.pay_type = pay_type;
-        }
-
-        public String getType_string() {
-            return type_string;
-        }
-
-    }
 
 }

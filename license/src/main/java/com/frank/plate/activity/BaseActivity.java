@@ -1,6 +1,7 @@
 package com.frank.plate.activity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -52,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         //设置布局
         setContentView(setLayoutResourceID());
 
@@ -111,7 +112,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * @return 布局文件资源ID
      */
     public abstract int setLayoutResourceID();
-
 
 
     protected void hideHeadView() {
@@ -212,7 +212,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void msgManagement(int what, int tag) {
     }
 
-    protected void msgManagement(int what,String tag) {
+    protected void msgManagement(int what, String tag) {
     }
 
     /**
@@ -235,12 +235,12 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param what 发送的消息
      */
-    public void sendMsg(final int what,final  String tag) {
+    public void sendMsg(final int what, final String tag) {
 
         Observable.empty().observeOn(AndroidSchedulers.mainThread()).doOnComplete(new Action() {
             @Override
             public void run() {
-                msgManagement(what,tag);
+                msgManagement(what, tag);
             }
         }).subscribe();
     }

@@ -40,7 +40,7 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
             case MyMultipleItem.FIRST_TYPE:
                 final MealL0Entity m = (MealL0Entity) item;
 
-                helper.setText(R.id.tv_name, m.getActivityName()).setText(R.id.tv_2, String.valueOf(m.getActivityId()));
+                helper.setText(R.id.tv_name, m.getActivityName());
 
 
                 //set view content
@@ -58,15 +58,8 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum()));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum() + "次"));
                 helper.addOnClickListener(R.id.cb);
-
-//
-//                CheckBox cb = helper.getView(R.id.cb);
-//                if (me.isSelected())
-//                    cb.setClickable(true);
-//                else
-//                    cb.setClickable(false);
 
 
                 break;

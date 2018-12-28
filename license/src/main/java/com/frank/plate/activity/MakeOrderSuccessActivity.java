@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.frank.plate.Configure;
 import com.frank.plate.R;
+import com.frank.plate.adapter.SimpleActivityInfo2Adpter;
 import com.frank.plate.adapter.SimpleGoodInfo2Adpter;
 import com.frank.plate.adapter.SimpleServerInfo2Adpter;
 import com.frank.plate.api.RxSubscribe;
@@ -18,6 +19,7 @@ import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
 import com.frank.plate.util.ToastUtils;
+import com.frank.plate.view.LinePathView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,18 +54,26 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
+    @BindView(R.id.rv_act)
+    RecyclerView rv_act;
     @BindView(R.id.rv_servers)
     RecyclerView rv_servers;
 
 
+//    @BindView(R.id.lpv)
+//    LinePathView lpv;//手写签名
+
+
     OrderInfo info;
     SimpleGoodInfo2Adpter simpleGoodInfo2Adpter;
+    SimpleActivityInfo2Adpter simpleActivityInfo2Adpter;
     SimpleServerInfo2Adpter serverInfo2Adpter;
 
 
     @Override
     protected void init() {
 
+//        lpv.setPaintWidth(5);
         tv_title.setText("订单确认");
 
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
@@ -109,7 +119,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         tv_address.append(null == info.getShop().getAddress() ? "-" : info.getShop().getAddress());
 
 
-        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsAndSkillList());
+        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsList());
+        simpleActivityInfo2Adpter = new SimpleActivityInfo2Adpter(info.getOrderInfo().getUserActivityList());
         serverInfo2Adpter = new SimpleServerInfo2Adpter(info.getOrderInfo().getSkillList());
 
 
@@ -119,6 +130,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
+
+        rv_act.setLayoutManager(new LinearLayoutManager(this));
+        rv_act.setAdapter(simpleActivityInfo2Adpter);
 
         rv_servers.setLayoutManager(new LinearLayoutManager(this));
         rv_servers.setAdapter(serverInfo2Adpter);
@@ -143,7 +157,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         return R.layout.activity_make_order_success;
     }
 
-    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back})
+    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_now_pay:
@@ -165,6 +179,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
             case R.id.tv_back:
                 toMain(1);
+                break;
+
+            case R.id.ll_autograph://签名
+                toActivity(AutographActivity.class);
                 break;
 
 

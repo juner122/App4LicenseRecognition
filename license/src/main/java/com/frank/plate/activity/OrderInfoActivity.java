@@ -351,7 +351,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_price4_s.setText(info.getOrderInfo().getPay_status() == 2 ? "实收金额" : "应收金额");
 
 
-        tv_pay_type.setText(String.valueOf("支付方式：" + getPayTypeText(info.getOrderInfo().getPay_type())));
+        tv_pay_type.setText(String.valueOf("支付方式：" + info.getOrderInfo().getPay_name()));
 
         tv_pay_status.setText(String.valueOf("支付状态：" + info.getOrderInfo().getPay_status_text()));
 

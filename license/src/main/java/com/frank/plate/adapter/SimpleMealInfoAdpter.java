@@ -22,8 +22,8 @@ public class SimpleMealInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
 
 
         helper.setText(R.id.name, item.getGoodsName())
-                .setText(R.id.price, "免费")
-                .setText(R.id.tv_number, String.valueOf("剩余" + item.getGoodsNum()+ "次"));
+                .setText(R.id.price, "套餐抵扣")
+                .setText(R.id.tv_number, String.valueOf("x1"));
 
 
         helper.setVisible(R.id.ib_plus, false);

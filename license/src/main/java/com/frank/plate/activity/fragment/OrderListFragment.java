@@ -114,10 +114,14 @@ public class OrderListFragment extends BaseFragment {
             }
         });
 
+
+
+    }
+
+    private void getData() {
         ola.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 if (list.get(position).isSelected()) {
                     list.get(position).setSelected(false);
 
@@ -126,8 +130,6 @@ public class OrderListFragment extends BaseFragment {
                         o.setSelected(false);
                     }
                     list.get(position).setSelected(true);
-
-
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -177,11 +179,6 @@ public class OrderListFragment extends BaseFragment {
                 }
             }
         });
-
-
-    }
-
-    private void getData() {
 
         Log.e("订单列表++++", "getData()");
 

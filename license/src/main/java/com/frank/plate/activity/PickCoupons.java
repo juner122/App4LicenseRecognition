@@ -80,7 +80,10 @@ public class PickCoupons extends BaseActivity {
 
             }
         });
+
         rv.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter.setEmptyView(R.layout.order_list_empty_view_c,rv);
         rv.setAdapter(adapter);
     }
 

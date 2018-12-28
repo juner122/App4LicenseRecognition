@@ -2,7 +2,7 @@ package com.frank.plate.bean;
 
 
 //
-public class ProductValue {
+public class ProductValue extends SelectedBean{
 
 
     int id;

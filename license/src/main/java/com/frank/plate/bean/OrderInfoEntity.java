@@ -17,6 +17,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     int order_status;
     String shipping_status;
     int pay_status;
+    String pay_name;
     String pay_status_text;
     double actual_price;//实际支付
     double coupon_price;
@@ -45,6 +46,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     ArrayList<Server> skillList;
 
+    public String getPay_name() {
+
+        return pay_name;
+    }
+
+    public void setPay_name(String pay_name) {
+        this.pay_name = pay_name;
+    }
 
     public int getCoupon_id() {
         return coupon_id;
@@ -156,10 +165,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         return goodsList;
     }
 
-    public List<GoodsEntity> getGoodsAndSkillList() {
+    public List<GoodsEntity> getGoodsAndUserActivityList() {
 
         List<GoodsEntity> list = new ArrayList<>();
         list.addAll(getGoodsList());
+        list.addAll(getUserActivityList());
         return list;
     }
 
@@ -355,6 +365,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeInt(this.order_status);
         dest.writeString(this.shipping_status);
         dest.writeInt(this.pay_status);
+        dest.writeString(this.pay_name);
         dest.writeString(this.pay_status_text);
         dest.writeDouble(this.actual_price);
         dest.writeDouble(this.coupon_price);
@@ -387,6 +398,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.order_status = in.readInt();
         this.shipping_status = in.readString();
         this.pay_status = in.readInt();
+        this.pay_name = in.readString();
         this.pay_status_text = in.readString();
         this.actual_price = in.readDouble();
         this.coupon_price = in.readDouble();
