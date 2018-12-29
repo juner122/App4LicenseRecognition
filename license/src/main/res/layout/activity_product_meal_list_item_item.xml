@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
+    android:id="@+id/ll_item"
     android:orientation="vertical"
     android:paddingLeft="15dp">
 
     <LinearLayout
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -31,10 +33,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-
+            android:visibility="invisible"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp" />
+
+        <ImageView
+            android:id="@+id/iv"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+
+
     </LinearLayout>
 
 

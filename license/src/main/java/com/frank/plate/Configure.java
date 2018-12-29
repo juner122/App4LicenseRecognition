@@ -3,11 +3,14 @@ package com.frank.plate;
 public class Configure {
 
 
-//        public static final String BaseUrl = "http://222.111.88.239:8081/app/";
-    public static final String BaseUrl = "https://business.xgxshop.com/app/";
+            public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+//    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
 
     public static final String Domain = "http://qiniu.xgxshop.com/";//域名 图片上传
+
+
+    public static final String LinePathView_url = "/sdcard/qm.png";//用户签名
 
 
     //七牛
@@ -49,12 +52,9 @@ public class Configure {
     public static final String QUERYBYCARINFO = "QueryByCarInfo";//
 
 
-
     public static final String isFixOrder = "isFixOrder";//是否是修改订单
     public static final String pick_servers = "pick_servers";//选择的服务列表
     public static final String Class = "Calss";//选择的服务列表的activity
-
-
 
 
 }

@@ -3,10 +3,8 @@ package com.frank.plate.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.frank.plate.util.MathUtil;
-
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 public class OrderInfoEntity extends SelectedBean implements Parcelable {
@@ -39,6 +37,9 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String custom_cut_price;//自定义减免
 
     String goods_unit;//单位
+    String province;//卡号
+
+    String district;//客户签名图片地址 七牛
 
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
@@ -49,6 +50,22 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     public String getPay_name() {
 
         return pay_name;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public void setPay_name(String pay_name) {
@@ -385,6 +402,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeString(this.discount_price);
         dest.writeString(this.custom_cut_price);
         dest.writeString(this.goods_unit);
+        dest.writeString(this.province);
+        dest.writeString(this.district);
         dest.writeTypedList(this.goodsList);
         dest.writeTypedList(this.sysUserList);
         dest.writeTypedList(this.userActivityList);
@@ -418,6 +437,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.discount_price = in.readString();
         this.custom_cut_price = in.readString();
         this.goods_unit = in.readString();
+        this.province = in.readString();
+        this.district = in.readString();
         this.goodsList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
         this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);

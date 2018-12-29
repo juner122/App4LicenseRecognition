@@ -84,6 +84,13 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
 
+    @BindView(R.id.tv_re1)
+    TextView tv_re1;
+    @BindView(R.id.tv_re2)
+    TextView tv_re2;
+    @BindView(R.id.tv_re3)
+    TextView tv_re3;
+
 
     String car_number, moblie, user_name;
 
@@ -212,7 +219,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4})
+    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_re1, R.id.tv_re2, R.id.tv_re3})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
@@ -348,8 +355,41 @@ public class MakeOrderActivity extends BaseActivity {
                     top_button4_pick = false;
                 }
                 break;
+
+            case R.id.tv_re1://加雨刮水
+
+                if (!re1) {
+
+                    tv_re1.setBackgroundResource(R.drawable.button_background_b);
+                    et_postscript.append("加雨刮水,");
+                    re1 = true;
+                }
+                break;
+            case R.id.tv_re2://检车胎压
+                if (!re2) {
+
+                    tv_re2.setBackgroundResource(R.drawable.button_background_b);
+                    et_postscript.append("检车胎压,");
+                    re2 = true;
+
+                }
+                break;
+            case R.id.tv_re3://清洗脚垫
+
+                if (!re3) {
+
+                    tv_re3.setBackgroundResource(R.drawable.button_background_b);
+                    et_postscript.append("清洗脚垫,");
+                    re3 = true;
+                }
+                break;
+
         }
     }
+
+    boolean re1;
+    boolean re2;
+    boolean re3;
 
     private void onMakeOrder() {
         if (cartUtils.isNull() && cartServerUtils.isNull()) {

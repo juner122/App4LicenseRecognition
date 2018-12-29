@@ -57,15 +57,19 @@ public class ProductMealFragment extends BaseFragment {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 
-                CheckBox checkBox = (CheckBox) view;
-                ToastUtils.showToast(checkBox.isChecked() ? "选中" : "取消");
 
                 MealEntity m = (MealEntity) adapter.getData().get(position);
 
-                if (checkBox.isChecked())
-                    MyApplication.cartUtils.addMeal(m);
-                else
+
+
+                if (m.isSelected()) {
+                    m.setSelected(false);
                     MyApplication.cartUtils.reduceMeal(m);
+                } else {
+                    m.setSelected(true);
+                    MyApplication.cartUtils.addMeal(m);
+                }
+                adapter.notifyDataSetChanged();
 
 
 

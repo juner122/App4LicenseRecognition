@@ -218,7 +218,23 @@ public class CartUtils {
 
     }
 
+    public void addDataNoCommit(GoodsEntity good) {
+
+        good.setType(1);
+        //添加数据
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
+        if (tempCart != null) {
+            tempCart.setNumber(tempCart.getNumber() + 1);
+        } else {
+            tempCart = good;
+            tempCart.setNumber(1);
+        }
+        data.put(good.getId(), tempCart);
+
+    }
+
     public void reduceData(GoodsEntity good) {
+        good.setType(1);
         //减数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
         if (tempCart != null) {
@@ -231,10 +247,28 @@ public class CartUtils {
             }
             commit();
         }
+    }
+
+
+
+
+
+    public void reduceDataNoCommit(GoodsEntity good) {
+        //减数据
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
+        if (tempCart != null) {
+            tempCart.setNumber(tempCart.getNumber() - 1);
+            if (tempCart.getNumber() == 0) {
+                data.remove(good.getId());
+            } else {
+                data.put(good.getId(), tempCart);
+            }
+
+        }
 
     }
 
-    private void commit() {
+    public void commit() {
 
 
         //把parseArray转换成list
@@ -282,7 +316,6 @@ public class CartUtils {
         }
         return i;
     }
-
 
 
     //商品

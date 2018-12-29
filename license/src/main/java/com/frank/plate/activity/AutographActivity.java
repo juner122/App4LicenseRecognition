@@ -2,11 +2,24 @@ package com.frank.plate.activity;
 
 
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.frank.plate.Configure;
 import com.frank.plate.R;
+import com.frank.plate.bean.UpDataPicEntity;
+import com.frank.plate.util.Auth;
+import com.frank.plate.util.CommonUtil;
 import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.LinePathView;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -15,6 +28,7 @@ import butterknife.OnClick;
 
 public class AutographActivity extends BaseActivity {
 
+    private static final String TAG = "签名";
     @BindView(R.id.lpv)
     LinePathView lpv;//手写签名
 
@@ -32,9 +46,10 @@ public class AutographActivity extends BaseActivity {
             case R.id.tv_enter_order:
                 if (lpv.getTouched()) {
                     try {
-                        lpv.save("/sdcard/qm.png", true, 10);
+                        lpv.save(Configure.LinePathView_url, true, 10);
                         setResult(100);
-                        ToastUtils.showToast("签名保存在/sdcard/qm.png");
+                        upPic();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -47,6 +62,47 @@ public class AutographActivity extends BaseActivity {
 
 
         }
+
+    }
+
+
+    //上传签名图片
+    private void upPic() {
+        String key = "pic_" + CommonUtil.getTimeStame();
+        String path = Configure.LinePathView_url;
+
+
+        UploadManager uploadManager = new UploadManager();
+        UploadOptions uploadOptions = new UploadOptions(null, null, false,
+                new UpProgressHandler() {
+                    public void progress(String key, double percent) {
+                        Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
+                        if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
+                        {
+                            ToastUtils.showToast("签名上传成功" + Configure.LinePathView_url);
+
+                        }
+                    }
+                }, null);
+
+
+        uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject res) {
+                        // info.error中包含了错误信息，可打印调试
+                        // 上传成功后将key值上传到自己的服务器
+                        if (info.isOK()) {
+                            Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key);
+
+                            toActivity(MakeOrderSuccessActivity.class, Configure.Domain, Configure.Domain + key);
+
+
+                        } else {
+                            Log.i(TAG, "info:error====> " + info.error);
+                        }
+                    }
+                }, uploadOptions
+        );
 
     }
 

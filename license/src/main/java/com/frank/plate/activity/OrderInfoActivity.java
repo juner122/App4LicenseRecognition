@@ -2,16 +2,20 @@ package com.frank.plate.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleGoodInfoAdpter;
@@ -32,6 +36,7 @@ import com.frank.plate.util.ToastUtils;
 
 import org.opencv.core.Mat;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +46,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
+import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
+import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 import static com.frank.plate.util.DateUtil.getFormatedDateTime;
 import static com.frank.plate.util.String2Utils.getPayTypeText;
 
@@ -60,6 +67,8 @@ public class OrderInfoActivity extends BaseActivity {
 
     @BindView(R.id.tv_car_no)
     TextView tv_car_no;
+    @BindView(R.id.iv_lpv)
+    ImageView iv_lpv;
 
 
     @BindView(R.id.tv_technician)
@@ -447,6 +456,10 @@ public class OrderInfoActivity extends BaseActivity {
         rv3.setAdapter(sma);
 
 
+        Glide.with(this)
+                .asDrawable()
+                .load(info.getOrderInfo().getDistrict())
+                .into(iv_lpv);
     }
 
     //确认下单

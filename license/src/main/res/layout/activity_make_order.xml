@@ -374,40 +374,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/tv_re1"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_background_c"
+                        android:background="@drawable/button_background_a"
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
-                        android:text="加气"
+                        android:text="加雨刮水"
                         android:textColor="#ff111011"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_re2"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:background="@drawable/button_background_c"
+                        android:background="@drawable/button_background_a"
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
-                        android:text="重点清洗"
+                        android:text="检车胎压"
                         android:textColor="#ff111011"
                         android:textSize="14sp" />
 
                     <TextView
+                        android:id="@+id/tv_re3"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:background="@drawable/button_background_d"
+                        android:background="@drawable/button_background_a"
                         android:gravity="center"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
-                        android:text="重点清洗"
+                        android:text="清洗脚垫"
                         android:textColor="#ff111011"
                         android:textSize="14sp" />
 

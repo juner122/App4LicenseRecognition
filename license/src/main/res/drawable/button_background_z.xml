@@ -14,7 +14,7 @@
 
     <!-- android:radius 圆角的半径 -->
     <corners
-        android:radius="5dp"
+        android:radius="4dp"
         />
 
 </shape>

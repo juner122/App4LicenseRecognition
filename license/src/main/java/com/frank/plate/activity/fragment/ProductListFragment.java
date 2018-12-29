@@ -103,31 +103,29 @@ public class ProductListFragment extends BaseFragment {
                                 tv_number.setVisibility(View.VISIBLE);
                             }
 
+                            MyApplication.cartUtils.addProductData(list.get(position));
                             tv_number.setText(String.valueOf(number));
 
-                            MyApplication.cartUtils.addProductData(list.get(position));
 
                             list.get(position).setNumber(number);//设置
-
-                            sendMsg(Double.parseDouble(list.get(position).getRetail_price()));
-
+                            sendMsg(MyApplication.cartUtils.getProductPrice());
 
 
                             break;
 
                         case R.id.ib_reduce:
                             number--;
-
-                            tv_number.setText(String.valueOf(number));
                             if (number == 0) {
                                 ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
                                 tv_number.setVisibility(View.INVISIBLE);
                             }
 
                             MyApplication.cartUtils.reduceData(list.get(position));
+                            tv_number.setText(String.valueOf(number));
+
 
                             list.get(position).setNumber(number);//设置
-                            sendMsg(-Double.parseDouble(list.get(position).getRetail_price()));
+                            sendMsg(MyApplication.cartUtils.getProductPrice());
 
 
                             break;
@@ -178,7 +176,11 @@ public class ProductListFragment extends BaseFragment {
                         list.get(positions).setPrimary_pic_url(pick_value.getList_pic_url());
                         list.get(positions).setGoods_specifition_name_value(pick_value.getValue());
                         list.get(positions).setGoods_sn(pick_value.getGoods_sn());
+                        list.get(positions).setNumber(pick_value.getNumber());
                         productListAdapter.setNewData(list);
+                        //按确认才保存
+                        MyApplication.cartUtils.commit();
+                        sendMsg(MyApplication.cartUtils.getProductPrice());
 
                     }
 

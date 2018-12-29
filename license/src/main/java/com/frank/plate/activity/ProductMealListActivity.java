@@ -58,7 +58,7 @@ public class ProductMealListActivity extends BaseActivity {
 
         fragments.add(new ProductFragment());
         fragments.add(ProductMealFragment.getInstance(user_id));
-
+        onPulsTotalPrice(MyApplication.cartUtils.getProductPrice());
 
     }
 
@@ -81,8 +81,8 @@ public class ProductMealListActivity extends BaseActivity {
 
 
     public void onPulsTotalPrice(double t) {
-        TotalPrice = TotalPrice + t;
-        tv_totalPrice.setText(String.format("合计：￥%s", TotalPrice));
+
+        tv_totalPrice.setText(String.format("合计：￥%s", t));
 
     }
 

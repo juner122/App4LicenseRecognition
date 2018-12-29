@@ -67,7 +67,7 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.MealListActivity" />
         <activity android:name=".activity.TechnicianListActivity" />
-        <activity android:name=".activity.MakeOrderSuccessActivity" />
+        <activity android:name=".activity.MakeOrderSuccessActivity"   android:launchMode="singleTask"/>
         <activity
             android:name=".activity.OrderPayActivity"
             android:launchMode="singleTask"

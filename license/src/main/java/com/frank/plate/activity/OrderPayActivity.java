@@ -10,6 +10,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -70,6 +71,10 @@ public class OrderPayActivity extends BaseActivity {
 
     @BindView(R.id.et_discount2)
     EditText et_discount2;
+
+
+    @BindView(R.id.et_car_code)
+    EditText et_car_code;
 
 
     @BindView(R.id.cb_weixin)
@@ -218,6 +223,28 @@ public class OrderPayActivity extends BaseActivity {
             }
         });
 
+        et_car_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable e) {
+                if (e.length() != 0) {
+
+                    cb_weixin.setChecked(false);
+                    pay_type = 32;
+
+                }
+            }
+        });
+
     }
 
     @Override
@@ -257,8 +284,6 @@ public class OrderPayActivity extends BaseActivity {
                     bundle.putParcelable(Configure.ORDERINFO, infoEntity.getOrderInfo());
                     i.putExtras(bundle);
                     startActivity(i);
-
-
                 } else
                     Pay();
                 break;
@@ -304,6 +329,11 @@ public class OrderPayActivity extends BaseActivity {
         if (pay_type == 11) {
             infoEntity.getOrderInfo().setPay_type(11);
             infoEntity.getOrderInfo().setPay_name("微信");
+        } else if (!TextUtils.isEmpty(et_car_code.getText())) {//卡号不为空
+            infoEntity.getOrderInfo().setPay_type(32);
+            infoEntity.getOrderInfo().setPay_name("套卡核销");
+            infoEntity.getOrderInfo().setProvince(et_car_code.getText().toString());
+
         } else if (pay_type != 0) {
             infoEntity.getOrderInfo().setPay_type(olpt.getPay_type());
             infoEntity.getOrderInfo().setPay_name(olpt.getType_string());

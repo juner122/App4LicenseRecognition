@@ -240,10 +240,11 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<NullDataEntity> beginServe(int order_id, String order_sn) {
+    public Observable<NullDataEntity> beginServe(int order_id, String order_sn, String district) {
 
         map.put("order_id", order_id);
         map.put("order_sn", order_sn);
+        map.put("district", district);
         return apiService.beginServe(map).compose(RxHelper.<NullDataEntity>observe());
     }
 

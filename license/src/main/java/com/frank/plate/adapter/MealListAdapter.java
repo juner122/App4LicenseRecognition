@@ -1,10 +1,12 @@
 package com.frank.plate.adapter;
 
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -59,7 +61,22 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
                 helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum() + "次"));
-                helper.addOnClickListener(R.id.cb);
+
+                ImageView iv = helper.getView(R.id.iv);
+                TextView tv_goodName = helper.getView(R.id.tv_name);
+
+
+                if (me.getGoodsNum() > 0) {//可用次数不为0
+                    helper.addOnClickListener(R.id.ll_item);
+                    tv_goodName.getPaint().setFlags(0);
+                    if (me.isSelected())
+                        iv.setImageResource(R.mipmap.icon_pick);
+                    else
+                        iv.setImageResource(R.mipmap.icon_unpick);
+                } else {
+                    iv.setImageResource(R.mipmap.icon_unpick);
+                    tv_goodName.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //添加删除线
+                }
 
 
                 break;

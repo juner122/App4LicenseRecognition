@@ -1,6 +1,7 @@
 package com.frank.plate.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,6 +24,13 @@ public class ProductListAdpter extends BaseQuickAdapter<ProductValue, BaseViewHo
 
 
         helper.setText(R.id.tv1, item.getValue());
+        View v = helper.getView(R.id.tv1);
+
+        if (item.isSelected()) {
+            v.setBackgroundResource(R.drawable.button_background_b);
+        } else
+            v.setBackgroundResource(R.drawable.button_background_z);
+
 
     }
 

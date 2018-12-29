@@ -1,8 +1,8 @@
 package com.frank.plate.util;
 
 
+import java.io.File;
 import java.util.Collection;
-
 
 
 /**
@@ -12,6 +12,7 @@ public final class StringUtils {
 
     private StringUtils() {
     }
+
     /**
      * @see #join(Object[] array, String sep, String prefix)
      */
@@ -137,6 +138,7 @@ public final class StringUtils {
     public static boolean isNotEmpty(String str) {
         return ((str != null) && (str.trim().length() > 0));
     }
+
     public static boolean isEmpty(String str) {
         return ((str == null) || (str.trim().length() == 0));
     }
@@ -153,5 +155,22 @@ public final class StringUtils {
         }
         return true;
     }
+
+    //判断文件是否存在
+    public static  boolean fileIsExists(String strFile) {
+        try {
+            File f = new File(strFile);
+            if (!f.exists()) {
+                return false;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
 

@@ -1,12 +1,17 @@
 package com.frank.plate.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.frank.plate.Configure;
 import com.frank.plate.R;
 import com.frank.plate.adapter.SimpleActivityInfo2Adpter;
@@ -18,11 +23,17 @@ import com.frank.plate.bean.OrderInfo;
 import com.frank.plate.util.DateUtil;
 import com.frank.plate.util.MathUtil;
 import com.frank.plate.util.String2Utils;
+import com.frank.plate.util.StringUtils;
 import com.frank.plate.util.ToastUtils;
 import com.frank.plate.view.LinePathView;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
+import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 
 public class MakeOrderSuccessActivity extends BaseActivity {
 
@@ -59,21 +70,19 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     @BindView(R.id.rv_servers)
     RecyclerView rv_servers;
 
-
-//    @BindView(R.id.lpv)
-//    LinePathView lpv;//手写签名
+    @BindView(R.id.iv_lpv)
+    ImageView iv_lpv;
 
 
     OrderInfo info;
     SimpleGoodInfo2Adpter simpleGoodInfo2Adpter;
     SimpleActivityInfo2Adpter simpleActivityInfo2Adpter;
     SimpleServerInfo2Adpter serverInfo2Adpter;
-
+    String iv_lpv_url;//签名图片 七牛云url
 
     @Override
     protected void init() {
 
-//        lpv.setPaintWidth(5);
         tv_title.setText("订单确认");
 
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
@@ -94,6 +103,22 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         });
 
+
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Glide.with(this)
+                .asDrawable()
+                .load(Uri.fromFile(new File(Configure.LinePathView_url)))
+                .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .apply(skipMemoryCacheOf(true))
+                .into(iv_lpv);
+
+        iv_lpv_url = intent.getStringExtra(Configure.Domain);
     }
 
     private void setInfo() {
@@ -165,7 +190,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 sendOrderInfo(OrderPayActivity.class, info);
                 break;
             case R.id.tv_start_service:
-                Api().beginServe(info.getOrderInfo().getId(), info.getOrderInfo().getOrder_sn()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+
+                Api().beginServe(info.getOrderInfo().getId(), info.getOrderInfo().getOrder_sn(), iv_lpv_url).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
                         toMain(1);
@@ -185,10 +211,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 toActivity(AutographActivity.class);
                 break;
 
-
         }
 
     }
+
 
     @Override
     public void onBackPressed() {

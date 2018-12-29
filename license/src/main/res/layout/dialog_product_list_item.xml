@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/button_background_b"
+        android:background="@drawable/button_background_z"
         android:gravity="center"
         android:paddingTop="7dp"
         android:paddingBottom="7dp"

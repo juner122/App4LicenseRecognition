@@ -303,7 +303,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
         return R.layout.activity_preview;
     }
 
-    @OnClick({R.id.but_next, R.id.e1})
+    @OnClick({R.id.but_next, R.id.e1, R.id.tv_back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_next:
@@ -341,6 +341,11 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                 });
 
 
+                break;
+
+            case R.id.back:
+                finish();
+                toMain(0);
                 break;
         }
 
@@ -384,7 +389,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     }
 
     private void initOpenCV() {
-
         try {
             plateRecognition = new PlateRecognition(this, mHandler);
             //init plate recognizer
@@ -417,6 +421,12 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
     @Override
     protected void onPause() {
         super.onPause();
+        disableView();
+    }
+
+
+    private void disableView() {
+
         try {
             if (recognizerView != null)
                 recognizerView.disableView();
@@ -433,6 +443,7 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             Log.e("车牌扫描功能异常", e.toString());
             e.printStackTrace();
         }
+
     }
 
 
@@ -484,4 +495,15 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
             }
         }
     };
+
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();//注释掉这行,back键不退出activity
+        Log.i(TAG, "onBackPressed");
+        finish();
+        toMain(0);
+
+    }
+
 }

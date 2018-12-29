@@ -8,6 +8,7 @@ public class ProductValue extends SelectedBean{
     int id;
     int goods_id;
     int product_id;
+    int number;
     String goods_specification_ids;
     String goods_sn;
     String market_price;
@@ -46,6 +47,14 @@ public class ProductValue extends SelectedBean{
 
     public void setGoods_specification_ids(String goods_specification_ids) {
         this.goods_specification_ids = goods_specification_ids;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public String getGoods_sn() {
