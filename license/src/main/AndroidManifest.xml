@@ -111,10 +111,7 @@
         <activity
             android:name=".activity.AutoBrandActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.PreviewActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
         //车牌扫描测试
         <activity
             android:name=".activity.MemberManagementInfoActivity"

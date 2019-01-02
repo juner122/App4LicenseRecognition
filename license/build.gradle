@@ -1,0 +1,107 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+
+        multiDexEnabled true
+        applicationId "com.frank.plate"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                abiFilters 'armeabi', 'armeabi-v7a'
+
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':openCVLibrary330')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+
+    //github.com/H07000223/FlycoTabLayout
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    //注解
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
+
+    //Adapter封装
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    //下拉刷新和上拉更多
+    implementation 'com.github.anzaizai:EasyRefreshLayout:1.3.1'
+
+
+
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    //七牛
+    implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
+
+//    //PictureSelector 2.0
+//    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'//导入retrofit
+    implementation 'com.google.code.gson:gson:2.8.2'//Gson 库
+    //下面两个是RxJava 和 RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'//转换器，请求结果转换成Model
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'//配合Rxjava 使用
+
+    // a SharedPreferences replacement for Android
+    implementation 'net.grandcentrix.tray:tray:0.12.0'
+
+    //PickerView控件
+    implementation 'com.contrarywind:Android-PickerView:4.1.6'
+
+    implementation 'com.bigkoo:ConvenientBanner:2.1.4'
+
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+    compile project(path: ':picture_library')
+
+    //车牌号码输入组件
+    implementation 'com.parkingwang:keyboard:0.7.1'
+
+    //一个基于谷歌CameraView library的相机处理程序，让安卓中最复杂的Camera api更简单。
+    implementation 'com.camerakit:camerakit:1.0.0-beta3.10'
+    implementation 'com.camerakit:jpegkit:0.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+
+    //LiteCommon是一系列通用类、辅助类、工具类的集合
+    implementation 'com.luffykou:android-common-utils:1.1.3'
+
+
+
+}

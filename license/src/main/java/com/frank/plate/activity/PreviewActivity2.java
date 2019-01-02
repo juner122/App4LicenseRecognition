@@ -1,12 +1,8 @@
 package com.frank.plate.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.camerakit.CameraKitView;
 import com.frank.plate.Configure;
@@ -14,8 +10,8 @@ import com.frank.plate.R;
 import com.frank.plate.api.RxSubscribe;
 import com.frank.plate.bean.CarNumberRecogResult;
 import com.frank.plate.bean.QueryByCarEntity;
+import com.frank.plate.util.BitmapUtil;
 import com.frank.plate.util.ToastUtils;
-import com.litesuits.common.utils.BitmapUtil;
 
 import com.parkingwang.keyboard.KeyboardInputController;
 import com.parkingwang.keyboard.OnInputChangedListener;
