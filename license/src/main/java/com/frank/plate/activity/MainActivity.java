@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll:
-                toActivity(PreviewActivity.class);
+                toActivity(PreviewActivity2.class);
                 break;
             case R.id.ll2:
                 ToastUtils.showToast("学院建设中！");

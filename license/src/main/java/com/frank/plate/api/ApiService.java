@@ -7,10 +7,12 @@ import com.frank.plate.bean.AutoBrand;
 import com.frank.plate.bean.AutoModel;
 import com.frank.plate.bean.BankList;
 import com.frank.plate.bean.BaseBean;
+import com.frank.plate.bean.BaseBean2;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
+import com.frank.plate.bean.CarNumberRecogResult;
 import com.frank.plate.bean.Card;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
@@ -52,7 +54,9 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 public interface ApiService {
 
@@ -275,7 +279,7 @@ public interface ApiService {
 
     //添加银行卡
     @POST("bank/save")
-    Observable<BaseBean<NullDataEntity>> bankSave(@Header("X-Nideshop-Token") String token,@Body Card maps);
+    Observable<BaseBean<NullDataEntity>> bankSave(@Header("X-Nideshop-Token") String token, @Body Card maps);
 
     //查看银行卡
     @POST("bank/list")
@@ -327,6 +331,22 @@ public interface ApiService {
     @POST("goods/sku")
     @FormUrlEncoded
     Observable<BaseBean<ProductList>> sku(@FieldMap Map<String, Object> maps);
+
+
+    /**
+     * 车牌识别
+     *
+     * @param url https://api03.aliyun.venuscn.com/ocr/car-license
+     * @param pic 车牌图像Base64字符串
+     */
+
+    @Headers({
+            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
+            "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
+    })
+    @POST()
+    @FormUrlEncoded
+    Observable<BaseBean2<CarNumberRecogResult>> carLicense(@Url String url, @Field("pic") String pic);
 
 
 }

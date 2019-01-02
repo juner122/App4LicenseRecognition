@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.frank.plate">
 
     <uses-feature android:name="android.hardware.camera" />
@@ -36,7 +37,8 @@
         android:roundIcon="@mipmap/logo"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,67 +49,129 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activity.MemberManagementActivity" />
-        <activity android:name=".activity.StaffManagementActivity" />
+        <activity
+            android:name=".activity.MemberManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StaffManagementActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProductListActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activity.ActivityPackageListActivity" />
-        <activity android:name=".activity.BillListActivity" />
+        <activity
+            android:name=".activity.ActivityPackageListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BillListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MemberInfoInputActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CarInfoInputActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.MakeOrderActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.MealListActivity" />
-        <activity android:name=".activity.TechnicianListActivity" />
-        <activity android:name=".activity.MakeOrderSuccessActivity"   android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MealListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TechnicianListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MakeOrderSuccessActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.OrderPayActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activity.OrderDoneActivity" />
-        <activity android:name=".activity.MyBalanceActivity" />
-        <activity android:name=".activity.BillListItemInfoActivity" />
+        <activity
+            android:name=".activity.OrderDoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyBalanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BillListItemInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.OrderInfoActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.AutoBrandActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AutoBrandActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PreviewActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         //车牌扫描测试
-        <activity android:name=".activity.MemberManagementInfoActivity" />
-        <activity android:name=".activity.ShopInfoActivity" />
-        <activity android:name=".activity.CarInfoActivity" />
-        <activity android:name=".activity.PickCoupons" />
-        <activity android:name=".activity.CourseInfoActivity" />
-        <activity android:name=".activity.CourseEnrolmentActivity" />
-        <activity android:name=".activity.CashWithdrawActivity" />
-        <activity android:name=".activity.AuthenActivity" />
-        <activity android:name=".activity.UserReportActivity" />
-        <activity android:name=".activity.AboutActivity" />
+        <activity
+            android:name=".activity.MemberManagementInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShopInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CarInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PickCoupons"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CourseInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CourseEnrolmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CashWithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AuthenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SetProjectActivity"
-            android:launchMode="singleTask" />
-        <activity android:name=".activity.ActivityInfoActivity" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ActivityInfoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ServeListActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activity.WeiXinPayCodeActivity" />
+        <activity
+            android:name=".activity.WeiXinPayCodeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ProductMealListActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".activity.AutographActivity"></activity>
+        <activity
+            android:name=".activity.AutographActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".activity.PreviewActivity2"></activity>
     </application>
 
 </manifest>

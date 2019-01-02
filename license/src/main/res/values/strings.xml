@@ -12,4 +12,7 @@
     <string name="error_connect_server">未能连接到服务器</string>
     <string name="error_connect_server_timeout">服务器超时了</string>
 
+
+
+
 </resources>

@@ -35,7 +35,6 @@ public class RetrofitServiceManager {
 //                .addHeaderParams("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""))
                 .build();
 
-
         builder.addInterceptor(commonInterceptor);
 
 

@@ -344,7 +344,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                 break;
 
             case R.id.back:
-                finish();
                 toMain(0);
                 break;
         }
@@ -370,7 +369,6 @@ public class PreviewActivity extends BaseActivity implements OnNewFrameListener 
                     finish();
                 }
             }
-
             @Override
             protected void _onError(String message) {
                 Log.d(TAG, message);

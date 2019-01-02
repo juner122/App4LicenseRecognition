@@ -351,7 +351,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/button_background_f"
                     android:hint="输入内容"
-                    android:inputType="number"
+                    android:inputType="number|textEmailAddress"
+                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     android:padding="8dp"
                     android:textColor="#FF666666"
                     android:textSize="13sp" />

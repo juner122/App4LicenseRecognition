@@ -14,6 +14,7 @@ import com.frank.plate.bean.BankList;
 import com.frank.plate.bean.BasePage;
 import com.frank.plate.bean.BillEntity;
 import com.frank.plate.bean.CarInfoRequestParameters;
+import com.frank.plate.bean.CarNumberRecogResult;
 import com.frank.plate.bean.Card;
 import com.frank.plate.bean.CategoryBrandList;
 import com.frank.plate.bean.Coupon;
@@ -694,6 +695,15 @@ public class ApiLoader {
     public Observable<BankList> bankList() {
 
         return apiService.bankList(token).compose(RxHelper.<BankList>observe());
+    }
+
+
+    /**
+     * 车牌识别
+     */
+    public Observable<CarNumberRecogResult> carLicense(String pic) {
+
+        return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.<CarNumberRecogResult>observe2());
     }
 
 
