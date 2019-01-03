@@ -17,6 +17,7 @@ import com.eb.new_line_seller.activity.ShopInfoActivity;
 import com.eb.new_line_seller.activity.UserReportActivity;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.bean.Shop;
+import com.eb.new_line_seller.util.SystemUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -37,6 +38,9 @@ public class MainFragment5 extends BaseFragment {
     @BindView(R.id.tv_phone_number)
     TextView tv_phone_number;
 
+    @BindView(R.id.updata)
+    TextView updata;//版本号
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment5_main;
@@ -44,6 +48,9 @@ public class MainFragment5 extends BaseFragment {
 
     @Override
     protected void setUpView() {
+        updata.append(SystemUtil.packaGetName());
+
+
         tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie, ""));
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
             @Override
@@ -64,6 +71,7 @@ public class MainFragment5 extends BaseFragment {
         });
 
     }
+
 
     @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out})
     public void onclick(View v) {
@@ -98,7 +106,8 @@ public class MainFragment5 extends BaseFragment {
                 break;
             case R.id.updata:
 
-                ToastUtils.showToast("已是最新版本！");
+
+                ToastUtils.showToast("versionCode：" + SystemUtil.packaGetCode() + "    versionName：" + SystemUtil.packaGetName());
 
                 break;
             case R.id.tv_user_report:

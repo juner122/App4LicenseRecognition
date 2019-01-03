@@ -377,11 +377,11 @@ public class ApiLoader {
      * @return
      */
     public Observable<BasePage<OrderInfoEntity>> orderList(int position) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
 
         switch (position) {
             case 0:
-                map.clear();
-                map.put("X-Nideshop-Token", token);
 
                 break;
             case 1:
@@ -394,7 +394,6 @@ public class ApiLoader {
                 break;
             case 3:
                 map.put("order_status", "1");
-                map.put("pay_status", "");
                 break;
             case 4:
                 map.put("order_status", "2");

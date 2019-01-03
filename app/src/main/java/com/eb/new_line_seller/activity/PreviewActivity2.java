@@ -58,10 +58,6 @@ public class PreviewActivity2 extends BaseActivity {
                     @Override
                     public void onImage(CameraKitView cameraKitView, byte[] bytes) {
 
-
-//                        carLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), true, 650, 300)));
-
-
                         Observable.just(bytes).subscribeOn(Schedulers.io()).flatMap(new Function<byte[], ObservableSource<CarNumberRecogResult>>() {
                             @Override
                             public ObservableSource<CarNumberRecogResult> apply(byte[] bytes) throws Exception {

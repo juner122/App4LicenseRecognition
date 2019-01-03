@@ -48,8 +48,10 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     ArrayList<Server> skillList;
 
     public String getPay_name() {
-
-        return null == pay_name ? "-" : pay_name;
+        if (pay_type == 11)
+            return "微信";
+        else
+            return null == pay_name || pay_name.equals("") ? "-" : pay_name;
     }
 
     public String getProvince() {

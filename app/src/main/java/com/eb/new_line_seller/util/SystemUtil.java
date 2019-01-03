@@ -2,10 +2,13 @@ package com.eb.new_line_seller.util;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+
+import com.eb.new_line_seller.MyApplication;
 
 public class SystemUtil {
 
@@ -36,5 +39,34 @@ public class SystemUtil {
         Log.d("Utility", "network is not available");
         return false;
     }
+
+
+    //获取应用的版本信息：
+    public static String packaGetName() {
+        PackageManager manager = MyApplication.getInstance().getPackageManager();
+        String name = null;
+        try {
+            PackageInfo info = manager.getPackageInfo(MyApplication.getInstance().getPackageName(), 0);
+            name = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return name;
+    }
+
+    //版本号versionCode
+    public static int packaGetCode() {
+        PackageManager manager = MyApplication.getInstance().getPackageManager();
+        int code = 0;
+        try {
+            PackageInfo info = manager.getPackageInfo(MyApplication.getInstance().getPackageName(), 0);
+            code = info.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
 
 }

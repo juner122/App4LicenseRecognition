@@ -17,8 +17,8 @@ android {
         applicationId "com.eb.new_line_seller"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 6
-        versionName "2.0"
+        versionCode 7
+        versionName "2.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }

@@ -117,7 +117,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:drawableLeft="@mipmap/icon_updata"
-                android:text="检查更新" />
+                android:text="检查更新  version:" />
 
 
             <TextView

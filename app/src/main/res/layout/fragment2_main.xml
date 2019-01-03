@@ -16,83 +16,7 @@
         android:textColor="#000"
         android:textSize="16sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="开始"
-                android:textColor="#666"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_background_h"
-                android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingTop="2dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="2dp"
-                android:text="2018-12-02"
-                android:textColor="#666"
-                android:textSize="10sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_calendar" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="结束"
-                android:textColor="#666"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/button_background_h"
-                android:gravity="center"
-                android:paddingLeft="5dp"
-                android:paddingTop="2dp"
-                android:paddingRight="5dp"
-                android:paddingBottom="2dp"
-                android:text="2018-12-02"
-                android:textColor="#666"
-                android:textSize="10sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_calendar" />
-        </LinearLayout>
-    </LinearLayout>
+    <!--<include layout="@layout/head_date_view" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -185,7 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#fff"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         tl:tl_textsize="12sp"
         tl:tl_divider_color="#1A000000"
         tl:tl_divider_padding="10dp"
