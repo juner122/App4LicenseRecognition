@@ -1,0 +1,28 @@
+package com.eb.new_line_seller.adapter;
+
+import android.support.annotation.Nullable;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.bean.CarNoLocation;
+
+import java.util.List;
+
+public class CarNoLocationAdpter extends BaseQuickAdapter<CarNoLocation, BaseViewHolder> {
+
+
+    public CarNoLocationAdpter(@Nullable List<CarNoLocation> data) {
+        super(R.layout.dialog_pick_car_no_location_item, data);
+
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, CarNoLocation item) {
+
+
+        helper.setText(R.id.tv_location, item.getLocation());
+
+    }
+
+}

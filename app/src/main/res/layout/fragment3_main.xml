@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/appColor"
+            android:gravity="center"
+            android:text="扫描接单"
+            android:textColor="#000"
+            android:textSize="16sp" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="350dp">
+
+
+            <com.eb.new_line_seller.view.PlateRecognizerView
+                android:id="@+id/surface_view"
+                android:background="@mipmap/background_carme"
+                android:layout_width="match_parent"
+                android:layout_height="350dp" />
+
+            <TextView
+
+                android:layout_alignParentBottom="true"
+                android:background="#33000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="请将车牌号置于扫描区域内"
+                android:textColor="#fffee600"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="车牌号"
+            android:textColor="#ff000000"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <EditText
+                android:id="@+id/e1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLength="1"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/e7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:inputType="number"
+                android:text=""
+                android:textColor="#ff000000"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_k"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="*请核对信息，如有错漏请手动修改"
+            android:textColor="#ff999999"
+            android:textSize="10sp" />
+
+        <Button
+            android:background="@drawable/button_background_c"
+            android:id="@+id/but_next"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="下一步"
+            android:textColor="#ff000000"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>
