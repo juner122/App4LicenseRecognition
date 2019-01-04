@@ -163,11 +163,9 @@ public class OrderListFragment extends BaseFragment {
                 easylayout.refreshComplete();
                 list.clear();
                 list = basePage.getList();
-
-
                 ola.setNewData(list);
 
-                if (list.size() < 10)
+                if (list.size() < Configure.limit_page)
                     easylayout.setLoadMoreModel(LoadModel.NONE);
 
 
@@ -186,7 +184,6 @@ public class OrderListFragment extends BaseFragment {
         Api().orderList(position, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
-
 
                 easylayout.loadMoreComplete();
 

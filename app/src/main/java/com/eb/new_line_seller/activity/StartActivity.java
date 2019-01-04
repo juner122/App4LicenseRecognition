@@ -53,6 +53,7 @@ public class StartActivity extends PermissionsActivity {
         String token = new AppPreferences(this).getString(Configure.Token, "");
         if (token.equals(""))
             startActivity(new Intent(this, LoginActivity.class));
+//            startActivity(new Intent(this, LoginActivity2.class));
         else
             startActivity(new Intent(this, MainActivity.class));
         finish();

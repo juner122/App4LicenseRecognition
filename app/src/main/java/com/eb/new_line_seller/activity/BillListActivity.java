@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.Configure;
@@ -15,6 +17,8 @@ import com.eb.new_line_seller.adapter.BillListAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.bean.BillEntity;
 import com.eb.new_line_seller.bean.BillEntityItem;
+import com.eb.new_line_seller.bean.Member;
+import com.eb.new_line_seller.bean.MemberEntity;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.MyTimePickerView;
@@ -34,7 +38,7 @@ public class BillListActivity extends BaseActivity {
 
     private static final String TAG = "BillListActivity";
     List<BillEntityItem> list = new ArrayList<>();
-    @BindView(R.id.recyclerView)
+    @BindView(R.id.rv)
     RecyclerView recyclerView;
 
     @BindView(R.id.tv_money1)
@@ -57,11 +61,17 @@ public class BillListActivity extends BaseActivity {
     TextView v_date2;
 
     BillListAdpter adpter;
-    int count;
     int isShowAll;//是否显示收入和支出
 
     Calendar startShowDate = Calendar.getInstance();
     Calendar endShowDate = Calendar.getInstance();
+
+
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
+    int page = 1;//第一页
+    MyTimePickerView pvTimeStart, pvTimeEnd;
+    boolean isdate;
 
     @Override
     protected void init() {
@@ -74,9 +84,7 @@ public class BillListActivity extends BaseActivity {
         } else {
             ll1.setVisibility(View.VISIBLE);
             ll2.setVisibility(View.VISIBLE);
-
         }
-
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adpter = new BillListAdpter(list);
@@ -86,15 +94,56 @@ public class BillListActivity extends BaseActivity {
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-
-
                 toActivity(BillListItemInfoActivity.class, Configure.order_on, list.get(position).getOrderSn());
             }
         });
 
+
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getList(1);
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                getList(0);
+
+            }
+        });
+        getList(0);
     }
 
+    private void getList(final int type) {
+        if (type == 0)
+            page = 1;
+        else
+            page++;
+        Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime(), isdate, isShowAll, page).subscribe(new RxSubscribe<BillEntity>(this, true) {
+            @Override
+            protected void _onNext(BillEntity bean) {
+
+                tv_money1.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
+                tv_money2.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
+                tv_money3.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
+                tv_money4.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
+
+                if (type == 0)
+                    refreshing(bean.getList());
+                else
+                    loadMoreData(bean.getList());
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast("查找账单列表失败！ " + message);
+            }
+        });
+    }
 
     @Override
     protected void setUpView() {
@@ -104,8 +153,8 @@ public class BillListActivity extends BaseActivity {
         pvTimeStart = new MyTimePickerView(this);
         pvTimeEnd = new MyTimePickerView(this);
 
-        startShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH), startShowDate.get(Calendar.DAY_OF_MONTH));
-        endShowDate.set(startShowDate.get(Calendar.YEAR), endShowDate.get(Calendar.MONTH) + 1, endShowDate.get(Calendar.DAY_OF_MONTH));
+        startShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH), 1);
+        endShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH) , 31);
 
         v_date1.setText(getFormatedDateTime(startShowDate.getTime()));
         v_date2.setText(getFormatedDateTime(endShowDate.getTime()));
@@ -117,7 +166,8 @@ public class BillListActivity extends BaseActivity {
                 ((TextView) v).setText(getFormatedDateTime(date));
 
                 startShowDate.setTime(date);
-                setUpDateData();
+                isdate = true;//设置时间后
+                getList(0);
 
             }
         });
@@ -127,7 +177,8 @@ public class BillListActivity extends BaseActivity {
 
                 ((TextView) v).setText(getFormatedDateTime(date));
                 endShowDate.setTime(date);
-                setUpDateData();
+                isdate = true;//设置时间后
+                getList(0);
             }
         });
 
@@ -135,30 +186,33 @@ public class BillListActivity extends BaseActivity {
     }
 
 
+    private void refreshing(List<BillEntityItem> ml) {
+        easylayout.refreshComplete();
+        list.clear();
+        list = ml;
+        adpter.setNewData(list);
+
+        if (list.size() < Configure.limit_page)//少于每页个数，不用加载更多
+            easylayout.setLoadMoreModel(LoadModel.NONE);
+    }
+
+
+    //加载更多
+    private void loadMoreData(List<BillEntityItem> ml) {
+        easylayout.loadMoreComplete();
+        if (ml.size() == 0) {
+            ToastUtils.showToast("没有更多了！");
+            easylayout.setLoadMoreModel(LoadModel.NONE);
+            return;
+        }
+        list.addAll(ml);
+        adpter.setNewData(list);
+
+    }
+
+
     @Override
     protected void setUpData() {
-
-        Api().getUserBillList(isShowAll).subscribe(new RxSubscribe<BillEntity>(this, true) {
-            @Override
-            protected void _onNext(BillEntity bean) {
-                if (bean == null)
-                    return;
-                list = bean.getList();
-                adpter.setNewData(list);
-                tv_money1.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayIn()))));
-                tv_money2.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getDayOut()))));
-                tv_money3.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthIn()))));
-                tv_money4.setText(String.format("%s", MathUtil.twoDecimal(Double.parseDouble(bean.getMonthOut()))));
-            }
-
-            @Override
-            protected void _onError(String message) {
-
-                Log.d(TAG, message);
-
-                ToastUtils.showToast("查找账单列表失败！ " + message);
-            }
-        });
 
 
     }
@@ -168,8 +222,6 @@ public class BillListActivity extends BaseActivity {
         return R.layout.activity_bill_list;
     }
 
-
-    MyTimePickerView pvTimeStart, pvTimeEnd;
 
     @OnClick({R.id.v_date1, R.id.v_date2})
     public void onClick(View v) {
@@ -185,24 +237,6 @@ public class BillListActivity extends BaseActivity {
 
                 break;
         }
-
-    }
-
-    private void setUpDateData() {
-        Api().getUserBillList(startShowDate.getTime(), endShowDate.getTime(), isShowAll).subscribe(new RxSubscribe<BillEntity>(this, true) {
-            @Override
-            protected void _onNext(BillEntity bean) {
-                list = bean.getList();
-                adpter.setNewData(list);
-            }
-
-            @Override
-            protected void _onError(String message) {
-
-                Log.d(TAG, message);
-                ToastUtils.showToast("查找账单失败:" + message);
-            }
-        });
 
     }
 

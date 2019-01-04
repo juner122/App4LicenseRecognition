@@ -22,8 +22,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 摄像头权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="com.meilapp.meila.permission.MIPUSH_RECEIVE" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 开启闪光灯权限 -->

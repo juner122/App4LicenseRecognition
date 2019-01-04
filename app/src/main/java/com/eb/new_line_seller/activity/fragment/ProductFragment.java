@@ -122,7 +122,7 @@ public class ProductFragment extends BaseFragment {
                 //根据商品类型，品牌，查询商品
                 popupWindow.dismiss();
 
-                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), "");
+                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), et_key.getText().toString());
 
             }
 
@@ -136,6 +136,7 @@ public class ProductFragment extends BaseFragment {
     }
 
     private void showPopupWindow(View v) {
+        et_key.setText("");//清空搜索栏
 
         if (v.getTag() == checkedTag) {//判断当前选择的View Tag是否为已选中的View
             Log.d("radioGroup", "showPopupWindow+++当前选中的id为：" + v.getTag().toString());
@@ -168,8 +169,6 @@ public class ProductFragment extends BaseFragment {
 
                     listMap.put(category_id + brand_id, brand_all);
                     fragment.switchData(category_id, brand_id, brand_all);
-
-
                 }
 
                 @Override
@@ -181,6 +180,26 @@ public class ProductFragment extends BaseFragment {
 
     }
 
+    private void onQueryAnyGoods4Key(String name) {
+
+
+        Api().queryAnyGoods(name).subscribe(new RxSubscribe<GoodsListEntity>(getContext(), true) {
+            @Override
+            protected void _onNext(GoodsListEntity goodsListEntity) {
+
+                List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
+                fragment.switchData("", "", brand_all);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.v("BaseQuickAdapter", message);
+            }
+        });
+
+
+    }
 
     @OnClick({R.id.iv_search})
     public void onClick(View v) {
@@ -190,7 +209,7 @@ public class ProductFragment extends BaseFragment {
             case R.id.iv_search:
 
                 if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods("", "", et_key.getText().toString());
+                    onQueryAnyGoods4Key( et_key.getText().toString());
                 else
                     ToastUtils.showToast("请输入搜索关键字！");
 

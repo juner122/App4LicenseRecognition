@@ -6,9 +6,7 @@
     android:orientation="vertical">
 
 
-
     <include layout="@layout/head_view" />
-
 
 
     <LinearLayout
@@ -19,7 +17,6 @@
 
         <LinearLayout
             android:id="@+id/ll_search"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -28,7 +25,8 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/button_background_h"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <EditText
                 android:id="@+id/et_key"
@@ -45,6 +43,7 @@
                 android:maxLines="1"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
+                android:singleLine="true"
                 android:textSize="12sp" />
 
             <ImageView

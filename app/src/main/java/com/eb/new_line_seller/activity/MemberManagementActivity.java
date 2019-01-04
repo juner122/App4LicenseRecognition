@@ -7,13 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.MemberListAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.bean.BasePage;
 import com.eb.new_line_seller.bean.Member;
 import com.eb.new_line_seller.bean.MemberEntity;
+import com.eb.new_line_seller.bean.OrderInfoEntity;
+import com.eb.new_line_seller.util.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -29,19 +37,37 @@ public class MemberManagementActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
+
     MemberListAdpter adpter;
+    List<MemberEntity> list = new ArrayList<>();
+    int page = 1;//第一页
 
     @Override
     protected void init() {
         tv_title.setText("会员管理");
 
-        adpter = new MemberListAdpter(null);
-
+        adpter = new MemberListAdpter(list);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adpter.setEmptyView(R.layout.member_list_empty_view, rv);
-
         rv.setAdapter(adpter);
 
+
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                getList(1);
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                getList(0);
+
+            }
+        });
 
         adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -71,26 +97,56 @@ public class MemberManagementActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        memberList();
+        getList(0);
     }
 
-    private void memberList() {
-
-        Api().memberList().subscribe(new RxSubscribe<Member>(this, true) {
+    private void getList(final int type) {
+        if (type == 0)
+            page = 1;
+        else
+            page++;
+        Api().memberList(page).subscribe(new RxSubscribe<Member>(this, true) {
             @Override
             protected void _onNext(Member member) {
 
                 num1.setText(String.valueOf(member.getDayMember()));
                 num2.setText(String.valueOf(member.getMonthMember()));
-                adpter.setNewData(member.getMemberList());
+
+                if (type == 0)
+                    refreshing(member.getMemberList());
+                else
+                    loadMoreData(member.getMemberList());
+
             }
 
             @Override
             protected void _onError(String message) {
-                Log.d(TAG, message);
+                ToastUtils.showToast(message);
             }
         });
-
     }
 
+    private void refreshing(List<MemberEntity> ml) {
+        easylayout.refreshComplete();
+        list.clear();
+        list = ml;
+        adpter.setNewData(list);
+
+        if (list.size() < Configure.limit_page)//少于每页个数，不用加载更多
+            easylayout.setLoadMoreModel(LoadModel.NONE);
+    }
+
+
+    //加载更多
+    private void loadMoreData(List<MemberEntity> ml) {
+        easylayout.loadMoreComplete();
+        if (ml.size() == 0) {
+            ToastUtils.showToast("没有更多了！");
+            easylayout.setLoadMoreModel(LoadModel.NONE);
+            return;
+        }
+        list.addAll(ml);
+        adpter.setNewData(list);
+
+    }
 }

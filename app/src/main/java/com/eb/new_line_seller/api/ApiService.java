@@ -306,7 +306,7 @@ public interface ApiService {
 
     //修改快捷主推项目
     @POST("shopeasy/update")
-    Observable<BaseBean<NullDataEntity>> shopeasyUpdate(@Header("X-Nideshop-Token") String token, @Body GoodsEntity setProject);
+    Observable<BaseBean<Integer>> shopeasyUpdate(@Header("X-Nideshop-Token") String token, @Body GoodsEntity setProject);
 
 
     //用户可用套餐列表

@@ -142,9 +142,9 @@ public class ProductListActivity extends BaseActivity {
             case R.id.iv_search:
 
                 if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods("", "", et_key.getText().toString());
+                    onQueryAnyGoods4Key(et_key.getText().toString());
                 else
-                    Toast.makeText(ProductListActivity.this, "请输入搜索关键字！", Toast.LENGTH_SHORT).show();
+                    ToastUtils.showToast("请输入搜索关键字！");
 
                 break;
 
@@ -154,6 +154,9 @@ public class ProductListActivity extends BaseActivity {
     }
 
     private void showPopupWindow(View v) {
+
+        et_key.setText("");//清空搜索栏
+
 
         if (v.getTag() == checkedTag) {//判断当前选择的View Tag是否为已选中的View
             Log.d("radioGroup", "showPopupWindow+++当前选中的id为：" + v.getTag().toString());
@@ -166,7 +169,7 @@ public class ProductListActivity extends BaseActivity {
         } else {
 
             checkedTag = (Integer) v.getTag();
-            onQueryAnyGoods(categories.get(checkedTag).getId(), "", "");
+            onQueryAnyGoods(categories.get(checkedTag).getId(), "", et_key.getText().toString());
         }
     }
 
@@ -185,7 +188,7 @@ public class ProductListActivity extends BaseActivity {
                 //根据商品类型，品牌，查询商品
                 popupWindow.dismiss();
 
-                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), "");
+                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), et_key.getText().toString());
 
             }
 
@@ -224,6 +227,29 @@ public class ProductListActivity extends BaseActivity {
                 }
             });
         }
+
+    }
+
+    private void onQueryAnyGoods4Key(String name) {
+
+
+        Api().queryAnyGoods(name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
+            @Override
+            protected void _onNext(GoodsListEntity goodsListEntity) {
+
+                List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
+
+                fragment.switchData("", "", brand_all);
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.v("BaseQuickAdapter", message);
+            }
+        });
+
 
     }
 

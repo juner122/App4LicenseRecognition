@@ -85,8 +85,7 @@ public class SetProjectActivity extends BaseActivity {
                         setProjects.add(o.getGoodsList().get(1));
                         setProjects.add(o.getGoodsList().get(2));
                         setProjects.add(new GoodsEntity("商品/套餐项目名称", false));
-                    }
-                    if (o.getGoodsList().size() == 4) {
+                    } else if (o.getGoodsList().size() > 3) {
                         setProjects.add(o.getGoodsList().get(0));
                         setProjects.add(o.getGoodsList().get(1));
                         setProjects.add(o.getGoodsList().get(2));
@@ -156,12 +155,13 @@ public class SetProjectActivity extends BaseActivity {
         } else {
             g.setEasy_id(setProjects.get(position).getEasy_id());
             //更新
-            Api().shopeasyUpdate(g).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            Api().shopeasyUpdate(g).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
-                protected void _onNext(NullDataEntity n) {
+                protected void _onNext(Integer n) {
                     ToastUtils.showToast("更新成功！");
 
                     setProjects.remove(position);
+                    g.setEasy_id(n);
                     setProjects.add(position, g);
 
                     setProjectAdapter.setNewData(setProjects);

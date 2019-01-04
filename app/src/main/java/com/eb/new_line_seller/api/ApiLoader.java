@@ -88,18 +88,11 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BillEntity> getUserBillList(int isShowAll) {
-
-
-        //选日期需要添加，不添加默认取本月	Date before, Date after
-
+    public Observable<BillEntity> getUserBillList(int isShowAll, int page) {
 
         //如需分页则添加	分页参数（int page，int limit，String sidx，String order）
-//        map.put("page", page);
-//        map.put("limit", limit);
-//        map.put("sidx", sidx);
-//        map.put("order", order);
-//        map.put("type", type);
+        map.put("page", page);
+        map.put("limit", Configure.limit_page);
         List<Integer> list = new ArrayList<>();
         if (isShowAll == 0) {
             list.add(3);
@@ -120,21 +113,22 @@ public class ApiLoader {
     /**
      * 账单统计加列表 收入账单 与我的账单列表一个接口，多一个参数
      *
+     * @param isdate 是否用时间
      * @return
      */
-    public Observable<BillEntity> getUserBillList(Date after, Date before, int isShowAll) {
+    public Observable<BillEntity> getUserBillList(Date after, Date before, boolean isdate, int isShowAll, int page) {
 
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
+        if (isdate) {
+            map.put("before", before.getTime());
+            map.put("after", after.getTime());
+        }
 
-
-        map.put("before", before.getTime());
-        map.put("after", after.getTime());
-
-
-        return getUserBillList(isShowAll);
+        return getUserBillList(isShowAll, page);
 
     }
+
 
     /**
      * 会员录入
@@ -314,6 +308,19 @@ public class ApiLoader {
     }
 
     /**
+     * 10.查询任意条件商品 目前主要存brand_id品牌，category_id类型，name商品名
+     *
+     * @return
+     */
+    public Observable<GoodsListEntity> queryAnyGoods(String name) {
+
+
+        map.put("name", name);//查询关键字
+
+        return apiService.queryAnyGoods(map).compose(RxHelper.<GoodsListEntity>observe());
+    }
+
+    /**
      * 10.四个火热商品
      *
      * @return
@@ -360,26 +367,13 @@ public class ApiLoader {
     /**
      * 任意条件订单列表 不同订单查询看备注
      *
-     * @param position 0为查询全部
      * @return
      */
     public Observable<BasePage<OrderInfoEntity>> orderList(int position, int page) {
-
-        map.put("page", page);
-
-
-        return orderList(position);
-    }
-
-    /**
-     * 任意条件订单列表 不同订单查询看备注
-     *
-     * @return
-     */
-    public Observable<BasePage<OrderInfoEntity>> orderList(int position) {
         map.clear();
         map.put("X-Nideshop-Token", token);
-
+        map.put("page", page);
+        map.put("limit", Configure.limit_page);
         switch (position) {
             case 0:
 
@@ -492,8 +486,10 @@ public class ApiLoader {
     /**
      * 会员管理页面数据
      */
-    public Observable<Member> memberList() {
+    public Observable<Member> memberList(int page) {
 
+        map.put("page", page);
+        map.put("limit", Configure.limit_page);
         return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 
@@ -691,9 +687,9 @@ public class ApiLoader {
     /**
      * 修改快捷主推项目
      */
-    public Observable<NullDataEntity> shopeasyUpdate(GoodsEntity setProject) {
+    public Observable<Integer> shopeasyUpdate(GoodsEntity setProject) {
         setProject.setType(1);
-        return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.<Integer>observe());
     }
 
     /**

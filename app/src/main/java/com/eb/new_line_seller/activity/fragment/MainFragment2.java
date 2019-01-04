@@ -84,7 +84,7 @@ public class MainFragment2 extends BaseFragment {
     }
 
     private void getData(int position) {
-        Api().orderList(position).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {
+        Api().orderList(position,1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
                 setTopNum(basePage.getDayTotal(), basePage.getMonthTotal());
