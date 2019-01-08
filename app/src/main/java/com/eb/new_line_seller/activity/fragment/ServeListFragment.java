@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import com.eb.new_line_seller.R;
 
 import com.eb.new_line_seller.adapter.ServeListAdapter;
-import com.eb.new_line_seller.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsEntity;
 
 import java.util.ArrayList;
 import java.util.List;

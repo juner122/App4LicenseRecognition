@@ -22,7 +22,6 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 摄像头权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 开启闪光灯权限 -->
@@ -110,7 +109,6 @@
         <activity
             android:name=".activity.AutoBrandActivity"
             android:screenOrientation="portrait" />
-
         //车牌扫描测试
         <activity
             android:name=".activity.MemberManagementInfoActivity"
@@ -147,6 +145,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".mvp.LoginActivity2"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.SetProjectActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -167,7 +169,11 @@
         <activity
             android:name=".activity.AutographActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.PreviewActivity2"/>
+        <activity android:name=".activity.PreviewActivity2" />
+        <activity
+            android:name=".mvp.ActivateCardActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".mvp.PickMealCardActivity" />
     </application>
 
 </manifest>

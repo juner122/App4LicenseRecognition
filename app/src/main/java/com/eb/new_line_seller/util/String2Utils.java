@@ -3,9 +3,9 @@ package com.eb.new_line_seller.util;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.Server;
-import com.eb.new_line_seller.bean.Technician;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.Server;
+import com.juner.mvp.bean.Technician;
 
 import java.util.List;
 

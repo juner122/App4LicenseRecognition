@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 
 
 import java.util.List;

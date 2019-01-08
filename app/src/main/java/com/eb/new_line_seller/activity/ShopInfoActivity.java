@@ -11,8 +11,8 @@ import com.bigkoo.convenientbanner.holder.Holder;
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.Shop;
-import com.eb.new_line_seller.bean.ShopImage;
+import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.ShopImage;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import butterknife.BindView;

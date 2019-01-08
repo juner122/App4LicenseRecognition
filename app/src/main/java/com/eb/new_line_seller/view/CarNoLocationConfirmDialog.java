@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CarNoLocationAdpter;
-import com.eb.new_line_seller.bean.CarNoLocation;
+import com.juner.mvp.bean.CarNoLocation;
 import com.eb.new_line_seller.util.Locations;
 
 import java.util.List;

@@ -18,8 +18,8 @@ import com.eb.new_line_seller.MyApplication;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.ProductListAdpter;
 
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.ProductValue;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.ProductValue;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import java.util.List;

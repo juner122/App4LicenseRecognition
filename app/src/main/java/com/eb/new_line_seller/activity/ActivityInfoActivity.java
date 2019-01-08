@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.ActivityEntity;
+import com.juner.mvp.bean.ActivityEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import butterknife.BindView;

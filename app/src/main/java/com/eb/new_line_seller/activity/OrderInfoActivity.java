@@ -14,18 +14,18 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.SimpleGoodInfoAdpter;
 import com.eb.new_line_seller.adapter.SimpleMealInfoAdpter;
 import com.eb.new_line_seller.adapter.SimpleServiceInfoAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
 
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.OrderInfo;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.OrderInfo;
 
-import com.eb.new_line_seller.bean.Server;
-import com.eb.new_line_seller.bean.Technician;
+import com.juner.mvp.bean.Server;
+import com.juner.mvp.bean.Technician;
 import com.eb.new_line_seller.util.DateUtil;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.String2Utils;

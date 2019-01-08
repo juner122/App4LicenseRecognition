@@ -12,8 +12,8 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.AutoBrandAdapter;
 import com.eb.new_line_seller.adapter.AutoModeladapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.AutoBrand;
-import com.eb.new_line_seller.bean.AutoModel;
+import com.juner.mvp.bean.AutoBrand;
+import com.juner.mvp.bean.AutoModel;
 import com.eb.new_line_seller.view.CommonPopupWindow;
 
 import java.util.Collections;
@@ -21,8 +21,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.eb.new_line_seller.Configure.brand;
-import static com.eb.new_line_seller.Configure.brandModdel;
+import static com.juner.mvp.Configure.brand;
+import static com.juner.mvp.Configure.brandModdel;
 
 /**
  * 汽车品牌列表
@@ -47,7 +47,8 @@ public class AutoBrandActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        setTitle("选择车型");
+        tv_title.setText("选择车型");
+
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         Api().listByName().subscribe(new RxSubscribe<List<AutoBrand>>(this, true) {

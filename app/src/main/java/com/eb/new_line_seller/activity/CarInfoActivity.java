@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.GridImageAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
-import com.eb.new_line_seller.bean.UpDataPicEntity;
+import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.UpDataPicEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.FullyGridLayoutManager;
 import com.luck.picture.lib.PictureSelector;

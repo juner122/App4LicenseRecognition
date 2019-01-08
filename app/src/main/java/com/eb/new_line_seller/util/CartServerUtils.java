@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.eb.new_line_seller.bean.Server;
+import com.juner.mvp.bean.Server;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -13,7 +13,7 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eb.new_line_seller.Configure.JSON_ServerCART;
+import static com.juner.mvp.Configure.JSON_ServerCART;
 
 public class CartServerUtils {
 

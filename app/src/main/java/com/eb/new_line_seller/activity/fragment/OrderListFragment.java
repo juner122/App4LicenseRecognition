@@ -1,10 +1,7 @@
 package com.eb.new_line_seller.activity.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +10,7 @@ import android.view.View;
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.MakeOrderSuccessActivity;
 import com.eb.new_line_seller.activity.OrderDoneActivity;
@@ -21,9 +18,9 @@ import com.eb.new_line_seller.activity.OrderInfoActivity;
 import com.eb.new_line_seller.activity.OrderPayActivity;
 import com.eb.new_line_seller.adapter.OrderListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BasePage;
-import com.eb.new_line_seller.bean.OrderInfo;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
+import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.OrderInfo;
+import com.juner.mvp.bean.OrderInfoEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import java.util.ArrayList;

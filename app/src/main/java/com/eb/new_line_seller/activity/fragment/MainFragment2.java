@@ -1,21 +1,16 @@
 package com.eb.new_line_seller.activity.fragment;
 
 
-import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.eb.new_line_seller.util.ToastUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BasePage;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.ArrayList;
 

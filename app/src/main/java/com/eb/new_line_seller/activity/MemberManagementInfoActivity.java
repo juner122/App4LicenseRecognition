@@ -9,14 +9,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.OrderList2Adapter;
 import com.eb.new_line_seller.adapter.SimpleCarInfoAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
-import com.eb.new_line_seller.bean.MemberOrder;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
+import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.OrderInfoEntity;
 
 import net.grandcentrix.tray.AppPreferences;
 

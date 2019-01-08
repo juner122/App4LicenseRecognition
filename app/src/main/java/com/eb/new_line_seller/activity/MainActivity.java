@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.fragment.MainFragment1;
 import com.eb.new_line_seller.activity.fragment.MainFragment2;

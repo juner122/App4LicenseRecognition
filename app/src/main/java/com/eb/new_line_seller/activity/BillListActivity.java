@@ -3,7 +3,6 @@ package com.eb.new_line_seller.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,14 +10,12 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.BillListAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BillEntity;
-import com.eb.new_line_seller.bean.BillEntityItem;
-import com.eb.new_line_seller.bean.Member;
-import com.eb.new_line_seller.bean.MemberEntity;
+import com.juner.mvp.bean.BillEntity;
+import com.juner.mvp.bean.BillEntityItem;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.MyTimePickerView;

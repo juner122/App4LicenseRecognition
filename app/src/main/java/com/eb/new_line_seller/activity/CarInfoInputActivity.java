@@ -11,17 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.GridImageAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.AutoBrand;
-import com.eb.new_line_seller.bean.AutoModel;
+import com.juner.mvp.bean.AutoBrand;
+import com.juner.mvp.bean.AutoModel;
 
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.UpDataPicEntity;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.UpDataPicEntity;
 import com.eb.new_line_seller.util.A2bigA;
 import com.eb.new_line_seller.util.Auth;
 import com.eb.new_line_seller.util.CommonUtil;
@@ -155,29 +155,27 @@ public class CarInfoInputActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+
         selectAutoBrand = intent.getParcelableExtra(Configure.brand);
         autoModel = intent.getParcelableExtra(Configure.brandModdel);
-
         tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
-
-
     }
 
     @Override
     protected void init() {
 
 
-
-        car_id = getIntent().getIntExtra(Configure.CARID,0);
+        car_id = getIntent().getIntExtra(Configure.CARID, 0);
 
 
         tv_car_no.setTransformationMethod(new A2bigA());
         if (0 == car_id) {
-
             tv_car_no.setFocusable(true);
             tv_title.setText("车况录入");
             type_action = 1;
-            tv_car_no.setText(new AppPreferences(this).getString(Configure.car_no, ""));
+            tv_car_no.setText(new AppPreferences(CarInfoInputActivity.this).getString(Configure.car_no, ""));
+
+
         } else {
 
             tv_car_no.setFocusable(false);
@@ -508,13 +506,13 @@ public class CarInfoInputActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
 
+                new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
                 ToastUtils.showToast("操作成功");
 
                 if (getIntent().getIntExtra("result_code", 0) == 001) {//用户信息页面传过来
                     setResult(RESULT_OK);
                     finish();
                 } else {
-
                     toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
                 }
             }
@@ -570,7 +568,7 @@ public class CarInfoInputActivity extends BaseActivity {
                 ToastUtils.showToast("删除失败");
             }
         });
-
-
     }
+
+
 }

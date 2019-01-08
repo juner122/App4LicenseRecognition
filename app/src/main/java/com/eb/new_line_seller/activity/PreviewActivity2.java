@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.Button;
 
 import com.camerakit.CameraKitView;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.CarNumberRecogResult;
-import com.eb.new_line_seller.bean.QueryByCarEntity;
+import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.new_line_seller.util.BitmapUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 
@@ -65,7 +65,7 @@ public class PreviewActivity2 extends BaseActivity {
                                 return Api().carLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), true, 650, 300)));
 //                                return Api().carLicense(carNumberRecognition_dome);
                             }
-                        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true,"车牌识别中") {
+                        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
                             @Override
                             protected void _onNext(CarNumberRecogResult c) {
 
@@ -75,7 +75,7 @@ public class PreviewActivity2 extends BaseActivity {
 
                             @Override
                             protected void _onError(String message) {
-                                ToastUtils.showToast( message);
+                                ToastUtils.showToast(message);
                             }
                         });
 

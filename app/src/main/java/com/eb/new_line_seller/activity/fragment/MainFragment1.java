@@ -7,7 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.eb.new_line_seller.Configure;
+import com.eb.new_line_seller.mvp.ActivateCardActivity;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.ActivityPackageListActivity;
 import com.eb.new_line_seller.activity.BillListActivity;
@@ -16,7 +17,7 @@ import com.eb.new_line_seller.activity.MemberManagementActivity;
 import com.eb.new_line_seller.activity.ProductListActivity;
 import com.eb.new_line_seller.activity.StaffManagementActivity;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.WorkIndex;
+import com.juner.mvp.bean.WorkIndex;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 
@@ -94,7 +95,7 @@ public class MainFragment1 extends BaseFragment {
 
     }
 
-    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members})
+    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_top1:
@@ -111,6 +112,11 @@ public class MainFragment1 extends BaseFragment {
             case R.id.but_top4:
                 toActivity(ActivityPackageListActivity.class);
                 break;
+
+            case R.id.but_top6:
+                toActivity(ActivateCardActivity.class);
+                break;
+
             case R.id.rv_button_bill:
                 toActivity(BillListActivity.class, "isShowAll", 0);
                 break;

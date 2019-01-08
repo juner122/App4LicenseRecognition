@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.eb.new_line_seller.Configure;
+import com.eb.new_line_seller.mvp.LoginActivity2;
+import com.juner.mvp.Configure;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -52,8 +53,8 @@ public class StartActivity extends PermissionsActivity {
 
         String token = new AppPreferences(this).getString(Configure.Token, "");
         if (token.equals(""))
-            startActivity(new Intent(this, LoginActivity.class));
-//            startActivity(new Intent(this, LoginActivity2.class));
+//            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(new Intent(this, LoginActivity2.class));
         else
             startActivity(new Intent(this, MainActivity.class));
         finish();

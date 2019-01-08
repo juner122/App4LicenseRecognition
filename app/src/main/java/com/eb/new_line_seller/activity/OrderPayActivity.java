@@ -16,15 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.Brandadapter2;
 import com.eb.new_line_seller.api.RxSubscribe;
 
-import com.eb.new_line_seller.bean.Coupon;
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.OffLinePayType;
-import com.eb.new_line_seller.bean.OrderInfo;
+import com.juner.mvp.bean.Coupon;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.OffLinePayType;
+import com.juner.mvp.bean.OrderInfo;
 import com.eb.new_line_seller.util.DateUtil;
 import com.eb.new_line_seller.util.PayTypeList;
 import com.eb.new_line_seller.util.ToastUtils;
@@ -84,7 +84,7 @@ public class OrderPayActivity extends BaseActivity {
     Brandadapter2 brandadapter;
 
     Coupon c;//选择的优惠券
-    int pay_type = 11;//收款方式  31嗨卡   11微信  21 掌贝  22 现金  23团购 24旧商城 25收钱吧 26车行易 27巨会养车 28停洗欢 29百汇通 30 A洗车
+    int pay_type = 11;//
 
     List<OffLinePayType> olpy;
 
@@ -141,7 +141,7 @@ public class OrderPayActivity extends BaseActivity {
 
                 ToastUtils.showToast("支付方式:" + olpy.get(position).getType_string());
 
-                if (pay_type == 1 || pay_type == 32)
+                if (pay_type == 21 || pay_type == 23)
                     ll_card_num.setVisibility(View.VISIBLE);
                 else
                     ll_card_num.setVisibility(View.GONE);
@@ -311,7 +311,7 @@ public class OrderPayActivity extends BaseActivity {
         if (pay_type == 11) {
             infoEntity.getOrderInfo().setPay_type(11);
             infoEntity.getOrderInfo().setPay_name("微信");
-        } else if (pay_type == 1 || pay_type == 32) {
+        } else if (pay_type == 21 || pay_type == 23) {
             infoEntity.getOrderInfo().setPay_type(olpt.getPay_type());
             infoEntity.getOrderInfo().setPay_name(olpt.getType_string());
             infoEntity.getOrderInfo().setProvince(et_car_code.getText().toString());

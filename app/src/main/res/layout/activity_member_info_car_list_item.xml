@@ -30,12 +30,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/button_background_a"
+        android:background="@drawable/button_background_z"
         android:paddingLeft="15dp"
-        android:paddingTop="7dp"
+        android:paddingTop="6dp"
         android:paddingRight="15dp"
-        android:paddingBottom="7dp"
-        android:text="查看车况详情"
+        android:paddingBottom="6dp"
+        android:text="查看车况"
         android:textColor="#ff000000"
-        android:textSize="14sp" />
+        android:textSize="13sp" />
 </LinearLayout>

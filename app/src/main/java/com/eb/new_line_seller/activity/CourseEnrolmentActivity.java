@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.NullDataEntity;
+import com.juner.mvp.bean.NullDataEntity;
 
 import butterknife.BindView;
 import butterknife.OnClick;

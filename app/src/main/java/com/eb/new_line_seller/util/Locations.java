@@ -1,6 +1,6 @@
 package com.eb.new_line_seller.util;
 
-import com.eb.new_line_seller.bean.CarNoLocation;
+import com.juner.mvp.bean.CarNoLocation;
 
 import java.util.ArrayList;
 import java.util.List;

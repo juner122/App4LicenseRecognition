@@ -3,11 +3,11 @@ package com.eb.new_line_seller.activity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BankList;
-import com.eb.new_line_seller.bean.MyBalanceEntity;
+import com.juner.mvp.bean.BankList;
+import com.juner.mvp.bean.MyBalanceEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;

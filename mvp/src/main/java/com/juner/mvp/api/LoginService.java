@@ -2,6 +2,7 @@ package com.juner.mvp.api;
 
 
 import com.juner.mvp.bean.BaseBean;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Token;
 
 import java.util.Map;
@@ -21,4 +22,8 @@ public interface LoginService {
     Observable<BaseBean<Token>> login(@FieldMap Map<String, Object> maps);
 
 
+    //短信验证码
+    @POST("sms/sendSms")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> smsSendSms(@FieldMap Map<String, Object> maps);
 }

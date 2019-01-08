@@ -6,7 +6,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.bean.ProductValue;
+import com.juner.mvp.bean.ProductValue;
 
 import java.util.List;
 

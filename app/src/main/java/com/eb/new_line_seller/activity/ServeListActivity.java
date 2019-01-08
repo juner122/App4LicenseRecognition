@@ -18,8 +18,8 @@ import com.eb.new_line_seller.adapter.ServeListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
 
 
-import com.eb.new_line_seller.bean.Server;
-import com.eb.new_line_seller.bean.ServerList;
+import com.juner.mvp.bean.Server;
+import com.juner.mvp.bean.ServerList;
 
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;

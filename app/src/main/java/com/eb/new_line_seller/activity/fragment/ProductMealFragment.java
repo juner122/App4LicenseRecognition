@@ -45,7 +45,7 @@ public class ProductMealFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        mealListAdapter = new MealListAdapter(this, null);
+        mealListAdapter = new MealListAdapter(null);
 
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(mealListAdapter);
@@ -54,11 +54,7 @@ public class ProductMealFragment extends BaseFragment {
         mealListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-
                 MealEntity m = (MealEntity) adapter.getData().get(position);
-
-
 
                 if (m.isSelected()) {
                     m.setSelected(false);
@@ -68,10 +64,6 @@ public class ProductMealFragment extends BaseFragment {
                     MyApplication.cartUtils.addMeal(m);
                 }
                 adapter.notifyDataSetChanged();
-
-
-
-
             }
         });
 

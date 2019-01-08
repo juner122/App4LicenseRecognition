@@ -1,7 +1,7 @@
 package com.eb.new_line_seller.api;
 
-import com.eb.new_line_seller.bean.BaseBean;
-import com.eb.new_line_seller.bean.BaseBean2;
+import com.juner.mvp.bean.BaseBean;
+import com.juner.mvp.bean.BaseBean2;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;

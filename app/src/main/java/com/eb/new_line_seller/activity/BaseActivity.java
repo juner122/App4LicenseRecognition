@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.ApiLoader;
 
@@ -27,7 +27,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 
-import static com.eb.new_line_seller.Configure.ORDERINFO;
+import static com.juner.mvp.Configure.ORDERINFO;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
@@ -183,7 +183,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         Intent intent = new Intent(this, c);
-
         intent.putExtra(key, str);
         startActivity(intent);
 

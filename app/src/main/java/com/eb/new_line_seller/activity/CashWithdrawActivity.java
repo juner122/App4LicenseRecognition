@@ -5,11 +5,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.UserBalanceAuthPojo;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.UserBalanceAuthPojo;
 import com.eb.new_line_seller.util.ToastUtils;
 
 

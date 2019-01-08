@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.Auth;
 import com.eb.new_line_seller.util.CommonUtil;

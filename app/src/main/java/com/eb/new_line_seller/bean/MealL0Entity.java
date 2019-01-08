@@ -1,10 +1,17 @@
 package com.eb.new_line_seller.bean;
 
+
 import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 public class MealL0Entity extends AbstractExpandableItem<MealEntity> implements MultiItemEntity {
-
+    private boolean isSelected;
+    public boolean isSelected() {
+        return isSelected;
+    }
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     String activityName;
     int activityId;

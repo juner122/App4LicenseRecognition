@@ -13,9 +13,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.TechnicianAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BasePage;
+import com.juner.mvp.bean.BasePage;
 
-import com.eb.new_line_seller.bean.Technician;
+import com.juner.mvp.bean.Technician;
 
 import java.util.ArrayList;
 import java.util.List;

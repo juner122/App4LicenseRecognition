@@ -6,12 +6,13 @@ import com.juner.mvp.base.BaseXPresenter;
 import com.juner.mvp.base.view.IBaseView;
 
 
+
 /**
  * Presenter的实现
  * <p>
  * 这里不止实现了IBasePresenter,，还实现了HttpResponseListener,网络请求响应接口
  */
-public abstract class BasePresenter<V extends IBaseView, T> extends BaseXPresenter<V> implements IBasePresenter {
+public abstract class BasePresenter<V extends IBaseView> extends BaseXPresenter<V> implements IBasePresenter {
 
     public BasePresenter(@NonNull V view) {
         super(view);

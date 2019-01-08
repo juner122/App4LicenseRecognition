@@ -38,10 +38,10 @@
                 android:drawableLeft="@mipmap/icon_login_name"
                 android:drawablePadding="20dp"
                 android:hint="请输入手机号码"
+                android:maxLength="11"
                 android:inputType="phone"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text=""
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 

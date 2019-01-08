@@ -3,21 +3,18 @@ package com.eb.new_line_seller.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.MemberListAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BasePage;
-import com.eb.new_line_seller.bean.Member;
-import com.eb.new_line_seller.bean.MemberEntity;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
+import com.juner.mvp.bean.Member;
+import com.juner.mvp.bean.MemberEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import java.util.ArrayList;

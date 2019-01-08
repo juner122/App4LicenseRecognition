@@ -6,9 +6,9 @@ import android.util.Log;
 import android.util.SparseArray;
 
 
-import com.eb.new_line_seller.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsEntity;
 import com.eb.new_line_seller.bean.MealEntity;
-import com.eb.new_line_seller.bean.Server;
+import com.juner.mvp.bean.Server;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,7 +17,7 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eb.new_line_seller.Configure.JSON_CART;
+import static com.juner.mvp.Configure.JSON_CART;
 
 public class CartUtils {
 

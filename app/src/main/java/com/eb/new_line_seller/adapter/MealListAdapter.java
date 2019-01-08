@@ -20,12 +20,11 @@ import java.util.List;
 
 public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
-    Fragment fragment;
 
 
-    public MealListAdapter(Fragment fragment, @Nullable List<MultiItemEntity> data) {
+
+    public MealListAdapter( @Nullable List<MultiItemEntity> data) {
         super(data);
-        this.fragment = fragment;
         addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item);
         addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_product_meal_list_item_item);
 
@@ -39,7 +38,6 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 final MealL0Entity m = (MealL0Entity) item;
 
                 helper.setText(R.id.tv_name, m.getActivityName());
-
 
                 //set view content
                 helper.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +71,6 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                     iv.setImageResource(R.mipmap.icon_unpick);
                     tv_goodName.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //添加删除线
                 }
-
 
                 break;
 

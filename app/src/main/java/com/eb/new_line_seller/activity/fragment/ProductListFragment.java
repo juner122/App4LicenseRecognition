@@ -17,9 +17,9 @@ import com.eb.new_line_seller.activity.ProductMealListActivity;
 import com.eb.new_line_seller.activity.SetProjectActivity;
 import com.eb.new_line_seller.adapter.ProductListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.ProductList;
-import com.eb.new_line_seller.bean.ProductValue;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.ProductList;
+import com.juner.mvp.bean.ProductValue;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ProductListDialog;
 
@@ -28,8 +28,8 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.eb.new_line_seller.Configure.ORDERINFO;
-import static com.eb.new_line_seller.Configure.setProject;
+import static com.juner.mvp.Configure.ORDERINFO;
+import static com.juner.mvp.Configure.setProject;
 
 public class ProductListFragment extends BaseFragment {
 

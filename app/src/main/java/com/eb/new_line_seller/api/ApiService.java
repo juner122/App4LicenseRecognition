@@ -1,42 +1,43 @@
 package com.eb.new_line_seller.api;
 
-import com.eb.new_line_seller.bean.ActivityEntity;
-import com.eb.new_line_seller.bean.ActivityPage;
-import com.eb.new_line_seller.bean.AutoBrand;
-import com.eb.new_line_seller.bean.AutoModel;
-import com.eb.new_line_seller.bean.BankList;
-import com.eb.new_line_seller.bean.BaseBean;
-import com.eb.new_line_seller.bean.BaseBean2;
-import com.eb.new_line_seller.bean.BasePage;
-import com.eb.new_line_seller.bean.BillEntity;
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
-import com.eb.new_line_seller.bean.CarNumberRecogResult;
-import com.eb.new_line_seller.bean.Card;
-import com.eb.new_line_seller.bean.CategoryBrandList;
-import com.eb.new_line_seller.bean.Coupon;
-import com.eb.new_line_seller.bean.Course;
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.GoodsListEntity;
+import com.eb.new_line_seller.bean.Meal2;
+import com.juner.mvp.bean.ActivityEntity;
+import com.juner.mvp.bean.ActivityPage;
+import com.juner.mvp.bean.AutoBrand;
+import com.juner.mvp.bean.AutoModel;
+import com.juner.mvp.bean.BankList;
+import com.juner.mvp.bean.BaseBean;
+import com.juner.mvp.bean.BaseBean2;
+import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.BillEntity;
+import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.Coupon;
+import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.new_line_seller.bean.Meal;
 
-import com.eb.new_line_seller.bean.Member;
-import com.eb.new_line_seller.bean.MemberOrder;
-import com.eb.new_line_seller.bean.MyBalanceEntity;
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.OrderInfo;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
-import com.eb.new_line_seller.bean.ProductList;
-import com.eb.new_line_seller.bean.QueryByCarEntity;
-import com.eb.new_line_seller.bean.SaveUserAndCarEntity;
-import com.eb.new_line_seller.bean.ServerList;
-import com.eb.new_line_seller.bean.Shop;
+import com.juner.mvp.bean.Member;
+import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.MyBalanceEntity;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.OrderInfo;
+import com.juner.mvp.bean.OrderInfoEntity;
+import com.juner.mvp.bean.ProductList;
+import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.ServerList;
+import com.juner.mvp.bean.Shop;
 
-import com.eb.new_line_seller.bean.Technician;
-import com.eb.new_line_seller.bean.Token;
-import com.eb.new_line_seller.bean.UserBalanceAuthPojo;
-import com.eb.new_line_seller.bean.UserInfo;
-import com.eb.new_line_seller.bean.WeixinCode;
-import com.eb.new_line_seller.bean.WorkIndex;
+import com.juner.mvp.bean.Technician;
+import com.juner.mvp.bean.Token;
+import com.juner.mvp.bean.UserBalanceAuthPojo;
+import com.juner.mvp.bean.UserInfo;
+import com.juner.mvp.bean.WeixinCode;
+import com.juner.mvp.bean.WorkIndex;
 
 import java.util.List;
 import java.util.Map;
@@ -340,6 +341,10 @@ public interface ApiService {
     @POST()
     @FormUrlEncoded
     Observable<BaseBean2<CarNumberRecogResult>> carLicense(@Url String url, @Field("pic") String pic);
+
+    //门店可录入套卡列表
+    @POST("activity/queryAct")
+    Observable<BaseBean<List<Meal2>>> queryAct(@Header("X-Nideshop-Token") String token);
 
 
 }

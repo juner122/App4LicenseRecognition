@@ -39,6 +39,18 @@
         android:textSize="12sp"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/tv_iv_r"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:text="服务中"
+        android:textColor="#ff000000"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/iv_r"
         android:layout_width="wrap_content"

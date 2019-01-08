@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.SimpleActivityInfo2Adpter;
 import com.eb.new_line_seller.adapter.SimpleGoodInfo2Adpter;
 import com.eb.new_line_seller.adapter.SimpleServerInfo2Adpter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.OrderInfo;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.OrderInfo;
 import com.eb.new_line_seller.util.DateUtil;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.String2Utils;

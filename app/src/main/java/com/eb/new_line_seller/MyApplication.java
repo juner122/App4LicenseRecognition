@@ -1,6 +1,7 @@
 package com.eb.new_line_seller;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.eb.new_line_seller.util.CartServerUtils;
 import com.eb.new_line_seller.util.CartUtils;
@@ -30,5 +31,8 @@ public class MyApplication extends Application {
 
     }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+    }
 }

@@ -12,7 +12,7 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CourseInfoActivity;
 import com.eb.new_line_seller.adapter.CourseListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.Course;
+import com.juner.mvp.bean.Course;
 
 import java.util.ArrayList;
 import java.util.List;

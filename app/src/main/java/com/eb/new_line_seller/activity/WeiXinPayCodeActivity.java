@@ -8,12 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.NullDataEntity;
-import com.eb.new_line_seller.bean.OrderInfoEntity;
-import com.eb.new_line_seller.bean.WeixinCode;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.OrderInfoEntity;
+import com.juner.mvp.bean.WeixinCode;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;

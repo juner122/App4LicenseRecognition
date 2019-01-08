@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.bean.AutoBrand;
+import com.juner.mvp.bean.AutoBrand;
 
 import java.util.HashMap;
 import java.util.List;

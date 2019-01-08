@@ -1,9 +1,13 @@
 package com.juner.mvp.base.model;
 
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.juner.mvp.api.RxSubscribe;
+import com.juner.mvp.Configure;
+import com.juner.mvp.api.http.RxSubscribe;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import io.reactivex.Observable;
 
@@ -22,4 +26,14 @@ public class BaseModel {
     protected <T> void sendRequest(@NonNull Observable<T> observable, @NonNull RxSubscribe<T> observer) {
         observable.subscribe(observer);
     }
+
+    /**
+     * 获取token
+     */
+    protected String getToken(Context context) {
+        return new AppPreferences(context).getString(Configure.Token, "");
+
+    }
+
+
 }

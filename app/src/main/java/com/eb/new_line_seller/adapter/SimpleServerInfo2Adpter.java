@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.bean.Server;
+import com.juner.mvp.bean.Server;
 import com.eb.new_line_seller.util.MathUtil;
 
 import java.util.List;

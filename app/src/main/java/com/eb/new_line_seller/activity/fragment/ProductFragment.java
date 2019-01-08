@@ -20,11 +20,11 @@ import com.eb.new_line_seller.R;
 
 import com.eb.new_line_seller.adapter.Brandadapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.Category;
-import com.eb.new_line_seller.bean.CategoryBrandList;
-import com.eb.new_line_seller.bean.GoodsEntity;
-import com.eb.new_line_seller.bean.GoodsListEntity;
-import com.eb.new_line_seller.bean.SubCategoryEntity;
+import com.juner.mvp.bean.Category;
+import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsListEntity;
+import com.juner.mvp.bean.SubCategoryEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.CommonPopupWindow;
 

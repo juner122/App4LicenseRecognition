@@ -6,17 +6,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.eb.new_line_seller.Configure;
+import com.eb.new_line_seller.mvp.LoginActivity2;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.AboutActivity;
 import com.eb.new_line_seller.activity.AuthenActivity;
-import com.eb.new_line_seller.activity.LoginActivity;
 import com.eb.new_line_seller.activity.MyBalanceActivity;
 import com.eb.new_line_seller.activity.SetProjectActivity;
 import com.eb.new_line_seller.activity.ShopInfoActivity;
 import com.eb.new_line_seller.activity.UserReportActivity;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.Shop;
+import com.juner.mvp.bean.Shop;
 import com.eb.new_line_seller.util.SystemUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 
@@ -118,7 +118,7 @@ public class MainFragment5 extends BaseFragment {
 
             case R.id.tv_out:
                 new AppPreferences(getContext()).remove(Configure.Token);
-                toActivity(LoginActivity.class);
+                toActivity(LoginActivity2.class);
                 getActivity().finish();
                 break;
 

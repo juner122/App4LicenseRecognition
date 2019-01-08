@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.bean.AutoModel;
+import com.juner.mvp.bean.AutoModel;
 
 import java.util.List;
 

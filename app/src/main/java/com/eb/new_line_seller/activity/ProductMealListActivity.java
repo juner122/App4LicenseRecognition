@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 
 import com.flyco.tablayout.SlidingTabLayout;
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.MyApplication;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.fragment.ProductFragment;

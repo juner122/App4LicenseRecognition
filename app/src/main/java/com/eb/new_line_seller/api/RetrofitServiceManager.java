@@ -1,6 +1,6 @@
 package com.eb.new_line_seller.api;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 
 import java.util.concurrent.TimeUnit;
 

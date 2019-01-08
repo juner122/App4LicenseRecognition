@@ -2,6 +2,7 @@ package com.juner.mvp.base;
 
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * View层的基类实现
@@ -10,7 +11,7 @@ import android.app.Activity;
  * 同时做了内存泄漏的预防处理。Activity通过getPresenter()来调用Presenter。
  * 另外，对于Fragment也可以仿照这样写。
  */
-public abstract class BaseXActivity<P extends IBaseXPresenter> extends Activity implements IBaseXView {
+public abstract class BaseXActivity<P extends IBaseXPresenter> extends AppCompatActivity implements IBaseXView {
     private P mPresenter;
 
     /**

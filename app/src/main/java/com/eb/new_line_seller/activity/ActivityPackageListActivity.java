@@ -12,8 +12,8 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.ActivityListAdapter;
 
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.ActivityEntityItem;
-import com.eb.new_line_seller.bean.ActivityPage;
+import com.juner.mvp.bean.ActivityEntityItem;
+import com.juner.mvp.bean.ActivityPage;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import java.util.List;

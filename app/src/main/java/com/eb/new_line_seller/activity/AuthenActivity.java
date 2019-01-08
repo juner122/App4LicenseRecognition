@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.BankList;
-import com.eb.new_line_seller.bean.Card;
-import com.eb.new_line_seller.bean.NullDataEntity;
+import com.juner.mvp.bean.BankList;
+import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.NullDataEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import java.util.concurrent.TimeUnit;

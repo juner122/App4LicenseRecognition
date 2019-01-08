@@ -14,13 +14,13 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import com.eb.new_line_seller.Configure;
+import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CarListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.bean.CarInfoRequestParameters;
-import com.eb.new_line_seller.bean.QueryByCarEntity;
-import com.eb.new_line_seller.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.eb.new_line_seller.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -112,7 +112,6 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_check:
 
                 if (TextUtils.isEmpty(et_mobile.getText()) || TextUtils.isEmpty(name.getText())) {
-
                     ToastUtils.showToast("请完整填写信息");
                     return;
                 }
@@ -152,7 +151,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                     mobile = et_mobile.getText().toString();
                     user_name = name.getText().toString();
 
-                    tv_check.setVisibility(View.GONE);
+                    tv_check.setVisibility(View.INVISIBLE);
                     et_mobile.setFocusable(false);
                     name.setFocusable(false);
                     ll_car_list.setVisibility(View.VISIBLE);
@@ -229,4 +228,9 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
+    }
 }

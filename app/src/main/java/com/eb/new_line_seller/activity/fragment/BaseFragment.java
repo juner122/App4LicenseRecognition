@@ -17,7 +17,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 
-import static com.eb.new_line_seller.Configure.ORDERINFO;
+import static com.juner.mvp.Configure.ORDERINFO;
 
 public abstract class BaseFragment extends Fragment {
     public Context mContext;
