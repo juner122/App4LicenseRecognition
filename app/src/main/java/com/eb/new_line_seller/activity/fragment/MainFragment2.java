@@ -70,13 +70,9 @@ public class MainFragment2 extends BaseFragment {
 
             }
         });
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
         getData(0);
     }
+
 
     private void getData(int position) {
         Api().orderList(position,1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {

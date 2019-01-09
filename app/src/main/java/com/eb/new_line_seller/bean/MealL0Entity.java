@@ -6,20 +6,35 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 public class MealL0Entity extends AbstractExpandableItem<MealEntity> implements MultiItemEntity {
     private boolean isSelected;
+
     public boolean isSelected() {
         return isSelected;
     }
+
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
 
     String activityName;
     int activityId;
+    int id;
     String activitySn;
 
-    public MealL0Entity(String activityName,  String activitySn) {
+    public MealL0Entity(String activityName, String activitySn) {
         this.activityName = activityName;
         this.activitySn = activitySn;
+    }
+
+    public MealL0Entity() {
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getActivitySn() {

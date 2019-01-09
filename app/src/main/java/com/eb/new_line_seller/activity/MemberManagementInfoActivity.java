@@ -41,7 +41,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
     SimpleCarInfoAdpter adpter1;
     OrderList2Adapter adapter2;
 
-    String car_number, moblie, user_name;
+    String car_number = "", new_car_number, moblie, user_name;
 
     int user_id, car_id;
 
@@ -52,6 +52,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
     protected void init() {
 
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
+        new_car_number = getIntent().getStringExtra(Configure.car_no);
+
         new AppPreferences(this).put(Configure.user_id, user_id);
 
 
@@ -88,7 +90,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
                 //查看更新车况
                 Intent intent = new Intent(MemberManagementInfoActivity.this, CarInfoInputActivity.class);
-                intent.putExtra("result_code", 001);
+                intent.putExtra("result_code", 1);
                 intent.putExtra(Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
                 reCarListInfo(intent);
 
@@ -176,7 +178,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
 
                 Intent intent = new Intent(this, CarInfoInputActivity.class);
-                intent.putExtra("result_code", 001);
+                intent.putExtra("result_code", 1);
+                intent.putExtra(Configure.car_no, new_car_number);
                 reCarListInfo(intent);
                 break;
         }

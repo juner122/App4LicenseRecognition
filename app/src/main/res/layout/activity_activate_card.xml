@@ -52,6 +52,7 @@
                         android:maxLength="11"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
+                        android:text=""
                         android:textColor="#ff000000"
                         android:textColorHint="#ff000000"
                         android:textSize="12sp" />
@@ -117,6 +118,7 @@
                         android:inputType="text"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
+                        android:text=""
                         android:textColor="#ff000000"
                         android:textColorHint="#ff000000"
                         android:textSize="12sp" />
@@ -160,7 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/ll_car_list"
@@ -179,10 +181,18 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="车辆列表"
                             android:textColor="#FF000000"
                             android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="不限车牌的套卡 请勿选择车牌"
+                            android:textColor="#FFF23325"
+                            android:textSize="11sp" />
 
                         <ImageView
                             android:id="@+id/tv_add_car"
@@ -258,9 +268,10 @@
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
                         android:text=""
-
                         android:textColor="#FF000000"
-                        android:textSize="12sp" />
+
+                        android:textSize="12sp"
+                        android:visibility="gone" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_meal"
@@ -305,7 +316,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_background_z"
-                        android:digits="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:digits="0123456789qwertyuiopasdfghjklzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:hint="输入内容"
                         android:inputType="number|textEmailAddress"
                         android:maxLength="11"

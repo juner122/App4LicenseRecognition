@@ -10,6 +10,7 @@ import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.RemakeActCard;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.eb.new_line_seller.mvp.contacts.ActivityCardContacts;
+import com.juner.mvp.bean.UserEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +37,20 @@ public class ActivateCardMdl extends BaseModel implements ActivityCardContacts.A
         sendRequest(HttpUtils.getApi().addUser(map).compose(RxHelper.<SaveUserAndCarEntity>observe()), rxSubscribe);
     }
 
+    /**
+     * 获取当前登录用户
+     */
+    @Override
+    public void getInfo(RxSubscribe<UserEntity> rxSubscribe) {
+
+        sendRequest(HttpUtils.getApi().getInfo(getToken(context)).compose(RxHelper.<UserEntity>observe()), rxSubscribe);
+    }
+
+
+
+    /**
+     * 录入卡
+     * */
     @Override
     public void confirmInput(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe) {
 

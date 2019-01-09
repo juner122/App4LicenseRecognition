@@ -69,7 +69,7 @@ public class PreviewActivity2 extends BaseActivity {
                             @Override
                             protected void _onNext(CarNumberRecogResult c) {
 
-                                mPopupKeyboard.getController().updateNumber(c.getNumber());//
+                                mPopupKeyboard.getController().updateNumber(c.getNumber());
                                 mPopupKeyboard.dismiss(PreviewActivity2.this);
                             }
 

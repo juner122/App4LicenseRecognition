@@ -347,4 +347,5 @@ public interface ApiService {
     Observable<BaseBean<List<Meal2>>> queryAct(@Header("X-Nideshop-Token") String token);
 
 
+
 }

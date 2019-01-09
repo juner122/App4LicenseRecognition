@@ -223,6 +223,8 @@ public class MakeOrderActivity extends BaseActivity {
 
                 Intent intent = new Intent(this, ProductMealListActivity.class);
                 intent.putExtra(Configure.user_id, user_id);
+                intent.putExtra(Configure.car_no, car_number);
+
                 intent.putExtra(Configure.isFixOrder, false);
                 startActivity(intent);
 

@@ -28,7 +28,7 @@ public class LoginContacts {
         /**
          * 登录失败
          */
-        void loginFailure();
+        void loginFailure(String masage);
 
 
         //设置倒计时

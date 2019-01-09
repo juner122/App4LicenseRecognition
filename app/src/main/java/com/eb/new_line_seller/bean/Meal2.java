@@ -3,11 +3,14 @@ package com.eb.new_line_seller.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 //门店可录套卡
-public class Meal2 implements Parcelable {
+public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcelable ,MultiItemEntity {
 
 
     int id;
@@ -83,4 +86,14 @@ public class Meal2 implements Parcelable {
             return new Meal2[size];
         }
     };
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+    @Override
+    public int getItemType() {
+        return 0;
+    }
 }

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.new_line_seller.util.A2bigA;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.Brandadapter2;
@@ -67,10 +68,8 @@ public class OrderPayActivity extends BaseActivity {
     @BindView(R.id.et_discount2)
     EditText et_discount2;
 
-
     @BindView(R.id.et_car_code)
     EditText et_car_code;
-
 
     @BindView(R.id.cb_weixin)
     CheckBox cb_weixin;
@@ -98,6 +97,7 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("订单收款");
+        et_car_code.setTransformationMethod(new A2bigA());
         olpy = PayTypeList.getList();
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
         Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
@@ -311,17 +311,14 @@ public class OrderPayActivity extends BaseActivity {
         if (pay_type == 11) {
             infoEntity.getOrderInfo().setPay_type(11);
             infoEntity.getOrderInfo().setPay_name("微信");
-        } else if (pay_type == 21 || pay_type == 23) {
-            infoEntity.getOrderInfo().setPay_type(olpt.getPay_type());
-            infoEntity.getOrderInfo().setPay_name(olpt.getType_string());
-            infoEntity.getOrderInfo().setProvince(et_car_code.getText().toString());
-
         } else if (pay_type != 0) {
             infoEntity.getOrderInfo().setPay_type(olpt.getPay_type());
             infoEntity.getOrderInfo().setPay_name(olpt.getType_string());
         }
 
         infoEntity.getOrderInfo().setCoupon_id(null == c ? 0 : c.getId());
+        infoEntity.getOrderInfo().setProvince(et_car_code.getText().toString());
+
 
         if (!TextUtils.isEmpty(et_discount.getText())) {
             infoEntity.getOrderInfo().setDiscount_price(et_discount.getText().toString());

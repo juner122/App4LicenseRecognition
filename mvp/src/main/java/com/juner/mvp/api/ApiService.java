@@ -5,6 +5,7 @@ import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.RemakeActCard;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.UserEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,9 @@ public interface ApiService {
     @POST("activity/remakeActCard")
     Observable<BaseBean<NullDataEntity>> remakeActCard(@Header("X-Nideshop-Token") String token, @Body List<RemakeActCard> list);
 
+
+    //获取当前登录用户
+    @POST("/app/sysuser/getInfo")
+    Observable<BaseBean<UserEntity>> getInfo(@Header("X-Nideshop-Token") String token);
 
 }

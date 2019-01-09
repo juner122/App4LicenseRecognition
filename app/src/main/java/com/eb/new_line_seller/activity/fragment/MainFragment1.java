@@ -113,8 +113,17 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(ActivityPackageListActivity.class);
                 break;
 
+            case R.id.but_top5:
+                ToastUtils.showToast("开发中");
+                break;
             case R.id.but_top6:
                 toActivity(ActivateCardActivity.class);
+                break;
+            case R.id.but_top7:
+                ToastUtils.showToast("开发中");
+                break;
+            case R.id.but_top8:
+                ToastUtils.showToast("开发中");
                 break;
 
             case R.id.rv_button_bill:

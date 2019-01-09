@@ -188,6 +188,10 @@ public class OrderInfoActivity extends BaseActivity {
 
                 Intent intent = new Intent(this, ProductMealListActivity.class);
                 intent.putExtra(Configure.user_id, info.getOrderInfo().getUser_id());
+
+                intent.putExtra(Configure.car_no, info.getOrderInfo().getCar_no());
+
+
                 intent.putExtra(Configure.isFixOrder, true);
 
                 startActivity(intent);

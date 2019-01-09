@@ -1,8 +1,8 @@
 package com.eb.new_line_seller.adapter;
 
 import android.support.annotation.Nullable;
-import android.view.View;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,30 +37,31 @@ public class MealPickListAdapter extends BaseMultiItemQuickAdapter<MultiItemEnti
 
                 helper.setText(R.id.tv_name, m.getActivityName());
 
-                ImageView iv = helper.getView(R.id.iv_pick);
 
+                final ImageView iv = helper.getView(R.id.iv_pick);
                 helper.addOnClickListener(R.id.ll_item);
-
-
-                if (m.isSelected())
-                    iv.setImageResource(R.drawable.icon_pick2);
-                else
-                    iv.setImageResource(R.drawable.icon_unpick2);
+                pick(m.isExpanded(), iv);
 
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
                 helper.setText(R.id.tv_name, me.getName()).setText(R.id.tv_number, String.valueOf(me.getNumber()));
-                TextView tv_goodName = helper.getView(R.id.tv_name);
-
-
                 helper.addOnClickListener(R.id.ib_reduce);
                 helper.addOnClickListener(R.id.ib_plus);
-
-                tv_goodName.getPaint().setFlags(0);
-
                 break;
 
         }
     }
+
+
+    private void pick(boolean isPick, ImageView iv) {
+        if (isPick)
+            iv.setImageResource(R.drawable.icon_pick2);
+        else
+            iv.setImageResource(R.drawable.icon_unpick2);
+
+
+    }
+
+
 }

@@ -328,7 +328,7 @@
                 android:background="#D9D9D9" />
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/ll_card_num"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"

@@ -1,6 +1,9 @@
 package com.eb.new_line_seller.mvp.contacts;
 
 
+import android.view.View;
+import android.widget.TextView;
+
 import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.juner.mvp.api.http.RxSubscribe;
@@ -10,6 +13,7 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.RemakeActCard;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.UserEntity;
 
 import java.util.List;
 
@@ -33,6 +37,10 @@ public class ActivityCardContacts {
         //显示录入信息页面
         void showView();
 
+        void onShowConfirmDialog();//显示确认Dialog
+
+        void setUserName(String userName);//设置录卡人
+
     }
 
     /**
@@ -50,6 +58,14 @@ public class ActivityCardContacts {
 
         void setCardSn(String cardSn);//设置套卡编号
 
+        void setStartData(View view);//设置开始时间
+
+        void setEndData(View view);//设置结束时间
+
+        void showConfirmDialog();//显示确认Dialog
+
+        void getInfo();//获取当前登录用户
+
     }
 
     /**
@@ -61,6 +77,8 @@ public class ActivityCardContacts {
         void checkMember(String phone, String name, RxSubscribe<SaveUserAndCarEntity> rxSubscribe);//检测用户
 
         void confirmInput(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe);//确认录入
+
+        void getInfo(RxSubscribe<UserEntity> rxSubscribe);//获取当前登录用户
 
     }
 

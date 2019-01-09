@@ -58,13 +58,15 @@ public class MemberInfoInputActivity extends BaseActivity {
     static String car_number, mobile, user_name;
     List<CarInfoRequestParameters> cars = new ArrayList<>();
 
+    String new_car_number;
+
     int user_id, car_id;
 
     @SuppressLint("CheckResult")
     @Override
     protected void init() {
 
-        car_number = new AppPreferences(this).getString(Configure.car_no, "");
+        new_car_number = new AppPreferences(this).getString(Configure.car_no, "");
 
 
         tv_check.setVisibility(View.VISIBLE);
@@ -107,7 +109,8 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_add_car:
 
                 new AppPreferences(this).put(Configure.user_id, user_id);
-                toActivity(CarInfoInputActivity.class);
+
+                toActivity(CarInfoInputActivity.class, Configure.car_no, new_car_number);
                 break;
             case R.id.tv_check:
 
@@ -115,20 +118,6 @@ public class MemberInfoInputActivity extends BaseActivity {
                     ToastUtils.showToast("请完整填写信息");
                     return;
                 }
-//                final ConfirmDialog confirmDialog = new ConfirmDialog(this, name.getText().toString(), et_mobile.getText().toString());
-//                confirmDialog.show();
-//                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
-//                    @Override
-//                    public void doConfirm() {
-//                        confirmDialog.dismiss();
-//                        getAddUser();
-//                    }
-//
-//                    @Override
-//                    public void doCancel() {
-//                        confirmDialog.dismiss();
-//                    }
-//                });
 
                 getAddUser();
                 break;
@@ -142,7 +131,11 @@ public class MemberInfoInputActivity extends BaseActivity {
             protected void _onNext(SaveUserAndCarEntity s) {
                 if (null != s.getCarList() && s.getCarList().size() > 0) {
 
-                    toActivity(MemberManagementInfoActivity.class, Configure.user_id, s.getUser_id());
+
+                    Intent intent = new Intent(MemberInfoInputActivity.this, MemberManagementInfoActivity.class);
+                    intent.putExtra(Configure.user_id, s.getUser_id());
+                    intent.putExtra(Configure.car_no, new_car_number);
+                    startActivity(intent);
                     finish();
 
                 } else {

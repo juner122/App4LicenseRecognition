@@ -161,13 +161,12 @@ public class BillListActivity extends BaseActivity {
             @Override
             public void onTimeSelect(Date date, View v) {
                 ((TextView) v).setText(getFormatedDateTime(date));
-
                 startShowDate.setTime(date);
                 isdate = true;//设置时间后
                 getList(0);
-
             }
         });
+
         pvTimeEnd.init(endShowDate, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {

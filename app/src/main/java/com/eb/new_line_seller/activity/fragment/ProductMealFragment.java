@@ -25,14 +25,16 @@ import butterknife.BindView;
 public class ProductMealFragment extends BaseFragment {
 
     private static int id;
+    private static String car_no;
     @BindView(R.id.rv)
     RecyclerView rv;
     MealListAdapter mealListAdapter;
     List<MultiItemEntity> list;
 
-    public static ProductMealFragment getInstance(int user_id) {
+    public static ProductMealFragment getInstance(int user_id,String no) {
         ProductMealFragment sf = new ProductMealFragment();
         id = user_id;
+        car_no = no;
         return sf;
     }
 
@@ -75,7 +77,7 @@ public class ProductMealFragment extends BaseFragment {
     protected void onVisible() {
         super.onVisible();
 
-        Api().queryUserAct(id).subscribe(new RxSubscribe<Meal>(getContext(), true) {
+        Api().queryUserAct(id,car_no).subscribe(new RxSubscribe<Meal>(getContext(), true) {
             @Override
             protected void _onNext(Meal mealList) {
                 list = generateData(mealList.getList());

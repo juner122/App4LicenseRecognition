@@ -35,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -66,13 +67,7 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:padding="15dp"
-            android:src="@mipmap/icon_down"
-            android:visibility="invisible" />
+
     </LinearLayout>
 
 

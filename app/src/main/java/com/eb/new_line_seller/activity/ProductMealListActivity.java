@@ -35,7 +35,8 @@ public class ProductMealListActivity extends BaseActivity {
     private String[] title = {"商品列表", "套餐列表"};
 
     ArrayList<Fragment> fragments = new ArrayList<>();
-    public static int user_id;//
+    public static int user_id;
+    public static String car_no;
 
 
     @BindView(R.id.ll)
@@ -49,6 +50,8 @@ public class ProductMealListActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("商品套餐列表");
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
+        car_no = getIntent().getStringExtra(Configure.car_no);
+
         isFixOrder = getIntent().getBooleanExtra(Configure.isFixOrder, false);
 
         if (isFixOrder)//是否是修改订单 清空购物车
@@ -56,7 +59,7 @@ public class ProductMealListActivity extends BaseActivity {
 
 
         fragments.add(new ProductFragment());
-        fragments.add(ProductMealFragment.getInstance(user_id));
+        fragments.add(ProductMealFragment.getInstance(user_id,car_no));
         onPulsTotalPrice(MyApplication.cartUtils.getProductPrice());
 
     }

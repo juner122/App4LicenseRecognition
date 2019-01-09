@@ -58,7 +58,7 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
 
             @Override
             protected void _onError(String message) {
-                getView().loginFailure();
+                getView().loginFailure(message);
             }
         });
     }
@@ -79,7 +79,7 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
 
             @Override
             protected void _onError(String message) {
-                getView().loginFailure();
+                getView().loginFailure(message);
             }
         });
 

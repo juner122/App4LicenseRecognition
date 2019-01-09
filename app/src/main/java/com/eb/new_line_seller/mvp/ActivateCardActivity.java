@@ -4,6 +4,8 @@ package com.eb.new_line_seller.mvp;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,19 +13,26 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CarInfoInputActivity;
+import com.eb.new_line_seller.activity.MemberManagementInfoActivity;
 import com.eb.new_line_seller.adapter.CarListAdapter;
 import com.eb.new_line_seller.adapter.MealInfoListAdapter;
 import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
+import com.eb.new_line_seller.util.A2bigA;
+import com.eb.new_line_seller.view.CardInputConfirmDialog;
+import com.eb.new_line_seller.view.ConfirmDialog2;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.eb.new_line_seller.mvp.contacts.ActivityCardContacts;
 import com.eb.new_line_seller.mvp.presenter.ActivateCardPtr;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.eb.new_line_seller.util.DateUtil.getFormatedDateTime;
 
 
 public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.ActivityCardPtr> implements ActivityCardContacts.ActivityCardUI, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
@@ -58,8 +67,6 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     RecyclerView rv_meal;
 
     CarListAdapter carListAdapter;//车辆列表
-
-
     MealInfoListAdapter mealInfoListAdapter;//套卡商品列表
 
     @Override
@@ -81,6 +88,30 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         carListAdapter.setOnItemChildClickListener(this);
 
 
+        v_date1.setText(getFormatedDateTime(Calendar.getInstance().getTime()));
+        v_date2.setText(getFormatedDateTime(Calendar.getInstance().getTime()));
+
+        et_code.setTransformationMethod(new A2bigA());
+        et_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getPresenter().setCardSn(editable.toString());
+            }
+        });
+
+
+        //获取登陆用户的信息，设置录卡人
+        getPresenter().getInfo();
     }
 
 
@@ -93,19 +124,18 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 break;
 
             case R.id.tv_enter_order://确认录入
-                getPresenter().setCardSn(et_code.getText().toString());
-                getPresenter().confirmInput();
 
+                getPresenter().showConfirmDialog();//显示确认Dialog
 
                 break;
             case R.id.v_date1://开始时间
-
+                getPresenter().setStartData(v_date1);
                 break;
             case R.id.v_date2://结束时间
-
+                getPresenter().setEndData(v_date2);
                 break;
             case R.id.tv_add_car://添加车辆
-                toActivity(CarInfoInputActivity.class);
+                toCarInfoInputActivity(0);
                 break;
             case R.id.tv_pick_meal://选择套卡
 
@@ -117,10 +147,25 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     }
 
+    /**
+     * 从选择套卡页面返回一个套卡对象
+     *
+     * @param intent Configure.act_tag = 101//从添加车辆页面返回
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        getPresenter().setMealList((Meal2) intent.getParcelableExtra("Meal2"));
+
+        switch (intent.getIntExtra(Configure.act_tag, 0)) {
+
+            case 101://从添加车辆页面返回
+                getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
+                break;
+            default:
+                getPresenter().setMealList((Meal2) intent.getParcelableExtra("Meal2"));
+                break;
+        }
+
 
     }
 
@@ -143,6 +188,9 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     public void setMealInfoList(List<MealEntity> mealInfoList, String mealName) {
         mealInfoListAdapter.setNewData(mealInfoList);
+
+
+        tv_meal_name.setVisibility(View.VISIBLE);
         tv_meal_name.setText(mealName);
     }
 
@@ -151,25 +199,47 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         ll_view.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onShowConfirmDialog() {
+
+        getPresenter().confirmInput();
+    }
+
+    @Override
+    public void setUserName(String userName) {
+        tv_manager.setText(userName);
+    }
+
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
 
-        for (CarInfoRequestParameters c : carListAdapter.getData()) {
-            c.setSelected(false);
+        if (carListAdapter.getData().get(position).isSelected()) {
+            carListAdapter.getData().get(position).setSelected(false);
+            getPresenter().setCarNo("");
+        } else {
+            for (CarInfoRequestParameters c : carListAdapter.getData()) {
+                c.setSelected(false);
+            }
+            carListAdapter.getData().get(position).setSelected(true);
+            getPresenter().setCarNo(carListAdapter.getData().get(position).getCarNo());
         }
-        carListAdapter.getData().get(position).setSelected(true);
         carListAdapter.notifyDataSetChanged();
 
-        getPresenter().setCarNo(carListAdapter.getData().get(position).getCarNo());
+
     }
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        toCarInfoInputActivity(((CarInfoRequestParameters) adapter.getData().get(position)).getId());
+    }
 
+    private void toCarInfoInputActivity(int car_id) {
+        Intent intent = new Intent(this, CarInfoInputActivity.class);
+        intent.putExtra("result_code", 2);
+        intent.putExtra(Configure.CARID, car_id);
         //跳转到车辆信息页面
-        toActivity(CarInfoInputActivity.class, Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
-
+        startActivity(intent);
     }
 }

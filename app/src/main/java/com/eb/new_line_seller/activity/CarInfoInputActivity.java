@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.GridImageAdapter;
@@ -173,15 +174,12 @@ public class CarInfoInputActivity extends BaseActivity {
             tv_car_no.setFocusable(true);
             tv_title.setText("车况录入");
             type_action = 1;
-            tv_car_no.setText(new AppPreferences(CarInfoInputActivity.this).getString(Configure.car_no, ""));
-
+            tv_car_no.setText(getIntent().getStringExtra(Configure.car_no));
 
         } else {
-
             tv_car_no.setFocusable(false);
             tv_title.setText("车况确认");
             type_action = 2;
-
 
             Api().showCarInfo(car_id).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
                 @Override
@@ -508,10 +506,14 @@ public class CarInfoInputActivity extends BaseActivity {
 
                 new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
                 ToastUtils.showToast("操作成功");
+                int result_code = getIntent().getIntExtra("result_code", 0);
 
-                if (getIntent().getIntExtra("result_code", 0) == 001) {//用户信息页面传过来
+                if (result_code == 1) {//用户信息页面传过来
                     setResult(RESULT_OK);
                     finish();
+                } else if (result_code == 2) {
+
+                    toActivity(ActivateCardActivity.class, Configure.act_tag, 101);
                 } else {
                     toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
                 }

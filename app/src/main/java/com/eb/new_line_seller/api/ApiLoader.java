@@ -693,8 +693,9 @@ public class ApiLoader {
     /**
      * 用户可用套餐列表
      */
-    public Observable<Meal> queryUserAct(int user_id) {
+    public Observable<Meal> queryUserAct(int user_id,String car_no) {
         map.put("user_id", user_id);
+        map.put("car_no", car_no);
         return apiService.queryUserAct(map).compose(RxHelper.<Meal>observe());
     }
 

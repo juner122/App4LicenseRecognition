@@ -1,16 +1,13 @@
 package com.eb.new_line_seller.mvp;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.MealPickListAdapter;
 import com.eb.new_line_seller.bean.Meal2;
-import com.eb.new_line_seller.bean.MealL0Entity;
 import com.eb.new_line_seller.mvp.contacts.PickMealCardContacts;
 import com.eb.new_line_seller.mvp.presenter.PickMealCardPtr;
 
@@ -55,8 +52,9 @@ public class PickMealCardActivity extends BaseActivity<PickMealCardContacts.Pick
     @OnClick({R.id.tv_enter_order})
     public void onClick(View v) {
 
-        getPresenter().confirmPick();
+//        getPresenter().confirmPick();
 
+        getPresenter().getMeal2(adapter.getData());
     }
 
     @Override
