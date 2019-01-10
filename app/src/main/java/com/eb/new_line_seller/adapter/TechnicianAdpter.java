@@ -25,9 +25,9 @@ public class TechnicianAdpter extends BaseQuickAdapter<Technician, BaseViewHolde
 
         ImageView iv = helper.getView(R.id.iv);
         if (item.isSelected())
-            iv.setImageResource(R.mipmap.icon_pick);
+            iv.setImageResource(R.drawable.icon_pick2);
         else
-            iv.setImageResource(R.mipmap.icon_unpick);
+            iv.setImageResource(R.drawable.icon_unpick2);
 
 
     }

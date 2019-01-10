@@ -15,32 +15,35 @@
 
         <TextView
             android:id="@+id/tv_name"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
+            android:layout_marginRight="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_height="wrap_content"
-
             android:text="星际年卡" />
 
         <TextView
             android:id="@+id/tv_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="end"
-            android:text="D1538" />
+            android:text="1x" />
 
         <CheckBox
             android:id="@+id/cb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp" />
 
         <ImageView
             android:id="@+id/iv"
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp" />

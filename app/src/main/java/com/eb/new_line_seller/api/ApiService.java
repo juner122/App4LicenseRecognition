@@ -16,6 +16,8 @@ import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.new_line_seller.bean.Meal;
@@ -333,7 +335,6 @@ public interface ApiService {
      * @param url https://api03.aliyun.venuscn.com/ocr/car-license
      * @param pic 车牌图像Base64字符串
      */
-
     @Headers({
             "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
             "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
@@ -342,10 +343,20 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean2<CarNumberRecogResult>> carLicense(@Url String url, @Field("pic") String pic);
 
+
     //门店可录入套卡列表
     @POST("activity/queryAct")
     Observable<BaseBean<List<Meal2>>> queryAct(@Header("X-Nideshop-Token") String token);
 
+
+    //报价单列表条件查询
+    @POST("quotation/list")
+    @FormUrlEncoded
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status);
+
+    //报价单列表条件查询
+    @POST("quotation/list")
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token);
 
 
 }

@@ -39,6 +39,7 @@ public class ProductListDialog extends Dialog {
     TextView tv_price;
     View ib_plus;
     View ib_reduce;
+    ProductListAdpter c;
 
     public interface ClickListenerInterface {
 
@@ -83,25 +84,15 @@ public class ProductListDialog extends Dialog {
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
 
-        ProductListAdpter c = new ProductListAdpter(valueList);
+        c = new ProductListAdpter(valueList);
         recyclerView.setAdapter(c);
+
 
         c.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                pick_value = valueList.get(position);
-                tv_value.setText(pick_value.getValue());
-
-                for (ProductValue c : valueList) {
-                    c.setSelected(false);
-                }
-
-                valueList.get(position).setSelected(true);
-                adapter.notifyDataSetChanged();
-
-
-                setPrice();//每次更换规格都重新计算价格
+                setSelect(position);
             }
         });
 
@@ -111,8 +102,24 @@ public class ProductListDialog extends Dialog {
         ib_reduce.setOnClickListener(new clickListener());
 
         cont = Integer.parseInt(tv_number.getText().toString());
+        setSelect(0);//选中第一项且添加一件商品
+        MyApplication.cartUtils.addDataNoCommit(toGood(pick_value));//添加不提交
+    }
+
+    private void setSelect(int position) {
+        pick_value = valueList.get(position);
+        tv_value.setText(pick_value.getValue());
+        for (ProductValue c : valueList) {
+            c.setSelected(false);
+        }
+        valueList.get(position).setSelected(true);
+        c.notifyDataSetChanged();
+
+        setCont();
+
 
     }
+
 
     public void setClicklistener(ClickListenerInterface clickListenerInterface) {
         this.clickListenerInterface = clickListenerInterface;

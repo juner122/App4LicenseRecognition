@@ -201,9 +201,17 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_fix_order"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/button_background_e"
+            android:gravity="center"
+            android:text="维修估价开单"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
 
         <TextView
             android:id="@+id/tv_new_order"

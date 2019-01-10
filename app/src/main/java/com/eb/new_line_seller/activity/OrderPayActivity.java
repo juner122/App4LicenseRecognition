@@ -71,6 +71,9 @@ public class OrderPayActivity extends BaseActivity {
     @BindView(R.id.et_car_code)
     EditText et_car_code;
 
+    @BindView(R.id.pay_code_edit)
+    TextView pay_code_edit;
+
     @BindView(R.id.cb_weixin)
     CheckBox cb_weixin;
 
@@ -133,18 +136,21 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
+                ll_card_num.setVisibility(View.VISIBLE);
+
 
                 cb_weixin.setChecked(false);
                 olpt = olpy.get(position);
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());
                 pay_type = olpy.get(position).getPay_type();
-
                 ToastUtils.showToast("支付方式:" + olpy.get(position).getType_string());
 
-                if (pay_type == 21 || pay_type == 23)
-                    ll_card_num.setVisibility(View.VISIBLE);
+
+
+                if (pay_type == 23)
+                    pay_code_edit.setText("公司名称：");
                 else
-                    ll_card_num.setVisibility(View.GONE);
+                    pay_code_edit.setText("卡号：");
 
 
             }
@@ -161,9 +167,11 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-                if (b)
+                if (b) {
                     pay_type = 11;
-                else
+                    ll_card_num.setVisibility(View.GONE);
+                    tv_pick_pay_type.setText("收款方式");
+                } else
                     pay_type = 0;
 
 

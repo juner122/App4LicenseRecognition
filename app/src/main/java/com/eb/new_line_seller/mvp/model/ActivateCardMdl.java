@@ -47,10 +47,9 @@ public class ActivateCardMdl extends BaseModel implements ActivityCardContacts.A
     }
 
 
-
     /**
      * 录入卡
-     * */
+     */
     @Override
     public void confirmInput(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe) {
 

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
+import com.eb.new_line_seller.mvp.FixInfoListActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.ActivityPackageListActivity;
@@ -114,7 +115,7 @@ public class MainFragment1 extends BaseFragment {
                 break;
 
             case R.id.but_top5:
-                ToastUtils.showToast("开发中");
+                toActivity(FixInfoListActivity.class);
                 break;
             case R.id.but_top6:
                 toActivity(ActivateCardActivity.class);

@@ -64,11 +64,11 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                     helper.addOnClickListener(R.id.ll_item);
                     tv_goodName.getPaint().setFlags(0);
                     if (me.isSelected())
-                        iv.setImageResource(R.mipmap.icon_pick);
+                        iv.setImageResource(R.drawable.icon_pick2);
                     else
-                        iv.setImageResource(R.mipmap.icon_unpick);
+                        iv.setImageResource(R.drawable.icon_unpick2);
                 } else {
-                    iv.setImageResource(R.mipmap.icon_unpick);
+                    iv.setImageResource(R.drawable.icon_unpick2);
                     tv_goodName.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //添加删除线
                 }
 

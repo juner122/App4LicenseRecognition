@@ -2,6 +2,7 @@ package com.juner.mvp.api;
 
 
 import com.juner.mvp.bean.BaseBean;
+import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.RemakeActCard;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
@@ -34,5 +35,11 @@ public interface ApiService {
     //获取当前登录用户
     @POST("/app/sysuser/getInfo")
     Observable<BaseBean<UserEntity>> getInfo(@Header("X-Nideshop-Token") String token);
+
+
+    //新建维修报价单
+    @POST("quotation/save")
+    Observable<BaseBean<NullDataEntity>> quotationSave(@Header("X-Nideshop-Token") String token, @Body FixInfo fixInfo);
+
 
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.OrderList2Adapter;
@@ -32,6 +33,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
     TextView phone;
     @BindView(R.id.name)
     TextView name;
+
 
     @BindView(R.id.rv1)
     RecyclerView rv1;
@@ -167,12 +169,25 @@ public class MemberManagementInfoActivity extends BaseActivity {
         return R.layout.activity_member_management_member_info;
     }
 
-    @OnClick({R.id.tv_new_order, R.id.tv_add_car})
+    @OnClick({R.id.tv_new_order, R.id.tv_add_car, R.id.tv_fix_order})
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.tv_new_order:
                 toMakeOrder(user_id, car_id, moblie, user_name, car_number);
+                break;
+
+            case R.id.tv_fix_order:
+
+                Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
+
+                intent2.putExtra(Configure.car_no, car_number);
+                intent2.putExtra(Configure.car_id, car_id);
+                intent2.putExtra(Configure.user_name, user_name);
+                intent2.putExtra(Configure.moblie, moblie);
+                intent2.putExtra(Configure.user_id, user_id);
+
+                startActivity(intent2);
                 break;
             case R.id.tv_add_car:
 

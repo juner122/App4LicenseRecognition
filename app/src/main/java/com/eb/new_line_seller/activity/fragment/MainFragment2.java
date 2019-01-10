@@ -34,10 +34,10 @@ public class MainFragment2 extends BaseFragment {
     SlidingTabLayout stl;
     @BindView(R.id.vp)
     ViewPager vp;
-    private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
+
 
     ArrayList<Fragment> fragments = new ArrayList<>();
-
+    private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
 
     @Override
     protected void setUpView() {

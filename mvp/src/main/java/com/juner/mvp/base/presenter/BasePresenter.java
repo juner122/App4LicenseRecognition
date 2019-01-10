@@ -6,7 +6,6 @@ import com.juner.mvp.base.BaseXPresenter;
 import com.juner.mvp.base.view.IBaseView;
 
 
-
 /**
  * Presenter的实现
  * <p>
@@ -24,6 +23,14 @@ public abstract class BasePresenter<V extends IBaseView> extends BaseXPresenter<
 
     @Override
     public void cancelAll() {
+
+
+    }
+
+
+    public void finish() {
+
+        getView().getSelfActivity().finish();
     }
 
 

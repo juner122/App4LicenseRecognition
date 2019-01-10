@@ -19,6 +19,8 @@ import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.new_line_seller.bean.Meal;
@@ -693,7 +695,7 @@ public class ApiLoader {
     /**
      * 用户可用套餐列表
      */
-    public Observable<Meal> queryUserAct(int user_id,String car_no) {
+    public Observable<Meal> queryUserAct(int user_id, String car_no) {
         map.put("user_id", user_id);
         map.put("car_no", car_no);
         return apiService.queryUserAct(map).compose(RxHelper.<Meal>observe());
@@ -730,6 +732,19 @@ public class ApiLoader {
     public Observable<CarNumberRecogResult> carLicense(String pic) {
 
         return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.<CarNumberRecogResult>observe2());
+    }
+
+
+    /**
+     * 报价单列表条件查询
+     */
+    public Observable<FixInfoList> quotationList(int status) {
+
+
+        if (status == 0)
+            return apiService.quotationList(token).compose(RxHelper.<FixInfoList>observe());
+        else
+            return apiService.quotationList(token, status).compose(RxHelper.<FixInfoList>observe());
     }
 
 

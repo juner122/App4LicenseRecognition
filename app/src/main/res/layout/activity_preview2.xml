@@ -27,6 +27,7 @@
                 android:layout_height="190dp"
                 android:adjustViewBounds="true" />
 
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,6 +44,16 @@
                 android:textColor="#fffee600"
                 android:textSize="12sp" />
 
+            <ImageView
+                android:id="@+id/iv_Flash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="40dp"
+                android:clickable="true"
+                android:padding="5dp"
+                android:src="@drawable/icon_flash_off" />
 
         </RelativeLayout>
 
@@ -50,7 +61,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,9 +88,9 @@
         <com.parkingwang.keyboard.view.InputView
             android:id="@+id/input_view"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_margin="6dp"
-            app:pwkInputTextSize="22sp" />
+            app:pwkInputTextSize="21sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,7 +103,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_b"
-                android:padding="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:stateListAnimator="@null"
                 android:text="一键识别"
                 android:textColor="#000"

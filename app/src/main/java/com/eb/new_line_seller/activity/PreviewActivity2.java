@@ -3,7 +3,9 @@ package com.eb.new_line_seller.activity;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -41,14 +43,18 @@ public class PreviewActivity2 extends BaseActivity {
     @BindView(R.id.photo)
     Button photo;//识别按钮
 
+    @BindView(R.id.iv_Flash)
+    ImageView iv_Flash;//闪光灯
+
     @BindView(R.id.camera)
     CameraKitView cameraKitView;
 
 
     private PopupKeyboard mPopupKeyboard;
 
+    boolean isFlash;//是否打开闪光灯
 
-    @OnClick({R.id.photo, R.id.but_next})
+    @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash})
     public void onClick(View v) {
 
 
@@ -86,10 +92,24 @@ public class PreviewActivity2 extends BaseActivity {
                 break;
 
             case R.id.but_next:
+
+
                 if (!mInputView.isCompleted())
                     ToastUtils.showToast("请输入正确车牌号码！");
                 else
                     onQueryByCar();
+                break;
+            case R.id.iv_Flash:
+
+                if (!isFlash) {
+                    cameraKitView.setFlash(CameraKit.FLASH_ON);
+                    isFlash = true;
+                    iv_Flash.setImageResource(R.drawable.icon_flash_on);
+                } else {
+                    cameraKitView.setFlash(CameraKit.FLASH_OFF);
+                    isFlash = false;
+                    iv_Flash.setImageResource(R.drawable.icon_flash_off);
+                }
                 break;
         }
 

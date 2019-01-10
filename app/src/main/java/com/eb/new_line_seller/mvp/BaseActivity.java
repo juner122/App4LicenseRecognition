@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.ResultBack;
 import com.juner.mvp.base.BaseXActivity;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.utils.ToastUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +87,26 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         intent.putExtras(bundle);
         startActivity(intent);
 
+    }
+
+    private ArrayList<ResultBack> list = new ArrayList<>();//保存所有activity返回的回调，跟随activity生命周期
+
+    public synchronized void startActivityForResult(Intent intent, ResultBack resultBack) {
+        if (list.indexOf(resultBack) < 0) {
+            list.add(resultBack);
+            startActivityForResult(intent, list.size() - 1);//requestCode就是list的Index
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (null == list) return;
+        if (resultCode == RESULT_OK) {
+            list.get(requestCode).resultOk(data);
+        } else {
+            list.get(requestCode).resultElse(resultCode, data);
+        }
+        list.set(requestCode, null);//释放已返回的ResultBack，不用remove防止乱序
     }
     @Override
     protected void onDestroy() {
