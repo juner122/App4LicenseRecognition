@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.List;
@@ -38,9 +39,9 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
         helper.setText(R.id.tv_order_state, item.getOrder_status_text());
 
         if (item.getPay_status() == 0)
-            helper.setText(R.id.tv_money, String.format("￥%s", item.getOrder_price()));
+            helper.setText(R.id.tv_money, String.format("￥%s", MathUtil.twoDecimal(item.getOrder_price())));
         else
-            helper.setText(R.id.tv_money, String.format("￥%s", item.getActual_price()));
+            helper.setText(R.id.tv_money, String.format("￥%s", MathUtil.twoDecimal(item.getActual_price())));
 
         helper.addOnClickListener(R.id.button_show_details);
         helper.addOnClickListener(R.id.button_action);

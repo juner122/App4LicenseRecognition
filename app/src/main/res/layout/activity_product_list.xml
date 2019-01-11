@@ -15,47 +15,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/ll_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/button_background_h"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:visibility="visible">
-
-            <EditText
-                android:id="@+id/et_key"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:hint="请输入你要查询的商品"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:singleLine="true"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:padding="8dp"
-                android:src="@mipmap/icon_search" />
-
-
-        </LinearLayout>
+        <include layout="@layout/search_bar" />
 
         <View
             android:layout_width="match_parent"

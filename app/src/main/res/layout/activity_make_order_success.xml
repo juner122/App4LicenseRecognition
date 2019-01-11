@@ -8,6 +8,15 @@
 
     <include layout="@layout/head_view" />
 
+    <TextView
+        android:id="@+id/tv_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:padding="5dp"
+        android:text="打印机已连接:"
+        android:textSize="11sp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +31,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:orientation="vertical"
@@ -235,17 +243,17 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="客户签名"
                         android:textColor="#ff000000"
                         android:textSize="12sp" />
 
                     <ImageView
-                        android:src="@mipmap/icon_enter"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_enter" />
                 </LinearLayout>
 
 
@@ -254,8 +262,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:padding="8dp"
                     android:background="#FAFAFA"
+                    android:padding="8dp"
                     tools:srcCompat="@tools:sample/backgrounds/scenic[9]" />
 
 

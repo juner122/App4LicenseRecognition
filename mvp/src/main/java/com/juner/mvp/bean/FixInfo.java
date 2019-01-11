@@ -162,7 +162,7 @@ public class FixInfo {
     }
 
     public String getActualPrice() {
-        return actualPrice;
+        return null == actualPrice ? "0.00" : actualPrice;
     }
 
     public void setActualPrice(String actualPrice) {

@@ -13,14 +13,12 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CarInfoInputActivity;
-import com.eb.new_line_seller.activity.MemberManagementInfoActivity;
+
 import com.eb.new_line_seller.adapter.CarListAdapter;
 import com.eb.new_line_seller.adapter.MealInfoListAdapter;
 import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.util.A2bigA;
-import com.eb.new_line_seller.view.CardInputConfirmDialog;
-import com.eb.new_line_seller.view.ConfirmDialog2;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.eb.new_line_seller.mvp.contacts.ActivityCardContacts;
@@ -34,7 +32,9 @@ import butterknife.OnClick;
 
 import static com.eb.new_line_seller.util.DateUtil.getFormatedDateTime;
 
-
+/**
+ * 录卡功能
+ */
 public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.ActivityCardPtr> implements ActivityCardContacts.ActivityCardUI, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
 

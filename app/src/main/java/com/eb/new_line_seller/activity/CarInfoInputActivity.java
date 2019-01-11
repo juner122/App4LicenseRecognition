@@ -16,7 +16,7 @@ import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.GridImageAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.juner.mvp.bean.AutoBrand;
+import com.eb.new_line_seller.bean.AutoBrand;
 import com.juner.mvp.bean.AutoModel;
 
 import com.juner.mvp.bean.CarInfoRequestParameters;

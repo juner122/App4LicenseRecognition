@@ -73,7 +73,7 @@ public class OrderDoneActivity extends BaseActivity {
         hideReturnView();
 
         tv_title.setText("完成订单");
-        setRTitle("凭证打印");
+//        setRTitle("凭证打印");
         id = getIntent().getIntExtra(Configure.ORDERINFOID, -1);
 
 

@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -72,9 +74,30 @@ public class MemberInfoInputActivity extends BaseActivity {
         tv_check.setVisibility(View.VISIBLE);
         ll_car_list.setVisibility(View.GONE);
         //测试
-        name.setText("");
-        et_mobile.setText("");
+
         carListAdapter = new CarListAdapter(cars);
+
+        et_mobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() >= 11) {
+//                    getAddUser();
+                }
+
+
+            }
+        });
 
     }
 
@@ -115,10 +138,9 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_check:
 
                 if (TextUtils.isEmpty(et_mobile.getText()) || TextUtils.isEmpty(name.getText())) {
-                    ToastUtils.showToast("请完整填写信息");
+                    ToastUtils.showToast("请填写完整信息");
                     return;
                 }
-
                 getAddUser();
                 break;
         }

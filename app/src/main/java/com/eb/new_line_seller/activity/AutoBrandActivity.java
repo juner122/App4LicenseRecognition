@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -12,9 +13,10 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.AutoBrandAdapter;
 import com.eb.new_line_seller.adapter.AutoModeladapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.juner.mvp.bean.AutoBrand;
+import com.eb.new_line_seller.bean.AutoBrand;
 import com.juner.mvp.bean.AutoModel;
 import com.eb.new_line_seller.view.CommonPopupWindow;
+import com.mcxtzhang.indexlib.IndexBar.widget.IndexBar;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +35,18 @@ public class AutoBrandActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
+    /**
+     * 右侧边栏导航区域
+     */
+    @BindView(R.id.indexBar)
+    IndexBar mIndexBar;
+
+    /**
+     * 显示指示器DialogText
+     */
+    @BindView(R.id.tvSideBarHint)
+    TextView mTvSideBarHint;
+
     AutoBrandAdapter adapter;
     List<AutoBrand> list;
 
@@ -44,12 +58,13 @@ public class AutoBrandActivity extends BaseActivity {
 
     int brand_id;
     AutoBrand selectAutoBrand;
+    private LinearLayoutManager mManager;
 
     @Override
     protected void init() {
         tv_title.setText("选择车型");
 
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setLayoutManager(mManager = new LinearLayoutManager(this));
 
         Api().listByName().subscribe(new RxSubscribe<List<AutoBrand>>(this, true) {
             @Override
@@ -58,6 +73,9 @@ public class AutoBrandActivity extends BaseActivity {
                 list = autoBrands;
                 adapter = new AutoBrandAdapter(AutoBrandActivity.this, list);
                 rv.setAdapter(adapter);
+
+                mIndexBar.setmSourceDatas(list)//设置数据
+                        .invalidate();
 
 
                 adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -110,6 +128,12 @@ public class AutoBrandActivity extends BaseActivity {
         popupWindow = new CommonPopupWindow.Builder(this)
                 .setView(ll)
                 .create();
+
+
+
+        mIndexBar.setmPressedShowTextView(mTvSideBarHint)//设置HintTextView
+                .setNeedRealIndex(true)//设置需要真实的索引
+                .setmLayoutManager(mManager);//设置RecyclerView的LayoutManager
 
 
     }

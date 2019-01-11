@@ -62,4 +62,30 @@ public class BitmapUtil {
         return newBitMap;
 
     }
+    public static Bitmap createBitmapThumbnail(Bitmap bitMap, boolean needRecycle, float scaleHeight, float scaleWidth) {
+
+        int width = bitMap.getWidth();
+
+        int height = bitMap.getHeight();
+
+        // 计算缩放比例
+        // 取得想要缩放的matrix参数
+
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // 得到新的图片
+
+        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix, true);
+
+        if (needRecycle)
+
+            bitMap.recycle();
+
+        return newBitMap;
+
+    }
+
+
 }

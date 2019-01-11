@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.juner.mvp.bean.AutoBrand;
+import com.eb.new_line_seller.bean.AutoBrand;
 
 import java.util.HashMap;
 import java.util.List;

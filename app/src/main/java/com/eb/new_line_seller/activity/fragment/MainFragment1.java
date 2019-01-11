@@ -115,6 +115,7 @@ public class MainFragment1 extends BaseFragment {
                 break;
 
             case R.id.but_top5:
+//                ToastUtils.showToast("开发中");
                 toActivity(FixInfoListActivity.class);
                 break;
             case R.id.but_top6:

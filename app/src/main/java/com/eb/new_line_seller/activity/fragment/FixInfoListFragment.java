@@ -98,24 +98,24 @@ public class FixInfoListFragment extends BaseFragment {
             }
         });
 
-//        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-//            @Override
-//            public void onLoadMore() {
-//                page++;
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                page++;
 //                loadMoreData();
-//
-//
-//            }
-//
-//            @Override
-//            public void onRefreshing() {
-//
-//                page = 1;
-//                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
-//                getData();
-//
-//            }
-//        });
+
+
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                page = 1;
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                getData();
+
+            }
+        });
 
     }
 

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 
@@ -36,7 +37,7 @@ public class FixInfoListAdapter extends BaseQuickAdapter<FixInfo, BaseViewHolder
         helper.setText(R.id.tv_order_state, item.getStatusText());
 
 
-        helper.setText(R.id.tv_money, String.format("￥%s", item.getActualPrice()));
+        helper.setText(R.id.tv_money, String.format("￥%s", MathUtil.twoDecimal(Double.parseDouble(item.getActualPrice()))));
 
 
         ImageView imageView = (helper.getView(R.id.iv_icon));

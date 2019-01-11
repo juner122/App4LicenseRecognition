@@ -42,5 +42,4 @@ dependencies {
     //Gson 库
     implementation 'net.grandcentrix.tray:tray:0.12.0'
 
-
 }

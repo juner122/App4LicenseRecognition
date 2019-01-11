@@ -118,6 +118,7 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
 
         goodsList = meal2.getGoodsList();
         actName = meal2.getActName();
+        list.clear();//清空
         getView().setMealInfoList(goodsList, meal2.getActName());
         for (MealEntity m : goodsList) {
             RemakeActCard rac = new RemakeActCard();

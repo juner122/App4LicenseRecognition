@@ -1,10 +1,12 @@
-package com.juner.mvp.bean;
+package com.eb.new_line_seller.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-public class AutoBrand implements Comparable<AutoBrand>,Parcelable {
+import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
+
+public class AutoBrand extends BaseIndexPinyinBean implements Comparable<AutoBrand>,Parcelable {
 
     int id;
     String name;
@@ -80,6 +82,11 @@ public class AutoBrand implements Comparable<AutoBrand>,Parcelable {
     }
 
     public AutoBrand() {
+    }
+
+    @Override
+    public String getTarget() {
+        return type;
     }
 
     protected AutoBrand(Parcel in) {

@@ -12,6 +12,8 @@ import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import com.eb.new_line_seller.util.BitmapUtil;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,7 +65,7 @@ public class LinePathView extends View {
     /**
      * 背景色（指最终签名结果文件的背景颜色，默认为透明色）
      */
-    private int mBackColor = Color.TRANSPARENT;
+    private int mBackColor = Color.WHITE;
 
     //签名开始与结束
     private Touch touch;
@@ -99,7 +101,7 @@ public class LinePathView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         //创建跟view一样大的bitmap，用来保存签名
-        cachebBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        cachebBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
         cacheCanvas = new Canvas(cachebBitmap);
         cacheCanvas.drawColor(mBackColor);
         isTouched = false;
@@ -215,7 +217,7 @@ public class LinePathView extends View {
     public void save(String path, boolean clearBlank, int blank) throws IOException {
 
         Bitmap bitmap = cachebBitmap;
-        //BitmapUtil.createScaledBitmapByHeight(srcBitmap, 300);//  压缩图片
+//        bitmap = BitmapUtil.createBitmapThumbnail(bitmap, true, 300, 300);//  压缩图片
         if (clearBlank) {
             bitmap = clearBlank(bitmap, blank);
         }
