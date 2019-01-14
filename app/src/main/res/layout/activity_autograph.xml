@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.AutographActivity">
-
     <include layout="@layout/head_view" />
 
     <com.eb.new_line_seller.view.LinePathView

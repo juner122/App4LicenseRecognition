@@ -38,10 +38,10 @@ public class AutographActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.tv_fix_order:
+
                 lpv.clear();
                 lpv.setBackColor(Color.WHITE);
                 lpv.setPaintWidth(5);
-                lpv.setPenColor(Color.BLACK);
                 break;
 
             case R.id.tv_enter_order:
@@ -67,17 +67,17 @@ public class AutographActivity extends BaseActivity {
     }
 
     private ProgressDialog dialog;
+
     //上传签名图片
     private void upPic() {
         String key = "pic_" + CommonUtil.getTimeStame();
         String path = Configure.LinePathView_url;
 
         dialog = new ProgressDialog(this);
-        dialog.setMessage("签名提交中..." );
+        dialog.setMessage("签名提交中...");
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
 
 
         UploadManager uploadManager = new UploadManager();
@@ -139,6 +139,7 @@ public class AutographActivity extends BaseActivity {
     public int setLayoutResourceID() {
         return R.layout.activity_autograph;
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

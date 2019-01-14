@@ -1,13 +1,16 @@
 package com.eb.new_line_seller.activity;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,22 +32,35 @@ import com.eb.new_line_seller.adapter.SimpleActivityInfo2Adpter;
 import com.eb.new_line_seller.adapter.SimpleGoodInfo2Adpter;
 import com.eb.new_line_seller.adapter.SimpleServerInfo2Adpter;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.eb.new_line_seller.util.DateUtil;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.String2Utils;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.juner.mvp.bean.Server;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
 import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
+import static com.gprinter.command.EscCommand.JUSTIFICATION.CENTER;
+import static com.gprinter.command.EscCommand.JUSTIFICATION.LEFT;
+import static com.gprinter.command.EscCommand.JUSTIFICATION.RIGHT;
 
 public class MakeOrderSuccessActivity extends BaseActivity {
 
@@ -125,9 +141,24 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         });
 
-        initBluetooth();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initBluetooth();
+    }
+
+    /**
+     * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
+     */
+    private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
+
+    /**
+     * Bluetooth 设备可见时间，单位：秒。
+     */
+    private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
 
     private void initBluetooth() {
         // Get the local Bluetooth adapter
@@ -139,15 +170,65 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
             if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableIntent = new Intent(
-                        BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent,
-                        REQUEST_ENABLE_BT);
+                turnOnBluetooth();
+
             } else {
                 getDeviceList();
             }
         }
     }
+
+
+    /**
+     * 弹出系统弹框提示用户打开 Bluetooth
+     */
+    private void turnOnBluetooth() {
+        // 请求打开 Bluetooth
+        Intent requestBluetoothOn = new Intent(
+                BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+        // 设置 Bluetooth 设备可以被其它 Bluetooth 设备扫描到
+        requestBluetoothOn
+                .setAction(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+
+        // 设置 Bluetooth 设备可见时间
+        requestBluetoothOn.putExtra(
+                BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION,
+                BLUETOOTH_DISCOVERABLE_DURATION);
+
+        // 请求开启 Bluetooth
+        this.startActivityForResult(requestBluetoothOn,
+                REQUEST_CODE_BLUETOOTH_ON);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
+        if (requestCode == REQUEST_CODE_BLUETOOTH_ON) {
+            switch (resultCode) {
+                // 点击确认按钮
+                case Activity.RESULT_OK: {
+                    // TODO 用户选择开启 Bluetooth，Bluetooth 会被开启
+
+                    getDeviceList();
+
+                }
+                break;
+
+                // 点击取消按钮或点击返回键
+                case Activity.RESULT_CANCELED: {
+                    // TODO 用户拒绝打开 Bluetooth, Bluetooth 不会被开启
+                    finish();
+
+
+                }
+                break;
+                default:
+                    break;
+            }
+        }
+    }
+
 
     protected void getDeviceList() {
 
@@ -155,7 +236,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
-                tv_bluetooth.append("(" + device.getName() + "\t" + device.getAddress() + ")");
+
+                tv_bluetooth.setText("打印机已连接(" + device.getName() + "\t" + device.getAddress() + ")");
                 //初始化话DeviceConnFactoryManager
                 new DeviceConnFactoryManager.Build()
                         .setId(id)
@@ -166,16 +248,15 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                         .build();
                 //打开端口
                 DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].openPort();
+
+
                 break;
             }
-
         } else {
             ToastUtils.showToast("没有配对的蓝牙设备！");
         }
     }
 
-
-    private ThreadPool threadPool;
 
     //票据打印
     public void btnReceiptPrint() {
@@ -183,18 +264,25 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState()) {
             ToastUtils.showToast(getString(R.string.str_cann_printer));
             return;
+
         }
-        threadPool = ThreadPool.getInstantiation();
-        threadPool.addTask(new Runnable() {
-            @Override
-            public void run() {
-                if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC) {
-                    sendReceiptWithResponse();
-                } else {
-                    mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
-                }
-            }
-        });
+        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC) {
+            sendReceiptWithResponse();
+        } else {
+            mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
+        }
+
+//        threadPool = ThreadPool.getInstantiation();
+//        threadPool.addTask(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC) {
+//                    sendReceiptWithResponse();
+//                } else {
+//                    mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
+//                }
+//            }
+//        });
     }
 
 
@@ -204,9 +292,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     void sendReceiptWithResponse() {
         EscCommand esc = new EscCommand();
         esc.addInitializePrinter();
+        esc.addSetPrintingAreaWidth((short) 500);//设置打印区域宽度，默认打印区域宽度为384点
         esc.addPrintAndFeedLines((byte) 3);
         // 设置打印居中
-        esc.addSelectJustification(EscCommand.JUSTIFICATION.CENTER);
+        esc.addSelectJustification(CENTER);
         // 设置为倍高倍宽
         esc.addSelectPrintModes(EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.ON, EscCommand.ENABLE.ON, EscCommand.ENABLE.OFF);
 
@@ -229,8 +318,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addText(tv_expect_date.getText().toString() + "\n");//打印完成时间
 
 
-        esc.addText("--------------------------------\n");//打印完成时间
-        esc.addText("--------------------------------\n");//打印完成时间
+        esc.addText("================================\n");//打印完成时间
 
 
 
@@ -242,68 +330,125 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addSetAbsolutePrintPosition((short) 7);
         esc.addText("数量");
 
-        esc.addSetAbsolutePrintPosition((short) 10);
-        esc.addText("单价");
+//        esc.addSetAbsolutePrintPosition((short) 10);
+//        esc.addText("单价");
 
         esc.addSetAbsolutePrintPosition((short) 13);
         esc.addText("金额");
         esc.addText("--------------------------------\n");//打印完成时间
 
+        for (GoodsEntity ge : info.getOrderInfo().getGoodsList()) {
+            esc.addSelectJustification(LEFT);
+            esc.addText(ge.getName());
+            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+            if (ge.getName().length() >= 8) {
+                esc.addPrintAndLineFeed();
+                esc.addSelectJustification(LEFT);
+            }
+
+            esc.addSetAbsolutePrintPosition((short) 7);
+            esc.addText(ge.getNumberStringX());
+
+            esc.addSetAbsolutePrintPosition((short) 12);
+            esc.addSelectJustification(RIGHT);
+            esc.addText(String.valueOf(Double.parseDouble(ge.getRetail_price()) * ge.getNumber()));
+            esc.addPrintAndLineFeed();
+            esc.addPrintAndLineFeed();
+        }
+        for (Server sv : info.getOrderInfo().getSkillList()) {
+
+            esc.addSelectJustification(LEFT);
+            esc.addSetAbsolutePrintPosition((short) 0);
+            esc.addText(sv.getName());
+            esc.addPrintAndLineFeed();
+            esc.addSelectJustification(LEFT);
+
+
+            esc.addSetAbsolutePrintPosition((short) 7);
+            esc.addText("x1");
+            esc.addSelectJustification(CENTER);
+
+            esc.addSetAbsolutePrintPosition((short) 12);
+
+            esc.addSelectJustification(RIGHT);
+            esc.addText("" + sv.getPrice());
+            esc.addPrintAndLineFeed();
+            esc.addPrintAndLineFeed();
+        }
+        for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
+            esc.addSelectJustification(LEFT);
+            esc.addSetAbsolutePrintPosition((short) 0);
+            esc.addText(gu.getGoodsName());
+            esc.addPrintAndLineFeed();
+            esc.addSelectJustification(LEFT);
+            esc.addSetAbsolutePrintPosition((short) 7);
+            esc.addText("x1");
+            esc.addSelectJustification(CENTER);
+
+            esc.addSetAbsolutePrintPosition((short) 13);
+            esc.addSelectJustification(RIGHT);
+            esc.addText("抵扣");
+            esc.addPrintAndLineFeed();
+            esc.addPrintAndLineFeed();
+        }
+
+        esc.addText("--------------------------------\n");//打印完成时间
+        esc.addSelectJustification(RIGHT);
+        esc.addText(all_price.getText().toString());
+        esc.addPrintAndLineFeed();
+
+
+        esc.addSelectJustification(LEFT);
+        esc.addText("================================\n");//打印完成时间
+        esc.addText("备注\n");
+        esc.addText(info.getOrderInfo().getPostscript() + "\n");
+        esc.addText("--------------------------------\n");//打印完成时间
+
+        esc.addPrintAndLineFeed();
+        if (null != iv_lpv.getDrawable()) {
+            esc.addSelectJustification(LEFT);
+            Bitmap b = ((BitmapDrawable) iv_lpv.getDrawable()).getBitmap();
+            esc.addText("签名\n");
+            esc.addSelectJustification(CENTER);
+            esc.addRastBitImage(b, 230, 0);
+            esc.addPrintAndLineFeed();
+            esc.addText("================================\n");//打印完成时间
+            esc.addSelectJustification(LEFT);
+            esc.addPrintAndLineFeed();
+        }
+
+
+        esc.addText(info.getShop().getShopName() + "\n");
+        esc.addText("门店店长：" + info.getShop().getName() + "\n");
+        esc.addText("联系信息：" + info.getShop().getPhone() + "\n");
+        esc.addText("地址：" + info.getShop().getAddress() + "\n");
+        esc.addPrintAndLineFeed();
+        esc.addSelectJustification(CENTER);
 
 
 
-
-
-
-
-
-        // esc.addSetAbsolutePrintPosition((short) 13);
-        esc.addText("签名\n");
-        Bitmap a = BitmapFactory.decodeResource(getResources(),
-                R.mipmap.qm);
-
-        esc.addRastBitImage(a, 300, 0);
-
-
-
-
-
-//        String fileName = "/sdcard/qm.png";
-//        File file = new File(fileName);
-//
-//        Bitmap b = BitmapFactory.decodeFile(fileName);
-
-        // 打印图片
-//        esc.addOriginRastBitImage(a, 384, 0);
-//        esc.addRastBitImage(b, 200, 0);
-//        esc.addRastBitImage(b, 300, 0);
-//        esc.addRastBitImage(b, 384, 0);
-//
 
         /*
          * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
          */
 
 
-
-        // 设置纠错等级
-        esc.addSelectErrorCorrectionLevelForQRCode((byte) 0x31);
-        // 设置qrcode模块大小
-        esc.addSelectSizeOfModuleForQRCode((byte) 5);
-        // 设置qrcode内容
-        esc.addStoreQRCodeData("www.smarnet.cc");
-        esc.addPrintQRCode();// 打印QRCode
+//        // 设置纠错等级
+//        esc.addSelectErrorCorrectionLevelForQRCode((byte) 0x31);
+//        // 设置qrcode模块大小
+//        esc.addSelectSizeOfModuleForQRCode((byte) 5);
+//        // 设置qrcode内容
+//        esc.addStoreQRCodeData("www.smarnet.cc");
+//        esc.addPrintQRCode();// 打印QRCode
+        esc.addPrintAndLineFeed();
         esc.addPrintAndLineFeed();
 
-        // 设置打印左对齐
-        esc.addSelectJustification(EscCommand.JUSTIFICATION.CENTER);
-        //打印文字
-        esc.addText("Completed!\r\n");
-
+        esc.addText("--------------------------------\n");//打印完成时间
         // 加入查询打印机状态，打印完成后，此时会接收到GpCom.ACTION_DEVICE_STATUS广播
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();
         // 发送数据
+        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately(datas);
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately(datas);
     }
 
@@ -405,7 +550,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
-
         double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
 
         rv_goods.setLayoutManager(new LinearLayoutManager(this));
@@ -492,9 +636,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         super.onDestroy();
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
-        if (threadPool != null) {
-            threadPool.stopThreadPool();
-        }
+//        if (threadPool != null) {
+//            threadPool.stopThreadPool();
+//            threadPool = null;
+//        }
     }
 
 }

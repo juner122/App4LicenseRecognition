@@ -31,6 +31,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.graphics.Bitmap.Config.ARGB_8888;
+import static android.graphics.Bitmap.Config.RGB_565;
+
 
 public class PreviewActivity2 extends BaseActivity {
     @BindView(R.id.input_view)
@@ -68,7 +71,12 @@ public class PreviewActivity2 extends BaseActivity {
                             @Override
                             public ObservableSource<CarNumberRecogResult> apply(byte[] bytes) throws Exception {
                                 //转为Base64
-                                return Api().carLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length), true, 650, 300)));
+
+                                BitmapFactory.Options options = new BitmapFactory.Options();
+                                options.inPreferredConfig = RGB_565;
+
+
+                                return Api().carLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 530, 300)));
 //                                return Api().carLicense(carNumberRecognition_dome);
                             }
                         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
@@ -165,8 +173,14 @@ public class PreviewActivity2 extends BaseActivity {
                     @Override
                     public void onNumberTypeChanged(boolean isNewEnergyType) {
                         super.onNumberTypeChanged(isNewEnergyType);
+                        if (!isNewEnergyType)
+                            lockTypeButton.setText("新能源");
+                        else
+                            lockTypeButton.setText("普通车");
                     }
                 });
+
+
         mPopupKeyboard.getController().addOnInputChangedListener(new OnInputChangedListener() {
             @Override
             public void onChanged(String number, boolean isCompleted) {
