@@ -210,7 +210,7 @@
             android:text="维修估价开单"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
 
         <TextView

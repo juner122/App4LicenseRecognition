@@ -18,5 +18,7 @@ public class HttpUtils {
 
     public static ApiService getApi() {
         return RetrofitServiceManager.getInstance().create(ApiService.class);
+
+
     }
 }

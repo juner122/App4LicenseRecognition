@@ -31,7 +31,7 @@
             android:text="重写"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_enter_order"

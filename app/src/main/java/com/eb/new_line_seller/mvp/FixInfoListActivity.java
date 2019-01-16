@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 
 public class FixInfoListActivity extends BaseActivity {
-    private String[] title = {"全部", "未确认", "已确认"};
+    private String[] title = {"全部", "待报价", "待确认", "已确认", "已出单"};
 
     @BindView(R.id.st)
     SlidingTabLayout stl;
@@ -30,9 +30,11 @@ public class FixInfoListActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        fragments.add(FixInfoListFragment.newInstance(-1));
         fragments.add(FixInfoListFragment.newInstance(0));
-        fragments.add(FixInfoListFragment.newInstance(1));
         fragments.add(FixInfoListFragment.newInstance(2));
+        fragments.add(FixInfoListFragment.newInstance(3));
+        fragments.add(FixInfoListFragment.newInstance(4));
 
 
         stl.setViewPager(vp, title, this, fragments);

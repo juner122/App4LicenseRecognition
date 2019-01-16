@@ -11,16 +11,17 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.List;
 
-public class FixInfoListAdapter extends BaseQuickAdapter<FixInfo, BaseViewHolder> {
+public class FixInfoListAdapter extends BaseQuickAdapter<FixInfoEntity, BaseViewHolder> {
 
     Context context;
 
 
-    public FixInfoListAdapter(int layoutResId, @Nullable List<FixInfo> data, Context context) {
+    public FixInfoListAdapter(int layoutResId, @Nullable List<FixInfoEntity> data, Context context) {
         super(layoutResId, data);
         this.context = context;
 
@@ -28,7 +29,7 @@ public class FixInfoListAdapter extends BaseQuickAdapter<FixInfo, BaseViewHolder
 
 
     @Override
-    protected void convert(BaseViewHolder helper, FixInfo item) {
+    protected void convert(BaseViewHolder helper, FixInfoEntity item) {
 
 
         helper.setText(R.id.tv_plate_number, item.getCarNo());

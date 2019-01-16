@@ -18,10 +18,12 @@ import com.eb.new_line_seller.activity.OrderPayActivity;
 import com.eb.new_line_seller.adapter.FixInfoListAdapter;
 import com.eb.new_line_seller.adapter.OrderListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
@@ -36,7 +38,7 @@ public class FixInfoListFragment extends BaseFragment {
     @BindView(R.id.easylayout)
     EasyRefreshLayout easylayout;
 
-    List<FixInfo> list = new ArrayList<>();
+    List<FixInfoEntity> list = new ArrayList<>();
     FixInfoListAdapter adapter;
 
     @BindView(R.id.recyclerView)
@@ -65,6 +67,12 @@ public class FixInfoListFragment extends BaseFragment {
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        getData();
+    }
+
+    @Override
     public int setLayoutResourceID() {
         return R.layout.fragment_orderlist;
     }
@@ -72,10 +80,9 @@ public class FixInfoListFragment extends BaseFragment {
     @Override
     protected void setUpView() {
 
-
         initData();
 
-        getData();
+
 
     }
 
@@ -86,16 +93,14 @@ public class FixInfoListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.setEmptyView(R.layout.order_list_empty_view, recyclerView);
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-
-
-
-
+                toActivity(FixInfoActivity.class,"id",((FixInfoEntity)adapter.getData().get(position)).getId());
 
             }
+
         });
 
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {

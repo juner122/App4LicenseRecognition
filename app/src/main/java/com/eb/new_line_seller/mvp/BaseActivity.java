@@ -15,6 +15,7 @@ import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.utils.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +85,17 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         Intent intent = new Intent(this, c);
         Bundle bundle = new Bundle();
         bundle.putParcelable(key, p);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+  protected void toActivity(Class c, ArrayList p, String key) {
+
+
+        Intent intent = new Intent(this, c);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(key, p);
         intent.putExtras(bundle);
         startActivity(intent);
 

@@ -740,7 +740,7 @@ public class ApiLoader {
     public Observable<FixInfoList> quotationList(int status) {
 
 
-        if (status == 0)
+        if (status == -1)
             return apiService.quotationList(token).compose(RxHelper.<FixInfoList>observe());
         else
             return apiService.quotationList(token, status).compose(RxHelper.<FixInfoList>observe());

@@ -7,6 +7,7 @@ import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class FixInfoDesContacts {
     public interface FixInfoDesMdl {
 
 
-        void quotationSave(FixInfo fixInfo, RxSubscribe<NullDataEntity> rxSubscribe);//保存退出
+        void quotationSave(FixInfoEntity fixInfo, RxSubscribe<NullDataEntity> rxSubscribe);//保存退出
     }
 
 }

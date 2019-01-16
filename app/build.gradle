@@ -95,8 +95,6 @@ dependencies {
     //索引
     implementation 'com.github.mcxtzhang:SuspensionIndexBar:V1.0.0'
 
-
-
     //蓝牙打印机
     compile files('libs/gprintersdkv1.jar')
 

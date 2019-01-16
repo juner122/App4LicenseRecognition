@@ -8,13 +8,13 @@ import java.util.List;
  */
 public class FixInfoList {
 
-    List<FixInfo> quotationList;
+    List<FixInfoEntity> quotationList;
 
-    public List<FixInfo> getQuotationList() {
+    public List<FixInfoEntity> getQuotationList() {
         return quotationList;
     }
 
-    public void setQuotationList(List<FixInfo> quotationList) {
+    public void setQuotationList(List<FixInfoEntity> quotationList) {
         this.quotationList = quotationList;
     }
 }

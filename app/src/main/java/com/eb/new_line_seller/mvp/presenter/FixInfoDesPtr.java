@@ -16,6 +16,7 @@ import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Technician;
 
@@ -29,7 +30,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     String carNo, userName, mobile, describe;
     int carId, userId;
 
-    FixInfo fixInfo;//请求对象
+    FixInfoEntity fixInfo;//请求对象
 
     public FixInfoDesPtr(@NonNull FixInfoDesContacts.FixInfoDesUI view) {
         super(view);
@@ -90,7 +91,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     @Override
     public void quotationSave() {
 
-        fixInfo = new FixInfo();
+        fixInfo = new FixInfoEntity();
         fixInfo.setCarId(carId);
         fixInfo.setCarNo(carNo);
         fixInfo.setDescribe(describe);

@@ -100,7 +100,7 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("订单收款");
-        et_car_code.setTransformationMethod(new A2bigA());
+//        et_car_code.setTransformationMethod(new A2bigA());
         olpy = PayTypeList.getList();
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
         Api().orderDetail(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {

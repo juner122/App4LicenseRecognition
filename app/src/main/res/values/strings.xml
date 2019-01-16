@@ -13,16 +13,6 @@
     <string name="error_connect_server_timeout">服务器超时了</string>
 
 
-
-
-
-
-
-
-
-
-
-
     //蓝牙打印机
     <string name="str_no_serialport">该设备不支持串口</string>
     <string name="str_conn_state_disconnect">连接状态：未连接</string>
@@ -44,6 +34,7 @@
     <string name="str_confirm">确定</string>
     <string name="str_cancel">取消</string>
     <string name="str_cann_printer">请先连接打印机</string>
+    <string name="no_dervier">没有配对的蓝牙打印机！</string>
     <string name="str_bluetooth">蓝牙</string>
     <string name="str_serialport">串口</string>
     <string name="str_usb">USB</string>
@@ -77,7 +68,7 @@
     <string name="str_state">状态：</string>
     <string name="str_interface_undefine">接口：未设定</string>
     <string name="str_select_printer_id">选中id为{0}的打印机</string>
-    <string name ="bluetooth_is_not_enabled">蓝牙没有开启</string>
+    <string name="bluetooth_is_not_enabled">蓝牙没有开启</string>
     <string-array name="str_interf_type">
         <item>蓝牙</item>
         <item>网口</item>

@@ -1,12 +1,19 @@
 package com.eb.new_line_seller.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -56,6 +63,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
 import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
 import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.CENTER;
@@ -118,6 +126,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter;//蓝牙
     public static final int REQUEST_ENABLE_BT = 2;
 
+    private ProgressDialog dialog;
+
     @Override
     protected void init() {
 
@@ -140,14 +150,14 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             }
         });
+//        initBluetooth();
+
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("连接蓝牙中");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(true);
 
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initBluetooth();
     }
 
     /**
@@ -161,6 +171,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
 
     private void initBluetooth() {
+
+        dialog.show();
         // Get the local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -170,6 +182,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
             if (!mBluetoothAdapter.isEnabled()) {
+                dialog.dismiss();
                 turnOnBluetooth();
 
             } else {
@@ -218,9 +231,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 // 点击取消按钮或点击返回键
                 case Activity.RESULT_CANCELED: {
                     // TODO 用户拒绝打开 Bluetooth, Bluetooth 不会被开启
-                    finish();
-
-
+//                    finish();
                 }
                 break;
                 default:
@@ -253,13 +264,16 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
             }
         } else {
-            ToastUtils.showToast("没有配对的蓝牙设备！");
+//            ToastUtils.showToast("没有配对的蓝牙设备！");
+
+            mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }
     }
 
 
     //票据打印
     public void btnReceiptPrint() {
+
         if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
                 !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState()) {
             ToastUtils.showToast(getString(R.string.str_cann_printer));
@@ -272,17 +286,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
         }
 
-//        threadPool = ThreadPool.getInstantiation();
-//        threadPool.addTask(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC) {
-//                    sendReceiptWithResponse();
-//                } else {
-//                    mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
-//                }
-//            }
-//        });
     }
 
 
@@ -462,6 +465,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
      */
     private static final int PRINTER_COMMAND_ERROR = 0x008;
     private static final int CONN_PRINTER = 0x12;
+    private static final int NO_DERVER = 0x13;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -479,28 +483,11 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
                     ToastUtils.showToast(getString(R.string.str_cann_printer));
                     break;
-//                case MESSAGE_UPDATE_PARAMETER:
-//                    String strIp = msg.getData().getString("Ip");
-//                    String strPort = msg.getData().getString("Port");
-//                    //初始化端口信息
-//                    new DeviceConnFactoryManager.Build()
-//                            //设置端口连接方式
-//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.WIFI)
-//                            //设置端口IP地址
-//                            .setIp(strIp)
-//                            //设置端口ID（主要用于连接多设备）
-//                            .setId(id)
-//                            //设置连接的热点端口号
-//                            .setPort(Integer.parseInt(strPort))
-//                            .build();
-//                    threadPool = ThreadPool.getInstantiation();
-//                    threadPool.addTask(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].openPort();
-//                        }
-//                    });
-//                    break;
+
+                case NO_DERVER:
+
+                    ToastUtils.showToast(getString(R.string.no_dervier));
+                    break;
                 default:
                     break;
             }
@@ -581,7 +568,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         return R.layout.activity_make_order_success;
     }
 
-    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph, R.id.tv_title_r})
+    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph, R.id.tv_title_r, R.id.tv_bluetooth})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_now_pay:
@@ -612,8 +599,16 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
 
 
+            case R.id.tv_bluetooth://连接蓝牙
+
+                initBluetooth();//连接蓝牙
+
+
+                break;
             case R.id.tv_title_r://蓝牙打印
-                btnReceiptPrint();
+
+                btnReceiptPrint();//连接蓝牙
+
                 break;
 
         }
@@ -636,10 +631,89 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         super.onDestroy();
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
-//        if (threadPool != null) {
-//            threadPool.stopThreadPool();
-//            threadPool = null;
-//        }
+
+    }
+
+    public static final int CONN_STATE_DISCONNECT = 0x90;
+    public static final int CONN_STATE_FAILED = CONN_STATE_DISCONNECT << 2;
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (dialog != null)
+                dialog.dismiss();
+
+            String action = intent.getAction();
+            switch (action) {
+
+                //Usb连接断开、蓝牙连接断开广播
+                case BluetoothDevice.ACTION_ACL_DISCONNECTED:
+                    mHandler.obtainMessage(CONN_STATE_DISCONN).sendToTarget();
+                    break;
+                case DeviceConnFactoryManager.ACTION_CONN_STATE:
+
+                    int state = intent.getIntExtra(DeviceConnFactoryManager.STATE, -1);
+                    int deviceId = intent.getIntExtra(DeviceConnFactoryManager.DEVICE_ID, -1);
+                    switch (state) {
+                        case DeviceConnFactoryManager.CONN_STATE_DISCONNECT:
+                            if (id == deviceId) {
+                                tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
+
+                            }
+                            break;
+                        case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
+//                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
+
+                            break;
+                        case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
+//                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
+
+                            break;
+                        case CONN_STATE_FAILED:
+                            ToastUtils.showToast(getString(R.string.str_conn_fail));
+                            tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
+
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(DeviceConnFactoryManager.ACTION_CONN_STATE);
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null)
+            dialog.dismiss();
+        unregisterReceiver(receiver);
+
+    }
+
+    private String getConnDeviceInfo() {
+        String str = "";
+        DeviceConnFactoryManager deviceConnFactoryManager = DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id];
+        if (deviceConnFactoryManager != null
+                && deviceConnFactoryManager.getConnState()) {
+            if ("BLUETOOTH".equals(deviceConnFactoryManager.getConnMethod().toString())) {
+                str += "MacAddress: " + deviceConnFactoryManager.getMacAddress();
+
+                return str;
+            }
+        }
+
+        return str;
     }
 
 }

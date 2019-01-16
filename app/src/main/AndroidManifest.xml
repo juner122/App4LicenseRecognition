@@ -27,8 +27,6 @@
     <!-- 开启闪光灯权限 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-
-
     <!-- 蓝牙打印机 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -37,11 +35,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-feature
         android:name="android.hardware.usb.host"
         android:required="true" />
-
-
 
     <application
         android:name=".MyApplication"
@@ -192,7 +189,12 @@
         <activity android:name=".mvp.PickMealCardActivity" />
         <activity android:name=".mvp.FixInfoDescribeActivity" />
         <activity android:name=".mvp.FixInfoListActivity" />
-        <activity android:name=".mvp.FixInfoPartsAndServerActivity"></activity>
+        <activity android:name=".mvp.FixInfoPartsAndServerActivity" />
+        <activity
+            android:name=".mvp.FixInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".mvp.FixPickServiceActivity"></activity>
     </application>
 
 </manifest>

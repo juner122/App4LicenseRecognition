@@ -19,6 +19,15 @@ public class MathUtil {
     }
 
     //显示两位小数
+    public static String twoDecimal(String s) {
+        Double d = Double.parseDouble(s);
+        DecimalFormat format = new DecimalFormat(",##0.00");
+        String s1 = format.format(d);
+
+        return s1;
+    }
+
+    //显示两位小数
     public static String toDate(Long l) {
         /**
          * 直接用SimpleDateFormat格式化 Date对象，即可得到相应格式的日期 字符串。
@@ -30,18 +39,5 @@ public class MathUtil {
         return simpleDateFormat.format(date);
     }
 
-
-    /**
-     *      * 保留两位小数正则
-     *      *
-     *      * @param number
-     *      * @return
-     *      
-     */
-    public static boolean isOnlyPointNumber(String number) {
-        Pattern pattern = Pattern.compile("^\\d+\\.?\\d{0,2}$");
-        Matcher matcher = pattern.matcher(number);
-        return matcher.matches();
-    }
 
 }

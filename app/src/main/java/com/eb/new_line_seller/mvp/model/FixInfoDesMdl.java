@@ -8,6 +8,7 @@ import com.juner.mvp.api.http.HttpUtils;
 import com.juner.mvp.api.http.RxHelper;
 import com.juner.mvp.base.model.BaseModel;
 import com.juner.mvp.bean.FixInfo;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 
 
@@ -21,7 +22,7 @@ public class FixInfoDesMdl extends BaseModel implements FixInfoDesContacts.FixIn
 
     //保存维修单
     @Override
-    public void quotationSave(FixInfo fixInfo, RxSubscribe<NullDataEntity> rxSubscribe) {
+    public void quotationSave(FixInfoEntity fixInfo, RxSubscribe<NullDataEntity> rxSubscribe) {
 
         sendRequest(HttpUtils.getApi().quotationSave(getToken(context), fixInfo).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
 

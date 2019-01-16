@@ -10,6 +10,7 @@
     android:background="@drawable/button_background_h"
     android:gravity="center_vertical"
     android:orientation="horizontal"
+    android:focusable="true"
     android:visibility="visible">
 
     <EditText
@@ -19,6 +20,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
+        android:focusable="false"
         android:background="@null"
         android:ellipsize="end"
         android:gravity="center"

@@ -10,6 +10,8 @@ import java.util.List;
 public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     int id;
+    int quotation_id;
+
     String order_sn;
     int user_id;
     int order_status;
@@ -52,6 +54,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
             return "微信";
         else
             return null == pay_name || pay_name.equals("") ? "-" : pay_name;
+    }
+
+    public int getQuotation_id() {
+        return quotation_id;
+    }
+
+    public void setQuotation_id(int quotation_id) {
+        this.quotation_id = quotation_id;
     }
 
     public String getProvince() {
@@ -379,6 +389,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
+        dest.writeInt(this.quotation_id);
         dest.writeString(this.order_sn);
         dest.writeInt(this.user_id);
         dest.writeInt(this.order_status);
@@ -414,6 +425,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     protected OrderInfoEntity(Parcel in) {
         this.id = in.readInt();
+        this.quotation_id = in.readInt();
         this.order_sn = in.readString();
         this.user_id = in.readInt();
         this.order_status = in.readInt();
