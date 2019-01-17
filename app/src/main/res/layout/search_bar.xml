@@ -20,7 +20,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:focusable="false"
         android:background="@null"
         android:ellipsize="end"
         android:gravity="center"

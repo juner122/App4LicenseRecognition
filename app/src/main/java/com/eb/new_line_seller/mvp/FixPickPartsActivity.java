@@ -1,8 +1,8 @@
 package com.eb.new_line_seller.mvp;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
@@ -10,9 +10,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.mvp.contacts.FixPickServiceContacts;
-import com.eb.new_line_seller.mvp.presenter.FixPickServicePtr;
-import com.juner.mvp.bean.FixServie;
+import com.eb.new_line_seller.mvp.contacts.FixPickPartsContacts;
+import com.eb.new_line_seller.mvp.presenter.FixPickPartsPtr;
+import com.juner.mvp.bean.FixParts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static com.eb.new_line_seller.mvp.presenter.FixInfoPtr.TYPE;
-import static com.eb.new_line_seller.mvp.presenter.FixInfoPtr.TYPE_Service;
+import static com.eb.new_line_seller.mvp.presenter.FixInfoPtr.TYPE_Parts;
 
-
-//选择服务工时
-public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.FixPickServicePtr> implements FixPickServiceContacts.FixPickServiceUI {
-
+public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixPickPartsPtr> implements FixPickPartsContacts.FixPickPartsUI {
 
     @BindView(R.id.rg_type)
     RadioGroup rg_type;//一级
@@ -39,6 +36,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @BindView(R.id.price)
     TextView price;//总价格
+
 
     @BindView(R.id.et_key)
     EditText et_key;//
@@ -54,7 +52,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
             case R.id.iv_search:
                 //搜索
-                getPresenter().seekServerforKey(et_key.getText().toString());
+                getPresenter().seekPartsforKey(et_key.getText().toString());
                 break;
 
 
@@ -70,29 +68,21 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @Override
     protected void init() {
-        tv_title.setText("请选择服务工时");
+        tv_title.setText("请选择配件");
+
         tv_title_r.setText("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
         getPresenter().onGetData(rg_type);
     }
 
     @Override
-    public FixPickServiceContacts.FixPickServicePtr onBindPresenter() {
-        return new FixPickServicePtr(this);
-    }
-
-
-    @Override
-    public void showServiceList() {
-
+    public void showPartsList() {
         rv0.setVisibility(View.GONE);
         rv1.setVisibility(View.VISIBLE);
-
-
     }
 
     @Override
-    public void showService2List() {
+    public void showParts2List() {
         rv0.setVisibility(View.VISIBLE);
         rv1.setVisibility(View.GONE);
     }
@@ -103,15 +93,22 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
     }
 
     @Override
-    public void onConfirm(List<FixServie> fixServies) {
+    public void onConfirm(List<FixParts> fixPartsList) {
 
 
         Intent intent = new Intent(this, FixInfoActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(TYPE_Service, (ArrayList) fixServies);
-        bundle.putString(TYPE, TYPE_Service);
+        bundle.putParcelableArrayList(TYPE_Parts, (ArrayList) fixPartsList);
+        bundle.putString(TYPE, TYPE_Parts);
         intent.putExtras(bundle);
         startActivity(intent);
 
+
+    }
+
+
+    @Override
+    public FixPickPartsContacts.FixPickPartsPtr onBindPresenter() {
+        return new FixPickPartsPtr(this);
     }
 }

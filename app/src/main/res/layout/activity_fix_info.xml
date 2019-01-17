@@ -10,126 +10,135 @@
 
     <include layout="@layout/head_view" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff"
-        android:padding="10dp">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tv_car_no"
 
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="粤AB99990"
-            android:textColor="#666666"
-            android:textSize="13sp" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_fix_sn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="单号：WX-XGX201835641250"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tv_dec"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="这里是初步跟车主交流产生的故障描述，描述的文字限制在150字以内；"
-        android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/tv_car_no"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="粤AB99990"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv_fix_sn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="单号：WX-XGX201835641250"
+                    android:textColor="#666666"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_dec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="这里是初步跟车主交流产生的故障描述，描述的文字限制在150字以内；"
+                android:textSize="13sp" />
 
 
-    <LinearLayout
-        android:id="@+id/tv_add_service"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="#fff"
-        android:gravity="center">
+            <LinearLayout
+                android:id="@+id/tv_add_service"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#fff"
+                android:gravity="center">
 
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="维修工时"
-            android:textColor="#ff000000"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="维修工时"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tv_price1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
-            android:text="金额小计：0.00"
-            android:textColor="#ff000000"
-            android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/tv_price1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:text="金额小计：0.00"
+                    android:textColor="#ff000000"
+                    android:textSize="13sp" />
 
-        <ImageView
-            android:id="@+id/iv_add1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:src="@mipmap/icon_add" />
+                <ImageView
+                    android:id="@+id/iv_add1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@mipmap/icon_add" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:id="@+id/tv_add_parts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="#fff"
-        android:gravity="center">
+            <LinearLayout
+                android:id="@+id/tv_add_parts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#fff"
+                android:gravity="center">
 
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="更换配件"
-            android:textColor="#ff000000"
-            android:textSize="14sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="更换配件"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tv_price2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="25dp"
-            android:text="金额小计：0.00"
-            android:textColor="#ff000000"
-            android:textSize="13sp" />
+                <TextView
+                    android:id="@+id/tv_price2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:text="金额小计：0.00"
+                    android:textColor="#ff000000"
+                    android:textSize="13sp" />
 
-        <ImageView
-            android:id="@+id/iv_add2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:src="@mipmap/icon_add" />
+                <ImageView
+                    android:id="@+id/iv_add2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@mipmap/icon_add" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/ll_bottom"
@@ -139,16 +148,16 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_fix_order"
+            android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/button_background_e"
+            android:background="#ffff"
             android:gravity="center"
-            android:text="维修估价开单"
-            android:textColor="#fff"
+            android:text=""
+            android:textColor="#FFF23325"
             android:textSize="14sp"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
 
         <TextView

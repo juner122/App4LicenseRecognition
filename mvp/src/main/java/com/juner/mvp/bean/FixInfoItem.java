@@ -1,9 +1,12 @@
 package com.juner.mvp.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 检修单  工时和配件的父对象
  */
-public class FixInfoItem {
+public class FixInfoItem implements Parcelable {
 
     int id;
     int selected;//选择 0 ,1,2
@@ -30,4 +33,24 @@ public class FixInfoItem {
         return selected != 0;
 
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.selected);
+    }
+
+    public FixInfoItem() {
+    }
+
+    protected FixInfoItem(Parcel in) {
+        this.id = in.readInt();
+        this.selected = in.readInt();
+    }
+
 }

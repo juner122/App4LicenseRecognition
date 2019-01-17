@@ -9,6 +9,7 @@ import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServie;
+import com.juner.mvp.bean.FixServieEntity;
 
 import java.util.List;
 
@@ -45,6 +46,9 @@ public class FixPickServiceContacts {
 
         void confirm();//确认选择
 
+        void seekServerforKey(String key);//搜索
+
+
     }
 
     /**
@@ -53,6 +57,8 @@ public class FixPickServiceContacts {
     public interface FixPickServiceMdl {
 
         void getServiceData(RxSubscribe<FixServiceList> rxSubscribe);//获取数据
+
+        void searchServer(int id, String key, RxSubscribe<FixServieEntity> rxSubscribe);//搜索
 
 
     }

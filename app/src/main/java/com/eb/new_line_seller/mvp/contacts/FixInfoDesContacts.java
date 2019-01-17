@@ -27,6 +27,8 @@ public class FixInfoDesContacts {
 
         void setTip(String tip);//添加快捷描述
 
+        void toFixInfoActivity(int id);
+
     }
 
     public interface FixInfoDesPtr extends IBasePresenter {
@@ -39,7 +41,7 @@ public class FixInfoDesContacts {
 
         void toTechnicianListActivity();//前往技师选择页面
 
-        void quotationSave();//保存退出
+        void quotationSave(boolean isFinish);//是否保存退出
 
 
     }

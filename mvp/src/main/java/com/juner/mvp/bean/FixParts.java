@@ -4,7 +4,7 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-//检修单配件
+//检修单配件 显示，提交
 public class FixParts extends FixInfoItem implements Parcelable {
 
 
@@ -14,8 +14,8 @@ public class FixParts extends FixInfoItem implements Parcelable {
     int number;
     int quotation_id;
     int component_id;
-    String  goods_name;
-    String  goods_sn;
+    String goods_name;
+    String goods_sn;
     String market_price;
     String retail_price;
     String goods_specifition_name_value;
@@ -97,6 +97,7 @@ public class FixParts extends FixInfoItem implements Parcelable {
     public String getMarket_price() {
         return market_price;
     }
+
     public Double getMarket_priceD() {
         return Double.parseDouble(market_price);
     }
@@ -106,7 +107,11 @@ public class FixParts extends FixInfoItem implements Parcelable {
     }
 
     public String getRetail_price() {
-        return retail_price;
+        return null == retail_price ? "0.00" : retail_price;
+    }
+
+    public Double getRetail_priceD() {
+        return Double.parseDouble(getRetail_price());
     }
 
     public void setRetail_price(String retail_price) {

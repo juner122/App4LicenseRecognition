@@ -45,9 +45,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         super(view);
         context = view.getSelfActivity();
         mdl = new FixInfoMdl(context);
-        adapter_service = new FixInfoServiceItemAdapter(null, context);
-        adapter_parts = new FixInfoPartsItemAdapter(null, context);
 
+        adapter_service = new FixInfoServiceItemAdapter(null);
+        adapter_parts = new FixInfoPartsItemAdapter(null);
     }
 
     BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
@@ -59,6 +59,16 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             else
                 ((FixInfoItem) (adapter.getData().get(position))).setSelected(1);
             adapter.notifyDataSetChanged();
+
+
+            //更新金额
+            if (adapter.getData().get(position) instanceof FixParts) {
+                getView().setPartsPrice(upDataPartsPrice().toString());
+            } else {
+                getView().setServicePrice(upDataServicePrice().toString());
+            }
+            getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
+
         }
     };
 
@@ -73,7 +83,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 getView().setInfo(entity);
                 upServiceDataList(entity.getOrderProjectList());
                 upPartsDataList(entity.getOrderGoodsList());
-
 
                 //根据status改变页面
                 changeView(entity.getStatus());
@@ -100,12 +109,20 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
                 adapter_service.setOnItemChildClickListener(infoItemAdapter);
                 adapter_parts.setOnItemChildClickListener(infoItemAdapter);
+
                 break;
             case 2:
+
+                getView().hideAddButton();
+                getView().setButtonText("检修单确认中");
+                break;
             case 3:
-            case 4:
                 getView().hideAddButton();
                 getView().setButtonText("确认生成订单");
+                break;
+            case 4:
+                getView().hideAddButton();
+                getView().setButtonText("已形成订单");
                 break;
         }
 
@@ -114,13 +131,20 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void upServiceDataList(List<FixServie> list) {
-
+        adapter_service.setStatus(entity.getStatus());
         adapter_service.setNewData(list);
+
+        getView().setServicePrice(upDataServicePrice().toString());
+        getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
     }
 
     @Override
     public void upPartsDataList(List<FixParts> list) {
+        adapter_parts.setStatus(entity.getStatus());
         adapter_parts.setNewData(list);
+
+        getView().setPartsPrice(upDataPartsPrice().toString());//更新价格
+        getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
     }
 
     @Override
@@ -144,6 +168,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             protected void _onNext(NullDataEntity nullDataEntity) {
                 getView().createOrderSuccess();
             }
+
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
@@ -154,8 +179,13 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             mdl.remakeSelected(createFixInfoEntity(), rxSubscribe);
         } else if (entity.getStatus() == 0) {
             mdl.inform(createFixInfoEntity(), rxSubscribe);
-        } else {
-            mdl.submit(createOrderObj(entity), rxSubscribe);
+        } else if (entity.getStatus() == 2) {
+            ToastUtils.showToast("检修单确认中");
+        } else if (entity.getStatus() == 3) {
+            mdl.submit(createOrderObj(entity), rxSubscribe);//生成订单
+        } else if (entity.getStatus() == 4) {
+
+            ToastUtils.showToast("已形成订单");
         }
 
 
@@ -176,44 +206,46 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         infoEntity.setOrder_price(Double.parseDouble(entity.getActualPrice()));
         infoEntity.setCar_no(entity.getCarNo());
         infoEntity.setPostscript(entity.getDescribe());
-
         return infoEntity;
 
 
     }
 
 
-    @Override
-    public void upDataServicePrice(TextView tv_price) {
-
+    public Double upDataServicePrice() {
         Double d = 0.00d;
-        for (FixServie fixServie : adapter_service.getData()) {
-            d = d + fixServie.getMarketPriceD();
-        }
-        tv_price.setText(MathUtil.twoDecimal(d));
+        if (null == adapter_service) return d;
 
+        for (FixServie fixServie : adapter_service.getData()) {
+            if (fixServie.selectde())
+                d = d + fixServie.getPriceD();
+        }
+        return d;
 
     }
 
-    @Override
-    public void upDataPartsPrice(TextView tv_price) {
+    public Double upDataPartsPrice() {
         Double d = 0.00d;
+        if (null == adapter_parts) return d;
+
         for (FixParts fixParts : adapter_parts.getData()) {
-            d = d + fixParts.getMarket_priceD();
+            if (fixParts.selectde())
+                d = d + fixParts.getRetail_priceD();
         }
-        tv_price.setText(MathUtil.twoDecimal(d));
+
+        return d;
     }
 
     public final static String TYPE_Service = "TYPE_Service";//服务工时页面
     public final static String TYPE_Parts = "TYPE_Parts";//配件页面
-    public final static String TYPE = "TYPE";//配件页面
+    public final static String TYPE = "TYPE";//
 
 
     @Override
     public void handleCallback(Intent intent) {
-        List<FixServie> fixServies = null;
-        List<FixParts> fixParts = null;
-
+        List<FixServie> fixServies = new ArrayList<>();
+        List<FixParts> fixParts = new ArrayList<>();
+        String s = intent.getStringExtra(TYPE);
         try {
             fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
             fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
@@ -222,7 +254,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             e.printStackTrace();
         } finally {
             if (entity.getStatus() == 1) {//追加项目
-
                 mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
@@ -237,25 +268,14 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 });
             } else {
 
-                upServiceDataList(fixServies);
-                upPartsDataList(fixParts);
+                if (s.equals(TYPE_Parts))
+                    upPartsDataList(fixParts);
+                else
+                    upServiceDataList(fixServies);
+
             }
 
         }
-
-//
-//
-//        switch (intent.getIntExtra("TYPE", -1)) {
-//            case 0:
-//
-//                break;
-//
-//            case 1:
-//
-//                break;
-//        }
-//
-
 
     }
 
@@ -264,9 +284,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
         entity.setOrderGoodsList(adapter_parts.getData());
         entity.setOrderProjectList(adapter_service.getData());
-        entity.setServePrice("0");
-        entity.setGoodsPrice("999999");
-        entity.setActualPrice("999999");
+        countAllPrice();
+
         return entity;
     }
 
@@ -274,10 +293,13 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     private FixInfoEntity addFixInfoEntity(List<FixServie> fixServies, List<FixParts> fixParts) {
         entity.setOrderGoodsList(fixParts);
         entity.setOrderProjectList(fixServies);
-
-        entity.setServePrice("0");
-        entity.setGoodsPrice("999999");
-        entity.setActualPrice("999999");
+        countAllPrice();
         return entity;
     }
+
+    private void countAllPrice() {
+        Double all = Double.parseDouble(entity.getGoodsPrice()) + Double.parseDouble(entity.getServePrice());
+        entity.setActualPrice(MathUtil.twoDecimal(all.toString()));
+    }
+
 }

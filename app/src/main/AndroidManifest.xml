@@ -194,7 +194,9 @@
             android:name=".mvp.FixInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity android:name=".mvp.FixPickServiceActivity"></activity>
+        <activity android:name=".mvp.FixPickServiceActivity" />
+        <activity android:name=".mvp.FixPickPartsActivity" />
+        <activity android:name=".mvp.CustomPartsActivity"></activity>
     </application>
 
 </manifest>

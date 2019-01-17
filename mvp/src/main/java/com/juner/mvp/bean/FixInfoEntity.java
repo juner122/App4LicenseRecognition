@@ -235,6 +235,9 @@ public class FixInfoEntity {
 
     public void setOrderProjectList(List<FixServie> orderProjectList) {
         this.orderProjectList = orderProjectList;
+        this.setServePrice(getServicePrice(orderProjectList).toString());
+
+
     }
 
     public List<FixParts> getOrderGoodsList() {
@@ -243,6 +246,39 @@ public class FixInfoEntity {
 
     public void setOrderGoodsList(List<FixParts> orderGoodsList) {
         this.orderGoodsList = orderGoodsList;
+        this.setGoodsPrice(getPartsPrice(orderGoodsList).toString());
+    }
+
+
+    //计算配件总价格
+    private Double getPartsPrice(List<FixParts> fixParts) {
+
+        Double d = 0d;
+        if (fixParts == null)
+            return d;
+
+
+        for (FixParts fp : fixParts) {
+            if (fp.selectde())
+                d = d + Double.parseDouble(fp.getRetail_price());
+        }
+        return d;
 
     }
+
+    //计算工时总价格
+    private Double getServicePrice(List<FixServie> fixServies) {
+        Double d = 0d;
+        if (fixServies == null)
+            return d;
+
+        for (FixServie fs : fixServies) {
+            if (fs.selectde())
+                d = d + fs.getPriceD();
+        }
+
+        return d;
+
+    }
+
 }

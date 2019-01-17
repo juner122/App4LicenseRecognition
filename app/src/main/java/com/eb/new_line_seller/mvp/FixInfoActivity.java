@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
+import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.FixInfo;
@@ -32,6 +33,9 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @BindView(R.id.tv_new_order)
     TextView tv_new_order;
+
+    @BindView(R.id.tv_text)
+    TextView tv_text;//总价
 
 
     @BindView(R.id.tv_dec)
@@ -71,6 +75,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
             case R.id.iv_add2:
                 //添加配件
+                toActivity(FixPickPartsActivity.class);
                 break;
 
 
@@ -109,13 +114,30 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         tv_dec.setText(fixInfo.getDescribe());
 
 
-
     }
 
     @Override
     public void createOrderSuccess() {
         ToastUtils.showToast("生成成功！");
         finish();
+    }
+
+    @Override
+    public void setServicePrice(String price) {
+        tv_price1.setText("金额小计：￥" + MathUtil.twoDecimal(price));
+
+    }
+
+    @Override
+    public void setPartsPrice(String price) {
+        tv_price2.setText("金额小计：￥" + MathUtil.twoDecimal(price));
+
+
+    }
+
+    @Override
+    public void setAllPrice(String price) {
+        tv_text.setText("总价：￥" + price);
     }
 
     @Override

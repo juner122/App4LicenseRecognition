@@ -34,7 +34,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     @BindViews({R.id.tv_re1, R.id.tv_re2, R.id.tv_re3, R.id.tv_re4, R.id.tv_re5, R.id.tv_re6})
     public List<TextView> textViews;
 
-    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order})
+    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.but_to_technician_list:
@@ -42,7 +42,11 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
                 break;
 
             case R.id.tv_fix_order:
-                getPresenter().quotationSave();//保存退出
+                getPresenter().quotationSave(true);//保存退出
+                break;
+
+            case R.id.tv_enter_order:
+                getPresenter().quotationSave(false);//跳到订单页面
                 break;
 
 
@@ -104,6 +108,12 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     @Override
     public void setTip(String tip) {
         et.append(tip + ",");
+    }
+
+    @Override
+    public void toFixInfoActivity(int id) {
+
+        toActivity(FixInfoActivity.class, "id", id);
     }
 
 

@@ -1,50 +1,44 @@
 package com.eb.new_line_seller.adapter;
 
-import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.MathUtil;
-import com.juner.mvp.bean.FixInfoItem;
 import com.juner.mvp.bean.FixParts;
-import com.juner.mvp.bean.FixServie;
 
 import java.util.List;
 
 
-//检修单信息中的工时和配件
+//检修单信息中的配件
 public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseViewHolder> {
 
-    Context context;
+    int status;//检修单状态
 
-    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data, Context c) {
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data) {
         super(R.layout.activity_fix_info_item, data);
-        this.context = c;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, FixParts item) {
-        String tv1 = "";
-        String tv2 = "";
-        String tv3 = "";
-        String tv4 = "";
 
-//        if (item instanceof FixParts) {
-        tv1 = item.getGoods_name();
-        tv2 = "-";
-        tv3 = "x" + item.getNumber();
-        tv4 = "￥" + MathUtil.twoDecimal((item).getMarket_price());
 
-//        }
-//        if (item instanceof FixServie) {
-//            tv1 = ((FixServie) item).getName();
-//            tv2 = ((FixServie) item).getExplain();
-//            tv3 = "x1";
-//            tv4 = "￥" + MathUtil.twoDecimal(((FixServie) item).getMarketPrice());
-//        }
+        String tv1 = item.getGoods_name();
+        String tv2 = "-";
+        String tv3 = "x" + 1;
+        String tv4 = "￥" + MathUtil.twoDecimal((item).getRetail_price());
+
+
         helper.setText(R.id.tv1, tv1);
         helper.setText(R.id.tv2, tv2);
         helper.setText(R.id.tv3, tv3);
@@ -52,11 +46,45 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
 
         ImageView iv = helper.getView(R.id.iv);
-        if ((item).selectde())
-            iv.setImageResource(R.drawable.icon_pick2);
-        else
-            iv.setImageResource(R.drawable.icon_unpick2);
-        helper.addOnClickListener(R.id.iv);
+        TextView tv = helper.getView(R.id.tv);
+        switch (status) {
+            case 0:
+            case 1:
+                if (item.selectde())
+                    iv.setImageResource(R.drawable.icon_pick2);
+                else
+                    iv.setImageResource(R.drawable.icon_unpick2);
+                helper.addOnClickListener(R.id.iv);
+
+                tv.setVisibility(View.INVISIBLE);
+                iv.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+            case 3:
+            case 4:
+                switch (item.getSelected()) {
+                    case 0:
+                        iv.setVisibility(View.VISIBLE);
+                        tv.setVisibility(View.INVISIBLE);
+                        iv.setImageResource(R.drawable.icon_unpick2);
+                        break;
+                    case 1:
+                        iv.setVisibility(View.INVISIBLE);
+                        tv.setVisibility(View.VISIBLE);
+                        tv.setText("未确认");
+                        tv.setTextColor(Color.parseColor("#FF000000"));
+                        break;
+                    case 2:
+                        iv.setVisibility(View.INVISIBLE);
+                        tv.setVisibility(View.VISIBLE);
+                        tv.setText("已确认");
+                        tv.setTextColor(Color.parseColor("#FF666666"));
+                        break;
+                }
+                break;
+
+        }
+
 
     }
 }

@@ -45,7 +45,7 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
     //重新提交勾选后的各个项目（报价单status=1状态下才可调用，将由status1->2）
     @Override
     public void remakeSelected(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
-        sendRequest(HttpUtils.getFix().addGoodsOrProject(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getFix().remakeSelected(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
     }
 
 

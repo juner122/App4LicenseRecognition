@@ -3,87 +3,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
-    android:background="#fff"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:paddingLeft="15dp"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp"
+    android:background="#FFD9D9D9"
     tools:context=".mvp.FixInfoActivity">
 
     <LinearLayout
-
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginBottom="0.5dp"
+        android:background="#fff"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="3dp">
 
         <LinearLayout
 
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:minLines="1"
-                android:text="飞利浦蓝钻之光银战士车灯超白光HB4远光汽车灯泡"
-                android:textColor="#ff000000"
-                android:textSize="13sp" />
+                android:gravity="top"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv3"
-                android:layout_marginLeft="50dp"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:text="飞利浦蓝钻之光银战士车灯超白光HB4远光汽车灯泡"
+                    android:textColor="#ff000000"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="end"
+                    android:text="×1"
+                    android:textColor="#ff000000"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="×1"
-                android:textColor="#ff000000"
-                android:textSize="13sp" />
+                android:layout_marginTop="5dp"
+                android:gravity="center">
 
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="H11蓝钻之光（5000K）一对装"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv4"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="218.00"
+                    android:textColor="#fff23325"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center">
+        <FrameLayout
+            android:layout_width="wrap_content"
 
-            <TextView
-                android:id="@+id/tv2"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="H11蓝钻之光（5000K）一对装"
-                android:textColor="#ff666666"
-                android:textSize="12sp" />
+                android:padding="20dp"
+                android:src="@drawable/icon_unpick2" />
 
             <TextView
-                android:id="@+id/tv4"
-
-                android:layout_width="wrap_content"
+                android:id="@+id/tv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="218.00"
-                android:textColor="#fff23325"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_gravity="center"
+                android:text="已确认" />
+
+        </FrameLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:src="@drawable/icon_unpick2" />
 
 </LinearLayout>

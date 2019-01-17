@@ -38,14 +38,17 @@ public class FixInfoContacts {
 
         void createOrderSuccess();//生成估价单成功
 
-//        void setServicePrice();//设置工时金额
-//
-//        void setPartsPrice();//设置配件金额
+        void setServicePrice(String price);//设置工时金额
+
+        void setPartsPrice(String price);//设置配件金额
+
+        void setAllPrice(String price);//设置总价
 
 
         void showAddButton();//显示增加按钮
 
         void hideAddButton();//隐藏增加按钮
+
 
         void setButtonText(String text);//设置文字
 
@@ -66,10 +69,10 @@ public class FixInfoContacts {
         void initRecyclerView(RecyclerView rv_service, RecyclerView rv_parts);
 
         void onInform();////初次报价（状态将由0->2）      重新提交勾选后的各个项目    两种情况
-
-        void upDataServicePrice(TextView tv_price);//更新工时金额
-
-        void upDataPartsPrice(TextView tv_price);//更新配件金额
+//
+//        void upDataServicePrice(TextView tv_price);//更新工时金额
+//
+//        void upDataPartsPrice(TextView tv_price);//更新配件金额
 
 
         void handleCallback(Intent intent);//处理从选择工时页面或选择配件页面返回的结果

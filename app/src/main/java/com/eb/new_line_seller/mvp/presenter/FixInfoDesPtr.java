@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.ResultBack;
 import com.eb.new_line_seller.activity.TechnicianListActivity;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoDesContacts;
 import com.eb.new_line_seller.mvp.model.FixInfoDesMdl;
@@ -89,7 +90,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     }
 
     @Override
-    public void quotationSave() {
+    public void quotationSave(final boolean isFinish) {
 
         fixInfo = new FixInfoEntity();
         fixInfo.setCarId(carId);
@@ -103,10 +104,14 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
         mdl.quotationSave(fixInfo, new RxSubscribe<NullDataEntity>(getView().getSelfActivity(), true) {
             @Override
-            protected void _onNext(NullDataEntity nullDataEntity) {
+            protected void _onNext(NullDataEntity entity) {
 
                 getView().showToast("保存成功！");
                 finish();
+                if (!isFinish)
+                    getView().toFixInfoActivity(entity.getId());
+
+
             }
 
             @Override

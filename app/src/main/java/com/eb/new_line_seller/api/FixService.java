@@ -20,7 +20,10 @@ import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.FixPartsEntityList;
+import com.juner.mvp.bean.FixPartsList;
 import com.juner.mvp.bean.FixServiceList;
+import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.juner.mvp.bean.Member;
@@ -94,6 +97,21 @@ public interface FixService {
     //报价单去生成订单
     @POST("quotation/submit")
     Observable<BaseBean<NullDataEntity>> submit(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);
+
+
+    //配件分类列表
+    @POST("component/list")
+    Observable<BaseBean<FixPartsList>> componentList(@Header("X-Nideshop-Token") String token);
+
+    //搜索配件接口
+    @POST("component/searchComponent")
+    @FormUrlEncoded
+    Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("category_id") int id, @Field("name") String key);
+
+   //搜索服务接口
+    @POST("goods/searchServer")
+    @FormUrlEncoded
+    Observable<BaseBean<FixServieEntity>> searchServer(@Header("X-Nideshop-Token") String token, @Field("service_id") int id, @Field("name") String key);
 
 
 }
