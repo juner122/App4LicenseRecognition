@@ -42,7 +42,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     EditText et_key;//
 
 
-    @OnClick({R.id.tv_confirm, R.id.iv_search})
+    @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
@@ -53,6 +53,11 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
             case R.id.iv_search:
                 //搜索
                 getPresenter().seekPartsforKey(et_key.getText().toString());
+                break;
+            case R.id.tv_title_r:
+                //自定义配件
+                toActivity(CustomPartsActivity.class, "type", 1);
+
                 break;
 
 
@@ -69,8 +74,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     @Override
     protected void init() {
         tv_title.setText("请选择配件");
-
-        tv_title_r.setText("自定义工时");
+        setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1);
         getPresenter().onGetData(rg_type);
     }

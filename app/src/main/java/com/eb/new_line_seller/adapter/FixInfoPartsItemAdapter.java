@@ -35,7 +35,7 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
         String tv1 = item.getGoods_name();
         String tv2 = "-";
-        String tv3 = "x" + 1;
+        String tv3 = "x" + item.getNumber();
         String tv4 = "￥" + MathUtil.twoDecimal((item).getRetail_price());
 
 
@@ -55,6 +55,7 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
                 else
                     iv.setImageResource(R.drawable.icon_unpick2);
                 helper.addOnClickListener(R.id.iv);
+                helper.addOnClickListener(R.id.ll);
 
                 tv.setVisibility(View.INVISIBLE);
                 iv.setVisibility(View.VISIBLE);
@@ -71,7 +72,7 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
                     case 1:
                         iv.setVisibility(View.INVISIBLE);
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText("未确认");
+                        tv.setText("待确认");
                         tv.setTextColor(Color.parseColor("#FF000000"));
                         break;
                     case 2:

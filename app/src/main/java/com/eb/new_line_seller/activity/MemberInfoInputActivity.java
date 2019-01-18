@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CarListAdapter;
@@ -50,8 +51,8 @@ public class MemberInfoInputActivity extends BaseActivity {
     @BindView(R.id.ll_car_list)
     View ll_car_list;
 
-    @BindView(R.id.tv_enter_order)
-    View tv_enter_order;
+    @BindView(R.id.ll)
+    View ll;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -122,12 +123,25 @@ public class MemberInfoInputActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_add_car, R.id.tv_check})
+    @OnClick({R.id.tv_enter_order, R.id.tv_add_car, R.id.tv_check, R.id.tv_fix})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_order:
 
                 toMakeOrder(user_id, car_id, mobile, user_name, car_number);
+                break;
+
+            case R.id.tv_fix://新增检修单
+
+                Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
+
+                intent2.putExtra(Configure.car_no, car_number);
+                intent2.putExtra(Configure.car_id, car_id);
+                intent2.putExtra(Configure.user_name, user_name);
+                intent2.putExtra(Configure.moblie, mobile);
+                intent2.putExtra(Configure.user_id, user_id);
+
+                startActivity(intent2);
                 break;
             case R.id.tv_add_car:
 
@@ -200,7 +214,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
 
-                tv_enter_order.setVisibility(View.VISIBLE);
+                ll.setVisibility(View.VISIBLE);
                 car_number = carListAdapter.getData().get(position).getCarNo();
                 car_id = carListAdapter.getData().get(position).getId();
 

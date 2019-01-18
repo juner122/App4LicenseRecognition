@@ -153,7 +153,7 @@ public class FixInfoEntity {
             case 3:
                 return "已确认";
             case 4:
-                return "已形成订单";
+                return "已出单";
             case -1:
                 return "删除";
         }
@@ -260,7 +260,7 @@ public class FixInfoEntity {
 
         for (FixParts fp : fixParts) {
             if (fp.selectde())
-                d = d + Double.parseDouble(fp.getRetail_price());
+                d = d + Double.parseDouble(fp.getRetail_price()) * fp.getNumber();
         }
         return d;
 

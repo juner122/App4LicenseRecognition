@@ -7,9 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.FixInfoItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoPartsItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoServiceItemAdapter;
@@ -17,6 +19,8 @@ import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.model.FixInfoMdl;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.eb.new_line_seller.view.ConfirmDialog2;
+import com.eb.new_line_seller.view.ConfirmDialog4;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixInfo;
@@ -52,23 +56,76 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
         @Override
-        public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
             boolean item_selected = ((FixInfoItem) (adapter.getData().get(position))).selectde();//获取当前
-            if (item_selected)
-                ((FixInfoItem) (adapter.getData().get(position))).setSelected(0);
-            else
-                ((FixInfoItem) (adapter.getData().get(position))).setSelected(1);
-            adapter.notifyDataSetChanged();
+
+            switch (view.getId()) {
+                case R.id.iv://选择
+
+                    if (item_selected)
+                        ((FixInfoItem) (adapter.getData().get(position))).setSelected(0);
+                    else
+                        ((FixInfoItem) (adapter.getData().get(position))).setSelected(1);
+                    adapter.notifyDataSetChanged();
+                    //更新金额
+                    if (adapter.getData().get(position) instanceof FixParts) {
+                        getView().setPartsPrice(upDataPartsPrice().toString());
+                    } else {
+                        getView().setServicePrice(upDataServicePrice().toString());
+                    }
+                    getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
+
+                    break;
+
+                case R.id.ll://改变价格
+                    String price = "";//原价
+                    int num;//原价
+                    boolean isChenge;
+                    if (adapter.getData().get(position) instanceof FixParts) {
+                        price = ((FixParts) adapter.getData().get(position)).getRetail_price();
+                        num = ((FixParts) adapter.getData().get(position)).getNumber();
+                        isChenge = true;
+                    } else {
+                        price = ((FixServie) adapter.getData().get(position)).getPrice();
+                        num = 1;
+                        isChenge = false;
+                    }
 
 
-            //更新金额
-            if (adapter.getData().get(position) instanceof FixParts) {
-                getView().setPartsPrice(upDataPartsPrice().toString());
-            } else {
-                getView().setServicePrice(upDataServicePrice().toString());
+                    final ConfirmDialog4 confirmDialog = new ConfirmDialog4(getView().getSelfActivity(), price, num, isChenge);
+                    confirmDialog.show();
+                    confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+
+                        @Override
+                        public void doConfirm(String price, int num) {
+                            confirmDialog.dismiss();
+                            if (adapter.getData().get(position) instanceof FixParts) {
+
+                                ((FixParts) adapter.getData().get(position)).setRetail_price(price);
+                                ((FixParts) adapter.getData().get(position)).setNumber(num);
+                            } else {
+                                ((FixServie) adapter.getData().get(position)).setPrice(price);
+                            }
+
+                            adapter.notifyDataSetChanged();
+                            //更新金额
+                            if (adapter.getData().get(position) instanceof FixParts) {
+                                getView().setPartsPrice(upDataPartsPrice().toString());
+                            } else {
+                                getView().setServicePrice(upDataServicePrice().toString());
+                            }
+                            getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
+
+                        }
+
+                        @Override
+                        public void doCancel() {
+                            // TODO Auto-generated method stub
+                            confirmDialog.dismiss();
+                        }
+                    });
+                    break;
             }
-            getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
-
         }
     };
 
@@ -114,7 +171,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             case 2:
 
                 getView().hideAddButton();
-                getView().setButtonText("检修单确认中");
+                getView().setButtonText("等待客户确认");
                 break;
             case 3:
                 getView().hideAddButton();
@@ -122,7 +179,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 break;
             case 4:
                 getView().hideAddButton();
-                getView().setButtonText("已形成订单");
+                getView().setButtonText("已出单");
                 break;
         }
 
@@ -132,7 +189,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     @Override
     public void upServiceDataList(List<FixServie> list) {
         adapter_service.setStatus(entity.getStatus());
-        adapter_service.setNewData(list);
+//        adapter_service.setNewData(list);
+        adapter_service.addData(list);
+        adapter_service.notifyDataSetChanged();
 
         getView().setServicePrice(upDataServicePrice().toString());
         getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
@@ -141,7 +200,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     @Override
     public void upPartsDataList(List<FixParts> list) {
         adapter_parts.setStatus(entity.getStatus());
-        adapter_parts.setNewData(list);
+        adapter_parts.addData(list);
+        adapter_parts.notifyDataSetChanged();
+//        adapter_parts.setNewData(list);
 
         getView().setPartsPrice(upDataPartsPrice().toString());//更新价格
         getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
@@ -149,9 +210,20 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void initRecyclerView(RecyclerView rv_service, RecyclerView rv_parts) {
-
-        rv_service.setLayoutManager(new LinearLayoutManager(context));
-        rv_parts.setLayoutManager(new LinearLayoutManager(context));
+        rv_service.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
+        rv_parts.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
 
         rv_service.setAdapter(adapter_service);
         rv_parts.setAdapter(adapter_parts);
@@ -180,12 +252,12 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         } else if (entity.getStatus() == 0) {
             mdl.inform(createFixInfoEntity(), rxSubscribe);
         } else if (entity.getStatus() == 2) {
-            ToastUtils.showToast("检修单确认中");
+            ToastUtils.showToast("等待客户确认");
         } else if (entity.getStatus() == 3) {
             mdl.submit(createOrderObj(entity), rxSubscribe);//生成订单
         } else if (entity.getStatus() == 4) {
 
-            ToastUtils.showToast("已形成订单");
+            ToastUtils.showToast("已出单");
         }
 
 
@@ -230,7 +302,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
         for (FixParts fixParts : adapter_parts.getData()) {
             if (fixParts.selectde())
-                d = d + fixParts.getRetail_priceD();
+                d = d + fixParts.getRetail_priceD() * fixParts.getNumber();
         }
 
         return d;

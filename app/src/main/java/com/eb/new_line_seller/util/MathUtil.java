@@ -12,7 +12,7 @@ public class MathUtil {
     //显示两位小数
     public static String twoDecimal(double d) {
 
-        DecimalFormat format = new DecimalFormat(",##0.00");
+        DecimalFormat format = new DecimalFormat("##0.00");
         String s = format.format(d);
 
         return s;
@@ -21,7 +21,7 @@ public class MathUtil {
     //显示两位小数
     public static String twoDecimal(String s) {
         Double d = Double.parseDouble(s);
-        DecimalFormat format = new DecimalFormat(",##0.00");
+        DecimalFormat format = new DecimalFormat("##0.00");
         String s1 = format.format(d);
 
         return s1;

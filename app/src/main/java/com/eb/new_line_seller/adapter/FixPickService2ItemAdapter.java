@@ -1,15 +1,11 @@
 package com.eb.new_line_seller.adapter;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.FixService2item;
-import com.juner.mvp.bean.FixServie;
 
 import java.util.List;
 

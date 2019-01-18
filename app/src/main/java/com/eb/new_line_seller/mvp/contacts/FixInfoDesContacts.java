@@ -28,6 +28,7 @@ public class FixInfoDesContacts {
         void setTip(String tip);//添加快捷描述
 
         void toFixInfoActivity(int id);
+        void toMian();
 
     }
 

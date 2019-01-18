@@ -1,5 +1,6 @@
 package com.juner.mvp.base.presenter;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.juner.mvp.base.BaseXPresenter;
@@ -31,6 +32,11 @@ public abstract class BasePresenter<V extends IBaseView> extends BaseXPresenter<
     public void finish() {
 
         getView().getSelfActivity().finish();
+    }
+
+    public Intent getIntent() {
+
+        return getView().getSelfActivity().getIntent();
     }
 
 

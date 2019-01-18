@@ -137,7 +137,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @Override
     public void setAllPrice(String price) {
-        tv_text.setText("总价：￥" + price);
+        tv_text.setText("总价：￥" + MathUtil.twoDecimal(price));
     }
 
     @Override

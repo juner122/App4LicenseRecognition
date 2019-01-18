@@ -207,7 +207,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_background_e"
             android:gravity="center"
-            android:text="维修估价开单"
+            android:text="新增检修单"
             android:textColor="#fff"
             android:textSize="14sp"
             android:visibility="visible" />

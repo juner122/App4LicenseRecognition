@@ -15,14 +15,19 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.Component;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixPartsEntityList;
 import com.juner.mvp.bean.FixPartsList;
+import com.juner.mvp.bean.FixPartsListEntity;
+import com.juner.mvp.bean.FixService2item;
 import com.juner.mvp.bean.FixServiceList;
+import com.juner.mvp.bean.FixServiceListEntity;
 import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
@@ -37,6 +42,7 @@ import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.ShopProject;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
@@ -108,10 +114,40 @@ public interface FixService {
     @FormUrlEncoded
     Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("category_id") int id, @Field("name") String key);
 
-   //搜索服务接口
+    //搜索服务接口
     @POST("goods/searchServer")
     @FormUrlEncoded
     Observable<BaseBean<FixServieEntity>> searchServer(@Header("X-Nideshop-Token") String token, @Field("service_id") int id, @Field("name") String key);
+
+    //添加自定义零件
+    @POST("component/save")
+    Observable<BaseBean<NullDataEntity>> componentSave(@Header("X-Nideshop-Token") String token, @Body Component component);
+
+
+    //自定义零件 一级分类下拉框
+    @POST("component/firstCategory")
+    Observable<BaseBean<List<FixParts2item>>> componentFirstCategory(@Header("X-Nideshop-Token") String token);
+
+    //自定义零件 二级分类下拉框
+    @POST("component/secondCategory")
+    @FormUrlEncoded
+    Observable<BaseBean<List<FixParts2item>>> componentSecondCategory(@Header("X-Nideshop-Token") String token, @Field("parent_id") int id);
+
+
+
+    //添加自定义服务
+    @POST("goods/addShopService")
+    Observable<BaseBean<NullDataEntity>> addShopService(@Header("X-Nideshop-Token") String token, @Body ShopProject shopProject);
+
+    //自定义服务 服务分类第一级下拉框
+    @POST("goods/firstService")
+    Observable<BaseBean<List<FixService2item>>> firstService(@Header("X-Nideshop-Token") String tokenct);
+
+
+    //自定义服务 服务分类第二级下拉框
+    @POST("goods/secondService")
+    @FormUrlEncoded
+    Observable<BaseBean<List<FixService2item>>> secondService(@Header("X-Nideshop-Token") String tokenct, @Field("parent_id") int id);
 
 
 }

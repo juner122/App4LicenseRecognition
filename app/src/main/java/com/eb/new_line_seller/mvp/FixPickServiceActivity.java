@@ -44,7 +44,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
     EditText et_key;//
 
 
-    @OnClick({R.id.tv_confirm, R.id.iv_search})
+    @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
@@ -56,7 +56,10 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
                 //搜索
                 getPresenter().seekServerforKey(et_key.getText().toString());
                 break;
-
+            case R.id.tv_title_r:
+                //自定义服务
+                toActivity(CustomPartsActivity.class, "type", 0);
+                break;
 
         }
 
@@ -71,7 +74,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
     @Override
     protected void init() {
         tv_title.setText("请选择服务工时");
-        tv_title_r.setText("自定义工时");
+        setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
         getPresenter().onGetData(rg_type);
     }

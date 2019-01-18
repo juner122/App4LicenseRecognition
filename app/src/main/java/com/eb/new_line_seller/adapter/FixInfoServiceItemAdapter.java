@@ -55,6 +55,7 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
                 else
                     iv.setImageResource(R.drawable.icon_unpick2);
                 helper.addOnClickListener(R.id.iv);
+                helper.addOnClickListener(R.id.ll);
 
                 tv.setVisibility(View.INVISIBLE);
                 iv.setVisibility(View.VISIBLE);
@@ -71,7 +72,7 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
                     case 1:
                         iv.setVisibility(View.INVISIBLE);
                         tv.setVisibility(View.VISIBLE);
-                        tv.setText("未确认");
+                        tv.setText("待确认");
                         tv.setTextColor(Color.parseColor("#FF000000"));
 
                         break;

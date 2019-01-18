@@ -194,33 +194,36 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_fix"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_background_e"
             android:gravity="center"
-            android:text=""
+            android:text="新增检修单"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/tv_enter_order"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:background="@drawable/button_background_c"
             android:gravity="center"
-            android:text="确认下单"
+            android:text="新增订单"
             android:textColor="#ff000000"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
     </LinearLayout>
 
 </LinearLayout>

@@ -60,7 +60,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @Override
     protected void init() {
-        tv_title.setText("维修故障描述");
+        tv_title.setText("故障描述");
         getPresenter().getInfo();
         getPresenter().setTipClickListener(textViews);
 
@@ -114,6 +114,11 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     public void toFixInfoActivity(int id) {
 
         toActivity(FixInfoActivity.class, "id", id);
+    }
+
+    @Override
+    public void toMian() {
+        toMain(0);
     }
 
 

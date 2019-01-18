@@ -110,6 +110,8 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
                 finish();
                 if (!isFinish)
                     getView().toFixInfoActivity(entity.getId());
+                else
+                    getView().toMian();
 
 
             }
