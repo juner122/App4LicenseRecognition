@@ -48,11 +48,13 @@
                 android:src="@mipmap/icon_reduce" />
 
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_number"
                 android:layout_width="30dp"
-                android:layout_height="20dp"
+                android:layout_height="30dp"
                 android:gravity="center"
+                android:background="@null"
+                android:inputType="number"
                 android:text="1" />
 
 

@@ -404,6 +404,26 @@ public class ApiLoader {
 
 
     /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderList4DayOfMoon(int page, int type) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+        map.put("page", page);
+        map.put("limit", Configure.limit_page);
+
+        if (type == 0) {
+            map.put("dateStart", System.currentTimeMillis() / 1000 * 1000);//当前
+            map.put("dateEnd", System.currentTimeMillis() / 1000 * 1000 + 60 * 60 * 24 * 1000);
+        }
+
+        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+    }
+
+
+    /**
      * 订单详情页
      *
      * @returnD

@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.eb.new_line_seller.activity.OrderList4DayActivity;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoListActivity;
 import com.juner.mvp.Configure;
@@ -96,7 +97,7 @@ public class MainFragment1 extends BaseFragment {
 
     }
 
-    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members})
+    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members, R.id.ll_moon, R.id.ll_day})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_top1:
@@ -111,7 +112,8 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(ProductListActivity.class, Configure.isShow, 0);
                 break;
             case R.id.but_top4:
-                toActivity(ActivityPackageListActivity.class);
+                ToastUtils.showToast("开发中");
+//                toActivity(ActivityPackageListActivity.class);
                 break;
 
             case R.id.but_top5:
@@ -136,6 +138,14 @@ public class MainFragment1 extends BaseFragment {
                 break;
             case R.id.rv_new_members:
                 toActivity(MemberManagementActivity.class);
+                break;
+
+            case R.id.ll_day:
+                toActivity(OrderList4DayActivity.class, "type", 0);
+                break;
+
+            case R.id.ll_moon:
+                toActivity(OrderList4DayActivity.class, "type", 1);
                 break;
 
         }

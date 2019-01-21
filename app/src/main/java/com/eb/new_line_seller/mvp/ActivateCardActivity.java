@@ -77,10 +77,23 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         carListAdapter = new CarListAdapter(null);
         mealInfoListAdapter = new MealInfoListAdapter(null);
 
-        rv_car.setLayoutManager(new LinearLayoutManager(this));
+        rv_car.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_car.setAdapter(carListAdapter);
 
-        rv_meal.setLayoutManager(new LinearLayoutManager(this));
+        rv_meal.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
+
         rv_meal.setAdapter(mealInfoListAdapter);
 
 

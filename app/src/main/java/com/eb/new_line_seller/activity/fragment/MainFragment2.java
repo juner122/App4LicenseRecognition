@@ -4,8 +4,10 @@ package com.eb.new_line_seller.activity.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.eb.new_line_seller.activity.OrderList4DayActivity;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
@@ -15,6 +17,7 @@ import com.juner.mvp.bean.OrderInfoEntity;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -39,6 +42,25 @@ public class MainFragment2 extends BaseFragment {
     ArrayList<Fragment> fragments = new ArrayList<>();
     private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
 
+
+    @OnClick({R.id.ll_day, R.id.ll_moon})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_day:
+
+                toActivity(OrderList4DayActivity.class, "type", 0);
+                break;
+
+            case R.id.ll_moon:
+                toActivity(OrderList4DayActivity.class, "type", 1);
+                break;
+
+
+        }
+
+
+    }
+
     @Override
     protected void setUpView() {
 
@@ -50,7 +72,6 @@ public class MainFragment2 extends BaseFragment {
 
 
         stl.setViewPager(vp, title, getActivity(), fragments);
-
 
 
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -75,7 +96,7 @@ public class MainFragment2 extends BaseFragment {
 
 
     private void getData(int position) {
-        Api().orderList(position,1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {
+        Api().orderList(position, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
                 setTopNum(basePage.getDayTotal(), basePage.getMonthTotal());

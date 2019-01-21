@@ -196,6 +196,7 @@ public class OrderPayActivity extends BaseActivity {
 
 
                 if (e.length() != 0) {
+                    et_discount2.setText("");
                     double d = Double.parseDouble(e.toString());
                     tv_price.setText(twoDecimal((balance_price * d) / 10));
                 } else {
@@ -220,7 +221,10 @@ public class OrderPayActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable e) {
 
+
+
                 if (e.length() != 0) {
+                    et_discount.setText("");
                     double d = Double.parseDouble(e.toString());
 
                     if (balance_price < d) {

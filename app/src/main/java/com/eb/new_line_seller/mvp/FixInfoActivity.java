@@ -12,11 +12,7 @@ import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
-import com.juner.mvp.bean.CarInfoRequestParameters;
-import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,6 +26,13 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @BindView(R.id.tv_fix_sn)
     TextView tv_fix_sn;
+
+
+    @BindView(R.id.tv_mobile)
+    TextView tv_mobile;
+
+    @BindView(R.id.tv_consignee)
+    TextView tv_consignee;
 
     @BindView(R.id.tv_new_order)
     TextView tv_new_order;
@@ -58,6 +61,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     ImageView iv_add2;//
 
 
+
+
     @BindView(R.id.rv)
     RecyclerView rv;//工时
 
@@ -65,7 +70,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order,R.id.tv_car_info})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -83,6 +88,9 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
                 //生成估价单
 
                 getPresenter().onInform();
+                break;
+            case R.id.tv_car_info:
+                //查看车况
                 break;
         }
     }
@@ -113,6 +121,9 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         tv_fix_sn.setText("单号：" + fixInfo.getQuotationSn());
         tv_dec.setText(fixInfo.getDescribe());
 
+        tv_mobile.setText(fixInfo.getMobile());
+        tv_consignee.setText(fixInfo.getUserName());
+
 
     }
 
@@ -120,6 +131,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     public void createOrderSuccess() {
         ToastUtils.showToast("生成成功！");
         finish();
+
+        toMain(0);
     }
 
     @Override

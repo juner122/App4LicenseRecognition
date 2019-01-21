@@ -16,7 +16,6 @@ public class FixServie extends FixInfoItem implements Parcelable {
     String explain;//五座轿车
     String price;
     String marketPrice;
-//    int status;
 
 
     public int getOrderId() {

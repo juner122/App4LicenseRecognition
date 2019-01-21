@@ -339,6 +339,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_moon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -381,6 +382,7 @@
                     android:paddingTop="20dp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_day"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

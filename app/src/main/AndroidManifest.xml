@@ -196,7 +196,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".mvp.FixPickServiceActivity" />
         <activity android:name=".mvp.FixPickPartsActivity" />
-        <activity android:name=".mvp.CustomPartsActivity"></activity>
+        <activity android:name=".mvp.CustomPartsActivity" />
+        <activity android:name=".activity.OrderList4DayActivity"></activity>
     </application>
 
 </manifest>

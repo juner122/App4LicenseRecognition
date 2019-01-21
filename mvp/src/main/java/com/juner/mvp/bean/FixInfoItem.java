@@ -27,11 +27,9 @@ public class FixInfoItem implements Parcelable {
         this.selected = selected;
     }
 
-
     public boolean selectde() {
 
         return selected != 0;
-
     }
 
     @Override
@@ -53,4 +51,15 @@ public class FixInfoItem implements Parcelable {
         this.selected = in.readInt();
     }
 
+    public static final Parcelable.Creator<FixInfoItem> CREATOR = new Parcelable.Creator<FixInfoItem>() {
+        @Override
+        public FixInfoItem createFromParcel(Parcel source) {
+            return new FixInfoItem(source);
+        }
+
+        @Override
+        public FixInfoItem[] newArray(int size) {
+            return new FixInfoItem[size];
+        }
+    };
 }

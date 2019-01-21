@@ -236,7 +236,7 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_car_info://车信息
 
-//                toActivity(CarInfoInputActivity.class, Configure.CARID, info.getOrderInfo().getCar_id());
+//              toActivity(CarInfoInputActivity.class, Configure.CARID, info.getOrderInfo().getCar_id());
 
                 Intent intent3 = new Intent(OrderInfoActivity.this, CarInfoInputActivity.class);
                 intent3.putExtra("result_code", 001);
@@ -437,16 +437,34 @@ public class OrderInfoActivity extends BaseActivity {
 
 
         adpter1 = new SimpleGoodInfoAdpter(productList, false);
-        rv1.setLayoutManager(new LinearLayoutManager(this));
+        rv1.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv1.setAdapter(adpter1);
 
 
         adpter2 = new SimpleServiceInfoAdpter(server, false);//工时
-        rv2.setLayoutManager(new LinearLayoutManager(this));
+        rv2.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv2.setAdapter(adpter2);
 
         sma = new SimpleMealInfoAdpter(meal);//套餐
-        rv3.setLayoutManager(new LinearLayoutManager(this));
+        rv3.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv3.setAdapter(sma);
 
 

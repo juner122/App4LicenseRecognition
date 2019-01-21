@@ -1,9 +1,11 @@
 package com.eb.new_line_seller.activity;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +16,8 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.MyApplication;
 import com.eb.new_line_seller.R;
@@ -100,10 +104,6 @@ public class MakeOrderActivity extends BaseActivity {
     List<GoodsEntity> goods_top;
 
 
-    boolean top_button1_pick;
-    boolean top_button2_pick;
-    boolean top_button3_pick;
-    boolean top_button4_pick;
     CartUtils cartUtils;
     CartServerUtils cartServerUtils;
 
@@ -112,7 +112,7 @@ public class MakeOrderActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), false); //false 不显示加减按键
+        simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true); //false 不显示加减按键
 
         simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartServerUtils.getServerList(), false);
 
@@ -151,7 +151,7 @@ public class MakeOrderActivity extends BaseActivity {
                             }
                             number++;
                             tv_number.setText(String.valueOf(number));
-                            cartUtils.addProductData(goodsEntities.get(position));
+                            cartUtils.addData(goodsEntities.get(position));
                             break;
 
                         case R.id.ib_reduce:
@@ -175,8 +175,51 @@ public class MakeOrderActivity extends BaseActivity {
                 }
             }
         });
+
+
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(simpleServiceInfoAdpter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(rv_servers);
+
+
+        // 开启滑动删除
+        simpleServiceInfoAdpter.enableSwipeItem();
+        simpleServiceInfoAdpter.setOnItemSwipeListener(onItemSwipeListener);
+
+
         refreshData();
     }
+
+    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
+        @Override
+        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+
+
+        }
+
+        @Override
+        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+
+
+        }
+
+        @Override
+        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+            ToastUtils.showToast("删除成功！");
+
+            cartServerUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
+
+            simpleServiceInfoAdpter.getData().remove(pos);
+            simpleServiceInfoAdpter.notifyDataSetChanged();
+
+            setGoodsPric();
+        }
+
+        @Override
+        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+
+        }
+    };
 
 
     @Override
@@ -279,85 +322,44 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.bto_top1:
 
                 try {
-                    if (!top_button1_pick) {
-                        cartUtils.addProductData(goods_top.get(0));
-                        top_button1_pick = true;
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    } else {
-                        cartUtils.reduceData(goods_top.get(0));
-                        top_button1_pick = false;
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
-                    }
+                    cartUtils.addProductData(goods_top.get(0));
+
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
-                    top_button1_pick = false;
                 }
                 break;
             case R.id.bto_top2:
                 try {
-                    if (!top_button2_pick) {
-                        cartUtils.addProductData(goods_top.get(1));
-                        top_button2_pick = true;
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    } else {
-
-                        cartUtils.reduceData(goods_top.get(1));
-                        top_button2_pick = false;
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
-                    }
+                    cartUtils.addProductData(goods_top.get(1));
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
-                    top_button2_pick = false;
                 }
                 break;
             case R.id.bto_top3:
 
                 try {
-                    if (!top_button3_pick) {
-
-                        cartUtils.addProductData(goods_top.get(2));
-                        top_button3_pick = true;
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    } else {
-
-                        cartUtils.reduceData(goods_top.get(2));
-                        top_button3_pick = false;
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
-                    }
+                    cartUtils.addProductData(goods_top.get(2));
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
-                    top_button3_pick = false;
                 }
 
                 break;
             case R.id.bto_top4:
                 try {
-                    if (!top_button4_pick) {
-
-
-                        cartUtils.addProductData(goods_top.get(3));
-                        top_button4_pick = true;
-                        view.setBackgroundColor(getResources().getColor(R.color.appColor));
-                    } else {
-
-                        cartUtils.reduceData(goods_top.get(3));
-                        top_button4_pick = false;
-                        view.setBackgroundColor(getResources().getColor(R.color.white));
-                    }
+                    cartUtils.addProductData(goods_top.get(3));
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
-                    top_button4_pick = false;
+
                 }
                 break;
 
             case R.id.tv_re1://加雨刮水
 
                 if (!re1) {
-
                     tv_re1.setBackgroundResource(R.drawable.button_background_b);
                     et_postscript.append("加雨刮水,");
                     re1 = true;

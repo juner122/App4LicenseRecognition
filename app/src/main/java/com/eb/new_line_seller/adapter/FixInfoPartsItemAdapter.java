@@ -50,15 +50,28 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
         switch (status) {
             case 0:
             case 1:
-                if (item.selectde())
-                    iv.setImageResource(R.drawable.icon_pick2);
-                else
-                    iv.setImageResource(R.drawable.icon_unpick2);
-                helper.addOnClickListener(R.id.iv);
-                helper.addOnClickListener(R.id.ll);
-
-                tv.setVisibility(View.INVISIBLE);
-                iv.setVisibility(View.VISIBLE);
+                switch (item.getSelected()) {
+                    case 0:
+                        iv.setVisibility(View.VISIBLE);
+                        tv.setVisibility(View.INVISIBLE);
+                        iv.setImageResource(R.drawable.icon_unpick2);
+                        helper.addOnClickListener(R.id.iv);
+                        helper.addOnClickListener(R.id.ll);
+                        break;
+                    case 1:
+                        iv.setVisibility(View.VISIBLE);
+                        tv.setVisibility(View.INVISIBLE);
+                        iv.setImageResource(R.drawable.icon_pick2);
+                        helper.addOnClickListener(R.id.iv);
+                        helper.addOnClickListener(R.id.ll);
+                        break;
+                    case 2:
+                        iv.setVisibility(View.INVISIBLE);
+                        tv.setVisibility(View.VISIBLE);
+                        tv.setText("已确认");
+                        tv.setTextColor(Color.parseColor("#FF666666"));
+                        break;
+                }
                 break;
             case 2:
             case 3:

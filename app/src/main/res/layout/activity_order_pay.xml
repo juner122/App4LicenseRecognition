@@ -175,7 +175,7 @@
                     android:background="@drawable/button_background_f"
                     android:gravity="center"
                     android:hint="输入金额"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:textColor="#ff666666"

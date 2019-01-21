@@ -2,6 +2,7 @@ package com.eb.new_line_seller.adapter;
 
 import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
@@ -9,7 +10,7 @@ import com.juner.mvp.bean.Server;
 
 import java.util.List;
 
-public class SimpleServiceInfoAdpter extends BaseQuickAdapter<Server, BaseViewHolder> {
+public class SimpleServiceInfoAdpter extends BaseItemDraggableAdapter<Server, BaseViewHolder> {
 
 
     boolean isShowPlusAndReduce;
