@@ -123,7 +123,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         }
 
 
-
     }
 
     public void set1Data(List<FixParts2item> list) {
@@ -144,6 +143,8 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         rv_Parts.setAdapter(adapter_item);
         adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_Parts);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
+
+
     }
 
 
@@ -154,6 +155,14 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             if (fx.selectde())
                 fixPartsList.add(fx);
         }
+
+
+        if (fixPartsList.size() == 0) {
+            ToastUtils.showToast("请最少选择一个项目！");
+            return;
+
+        }
+
         getView().onConfirm(fixPartsList);
 
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.util.A2bigA;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.Brandadapter2;
@@ -126,7 +127,7 @@ public class OrderPayActivity extends BaseActivity {
         tv_make_date.append(infoEntity.getOrderInfo().getAdd_time());
         tv_expect_date.append(DateUtil.getFormatedDateTime(infoEntity.getOrderInfo().getPlanfinishi_time()));
         tv_order_price.append(String.format("￥%s", infoEntity.getOrderInfo().getOrder_price()));
-        tv_price.setText(String.format("%s", infoEntity.getOrderInfo().getOrder_price()));
+        tv_price.setText(String.format("%s", MathUtil.twoDecimal(infoEntity.getOrderInfo().getOrder_price())));
 
         balance_price = infoEntity.getOrderInfo().getOrder_price();
 
@@ -144,7 +145,6 @@ public class OrderPayActivity extends BaseActivity {
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());
                 pay_type = olpy.get(position).getPay_type();
                 ToastUtils.showToast("支付方式:" + olpy.get(position).getType_string());
-
 
 
                 if (pay_type == 23)
@@ -206,6 +206,7 @@ public class OrderPayActivity extends BaseActivity {
         });
 
         et_discount.addTextChangedListener(new DecimalInputTextWatcher(et_discount, 1, 1));//限制输入位数：整数3位，小数点后两位
+        et_discount2.addTextChangedListener(new DecimalInputTextWatcher(et_discount2, 5, 2));//限制输入位数：整数3位，小数点后两位
 
         et_discount2.addTextChangedListener(new TextWatcher() {
             @Override
@@ -222,7 +223,6 @@ public class OrderPayActivity extends BaseActivity {
             public void afterTextChanged(Editable e) {
 
 
-
                 if (e.length() != 0) {
                     et_discount.setText("");
                     double d = Double.parseDouble(e.toString());
@@ -231,9 +231,11 @@ public class OrderPayActivity extends BaseActivity {
                         tv_price.setText("0");
                     } else
 
-                        tv_price.setText(String.valueOf((balance_price - d)));
+//                        tv_price.setText(String.valueOf((balance_price - d)));
+                        tv_price.setText(MathUtil.twoDecimal(balance_price - d));
                 } else {
-                    tv_price.setText(String.valueOf(balance_price));
+//                    tv_price.setText(String.valueOf(balance_price));
+                    tv_price.setText(MathUtil.twoDecimal(balance_price));
                 }
             }
         });
@@ -357,7 +359,7 @@ public class OrderPayActivity extends BaseActivity {
             tv_coupon_no.setText("已选择 1 张");
 
             if (balance_price >= c.getMin_amount())
-                tv_price.setText(String.valueOf(balance_price - c.getType_money()));
+                tv_price.setText(MathUtil.twoDecimal(balance_price - c.getType_money()));
 
         }
 

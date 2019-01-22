@@ -17,7 +17,7 @@
             android:id="@+id/iv_pic"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:background="#444"
+            android:background="#fff"
             tools:srcCompat="@tools:sample/avatars[6]" />
 
 

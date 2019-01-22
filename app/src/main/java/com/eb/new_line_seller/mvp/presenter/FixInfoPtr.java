@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.CarInfoInputActivity;
 import com.eb.new_line_seller.adapter.FixInfoItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoPartsItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoServiceItemAdapter;
@@ -21,8 +22,10 @@ import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ConfirmDialog2;
 import com.eb.new_line_seller.view.ConfirmDialog4;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoItem;
@@ -138,8 +141,10 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             protected void _onNext(FixInfo fixInfo) {
                 entity = fixInfo.getQuotation();
                 getView().setInfo(entity);
-                upServiceDataList(entity.getOrderProjectList());
-                upPartsDataList(entity.getOrderGoodsList());
+
+
+                upServiceDataList(entity.getOrderProjectList(), true);
+                upPartsDataList(entity.getOrderGoodsList(), true);
 
                 //根据status改变页面
                 changeView(entity.getStatus());
@@ -181,29 +186,44 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 getView().hideAddButton();
                 getView().setButtonText("已出单");
                 break;
+
+            case -1:
+                getView().hideAddButton();
+                getView().setButtonText("已取消");
+                break;
         }
 
     }
 
 
     @Override
-    public void upServiceDataList(List<FixServie> list) {
-        adapter_service.setStatus(entity.getStatus());
-//        adapter_service.setNewData(list);
-        adapter_service.addData(list);
-        adapter_service.notifyDataSetChanged();
+    public void upServiceDataList(List<FixServie> list, boolean isNewDate) {
+        if (null == list) return;
+        if (isNewDate)
+            adapter_service.setNewData(list);
+        else {
 
+            adapter_service.addData(list);
+            adapter_service.notifyDataSetChanged();
+        }
+
+        adapter_service.setStatus(entity.getStatus());
         getView().setServicePrice(upDataServicePrice().toString());
         getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
     }
 
     @Override
-    public void upPartsDataList(List<FixParts> list) {
-        adapter_parts.setStatus(entity.getStatus());
-        adapter_parts.addData(list);
-        adapter_parts.notifyDataSetChanged();
-//        adapter_parts.setNewData(list);
+    public void upPartsDataList(List<FixParts> list, boolean isNewDate) {
+        if (null == list) return;
 
+        if (isNewDate) {
+            adapter_parts.setNewData(list);
+        } else {
+            adapter_parts.addData(list);
+            adapter_parts.notifyDataSetChanged();
+        }
+
+        adapter_parts.setStatus(entity.getStatus());
         getView().setPartsPrice(upDataPartsPrice().toString());//更新价格
         getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
     }
@@ -256,8 +276,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         } else if (entity.getStatus() == 3) {
             mdl.submit(createOrderObj(entity), rxSubscribe);//生成订单
         } else if (entity.getStatus() == 4) {
-
             ToastUtils.showToast("已出单");
+        } else if (entity.getStatus() == -1) {
+            ToastUtils.showToast("已取消");
         }
 
 
@@ -322,6 +343,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
             fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
 
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -341,14 +363,19 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             } else {
 
                 if (s.equals(TYPE_Parts))
-                    upPartsDataList(fixParts);
+                    upPartsDataList(fixParts, false);
                 else
-                    upServiceDataList(fixServies);
+                    upServiceDataList(fixServies, false);
 
             }
 
         }
 
+    }
+
+    @Override
+    public void toCarInfoActivity() {
+        getView().onToCarInfoActivity(entity.getCarId());
     }
 
     //创建估价单对象
@@ -363,6 +390,19 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     //追加项目
     private FixInfoEntity addFixInfoEntity(List<FixServie> fixServies, List<FixParts> fixParts) {
+//        if (null == fixParts || fixParts.size() == 0 && null == fixServies || fixServies.size() == 0) {
+//
+//            entity.setOrderGoodsList(null);
+//            entity.setOrderProjectList(null);
+//            return entity;
+//        }
+//
+//        if (fixParts.size() != 0)
+//            entity.setOrderGoodsList(fixParts);
+//
+//        if (fixServies.size() != 0)
+//            entity.setOrderProjectList(fixServies);
+
         entity.setOrderGoodsList(fixParts);
         entity.setOrderProjectList(fixServies);
         countAllPrice();

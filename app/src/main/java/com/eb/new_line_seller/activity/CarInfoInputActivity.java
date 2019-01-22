@@ -514,6 +514,8 @@ public class CarInfoInputActivity extends BaseActivity {
                 } else if (result_code == 2) {
 
                     toActivity(ActivateCardActivity.class, Configure.act_tag, 101);
+                } else if (result_code == 999) {//检修单详情页面
+                    finish();
                 } else {
                     toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
                 }

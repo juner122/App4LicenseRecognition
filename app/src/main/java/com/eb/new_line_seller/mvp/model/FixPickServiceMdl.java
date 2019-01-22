@@ -28,8 +28,10 @@ public class FixPickServiceMdl extends BaseModel implements FixPickServiceContac
     @Override
     public void searchServer(int id, String key, RxSubscribe<FixServieEntity> rxSubscribe) {
 
-        sendRequest(HttpUtils.getFix().searchServer(getToken(context), id, key).compose(RxHelper.<FixServieEntity>observe()), rxSubscribe);
-
+        if (id == -1)
+            sendRequest(HttpUtils.getFix().searchServer(getToken(context), key).compose(RxHelper.<FixServieEntity>observe()), rxSubscribe);
+        else
+            sendRequest(HttpUtils.getFix().searchServer(getToken(context), id, key).compose(RxHelper.<FixServieEntity>observe()), rxSubscribe);
     }
 
 

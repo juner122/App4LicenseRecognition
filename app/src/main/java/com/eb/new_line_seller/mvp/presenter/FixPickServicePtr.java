@@ -102,7 +102,24 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
                 init0Data(rg, list.getServiceList());//根据第一级类别数量 创建RadioButton
                 set1Data(list.getServiceList().get(0).getSonList());//设置第二级类别
-
+//                id = list.getServiceList().get(0).getSonList().get(0).getId();
+//
+//
+//
+//
+//
+//
+//                //后添加
+//                //查找配件 根据id
+//                List<FixServie> list2 = list.get(0).getProjectList();
+//                if (list2.size() == 0) {
+//                    getView().showService2List();
+//                    return;
+//                }
+//
+//
+//                set2Data(list2);
+//                getView().showServiceList();
 
             }
 
@@ -132,8 +149,9 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     }
 
     public void set1Data(List<FixService2item> list) {
-
         adapter_s2.setNewData(list);
+
+
     }
 
     public void set2Data(List<FixServie> list) {
@@ -160,6 +178,11 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
                 fixServieList.add(fx);
         }
 
+        if(fixServieList.size()==0){
+            ToastUtils.showToast("请最少选择一个项目！");
+            return;
+
+        }
         getView().onConfirm(fixServieList);
 
 

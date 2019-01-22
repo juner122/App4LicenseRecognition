@@ -155,7 +155,7 @@ public class FixInfoEntity {
             case 4:
                 return "已出单";
             case -1:
-                return "删除";
+                return "已取消";
         }
 
         return "";

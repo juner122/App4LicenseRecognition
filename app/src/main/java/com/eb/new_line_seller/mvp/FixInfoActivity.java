@@ -8,10 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.CarInfoInputActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.juner.mvp.Configure;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.FixInfoEntity;
 
 import butterknife.BindView;
@@ -61,8 +64,6 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     ImageView iv_add2;//
 
 
-
-
     @BindView(R.id.rv)
     RecyclerView rv;//工时
 
@@ -70,7 +71,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order,R.id.tv_car_info})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -91,6 +92,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
                 break;
             case R.id.tv_car_info:
                 //查看车况
+                getPresenter().toCarInfoActivity();
                 break;
         }
     }
@@ -120,7 +122,6 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         tv_car_no.setText(fixInfo.getCarNo());
         tv_fix_sn.setText("单号：" + fixInfo.getQuotationSn());
         tv_dec.setText(fixInfo.getDescribe());
-
         tv_mobile.setText(fixInfo.getMobile());
         tv_consignee.setText(fixInfo.getUserName());
 
@@ -168,6 +169,16 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     public void setButtonText(String text) {
         tv_new_order.setText(text);
+    }
+
+    @Override
+    public void onToCarInfoActivity(int car_id) {
+
+
+        Intent intent = new Intent(this, CarInfoInputActivity.class);
+        intent.putExtra(Configure.CARID, car_id);
+        intent.putExtra("result_code", 999);
+        startActivity(intent);
     }
 
 

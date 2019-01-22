@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.mvp.contacts.FixPickPartsContacts;
 import com.eb.new_line_seller.mvp.presenter.FixPickPartsPtr;
@@ -40,7 +41,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
     @BindView(R.id.et_key)
     EditText et_key;//
-
 
     @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {

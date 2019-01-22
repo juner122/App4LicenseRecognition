@@ -32,7 +32,11 @@ public class FixPickPartsMdl extends BaseModel implements FixPickPartsContacts.F
 
     @Override
     public void seekPartsforKey(int id, String key, RxSubscribe<FixPartsEntityList> rxSubscribe) {
-        sendRequest(HttpUtils.getFix().seekParts(getToken(context), id, key).compose(RxHelper.<FixPartsEntityList>observe()), rxSubscribe);
+
+        if (id == -1)
+            sendRequest(HttpUtils.getFix().seekParts(getToken(context), key).compose(RxHelper.<FixPartsEntityList>observe()), rxSubscribe);
+        else
+            sendRequest(HttpUtils.getFix().seekParts(getToken(context), id, key).compose(RxHelper.<FixPartsEntityList>observe()), rxSubscribe);
     }
 
 }

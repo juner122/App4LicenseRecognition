@@ -137,7 +137,6 @@ public class MakeOrderActivity extends BaseActivity {
                 try {
                     TextView tv_number = (TextView) adapter.getViewByPosition(rv_goods, position, R.id.tv_number);
                     View ib_reduce = adapter.getViewByPosition(rv_goods, position, R.id.ib_reduce);
-
                     int number = goodsEntities.get(position).getNumber();//获取
 
 

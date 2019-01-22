@@ -26,8 +26,8 @@
         android:hint="请输入你要查询的商品"
         android:maxLength="10"
         android:maxLines="1"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
         android:singleLine="true"
         android:textSize="12sp" />
 

@@ -52,7 +52,7 @@ public class FixInfoContacts {
 
         void setButtonText(String text);//设置文字
 
-
+        void onToCarInfoActivity(int car_id);//到车况信息页面
     }
 
     /**
@@ -62,15 +62,17 @@ public class FixInfoContacts {
 
         void getInfo();//获取页面数据
 
-        void upServiceDataList(List<FixServie> list);//更新工时列表
+        void upServiceDataList(List<FixServie> list,boolean isNewDate);//更新工时列表
 
-        void upPartsDataList(List<FixParts> list);//更新配件列表
+        void upPartsDataList(List<FixParts> list,boolean isNewDate);//更新配件列表
 
         void initRecyclerView(RecyclerView rv_service, RecyclerView rv_parts);
 
         void onInform();////初次报价（状态将由0->2）      重新提交勾选后的各个项目    两种情况
 
         void handleCallback(Intent intent);//处理从选择工时页面或选择配件页面返回的结果
+
+        void toCarInfoActivity();//到车况信息页面
 
     }
 

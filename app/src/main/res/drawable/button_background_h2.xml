@@ -9,7 +9,7 @@
     <!-- 边框的颜色和粗细 -->
     <stroke
         android:width="0dp"
-        android:color="#666666" />
+        android:color="@color/appColor" />
 
     <!-- android:radius 圆角的半径 -->
     <corners

@@ -61,6 +61,10 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+            <ScrollView
+                android:scrollbars="none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <RadioGroup
                 android:id="@+id/rg_type"
                 android:layout_width="100dp"
@@ -68,7 +72,7 @@
                 android:background="#FFD9D7D7">
 
             </RadioGroup>
-
+            </ScrollView>
 
             <FrameLayout
                 android:id="@+id/right_layout"

@@ -14,29 +14,36 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="#FFD9D9D9"
-        android:layout_height="0.2dp" />
+        android:layout_height="0.2dp"
+        android:background="#FFD9D9D9" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <RadioGroup
-            android:id="@+id/rg_type"
-            android:layout_width="100dp"
-            android:layout_height="1000dp"
-            android:background="#FFD9D7D7">
+        <ScrollView
+            android:scrollbars="none"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        </RadioGroup>
+            <RadioGroup
+                android:id="@+id/rg_type"
+                android:layout_width="110dp"
+                android:layout_height="1000dp"
+                android:background="#FFD9D7D7">
 
+            </RadioGroup>
+
+        </ScrollView>
 
         <View
             android:layout_width="0.5dp"
-            android:background="#FFD9D9D9"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:background="#FFD9D9D9" />
 
         <FrameLayout
             android:id="@+id/right_layout"
@@ -52,6 +59,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv1"

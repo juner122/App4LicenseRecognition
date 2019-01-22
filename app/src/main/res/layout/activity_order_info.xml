@@ -688,7 +688,7 @@
                     android:layout_height="wrap_content"
                     android:text="支付状态："
                     android:textColor="#ff000000"
-                    android:textSize="12sp" />
+                    android:textSize="12sp" />，
 
             </LinearLayout>
         </LinearLayout>

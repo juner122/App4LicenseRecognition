@@ -112,12 +112,19 @@ public interface FixService {
     //搜索配件接口
     @POST("component/searchComponent")
     @FormUrlEncoded
-    Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("category_id") int id, @Field("name") String key);
+    Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("category_id") int id, @Field("name") String key);    //搜索配件接口
+    @POST("component/searchComponent")
+    @FormUrlEncoded
+    Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("name") String key);
 
     //搜索服务接口
     @POST("goods/searchServer")
     @FormUrlEncoded
     Observable<BaseBean<FixServieEntity>> searchServer(@Header("X-Nideshop-Token") String token, @Field("service_id") int id, @Field("name") String key);
+    //搜索服务接口
+    @POST("goods/searchServer")
+    @FormUrlEncoded
+    Observable<BaseBean<FixServieEntity>> searchServer(@Header("X-Nideshop-Token") String token, @Field("name") String key);
 
     //添加自定义零件
     @POST("component/save")

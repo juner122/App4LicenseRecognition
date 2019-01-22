@@ -506,6 +506,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 .into(iv_lpv);
 
         iv_lpv_url = intent.getStringExtra(Configure.Domain);
+
+        info.getOrderInfo().setDistrict(iv_lpv_url);//保存签名，防止用户直接支付
     }
 
     private void setInfo() {
