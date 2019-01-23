@@ -187,7 +187,9 @@
             android:name=".mvp.ActivateCardActivity"
             android:launchMode="singleTask" />
         <activity android:name=".mvp.PickMealCardActivity" />
-        <activity android:name=".mvp.FixInfoDescribeActivity" />
+        <activity
+            android:name=".mvp.FixInfoDescribeActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".mvp.FixInfoListActivity" />
         <activity android:name=".mvp.FixInfoPartsAndServerActivity" />
         <activity

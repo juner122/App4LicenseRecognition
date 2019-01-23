@@ -36,7 +36,7 @@ public class FixInfoContacts {
         void setInfo(FixInfoEntity fixInfo);//设置页面信息
 
 
-        void createOrderSuccess();//生成估价单成功
+        void createOrderSuccess(int i);//生成估价单成功
 
         void setServicePrice(String price);//设置工时金额
 

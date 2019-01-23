@@ -79,7 +79,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     }
 
     public String getPostscript() {
-        return null == postscript || postscript.equals("") ? "暂无备注" : postscript;
+        return null == postscript || postscript.equals("") ? "" : postscript;
     }
 
     public void setPostscript(String postscript) {

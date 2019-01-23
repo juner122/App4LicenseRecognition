@@ -1,6 +1,8 @@
 package com.eb.new_line_seller.mvp.contacts;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.widget.TextView;
 
 import com.juner.mvp.api.http.RxSubscribe;
@@ -28,8 +30,14 @@ public class FixInfoDesContacts {
         void setTip(String tip);//添加快捷描述
 
         void toFixInfoActivity(int id);
+
         void toMian();
 
+        void setBluetoothText(String str);//设置蓝牙状态文字
+
+        String getDescribe();//描述
+
+        Bitmap getDrawableBitmap();//获取签名图片DrawableBitmap
     }
 
     public interface FixInfoDesPtr extends IBasePresenter {
@@ -38,11 +46,21 @@ public class FixInfoDesContacts {
 
         void getInfo();
 
-        void getDescribe(String describe);//描述
-
         void toTechnicianListActivity();//前往技师选择页面
 
-        void quotationSave(boolean isFinish);//是否保存退出
+
+
+        void onStart();
+
+        void onStop();
+
+        void setPicUrl(String url);//设置签名图片
+
+        void initBluetooth();
+
+        void btnReceiptPrint();//连接蓝牙然后打印
+
+        void showConfirmDialog(boolean isFinish);//弹出确认框
 
 
     }

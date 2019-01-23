@@ -83,6 +83,15 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
 
     }
 
+    protected void toActivity(Class c, String key, String str) {
+
+
+        Intent intent = new Intent(this, c);
+        intent.putExtra(key, str);
+        startActivity(intent);
+
+    }
+
     protected void toActivity(Class c, Parcelable p, String key) {
 
 

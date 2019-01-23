@@ -258,7 +258,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                getView().createOrderSuccess();
+                getView().createOrderSuccess(0);
             }
 
             @Override
@@ -274,7 +274,17 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         } else if (entity.getStatus() == 2) {
             ToastUtils.showToast("等待客户确认");
         } else if (entity.getStatus() == 3) {
-            mdl.submit(createOrderObj(entity), rxSubscribe);//生成订单
+            mdl.submit(createOrderObj(entity), new RxSubscribe<NullDataEntity>(context, true) {
+                @Override
+                protected void _onNext(NullDataEntity nullDataEntity) {
+                    getView().createOrderSuccess(1);
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast(message);
+                }
+            });//生成订单
         } else if (entity.getStatus() == 4) {
             ToastUtils.showToast("已出单");
         } else if (entity.getStatus() == -1) {

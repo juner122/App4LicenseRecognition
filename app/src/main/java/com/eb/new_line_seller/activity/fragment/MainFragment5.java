@@ -25,6 +25,11 @@ import net.grandcentrix.tray.AppPreferences;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.juner.mvp.Configure.shop_address;
+import static com.juner.mvp.Configure.shop_name;
+import static com.juner.mvp.Configure.shop_phone;
+import static com.juner.mvp.Configure.shop_user_name;
+
 /**
  * 主页页面：扫描
  */
@@ -56,6 +61,11 @@ public class MainFragment5 extends BaseFragment {
             @Override
             protected void _onNext(Shop shop) {
                 tv_name.setText(shop.getShop().getShopName());
+
+                new AppPreferences(getContext()).put(shop_name, shop.getShop().getShopName());
+                new AppPreferences(getContext()).put(shop_address, shop.getShop().getAddress());
+                new AppPreferences(getContext()).put(shop_phone, shop.getShop().getPhone());
+                new AppPreferences(getContext()).put(shop_user_name, shop.getShop().getName());
 
 
                 Glide.with(getActivity())//门店图片

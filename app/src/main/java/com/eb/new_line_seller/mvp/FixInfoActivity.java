@@ -129,11 +129,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     }
 
     @Override
-    public void createOrderSuccess() {
+    public void createOrderSuccess(int i) {
         ToastUtils.showToast("生成成功！");
         finish();
 
-        toMain(0);
+        toMain(i);
     }
 
     @Override

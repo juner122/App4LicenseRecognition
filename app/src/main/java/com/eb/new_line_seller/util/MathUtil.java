@@ -27,7 +27,14 @@ public class MathUtil {
         return s1;
     }
 
-    //显示两位小数
+    //用****替换手机号码中间4位
+    public static String hidePhone(String s) {
+
+
+        return s.substring(0, 3) + "****" + s.substring(7, s.length());
+    }
+
+
     public static String toDate(Long l) {
         /**
          * 直接用SimpleDateFormat格式化 Date对象，即可得到相应格式的日期 字符串。
@@ -36,6 +43,18 @@ public class MathUtil {
 
         Date date = new Date();
         date.setTime(l);
+        return simpleDateFormat.format(date);
+    }
+
+    public static String toNowDate() {
+
+        /**
+         * 直接用SimpleDateFormat格式化 Date对象，即可得到相应格式的日期 字符串。
+         */
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+
+        Date date = new Date();
+
         return simpleDateFormat.format(date);
     }
 

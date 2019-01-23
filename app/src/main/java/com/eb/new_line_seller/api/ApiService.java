@@ -348,14 +348,21 @@ public interface ApiService {
     Observable<BaseBean<List<Meal2>>> queryAct(@Header("X-Nideshop-Token") String token);
 
 
-    //报价单列表条件查询
+    //检修单列表条件查询
     @POST("quotation/list")
     @FormUrlEncoded
-    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status);
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status, @Field("page") int page);
 
-    //报价单列表条件查询
+    //检修单列表条件查询
     @POST("quotation/list")
-    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token);
+    @FormUrlEncoded
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("page") int page);
+
+
+    //报价单取消
+    @POST("quotation/cancle")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> quotationCancle(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
 
 }

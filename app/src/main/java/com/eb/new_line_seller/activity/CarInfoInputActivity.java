@@ -187,7 +187,10 @@ public class CarInfoInputActivity extends BaseActivity {
                     carEntity = o;
                     tv_car_no.setText(carEntity.getCarNo());
                     tv_car_model.setText(o.getBrand() + "\t" + o.getName());
-                    et_remarks.setText(o.getPostscript());
+                    if ("".equals(o.getPostscript()))
+                        et_remarks.setHint("暂无备注");
+                    else
+                        et_remarks.setText(o.getPostscript());
 
                     selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
                     autoModel = new AutoModel(o.getNameId(), o.getName());

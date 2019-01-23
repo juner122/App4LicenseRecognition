@@ -178,7 +178,6 @@ public class OrderListFragment extends BaseFragment {
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
 
                 easylayout.loadMoreComplete();
-
                 if (basePage.getList().size() == 0) {
                     ToastUtils.showToast("没有更多了！");
 

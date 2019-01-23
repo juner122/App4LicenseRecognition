@@ -265,8 +265,6 @@
                     android:background="#FAFAFA"
                     android:padding="8dp"
                     tools:srcCompat="@tools:sample/backgrounds/scenic[9]" />
-
-
             </LinearLayout>
 
             <LinearLayout

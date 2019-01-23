@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
+import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.Auth;
@@ -104,7 +105,12 @@ public class AutographActivity extends BaseActivity {
                             Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key);
                             if (dialog != null)
                                 dialog.dismiss();
-                            toActivity(MakeOrderSuccessActivity.class, Configure.Domain, Configure.Domain + key);
+
+
+                            if (getIntent().getStringExtra("class").equals("FixInfoDescribe"))
+                                toActivity(FixInfoDescribeActivity.class, Configure.Domain, Configure.Domain + key);
+                            else
+                                toActivity(MakeOrderSuccessActivity.class, Configure.Domain, Configure.Domain + key);
 
 
                         } else {

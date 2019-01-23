@@ -49,6 +49,7 @@ public class FixInfoEntity {
 
     String confirmTime;
     String submitTime;
+    String signPic;
 
 
     List<Technician> sysUserList;//技师
@@ -238,6 +239,14 @@ public class FixInfoEntity {
         this.setServePrice(getServicePrice(orderProjectList).toString());
 
 
+    }
+
+    public String getSignPic() {
+        return signPic;
+    }
+
+    public void setSignPic(String signPic) {
+        this.signPic = signPic;
     }
 
     public List<FixParts> getOrderGoodsList() {

@@ -6,23 +6,17 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,9 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.new_line_seller.buletooth.DeviceConnFactoryManager;
 import com.eb.new_line_seller.buletooth.PrinterCommand;
-import com.eb.new_line_seller.buletooth.ThreadPool;
 import com.gprinter.command.EscCommand;
-import com.gprinter.command.LabelCommand;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.SimpleActivityInfo2Adpter;
@@ -49,23 +41,21 @@ import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.Server;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.Set;
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
-import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
 import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
 import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.BLUETOOTH_DISCOVERABLE_DURATION;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.CONN_PRINTER;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.CONN_STATE_DISCONN;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.CONN_STATE_FAILED;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.NO_DERVER;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.PRINTER_COMMAND_ERROR;
+import static com.eb.new_line_seller.buletooth.BuletoothUtil.REQUEST_CODE_BLUETOOTH_ON;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.CENTER;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.LEFT;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.RIGHT;
@@ -118,15 +108,15 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     SimpleServerInfo2Adpter serverInfo2Adpter;
     String iv_lpv_url = "";//签名图片 七牛云url
 
+
+    private BluetoothAdapter mBluetoothAdapter;//蓝牙
+
+
+    private ProgressDialog dialog;
     /**
      * 判断打印机所使用指令是否是ESC指令
      */
-    private int id = 0;
-
-    private BluetoothAdapter mBluetoothAdapter;//蓝牙
-    public static final int REQUEST_ENABLE_BT = 2;
-
-    private ProgressDialog dialog;
+    public int ID = 0;
 
     @Override
     protected void init() {
@@ -160,15 +150,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     }
 
-    /**
-     * 自定义的打开 Bluetooth 的请求码，与 onActivityResult 中返回的 requestCode 匹配。
-     */
-    private static final int REQUEST_CODE_BLUETOOTH_ON = 1313;
-
-    /**
-     * Bluetooth 设备可见时间，单位：秒。
-     */
-    private static final int BLUETOOTH_DISCOVERABLE_DURATION = 250;
 
     private void initBluetooth() {
 
@@ -251,21 +232,19 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 tv_bluetooth.setText("打印机已连接(" + device.getName() + "\t" + device.getAddress() + ")");
                 //初始化话DeviceConnFactoryManager
                 new DeviceConnFactoryManager.Build()
-                        .setId(id)
+                        .setId(ID)
                         //设置连接方式
                         .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
                         //设置连接的蓝牙mac地址
                         .setMacAddress(device.getAddress())
                         .build();
                 //打开端口
-                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].openPort();
+                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
 
 
                 break;
             }
         } else {
-//            ToastUtils.showToast("没有配对的蓝牙设备！");
-
             mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }
     }
@@ -274,13 +253,13 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     //票据打印
     public void btnReceiptPrint() {
 
-        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] == null ||
-                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getConnState()) {
+        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID] == null ||
+                !DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].getConnState()) {
             ToastUtils.showToast(getString(R.string.str_cann_printer));
             return;
 
         }
-        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].getCurrentPrinterCommand() == PrinterCommand.ESC) {
+        if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].getCurrentPrinterCommand() == PrinterCommand.ESC) {
             sendReceiptWithResponse();
         } else {
             mHandler.obtainMessage(PRINTER_COMMAND_ERROR).sendToTarget();
@@ -451,28 +430,18 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();
         // 发送数据
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately(datas);
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].sendDataImmediately(datas);
+        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
     }
 
 
-    /**
-     * 连接状态断开
-     */
-    private static final int CONN_STATE_DISCONN = 0x007;
-    /**
-     * 使用打印机指令错误
-     */
-    private static final int PRINTER_COMMAND_ERROR = 0x008;
-    private static final int CONN_PRINTER = 0x12;
-    private static final int NO_DERVER = 0x13;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CONN_STATE_DISCONN:
-                    if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id] != null) {
-                        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id].closePort(id);
+                    if (DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID] != null) {
+                        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].closePort(ID);
                     }
                     break;
                 case PRINTER_COMMAND_ERROR:
@@ -597,7 +566,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
 
             case R.id.ll_autograph://签名
-                toActivity(AutographActivity.class);
+                toActivity(AutographActivity.class, "class", "MakeOrder");
                 break;
 
 
@@ -609,7 +578,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
             case R.id.tv_title_r://蓝牙打印
 
-                btnReceiptPrint();//连接蓝牙
+                btnReceiptPrint();//蓝牙打印
 
                 break;
 
@@ -636,8 +605,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     }
 
-    public static final int CONN_STATE_DISCONNECT = 0x90;
-    public static final int CONN_STATE_FAILED = CONN_STATE_DISCONNECT << 2;
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -658,7 +626,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     int deviceId = intent.getIntExtra(DeviceConnFactoryManager.DEVICE_ID, -1);
                     switch (state) {
                         case DeviceConnFactoryManager.CONN_STATE_DISCONNECT:
-                            if (id == deviceId) {
+                            if (ID == deviceId) {
                                 tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
 
                             }
@@ -705,7 +673,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     private String getConnDeviceInfo() {
         String str = "";
-        DeviceConnFactoryManager deviceConnFactoryManager = DeviceConnFactoryManager.getDeviceConnFactoryManagers()[id];
+        DeviceConnFactoryManager deviceConnFactoryManager = DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID];
         if (deviceConnFactoryManager != null
                 && deviceConnFactoryManager.getConnState()) {
             if ("BLUETOOTH".equals(deviceConnFactoryManager.getConnMethod().toString())) {

@@ -757,13 +757,23 @@ public class ApiLoader {
     /**
      * 报价单列表条件查询
      */
-    public Observable<FixInfoList> quotationList(int status) {
+    public Observable<FixInfoList> quotationList(int status, int page) {
 
 
         if (status == -1)
-            return apiService.quotationList(token).compose(RxHelper.<FixInfoList>observe());
+            return apiService.quotationList(token, page).compose(RxHelper.<FixInfoList>observe());
         else
-            return apiService.quotationList(token, status).compose(RxHelper.<FixInfoList>observe());
+            return apiService.quotationList(token, status, page).compose(RxHelper.<FixInfoList>observe());
+    }
+
+    /**
+     * 报价单取消
+     */
+    public Observable<NullDataEntity> quotationCancle(int id) {
+
+
+
+        return apiService.quotationCancle(token, id).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

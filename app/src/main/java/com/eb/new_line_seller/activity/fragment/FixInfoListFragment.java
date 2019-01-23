@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
@@ -20,11 +21,14 @@ import com.eb.new_line_seller.adapter.OrderListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.eb.new_line_seller.view.ConfirmDialog2;
+import com.eb.new_line_seller.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 
@@ -83,7 +87,6 @@ public class FixInfoListFragment extends BaseFragment {
         initData();
 
 
-
     }
 
     private void initData() {
@@ -97,17 +100,14 @@ public class FixInfoListFragment extends BaseFragment {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                toActivity(FixInfoActivity.class,"id",((FixInfoEntity)adapter.getData().get(position)).getId());
-
+                toActivity(FixInfoActivity.class, "id", ((FixInfoEntity) adapter.getData().get(position)).getId());
             }
-
         });
-
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
                 page++;
-//                loadMoreData();
+                loadMoreData();
 
 
             }
@@ -122,10 +122,39 @@ public class FixInfoListFragment extends BaseFragment {
             }
         });
 
+
+        adapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, final int position) {
+                int status = list.get(position).getStatus();
+                if (status == 4 || status == -1) return true;
+
+
+                //弹出对话框
+                final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getContext(),"是否要取消该检修单?");
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        cancle(list.get(position).getId());
+                        confirmDialog.dismiss();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+                return true;
+            }
+        });
+
+
     }
 
     private void getData() {
-        Api().quotationList(status).subscribe(new RxSubscribe<FixInfoList>(mContext, true) {
+        Api().quotationList(status, page).subscribe(new RxSubscribe<FixInfoList>(mContext, true) {
             @Override
             protected void _onNext(FixInfoList infoList) {
                 easylayout.refreshComplete();
@@ -148,64 +177,45 @@ public class FixInfoListFragment extends BaseFragment {
 
     int page = 1;//第一页
 
-//    private void loadMoreData() {
-//        Api().orderList(position, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, true) {
-//            @Override
-//            protected void _onNext(BasePage<OrderInfoEntity> basePage) {
-//
-//                easylayout.loadMoreComplete();
-//
-//                if (basePage.getList().size() == 0) {
-//                    ToastUtils.showToast("没有更多了！");
-//
-//                    easylayout.setLoadMoreModel(LoadModel.NONE);
-//                    return;
-//                }
-//
-//                list.addAll(basePage.getList());
-//                adapter.setNewData(list);
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                easylayout.loadMoreComplete();
-//            }
-//        });
-//    }
-
-
-    //查询订单
-    private void orderDetail(int id) {
-
-        Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(getContext(), true) {
+    private void loadMoreData() {
+        Api().quotationList(status, page).subscribe(new RxSubscribe<FixInfoList>(mContext, true) {
             @Override
-            protected void _onNext(OrderInfo orderInfo) {
-                int order_staus = orderInfo.getOrderInfo().getOrder_status();
-                int pay_staus = orderInfo.getOrderInfo().getPay_status();
+            protected void _onNext(FixInfoList infoList) {
 
-                if (order_staus == 0)//未服务
-                    if (pay_staus == 2)
-                        sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
-                    else
-                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
-                else if (order_staus == 1) {//服务中
-                    if (pay_staus == 2)
-                        toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
-                    else
-                        sendOrderInfo(OrderPayActivity.class, orderInfo);
-                } else
+                easylayout.loadMoreComplete();
 
-                    ToastUtils.showToast("订单已完成");
+                if (infoList.getQuotationList().size() == 0) {
+                    ToastUtils.showToast("没有更多了！");
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
+                    return;
+                }
 
+                list.addAll(infoList.getQuotationList());
+                adapter.setNewData(list);
             }
 
             @Override
             protected void _onError(String message) {
-                Log.d(getTag(), message);
-                ToastUtils.showToast("查找订单失败");
+                easylayout.loadMoreComplete();
             }
         });
+    }
 
+    //取消单
+    private void cancle(int id) {
+        Api().quotationCancle(id).subscribe(new RxSubscribe<NullDataEntity>(mContext, true) {
+            @Override
+            protected void _onNext(NullDataEntity infoList) {
+                ToastUtils.showToast("取消成功！");
+
+                getData();//刷新
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("取消失败！");
+            }
+        });
     }
 
 
