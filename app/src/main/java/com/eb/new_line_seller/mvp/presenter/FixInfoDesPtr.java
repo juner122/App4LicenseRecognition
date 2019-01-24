@@ -167,25 +167,11 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
     }
 
-    ConfirmDialogCanlce confirmDialog;
 
     @Override
     public void showConfirmDialog(final boolean isFinish) {
-        //弹出对话框
-        confirmDialog = new ConfirmDialogCanlce(getView().getSelfActivity(), "是否要开检修工单?");
-        confirmDialog.show();
-        confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
-            @Override
-            public void doConfirm() {
-                quotationSave(isFinish);//保存退出
-                confirmDialog.dismiss();
-            }
 
-            @Override
-            public void doCancel() {
-                confirmDialog.dismiss();
-            }
-        });
+        quotationSave(isFinish);//保存退出
 
     }
 
@@ -331,6 +317,12 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     }
 
     public void quotationSave(final boolean isFinish) {
+
+        if (null == technicians || technicians.size() == 0) {
+            ToastUtils.showToast("请最少选择一个技师！");
+            return;
+        }
+
 
         fixInfo = new FixInfoEntity();
         fixInfo.setCarId(carId);

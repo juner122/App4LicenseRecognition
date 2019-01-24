@@ -76,6 +76,12 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         tv_title.setText("请选择配件");
         setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getPresenter().onGetData(rg_type);
     }
 

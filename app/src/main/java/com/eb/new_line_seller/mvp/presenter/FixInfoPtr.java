@@ -6,26 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.activity.CarInfoInputActivity;
-import com.eb.new_line_seller.adapter.FixInfoItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoPartsItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoServiceItemAdapter;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.model.FixInfoMdl;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
-import com.eb.new_line_seller.view.ConfirmDialog2;
 import com.eb.new_line_seller.view.ConfirmDialog4;
-import com.juner.mvp.Configure;
+import com.eb.new_line_seller.view.ConfirmDialogCanlce;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
-import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoItem;
@@ -166,11 +159,13 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         switch (status) {
             case 0:
             case 1:
-                getView().showAddButton();
-                getView().setButtonText("生成估价单");
 
+
+                getView().showAddButton();
+                getView().setButtonText("生成检修工单");
                 adapter_service.setOnItemChildClickListener(infoItemAdapter);
                 adapter_parts.setOnItemChildClickListener(infoItemAdapter);
+                getView().showSaveButton();
 
                 break;
             case 2:
@@ -196,13 +191,12 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     }
 
 
-    @Override
+    //更新工时列表
     public void upServiceDataList(List<FixServie> list, boolean isNewDate) {
         if (null == list) return;
         if (isNewDate)
             adapter_service.setNewData(list);
         else {
-
             adapter_service.addData(list);
             adapter_service.notifyDataSetChanged();
         }
@@ -212,7 +206,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
     }
 
-    @Override
+    //更新配件列表
     public void upPartsDataList(List<FixParts> list, boolean isNewDate) {
         if (null == list) return;
 
@@ -252,10 +246,12 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     }
 
 
+    ConfirmDialogCanlce confirmDialog;
+
     @Override
     public void onInform() {
 
-        RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
+        final RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 getView().createOrderSuccess(0);
@@ -267,10 +263,24 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             }
         };
 
-        if (entity.getStatus() == 1) {//重新提交勾选后的各个项目
-            mdl.remakeSelected(createFixInfoEntity(), rxSubscribe);
-        } else if (entity.getStatus() == 0) {
-            mdl.inform(createFixInfoEntity(), rxSubscribe);
+        if (entity.getStatus() == 1 || entity.getStatus() == 0) {//重新提交勾选后的各个项目
+
+            //弹出对话框
+            confirmDialog = new ConfirmDialogCanlce(getView().getSelfActivity(), "是否确认将该检修工单推送给客户?");
+            confirmDialog.show();
+            confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                @Override
+                public void doConfirm() {
+                    confirmDialog.dismiss();
+                    mdl.remakeSelected(createFixInfoEntity(), rxSubscribe);
+                }
+
+                @Override
+                public void doCancel() {
+                    confirmDialog.dismiss();
+                }
+            });
+
         } else if (entity.getStatus() == 2) {
             ToastUtils.showToast("等待客户确认");
         } else if (entity.getStatus() == 3) {
@@ -346,46 +356,58 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void handleCallback(Intent intent) {
-        List<FixServie> fixServies = new ArrayList<>();
-        List<FixParts> fixParts = new ArrayList<>();
-        String s = intent.getStringExtra(TYPE);
-        try {
-            fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
-            fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (entity.getStatus() == 1) {//追加项目
-                mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
-                    @Override
-                    protected void _onNext(NullDataEntity nullDataEntity) {
-                        ToastUtils.showToast("追加项目成功");
-                        getInfo();//重新加载
-                    }
 
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtils.showToast("追加项目失败：" + message);
-                    }
-                });
-            } else {
-
-                if (s.equals(TYPE_Parts))
-                    upPartsDataList(fixParts, false);
-                else
-                    upServiceDataList(fixServies, false);
-
+        List<FixServie> fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
+        List<FixParts> fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
+        if (null != fixServies) {
+            for (int i = 0; i < fixServies.size(); i++) {
+                fixServies.get(i).setSelected(1);
+            }
+        }
+        if (null != fixParts) {
+            for (int i = 0; i < fixParts.size(); i++) {
+                fixParts.get(i).setSelected(1);
+            }
+        }
+        mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                ToastUtils.showToast("追加项目成功");
+                getInfo();//重新加载
             }
 
-        }
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("追加项目失败：" + message);
+            }
+        });
+
 
     }
 
     @Override
     public void toCarInfoActivity() {
         getView().onToCarInfoActivity(entity.getCarId());
+    }
+
+    @Override
+    public void remakeSave() {
+
+        //保存退出
+        mdl.remakeSave(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                finish();//返回上个页面
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
     }
 
     //创建估价单对象
@@ -400,18 +422,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     //追加项目
     private FixInfoEntity addFixInfoEntity(List<FixServie> fixServies, List<FixParts> fixParts) {
-//        if (null == fixParts || fixParts.size() == 0 && null == fixServies || fixServies.size() == 0) {
-//
-//            entity.setOrderGoodsList(null);
-//            entity.setOrderProjectList(null);
-//            return entity;
-//        }
-//
-//        if (fixParts.size() != 0)
-//            entity.setOrderGoodsList(fixParts);
-//
-//        if (fixServies.size() != 0)
-//            entity.setOrderProjectList(fixServies);
 
         entity.setOrderGoodsList(fixParts);
         entity.setOrderProjectList(fixServies);

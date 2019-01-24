@@ -55,8 +55,16 @@ public class MainFragment5 extends BaseFragment {
     protected void setUpView() {
         updata.append(SystemUtil.packaGetName());
 
-
         tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie, ""));
+
+
+
+
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
             @Override
             protected void _onNext(Shop shop) {
@@ -77,11 +85,12 @@ public class MainFragment5 extends BaseFragment {
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
+                //判断是否是401 token失效
+                SystemUtil.isReLogin(message,getActivity());
             }
         });
 
     }
-
 
     @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out})
     public void onclick(View v) {

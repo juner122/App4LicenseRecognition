@@ -13,6 +13,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_weight="1">
 
 
@@ -221,7 +222,7 @@
                     android:id="@+id/tv_price1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="10dp"
                     android:text="金额小计：0.00"
                     android:textColor="#ff000000"
                     android:textSize="13sp" />
@@ -230,7 +231,7 @@
                     android:id="@+id/iv_add1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="15dp"
                     android:src="@mipmap/icon_add" />
 
             </LinearLayout>
@@ -262,7 +263,7 @@
                     android:id="@+id/tv_price2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="10dp"
                     android:text="金额小计：0.00"
                     android:textColor="#ff000000"
                     android:textSize="13sp" />
@@ -271,7 +272,8 @@
                     android:id="@+id/iv_add2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="15dp"
+
                     android:src="@mipmap/icon_add" />
 
             </LinearLayout>
@@ -303,6 +305,18 @@
             android:textSize="14sp"
             android:visibility="visible" />
 
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_e"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="保存退出"
+            android:textColor="#fff"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_new_order"

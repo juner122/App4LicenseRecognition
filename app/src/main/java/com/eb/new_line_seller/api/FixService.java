@@ -100,6 +100,11 @@ public interface FixService {
     @POST("quotation/remakeSelected")
     Observable<BaseBean<NullDataEntity>> remakeSelected(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
 
+
+    //保存退出（报价单status=1状态下才可调用）
+    @POST("quotation/remakeSave")
+    Observable<BaseBean<NullDataEntity>> remakeSave(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
+
     //报价单去生成订单
     @POST("quotation/submit")
     Observable<BaseBean<NullDataEntity>> submit(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);

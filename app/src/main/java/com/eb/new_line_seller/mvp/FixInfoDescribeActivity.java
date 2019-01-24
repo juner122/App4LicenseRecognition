@@ -65,8 +65,6 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
                 getPresenter().showConfirmDialog(true);
 
-
-
                 break;
 
             case R.id.tv_enter_order:

@@ -34,6 +34,8 @@ public class CustomContacts {
         void setType2String(String name);//设置二级分类name
 
         void confirm(List list, int type);//确认添加 返回工时还是配件
+        void onContinue();
+
     }
 
     /**
@@ -43,7 +45,8 @@ public class CustomContacts {
 
         void changeView();//变更页面，配件或工时
 
-        void confirm(String dec, String name, String price, int number);//确认
+        void confirm(String dec, String name, String price, int number, boolean isContinue);//确认  isContinue 是否继续添加
+
 
 
         void numberUp(int num);//加数量

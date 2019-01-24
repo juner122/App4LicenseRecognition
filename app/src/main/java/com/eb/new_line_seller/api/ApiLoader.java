@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.MyApplication;
+import com.juner.mvp.api.http.RxHelper;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.new_line_seller.bean.AutoBrand;
@@ -526,6 +527,16 @@ public class ApiLoader {
     }
 
     /**
+     * 修改用户名
+     */
+    public Observable<NullDataEntity> remakeUserName(String user_name, int user_id) {
+
+        map.put("user_name", user_name);
+        map.put("user_id", user_id);
+        return apiService.remakeUserName(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
      * 门店信息
      */
     public Observable<Shop> shopInfo() {
@@ -770,7 +781,6 @@ public class ApiLoader {
      * 报价单取消
      */
     public Observable<NullDataEntity> quotationCancle(int id) {
-
 
 
         return apiService.quotationCancle(token, id).compose(RxHelper.<NullDataEntity>observe());

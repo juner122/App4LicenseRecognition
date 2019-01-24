@@ -48,13 +48,16 @@ public class CustomPartsActivity extends BaseActivity<CustomContacts.CustomPtr> 
     EditText et;
 
 
-    @OnClick({R.id.tv_confirm, R.id.tv_type1, R.id.tv_type2, R.id.iv_reduce, R.id.iv_plus})
+    @OnClick({R.id.tv_confirm, R.id.tv_type1, R.id.tv_type2, R.id.iv_reduce, R.id.iv_plus, R.id.tv_continue})
     public void onClick(View v) {
 
 
         switch (v.getId()) {
-            case R.id.tv_confirm:
-                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(), et_price.getText().toString(), Integer.parseInt(tv_num.getText().toString()));//提交
+            case R.id.tv_confirm://确认添加
+                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(), et_price.getText().toString(), Integer.parseInt(tv_num.getText().toString()), false);//提交
+                break;
+            case R.id.tv_continue://继续添加
+                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(), et_price.getText().toString(), Integer.parseInt(tv_num.getText().toString()), true);//提交
                 break;
 
             case R.id.tv_type1:
@@ -140,4 +143,14 @@ public class CustomPartsActivity extends BaseActivity<CustomContacts.CustomPtr> 
 
 
     }
+
+    @Override
+    public void onContinue() {
+        tv_type1.setText("选择分类");
+        tv_type2.setText("选择分类");
+        et_name.setText("");
+        et_price.setText("");
+        et.setText("");
+    }
+
 }

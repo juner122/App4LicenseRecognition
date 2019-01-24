@@ -76,6 +76,12 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
         tv_title.setText("请选择服务工时");
         setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getPresenter().onGetData(rg_type);
     }
 

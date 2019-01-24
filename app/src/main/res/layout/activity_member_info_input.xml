@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="手机号码"
-                    android:textColor="#ff666666"
+                    android:textColor="#000"
                     android:textSize="12sp" />
 
                 <EditText
@@ -49,7 +49,6 @@
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
-                    android:textColorHint="#ff000000"
                     android:textSize="12sp" />
 
                 <TextView
@@ -98,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="车主姓名"
-                    android:textColor="#ff666666"
+                    android:textColor="#000"
                     android:textSize="12sp" />
 
                 <EditText
@@ -113,7 +112,6 @@
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
-                    android:textColorHint="#ff000000"
                     android:textSize="12sp" />
 
                 <TextView
@@ -166,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="车辆列表"
-                    android:textColor="#ff666666"
+                    android:textColor="#000"
                     android:textSize="12sp" />
 
                 <ImageView

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
+import com.eb.new_line_seller.util.ToastUtils;
+import com.eb.new_line_seller.view.ConfirmDialogReMakeName;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.OrderList2Adapter;
@@ -17,6 +19,7 @@ import com.eb.new_line_seller.adapter.SimpleCarInfoAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -169,7 +172,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
         return R.layout.activity_member_management_member_info;
     }
 
-    @OnClick({R.id.tv_new_order, R.id.tv_add_car, R.id.tv_fix_order})
+    @OnClick({R.id.tv_new_order, R.id.tv_add_car, R.id.tv_fix_order, R.id.ll_change_name})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -196,6 +199,41 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 intent.putExtra("result_code", 1);
                 intent.putExtra(Configure.car_no, new_car_number);
                 reCarListInfo(intent);
+                break;
+            case R.id.ll_change_name://修改用户名
+
+                //弹出对话框
+                final ConfirmDialogReMakeName confirmDialog = new ConfirmDialogReMakeName(this);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialogReMakeName.ClickListenerInterface() {
+
+                    @Override
+                    public void doConfirm(final String str) {
+                        confirmDialog.dismiss();
+
+                        Api().remakeUserName(str, user_id).subscribe(new RxSubscribe<NullDataEntity>(MemberManagementInfoActivity.this, true) {
+
+                            @Override
+                            protected void _onNext(NullDataEntity entity) {
+                                ToastUtils.showToast("修改成功！");
+                                name.setText(str);
+                            }
+
+                            @Override
+                            protected void _onError(String message) {
+                                ToastUtils.showToast(message);
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+
                 break;
         }
     }

@@ -17,8 +17,9 @@ android {
         applicationId "com.eb.new_line_seller"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 14
-        versionName "2.2.2"
+        versionCode 15
+        versionName "2.3.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -32,6 +33,17 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                outputFileName = "安安养车" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
+            }
+        }
+    }
+
+
 }
 
 dependencies {

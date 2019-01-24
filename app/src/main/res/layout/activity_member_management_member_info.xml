@@ -80,7 +80,7 @@
             android:background="#FFD9D9D9" />
 
         <LinearLayout
-
+            android:id="@+id/ll_change_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
@@ -98,6 +98,7 @@
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
+                android:paddingRight="10dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
@@ -105,6 +106,10 @@
                 android:textColor="#ff666666"
                 android:textSize="12sp" />
 
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_menu_edit" />
 
         </LinearLayout>
 
@@ -135,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_add"
                 android:textColor="#ff666666"
+                android:layout_gravity="center"
                 android:textSize="12sp"
                 android:visibility="visible" />
 
@@ -187,10 +193,11 @@
             android:id="@+id/rv2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <View
-            android:background="#FFF2F2F2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="#FFF2F2F2" />
     </LinearLayout>
 
     <LinearLayout

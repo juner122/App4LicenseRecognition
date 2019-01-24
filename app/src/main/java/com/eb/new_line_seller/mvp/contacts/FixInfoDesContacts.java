@@ -1,14 +1,12 @@
 package com.eb.new_line_seller.mvp.contacts;
 
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.TextView;
 
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
-import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 

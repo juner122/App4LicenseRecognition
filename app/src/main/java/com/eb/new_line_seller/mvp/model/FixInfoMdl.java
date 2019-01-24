@@ -33,33 +33,6 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
     }
 
 
-    //初次报价（状态将由0->2）
-    @Override
-    public void inform(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
-        if (infoEntity.getOrderGoodsList().size() == 0 && infoEntity.getOrderProjectList().size() == 0) {
-            ToastUtils.showToast("未选中任何商品！");
-            return;
-        } else {
-
-            for (FixParts fp : infoEntity.getOrderGoodsList()) {
-                if (fp.selectde()) {
-                    sendRequest(HttpUtils.getFix().inform(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
-                    return;
-                }
-            }
-            for (FixServie fs : infoEntity.getOrderProjectList()) {
-                if (fs.selectde()) {
-                    sendRequest(HttpUtils.getFix().inform(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
-                    return;
-                }
-            }
-
-            ToastUtils.showToast("未选中任何商品！");
-        }
-
-
-    }
-
     //追加项目（报价单status=1状态下才可调用）
     @Override
     public void addGoodsOrProject(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
@@ -71,6 +44,19 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
     @Override
     public void remakeSelected(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
         sendRequest(HttpUtils.getFix().remakeSelected(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+    }
+
+    @Override
+    public void remakeSave(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
+
+        if (infoEntity.getOrderGoodsList().size() == 0 && infoEntity.getOrderProjectList().size() == 0) {
+            ToastUtils.showToast("未选中任何商品！");
+            return;
+        }
+        sendRequest(HttpUtils.getFix().remakeSave(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+
+
+
     }
 
 

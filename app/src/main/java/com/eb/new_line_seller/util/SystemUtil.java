@@ -2,13 +2,16 @@ package com.eb.new_line_seller.util;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.eb.new_line_seller.MyApplication;
+import com.eb.new_line_seller.mvp.LoginActivity2;
 
 public class SystemUtil {
 
@@ -68,5 +71,15 @@ public class SystemUtil {
         return code;
     }
 
+
+    //是否要重新登录
+    public static void isReLogin(String err, FragmentActivity activity) {
+
+        if (err.contains("401")) {
+            Intent intent = new Intent(activity, LoginActivity2.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(intent);
+        }
+    }
 
 }

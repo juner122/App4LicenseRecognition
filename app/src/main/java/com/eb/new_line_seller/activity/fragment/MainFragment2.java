@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.activity.OrderList4DayActivity;
+import com.eb.new_line_seller.util.SystemUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
@@ -54,11 +55,7 @@ public class MainFragment2 extends BaseFragment {
             case R.id.ll_moon:
                 toActivity(OrderList4DayActivity.class, "type", 1);
                 break;
-
-
         }
-
-
     }
 
     @Override
@@ -91,9 +88,15 @@ public class MainFragment2 extends BaseFragment {
 
             }
         });
-        getData(0);
+
     }
 
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        getData(0);
+    }
 
     private void getData(int position) {
         Api().orderList(position, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(mContext, false) {
@@ -105,7 +108,8 @@ public class MainFragment2 extends BaseFragment {
 
             @Override
             protected void _onError(String message) {
-                Log.d(TAG, message);
+                //判断是否是401 token失效
+                SystemUtil.isReLogin(message,getActivity());
             }
         });
     }

@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.ToastUtils;
 
+import java.math.BigDecimal;
+
 
 public class ConfirmDialog4 extends Dialog implements View.OnClickListener {
 
@@ -91,6 +93,9 @@ public class ConfirmDialog4 extends Dialog implements View.OnClickListener {
         et1 = view.findViewById(R.id.et1);
         et2 = view.findViewById(R.id.et2);
 
+        et1.addTextChangedListener(new DecimalInputTextWatcher(et1, 7, 2));//限制输入位数：整数3位，小数点后两位
+
+
         iv_reduce = view.findViewById(R.id.iv_reduce);
         iv_plus = view.findViewById(R.id.iv_plus);
         iv_reduce.setOnClickListener(this);
@@ -128,14 +133,16 @@ public class ConfirmDialog4 extends Dialog implements View.OnClickListener {
             int id = v.getId();
             switch (id) {
                 case R.id.tv_confirm:
-                    if (TextUtils.isEmpty(et1.getText())) {
+                    String chengeprice = et1.getText().toString();
 
-                        Toast.makeText(context, "调整价不能为空！", Toast.LENGTH_SHORT).show();
-                        return;
+
+
+                    if (TextUtils.isEmpty(et1.getText())) {
+                        chengeprice = price;
                     }
 
 
-                    clickListenerInterface.doConfirm(et1.getText().toString(), num);
+                    clickListenerInterface.doConfirm(chengeprice, num);
                     break;
                 case R.id.tv_cancel:
                     clickListenerInterface.doCancel();

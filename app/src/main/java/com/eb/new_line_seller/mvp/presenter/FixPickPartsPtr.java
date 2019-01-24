@@ -131,6 +131,9 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
     }
 
     public void set2Data(List<FixParts> list) {
+
+
+
         adapter_item.setNewData(list);
     }
 

@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.activity.OrderList4DayActivity;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoListActivity;
+import com.eb.new_line_seller.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.ActivityPackageListActivity;
@@ -64,12 +65,9 @@ public class MainFragment1 extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
+        Glide.with(this)
+                .load(getResources().getDrawable(R.mipmap.banner1))
+                .into(iv);
 
         Api().workIndex().subscribe(new RxSubscribe<WorkIndex>(getContext(), true) {
             @Override
@@ -88,14 +86,14 @@ public class MainFragment1 extends BaseFragment {
             protected void _onError(String message) {
                 Log.d(getTag(), message);
                 ToastUtils.showToast(message);
+
+                //判断是否是401 token失效
+                SystemUtil.isReLogin(message,getActivity());
+
             }
         });
-
-        Glide.with(this)
-                .load(getResources().getDrawable(R.mipmap.banner1))
-                .into(iv);
-
     }
+
 
     @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members, R.id.ll_moon, R.id.ll_day})
     public void onClick(View view) {

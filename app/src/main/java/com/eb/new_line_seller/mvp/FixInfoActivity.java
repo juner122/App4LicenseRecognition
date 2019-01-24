@@ -14,7 +14,6 @@ import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.Configure;
-import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.FixInfoEntity;
 
 import butterknife.BindView;
@@ -39,6 +38,10 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @BindView(R.id.tv_new_order)
     TextView tv_new_order;
+
+
+    @BindView(R.id.tv_save)
+    TextView tv_save;
 
     @BindView(R.id.tv_text)
     TextView tv_text;//总价
@@ -71,7 +74,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -87,8 +90,12 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
             case R.id.tv_new_order:
                 //生成估价单
-
                 getPresenter().onInform();
+                break;
+
+            case R.id.tv_save:
+                //保存退出
+                getPresenter().remakeSave();
                 break;
             case R.id.tv_car_info:
                 //查看车况
@@ -179,6 +186,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         intent.putExtra(Configure.CARID, car_id);
         intent.putExtra("result_code", 999);
         startActivity(intent);
+    }
+
+    @Override
+    public void showSaveButton() {
+        tv_save.setVisibility(View.VISIBLE);
     }
 
 

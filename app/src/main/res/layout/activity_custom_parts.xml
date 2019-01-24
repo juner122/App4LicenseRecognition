@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFF2F2F2"
+    android:orientation="vertical"
     tools:context=".mvp.CustomPartsActivity">
 
     <include layout="@layout/head_view" />
@@ -137,6 +137,7 @@
             android:background="@null"
             android:gravity="end"
             android:hint="请输入价格"
+            android:inputType="numberDecimal"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:textColor="#ff666666"
@@ -151,12 +152,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="#fff"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -234,15 +235,17 @@
         android:background="#fff"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="#FFE73323"
-            android:textSize="12sp"
-            android:visibility="invisible" />
 
+        <TextView
+            android:id="@+id/tv_continue"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="2"
+            android:background="@drawable/button_background_e"
+            android:gravity="center"
+            android:text="继续添加"
+            android:textColor="#fff"
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_confirm"

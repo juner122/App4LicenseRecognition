@@ -226,6 +226,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<MemberOrder>> memberOrderList(@FieldMap Map<String, Object> maps);
 
+    //修改用户名
+    @POST("user/remakeUserName")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> remakeUserName(@FieldMap Map<String, Object> maps);
+
     //获取优惠券列表 [达到满减，未到期，未用过]
     @POST("coupon/list")
     @FormUrlEncoded

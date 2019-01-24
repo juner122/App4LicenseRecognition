@@ -116,7 +116,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     }
 
     @Override
-    public void confirm(final String dec, final String name, final String price, int number) {
+    public void confirm(final String dec, final String name, final String price, int number, final boolean isContinue) {
 
         if (parent_id2 == -1) {
             ToastUtils.showToast("请选择二级分类！");
@@ -135,19 +135,22 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
             @Override
             protected void _onNext(NullDataEntity entity) {
                 ToastUtils.showToast("添加成功！");
-                finish();
-
-                if (type == 0) {
-                    List<FixServie> servieList = new ArrayList<>();
-                    servieList.add(getFixServie(dec, name, price, entity.getId()));
-                    getView().confirm(servieList, type);
+                if (!isContinue) {//确认添加返回详情页面
+                    finish();
+                    if (type == 0) {
+                        List<FixServie> servieList = new ArrayList<>();
+                        servieList.add(getFixServie(dec, name, price, entity.getId()));
+                        getView().confirm(servieList, type);
+                    } else {
+                        List<FixParts> fixParts = new ArrayList<>();
+                        fixParts.add(getFixParts(dec, name, price, entity.getId()));
+                        getView().confirm(fixParts, type);
+                    }
                 } else {
-                    List<FixParts> fixParts = new ArrayList<>();
-                    fixParts.add(getFixParts(dec, name, price, entity.getId()));
-                    getView().confirm(fixParts, type);
+                    onContinue();
                 }
-
             }
+
 
             @Override
             protected void _onError(String message) {
@@ -164,6 +167,14 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
     }
 
+    //清空数据
+    private void onContinue() {
+        parent_id1 = -1;
+        parent_id2 = -1;
+
+        getView().onContinue();
+
+    }
 
     @Override
     public void numberUp(int num) {
@@ -174,7 +185,6 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     @Override
     public void numberDown(int num) {
         if (num == 1) return;
-
         getView().setNumber(--num);
     }
 
@@ -296,6 +306,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         fixServie.setExplain(dec);
         fixServie.setServiceId(parent_id2);
         fixServie.setId(id);
+        fixServie.setSelected(1);//默认选择中
         return fixServie;
     }
 
@@ -305,6 +316,8 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         fp.setRetail_price(price);
         fp.setComponent_id(parent_id2);
         fp.setId(id);
+        fp.setNumber(1);//数量
+        fp.setSelected(1);//默认选择中
         return fp;
     }
 

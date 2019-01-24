@@ -53,6 +53,8 @@ public class FixInfoContacts {
         void setButtonText(String text);//设置文字
 
         void onToCarInfoActivity(int car_id);//到车况信息页面
+
+        void showSaveButton();//显示保存退出按钮
     }
 
     /**
@@ -62,9 +64,6 @@ public class FixInfoContacts {
 
         void getInfo();//获取页面数据
 
-        void upServiceDataList(List<FixServie> list,boolean isNewDate);//更新工时列表
-
-        void upPartsDataList(List<FixParts> list,boolean isNewDate);//更新配件列表
 
         void initRecyclerView(RecyclerView rv_service, RecyclerView rv_parts);
 
@@ -73,6 +72,10 @@ public class FixInfoContacts {
         void handleCallback(Intent intent);//处理从选择工时页面或选择配件页面返回的结果
 
         void toCarInfoActivity();//到车况信息页面
+
+        void remakeSave();//保存修改
+
+
 
     }
 
@@ -84,12 +87,14 @@ public class FixInfoContacts {
 
         void getInfo(int id, RxSubscribe<FixInfo> rxSubscribe);//页面数据接口
 
-        void inform(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//初次报价（状态将由0->2）
+//        void inform(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//初次报价（状态将由0->2）
 
         void addGoodsOrProject(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//追加项目（报价单status=1状态下才可调用）
 
 
         void remakeSelected(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//重新提交勾选后的各个项目
+
+        void remakeSave(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//保存修改
 
         void submit(OrderInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//报价单去生成订单
 
