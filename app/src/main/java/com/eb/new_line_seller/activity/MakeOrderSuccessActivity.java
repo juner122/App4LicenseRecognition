@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.new_line_seller.buletooth.DeviceConnFactoryManager;
 import com.eb.new_line_seller.buletooth.PrinterCommand;
+import com.eb.new_line_seller.view.ConfirmDialogCanlce;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -299,48 +300,16 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         esc.addText(tv_expect_date.getText().toString() + "\n");//打印完成时间
 
-
         esc.addText("================================\n");//打印完成时间
 
 
+        esc.addSelectJustification(LEFT);
+        esc.addText("服务工时\t小计:" + String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList()) + "\n");
 
-        /* 绝对位置 具体详细信息请查看GP58编程手册 */
-
-        esc.addText("项目名称");
-        esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-
-        esc.addSetAbsolutePrintPosition((short) 7);
-        esc.addText("数量");
-
-//        esc.addSetAbsolutePrintPosition((short) 10);
-//        esc.addText("单价");
-
-        esc.addSetAbsolutePrintPosition((short) 13);
-        esc.addText("金额");
-        esc.addText("--------------------------------\n");//打印完成时间
-
-        for (GoodsEntity ge : info.getOrderInfo().getGoodsList()) {
-            esc.addSelectJustification(LEFT);
-            esc.addText(ge.getName());
-            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            if (ge.getName().length() >= 8) {
-                esc.addPrintAndLineFeed();
-                esc.addSelectJustification(LEFT);
-            }
-
-            esc.addSetAbsolutePrintPosition((short) 7);
-            esc.addText(ge.getNumberStringX());
-
-            esc.addSetAbsolutePrintPosition((short) 12);
-            esc.addSelectJustification(RIGHT);
-            esc.addText(String.valueOf(Double.parseDouble(ge.getRetail_price()) * ge.getNumber()));
-            esc.addPrintAndLineFeed();
-            esc.addPrintAndLineFeed();
-        }
         for (Server sv : info.getOrderInfo().getSkillList()) {
 
             esc.addSelectJustification(LEFT);
-            esc.addSetAbsolutePrintPosition((short) 0);
+            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
             esc.addText(sv.getName());
             esc.addPrintAndLineFeed();
             esc.addSelectJustification(LEFT);
@@ -348,7 +317,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             esc.addSetAbsolutePrintPosition((short) 7);
             esc.addText("x1");
-            esc.addSelectJustification(CENTER);
 
             esc.addSetAbsolutePrintPosition((short) 12);
 
@@ -357,24 +325,48 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addPrintAndLineFeed();
             esc.addPrintAndLineFeed();
         }
+        esc.addText("--------------------------------\n");//打印完成时间
+
+
+        esc.addSelectJustification(LEFT);
+        esc.addText("商品配件\t小计:" + String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList()) + "\n");
+
+        for (GoodsEntity ge : info.getOrderInfo().getGoodsList()) {
+
+            esc.addSelectJustification(LEFT);
+            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+            esc.addText(ge.getName());
+            esc.addPrintAndLineFeed();
+            esc.addSelectJustification(LEFT);
+
+            esc.addSetAbsolutePrintPosition((short) 7);
+            esc.addText(ge.getNumberStringX());
+
+            esc.addSetAbsolutePrintPosition((short) 12);
+
+            esc.addSelectJustification(RIGHT);
+            esc.addText(String.valueOf(Double.parseDouble(ge.getRetail_price()) * ge.getNumber()));
+            esc.addPrintAndLineFeed();
+            esc.addPrintAndLineFeed();
+        }
         for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
             esc.addSelectJustification(LEFT);
-            esc.addSetAbsolutePrintPosition((short) 0);
+            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
             esc.addText(gu.getGoodsName());
             esc.addPrintAndLineFeed();
             esc.addSelectJustification(LEFT);
+
             esc.addSetAbsolutePrintPosition((short) 7);
             esc.addText("x1");
-            esc.addSelectJustification(CENTER);
 
-            esc.addSetAbsolutePrintPosition((short) 13);
+            esc.addSetAbsolutePrintPosition((short) 12);
+
             esc.addSelectJustification(RIGHT);
             esc.addText("抵扣");
             esc.addPrintAndLineFeed();
             esc.addPrintAndLineFeed();
         }
 
-        esc.addText("--------------------------------\n");//打印完成时间
         esc.addSelectJustification(RIGHT);
         esc.addText(all_price.getText().toString());
         esc.addPrintAndLineFeed();
@@ -405,23 +397,12 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addText("联系信息：" + info.getShop().getPhone() + "\n");
         esc.addText("地址：" + info.getShop().getAddress() + "\n");
         esc.addPrintAndLineFeed();
-        esc.addSelectJustification(CENTER);
+        esc.addSelectJustification(LEFT);
+
+        esc.addText("--------------------------------\n");//打印完成时间
+        esc.addText("备注：签字代表您已经完全了解并接受《用户委托服务及质保协议》，并授权我司进行本单所列范围内服务。\n");
 
 
-
-
-        /*
-         * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
-         */
-
-
-//        // 设置纠错等级
-//        esc.addSelectErrorCorrectionLevelForQRCode((byte) 0x31);
-//        // 设置qrcode模块大小
-//        esc.addSelectSizeOfModuleForQRCode((byte) 5);
-//        // 设置qrcode内容
-//        esc.addStoreQRCodeData("www.smarnet.cc");
-//        esc.addPrintQRCode();// 打印QRCode
         esc.addPrintAndLineFeed();
         esc.addPrintAndLineFeed();
 
@@ -510,13 +491,31 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
         double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
 
-        rv_goods.setLayoutManager(new LinearLayoutManager(this));
+        rv_goods.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
 
-        rv_act.setLayoutManager(new LinearLayoutManager(this));
+        rv_act.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_act.setAdapter(simpleActivityInfo2Adpter);
 
-        rv_servers.setLayoutManager(new LinearLayoutManager(this));
+        rv_servers.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_servers.setAdapter(serverInfo2Adpter);
 
 
@@ -566,7 +565,24 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
 
             case R.id.ll_autograph://签名
-                toActivity(AutographActivity.class, "class", "MakeOrder");
+
+                //弹出对话框
+                final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(this, getResources().getString(R.string.agreement), getResources().getString(R.string.agreement_title));
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        confirmDialog.dismiss();
+                        toActivity(AutographActivity.class, "class", "MakeOrder");
+
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
                 break;
 
 

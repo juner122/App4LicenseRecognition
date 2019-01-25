@@ -119,13 +119,31 @@ public class MakeOrderActivity extends BaseActivity {
         sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 
 
-        rv_goods.setLayoutManager(new LinearLayoutManager(this));
+        rv_goods.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_goods.setAdapter(simpleGoodInfoAdpter);
 
-        rv_servers.setLayoutManager(new LinearLayoutManager(this));
+        rv_servers.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_servers.setAdapter(simpleServiceInfoAdpter);
 
-        rv_meal.setLayoutManager(new LinearLayoutManager(this));
+        rv_meal.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_meal.setAdapter(sma);
 
 

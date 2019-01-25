@@ -68,7 +68,7 @@ public class ApiLoader {
 
     public ApiLoader(Context context) {
 
-        token = new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, "");
+        token = new AppPreferences(context).getString(Configure.Token, "");
         Log.i("apiService", "X-Nideshop-Token:  " + token);
         apiService = RetrofitServiceManager.getInstance().create(ApiService.class);
         map.put("X-Nideshop-Token", new AppPreferences(context).getString(Configure.Token, ""));
@@ -81,6 +81,8 @@ public class ApiLoader {
      */
     public Observable<QueryByCarEntity> queryByCar(String car_no) {
         map.put("car_no", car_no);
+
+
         return apiService.queryByCar(map).compose(RxHelper.<QueryByCarEntity>observe());
 
     }
@@ -540,7 +542,7 @@ public class ApiLoader {
      * 门店信息
      */
     public Observable<Shop> shopInfo() {
-
+        map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
         return apiService.shopInfo(map).compose(RxHelper.<Shop>observe());
     }
 

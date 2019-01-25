@@ -71,8 +71,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     public ApiLoader Api() {
-        if (apiLoader == null)
-            apiLoader = new ApiLoader(this);
+
+        apiLoader = new ApiLoader(this);
         return apiLoader;
 
     }

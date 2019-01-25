@@ -133,7 +133,7 @@ public interface FixService {
 
     //添加自定义零件
     @POST("component/save")
-    Observable<BaseBean<NullDataEntity>> componentSave(@Header("X-Nideshop-Token") String token, @Body Component component);
+    Observable<BaseBean<Component>> componentSave(@Header("X-Nideshop-Token") String token, @Body Component component);
 
 
     //自定义零件 一级分类下拉框
@@ -145,11 +145,9 @@ public interface FixService {
     @FormUrlEncoded
     Observable<BaseBean<List<FixParts2item>>> componentSecondCategory(@Header("X-Nideshop-Token") String token, @Field("parent_id") int id);
 
-
-
     //添加自定义服务
     @POST("goods/addShopService")
-    Observable<BaseBean<NullDataEntity>> addShopService(@Header("X-Nideshop-Token") String token, @Body ShopProject shopProject);
+    Observable<BaseBean<ShopProject>> addShopService(@Header("X-Nideshop-Token") String token, @Body ShopProject shopProject);
 
     //自定义服务 服务分类第一级下拉框
     @POST("goods/firstService")

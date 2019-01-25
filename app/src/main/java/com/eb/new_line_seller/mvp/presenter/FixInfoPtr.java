@@ -83,8 +83,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         isChenge = true;
                     } else {
                         price = ((FixServie) adapter.getData().get(position)).getPrice();
-                        num = 1;
-                        isChenge = false;
+                        num = ((FixServie) adapter.getData().get(position)).getNumber();
+                        isChenge = true;
                     }
 
 
@@ -101,9 +101,11 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                                 ((FixParts) adapter.getData().get(position)).setNumber(num);
                             } else {
                                 ((FixServie) adapter.getData().get(position)).setPrice(price);
+                                ((FixServie) adapter.getData().get(position)).setNumber(num);
                             }
 
                             adapter.notifyDataSetChanged();
+
                             //更新金额
                             if (adapter.getData().get(position) instanceof FixParts) {
                                 getView().setPartsPrice(upDataPartsPrice().toString());
@@ -331,7 +333,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
         for (FixServie fixServie : adapter_service.getData()) {
             if (fixServie.selectde())
-                d = d + fixServie.getPriceD();
+                d = d + fixServie.getPriceD() * fixServie.getNumber();
         }
         return d;
 
@@ -358,7 +360,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     public void handleCallback(Intent intent) {
 
 
-
         List<FixServie> fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
         List<FixParts> fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
         if (null != fixServies) {
@@ -371,7 +372,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 fixParts.get(i).setSelected(1);
             }
         }
-        mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
+        mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, false) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 ToastUtils.showToast("追加项目成功");
@@ -422,6 +423,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     //追加项目
     private FixInfoEntity addFixInfoEntity(List<FixServie> fixServies, List<FixParts> fixParts) {
+
 
         entity.setOrderGoodsList(fixParts);
         entity.setOrderProjectList(fixServies);

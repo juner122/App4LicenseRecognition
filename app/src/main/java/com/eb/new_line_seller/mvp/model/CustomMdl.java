@@ -25,9 +25,9 @@ public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
     }
 
     @Override
-    public void componentSave(Component component, RxSubscribe<NullDataEntity> rxSubscribe) {
+    public void componentSave(Component component, RxSubscribe<Component> rxSubscribe) {
 
-        sendRequest(HttpUtils.getFix().componentSave(getToken(context), component).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getFix().componentSave(getToken(context), component).compose(RxHelper.<Component>observe()), rxSubscribe);
 
     }
 
@@ -47,9 +47,9 @@ public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
 
 
     @Override
-    public void addShopService(ShopProject shopProject, RxSubscribe<NullDataEntity> rxSubscribe) {
+    public void addShopService(ShopProject shopProject, RxSubscribe<ShopProject> rxSubscribe) {
 
-        sendRequest(HttpUtils.getFix().addShopService(getToken(context), shopProject).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getFix().addShopService(getToken(context), shopProject).compose(RxHelper.<ShopProject>observe()), rxSubscribe);
 
     }
 

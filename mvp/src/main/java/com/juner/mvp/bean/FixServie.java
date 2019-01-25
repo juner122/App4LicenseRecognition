@@ -16,7 +16,15 @@ public class FixServie extends FixInfoItem implements Parcelable {
     String explain;//五座轿车
     String price;
     String marketPrice;
+    int number = 1;
 
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     public int getOrderId() {
         return orderId;
@@ -99,6 +107,9 @@ public class FixServie extends FixInfoItem implements Parcelable {
         this.serviceId = serviceId;
     }
 
+    public FixServie() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -106,6 +117,7 @@ public class FixServie extends FixInfoItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeInt(this.orderId);
         dest.writeInt(this.quotationId);
         dest.writeInt(this.projectId);
@@ -115,12 +127,11 @@ public class FixServie extends FixInfoItem implements Parcelable {
         dest.writeString(this.explain);
         dest.writeString(this.price);
         dest.writeString(this.marketPrice);
-    }
-
-    public FixServie() {
+        dest.writeInt(this.number);
     }
 
     protected FixServie(Parcel in) {
+        super(in);
         this.orderId = in.readInt();
         this.quotationId = in.readInt();
         this.projectId = in.readInt();
@@ -130,9 +141,10 @@ public class FixServie extends FixInfoItem implements Parcelable {
         this.explain = in.readString();
         this.price = in.readString();
         this.marketPrice = in.readString();
+        this.number = in.readInt();
     }
 
-    public static final Parcelable.Creator<FixServie> CREATOR = new Parcelable.Creator<FixServie>() {
+    public static final Creator<FixServie> CREATOR = new Creator<FixServie>() {
         @Override
         public FixServie createFromParcel(Parcel source) {
             return new FixServie(source);

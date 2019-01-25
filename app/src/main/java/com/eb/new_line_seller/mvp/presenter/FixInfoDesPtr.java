@@ -230,19 +230,13 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         esc.addText("联系信息：" + new AppPreferences(getView().getSelfActivity()).getString(shop_phone, "-") + "\n");
         esc.addText("地址：" + new AppPreferences(getView().getSelfActivity()).getString(shop_address, "-") + "\n");
         esc.addPrintAndLineFeed();
-        esc.addSelectJustification(CENTER);
-
-
-        esc.addPrintAndLineFeed();
-
-
         esc.addSelectJustification(LEFT);
-        esc.addText("备注：签字代表您已经完全了解并接受本单描述，并授权我司进行本单所列范围内的检修服务。" + "\n");
+        esc.addText("================================\n");//打印完成时间
+        esc.addText("备注：签字代表您已经完全了解并接受《用户委托服务及质保协议》，并授权我司进行本单所列范围内服务。\n");
 
+
+        esc.addPrintAndLineFeed();
         esc.addText("--------------------------------\n");//打印完成时间
-
-        esc.addPrintAndLineFeed();
-        esc.addPrintAndLineFeed();
         // 加入查询打印机状态，打印完成后，此时会接收到GpCom.ACTION_DEVICE_STATUS广播
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();

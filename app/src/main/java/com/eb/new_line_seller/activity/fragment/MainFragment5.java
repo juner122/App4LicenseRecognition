@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.eb.new_line_seller.activity.ChangeStoreActivity;
 import com.eb.new_line_seller.mvp.LoginActivity2;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -46,6 +47,10 @@ public class MainFragment5 extends BaseFragment {
     @BindView(R.id.updata)
     TextView updata;//版本号
 
+    @BindView(R.id.tv_change_store)
+    TextView tv_change_store;//
+    String phone;
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment5_main;
@@ -55,7 +60,6 @@ public class MainFragment5 extends BaseFragment {
     protected void setUpView() {
         updata.append(SystemUtil.packaGetName());
 
-        tv_phone_number.append(new AppPreferences(getContext()).getString(Configure.moblie, ""));
 
 
 
@@ -65,10 +69,20 @@ public class MainFragment5 extends BaseFragment {
     @Override
     protected void onVisible() {
         super.onVisible();
+        phone = new AppPreferences(getContext()).getString(Configure.moblie, "");
+        tv_phone_number.setText("手机号码：" + phone);
+        //超级管理员权限
+        if (phone.contains("123456789") || phone.equals("13412513007") || phone.equals("13602830779")) {//老板:13602830779
+            tv_change_store.setVisibility(View.VISIBLE);
+        } else {
+            tv_change_store.setVisibility(View.GONE);
+        }
+
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
             @Override
             protected void _onNext(Shop shop) {
                 tv_name.setText(shop.getShop().getShopName());
+
 
                 new AppPreferences(getContext()).put(shop_name, shop.getShop().getShopName());
                 new AppPreferences(getContext()).put(shop_address, shop.getShop().getAddress());
@@ -86,13 +100,13 @@ public class MainFragment5 extends BaseFragment {
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
                 //判断是否是401 token失效
-                SystemUtil.isReLogin(message,getActivity());
+                SystemUtil.isReLogin(message, getActivity());
             }
         });
 
     }
 
-    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out})
+    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out, R.id.tv_change_store})
     public void onclick(View v) {
 
         switch (v.getId()) {
@@ -139,6 +153,11 @@ public class MainFragment5 extends BaseFragment {
                 new AppPreferences(getContext()).remove(Configure.Token);
                 toActivity(LoginActivity2.class);
                 getActivity().finish();
+                break;
+
+            case R.id.tv_change_store:
+
+                toActivity(ChangeStoreActivity.class);
                 break;
 
 

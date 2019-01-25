@@ -36,7 +36,7 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
 
         String tv1 = item.getName();
         String tv2 = item.getExplain();
-        String tv3 = "x1";
+        String tv3 = "x" + item.getNumber();
         String tv4 = "￥" + MathUtil.twoDecimal(item.getPrice());
 
         helper.setText(R.id.tv1, tv1);

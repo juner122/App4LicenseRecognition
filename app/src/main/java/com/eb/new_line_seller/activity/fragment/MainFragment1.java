@@ -69,6 +69,12 @@ public class MainFragment1 extends BaseFragment {
                 .load(getResources().getDrawable(R.mipmap.banner1))
                 .into(iv);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         Api().workIndex().subscribe(new RxSubscribe<WorkIndex>(getContext(), true) {
             @Override
             protected void _onNext(WorkIndex workIndex) {
@@ -93,7 +99,6 @@ public class MainFragment1 extends BaseFragment {
             }
         });
     }
-
 
     @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members, R.id.ll_moon, R.id.ll_day})
     public void onClick(View view) {

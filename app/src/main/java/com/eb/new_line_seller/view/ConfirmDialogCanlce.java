@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.util.ToastUtils;
 
 
 public class ConfirmDialogCanlce extends Dialog {
@@ -23,7 +24,7 @@ public class ConfirmDialogCanlce extends Dialog {
 
     private ClickListenerInterface clickListenerInterface;
 
-    String string;
+    String string, title = "";
 
     public interface ClickListenerInterface {
 
@@ -42,7 +43,13 @@ public class ConfirmDialogCanlce extends Dialog {
         super(context, R.style.my_dialog);
         this.context = context;
         string = str;
+    }
 
+    public ConfirmDialogCanlce(Context context, String str, String title) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        string = str;
+        this.title = title;
     }
 
     @Override
@@ -60,8 +67,14 @@ public class ConfirmDialogCanlce extends Dialog {
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
         TextView tv_text = view.findViewById(R.id.tv_text);
+        TextView tv_title = view.findViewById(R.id.title);
 
         tv_text.setText(string);
+
+        if (title.equals(""))
+            tv_title.setText("提示信息");
+        else
+            tv_title.setText(title);
 
 
         tv_confirm.setOnClickListener(new clickListener());

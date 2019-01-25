@@ -119,7 +119,7 @@ public class OrderListFragment extends BaseFragment {
                     }
                     list.get(position).setSelected(true);
                 }
-                adapter.notifyDataSetChanged();
+                ola.notifyDataSetChanged();
             }
         });
 

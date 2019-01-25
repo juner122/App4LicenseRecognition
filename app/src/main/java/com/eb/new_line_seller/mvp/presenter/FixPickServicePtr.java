@@ -95,7 +95,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     @Override
     public void onGetData(final RadioGroup rg) {
-
+        rg.removeAllViews();
         mdl.getServiceData(new RxSubscribe<FixServiceList>(getView().getSelfActivity(), true) {
             @Override
             protected void _onNext(FixServiceList list) {

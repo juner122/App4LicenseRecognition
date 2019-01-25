@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:padding="5dp"
+        android:padding="8dp"
         android:text="未连接打印机(点击连接)"
         android:textSize="11sp" />
 

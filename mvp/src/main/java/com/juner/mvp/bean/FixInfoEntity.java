@@ -283,7 +283,7 @@ public class FixInfoEntity {
 
         for (FixServie fs : fixServies) {
             if (fs.selectde())
-                d = d + fs.getPriceD();
+                d = d + fs.getPriceD() * fs.getNumber();
         }
 
         return d;

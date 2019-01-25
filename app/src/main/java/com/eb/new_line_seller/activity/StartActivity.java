@@ -49,6 +49,12 @@ public class StartActivity extends PermissionsActivity {
     }
 
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        toActivity();
+    }
+
     private void toActivity() {
 
         String token = new AppPreferences(this).getString(Configure.Token, "");

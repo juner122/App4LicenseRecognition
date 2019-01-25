@@ -134,9 +134,6 @@ public class ConfirmDialog4 extends Dialog implements View.OnClickListener {
             switch (id) {
                 case R.id.tv_confirm:
                     String chengeprice = et1.getText().toString();
-
-
-
                     if (TextUtils.isEmpty(et1.getText())) {
                         chengeprice = price;
                     }

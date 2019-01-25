@@ -65,14 +65,14 @@ public class CustomContacts {
      * model 层接口
      */
     public interface CustomMdl {
-        void componentSave(Component component, RxSubscribe<NullDataEntity> rxSubscribe);//自定义配件
+        void componentSave(Component component, RxSubscribe<Component> rxSubscribe);//自定义配件
 
         void componentFirstCategory(RxSubscribe<List<FixParts2item>> rxSubscribe);//自定义零件 一级分类下拉框
 
         void componentSecondCategory(int parent_id, RxSubscribe<List<FixParts2item>> rxSubscribe);//自定义零件 二级分类下拉框
 
 
-        void addShopService(ShopProject shopProject, RxSubscribe<NullDataEntity> rxSubscribe);//自定义工时
+        void addShopService(ShopProject shopProject, RxSubscribe<ShopProject> rxSubscribe);//自定义工时
 
         void firstService(RxSubscribe<List<FixService2item>> rxSubscribe);//自定义工时  一级分类下拉框
 

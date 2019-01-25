@@ -6,6 +6,10 @@
     <string name="preview">"实时车牌识别"</string>
 
 
+    <string name="agreement">1. 质量保证期规定\n 1.1 整车修理、总成大修：20000公里或100日；\n1.2 二级维护：5000公里或30日；\n1.3 小修及专项修理：2000公里或10日；\n1.4 备注：上述保证期时间和公里数有一项达到即为超期；上述保证期从出厂之日算起；\n1.5 注意事项：凡发动机、自动波箱总成件大修，7天内必须回厂检查，3000公里回厂更换油品；无回厂记录的，一律不予保修。\n2. 委托服务协议\n2.1 贵重物品/现金请自行带走或交我公司登记保管，未作登记本公司不负赔偿责任；\n2.2 由客户自备零件引致的服务质量问题，其后果均由客户本人负责。</string>
+    <string name="agreement_title">用户委托服务及质保协议</string>
+
+
     <string name="dialog_message_loading">加载中</string>
     <string name="error_unknown">未知错误</string>
     <string name="error_bad_network">没网络,请检查网络</string>

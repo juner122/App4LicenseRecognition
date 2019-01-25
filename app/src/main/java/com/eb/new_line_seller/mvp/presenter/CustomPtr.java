@@ -1,19 +1,13 @@
 package com.eb.new_line_seller.mvp.presenter;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.adapter.Brandadapter2;
 import com.eb.new_line_seller.adapter.FixPickParts2ItemAdapter;
 import com.eb.new_line_seller.adapter.FixPickService2ItemAdapter;
-import com.eb.new_line_seller.api.FixService;
-import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.contacts.CustomContacts;
 import com.eb.new_line_seller.mvp.model.CustomMdl;
 import com.eb.new_line_seller.util.ToastUtils;
@@ -23,18 +17,12 @@ import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.Component;
 import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixParts2item;
-import com.juner.mvp.bean.FixPartsListEntity;
 import com.juner.mvp.bean.FixService2item;
-import com.juner.mvp.bean.FixServiceListEntity;
 import com.juner.mvp.bean.FixServie;
-import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.ShopProject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.eb.new_line_seller.mvp.presenter.FixInfoPtr.TYPE;
-import static com.eb.new_line_seller.mvp.presenter.FixInfoPtr.TYPE_Parts;
 
 
 public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements CustomContacts.CustomPtr {
@@ -51,6 +39,10 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     CommonPopupWindow popupWindow;
     FixPickParts2ItemAdapter adapterParts;
     FixPickService2ItemAdapter adapterService;
+
+
+    List<FixServie> servieList;//添加工时列表
+    List<FixParts> fixParts;//添加配件 列表
 
     public CustomPtr(@NonNull CustomContacts.CustomUI view) {
         super(view);
@@ -75,7 +67,8 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         popupWindow = new CommonPopupWindow.Builder(getView().getSelfActivity())
                 .setView(parentRecyclerView)
                 .create();
-
+        servieList = new ArrayList<>();
+        fixParts = new ArrayList<>();
     }
 
 
@@ -131,41 +124,50 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
             return;
         }
 
-        RxSubscribe<NullDataEntity> rxSubscribe = new RxSubscribe<NullDataEntity>(getView().getSelfActivity(), true) {
-            @Override
-            protected void _onNext(NullDataEntity entity) {
-                ToastUtils.showToast("添加成功！");
-                if (!isContinue) {//确认添加返回详情页面
-                    finish();
-                    if (type == 0) {
-                        List<FixServie> servieList = new ArrayList<>();
-                        servieList.add(getFixServie(dec, name, price, entity.getId()));
+        if (type == 0) {
+            mdl.addShopService(getShopProject(dec, name, price), new RxSubscribe<ShopProject>(getView().getSelfActivity(), true) {
+                @Override
+                protected void _onNext(ShopProject shopProject) {
+                    ToastUtils.showToast("添加成功！");
+
+                    servieList.add(getFixServie(shopProject));
+                    if (!isContinue) {//确认添加返回详情页面
+                        finish();
                         getView().confirm(servieList, type);
                     } else {
-                        List<FixParts> fixParts = new ArrayList<>();
-                        fixParts.add(getFixParts(dec, name, price, entity.getId()));
-                        getView().confirm(fixParts, type);
+                        onContinue();
                     }
-                } else {
-                    onContinue();
                 }
-            }
 
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast("添加失败！" + message);
-            }
-        };
-
-        if (type == 0) {
-            mdl.addShopService(getShopProject(dec, name, price, number), rxSubscribe);
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast("添加失败！" + message);
+                }
+            });
         } else {
-            mdl.componentSave(getComponent(dec, name, price, number), rxSubscribe);
+            mdl.componentSave(getComponent(dec, name, price), new RxSubscribe<Component>(getView().getSelfActivity(), true) {
+                @Override
+                protected void _onNext(Component component) {
+                    ToastUtils.showToast("添加成功！");
+                    fixParts.add(getFixParts(component));
+
+                    if (!isContinue) {//确认添加返回详情页面
+                        finish();
+                        getView().confirm(fixParts, type);
+                    } else {
+                        onContinue();
+                    }
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast("添加失败！" + message);
+                }
+            });
 
         }
-
     }
+
 
     //清空数据
     private void onContinue() {
@@ -280,7 +282,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
     }
 
-    private ShopProject getShopProject(String dec, String name, String price, int number) {
+    private ShopProject getShopProject(String dec, String name, String price) {
         ShopProject sp = new ShopProject();
         sp.setName(name);
         sp.setPrice(price);
@@ -289,7 +291,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         return sp;
     }
 
-    private Component getComponent(String dec, String name, String price, int number) {
+    private Component getComponent(String dec, String name, String price) {
         Component com = new Component();
         com.setName(name);
         com.setRetailPrice(price);
@@ -299,23 +301,23 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     }
 
 
-    private FixServie getFixServie(String dec, String name, String price, int id) {
+    private FixServie getFixServie(ShopProject shopProject) {
         FixServie fixServie = new FixServie();
-        fixServie.setName(name);
-        fixServie.setPrice(price);
-        fixServie.setExplain(dec);
+        fixServie.setName(shopProject.getName());
+        fixServie.setPrice(shopProject.getPrice());
+        fixServie.setExplain(shopProject.getExplain());
         fixServie.setServiceId(parent_id2);
-        fixServie.setId(id);
+        fixServie.setId(shopProject.getServiceId());
         fixServie.setSelected(1);//默认选择中
         return fixServie;
     }
 
-    private FixParts getFixParts(String dec, String name, String price, int id) {
+    private FixParts getFixParts(Component component) {
         FixParts fp = new FixParts();
-        fp.setGoods_name(name);
-        fp.setRetail_price(price);
+        fp.setGoods_name(component.getName());
+        fp.setRetail_price(component.getRetailPrice());
         fp.setComponent_id(parent_id2);
-        fp.setId(id);
+        fp.setId(component.getCategoryId());
         fp.setNumber(1);//数量
         fp.setSelected(1);//默认选择中
         return fp;

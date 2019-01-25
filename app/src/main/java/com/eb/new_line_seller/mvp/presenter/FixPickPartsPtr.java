@@ -106,6 +106,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
     }
 
     public void init0Data(RadioGroup rg, final List<FixPartsListEntity> list) {
+        rg.removeAllViews();//清除所有
         for (int i = 0; i < list.size(); i++) {
             MyRadioButton radioButton = new MyRadioButton(getView().getSelfActivity(), list.get(i).getName(), i);
             final int finalI = i;
@@ -131,7 +132,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
     }
 
     public void set2Data(List<FixParts> list) {
-
 
 
         adapter_item.setNewData(list);

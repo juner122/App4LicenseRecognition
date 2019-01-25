@@ -39,7 +39,6 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public ApiLoader Api() {
-        if (apiLoader == null)
             apiLoader = new ApiLoader(getContext());
         return apiLoader;
 

@@ -134,6 +134,11 @@ public class CarInfoInputActivity extends BaseActivity {
                     return;
                 }
 
+                if (null == autoModel || autoModel.getId() == 0) {
+                    ToastUtils.showToast("请选择车型！");
+                    return;
+                }
+
                 if (isUpdata)
                     onAddCarInfoOfFixCarInfo();//接口提交
                 else
