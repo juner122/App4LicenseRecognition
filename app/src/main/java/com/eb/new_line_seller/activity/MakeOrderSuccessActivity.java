@@ -456,12 +456,18 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 .into(iv_lpv);
 
         iv_lpv_url = intent.getStringExtra(Configure.Domain);
-
         info.getOrderInfo().setDistrict(iv_lpv_url);//保存签名，防止用户直接支付
     }
 
     private void setInfo() {
 
+        //加载图片
+        Glide.with(this)
+                .asDrawable()
+                .load(info.getOrderInfo().getDistrict())
+                .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .apply(skipMemoryCacheOf(true))
+                .into(iv_lpv);
 
         tv_order_sn.append(info.getOrderInfo().getOrder_sn());
         tv_car_no.append(info.getOrderInfo().getCar_no());
@@ -520,6 +526,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         all_price.append(MathUtil.twoDecimal(goodsPrice + ServerPrice));
+
     }
 
     @Override

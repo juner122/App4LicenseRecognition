@@ -49,12 +49,11 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
     @Override
     public void remakeSave(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
 
-        if (infoEntity.getOrderGoodsList().size() == 0 && infoEntity.getOrderProjectList().size() == 0) {
-            ToastUtils.showToast("未选中任何商品！");
+        if (infoEntity.getOrderGoodsList().size() == 0 && infoEntity.getOrderProjectList().size() == 0 && null == infoEntity.getDescribe() || "".equals(infoEntity.getDescribe())) {
+            ToastUtils.showToast("未作任何修改，不能保存退出！");
             return;
         }
         sendRequest(HttpUtils.getFix().remakeSave(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
-
 
 
     }

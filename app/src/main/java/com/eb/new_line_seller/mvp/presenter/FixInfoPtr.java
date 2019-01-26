@@ -405,6 +405,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
             @Override
             protected void _onError(String message) {
+
+
                 ToastUtils.showToast(message);
             }
         });
