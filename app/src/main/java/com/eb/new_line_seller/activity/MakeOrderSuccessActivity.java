@@ -469,6 +469,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 .apply(skipMemoryCacheOf(true))
                 .into(iv_lpv);
 
+
+        iv_lpv_url = info.getOrderInfo().getDistrict();
+
         tv_order_sn.append(info.getOrderInfo().getOrder_sn());
         tv_car_no.append(info.getOrderInfo().getCar_no());
         tv_make_date.append(info.getOrderInfo().getAdd_time());
