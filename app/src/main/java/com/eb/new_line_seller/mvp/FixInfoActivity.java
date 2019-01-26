@@ -1,9 +1,12 @@
 package com.eb.new_line_seller.mvp;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,7 +51,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
 
     @BindView(R.id.tv_dec)
-    TextView tv_dec;//车况描述
+    EditText tv_dec;//车况描述
 
 
     @BindView(R.id.tv_price1)
@@ -74,7 +77,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -100,6 +103,17 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             case R.id.tv_car_info:
                 //查看车况
                 getPresenter().toCarInfoActivity();
+                break;
+
+            case R.id.tv_fix_dec:
+                //修改备注
+                tv_dec.setFocusableInTouchMode(true);
+                tv_dec.setFocusable(true);
+                tv_dec.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(tv_dec,0);
+
                 break;
         }
     }
@@ -191,6 +205,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     public void showSaveButton() {
         tv_save.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public String getDec() {
+        return tv_dec.getText().toString();
     }
 
 

@@ -23,4 +23,12 @@
         android:layout_gravity="center"
         android:src="@drawable/ic_video_play"
         android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+
+        android:textColor="@android:color/holo_red_light" />
 </FrameLayout>

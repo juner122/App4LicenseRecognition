@@ -171,14 +171,30 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="备注"
-                    android:textColor="#ff111011"
-                    android:textSize="14sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="备注"
+                        android:textColor="#ff111011"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_fix_dec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="修改"
+                        android:textColor="#666"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <EditText
                     android:id="@+id/tv_dec"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -313,10 +329,10 @@
             android:layout_weight="1"
             android:background="@drawable/button_background_e"
             android:gravity="center"
-            android:visibility="gone"
             android:text="保存退出"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_new_order"

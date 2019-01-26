@@ -18,7 +18,18 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     private int nameId;
     private String name;
     private String postscript;
+    private String lastTime;
 
+
+
+
+    public String getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
+    }
 
     public int getId() {
         return id;
@@ -111,6 +122,9 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     }
 
 
+    public CarInfoRequestParameters() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -126,10 +140,8 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         dest.writeInt(this.nameId);
         dest.writeString(this.name);
         dest.writeString(this.postscript);
+        dest.writeString(this.lastTime);
         dest.writeList(this.imagesList);
-    }
-
-    public CarInfoRequestParameters() {
     }
 
     protected CarInfoRequestParameters(Parcel in) {
@@ -141,6 +153,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         this.nameId = in.readInt();
         this.name = in.readString();
         this.postscript = in.readString();
+        this.lastTime = in.readString();
         this.imagesList = new ArrayList<UpDataPicEntity>();
         in.readList(this.imagesList, UpDataPicEntity.class.getClassLoader());
     }

@@ -55,6 +55,8 @@ public class FixInfoContacts {
         void onToCarInfoActivity(int car_id);//到车况信息页面
 
         void showSaveButton();//显示保存退出按钮
+
+        String getDec();//
     }
 
     /**
@@ -75,6 +77,7 @@ public class FixInfoContacts {
 
         void remakeSave();//保存修改
 
+        void changeDec();//修改备注
 
 
     }

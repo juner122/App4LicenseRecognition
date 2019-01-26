@@ -30,9 +30,18 @@ public class LocalMedia implements Parcelable {
     private boolean compressed;
     private int width;
     private int height;
+    private String date;//拍摄日期
 
     public LocalMedia() {
 
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getId() {
@@ -198,6 +207,7 @@ public class LocalMedia implements Parcelable {
         dest.writeByte(this.compressed ? (byte) 1 : (byte) 0);
         dest.writeInt(this.width);
         dest.writeInt(this.height);
+        dest.writeString(this.date);
     }
 
     protected LocalMedia(Parcel in) {
@@ -215,6 +225,7 @@ public class LocalMedia implements Parcelable {
         this.compressed = in.readByte() != 0;
         this.width = in.readInt();
         this.height = in.readInt();
+        this.date = in.readString();
     }
 
     public static final Creator<LocalMedia> CREATOR = new Creator<LocalMedia>() {

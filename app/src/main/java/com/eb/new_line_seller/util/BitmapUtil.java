@@ -2,14 +2,10 @@ package com.eb.new_line_seller.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
+
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-
+import android.graphics.Rect;
 import java.io.ByteArrayOutputStream;
 
 public class BitmapUtil {
@@ -92,36 +88,67 @@ public class BitmapUtil {
 
     }
 
-    // 加水印 也可以加文字
-    public static Bitmap watermarkBitmap(Bitmap src,
-                                         String title) {
-        if (src == null) {
-            return null;
-        }
-        int w = src.getWidth();
-        int h = src.getHeight();
-        //需要处理图片太大造成的内存超过的问题,这里我的图片很小所以不写相应代码了
-        Bitmap newb = Bitmap.createBitmap(w, h, Bitmap.Config.RGB_565);// 创建一个新的和SRC长度宽度一样的位图
-        Canvas cv = new Canvas(newb);
-        cv.drawBitmap(src, 0, 0, null);// 在 0，0坐标开始画入src
-        Paint paint = new Paint();
 
-        //加入文字
-        if (title != null) {
-            String familyName = "宋体";
-            Typeface font = Typeface.create(familyName, Typeface.BOLD);
-            TextPaint textPaint = new TextPaint();
-            textPaint.setColor(Color.RED);
-            textPaint.setTypeface(font);
-            textPaint.setTextSize(22);
-            //这里是自动换行的
-            StaticLayout layout = new StaticLayout(title, textPaint, w, Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-            layout.draw(cv);
-            //文字就加左上角算了
-            //cv.drawText(title,0,40,paint);
-        }
-        cv.save(Canvas.ALL_SAVE_FLAG);// 保存
-        cv.restore();// 存储
-        return newb;
+    /**
+     * 给一张Bitmap添加水印文字。
+     *
+     * @param src      源图片
+     * @param content  水印文本
+     * @param textSize 水印字体大小 ，单位pix。
+     * @param color    水印字体颜色。
+     * @param x        起始坐标x
+     * @param y        起始坐标y
+     * @param recycle  是否回收
+     * @return 已经添加水印后的Bitmap。
+     */
+
+    public static byte[] addTextWatermarkTOByte(Bitmap src, String content, int textSize, int color, float x, float y, boolean recycle) {
+
+        if (isEmptyBitmap(src) || content == null)
+
+            return null;
+
+        Bitmap ret = src.copy(src.getConfig(), true);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        Canvas canvas = new Canvas(ret);
+
+        paint.setColor(color);
+
+        paint.setTextSize(textSize);
+
+        Rect bounds = new Rect();
+
+        paint.getTextBounds(content, 0, content.length(), bounds);
+
+        canvas.drawText(content, x, y, paint);
+
+        if (recycle && !src.isRecycled())
+
+            src.recycle();
+
+
+        return bitmap2Bytes(ret);
+
     }
+
+    public static byte[] bitmap2Bytes(Bitmap bm) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
+
+    /**
+     * Bitmap对象是否为空。
+     */
+
+    public static boolean isEmptyBitmap(Bitmap src) {
+
+        return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+
+    }
+
+
 }

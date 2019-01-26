@@ -17,8 +17,8 @@ android {
         applicationId "com.eb.new_line_seller"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 15
-        versionName "2.3.0"
+        versionCode 16
+        versionName "2.3.1"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -38,7 +38,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                outputFileName = "安安养车" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
+                outputFileName = "哥爱车汽修" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
             }
         }
     }
@@ -109,5 +109,6 @@ dependencies {
 
     //蓝牙打印机
     compile files('libs/gprintersdkv1.jar')
-
+////    // 下载轻量级版本，只支持可见图像水印 (包大小: 28Kb):
+//    implementation 'com.huangyz0918:androidwm-light:0.1.2'
 }

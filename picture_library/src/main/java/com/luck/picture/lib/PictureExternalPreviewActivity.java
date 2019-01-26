@@ -138,6 +138,7 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
             View contentView = inflater.inflate(R.layout.picture_image_preview, container, false);
             // 常规图控件
             final PhotoView imageView = (PhotoView) contentView.findViewById(R.id.preview_image);
+            final TextView tv_data = (TextView) contentView.findViewById(R.id.tv_data);
             // 长图控件
             final SubsamplingScaleImageView longImg = (SubsamplingScaleImageView) contentView.findViewById(R.id.longImg);
 
@@ -163,6 +164,8 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                 final boolean eqLongImg = PictureMimeType.isLongImg(media);
                 imageView.setVisibility(eqLongImg && !isGif ? View.GONE : View.VISIBLE);
                 longImg.setVisibility(eqLongImg && !isGif ? View.VISIBLE : View.GONE);
+
+                tv_data.setText(media.getDate());
                 // 压缩过的gif就不是gif了
                 if (isGif && !media.isCompressed()) {
                     RequestOptions gifOptions = new RequestOptions()

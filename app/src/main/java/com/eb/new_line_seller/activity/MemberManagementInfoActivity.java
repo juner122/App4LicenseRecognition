@@ -64,11 +64,23 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
         tv_title.setText("会员信息");
         adpter1 = new SimpleCarInfoAdpter(cars);
-        rv1.setLayoutManager(new LinearLayoutManager(this));
+        rv1.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv1.setAdapter(adpter1);
 
         adapter2 = new OrderList2Adapter(null);
-        rv2.setLayoutManager(new LinearLayoutManager(this));
+        rv2.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv2.setAdapter(adapter2);
 
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

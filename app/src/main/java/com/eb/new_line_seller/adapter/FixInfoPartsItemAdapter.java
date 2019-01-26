@@ -97,6 +97,10 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
                 }
                 break;
 
+            default:
+                iv.setVisibility(View.INVISIBLE);
+                tv.setVisibility(View.INVISIBLE);
+                break;
         }
 
 

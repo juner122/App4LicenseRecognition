@@ -320,7 +320,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         infoEntity.setMobile(entity.getMobile());
         infoEntity.setOrder_price(Double.parseDouble(entity.getActualPrice()));
         infoEntity.setCar_no(entity.getCarNo());
-        infoEntity.setPostscript(entity.getDescribe());
+        infoEntity.setPostscript(getView().getDec());
         return infoEntity;
 
 
@@ -411,11 +411,24 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     }
 
+    @Override
+    public void changeDec() {
+
+        //弹出键盘
+
+
+
+
+
+
+    }
+
     //创建估价单对象
     private FixInfoEntity createFixInfoEntity() {
 
         entity.setOrderGoodsList(adapter_parts.getData());
         entity.setOrderProjectList(adapter_service.getData());
+        entity.setDescribe(getView().getDec());
         countAllPrice();
 
         return entity;

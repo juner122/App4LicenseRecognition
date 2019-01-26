@@ -54,7 +54,9 @@ import com.yalantis.ucrop.model.CutInfo;
 
 import java.io.File;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -945,6 +947,7 @@ public class PictureSelectorActivity extends PictureBaseActivity implements View
                     // 生成新拍照片或视频对象
                     media = new LocalMedia();
                     media.setPath(cameraPath);
+
 
                     boolean eqVideo = toType.startsWith(PictureConfig.VIDEO);
                     int duration = eqVideo ? PictureMimeType.getLocalVideoDuration(cameraPath) : 0;
