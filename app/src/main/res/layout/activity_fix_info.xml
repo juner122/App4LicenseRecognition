@@ -271,7 +271,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    android:text="更换配件"
+                    android:text="更换材料"
                     android:textColor="#ff000000"
                     android:textSize="14sp" />
 
