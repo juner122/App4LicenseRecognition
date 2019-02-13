@@ -11,6 +11,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.FixInfoPartsItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoServiceItemAdapter;
+import com.eb.new_line_seller.mvp.FixPickPartsActivity;
+import com.eb.new_line_seller.mvp.FixPickServiceActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.model.FixInfoMdl;
 import com.eb.new_line_seller.util.MathUtil;
@@ -393,35 +395,40 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         getView().onToCarInfoActivity(entity.getCarId());
     }
 
-    @Override
-    public void remakeSave() {
 
+    @Override
+    public void remakeSave(final int type) {
         //保存退出
         mdl.remakeSave(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                finish();//返回上个页面
+                switch (type) {
+                    case 0:
+                        finish();
+                        break;
+                    case 1:
+                        getView().getSelfActivity().startActivity(new Intent(context, FixPickServiceActivity.class));
+                        break;
+                    case 2:
+                        getView().getSelfActivity().startActivity(new Intent(context, FixPickPartsActivity.class));
+                        break;
+
+                }
+
             }
 
             @Override
             protected void _onError(String message) {
-
-
                 ToastUtils.showToast(message);
             }
         });
-
     }
+
 
     @Override
     public void changeDec() {
 
         //弹出键盘
-
-
-
-
-
 
     }
 

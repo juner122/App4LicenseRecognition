@@ -95,10 +95,11 @@ public class MemberInfoInputActivity extends BaseActivity {
                 if (editable.length() >= 11) {
 //                    getAddUser();
                 }
-
-
             }
         });
+        et_mobile.setOnFocusChangeListener(mOnFocusChangeListener);
+        name.setOnFocusChangeListener(mOnFocusChangeListener);
+
 
     }
 
@@ -262,4 +263,21 @@ public class MemberInfoInputActivity extends BaseActivity {
         super.onDestroy();
         new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
     }
+
+    private View.OnFocusChangeListener mOnFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            EditText textView = (EditText) v;
+            String hint;
+            if (hasFocus) {
+                hint = textView.getHint().toString();
+                textView.setTag(hint);
+                textView.setHint("");
+            } else {
+                hint = textView.getTag().toString();
+                textView.setHint(hint);
+            }
+        }
+    };
+
 }

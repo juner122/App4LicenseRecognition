@@ -14,6 +14,8 @@ public class Configure {
 
     public static final int limit_page = 20;//分页数量
 
+
+
     //七牛
     public static final String accessKey = "3iizTx8hScpHRaaNDNwDMbLAIr8X6-sKT1SxaLV7";
     public static final String secretKey = "NFD6KB9rTLY4xecjUOELsyQZweK50GyGsVvv1C82";

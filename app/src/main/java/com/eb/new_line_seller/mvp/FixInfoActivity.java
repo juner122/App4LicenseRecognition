@@ -82,14 +82,13 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         switch (v.getId()) {
             case R.id.iv_add1:
                 //添加工时
-                toActivity(FixPickServiceActivity.class);
+                getPresenter().remakeSave(1);
                 break;
 
             case R.id.iv_add2:
                 //添加配件
-                toActivity(FixPickPartsActivity.class);
+                getPresenter().remakeSave(2);
                 break;
-
 
             case R.id.tv_new_order:
                 //生成估价单
@@ -98,7 +97,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
             case R.id.tv_save:
                 //保存退出
-                getPresenter().remakeSave();
+                getPresenter().remakeSave(0);
                 break;
             case R.id.tv_car_info:
                 //查看车况
@@ -112,7 +111,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
                 tv_dec.requestFocus();
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(tv_dec,0);
+                imm.showSoftInput(tv_dec, 0);
 
                 break;
         }

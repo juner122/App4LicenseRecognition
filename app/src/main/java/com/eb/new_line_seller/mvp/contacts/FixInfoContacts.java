@@ -75,7 +75,7 @@ public class FixInfoContacts {
 
         void toCarInfoActivity();//到车况信息页面
 
-        void remakeSave();//保存修改
+        void remakeSave(int type);//保存修改 // type = 0 保存退出 ，1添加维修工时，2更换材料
 
         void changeDec();//修改备注
 

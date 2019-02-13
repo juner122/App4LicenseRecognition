@@ -553,6 +553,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_now_pay:
 
+
+                info.getOrderInfo().setDistrict(iv_lpv_url);//保存签名，防止用户直接支付
+
                 sendOrderInfo(OrderPayActivity.class, info);
                 break;
             case R.id.tv_start_service:

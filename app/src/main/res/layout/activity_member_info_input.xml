@@ -13,6 +13,8 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:background="#fff"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
@@ -49,7 +51,7 @@
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tv_e1"
@@ -101,6 +103,7 @@
                     android:textSize="12sp" />
 
                 <EditText
+
                     android:id="@+id/et_user_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -112,7 +115,7 @@
                     android:paddingTop="15dp"
                     android:paddingBottom="15dp"
                     android:textColor="#ff000000"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/tv_e2"
@@ -193,11 +196,11 @@
 
     <LinearLayout
         android:id="@+id/ll"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_fix"
