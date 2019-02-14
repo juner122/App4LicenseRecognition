@@ -41,7 +41,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String goods_unit;//单位
     String province;//卡号
 
-    String district;//客户签名图片地址 七牛
+    String district = "";//客户签名图片地址 七牛
 
     List<GoodsEntity> goodsList;
     List<Technician> sysUserList;
@@ -73,7 +73,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public String getDistrict() {
-        return district;
+        return null == district ? "" : district;
     }
 
     public void setDistrict(String district) {

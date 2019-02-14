@@ -10,30 +10,35 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/appColor"
+        android:background="@color/fff"
         android:gravity="center"
         android:text="订单管理"
         android:textColor="#000"
         android:textSize="16sp" />
 
     <!--<include layout="@layout/head_date_view" />-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
         android:orientation="horizontal"
-        android:paddingTop="8dp"
         android:paddingLeft="8dp"
+        android:paddingTop="8dp"
         android:paddingRight="8dp"
-        >
+        android:paddingBottom="8dp">
 
         <LinearLayout
             android:id="@+id/ll_day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -65,10 +70,9 @@
 
         <View
             android:layout_width="0.1dp"
-            android:layout_height="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:background="#d9d9d9"
-            android:paddingTop="20dp" />
+            android:background="#d9d9d9" />
 
         <LinearLayout
             android:id="@+id/ll_moon"
@@ -110,9 +114,8 @@
         android:id="@+id/st"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#fff"
         android:layout_marginTop="8dp"
-        tl:tl_textsize="12sp"
+        android:background="#fff"
         tl:tl_divider_color="#1A000000"
         tl:tl_divider_padding="10dp"
         tl:tl_indicator_color="#FFF23325"
@@ -122,6 +125,7 @@
         tl:tl_tab_space_equal="true"
         tl:tl_textSelectColor="#000"
         tl:tl_textUnselectColor="#FF666666"
+        tl:tl_textsize="12sp"
         tl:tl_underline_color="#1A000000"
         tl:tl_underline_height="1dp" />
 

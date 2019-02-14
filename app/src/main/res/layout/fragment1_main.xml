@@ -175,7 +175,7 @@
                     android:drawableLeft="@mipmap/icon_bill"
                     android:drawablePadding="5dp"
                     android:text="收入账单"
-                    android:textColor="#ff666666"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
                 <TextView
@@ -307,7 +307,7 @@
                     android:drawableLeft="@mipmap/icon_count"
                     android:drawablePadding="5dp"
                     android:text="接单统计"
-                    android:textColor="#ff666666"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
                 <TextView
@@ -441,7 +441,7 @@
                     android:drawableLeft="@mipmap/icon_new_members"
                     android:drawablePadding="5dp"
                     android:text="新增会员"
-                    android:textColor="#ff666666"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
 
                 <TextView

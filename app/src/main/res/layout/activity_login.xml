@@ -82,7 +82,7 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:text="获取验证码"
-                    android:textColor="#ff000000"
+                    android:textColor="#fff"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -101,15 +101,11 @@
             android:background="@drawable/button_background_b"
             android:gravity="center"
             android:text="验证并登录"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
     </LinearLayout>
 
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:src="@mipmap/icon_login_but" />
+
 </LinearLayout>

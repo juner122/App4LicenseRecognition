@@ -9,6 +9,7 @@
         <item name="pwkInputStyle">@style/PWKInputViewStyle</item>
     </style>
 
+    <style name="AppTheme.Main" parent="AppTheme" />
 
     <style name="my_dialog" parent="@android:style/Theme.Dialog">
         <!-- 有无边框 -->

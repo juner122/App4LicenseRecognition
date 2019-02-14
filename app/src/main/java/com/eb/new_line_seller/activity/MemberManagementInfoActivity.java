@@ -2,6 +2,8 @@ package com.eb.new_line_seller.activity;
 
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,9 +11,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.new_line_seller.activity.fragment.FixInfoListFragment;
+import com.eb.new_line_seller.activity.fragment.OrderListFragment;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ConfirmDialogReMakeName;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.OrderList2Adapter;
@@ -43,6 +48,12 @@ public class MemberManagementInfoActivity extends BaseActivity {
     @BindView(R.id.rv2)
     RecyclerView rv2;
 
+
+    @BindView(R.id.st)
+    SlidingTabLayout st;
+    @BindView(R.id.vp)
+    ViewPager vp;
+
     SimpleCarInfoAdpter adpter1;
     OrderList2Adapter adapter2;
 
@@ -53,6 +64,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     List<CarInfoRequestParameters> cars = new ArrayList<>();
 
+
+    private String[] title = {"消费订单", "维修估价单"};
+    ArrayList<Fragment> fragments = new ArrayList<>();
     @Override
     protected void init() {
 
@@ -64,7 +78,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
         tv_title.setText("会员信息");
         adpter1 = new SimpleCarInfoAdpter(cars);
-        rv1.setLayoutManager(new LinearLayoutManager(this){
+        rv1.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -74,7 +88,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
         rv1.setAdapter(adpter1);
 
         adapter2 = new OrderList2Adapter(null);
-        rv2.setLayoutManager(new LinearLayoutManager(this){
+        rv2.setLayoutManager(new LinearLayoutManager(this) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -124,6 +138,11 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
             }
         });
+
+        fragments.add(OrderListFragment.newInstance(0));
+        fragments.add(FixInfoListFragment.newInstance(-1));
+        st.setViewPager(vp, title,this, fragments);
+
 
 
     }

@@ -48,7 +48,7 @@
             android:paddingRight="18dp"
             android:paddingBottom="8dp"
             android:text="提交反馈"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="12sp" />
     </LinearLayout>
 

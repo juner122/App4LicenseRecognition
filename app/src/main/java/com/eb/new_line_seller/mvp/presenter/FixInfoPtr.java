@@ -163,8 +163,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         switch (status) {
             case 0:
             case 1:
-
-
                 getView().showAddButton();
                 getView().setButtonText("生成检修工单");
                 adapter_service.setOnItemChildClickListener(infoItemAdapter);
@@ -254,6 +252,11 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void onInform() {
+        if (adapter_service.getData().size() == 0 && adapter_parts.getData().size() == 0) {
+            ToastUtils.showToast("未选择任何项目，无法生成检修单");
+            return;
+        }
+
 
         final RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
             @Override

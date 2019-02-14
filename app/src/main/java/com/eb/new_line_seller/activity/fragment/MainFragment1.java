@@ -66,7 +66,7 @@ public class MainFragment1 extends BaseFragment {
     @Override
     protected void setUpView() {
         Glide.with(this)
-                .load(getResources().getDrawable(R.mipmap.banner1))
+                .load(getResources().getDrawable(R.mipmap.banner2))
                 .into(iv);
 
     }
