@@ -46,6 +46,7 @@ import com.eb.new_line_seller.util.ToastUtils;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -420,6 +421,11 @@ public class ApiLoader {
         if (type == 0) {
             map.put("dateStart", System.currentTimeMillis() / 1000 * 1000);//当前
             map.put("dateEnd", System.currentTimeMillis() / 1000 * 1000 + 60 * 60 * 24 * 1000);
+        } else {
+            Calendar startDate = Calendar.getInstance();
+            startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), 1, 0, 0, 0);
+            map.put("dateStart", startDate.getTime().getTime() / 1000 * 1000);//当前
+//            map.put("dateEnd", System.currentTimeMillis() / 1000 * 1000 + 60 * 60 * 24 * 1000);
         }
 
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
