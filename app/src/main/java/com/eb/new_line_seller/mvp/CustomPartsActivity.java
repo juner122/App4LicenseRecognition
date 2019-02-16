@@ -138,6 +138,7 @@ public class CustomPartsActivity extends BaseActivity<CustomContacts.CustomPtr> 
             bundle.putParcelableArrayList(TYPE_Parts, (ArrayList) list);
             bundle.putString(TYPE, TYPE_Parts);
         }
+        bundle.putInt("from", 1);
         intent.putExtras(bundle);
         startActivity(intent);
 

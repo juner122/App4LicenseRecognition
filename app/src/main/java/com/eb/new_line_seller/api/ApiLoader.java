@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.eb.new_line_seller.bean.Meal2;
+import com.eb.new_line_seller.bean.RecordMeal;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.MyApplication;
 import com.juner.mvp.api.http.RxHelper;
@@ -381,7 +383,6 @@ public class ApiLoader {
         map.put("limit", Configure.limit_page);
         switch (position) {
             case 0:
-
                 break;
             case 1:
                 map.put("order_status", "0");
@@ -403,6 +404,19 @@ public class ApiLoader {
 
         }
 
+        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+    }
+
+    /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderList(String name) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+        map.put("limit", Configure.limit_page);
+        map.put("name", name);
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
@@ -792,6 +806,13 @@ public class ApiLoader {
 
 
         return apiService.quotationCancle(token, id).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+     */
+    public Observable<RecordMeal> queryConnectAct(String name) {
+        return apiService.queryConnectAct(token, name).compose(RxHelper.<RecordMeal>observe());
     }
 
 

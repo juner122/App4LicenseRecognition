@@ -21,7 +21,7 @@ public class SimpleGoodInfo2Adpter extends BaseQuickAdapter<GoodsEntity, BaseVie
 
         helper.setText(R.id.name, item.getName());
 
-        helper.setText(R.id.price, "￥" + item.getRetail_price()).setText(R.id.tv_number, "x"+String.valueOf(item.getNumber())  );
+        helper.setText(R.id.price, "￥" + item.getRetail_price()).setText(R.id.tv_number, "x" + String.valueOf(item.getNumber()));
 
     }
 }

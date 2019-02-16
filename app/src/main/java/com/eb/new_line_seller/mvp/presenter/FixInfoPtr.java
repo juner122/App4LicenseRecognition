@@ -42,6 +42,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
 
     FixInfoEntity entity;//估价单对象
+    String iv_lpv_url = "";//签名图片 七牛云url
+
 
     public FixInfoPtr(@NonNull FixInfoContacts.FixInfoUI view) {
         super(view);
@@ -172,8 +174,14 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 break;
             case 2:
 
+                adapter_service.setOnItemChildClickListener(infoItemAdapter);
+                adapter_parts.setOnItemChildClickListener(infoItemAdapter);
+
                 getView().hideAddButton();
-                getView().setButtonText("等待客户确认");
+                getView().setButtonText("确认报价");
+                getView().showPostFixButton();
+                getView().setRTitle();
+
                 break;
             case 3:
                 getView().hideAddButton();
@@ -289,7 +297,30 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             });
 
         } else if (entity.getStatus() == 2) {
-            ToastUtils.showToast("等待客户确认");
+//            ToastUtils.showToast("确认报价");
+
+            //默认将选择的项目变成已确认
+            for (FixServie fixServie : entity.getOrderProjectList()) {
+                if (fixServie.getSelected() == 1)
+                    fixServie.setSelected(2);
+            }
+            for (FixParts fixParts : entity.getOrderGoodsList()) {
+                if (fixParts.getSelected() == 1)
+                    fixParts.setSelected(2);
+            }
+
+            mdl.replaceConfirm(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+                @Override
+                protected void _onNext(NullDataEntity nullDataEntity) {
+                    finish();
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast(message);
+                }
+            });//确认报价
+
         } else if (entity.getStatus() == 3) {
             mdl.submit(createOrderObj(entity), new RxSubscribe<NullDataEntity>(context, true) {
                 @Override
@@ -427,6 +458,25 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         });
     }
 
+    @Override
+    public void remakeSelected() {
+
+        //店长跨客户回撤
+        mdl.replaceReback(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                finish();
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+    }
+
 
     @Override
     public void changeDec() {
@@ -435,12 +485,19 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     }
 
+    @Override
+    public void setlpvUrl(String url) {
+        iv_lpv_url = url;
+    }
+
     //创建估价单对象
     private FixInfoEntity createFixInfoEntity() {
 
         entity.setOrderGoodsList(adapter_parts.getData());
         entity.setOrderProjectList(adapter_service.getData());
         entity.setDescribe(getView().getDec());
+        entity.setReplaceSignPic(iv_lpv_url); //客户签名
+        entity.setReplaceOterPic("");
         countAllPrice();
 
         return entity;

@@ -56,6 +56,26 @@ public class FixInfoEntity {
     List<FixServie> orderProjectList;//工时
     List<FixParts> orderGoodsList;//配件
 
+    //客户签名
+    private String replaceSignPic;
+    //其他凭证图片
+    private String replaceOterPic;
+
+    public String getReplaceSignPic() {
+        return replaceSignPic;
+    }
+
+    public void setReplaceSignPic(String replaceSignPic) {
+        this.replaceSignPic = replaceSignPic;
+    }
+
+    public String getReplaceOterPic() {
+        return replaceOterPic;
+    }
+
+    public void setReplaceOterPic(String replaceOterPic) {
+        this.replaceOterPic = replaceOterPic;
+    }
 
     public int getId() {
         return id;

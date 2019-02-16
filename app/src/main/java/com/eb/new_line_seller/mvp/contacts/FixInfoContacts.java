@@ -56,6 +56,11 @@ public class FixInfoContacts {
 
         void showSaveButton();//显示保存退出按钮
 
+        void showPostFixButton();//显示提交修改按钮
+
+
+        void setRTitle();
+
         String getDec();//
     }
 
@@ -77,7 +82,11 @@ public class FixInfoContacts {
 
         void remakeSave(int type);//保存修改 // type = 0 保存退出 ，1添加维修工时，2更换材料
 
+        void remakeSelected();//提交修改
+
         void changeDec();//修改备注
+
+        void setlpvUrl(String url);//设置签名图片 七牛云url
 
 
     }
@@ -99,7 +108,15 @@ public class FixInfoContacts {
 
         void remakeSave(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//保存修改
 
+        void replaceReback(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//店长跨客户回撤 （不需要凭证图片，报价单status=3状态下才可调用，将由status3->2）
+
+        void replaceConfirm(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//店长跨客户确认（需要凭证图片才能提。报价单status=2状态下才可调用，将由status2->3）
+
+
+
+
         void submit(OrderInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//报价单去生成订单
+
 
     }
 

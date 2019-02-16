@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.activity.OrderList4DayActivity;
+import com.eb.new_line_seller.activity.OrderSearch;
 import com.eb.new_line_seller.util.SystemUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.eb.new_line_seller.R;
@@ -44,7 +45,7 @@ public class MainFragment2 extends BaseFragment {
     private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
 
 
-    @OnClick({R.id.ll_day, R.id.ll_moon})
+    @OnClick({R.id.ll_day, R.id.ll_moon,R.id.iv_search})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_day:
@@ -54,6 +55,10 @@ public class MainFragment2 extends BaseFragment {
 
             case R.id.ll_moon:
                 toActivity(OrderList4DayActivity.class, "type", 1);
+                break;
+
+            case R.id.iv_search://搜索
+                toActivity(OrderSearch.class);
                 break;
         }
     }

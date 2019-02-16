@@ -18,6 +18,9 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
     String activityName;
     String goodsName;
 
+    long endTime;//有效时间
+    String carNo;
+    String mobile;
 
     //门店可用套卡字段
     int number;
@@ -108,6 +111,30 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.activityName = activityName;
     }
 
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getCarNo() {
+        return carNo;
+    }
+
+    public void setCarNo(String carNo) {
+        this.carNo = carNo;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     @Override
     public int getItemType() {
         return 1;
@@ -130,6 +157,9 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         dest.writeInt(this.activityId);
         dest.writeString(this.activityName);
         dest.writeString(this.goodsName);
+        dest.writeLong(this.endTime);
+        dest.writeString(this.carNo);
+        dest.writeString(this.mobile);
         dest.writeInt(this.number);
         dest.writeString(this.name);
         dest.writeInt(this.maxNum);
@@ -143,6 +173,9 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.activityId = in.readInt();
         this.activityName = in.readString();
         this.goodsName = in.readString();
+        this.endTime = in.readLong();
+        this.carNo = in.readString();
+        this.mobile = in.readString();
         this.number = in.readInt();
         this.name = in.readString();
         this.maxNum = in.readInt();

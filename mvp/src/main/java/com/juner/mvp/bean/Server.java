@@ -13,6 +13,15 @@ public class Server extends SelectedBean implements Parcelable {
     double price;
     String marketPrice;//市场价 显示用
     int serviceId;
+    int number;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
     public int getId() {
         return id;
@@ -92,6 +101,9 @@ public class Server extends SelectedBean implements Parcelable {
                 '}';
     }
 
+    public Server() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -107,9 +119,7 @@ public class Server extends SelectedBean implements Parcelable {
         dest.writeDouble(this.price);
         dest.writeString(this.marketPrice);
         dest.writeInt(this.serviceId);
-    }
-
-    public Server() {
+        dest.writeInt(this.number);
     }
 
     protected Server(Parcel in) {
@@ -121,9 +131,10 @@ public class Server extends SelectedBean implements Parcelable {
         this.price = in.readDouble();
         this.marketPrice = in.readString();
         this.serviceId = in.readInt();
+        this.number = in.readInt();
     }
 
-    public static final Parcelable.Creator<Server> CREATOR = new Parcelable.Creator<Server>() {
+    public static final Creator<Server> CREATOR = new Creator<Server>() {
         @Override
         public Server createFromParcel(Parcel source) {
             return new Server(source);

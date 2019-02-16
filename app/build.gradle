@@ -112,7 +112,6 @@ dependencies {
 ////    // 下载轻量级版本，只支持可见图像水印 (包大小: 28Kb):
 //    implementation 'com.huangyz0918:androidwm-light:0.1.2'
 
-
     //阿里播放器
     compile(name: 'AlivcReporter-1.2', ext: 'aar')
     compile(name: 'AlivcPlayer-3.4.9', ext: 'aar')

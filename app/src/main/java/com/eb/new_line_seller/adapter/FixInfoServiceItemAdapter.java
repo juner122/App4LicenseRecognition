@@ -50,7 +50,7 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
         switch (status) {
             case 0:
             case 1:
-
+            case 2:
                 switch (item.getSelected()) {
                     case 0:
                         iv.setVisibility(View.VISIBLE);
@@ -75,7 +75,7 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
                 }
 
                 break;
-            case 2:
+
             case 3:
             case 4:
                 switch (item.getSelected()) {

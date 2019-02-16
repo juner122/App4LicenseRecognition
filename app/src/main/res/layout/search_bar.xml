@@ -3,15 +3,15 @@
     android:id="@+id/ll_search"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:layout_marginLeft="40dp"
     android:layout_marginTop="10dp"
     android:layout_marginRight="40dp"
     android:layout_marginBottom="10dp"
     android:background="@mipmap/icon_search_bar"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:orientation="horizontal"
     android:focusable="true"
+    android:gravity="center"
+    android:orientation="horizontal"
     android:visibility="visible">
 
     <ImageView
@@ -27,17 +27,17 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:background="@mipmap/icon_search_bar"
+        android:background="@null"
         android:ellipsize="end"
         android:gravity="center"
         android:hint="请输入你要查询的商品"
-        android:maxLength="10"
+        android:maxLength="11"
         android:maxLines="1"
         android:paddingTop="7dp"
-        android:textColor="#fff"
-        android:textColorHint="#fff"
         android:paddingBottom="7dp"
         android:singleLine="true"
+        android:textColor="#333"
+        android:textColorHint="#333"
         android:textSize="12sp" />
 
 

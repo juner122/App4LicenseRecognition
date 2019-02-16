@@ -117,7 +117,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @Override
     protected void init() {
-        tv_title.setText("故障描述");
+        tv_title.setText("检修接单");
         setRTitle("凭证打印");
         getPresenter().getInfo();
         getPresenter().setTipClickListener(textViews);

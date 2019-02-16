@@ -1,6 +1,7 @@
 package com.eb.new_line_seller.api;
 
 import com.eb.new_line_seller.bean.Meal2;
+import com.eb.new_line_seller.bean.RecordMeal;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.new_line_seller.bean.AutoBrand;
@@ -368,6 +369,11 @@ public interface ApiService {
     @POST("quotation/cancle")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> quotationCancle(@Header("X-Nideshop-Token") String token, @Field("id") int id);
+
+    //纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+    @POST("activity/queryConnectAct")
+    @FormUrlEncoded
+    Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name);
 
 
 }

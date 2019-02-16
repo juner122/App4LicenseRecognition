@@ -61,9 +61,6 @@ public class MainFragment5 extends BaseFragment {
         updata.append(SystemUtil.packaGetName());
 
 
-
-
-
     }
 
     @Override
@@ -72,7 +69,7 @@ public class MainFragment5 extends BaseFragment {
         phone = new AppPreferences(getContext()).getString(Configure.moblie, "");
         tv_phone_number.setText("手机号码：" + phone);
         //超级管理员权限
-        if (phone.contains("123456789") || phone.equals("13412513007") || phone.equals("13602830779")||phone.equals("13826241081")) {//老板:13602830779
+        if (phone.contains("123456789") || phone.equals("13412513007") || phone.equals("13602830779") || phone.equals("13826241081")) {//老板:13602830779
             tv_change_store.setVisibility(View.VISIBLE);
         } else {
             tv_change_store.setVisibility(View.GONE);

@@ -335,6 +335,18 @@
             android:visibility="gone" />
 
         <TextView
+            android:id="@+id/tv_post_fix"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_e"
+            android:gravity="center"
+            android:text="撤回"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/tv_new_order"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -344,5 +356,6 @@
             android:text=""
             android:textColor="#ff000000"
             android:textSize="14sp" />
+
     </LinearLayout>
 </LinearLayout>

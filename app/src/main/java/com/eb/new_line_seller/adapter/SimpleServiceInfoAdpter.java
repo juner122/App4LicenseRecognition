@@ -26,7 +26,7 @@ public class SimpleServiceInfoAdpter extends BaseItemDraggableAdapter<Server, Ba
 
         helper.setText(R.id.name, item.getName())
                 .setText(R.id.price, "￥" + item.getPrice())
-                .setText(R.id.tv_number, "x1");
+                .setText(R.id.tv_number, "x"+item.getNumber());
 
 
         if (!isShowPlusAndReduce) {

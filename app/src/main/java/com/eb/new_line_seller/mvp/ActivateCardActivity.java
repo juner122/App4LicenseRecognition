@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CarInfoInputActivity;
 
+import com.eb.new_line_seller.activity.CustomRecordsActivity;
 import com.eb.new_line_seller.adapter.CarListAdapter;
 import com.eb.new_line_seller.adapter.MealInfoListAdapter;
 import com.eb.new_line_seller.bean.Meal2;
@@ -72,6 +73,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     protected void init() {
         tv_title.setText("纸卡录入");
+        setRTitle("录卡记录");
 
 
         carListAdapter = new CarListAdapter(null);
@@ -128,7 +130,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     }
 
 
-    @OnClick({R.id.tv_check, R.id.tv_enter_order, R.id.v_date1, R.id.v_date2, R.id.tv_add_car, R.id.tv_pick_meal})
+    @OnClick({R.id.tv_check, R.id.tv_enter_order, R.id.v_date1, R.id.v_date2, R.id.tv_add_car, R.id.tv_pick_meal,R.id.tv_title_r})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -153,6 +155,10 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
             case R.id.tv_pick_meal://选择套卡
 
                 toActivity(PickMealCardActivity.class);
+                break;
+            case R.id.tv_title_r://录卡记录
+
+                toActivity(CustomRecordsActivity.class);
                 break;
 
         }

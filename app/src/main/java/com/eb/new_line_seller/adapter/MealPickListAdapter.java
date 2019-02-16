@@ -49,44 +49,44 @@ public class MealPickListAdapter extends BaseMultiItemQuickAdapter<MultiItemEnti
                 helper.addOnClickListener(R.id.ib_reduce);
                 helper.addOnClickListener(R.id.ib_plus);
 
-                final EditText et = helper.getView(R.id.tv_number);
-
-                et.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable editable) {
-                        if (editable.toString().equals("")) return;
-
-
-                        int now = Integer.parseInt(editable.toString());
-                        int max = me.getMaxNum();
-
-
-                        if (max < now) {
-                            ToastUtils.showToast("不能超过最大数量！");
-                            now = max;
-                            et.setText("" + now);
-                        } else if (now < 0) {
-                            ToastUtils.showToast("不能少于0！");
-                            now = 0;
-                            et.setText("" + now);
-                        }
-                        ((MealEntity) getData().get(helper.getAdapterPosition())).setNumber(now);
-
-
-                    }
-                });
+//                final EditText et = helper.getView(R.id.tv_number);
+//
+//                et.addTextChangedListener(new TextWatcher() {
+//                    @Override
+//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void afterTextChanged(Editable editable) {
+//                        if (editable.toString().equals("")) return;
+//
+//
+//                        int now = Integer.parseInt(editable.toString());
+//                        int max = me.getMaxNum();
+//
+//
+//                        if (max < now) {
+//                            ToastUtils.showToast("不能超过最大数量！");
+//                            now = max;
+//                            et.setText("" + now);
+//                        } else if (now < 0) {
+//                            ToastUtils.showToast("不能少于0！");
+//                            now = 0;
+//                            et.setText("" + now);
+//                        }
+//                        ((MealEntity) getData().get(helper.getAdapterPosition())).setNumber(now);
+//
+//
+//                    }
+//                });
 
                 break;
 

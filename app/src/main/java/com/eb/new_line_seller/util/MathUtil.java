@@ -44,6 +44,18 @@ public class MathUtil {
         Date date = new Date();
         date.setTime(l);
         return simpleDateFormat.format(date);
+
+    }
+    public static String toDate4Day(Long l) {
+
+        /**
+         * 直接用SimpleDateFormat格式化 Date对象，即可得到相应格式的日期 字符串。
+         */
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//24小时制
+
+        Date date = new Date();
+        date.setTime(l);
+        return simpleDateFormat.format(date);
     }
 
     public static String toNowDate() {

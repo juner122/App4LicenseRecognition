@@ -58,6 +58,20 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
 
     }
 
+    //店长跨客户回撤 （不需要凭证图片，报价单status=3状态下才可调用，将由status3->2）
+    @Override
+    public void replaceReback(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
+
+        sendRequest(HttpUtils.getFix().replaceReback(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+    }
+    //店长跨客户确认（需要凭证图片才能提。报价单status=2状态下才可调用，将由status2->3）
+    @Override
+    public void replaceConfirm(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
+
+        sendRequest(HttpUtils.getFix().replaceConfirm(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+
+    }
+
 
     //报价单去生成订单
     @Override

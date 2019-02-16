@@ -105,6 +105,19 @@ public interface FixService {
     @POST("quotation/remakeSave")
     Observable<BaseBean<NullDataEntity>> remakeSave(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
 
+
+
+    //店长跨客户回撤 （不需要凭证图片，报价单status=3状态下才可调用，将由status3->2）
+    @POST("quotation/replaceReback")
+    Observable<BaseBean<NullDataEntity>> replaceReback(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
+
+
+    //店长跨客户确认（需要凭证图片才能提。报价单status=2状态下才可调用，将由status2->3）
+    @POST("quotation/replaceConfirm")
+    Observable<BaseBean<NullDataEntity>> replaceConfirm(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
+
+
+
     //报价单去生成订单
     @POST("quotation/submit")
     Observable<BaseBean<NullDataEntity>> submit(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity infoEntity);

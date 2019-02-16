@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CarInfoInputActivity;
+import com.eb.new_line_seller.activity.UserAuthorizeActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
 import com.eb.new_line_seller.util.MathUtil;
@@ -44,8 +45,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
 
     @BindView(R.id.tv_save)
-    TextView tv_save;
+    TextView tv_save;//保存退出
 
+
+    @BindView(R.id.tv_post_fix)
+    TextView tv_post_fix;//提交修改
     @BindView(R.id.tv_text)
     TextView tv_text;//总价
 
@@ -77,7 +81,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -99,9 +103,18 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
                 //保存退出
                 getPresenter().remakeSave(0);
                 break;
+            case R.id.tv_post_fix:
+                //提交修改
+                getPresenter().remakeSelected();
+                break;
             case R.id.tv_car_info:
                 //查看车况
                 getPresenter().toCarInfoActivity();
+                break;
+
+            case R.id.tv_title_r:
+                //授权凭证
+                toActivity(UserAuthorizeActivity.class);
                 break;
 
             case R.id.tv_fix_dec:
@@ -126,6 +139,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     protected void init() {
         tv_title.setText("汽车检修单");
+
         getPresenter().initRecyclerView(rv, rv2);
         getPresenter().getInfo();
     }
@@ -207,6 +221,17 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     }
 
     @Override
+    public void showPostFixButton() {
+        tv_post_fix.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setRTitle() {
+        setRTitle("授权凭证");
+    }
+
+
+    @Override
     public String getDec() {
         return tv_dec.getText().toString();
     }
@@ -215,6 +240,12 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        getPresenter().handleCallback(intent);
+
+        int from = intent.getIntExtra("from", -1);
+        if (from == 1)//从添加工时，配件页面返回
+            getPresenter().handleCallback(intent);
+        if (from == 101)//从授权凭证页面返回
+            getPresenter().setlpvUrl(intent.getStringExtra("lpv_url"));
+
     }
 }

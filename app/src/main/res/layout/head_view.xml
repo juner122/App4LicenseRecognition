@@ -72,4 +72,11 @@
             android:layout_height="match_parent"/>
     </LinearLayout>
 
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
 </RelativeLayout>
