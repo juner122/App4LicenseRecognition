@@ -41,6 +41,8 @@ public class ActivityCardContacts {
 
         void setUserName(String userName);//设置录卡人
 
+        void setCarName(String userName);//设置车主姓名
+
     }
 
     /**

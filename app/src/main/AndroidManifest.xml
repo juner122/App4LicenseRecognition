@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-feature
         android:name="android.hardware.usb.host"
         android:required="true" />
@@ -191,6 +192,7 @@
         <activity
             android:name=".mvp.FixInfoDescribeActivity"
             android:launchMode="singleTask" />
+
         <activity android:name=".mvp.FixInfoListActivity" />
         <activity android:name=".mvp.FixInfoPartsAndServerActivity" />
         <activity

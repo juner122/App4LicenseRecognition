@@ -49,30 +49,22 @@ public class MealPickListAdapter extends BaseMultiItemQuickAdapter<MultiItemEnti
                 helper.addOnClickListener(R.id.ib_reduce);
                 helper.addOnClickListener(R.id.ib_plus);
 
-//                final EditText et = helper.getView(R.id.tv_number);
-//
-//                et.addTextChangedListener(new TextWatcher() {
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable editable) {
-//                        if (editable.toString().equals("")) return;
-//
-//
-//                        int now = Integer.parseInt(editable.toString());
+                final EditText et = helper.getView(R.id.tv_number);
+
+                et.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        if (editable.toString().equals("")) return;
+                        int now = Integer.parseInt(editable.toString());
 //                        int max = me.getMaxNum();
-//
-//
 //                        if (max < now) {
 //                            ToastUtils.showToast("不能超过最大数量！");
 //                            now = max;
@@ -82,11 +74,11 @@ public class MealPickListAdapter extends BaseMultiItemQuickAdapter<MultiItemEnti
 //                            now = 0;
 //                            et.setText("" + now);
 //                        }
-//                        ((MealEntity) getData().get(helper.getAdapterPosition())).setNumber(now);
-//
-//
-//                    }
-//                });
+                        ((MealEntity) getData().get(helper.getAdapterPosition())).setNumber(now);
+
+
+                    }
+                });
 
                 break;
 

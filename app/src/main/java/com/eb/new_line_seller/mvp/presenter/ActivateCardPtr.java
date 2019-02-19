@@ -67,10 +67,10 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             getView().showToast("手机号码不能为空");
             return;
         }
-        if (name.equals("")) {
-            getView().showToast("车主姓名不能为空");
-            return;
-        }
+//        if (name.equals("")) {
+//            getView().showToast("车主姓名不能为空");
+//            return;
+//        }
 
 
         mdl.checkMember(phone, name, new RxSubscribe<SaveUserAndCarEntity>(context, true) {
@@ -79,9 +79,9 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
                 user_id = entity.getUser_id();
                 new AppPreferences(context).put(Configure.user_id, user_id);//保存检测到的用户id
 
-
                 getView().setCarList(entity.getCarList());//车辆列表
                 getView().showView();
+                getView().setCarName(entity.getUser_name());
             }
 
             @Override

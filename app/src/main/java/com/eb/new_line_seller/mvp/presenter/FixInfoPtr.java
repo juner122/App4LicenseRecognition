@@ -2,6 +2,7 @@ package com.eb.new_line_seller.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +10,10 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.UserAuthorizeActivity;
 import com.eb.new_line_seller.adapter.FixInfoPartsItemAdapter;
 import com.eb.new_line_seller.adapter.FixInfoServiceItemAdapter;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.FixPickPartsActivity;
 import com.eb.new_line_seller.mvp.FixPickServiceActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
@@ -19,6 +22,7 @@ import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ConfirmDialog4;
 import com.eb.new_line_seller.view.ConfirmDialogCanlce;
+import com.eb.new_line_seller.view.NoticeDialog;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixInfo;
@@ -186,10 +190,13 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             case 3:
                 getView().hideAddButton();
                 getView().setButtonText("确认生成订单");
+                getView().setRTitle();
                 break;
             case 4:
                 getView().hideAddButton();
                 getView().setButtonText("已出单");
+                getView().setRTitle();
+
                 break;
 
             case -1:
@@ -299,28 +306,40 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         } else if (entity.getStatus() == 2) {
 //            ToastUtils.showToast("确认报价");
 
-            //默认将选择的项目变成已确认
-            for (FixServie fixServie : entity.getOrderProjectList()) {
-                if (fixServie.getSelected() == 1)
-                    fixServie.setSelected(2);
-            }
-            for (FixParts fixParts : entity.getOrderGoodsList()) {
-                if (fixParts.getSelected() == 1)
-                    fixParts.setSelected(2);
-            }
-
-            mdl.replaceConfirm(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+            //弹出对话框
+            confirmDialog = new ConfirmDialogCanlce(getView().getSelfActivity(), "确认后将不可再修改，请确认该操作已经获得客户授权，是否继续?");
+            confirmDialog.show();
+            confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
                 @Override
-                protected void _onNext(NullDataEntity nullDataEntity) {
-                    finish();
+                public void doConfirm() {
+                    confirmDialog.dismiss();
+                    //默认将选择的项目变成已确认
+                    for (FixServie fixServie : entity.getOrderProjectList()) {
+                        if (fixServie.getSelected() == 1)
+                            fixServie.setSelected(2);
+                    }
+                    for (FixParts fixParts : entity.getOrderGoodsList()) {
+                        if (fixParts.getSelected() == 1)
+                            fixParts.setSelected(2);
+                    }
+                    mdl.replaceConfirm(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+                        @Override
+                        protected void _onNext(NullDataEntity nullDataEntity) {
+                            finish();
+                        }
+
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtils.showToast(message);
+                        }
+                    });//确认报价
                 }
 
                 @Override
-                protected void _onError(String message) {
-                    ToastUtils.showToast(message);
+                public void doCancel() {
+                    confirmDialog.dismiss();
                 }
-            });//确认报价
-
+            });
         } else if (entity.getStatus() == 3) {
             mdl.submit(createOrderObj(entity), new RxSubscribe<NullDataEntity>(context, true) {
                 @Override
@@ -460,20 +479,35 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void remakeSelected() {
-
-        //店长跨客户回撤
-        mdl.replaceReback(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+        //弹出对话框
+        confirmDialog = new ConfirmDialogCanlce(getView().getSelfActivity(), "请确认该操作已经获得客户授权，是否确认当前操作?");
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
             @Override
-            protected void _onNext(NullDataEntity nullDataEntity) {
-                finish();
+            public void doConfirm() {
 
+                confirmDialog.dismiss();
+                //店长跨客户回撤
+                mdl.replaceReback(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+                    @Override
+                    protected void _onNext(NullDataEntity nullDataEntity) {
+                        finish();
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast(message);
+                    }
+                });
             }
 
             @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
+            public void doCancel() {
+                confirmDialog.dismiss();
             }
         });
+
 
     }
 
@@ -490,6 +524,52 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         iv_lpv_url = url;
     }
 
+
+    /**
+     * 判断是否是查看凭证，根据检修单状态
+     */
+    @Override
+    public void toAuthorizeActivity() {
+
+        Intent intent = new Intent(getView().getSelfActivity(), UserAuthorizeActivity.class);
+        Bundle bundle = new Bundle();
+        switch (entity.getStatus()) {
+            case 2://待确认
+
+                bundle.putInt("type", 0);
+                break;
+            case 3://已确认
+            case 4://已出单
+                if (null == entity.getReplaceSignPic() || "".equals(entity.getReplaceSignPic())) {
+                    ToastUtils.showToast("该检修单由客户小程序确认，暂无凭证");
+                    return;
+                }
+                bundle.putInt("type", 1);
+                bundle.putString("lpv_url", entity.getReplaceSignPic());
+                break;
+        }
+        intent.putExtras(bundle);
+        getView().getSelfActivity().startActivity(intent);
+
+
+    }
+
+    @Override
+    public void notice() {
+
+        final NoticeDialog nd = new NoticeDialog(getView().getSelfActivity(), entity.getMobile());
+        nd.show();
+        nd.setClicklistener(new NoticeDialog.ClickListenerInterface() {
+            @Override
+            public void doCancel() {
+                // TODO Auto-generated method stub
+                nd.dismiss();
+            }
+        });
+
+
+    }
+
     //创建估价单对象
     private FixInfoEntity createFixInfoEntity() {
 
@@ -504,7 +584,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     }
 
     //追加项目
-    private FixInfoEntity addFixInfoEntity(List<FixServie> fixServies, List<FixParts> fixParts) {
+    private FixInfoEntity addFixInfoEntity
+    (List<FixServie> fixServies, List<FixParts> fixParts) {
 
 
         entity.setOrderGoodsList(fixParts);

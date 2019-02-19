@@ -88,6 +88,9 @@ public class FixInfoContacts {
 
         void setlpvUrl(String url);//设置签名图片 七牛云url
 
+        void toAuthorizeActivity();
+
+        void notice();//通知客户
 
     }
 

@@ -58,7 +58,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     RecyclerView recyclerView;
     CarListAdapter carListAdapter = new CarListAdapter(null);
 
-    static String car_number, mobile, user_name;
+    static String car_number, mobile;
     List<CarInfoRequestParameters> cars = new ArrayList<>();
 
     String new_car_number;
@@ -72,7 +72,7 @@ public class MemberInfoInputActivity extends BaseActivity {
         new_car_number = new AppPreferences(this).getString(Configure.car_no, "");
 
 
-        tv_check.setVisibility(View.VISIBLE);
+        tv_check.setVisibility(View.GONE);
         ll_car_list.setVisibility(View.GONE);
         //测试
 
@@ -93,7 +93,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             public void afterTextChanged(Editable editable) {
 
                 if (editable.length() >= 11) {
-//                    getAddUser();
+                    getAddUser();
                 }
             }
         });
@@ -128,17 +128,24 @@ public class MemberInfoInputActivity extends BaseActivity {
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_order:
-
-                toMakeOrder(user_id, car_id, mobile, user_name, car_number);
+                if (TextUtils.isEmpty(name.getText())) {
+                    ToastUtils.showToast("请输入车主姓名！");
+                    return;
+                }
+                toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
                 break;
 
             case R.id.tv_fix://新增检修单
 
-                Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
+                if (TextUtils.isEmpty(name.getText())) {
+                    ToastUtils.showToast("请输入车主姓名！");
+                    return;
+                }
 
+                Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
                 intent2.putExtra(Configure.car_no, car_number);
                 intent2.putExtra(Configure.car_id, car_id);
-                intent2.putExtra(Configure.user_name, user_name);
+                intent2.putExtra(Configure.user_name, name.getText().toString());
                 intent2.putExtra(Configure.moblie, mobile);
                 intent2.putExtra(Configure.user_id, user_id);
 
@@ -153,7 +160,11 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_check:
 
                 if (TextUtils.isEmpty(et_mobile.getText()) || TextUtils.isEmpty(name.getText())) {
-                    ToastUtils.showToast("请填写完整信息");
+                    ToastUtils.showToast("请填写完整信息!");
+                    return;
+                }
+                if (et_mobile.getText().length() < 11) {
+                    ToastUtils.showToast("请填写正确手机号码!");
                     return;
                 }
                 getAddUser();
@@ -179,11 +190,8 @@ public class MemberInfoInputActivity extends BaseActivity {
                     //保存UserID
                     user_id = s.getUser_id();
                     mobile = et_mobile.getText().toString();
-                    user_name = name.getText().toString();
 
-                    tv_check.setVisibility(View.INVISIBLE);
-                    et_mobile.setFocusable(false);
-                    name.setFocusable(false);
+                    tv_check.setVisibility(View.GONE);
                     ll_car_list.setVisibility(View.VISIBLE);
 
 

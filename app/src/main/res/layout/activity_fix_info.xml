@@ -103,7 +103,8 @@
 
                         <TextView
                             android:id="@+id/tv_mobile"
-                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:background="@null"
@@ -114,6 +115,18 @@
                             android:text=""
                             android:textColor="#ff666666"
                             android:textSize="13sp" />
+
+
+                        <TextView
+                            android:id="@+id/tv_notice"
+                            android:layout_marginRight="10dp"
+                            android:padding="8dp"
+                            android:textColor="#fff"
+                            android:background="@drawable/button_background_b"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="12sp"
+                            android:text="通知客户" />
                     </LinearLayout>
 
 
@@ -215,6 +228,46 @@
                 android:textSize="13sp"
                 android:visibility="gone" />
 
+            <LinearLayout
+                android:id="@+id/tv_add_parts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="#fff"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="更换材料"
+                    android:textColor="#ff000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_price2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="金额小计：0.00"
+                    android:textColor="#ff000000"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_add2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+
+                    android:src="@mipmap/icon_add" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/tv_add_service"
@@ -257,47 +310,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/tv_add_parts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#fff"
-                android:gravity="center">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="更换材料"
-                    android:textColor="#ff000000"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_price2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:text="金额小计：0.00"
-                    android:textColor="#ff000000"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:id="@+id/iv_add2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-
-                    android:src="@mipmap/icon_add" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -354,7 +366,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text=""
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
     </LinearLayout>

@@ -75,7 +75,6 @@ public class PickMealCardActivity extends BaseActivity<PickMealCardContacts.Pick
     @Override
     public void onConfirmPick(Meal2 meal2) {
         toActivity(ActivateCardActivity.class, meal2, "Meal2");
-
     }
 
 

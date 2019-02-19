@@ -125,12 +125,36 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         });
 
 
+        et_mobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.length() >= 11) {
+                    getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
+                }
+            }
+        });
+
+        et_mobile.setOnFocusChangeListener(mOnFocusChangeListener);
+        et_name.setOnFocusChangeListener(mOnFocusChangeListener);
+
+
         //获取登陆用户的信息，设置录卡人
         getPresenter().getInfo();
     }
 
 
-    @OnClick({R.id.tv_check, R.id.tv_enter_order, R.id.v_date1, R.id.v_date2, R.id.tv_add_car, R.id.tv_pick_meal,R.id.tv_title_r})
+    @OnClick({R.id.tv_check, R.id.tv_enter_order, R.id.v_date1, R.id.v_date2, R.id.tv_add_car, R.id.tv_pick_meal, R.id.tv_title_r})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -229,6 +253,11 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         tv_manager.setText(userName);
     }
 
+    @Override
+    public void setCarName(String userName) {
+        et_name.setText(userName);
+    }
+
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -261,4 +290,20 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         //跳转到车辆信息页面
         startActivity(intent);
     }
+
+    private View.OnFocusChangeListener mOnFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            EditText textView = (EditText) v;
+            String hint;
+            if (hasFocus) {
+                hint = textView.getHint().toString();
+                textView.setTag(hint);
+                textView.setHint("");
+            } else {
+                hint = textView.getTag().toString();
+                textView.setHint(hint);
+            }
+        }
+    };
 }

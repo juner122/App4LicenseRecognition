@@ -357,12 +357,12 @@ public interface ApiService {
     //检修单列表条件查询
     @POST("quotation/list")
     @FormUrlEncoded
-    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status, @Field("page") int page);
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status, @Field("page") int page,@Field("limit") int limit);
 
     //检修单列表条件查询
     @POST("quotation/list")
     @FormUrlEncoded
-    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("page") int page);
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("page") int page, @Field("limit") int limit);
 
 
     //报价单取消

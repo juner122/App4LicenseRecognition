@@ -96,8 +96,6 @@ public class FixInfoListFragment extends BaseFragment {
             public void onLoadMore() {
                 page++;
                 loadMoreData();
-
-
             }
 
             @Override
@@ -140,7 +138,7 @@ public class FixInfoListFragment extends BaseFragment {
 
 
     }
-
+    int page = 1;//第一页
     private void getData() {
         Api().quotationList(status, page).subscribe(new RxSubscribe<FixInfoList>(mContext, true) {
             @Override
@@ -163,7 +161,7 @@ public class FixInfoListFragment extends BaseFragment {
         });
     }
 
-    int page = 1;//第一页
+
 
     private void loadMoreData() {
         Api().quotationList(status, page).subscribe(new RxSubscribe<FixInfoList>(mContext, true) {

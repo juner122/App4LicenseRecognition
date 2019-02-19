@@ -33,6 +33,7 @@
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/iv_enter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_enter" />
@@ -71,6 +72,7 @@
         android:layout_weight="1" />
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"

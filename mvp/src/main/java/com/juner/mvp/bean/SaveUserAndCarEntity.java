@@ -6,7 +6,16 @@ public class SaveUserAndCarEntity {
 
 
     int user_id;
+    String user_name;
     String car_id;
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
 
     List<CarInfoRequestParameters> carList;
 

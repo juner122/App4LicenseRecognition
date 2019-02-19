@@ -81,7 +81,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r, R.id.tv_notice})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -114,7 +114,12 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
             case R.id.tv_title_r:
                 //授权凭证
-                toActivity(UserAuthorizeActivity.class);
+                getPresenter().toAuthorizeActivity();
+                break;
+
+            case R.id.tv_notice:
+                //通知客户
+                getPresenter().notice();
                 break;
 
             case R.id.tv_fix_dec:

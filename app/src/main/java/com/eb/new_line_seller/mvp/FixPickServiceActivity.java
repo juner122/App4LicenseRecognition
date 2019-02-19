@@ -119,6 +119,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(TYPE_Service, (ArrayList) fixServies);
         bundle.putString(TYPE, TYPE_Service);
+        bundle.putInt("from", 1);
         intent.putExtras(bundle);
         startActivity(intent);
 

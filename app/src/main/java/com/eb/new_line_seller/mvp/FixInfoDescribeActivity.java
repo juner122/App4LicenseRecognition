@@ -188,7 +188,6 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
                 .apply(skipMemoryCacheOf(true))
                 .into(iv_lpv);
 
-
         getPresenter().setPicUrl(intent.getStringExtra(Configure.Domain));
 
     }

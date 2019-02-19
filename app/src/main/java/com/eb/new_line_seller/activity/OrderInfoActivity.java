@@ -14,6 +14,7 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
+import com.eb.new_line_seller.view.NoticeDialog;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.SimpleGoodInfoAdpter;
@@ -144,7 +145,7 @@ public class OrderInfoActivity extends BaseActivity {
 
     List<Technician> technicians;
 
-    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info})
+    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -244,6 +245,21 @@ public class OrderInfoActivity extends BaseActivity {
                 startActivity(intent3);
 
                 break;
+
+            case R.id.tv_notice:
+                //通知客户
+
+                final NoticeDialog nd = new NoticeDialog(this, info.getOrderInfo().getMobile());
+                nd.show();
+                nd.setClicklistener(new NoticeDialog.ClickListenerInterface() {
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        nd.dismiss();
+                    }
+                });
+                break;
+
         }
 
 
@@ -383,7 +399,7 @@ public class OrderInfoActivity extends BaseActivity {
             case 1://服务中
                 tv2.setText("下单时间:" + info.getOrderInfo().getAdd_time());
                 tv_fix_order.setText("通知客户取车");
-                tv_fix_order.setVisibility(View.VISIBLE);
+                tv_fix_order.setVisibility(View.INVISIBLE);
                 if (pay_status == 0) {
                     tv_enter_order.setText("完成去结算");
                     tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));

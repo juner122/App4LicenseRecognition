@@ -110,6 +110,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(TYPE_Parts, (ArrayList) fixPartsList);
         bundle.putString(TYPE, TYPE_Parts);
+        bundle.putInt("from", 1);
         intent.putExtras(bundle);
         startActivity(intent);
 

@@ -794,9 +794,9 @@ public class ApiLoader {
 
 
         if (status == -1)
-            return apiService.quotationList(token, page).compose(RxHelper.<FixInfoList>observe());
+            return apiService.quotationList(token, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
         else
-            return apiService.quotationList(token, status, page).compose(RxHelper.<FixInfoList>observe());
+            return apiService.quotationList(token, status, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
     }
 
     /**
