@@ -3,73 +3,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.CourseListActivity">
 
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@color/appColor"
-        android:gravity="center"
-        android:text="安安学院"
-        android:textColor="#000"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/fff"
+            android:gravity="center"
+            android:text="哥爱车学院"
+            android:textColor="#000"
+            android:textSize="16sp" />
 
-    <ImageView
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:src="@mipmap/icon_search" />
+
+    </RelativeLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:src="@mipmap/banner2" />
-
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#fff"
+        android:orientation="horizontal">
 
 
-        <RadioGroup
-            android:id="@+id/rg_type"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/but_top1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:background="@drawable/button_check_selector"
+            android:drawableTop="@mipmap/icon_course1"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="汽车美容"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/but_top2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_check_selector"
+            android:drawableTop="@mipmap/icon_course2"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="汽车维修"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/but_top3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_check_selector"
+            android:drawableTop="@mipmap/icon_course3"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="营销管理"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/but_top4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_check_selector"
+            android:drawableTop="@mipmap/icon_course4"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="更多课程"
+            android:textSize="10sp" />
 
 
-            <RadioButton
-                android:id="@+id/rb1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/radiobutton_background_a"
-                android:button="@null"
-                android:checked="true"
-                android:gravity="center"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:text="线上课程" />
-
-
-            <RadioButton
-                android:id="@+id/rb2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/radiobutton_background_a"
-                android:button="@null"
-                android:gravity="center"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:text="线下课程" />
-
-
-        </RadioGroup>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </LinearLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

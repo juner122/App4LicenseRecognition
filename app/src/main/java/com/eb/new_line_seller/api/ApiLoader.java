@@ -22,6 +22,7 @@ import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
@@ -813,6 +814,21 @@ public class ApiLoader {
      */
     public Observable<RecordMeal> queryConnectAct(String name) {
         return apiService.queryConnectAct(token, name).compose(RxHelper.<RecordMeal>observe());
+
+    }
+
+    /**
+     * 课程列表
+     */
+    public Observable<List<Courses>> courseList2(String name, String course_type) {
+        return apiService.courseList2(token, name, course_type).compose(RxHelper.<List<Courses>>observe());
+    }
+
+    /**
+     * 课程列表
+     */
+    public Observable<List<Courses>> courseListSearch(String name) {
+        return apiService.courseList2(token, name, null).compose(RxHelper.<List<Courses>>observe());
     }
 
 

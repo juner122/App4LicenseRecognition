@@ -1,67 +1,65 @@
-package com.eb.new_line_seller.activity.fragment;
-
+package com.eb.new_line_seller.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.mvp.CourseInfoActivity;
-import com.eb.new_line_seller.activity.CourseListActivity;
-
-import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.adapter.CollegeListAdapter;
+import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.mvp.CourseInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.Courses;
+
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * 主页页面：学院
- */
-public class MainFragment4 extends BaseFragment {
+public class CourseListActivity extends BaseActivity {
+
+
     @BindView(R.id.rv)
     RecyclerView recyclerView;
+
+
+    @BindView(R.id.et_key)
+    EditText et;
 
     CollegeListAdapter collegeListAdapter;
 
 
-    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.iv_search})
+    @OnClick({R.id.iv_search, R.id.back})
     public void onClick(View v) {
 
         switch (v.getId()) {
 
-            case R.id.but_top1:
-                getData("1");
+            case R.id.iv_search:
+                if (TextUtils.isEmpty(et.getText())) {
+                    ToastUtils.showToast("请输入搜索内容！");
+                    return;
+                }
+                getData(et.getText().toString());
                 break;
-            case R.id.but_top2:
-                getData("2");
+            case R.id.back:
+                finish();
                 break;
-            case R.id.but_top3:
-                getData("3");
-                break;
-            case R.id.but_top4:
-                toActivity(CourseListActivity.class);
-                break;
-            case R.id.iv_search://搜索
-                toActivity(CourseListActivity.class);
-                break;
-
-
         }
     }
 
-    @Override
-    protected void setUpView() {
-        collegeListAdapter = new CollegeListAdapter(getActivity(), null);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(collegeListAdapter);
-        getData("1");
 
+    @Override
+    protected void init() {
+        collegeListAdapter = new CollegeListAdapter(this, null);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(collegeListAdapter);
+
+
+        collegeListAdapter.setEmptyView(R.layout.list_empty_search, recyclerView);
 
         collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -71,9 +69,10 @@ public class MainFragment4 extends BaseFragment {
         });
     }
 
-    public void getData(String course_type) {
 
-        Api().courseList2("", course_type).subscribe(new RxSubscribe<List<Courses>>(getActivity(), true) {
+    public void getData(String name) {
+
+        Api().courseListSearch(name).subscribe(new RxSubscribe<List<Courses>>(this, true) {
             @Override
             protected void _onNext(List<Courses> courses) {
 
@@ -89,15 +88,19 @@ public class MainFragment4 extends BaseFragment {
         });
     }
 
+
     @Override
-    protected String setTAG() {
-        return "MainFragment4";
+    protected void setUpView() {
+
     }
 
+    @Override
+    protected void setUpData() {
+
+    }
 
     @Override
     public int setLayoutResourceID() {
-        return R.layout.fragment4_main;
+        return R.layout.activity_course_list;
     }
-
 }

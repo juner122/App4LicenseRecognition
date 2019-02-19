@@ -158,6 +158,13 @@ public class SetProjectActivity extends BaseActivity {
             Api().shopeasyUpdate(g).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
                 protected void _onNext(Integer n) {
+                    if(n==-1){
+                        ToastUtils.showToast("更新失败！");
+                        return;
+
+                    }
+
+
                     ToastUtils.showToast("更新成功！");
 
                     setProjects.remove(position);

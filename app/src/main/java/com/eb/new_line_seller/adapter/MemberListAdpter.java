@@ -18,15 +18,17 @@ public class MemberListAdpter extends BaseQuickAdapter<MemberEntity, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, MemberEntity item) {
 
-        helper.setText(R.id.name, item.getUsername())
-                .setText(R.id.phone, item.getMobile());
+        helper.setText(R.id.phone, item.getMobile());
 
-        helper.setText(R.id.tv1, item.getUsername().substring(0,1));
-
+        if (null == item.getUsername() || item.getUsername().equals("")) {
+            helper.setText(R.id.tv1, "匿");
+            helper.setText(R.id.name, "匿名");
+        } else {
+            helper.setText(R.id.tv1, item.getUsername().substring(0, 1));
+            helper.setText(R.id.name, item.getUsername());
+        }
         int p = helper.getLayoutPosition();
         int s = getData().size();
-
-
 
 
         if (p == s - 1) {

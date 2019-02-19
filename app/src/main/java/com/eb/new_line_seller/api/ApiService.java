@@ -17,6 +17,8 @@ import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.CourseInfo;
+import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
@@ -357,7 +359,7 @@ public interface ApiService {
     //检修单列表条件查询
     @POST("quotation/list")
     @FormUrlEncoded
-    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status, @Field("page") int page,@Field("limit") int limit);
+    Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("status") int status, @Field("page") int page, @Field("limit") int limit);
 
     //检修单列表条件查询
     @POST("quotation/list")
@@ -375,5 +377,14 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name);
 
+    //课程列表
+    @POST("course/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("course_type") String course_type);
+
+    //课程详情
+    @POST("course/info")
+    @FormUrlEncoded
+    Observable<BaseBean<CourseInfo>> courseInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
 }
