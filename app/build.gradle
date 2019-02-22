@@ -113,8 +113,23 @@ dependencies {
 //    implementation 'com.huangyz0918:androidwm-light:0.1.2'
 
     //阿里播放器
-    compile(name: 'AlivcReporter-1.2', ext: 'aar')
-    compile(name: 'AlivcPlayer-3.4.9', ext: 'aar')
+//    compile(name: 'AlivcReporter-1.2', ext: 'aar')
+//    compile(name: 'AlivcPlayer-3.4.9', ext: 'aar')
 
+    compile project(':AliyunVideoCommon')
+    compile project(':Aliyunplayer:player_demo')
+    implementation externalAndroidAppCompatV7
+    implementation externalAndroidSupportV4
+    implementation externalAndroidRecyclerView
+    implementation externalGSON
+    implementation externalOKHTTP
+    implementation externalLeakcanary
+    implementation externalAndroidMultiDex
+    implementation('com.aliyun.ams:alicloud-android-ha-adapter:1.1.0.6.2-open@aar') {
+        transitive=true
+    }
+    implementation('com.aliyun.ams:alicloud-android-ha-ut-analytics:1.1.0.1-open@aar') {
+        transitive=true
+    }
 
 }

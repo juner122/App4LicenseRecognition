@@ -1,16 +1,17 @@
 package com.eb.new_line_seller.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CollegeListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.mvp.CourseInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.Courses;
 
@@ -64,7 +65,10 @@ public class CourseListActivity extends BaseActivity {
         collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
+//                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
+
+                Intent intent = new Intent(CourseListActivity.this, AliyunPlayerSkinActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -18,8 +18,6 @@ import butterknife.OnClick;
 public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseInfoPtr> implements CourseInfoContacts.CourseInfoUI {
 
 
-    @BindView(R.id.sfv)
-    SurfaceView sfv;
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -41,24 +39,13 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
         return R.layout.activity_course_info2;
     }
 
-    @OnClick({R.id.sfv})
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.sfv:
-                getPresenter().play();
-                break;
-        }
-
-    }
-
 
     @Override
     protected void init() {
         tv_title.setText("哥爱车学院");
         getPresenter().getInfo();
         getPresenter().initRecyclerView(rv);
-        getPresenter().initSurfaceView(sfv);
+
     }
 
     @Override

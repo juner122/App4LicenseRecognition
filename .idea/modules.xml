@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/AlivcPlayer/AlivcPlayer.iml" filepath="$PROJECT_DIR$/Aliyunplayer/AlivcPlayer/AlivcPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/AlivcReporter/AlivcReporter.iml" filepath="$PROJECT_DIR$/Aliyunplayer/AlivcReporter/AlivcReporter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/AlivcVodPlayer/AlivcVodPlayer.iml" filepath="$PROJECT_DIR$/Aliyunplayer/AlivcVodPlayer/AlivcVodPlayer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AliyunVideoCommon/AliyunVideoCommon.iml" filepath="$PROJECT_DIR$/AliyunVideoCommon/AliyunVideoCommon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/Aliyunplayer.iml" filepath="$PROJECT_DIR$/Aliyunplayer/Aliyunplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/LicenseRecognition2.iml" filepath="$PROJECT_DIR$/LicenseRecognition2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/mvp/mvp.iml" filepath="$PROJECT_DIR$/mvp/mvp.iml" />
       <module fileurl="file://$PROJECT_DIR$/picture_library/picture_library.iml" filepath="$PROJECT_DIR$/picture_library/picture_library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/player_demo/player_demo.iml" filepath="$PROJECT_DIR$/Aliyunplayer/player_demo/player_demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/ucrop/ucrop.iml" filepath="$PROJECT_DIR$/ucrop/ucrop.iml" />
     </modules>
   </component>

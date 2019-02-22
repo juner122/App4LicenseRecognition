@@ -36,7 +36,7 @@ public class String2Utils {
 
         for (GoodsEntity g : list) {
 
-                totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
 
@@ -51,12 +51,11 @@ public class String2Utils {
 
         for (Server g : list) {
 
-                totalPrice = g.getPrice() + totalPrice;
+            totalPrice = g.getPrice() * g.getNumber() + totalPrice;
         }
         return totalPrice;
 
     }
-
 
 
     public static boolean isNullCarNumber(EditText... editTexts) {

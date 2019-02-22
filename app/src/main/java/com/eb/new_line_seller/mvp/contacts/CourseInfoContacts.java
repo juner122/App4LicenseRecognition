@@ -32,7 +32,6 @@ public class CourseInfoContacts {
 
         void initRecyclerView(RecyclerView rv);
         void getInfo();
-        void initSurfaceView(SurfaceView surfaceView);
 
         void play();
 

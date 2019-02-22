@@ -126,6 +126,13 @@ public class MakeOrderActivity extends BaseActivity {
                 return false;
             }
         });
+        rv_goods.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv_goods.setAdapter(simpleGoodInfoAdpter);
 
         rv_servers.setLayoutManager(new LinearLayoutManager(this) {

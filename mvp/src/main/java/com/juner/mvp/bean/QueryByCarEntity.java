@@ -12,9 +12,10 @@ public class QueryByCarEntity implements Parcelable {
 
     private List<OrderInfoEntity> orders;
     private List<CarInfoRequestParameters> carList;
-    private UserEntity member;
+    private List<UserEntity> users;
 
     public List<OrderInfoEntity> getOrders() {
+
         return orders;
     }
 
@@ -30,23 +31,13 @@ public class QueryByCarEntity implements Parcelable {
         this.carList = carList;
     }
 
-    public UserEntity getMember() {
-        return member;
+    public List<UserEntity> getUsers() {
+        return users;
     }
 
-    public void setMember(UserEntity member) {
-        this.member = member;
+    public void setUsers(List<UserEntity> users) {
+        this.users = users;
     }
-
-    @Override
-    public String toString() {
-        return "QueryByCarEntity{" +
-                "orders=" + orders +
-                ", carList=" + carList +
-                ", member=" + member +
-                '}';
-    }
-
 
     @Override
     public int describeContents() {
@@ -56,8 +47,8 @@ public class QueryByCarEntity implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeTypedList(this.orders);
-        dest.writeList(this.carList);
-        dest.writeParcelable(this.member, flags);
+        dest.writeTypedList(this.carList);
+        dest.writeTypedList(this.users);
     }
 
     public QueryByCarEntity() {
@@ -65,9 +56,8 @@ public class QueryByCarEntity implements Parcelable {
 
     protected QueryByCarEntity(Parcel in) {
         this.orders = in.createTypedArrayList(OrderInfoEntity.CREATOR);
-        this.carList = new ArrayList<CarInfoRequestParameters>();
-        in.readList(this.carList, CarInfoRequestParameters.class.getClassLoader());
-        this.member = in.readParcelable(UserEntity.class.getClassLoader());
+        this.carList = in.createTypedArrayList(CarInfoRequestParameters.CREATOR);
+        this.users = in.createTypedArrayList(UserEntity.CREATOR);
     }
 
     public static final Creator<QueryByCarEntity> CREATOR = new Creator<QueryByCarEntity>() {

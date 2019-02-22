@@ -381,11 +381,11 @@ public class OrderInfoActivity extends BaseActivity {
                 tv_enter_order.setText("确认下单");
                 if (pay_status == 0) {
                     tv_fix_order.setText("修改订单");
-                    tv_fix_order.setVisibility(View.INVISIBLE);
+                    tv_fix_order.setVisibility(View.GONE);
                     ll_price3.setVisibility(View.GONE);
                     tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
                 } else {
-                    tv_fix_order.setVisibility(View.INVISIBLE);
+                    tv_fix_order.setVisibility(View.GONE);
                     ll_price3.setVisibility(View.VISIBLE);
                     tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
                 }
@@ -399,7 +399,7 @@ public class OrderInfoActivity extends BaseActivity {
             case 1://服务中
                 tv2.setText("下单时间:" + info.getOrderInfo().getAdd_time());
                 tv_fix_order.setText("通知客户取车");
-                tv_fix_order.setVisibility(View.INVISIBLE);
+                tv_fix_order.setVisibility(View.GONE);
                 if (pay_status == 0) {
                     tv_enter_order.setText("完成去结算");
                     tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));

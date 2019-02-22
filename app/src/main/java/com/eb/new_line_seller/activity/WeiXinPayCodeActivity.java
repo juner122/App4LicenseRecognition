@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
@@ -32,6 +33,9 @@ public class WeiXinPayCodeActivity extends BaseActivity {
     @BindView(R.id.tv_shopName)
     TextView shop_name;
 
+    @BindView(R.id.price)
+    TextView price;
+
 
     @BindView(R.id.iv_code)
     ImageView iv_code;
@@ -46,6 +50,8 @@ public class WeiXinPayCodeActivity extends BaseActivity {
         try {
             infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
             shop_name.setText(getIntent().getStringExtra("shop_name"));
+            price.setText(String.valueOf("￥" + getIntent().getStringExtra("price")));
+
             order_id = infoEntity.getId();
         } catch (Exception e) {
             ToastUtils.showToast(e.toString());

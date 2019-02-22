@@ -7,6 +7,8 @@ import android.widget.ImageView;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
+import com.eb.new_line_seller.view.CarListDialog;
+import com.eb.new_line_seller.view.NoticeDialog;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
@@ -15,6 +17,7 @@ import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.new_line_seller.util.BitmapUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 
+import com.juner.mvp.bean.UserEntity;
 import com.parkingwang.keyboard.KeyboardInputController;
 import com.parkingwang.keyboard.OnInputChangedListener;
 import com.parkingwang.keyboard.PopupKeyboard;
@@ -128,27 +131,37 @@ public class PreviewActivity2 extends BaseActivity {
 
         Api().queryByCar(mInputView.getNumber()).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
-            protected void _onNext(QueryByCarEntity entity) {
+            protected void _onNext(final QueryByCarEntity entity) {
                 new AppPreferences(PreviewActivity2.this).put(Configure.car_no, mInputView.getNumber());
 
-
-                if (entity.getMember() != null) {
-
-                    toActivity(MemberManagementInfoActivity.class, Configure.user_id, entity.getMember().getUserId());
-                    finish();
-                } else {
+                if (null == entity.getUsers() || entity.getUsers().size() == 0) {
                     toActivity(MemberInfoInputActivity.class);
                     finish();
+                } else {
+                    final CarListDialog nd = new CarListDialog(PreviewActivity2.this, entity.getUsers());
+                    nd.show();
+                    nd.setClicklistener(new CarListDialog.ClickListenerInterface() {
+
+                        @Override
+                        public void doSelectUser(UserEntity user) {
+                            toActivity(MemberManagementInfoActivity.class, Configure.user_id, user.getUserId());
+                            finish();
+                        }
+
+                        @Override
+                        public void doAddUser() {
+                            toActivity(MemberInfoInputActivity.class);
+                            finish();
+                        }
+
+                    });
                 }
+
             }
 
             @Override
             protected void _onError(String message) {
-
-
                 ToastUtils.showToast(message);
-
-
             }
         });
     }

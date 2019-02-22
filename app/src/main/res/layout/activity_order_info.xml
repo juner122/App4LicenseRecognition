@@ -253,11 +253,13 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv1"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv3"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -314,6 +316,8 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv2"
+                    android:background="#435"
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -724,7 +728,7 @@
             android:text="修改订单"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_enter_order"
@@ -734,7 +738,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="确认下单"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
 

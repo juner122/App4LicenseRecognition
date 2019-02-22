@@ -337,6 +337,7 @@
             android:layout_weight="1"
             android:background="@drawable/button_background_e"
             android:gravity="center"
+            android:visibility="gone"
             android:text="立即支付"
             android:textColor="#ffffffff"
             android:textSize="14sp" />
@@ -349,7 +350,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="开始服务"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
 

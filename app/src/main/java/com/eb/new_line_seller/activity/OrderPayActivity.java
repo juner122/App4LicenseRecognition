@@ -199,9 +199,12 @@ public class OrderPayActivity extends BaseActivity {
                     et_discount2.setText("");
                     double d = Double.parseDouble(e.toString());
                     tv_price.setText(twoDecimal((balance_price * d) / 10));
+                    infoEntity.getOrderInfo().setActual_price((balance_price * d) / 10);
                 } else {
                     tv_price.setText(twoDecimal(balance_price));
                 }
+
+
             }
         });
 
@@ -231,12 +234,13 @@ public class OrderPayActivity extends BaseActivity {
                         tv_price.setText("0");
                     } else
 
-//                        tv_price.setText(String.valueOf((balance_price - d)));
                         tv_price.setText(MathUtil.twoDecimal(balance_price - d));
+                    infoEntity.getOrderInfo().setActual_price(balance_price - d);
                 } else {
-//                    tv_price.setText(String.valueOf(balance_price));
                     tv_price.setText(MathUtil.twoDecimal(balance_price));
                 }
+
+
             }
         });
 
@@ -276,7 +280,10 @@ public class OrderPayActivity extends BaseActivity {
                 else if (pay_type == 11) {//微信支付
                     Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
                     i.putExtra("shop_name", infoEntity.getShop().getShopName());
+                    i.putExtra("price", tv_price.getText().toString());
+
                     Bundle bundle = new Bundle();
+
                     bundle.putParcelable(Configure.ORDERINFO, infoEntity.getOrderInfo());
                     i.putExtras(bundle);
                     startActivity(i);
@@ -358,8 +365,11 @@ public class OrderPayActivity extends BaseActivity {
             c = intent.getParcelableExtra("Coupon");
             tv_coupon_no.setText("已选择 1 张");
 
-            if (balance_price >= c.getMin_amount())
+            if (balance_price >= c.getMin_amount()) {
+
                 tv_price.setText(MathUtil.twoDecimal(balance_price - c.getType_money()));
+                infoEntity.getOrderInfo().setActual_price(balance_price - c.getType_money());
+            }
 
         }
 
@@ -391,9 +401,5 @@ public class OrderPayActivity extends BaseActivity {
                 ToastUtils.showToast("收款失败：" + message);
             }
         });
-
-
     }
-
-
 }

@@ -8,6 +8,12 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AliyunVideoCommon" />
+            <option value="$PROJECT_DIR$/Aliyunplayer" />
+            <option value="$PROJECT_DIR$/Aliyunplayer/AlivcPlayer" />
+            <option value="$PROJECT_DIR$/Aliyunplayer/AlivcReporter" />
+            <option value="$PROJECT_DIR$/Aliyunplayer/AlivcVodPlayer" />
+            <option value="$PROJECT_DIR$/Aliyunplayer/player_demo" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/mvp" />
             <option value="$PROJECT_DIR$/picture_library" />

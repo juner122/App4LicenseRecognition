@@ -2,9 +2,6 @@ package com.eb.new_line_seller.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,8 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
-import com.eb.new_line_seller.util.BitmapUtil;
-import com.eb.new_line_seller.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.GridImageAdapter;
@@ -49,8 +44,6 @@ import net.grandcentrix.tray.AppPreferences;
 
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +53,6 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 
 import io.reactivex.disposables.Disposable;
-
-import static com.eb.new_line_seller.util.MathUtil.toNowDate;
 
 
 public class CarInfoInputActivity extends BaseActivity {

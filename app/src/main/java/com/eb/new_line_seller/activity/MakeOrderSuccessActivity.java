@@ -483,7 +483,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         if (info.getOrderInfo().getPay_status() == 0)//是否隐藏支付button
             tv_now_pay.setVisibility(View.VISIBLE);
         else
-            tv_now_pay.setVisibility(View.INVISIBLE);
+            tv_now_pay.setVisibility(View.GONE);
 
 
         tv_shopName.append(null == info.getShop().getShopName() ? "-" : info.getShop().getShopName());

@@ -67,6 +67,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     private String[] title = {"消费订单", "维修估价单"};
     ArrayList<Fragment> fragments = new ArrayList<>();
+
     @Override
     protected void init() {
 
@@ -141,8 +142,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
         fragments.add(OrderListFragment.newInstance(0));
         fragments.add(FixInfoListFragment.newInstance(-1));
-        st.setViewPager(vp, title,this, fragments);
-
+        st.setViewPager(vp, title, this, fragments);
 
 
     }
@@ -170,18 +170,19 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 phone.setText(moblie);
                 name.setText(user_name);
 
-                cars = memberOrder.getCarList();//设置第一辆车为选中
-                cars.get(0).setSelected(true);//设置第一辆车为选中
+                cars = memberOrder.getCarList();
 
+                if (cars.size() == 0) {
+                    return;
+                }
 
                 adpter1.setNewData(cars);
                 adapter2.setNewData(memberOrder.getOrderList());
 
-
-                car_number = memberOrder.getCarList().get(0).getCarNo();//默认选择第一辆车
-                car_id = memberOrder.getCarList().get(0).getId();
-
-
+//
+//                cars.get(0).setSelected(true);//设置第一辆车为选中
+//                car_number = memberOrder.getCarList().get(0).getCarNo();
+//                car_id = memberOrder.getCarList().get(0).getId();
             }
 
             @Override
@@ -208,13 +209,21 @@ public class MemberManagementInfoActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.tv_new_order:
+                if (car_id == 0) {
+                    ToastUtils.showToast("请选择一辆车！");
+                    return;
+                }
                 toMakeOrder(user_id, car_id, moblie, user_name, car_number);
+
                 break;
 
             case R.id.tv_fix_order:
 
+                if (car_id == 0) {
+                    ToastUtils.showToast("请选择一辆车！");
+                    return;
+                }
                 Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
-
                 intent2.putExtra(Configure.car_no, car_number);
                 intent2.putExtra(Configure.car_id, car_id);
                 intent2.putExtra(Configure.user_name, user_name);

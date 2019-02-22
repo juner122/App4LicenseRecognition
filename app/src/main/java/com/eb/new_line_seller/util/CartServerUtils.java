@@ -96,8 +96,8 @@ public class CartServerUtils {
         Server tempCart = (Server) data.get(good.getId());
         if (tempCart == null) {
 
-
             tempCart = good;
+            tempCart.setNumber(1);
         }
         data.put(good.getId(), tempCart);
         commit();

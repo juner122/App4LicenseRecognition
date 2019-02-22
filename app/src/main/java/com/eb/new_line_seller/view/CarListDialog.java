@@ -3,9 +3,9 @@ package com.eb.new_line_seller.view;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,44 +16,36 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.adapter.UserlistListAdapter;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.juner.mvp.bean.UserEntity;
+
+import java.util.List;
 
 
-//通知客户
-public class NoticeDialog extends Dialog implements View.OnClickListener {
+public class CarListDialog extends Dialog {
 
     private Context context;
 
     private ClickListenerInterface clickListenerInterface;
 
-    TextView tv_phone;
-    String phone;
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.tv_button1://短信
-
-                ToastUtils.showToast("开发中");
-
-                break;
-            case R.id.tv_button2://呼叫
-                callPhone(phone);
-                break;
-        }
-    }
-
+    UserlistListAdapter userlistListAdapter;
 
     public interface ClickListenerInterface {
-        public void doCancel();
+
+        public void doSelectUser(UserEntity user);
+
+        public void doAddUser();
     }
 
-    public NoticeDialog(Context context, String phone) {
+    public CarListDialog(Context context, List<UserEntity> users) {
         super(context, R.style.my_dialog);
         this.context = context;
-        this.phone = phone;
+
+        userlistListAdapter = new UserlistListAdapter(users, context);
     }
 
     @Override
@@ -66,20 +58,22 @@ public class NoticeDialog extends Dialog implements View.OnClickListener {
 
     public void init() {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.dialog_notice, null);
+        View view = inflater.inflate(R.layout.dialog_carlist, null);
         setContentView(view);
+        view.findViewById(R.id.tv_cancel).setOnClickListener(new clickListener());
 
-        TextView tv_cancel = view.findViewById(R.id.tv_cancel);
-
-        tv_phone = view.findViewById(R.id.tv_button2);
-        tv_phone.setText("呼叫:" + phone);
-
-        tv_phone.setOnClickListener(this);
-        view.findViewById(R.id.tv_button1).setOnClickListener(this);
-
-        tv_cancel.setOnClickListener(new clickListener());
+        RecyclerView rv = view.findViewById(R.id.rv);
+        rv.setLayoutManager(new LinearLayoutManager(context));
+        rv.setAdapter(userlistListAdapter);
 
 
+        userlistListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                clickListenerInterface.doSelectUser(((UserEntity) adapter.getData().get(position)));
+            }
+        });
 
 
         Window dialogWindow = getWindow();
@@ -100,20 +94,10 @@ public class NoticeDialog extends Dialog implements View.OnClickListener {
             int id = v.getId();
             switch (id) {
                 case R.id.tv_cancel:
-                    clickListenerInterface.doCancel();
+                    clickListenerInterface.doAddUser();
                     break;
             }
         }
-    }
-    /**
-     * 拨打电话（直接拨打电话）
-     *
-     * @param phoneNum 电话号码
-     */
-    public void callPhone(String phoneNum) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        Uri data = Uri.parse("tel:" + phoneNum);
-        intent.setData(data);
-        context.startActivity(intent);
+
     }
 }

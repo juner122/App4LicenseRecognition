@@ -1,10 +1,12 @@
 package com.eb.new_line_seller.activity.fragment;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.mvp.CourseInfoActivity;
@@ -66,7 +68,10 @@ public class MainFragment4 extends BaseFragment {
         collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
+//                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
+
+                Intent intent = new Intent(getActivity(), AliyunPlayerSkinActivity.class);
+                startActivity(intent);
             }
         });
     }

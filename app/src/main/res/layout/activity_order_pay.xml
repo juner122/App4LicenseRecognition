@@ -400,7 +400,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="确认收款"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
 
 

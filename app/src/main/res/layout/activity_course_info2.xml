@@ -9,11 +9,11 @@
 
     <include layout="@layout/head_view" />
 
-
-    <SurfaceView
-        android:id="@+id/sfv"
+    <com.aliyun.vodplayerview.widget.AliyunVodPlayerView
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="200dp" />
+
 
     <ScrollView
         android:layout_width="match_parent"
