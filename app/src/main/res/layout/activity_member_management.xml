@@ -3,11 +3,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <include layout="@layout/head_view" />
+    <include
+        layout="@layout/head_view"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/fff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/icon_back"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:text="返回"
+            android:textColor="#ff000000"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@mipmap/icon_search_bar"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:src="@mipmap/icon_search" />
+
+            <EditText
+                android:id="@+id/et_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="请输入你要查询的用户"
+                android:maxLines="2"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:singleLine="true"
+                android:textColor="#333"
+                android:textColorHint="#333"
+                android:textSize="12sp" />
 
 
+        </LinearLayout>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -92,6 +159,7 @@
 
         </LinearLayout>
     </LinearLayout>
+
 
     <com.ajguan.library.EasyRefreshLayout
         android:id="@+id/easylayout"

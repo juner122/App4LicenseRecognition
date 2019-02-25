@@ -531,10 +531,11 @@ public class ApiLoader {
     /**
      * 会员管理页面数据
      */
-    public Observable<Member> memberList(int page) {
+    public Observable<Member> memberList(int page,String name) {
 
         map.put("page", page);
         map.put("limit", Configure.limit_page);
+        map.put("name", name);
         return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 

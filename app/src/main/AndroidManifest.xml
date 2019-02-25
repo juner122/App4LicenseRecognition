@@ -65,6 +65,7 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".activity.MemberManagementActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StaffManagementActivity"
@@ -215,7 +216,10 @@
             android:name=".activity.UserAuthorizeActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.CourseListActivity" />
-        <activity android:name=".mvp.CourseInfoActivity"></activity>
+        <activity android:name=".mvp.CourseInfoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".activity.OrderSearch">
 
     <include
@@ -56,8 +57,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:hint="请输入你要查询的内容"
-                android:maxLength="10"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
                 android:singleLine="true"

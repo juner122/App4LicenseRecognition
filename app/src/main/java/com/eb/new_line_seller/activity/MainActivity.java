@@ -28,8 +28,9 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
-    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private String[] mTitles = {"工作台", "订单", "", "学院", "我的"};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
+
     private int[] mIconUnselectIds = {
             R.mipmap.icon_bottom_button1_unselect, R.mipmap.icon_bottom_button2_unselect,
             R.color.fff, R.mipmap.icon_bottom_button4_unselect, R.mipmap.icon_bottom_button5_unselect};

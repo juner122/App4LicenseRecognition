@@ -70,7 +70,8 @@ public class MainFragment4 extends BaseFragment {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 //                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
 
-                Intent intent = new Intent(getActivity(), AliyunPlayerSkinActivity.class);
+//                Intent intent = new Intent(getActivity(), AliyunPlayerSkinActivity.class);
+                Intent intent = new Intent(getActivity(), CourseInfoActivity.class);
                 startActivity(intent);
             }
         });

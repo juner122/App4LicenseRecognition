@@ -22,6 +22,7 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CarListAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.eb.new_line_seller.util.ToastUtils;
@@ -245,13 +246,13 @@ public class MemberInfoInputActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        queryByCar(intent.getStringExtra(Configure.car_no));
+        memberOrderList(user_id);
     }
 
-    private void queryByCar(String carNumber) {
-        Api().queryByCar(carNumber).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
+    private void memberOrderList(int  user_id) {
+        Api().memberOrderList(user_id).subscribe(new RxSubscribe<MemberOrder>(this, true) {
             @Override
-            protected void _onNext(QueryByCarEntity entity) {
+            protected void _onNext(MemberOrder entity) {
                 cars = entity.getCarList();
 
                 carListAdapter.setNewData(cars);
@@ -261,6 +262,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             protected void _onError(String message) {
 
                 Log.d(TAG, message);
+                ToastUtils.showToast(message);
             }
         });
 

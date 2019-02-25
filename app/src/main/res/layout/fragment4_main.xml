@@ -41,10 +41,11 @@
         android:paddingTop="20dp" />
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="#fff"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_background_ccc"
         android:orientation="horizontal">
 
 
@@ -53,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_check_selector"
+            android:background="#00ffffff"
             android:drawableTop="@mipmap/icon_course1"
             android:drawablePadding="5dp"
             android:gravity="center"
@@ -67,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_check_selector"
+            android:background="#00ffffff"
             android:drawableTop="@mipmap/icon_course2"
             android:drawablePadding="5dp"
             android:gravity="center"
@@ -81,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_check_selector"
+            android:background="#00ffffff"
             android:drawableTop="@mipmap/icon_course3"
             android:drawablePadding="5dp"
             android:gravity="center"
@@ -95,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_check_selector"
+            android:background="#00ffffff"
             android:drawableTop="@mipmap/icon_course4"
             android:drawablePadding="5dp"
             android:gravity="center"
