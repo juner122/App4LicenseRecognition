@@ -7,11 +7,12 @@ public class ResourcePojos implements Comparable<ResourcePojos> {
     int id;
     int courseId;
     String name;
+    String courseName;
     String courseMv;
     String courseImg;
     String status;
     String type;
-    int timeLength;
+    int timeLength;//时长，秒
     int pageView;
     long addTime;
 
@@ -93,6 +94,14 @@ public class ResourcePojos implements Comparable<ResourcePojos> {
 
     public void setAddTime(long addTime) {
         this.addTime = addTime;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     @Override

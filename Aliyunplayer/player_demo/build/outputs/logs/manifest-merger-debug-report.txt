@@ -1,0 +1,93 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+	package
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:3:5-35
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:1-30:12
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:5:5-79
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:5:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:6:5-76
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:6:22-73
+uses-permission#android.permission.INTERNET
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:7:5-67
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:7:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:8:22-78
+uses-permission#android.permission.WAKE_LOCK
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:9:5-68
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:9:22-65
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:10:5-75
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:10:22-72
+uses-permission#android.permission.WRITE_SETTINGS
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:11:5-73
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:11:22-70
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:12:5-79
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:12:22-77
+application
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:14:5-28:19
+	android:supportsRtl
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:16:9-35
+	android:allowBackup
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:15:9-35
+activity#com.aliyun.vodplayerview.activity.AliyunPlayerSettingActivity
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:17:9-21:20
+	android:screenOrientation
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:20:13-49
+	android:configChanges
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:19:13-74
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:18:13-89
+activity#com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity
+ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:23:9-27:20
+	android:screenOrientation
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:25:13-49
+	android:configChanges
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:24:13-74
+	android:theme
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:26:13-63
+	android:name
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml:23:19-92
+uses-sdk
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		ADDED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml
+		INJECTED from E:\AndroidStudioProjects\LicenseRecognition2\Aliyunplayer\player_demo\src\main\AndroidManifest.xml

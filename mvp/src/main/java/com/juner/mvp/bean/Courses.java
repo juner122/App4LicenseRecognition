@@ -13,6 +13,9 @@ public class Courses {
     long createTime;
     long courseStart;
     long courseEnd;
+    String suitable;//
+    String tag;//标签
+    int timeLength;//总时长，秒
 
     public int getPageView() {
         return pageView;
@@ -100,5 +103,29 @@ public class Courses {
 
     public void setCourseEnd(long courseEnd) {
         this.courseEnd = courseEnd;
+    }
+
+    public String getSuitable() {
+        return suitable;
+    }
+
+    public void setSuitable(String suitable) {
+        this.suitable = suitable;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public int getTimeLength() {
+        return timeLength;
+    }
+
+    public void setTimeLength(int timeLength) {
+        this.timeLength = timeLength;
     }
 }

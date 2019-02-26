@@ -5,7 +5,7 @@ import java.util.List;
 public class CourseInfo {
 
     Courses course;
-   List< ResourcePojos> resourcePojos;
+    List<ResourcePojos> resourcePojos;
 
     public Courses getCourses() {
         return course;
