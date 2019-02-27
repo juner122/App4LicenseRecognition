@@ -137,10 +137,10 @@
                     android:paddingTop="3dp"
                     android:paddingRight="10dp"
                     android:paddingBottom="3dp"
-                    android:text="检测"
-                    android:textColor="#FF000000"
+                    android:text="注册"
+                    android:textColor="#fff"
                     android:textSize="12sp"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
             </LinearLayout>
         </LinearLayout>
@@ -170,14 +170,40 @@
                     android:textColor="#000"
                     android:textSize="12sp" />
 
+                <TextView
+                    android:id="@+id/tv_new_car_numb"
+                    android:layout_width="271dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=""
+                    android:textSize="12sp" />
+
                 <ImageView
-                    android:id="@+id/tv_add_car"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_check_selector"
                     android:padding="15dp"
                     android:src="@mipmap/icon_add"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
+
+
+                <TextView
+                    android:id="@+id/tv_add_car"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/button_background_b"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="3dp"
+                    android:text="新增"
+                    android:textColor="#fff"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
 
             </LinearLayout>
 

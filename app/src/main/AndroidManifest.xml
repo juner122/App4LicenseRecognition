@@ -138,7 +138,6 @@
         <activity
             android:name=".activity.PickCoupons"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.CourseEnrolmentActivity"
             android:screenOrientation="portrait" />
@@ -216,10 +215,12 @@
             android:name=".activity.UserAuthorizeActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.CourseListActivity" />
-        <activity android:name=".mvp.CourseInfoActivity"
+        <activity
+            android:name=".mvp.CourseInfoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".activity.CourseRecordActivity"></activity>
     </application>
 
 </manifest>

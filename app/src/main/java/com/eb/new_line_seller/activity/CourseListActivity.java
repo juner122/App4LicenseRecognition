@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CollegeListAdapter;
@@ -66,7 +66,10 @@ public class CourseListActivity extends BaseActivity {
         collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
                 Intent intent = new Intent(CourseListActivity.this, CourseInfoActivity.class);
+                intent.putExtra("id", ((Courses) adapter.getData().get(position)).getId());
+                intent.putExtra("courseName", ((Courses) adapter.getData().get(position)).getCourseName());
                 startActivity(intent);
             }
         });

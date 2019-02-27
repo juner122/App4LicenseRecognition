@@ -21,6 +21,7 @@ import com.alivc.player.MediaPlayer;
 import com.alivc.player.VcPlayerLog;
 import com.aliyun.vodplayer.downloader.AliyunDownloadMediaInfo;
 import com.aliyun.vodplayer.media.AliyunLocalSource;
+import com.aliyun.vodplayer.media.AliyunPlayAuth;
 import com.aliyun.vodplayer.media.AliyunVidSts;
 import com.aliyun.vodplayer.media.IAliyunVodPlayer;
 import com.aliyun.vodplayerview.activity.AliyunPlayerSettingActivity;
@@ -41,13 +42,19 @@ import com.eb.new_line_seller.mvp.BaseActivity;
 import com.eb.new_line_seller.mvp.CourseInfoActivity;
 import com.eb.new_line_seller.mvp.contacts.CourseInfoContacts;
 import com.eb.new_line_seller.mvp.model.CourseInfoMdl;
+import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.CourseInfo;
+import com.juner.mvp.bean.CourseRecord;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.PlayInfoList;
 import com.juner.mvp.bean.ResourcePojos;
+import com.juner.mvp.bean.Video;
 
 import java.lang.ref.WeakReference;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +68,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
     private Activity context;
     ResourcePojosAdapter adapter;
 
-    private static final String DEFAULT_URL = "http://player.alicdn.com/video/aliyunmedia.mp4";
+    private static final String DEFAULT_URL = "https://outin-754ae5212e7311e99d0b00163e1c955c.oss-cn-shanghai.aliyuncs.com/sv/553a6976-16924038886/553a6976-16924038886.mp4?Expires=1551091405&OSSAccessKeyId=LTAI8bKSZ6dKjf44&Signature=dqaia6elxI67jZSw3KXmFX9kMo4%3D";
     private static final String DEFAULT_VID = "6e783360c811449d8692b2117acc9212";
     AliyunVodPlayerView video_view;
     /**
@@ -75,12 +82,14 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
     private long oldTime;
     private List<String> logStrs = new ArrayList<>();
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SS");
+    String courseName;
 
     public CourseInfoPtr(@NonNull CourseInfoContacts.CourseInfoUI view) {
         super(view);
         context = view.getSelfActivity();
         mdl = new CourseInfoMdl(context);
         adapter = new ResourcePojosAdapter(context, null);
+
     }
 
     @Override
@@ -100,6 +109,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
     @Override
     public void getInfo() {
         int id = context.getIntent().getIntExtra("id", -1);
+        courseName = context.getIntent().getStringExtra("courseName");//课程名
 
         mdl.getInfo(id, new RxSubscribe<CourseInfo>(context, true) {
             @Override
@@ -110,6 +120,16 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                 List<ResourcePojos> list = courseInfo.getResourcePojos();
                 Collections.sort(list);
                 adapter.setNewData(list);
+
+                getAlivcVideoInfos(list);
+
+                if (list.size() == 0) {
+                    ToastUtils.showToast("暂无视频！");
+                    return;
+                }
+                //播放第一个视频
+                onChangePlaySource(list.get(0).getCourseMv());
+
             }
 
             @Override
@@ -119,6 +139,24 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         });
 
     }
+
+    private void getAlivcVideoInfos(List<ResourcePojos> list) {
+
+
+        for (ResourcePojos resourcePojos : list) {
+            AlivcVideoInfo.Video video = new AlivcVideoInfo.Video();
+
+            video.setCoverURL(resourcePojos.getCourseImg());//封面
+            video.setVideoId(resourcePojos.getCourseMv());
+            video.setTitle(resourcePojos.getName());
+            video.setDuration(String.valueOf(resourcePojos.getTimeLength()));//视频长度
+            alivcVideoInfos.add(video);
+
+        }
+
+
+    }
+
 
     @Override
     public void initPlayerView(AliyunVodPlayerView mAliyunVodPlayerView) {
@@ -131,6 +169,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         video_view.setTheme(AliyunVodPlayerView.Theme.Blue);
         //video_view.setCirclePlay(true);
         video_view.setAutoPlay(true);
+        video_view.setCirclePlay(false);
 
         video_view.setOnPreparedListener(new MyPrepareListener((CourseInfoActivity) getView().getSelfActivity()));//设置准备监听器
         video_view.setNetConnectedListener(new MyNetConnectedListener());
@@ -147,16 +186,6 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         video_view.setOnSeekCompleteListener(new MySeekCompleteListener());
         video_view.setOnSeekStartListener(new MySeekStartListener());
         video_view.enableNativeLog();
-    }
-
-    @Override
-    public void requestVidSts() {
-        if (inRequest) {
-            return;
-        }
-        setInRequest(true);
-        PlayParameter.PLAY_PARAM_VID = DEFAULT_VID;
-        VidStsUtil.getVidSts(PlayParameter.PLAY_PARAM_VID, new MyStsListener());
     }
 
 
@@ -179,9 +208,10 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                 if (currentClickTime - oldTime <= 2000) {
                     return;
                 }
-                PlayParameter.PLAY_PARAM_TYPE = "vidsts";
+                PlayParameter.PLAY_PARAM_TYPE = "localSource";
                 // 点击视频列表, 切换播放的视频
-                changePlaySource(position);
+//                changePlaySource(position);
+                onChangePlaySource(alivcVideoInfos.get(position).getVideoId());
                 oldTime = currentClickTime;
 
             }
@@ -190,33 +220,43 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
     }
 
+
     /**
      * 获取播放列表数据
      */
     @Override
     public void loadPlayList() {
 
-        AlivcPlayListManager.getInstance().fetchPlayList(PlayParameter.PLAY_PARAM_AK_ID,
-                PlayParameter.PLAY_PARAM_AK_SECRE,
-                PlayParameter.PLAY_PARAM_SCU_TOKEN, new AlivcPlayListManager.PlayListListener() {
-                    @Override
-                    public void onPlayList(int code, final ArrayList<AlivcVideoInfo.Video> videos) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (alivcVideoInfos != null && alivcVideoInfos.size() == 0) {
-                                    alivcVideoInfos.clear();
-                                    alivcVideoInfos.addAll(videos);
-                                    alivcPlayListAdapter.notifyDataSetChanged();
-                                    // 请求sts成功后, 加载播放资源,和视频列表
-                                    AlivcVideoInfo.Video video = alivcVideoInfos.get(0);
-                                    PlayParameter.PLAY_PARAM_VID = video.getVideoId();
-                                    setPlaySource();
-                                }
-                            }
-                        });
-                    }
-                });
+//        AlivcPlayListManager.getInstance().fetchPlayList(PlayParameter.PLAY_PARAM_AK_ID,
+//                PlayParameter.PLAY_PARAM_AK_SECRE,
+//                PlayParameter.PLAY_PARAM_SCU_TOKEN, new AlivcPlayListManager.PlayListListener() {
+//                    @Override
+//                    public void onPlayList(int code, final ArrayList<AlivcVideoInfo.Video> videos) {
+//                        context.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if (alivcVideoInfos != null && alivcVideoInfos.size() == 0) {
+//                                    alivcVideoInfos.clear();
+//                                    alivcVideoInfos.addAll(videos);
+//                                    alivcPlayListAdapter.notifyDataSetChanged();
+//                                    // 请求sts成功后, 加载播放资源,和视频列表
+//                                    AlivcVideoInfo.Video video = alivcVideoInfos.get(0);
+//                                    PlayParameter.PLAY_PARAM_URL = video.getVideoId();
+//                                    setPlaySource();
+//                                }
+//                            }
+//                        });
+//                    }
+//                });
+        if (alivcVideoInfos != null && alivcVideoInfos.size() > 0) {
+            // 请求sts成功后, 加载播放资源,和视频列表
+            AlivcVideoInfo.Video video = alivcVideoInfos.get(0);
+            PlayParameter.PLAY_PARAM_URL = video.getCoverURL();
+            setPlaySource();
+        } else {
+            ToastUtils.showToast("暂无视频！");
+        }
+
     }
 
 
@@ -233,6 +273,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
             if (video_view != null) {
                 video_view.setLocalSource(localSource);
             }
+
 
         } else if ("vidsts".equals(PlayParameter.PLAY_PARAM_TYPE)) {
             if (!inRequest) {
@@ -282,7 +323,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         if (alivcVideoInfos.size() > 0) {
             AlivcVideoInfo.Video video = alivcVideoInfos.get(currentVideoPosition);
             if (video != null) {
-                changePlayVidSource(video.getVideoId(), video.getTitle());
+                onChangePlaySource(video.getVideoId());
             }
         }
     }
@@ -310,29 +351,11 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
      */
     private void changePlaySource(int position) {
         currentVideoPosition = position;
-
-
         AlivcVideoInfo.Video video = alivcVideoInfos.get(position);
 
-        changePlayVidSource(video.getVideoId(), video.getTitle());
-    }
-
-    private class MyStsListener implements VidStsUtil.OnStsResultListener {
-        @Override
-        public void onSuccess(String vid, final String akid, final String akSecret, final String token) {
-
-            onStsSuccess(vid, akid, akSecret, token);
-
-        }
-
-        @Override
-        public void onFail() {
-
-            ToastUtils.showToast(getView().getSelfActivity().getString(com.aliyun.vodplayer.R.string.request_vidsts_fail));
-            setInRequest(false);
+        changePlayURLSource(video.getCoverURL(), video.getTitle());
 
 
-        }
     }
 
 
@@ -342,7 +365,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
             // 如果当前播放列表为空, 网络重连后需要重新请求sts和播放列表, 其他情况不需要
             if (alivcVideoInfos != null && alivcVideoInfos.size() == 0) {
-                VidStsUtil.getVidSts(PlayParameter.PLAY_PARAM_VID, new MyStsListener());
+//                VidStsUtil.getVidSts(PlayParameter.PLAY_PARAM_VID, new MyStsListener());
             }
         }
     }
@@ -362,7 +385,8 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
             CourseInfoActivity activity = activityWeakReference.get();
             if (activity != null) {
                 Log.d("阿里云播放信息", com.aliyun.vodplayer.R.string.toast_prepare_success + "\n");
-                ToastUtils.showToast(getView().getSelfActivity().getResources().getString(com.aliyun.vodplayer.R.string.toast_prepare_success));
+//                ToastUtils.showToast(getView().getSelfActivity().getResources().getString(com.aliyun.vodplayer.R.string.toast_prepare_success));
+//                ToastUtils.showToast("开始播放");
             }
         }
 
@@ -378,7 +402,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         public void onReNetConnected(boolean isReconnect) {
 
 
-            reNetConnected(isReconnect);
+//            reNetConnected(isReconnect);
 
         }
 
@@ -408,7 +432,6 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
             Log.d("阿里云播放信息", com.aliyun.vodplayer.R.string.toast_play_compleion + "\n");
             ToastUtils.showToast(getView().getSelfActivity().getResources().getString(com.aliyun.vodplayer.R.string.toast_play_compleion));
-
             onNext();
         }
     }
@@ -450,11 +473,45 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         @Override
         public void onStopped() {
 
+            //停止播放
+            Log.d("阿里云播放信息", com.aliyun.vodplayer.R.string.log_play_stopped + "\n");
+//            ToastUtils.showToast(getView().getSelfActivity().getResources().getString(com.aliyun.vodplayer.R.string.log_play_stopped));
 
-            ToastUtils.showToast(getView().getSelfActivity().getResources().getString(com.aliyun.vodplayer.R.string.log_play_stopped));
+            addWatchLog();
 
         }
     }
+
+    //保存观看进度
+    @Override
+    public void addWatchLog() {
+        mdl.addWatchLog(getCourseRecord(), new RxSubscribe<NullDataEntity>(context, false) {
+            @Override
+            protected void _onNext(NullDataEntity entity) {
+                Log.d("阿里云播放信息", "保存观看进度成功" + "\n");
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+    }
+
+
+    private CourseRecord getCourseRecord() {
+        ResourcePojos resourcePojos = adapter.getItem(currentVideoPosition);
+        CourseRecord courseRecord = new CourseRecord();
+        courseRecord.setCourseId(resourcePojos.getCourseId());
+        courseRecord.setResourceId(resourcePojos.getId());
+        courseRecord.setCourseName(courseName);
+        courseRecord.setResourceName(resourcePojos.getName());
+        courseRecord.setHistoryTime(MathUtil.percent(video_view.getCurrentPosition(), video_view.getDuration()));//获取播放的当前时间，单位为毫秒
+        courseRecord.setResourceImg(resourcePojos.getCourseImg());
+        return courseRecord;
+    }
+
 
     private class MyPlayViewClickListener implements AliyunVodPlayerView.OnPlayerViewClickListener {
         @Override
@@ -567,7 +624,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         @Override
         public void onSuccess(String vid, String akid, String akSecret, String token) {
 
-            onStsRetrySuccess(vid, akid, akSecret, token);
+//            onStsRetrySuccess(vid, akid, akSecret, token);
 
         }
 
@@ -576,40 +633,87 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
         }
     }
+//
+//    private void onStsRetrySuccess(String mVid, String akid, String akSecret, String token) {
+//        PlayParameter.PLAY_PARAM_VID = mVid;
+//        PlayParameter.PLAY_PARAM_AK_ID = akid;
+//        PlayParameter.PLAY_PARAM_AK_SECRE = akSecret;
+//        PlayParameter.PLAY_PARAM_SCU_TOKEN = token;
+//
+//        inRequest = false;
+//
+//        AliyunVidSts vidSts = new AliyunVidSts();
+//        vidSts.setVid(PlayParameter.PLAY_PARAM_VID);
+//        vidSts.setAcId(PlayParameter.PLAY_PARAM_AK_ID);
+//        vidSts.setAkSceret(PlayParameter.PLAY_PARAM_AK_SECRE);
+//        vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
+//
+//        video_view.setVidSts(vidSts);
+//    }
 
-    private void onStsRetrySuccess(String mVid, String akid, String akSecret, String token) {
-        PlayParameter.PLAY_PARAM_VID = mVid;
-        PlayParameter.PLAY_PARAM_AK_ID = akid;
-        PlayParameter.PLAY_PARAM_AK_SECRE = akSecret;
-        PlayParameter.PLAY_PARAM_SCU_TOKEN = token;
 
-        inRequest = false;
+    //根据vid获取播放视频url
+    private void onChangePlaySource(String videoId) {
 
-        AliyunVidSts vidSts = new AliyunVidSts();
-        vidSts.setVid(PlayParameter.PLAY_PARAM_VID);
-        vidSts.setAcId(PlayParameter.PLAY_PARAM_AK_ID);
-        vidSts.setAkSceret(PlayParameter.PLAY_PARAM_AK_SECRE);
-        vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
+        mdl.resourceUrl(videoId, new RxSubscribe<Video>(context, true) {
+            @Override
+            protected void _onNext(Video video) {
 
-        video_view.setVidSts(vidSts);
+                String playUrl = "";
+
+                for (PlayInfoList.PlayInfo playInfo : video.getPlayInfoList().getPlayInfo()) {
+                    if (playInfo.getFormat().equals("mp4")) {
+                        playUrl = playInfo.getPlayURL();
+                    }
+                }
+                changePlayURLSource(playUrl, video.getVideoBase().getTitle());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+    }
+
+
+    /**
+     * 切换播放url资源
+     * * @param title 切换视频的title
+     */
+
+    public void changePlayURLSource(String url, String title) {
+
+
+        AliyunLocalSource.AliyunLocalSourceBuilder alsb = new AliyunLocalSource.AliyunLocalSourceBuilder();
+        PlayParameter.PLAY_PARAM_URL = url;
+        alsb.setSource(PlayParameter.PLAY_PARAM_URL);
+
+        alsb.setTitle(title);
+
+        AliyunLocalSource localSource = alsb.build();
+        video_view.setLocalSource(localSource);
+
     }
 
     /**
-     * 切换播放vid资源
-     *
-     * @param vid   切换视频的vid
-     * @param title 切换视频的title
+     * 切换播放url资源 使用vid+playAuth方式播放
+     * * @param title 切换视频的title
      */
 
-    public void changePlayVidSource(String vid, String title) {
-        AliyunVidSts vidSts = new AliyunVidSts();
-        PlayParameter.PLAY_PARAM_VID = vid;
-        vidSts.setVid(PlayParameter.PLAY_PARAM_VID);
-        vidSts.setAcId(PlayParameter.PLAY_PARAM_AK_ID);
-        vidSts.setAkSceret(PlayParameter.PLAY_PARAM_AK_SECRE);
-        vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
-        vidSts.setTitle(title);
-        video_view.setVidSts(vidSts);
+    public void changePlayPlayAuthSource(String mVid, String title, String authInfo) {
+
+
+        AliyunPlayAuth.AliyunPlayAuthBuilder aliyunPlayAuthBuilder = new AliyunPlayAuth.AliyunPlayAuthBuilder();
+        aliyunPlayAuthBuilder.setVid(mVid);
+        aliyunPlayAuthBuilder.setPlayAuth(authInfo);
+        aliyunPlayAuthBuilder.setQuality(IAliyunVodPlayer.QualityValue.QUALITY_LOW);
+        aliyunPlayAuthBuilder.setTitle(title);
+        AliyunPlayAuth mPlayAuth = aliyunPlayAuthBuilder.build();
+
+        video_view.setAuthInfo(mPlayAuth);
+
+
     }
 
     public void firstFrameStart() {
@@ -651,7 +755,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                 //                if (!isStrangePhone()) {
                 //                    getSupportActionBar().show();
                 //                }
-
+                getView().showTitlebar();
                 getView().getSelfActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
                 video_view.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 
@@ -665,6 +769,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                 //                }
 
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                getView().hideTitlebar();
                 //转到横屏了。
                 //隐藏状态栏
                 if (!isStrangePhone()) {
@@ -703,5 +808,6 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         VcPlayerLog.e("lfj1115 ", " Build.Device = " + Build.DEVICE + " , isStrange = " + strangePhone);
         return strangePhone;
     }
+
 
 }

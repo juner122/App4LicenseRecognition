@@ -42,6 +42,7 @@
                 android:id="@+id/tv_product"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:text="免费"
                 android:textColor="#FFFF3900"
@@ -64,10 +65,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:maxLines="1"
                 android:text="已有150人学过"
-                android:layout_marginTop="5dp"
                 android:textColor="#FF999999"
                 android:textSize="12sp" />
 

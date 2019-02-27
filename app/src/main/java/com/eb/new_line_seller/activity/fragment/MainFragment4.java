@@ -9,11 +9,12 @@ import android.view.View;
 import com.aliyun.vodplayerview.activity.AliyunPlayerSkinActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.mvp.CourseInfoActivity;
+import com.eb.new_line_seller.activity.CourseRecordActivity;
 import com.eb.new_line_seller.activity.CourseListActivity;
 
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.adapter.CollegeListAdapter;
+import com.eb.new_line_seller.mvp.CourseInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.Courses;
 
@@ -32,7 +33,7 @@ public class MainFragment4 extends BaseFragment {
     CollegeListAdapter collegeListAdapter;
 
 
-    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.iv_search})
+    @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.iv_search, R.id.rv_record})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -47,10 +48,13 @@ public class MainFragment4 extends BaseFragment {
                 getData("3");
                 break;
             case R.id.but_top4:
-                toActivity(CourseListActivity.class);
+                getData("0");
                 break;
             case R.id.iv_search://搜索
                 toActivity(CourseListActivity.class);
+                break;
+            case R.id.rv_record://学习记录
+                toActivity(CourseRecordActivity.class);
                 break;
 
 
@@ -58,11 +62,17 @@ public class MainFragment4 extends BaseFragment {
     }
 
     @Override
+    protected void onVisible() {
+        super.onVisible();
+        getData("0");//查看全部
+
+    }
+
+    @Override
     protected void setUpView() {
         collegeListAdapter = new CollegeListAdapter(getActivity(), null);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(collegeListAdapter);
-        getData("1");
 
 
         collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -72,7 +82,11 @@ public class MainFragment4 extends BaseFragment {
 
 //                Intent intent = new Intent(getActivity(), AliyunPlayerSkinActivity.class);
                 Intent intent = new Intent(getActivity(), CourseInfoActivity.class);
+                intent.putExtra("id", ((Courses) adapter.getData().get(position)).getId());
+                intent.putExtra("courseName", ((Courses) adapter.getData().get(position)).getCourseName());
                 startActivity(intent);
+
+
             }
         });
     }
@@ -83,7 +97,10 @@ public class MainFragment4 extends BaseFragment {
             @Override
             protected void _onNext(List<Courses> courses) {
 
+
                 collegeListAdapter.setNewData(courses);
+                if (courses.size() == 0)
+                    ToastUtils.showToast("暂无课程!");
 
             }
 

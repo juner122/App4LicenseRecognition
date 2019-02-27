@@ -43,6 +43,30 @@ public class RxHelper {
             }
         };
     }
+    /**
+     * 对结果进行预处理
+     *
+     * @param <T>
+     * @return
+     */
+    public static final <T> ObservableTransformer<T, T> observevid() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public ObservableSource apply(Observable upstream) {
+                return upstream.flatMap(new Function<T, Observable<T>>() {
+                    @Override
+                    public Observable<T> apply(T result) {
+
+                            return createData(result);//成功，剥取我们要的数据，把BaseModel丢掉
+
+
+                    }
+                }).subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
 
     /**
      * 对结果进行预处理

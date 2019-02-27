@@ -126,10 +126,10 @@ dependencies {
     implementation externalLeakcanary
     implementation externalAndroidMultiDex
     implementation('com.aliyun.ams:alicloud-android-ha-adapter:1.1.0.6.2-open@aar') {
-        transitive=true
+        transitive = true
     }
     implementation('com.aliyun.ams:alicloud-android-ha-ut-analytics:1.1.0.1-open@aar') {
-        transitive=true
+        transitive = true
     }
 
 }

@@ -22,6 +22,7 @@ import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
+import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
@@ -36,6 +37,7 @@ import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.ResourcePojos;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
@@ -531,7 +533,7 @@ public class ApiLoader {
     /**
      * 会员管理页面数据
      */
-    public Observable<Member> memberList(int page,String name) {
+    public Observable<Member> memberList(int page, String name) {
 
         map.put("page", page);
         map.put("limit", Configure.limit_page);
@@ -822,7 +824,17 @@ public class ApiLoader {
      * 课程列表
      */
     public Observable<List<Courses>> courseList2(String name, String course_type) {
-        return apiService.courseList2(token, name, course_type).compose(RxHelper.<List<Courses>>observe());
+        if (course_type.equals("0"))
+            return apiService.courseList2(token).compose(RxHelper.<List<Courses>>observe());
+        else
+            return apiService.courseList2(token, name, course_type).compose(RxHelper.<List<Courses>>observe());
+    }
+
+    /**
+     * 课程学习记录列表
+     */
+    public Observable<List<CourseRecord>> courseRecord() {
+        return apiService.courseRecord(token).compose(RxHelper.<List<CourseRecord>>observe());
     }
 
     /**
@@ -830,6 +842,13 @@ public class ApiLoader {
      */
     public Observable<List<Courses>> courseListSearch(String name) {
         return apiService.courseList2(token, name, null).compose(RxHelper.<List<Courses>>observe());
+    }
+
+    /**
+     * 用户点击视频观看退出时访问，用来增加记录
+     */
+    public Observable<NullDataEntity> addWatchLog(CourseRecord courseRecord) {
+        return apiService.addWatchLog(token, courseRecord).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

@@ -14,7 +14,11 @@ import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.CourseInfo;
+import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.ResourcePojos;
+import com.juner.mvp.bean.Video;
 
 import java.util.ArrayList;
 
@@ -30,8 +34,9 @@ public class CourseInfoContacts {
 
         void setInfo(Courses courses);
 
+        void showTitlebar();
 
-
+        void hideTitlebar();
 
 
     }
@@ -47,20 +52,24 @@ public class CourseInfoContacts {
 
         void initPlayerView(AliyunVodPlayerView video_view);
 
-        void requestVidSts();
+
         void initVideoListView(RecyclerView rv);
 
         void loadPlayList();
+
         void onNext();
+
         void onStsSuccess(String vid, final String akid, final String akSecret, final String token);
 
         void setPlaySource();
 
         void setInRequest(boolean is);
+
         void setCurrentError(ErrorInfo error);
+
         void updatePlayerViewMode();
 
-
+        void addWatchLog();//保存观看进度
 
     }
 
@@ -71,6 +80,10 @@ public class CourseInfoContacts {
 
 
         void getInfo(int id, RxSubscribe<CourseInfo> rxSubscribe);//页面数据接口
+
+        void addWatchLog(CourseRecord courseRecord, RxSubscribe<NullDataEntity> rxSubscribe);//用户点击视频观看退出时访问，用来增加记录
+
+        void resourceUrl(String videoId, RxSubscribe<Video> rxSubscribe);//根据vid获取视频
 
 
     }

@@ -49,6 +49,9 @@ public class MemberInfoInputActivity extends BaseActivity {
     TextView tv_e2;
     @BindView(R.id.tv_check)
     TextView tv_check;
+
+    @BindView(R.id.tv_new_car_numb)
+    TextView tv_new_car_numb;
     @BindView(R.id.ll_car_list)
     View ll_car_list;
 
@@ -71,7 +74,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     protected void init() {
 
         new_car_number = new AppPreferences(this).getString(Configure.car_no, "");
-
+        tv_new_car_numb.setText(new_car_number);
 
         tv_check.setVisibility(View.GONE);
         ll_car_list.setVisibility(View.GONE);
@@ -178,27 +181,34 @@ public class MemberInfoInputActivity extends BaseActivity {
         Api().addUser(et_mobile.getText().toString(), name.getText().toString()).subscribe(new RxSubscribe<SaveUserAndCarEntity>(MemberInfoInputActivity.this, true) {
             @Override
             protected void _onNext(SaveUserAndCarEntity s) {
-                if (null != s.getCarList() && s.getCarList().size() > 0) {
 
-
-                    Intent intent = new Intent(MemberInfoInputActivity.this, MemberManagementInfoActivity.class);
-                    intent.putExtra(Configure.user_id, s.getUser_id());
-                    intent.putExtra(Configure.car_no, new_car_number);
-                    startActivity(intent);
-                    finish();
+                if (s.getUser_id() == 0) {//录入不成功
+                    Toast.makeText(MemberInfoInputActivity.this, "会员尚未注册，请完善注册信息", Toast.LENGTH_SHORT).show();
+                    tv_check.setVisibility(View.VISIBLE);
+                    name.setFocusable(true);
 
                 } else {
-                    //保存UserID
-                    user_id = s.getUser_id();
-                    mobile = et_mobile.getText().toString();
 
-                    tv_check.setVisibility(View.GONE);
-                    ll_car_list.setVisibility(View.VISIBLE);
+                    if (null != s.getCarList() && s.getCarList().size() > 0) {//新车 老会员
+                        Intent intent = new Intent(MemberInfoInputActivity.this, MemberManagementInfoActivity.class);
+                        intent.putExtra(Configure.user_id, s.getUser_id());
+                        intent.putExtra(Configure.car_no, new_car_number);
+                        startActivity(intent);
+                        finish();
 
-
-                    carListAdapter.setNewData(s.getCarList());
-                    initAdapter();
+                    } else {
+                        //保存UserID
+                        user_id = s.getUser_id();
+                        name.setText(s.getUser_name());
+                        mobile = et_mobile.getText().toString();
+                        tv_check.setVisibility(View.GONE);
+                        ll_car_list.setVisibility(View.VISIBLE);
+                        carListAdapter.setNewData(s.getCarList());
+                        initAdapter();
+                    }
                 }
+
+
             }
 
             @Override
@@ -228,7 +238,6 @@ public class MemberInfoInputActivity extends BaseActivity {
                 car_number = carListAdapter.getData().get(position).getCarNo();
                 car_id = carListAdapter.getData().get(position).getId();
 
-
                 for (CarInfoRequestParameters c : cars) {
                     c.setSelected(false);
                 }
@@ -247,14 +256,20 @@ public class MemberInfoInputActivity extends BaseActivity {
         super.onNewIntent(intent);
 
         memberOrderList(user_id);
+        tv_new_car_numb.setVisibility(View.GONE);
+
     }
 
-    private void memberOrderList(int  user_id) {
+    private void memberOrderList(int user_id) {
         Api().memberOrderList(user_id).subscribe(new RxSubscribe<MemberOrder>(this, true) {
             @Override
             protected void _onNext(MemberOrder entity) {
-                cars = entity.getCarList();
+                if (entity.getCarList().size() == 0)
+                    return;
 
+                cars = entity.getCarList();
+                cars.get(0).setSelected(true);
+                ll.setVisibility(View.VISIBLE);
                 carListAdapter.setNewData(cars);
             }
 

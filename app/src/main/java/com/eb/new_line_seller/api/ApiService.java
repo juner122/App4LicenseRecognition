@@ -18,6 +18,7 @@ import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseInfo;
+import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.GoodsEntity;
@@ -32,6 +33,7 @@ import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.ResourcePojos;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
@@ -40,6 +42,7 @@ import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
 import com.juner.mvp.bean.UserInfo;
+import com.juner.mvp.bean.Video;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
 
@@ -381,10 +384,27 @@ public interface ApiService {
     @POST("course/list")
     @FormUrlEncoded
     Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("course_type") String course_type);
+    //课程列表
+    @POST("course/list")
+    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token);
 
     //课程详情
     @POST("course/info")
     @FormUrlEncoded
     Observable<BaseBean<CourseInfo>> courseInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
+
+    //课程学习记录列表
+    @POST("course/queryWatchLog")
+    Observable<BaseBean<List<CourseRecord>>> courseRecord(@Header("X-Nideshop-Token") String token);
+
+
+    //用户点击视频观看退出时访问，用来增加记录
+    @POST("course/addWatchLog")
+    Observable<BaseBean<NullDataEntity>> addWatchLog(@Header("X-Nideshop-Token") String token, @Body CourseRecord record);
+
+    //根据vid获取视频
+    @POST("course/resourceUrl")
+    @FormUrlEncoded
+    Observable<BaseBean<Video>> resourceUrl(@Header("X-Nideshop-Token") String token, @Field("videoId") String videoId);
 
 }

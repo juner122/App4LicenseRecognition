@@ -57,6 +57,9 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
     @BindView(R.id.rv)
     RecyclerView rv;
 
+    @BindView(R.id.head_view)
+    View head_view;//标题栏
+
     @BindView(R.id.ll_info)
     LinearLayout ll_info;
 
@@ -86,7 +89,7 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
 
     @Override
     protected void init() {
-        tv_title.setText("哥爱车学院");
+        tv_title.setText(getIntent().getStringExtra("courseName"));
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i]));
         }
@@ -111,7 +114,7 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
             }
         });
 
-        getPresenter().requestVidSts();
+        showTitlebar();
         getPresenter().getInfo();
         getPresenter().initRecyclerView(rv);
         getPresenter().initPlayerView(video_view);
@@ -127,10 +130,22 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
     @Override
     public void setInfo(Courses courses) {
         title.setText(courses.getCourseName());
-        tv_price.setText(String.format("￥%s", courses.getCoursePrice()));
-        tv_type.setText(String.format("适用人群：%s", courses.getCourseType()));
+//        tv_price.setText(String.format("￥%s", courses.getCoursePrice()));
+        tv_price.setText("免费");
+        tv_type.setText(String.format("适用人群：%s", courses.getSuitable()));
         tv_number.setText(String.format("学习人次：%s人", courses.getPageView()));
         tv_text.setText(courses.getCourseMarke());
+    }
+
+    @Override
+    public void showTitlebar() {
+        head_view.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void hideTitlebar() {
+        head_view.setVisibility(View.GONE);
     }
 
     @Override
@@ -153,7 +168,9 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
     protected void onStop() {
         super.onStop();
         if (video_view != null) {
+            getPresenter().addWatchLog();//保存进度
             video_view.onStop();
+
         }
     }
 

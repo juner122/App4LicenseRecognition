@@ -29,7 +29,22 @@
             android:paddingTop="10dp"
             android:paddingRight="15dp"
             android:paddingBottom="10dp"
-            android:src="@mipmap/icon_search" />
+            android:src="@mipmap/icon_search"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/rv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
+            android:text="学习记录"
+            android:textColor="#333"
+            android:textSize="13sp" />
 
     </RelativeLayout>
 
@@ -48,6 +63,19 @@
         android:background="@drawable/button_background_ccc"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/but_top4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00ffffff"
+            android:drawableTop="@mipmap/icon_course4"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="全部"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/but_top1"
@@ -60,7 +88,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="汽车美容"
+            android:text="洗车"
             android:textSize="10sp" />
 
         <Button
@@ -74,7 +102,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="汽车维修"
+            android:text="镀膜"
             android:textSize="10sp" />
 
         <Button
@@ -88,21 +116,7 @@
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="营销管理"
-            android:textSize="10sp" />
-
-        <Button
-            android:id="@+id/but_top4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00ffffff"
-            android:drawableTop="@mipmap/icon_course4"
-            android:drawablePadding="5dp"
-            android:gravity="center"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="更多课程"
+            android:text="打蜡"
             android:textSize="10sp" />
 
 

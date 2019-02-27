@@ -68,12 +68,15 @@ public class MemberManagementInfoActivity extends BaseActivity {
     private String[] title = {"消费订单", "维修估价单"};
     ArrayList<Fragment> fragments = new ArrayList<>();
 
+    @BindView(R.id.tv_new_car_numb)
+    TextView tv_new_car_numb;
+
     @Override
     protected void init() {
 
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
         new_car_number = getIntent().getStringExtra(Configure.car_no);
-
+        tv_new_car_numb.setText(new_car_number);
         new AppPreferences(this).put(Configure.user_id, user_id);
 
 
@@ -179,10 +182,18 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 adpter1.setNewData(cars);
                 adapter2.setNewData(memberOrder.getOrderList());
 
-//
-//                cars.get(0).setSelected(true);//设置第一辆车为选中
-//                car_number = memberOrder.getCarList().get(0).getCarNo();
-//                car_id = memberOrder.getCarList().get(0).getId();
+                if ("".equals(new_car_number) && cars.size() > 1) {
+                    for (int i = 0; i < cars.size(); i++) {
+                        if (cars.get(i).getCarNo().equals(new_car_number)) {
+                            cars.get(i).setSelected(true);//设置车为选中
+                            car_number = memberOrder.getCarList().get(i).getCarNo();
+                            car_id = memberOrder.getCarList().get(i).getId();
+                            break;
+                        }
+                    }
+                }
+
+
             }
 
             @Override

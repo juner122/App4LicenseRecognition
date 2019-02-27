@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.GoodsEntity;
 
@@ -21,12 +22,10 @@ public class CollegeListAdapter extends BaseQuickAdapter<Courses, BaseViewHolder
     Activity activity;
 
 
-
     public CollegeListAdapter(Activity activity, @Nullable List<Courses> data) {
         super(R.layout.activity_college_list_item, data);
         this.activity = activity;
     }
-
 
 
     @Override
@@ -35,8 +34,9 @@ public class CollegeListAdapter extends BaseQuickAdapter<Courses, BaseViewHolder
 
         helper.setText(R.id.tv_name, item.getCourseName())
                 .setText(R.id.tv_number, String.format("已有%d人学习过", item.getPageView()))
-                .setText(R.id.tv_product, String.format("￥%s", item.getCoursePrice()))
-                .setText(R.id.tv_time, String.format("时长：%s分钟", "100"));
+//                .setText(R.id.tv_product, String.format("￥%s", item.getCoursePrice()))
+                .setText(R.id.tv_product, "免费")
+                .setText(R.id.tv_time, String.format("时长：%s", MathUtil.toDate4h((long) (item.getTimeLength() * 1000))));
 
         Glide.with(activity)
                 .load(item.getCourseImg())

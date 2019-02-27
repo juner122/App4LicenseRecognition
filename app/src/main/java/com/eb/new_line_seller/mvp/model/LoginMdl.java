@@ -2,6 +2,8 @@ package com.eb.new_line_seller.mvp.model;
 
 import android.content.Context;
 
+import com.aliyun.vodplayer.BuildConfig;
+import com.eb.new_line_seller.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.HttpUtils;
 import com.juner.mvp.api.http.RxHelper;
@@ -34,6 +36,7 @@ public class LoginMdl extends BaseModel implements LoginContacts.LoginMdl {
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("authCode", authCode);
+        map.put("version", SystemUtil.packaGetName());
 
         sendRequest(HttpUtils.getLoginApi().login(map).compose(RxHelper.<Token>observe()), rxSubscribe);
     }
