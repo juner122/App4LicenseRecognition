@@ -5,7 +5,7 @@ public class CourseRecord {
 
 
     int id;
-    int courseId;
+    int courseId;//课程id
     int userId;
     int resourceId;
     String courseName;
@@ -15,6 +15,7 @@ public class CourseRecord {
     String type;
     String resourceImg;//封面
     String historyTime;
+    int pastTime;//播放记录秒数
 
     public int getId() {
         return id;
@@ -102,5 +103,13 @@ public class CourseRecord {
 
     public void setHistoryTime(String historyTime) {
         this.historyTime = historyTime;
+    }
+
+    public int getPastTime() {
+        return pastTime;
+    }
+
+    public void setPastTime(int pastTime) {
+        this.pastTime = pastTime;
     }
 }

@@ -2,8 +2,8 @@ package com.juner.mvp;
 
 public class Configure {
 
-    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
-//    public static final String BaseUrl = "https://business.xgxshop.com/app/";
+//    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
@@ -24,6 +24,7 @@ public class Configure {
     public static final String car_no = "car_no";//车牌号
     public static final String user_id = "user_id";//
     public static final String moblie = "moblie";//
+    public static final String moblie_s = "moblie_s";//
     public static final String car_id = "car_id";//
     public static final String user_name = "user_name";//
     public static final String order_on = "order_on";//

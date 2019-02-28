@@ -63,7 +63,13 @@ public class CarListDialog extends Dialog {
         view.findViewById(R.id.tv_cancel).setOnClickListener(new clickListener());
 
         RecyclerView rv = view.findViewById(R.id.rv);
-        rv.setLayoutManager(new LinearLayoutManager(context));
+        rv.setLayoutManager(new LinearLayoutManager(context){
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
         rv.setAdapter(userlistListAdapter);
 
 

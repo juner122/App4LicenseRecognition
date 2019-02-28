@@ -79,7 +79,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="确认"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
 

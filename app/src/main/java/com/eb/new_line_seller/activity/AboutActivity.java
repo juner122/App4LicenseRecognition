@@ -9,7 +9,7 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected void init() {
 
-        tv_title.setText("关于安安养车");
+        tv_title.setText("关于哥爱车");
     }
 
     @Override

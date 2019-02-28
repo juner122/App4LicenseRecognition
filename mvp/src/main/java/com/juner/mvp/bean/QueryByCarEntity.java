@@ -14,6 +14,20 @@ public class QueryByCarEntity implements Parcelable {
     private List<CarInfoRequestParameters> carList;
     private List<UserEntity> users;
 
+    private CarInfoRequestParameters car;
+
+    public CarInfoRequestParameters getCarinfo() {
+        return car;
+    }
+
+    public void setCarinfo(CarInfoRequestParameters carinfo) {
+        this.car = carinfo;
+    }
+
+    public static Creator<QueryByCarEntity> getCREATOR() {
+        return CREATOR;
+    }
+
     public List<OrderInfoEntity> getOrders() {
 
         return orders;

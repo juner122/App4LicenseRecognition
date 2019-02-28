@@ -179,7 +179,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
 
         mTitlebarBackBtn = (ImageView) findViewById(R.id.alivc_title_back);
         mTitlebarText = (TextView) findViewById(R.id.alivc_title_title);
-        mTitleDownload = (ImageView)findViewById(R.id.alivc_title_download);
+        mTitleDownload = (ImageView) findViewById(R.id.alivc_title_download);
         mTitleMore = findViewById(R.id.alivc_title_more);
         mScreenModeBtn = (ImageView) findViewById(R.id.alivc_screen_mode);
         mScreenLockBtn = (ImageView) findViewById(R.id.alivc_screen_lock);
@@ -242,7 +242,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
         mScreenShot.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mOnScreenShotClickListener != null){
+                if (mOnScreenShotClickListener != null) {
                     mOnScreenShotClickListener.onScreenShotClick();
                 }
             }
@@ -252,12 +252,11 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
         mScreenRecorder.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mOnScreenRecoderClickListener != null){
+                if (mOnScreenRecoderClickListener != null) {
                     mOnScreenRecoderClickListener.onScreenRecoderClick();
                 }
             }
         });
-
 
 
 //大小屏按钮监听
@@ -406,7 +405,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
     public void updateDownloadBtn() {
         if (mAliyunScreenMode == AliyunScreenMode.Full || "localSource".equals(PlayParameter.PLAY_PARAM_TYPE)) {
             mTitleDownload.setVisibility(GONE);
-        } else if (mAliyunScreenMode == AliyunScreenMode.Small || "vidsts".equals(PlayParameter.PLAY_PARAM_TYPE)){
+        } else if (mAliyunScreenMode == AliyunScreenMode.Small || "vidsts".equals(PlayParameter.PLAY_PARAM_TYPE)) {
             mTitleDownload.setVisibility(VISIBLE);
         }
     }
@@ -436,7 +435,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
     }
 
     /**
-     *  更新更多按钮的显示和隐藏
+     * 更新更多按钮的显示和隐藏
      */
     private void updateShowMoreBtn() {
         if (mAliyunScreenMode == AliyunScreenMode.Full) {
@@ -771,7 +770,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
 
             ControlView controlView = controlViewWeakReference.get();
             if (controlView != null) {
-                if(!controlView.isSeekbarTouching){
+                if (!controlView.isSeekbarTouching) {
                     controlView.hide(HideType.Normal);
                 }
             }
@@ -870,7 +869,7 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
     }
 
     public void setOnDownloadClickListener(
-        OnDownloadClickListener onDownloadClickListener) {
+            OnDownloadClickListener onDownloadClickListener) {
         this.onDownloadClickListener = onDownloadClickListener;
     }
 
@@ -977,29 +976,42 @@ public class ControlView extends RelativeLayout implements ViewAction, ITheme {
     }
 
     public void setOnShowMoreClickListener(
-        OnShowMoreClickListener listener) {
+            OnShowMoreClickListener listener) {
         this.mOnShowMoreClickListener = listener;
     }
 
     /**
      * 屏幕截图
      */
-    public interface OnScreenShotClickListener{
+    public interface OnScreenShotClickListener {
         void onScreenShotClick();
     }
 
-    public void setOnScreenShotClickListener(OnScreenShotClickListener listener){
+    public void setOnScreenShotClickListener(OnScreenShotClickListener listener) {
         this.mOnScreenShotClickListener = listener;
     }
 
     /**
      * 录制
      */
-    public interface OnScreenRecoderClickListener{
+    public interface OnScreenRecoderClickListener {
         void onScreenRecoderClick();
     }
 
-    public void setOnScreenRecoderClickListener(OnScreenRecoderClickListener listener){
+    public void setOnScreenRecoderClickListener(OnScreenRecoderClickListener listener) {
         this.mOnScreenRecoderClickListener = listener;
+    }
+
+
+    //显示返回按钮
+    public void showTitlebarBackBtn() {
+        if (null != mTitlebarBackBtn)
+            mTitlebarBackBtn.setVisibility(VISIBLE);
+    }
+
+    //显示返回按钮
+    public void hideTitlebarBackBtn() {
+        if (null != mTitlebarBackBtn)
+            mTitlebarBackBtn.setVisibility(INVISIBLE);
     }
 }

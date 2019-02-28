@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.eb.new_line_seller.adapter.MealInfoListAdapter;
 import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.util.A2bigA;
+import com.eb.new_line_seller.view.ConfirmDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.eb.new_line_seller.mvp.contacts.ActivityCardContacts;
@@ -58,6 +60,8 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @BindView(R.id.tv_meal_name)
     TextView tv_meal_name;//选择的套卡名
+    @BindView(R.id.tv_check)
+    TextView tv_check;//
 
 
     @BindView(R.id.tv_manager)
@@ -159,7 +163,25 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         switch (v.getId()) {
 
             case R.id.tv_check://检测
-                getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
+                if (TextUtils.isEmpty(et_name.getText())) {
+                    showToast("车主姓名不能为空");
+                    return;
+                }
+                final ConfirmDialog confirmDialog = new ConfirmDialog(this, et_name.getText().toString(), et_mobile.getText().toString());
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
+                        confirmDialog.cancel();
+                    }
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.cancel();
+                    }
+                });
+
+
                 break;
 
             case R.id.tv_enter_order://确认录入
@@ -243,6 +265,16 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     }
 
     @Override
+    public void showCheckView() {
+        tv_check.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideCheckView() {
+        tv_check.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onShowConfirmDialog() {
 
         getPresenter().confirmInput();
@@ -256,6 +288,12 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     public void setCarName(String userName) {
         et_name.setText(userName);
+    }
+
+    @Override
+    public void etsetFocusable(boolean b) {
+        et_name.setFocusable(b);
+        et_mobile.setFocusable(b);
     }
 
 

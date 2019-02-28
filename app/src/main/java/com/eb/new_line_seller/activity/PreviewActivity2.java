@@ -1,5 +1,6 @@
 package com.eb.new_line_seller.activity;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.eb.new_line_seller.view.NoticeDialog;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.new_line_seller.util.BitmapUtil;
@@ -144,13 +146,21 @@ public class PreviewActivity2 extends BaseActivity {
 
                         @Override
                         public void doSelectUser(UserEntity user) {
-                            toActivity(MemberManagementInfoActivity.class, Configure.user_id, user.getUserId());
+                            nd.cancel();
+//                            toActivity(MemberManagementInfoActivity.class, Configure.user_id, user.getUserId());
+                            Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
+                            intent.putExtra(Configure.user_id, user.getUserId());
+                            intent.putExtra(Configure.car_no,mInputView.getNumber());
+                            startActivity(intent);
+
                             finish();
                         }
 
                         @Override
                         public void doAddUser() {
-                            toActivity(MemberInfoInputActivity.class);
+                            nd.cancel();//旧车 新用户
+                             int new_car_id =  entity.getCarinfo().getId();
+                            toActivity(MemberInfoInputActivity.class,"new_car_id",new_car_id);
                             finish();
                         }
 

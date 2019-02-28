@@ -1,11 +1,15 @@
 package com.eb.new_line_seller.mvp.presenter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.eb.new_line_seller.activity.MemberInfoInputActivity;
+import com.eb.new_line_seller.activity.MemberManagementInfoActivity;
 import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.view.CardInputConfirmDialog;
@@ -67,21 +71,29 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             getView().showToast("手机号码不能为空");
             return;
         }
-//        if (name.equals("")) {
-//            getView().showToast("车主姓名不能为空");
-//            return;
-//        }
-
 
         mdl.checkMember(phone, name, new RxSubscribe<SaveUserAndCarEntity>(context, true) {
             @Override
-            protected void _onNext(SaveUserAndCarEntity entity) {
-                user_id = entity.getUser_id();
+            protected void _onNext(SaveUserAndCarEntity s) {
+                user_id = s.getUser_id();
                 new AppPreferences(context).put(Configure.user_id, user_id);//保存检测到的用户id
 
-                getView().setCarList(entity.getCarList());//车辆列表
-                getView().showView();
-                getView().setCarName(entity.getUser_name());
+                if (s.getUser_id() == 0) {//录入不成功
+                    Toast.makeText(context, "会员尚未注册，请完善注册信息", Toast.LENGTH_SHORT).show();
+                    getView().showCheckView();
+
+                } else {
+                    getView().etsetFocusable(false);
+                    getView().showView();
+                    getView().hideCheckView();
+                    getView().setCarName(s.getUser_name());
+                    if (null != s.getCarList() && s.getCarList().size() > 0) {//新车 老会员
+                        getView().setCarList(s.getCarList());//车辆列表
+                    }
+
+                }
+
+
             }
 
             @Override

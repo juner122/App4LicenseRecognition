@@ -18,7 +18,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="常规"
-        android:textColor="#ff000000"
+        android:textColor="#fff"
         android:textSize="14sp" />
 
 

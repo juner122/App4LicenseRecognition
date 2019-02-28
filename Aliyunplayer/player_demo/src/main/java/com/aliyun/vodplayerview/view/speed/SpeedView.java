@@ -278,6 +278,7 @@ public class SpeedView extends RelativeLayout implements ITheme {
             //小屏的时候，是铺满整个播放器的
             speedViewParam.width = getWidth();
             speedViewParam.height = getHeight();
+
         } else if (screenMode == AliyunScreenMode.Full) {
             //如果是全屏的，就显示一半
             AliyunVodPlayerView parentView = (AliyunVodPlayerView) getParent();

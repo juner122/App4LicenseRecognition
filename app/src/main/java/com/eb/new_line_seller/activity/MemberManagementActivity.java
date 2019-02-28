@@ -48,7 +48,7 @@ public class MemberManagementActivity extends BaseActivity {
     EditText et;
 
 
-    @OnClick({R.id.iv_search, R.id.back})
+    @OnClick({R.id.iv_search})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -61,9 +61,6 @@ public class MemberManagementActivity extends BaseActivity {
                 }
 
                 getList(0, et.getText().toString());
-                break;
-            case R.id.back:
-                finish();
                 break;
         }
     }

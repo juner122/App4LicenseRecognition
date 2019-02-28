@@ -35,6 +35,7 @@ import com.eb.new_line_seller.view.CommonPopupWindow;
 import com.eb.new_line_seller.view.ConfirmDialog2;
 import com.eb.new_line_seller.view.DecimalInputTextWatcher;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
@@ -278,6 +279,14 @@ public class OrderPayActivity extends BaseActivity {
                 if (pay_type == 0)
                     ToastUtils.showToast("请选择一种支付方式");
                 else if (pay_type == 11) {//微信支付
+
+                    BigDecimal bigDecimal = new BigDecimal(tv_price.getText().toString());
+                    if (bigDecimal.compareTo(new BigDecimal(0)) == 0) { //是否等于0
+                        ToastUtils.showToast("全额为0 不支持微信支付！");
+                        return;
+                    }
+
+
                     Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
                     i.putExtra("shop_name", infoEntity.getShop().getShopName());
                     i.putExtra("price", tv_price.getText().toString());

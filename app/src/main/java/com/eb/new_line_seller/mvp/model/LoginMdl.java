@@ -62,7 +62,7 @@ public class LoginMdl extends BaseModel implements LoginContacts.LoginMdl {
 
     @Override
     public void savePhone(String phone, Context context) {
-        new AppPreferences(context).put(Configure.moblie, phone);
+        new AppPreferences(context).put(Configure.moblie_s, phone);
     }
 
 

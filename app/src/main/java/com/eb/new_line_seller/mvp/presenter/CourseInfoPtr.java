@@ -83,6 +83,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
     private List<String> logStrs = new ArrayList<>();
     private SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss.SS");
     String courseName;
+    int resourceId;
 
     public CourseInfoPtr(@NonNull CourseInfoContacts.CourseInfoUI view) {
         super(view);
@@ -110,12 +111,12 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
     public void getInfo() {
         int id = context.getIntent().getIntExtra("id", -1);
         courseName = context.getIntent().getStringExtra("courseName");//课程名
+        resourceId = context.getIntent().getIntExtra("resourceId", -1);//课程下的节id
+
 
         mdl.getInfo(id, new RxSubscribe<CourseInfo>(context, true) {
             @Override
             protected void _onNext(CourseInfo courseInfo) {
-
-
                 getView().setInfo(courseInfo.getCourses());
                 List<ResourcePojos> list = courseInfo.getResourcePojos();
                 Collections.sort(list);
@@ -127,16 +128,31 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                     ToastUtils.showToast("暂无视频！");
                     return;
                 }
-                //播放第一个视频
-                onChangePlaySource(list.get(0).getCourseMv());
 
+                if (resourceId == -1) {//从课程列表进入
+                    //播放第一个视频
+                    onChangePlaySource(list.get(0).getCourseMv(), 0);
+
+                } else {//从学习记录进入
+                    int pastTime = context.getIntent().getIntExtra("pastTime", 0);//学习位置
+
+                    for (ResourcePojos pojos : list) {
+                        if (pojos.getId() == resourceId) {
+                            onChangePlaySource(pojos.getCourseMv(), pastTime);//获取vid
+                            break;
+                        }
+                    }
+
+                }
             }
+
 
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
             }
         });
+
 
     }
 
@@ -211,7 +227,7 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                 PlayParameter.PLAY_PARAM_TYPE = "localSource";
                 // 点击视频列表, 切换播放的视频
 //                changePlaySource(position);
-                onChangePlaySource(alivcVideoInfos.get(position).getVideoId());
+                onChangePlaySource(alivcVideoInfos.get(position).getVideoId(), 0);
                 oldTime = currentClickTime;
 
             }
@@ -316,14 +332,15 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         }
         currentVideoPosition++;
         if (currentVideoPosition >= alivcVideoInfos.size() - 1) {
-            //列表循环播放，如发现播放完成了从列表的第一个开始重新播放
+            //播放完最后一个 停止播放
             currentVideoPosition = 0;
+            return;
         }
 
         if (alivcVideoInfos.size() > 0) {
             AlivcVideoInfo.Video video = alivcVideoInfos.get(currentVideoPosition);
             if (video != null) {
-                onChangePlaySource(video.getVideoId());
+                onChangePlaySource(video.getVideoId(), 0);
             }
         }
     }
@@ -489,7 +506,6 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
             @Override
             protected void _onNext(NullDataEntity entity) {
                 Log.d("阿里云播放信息", "保存观看进度成功" + "\n");
-
             }
 
             @Override
@@ -501,13 +517,22 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
 
     private CourseRecord getCourseRecord() {
-        ResourcePojos resourcePojos = adapter.getItem(currentVideoPosition);
-        CourseRecord courseRecord = new CourseRecord();
+        ResourcePojos resourcePojos = adapter.getItem(currentVideoPosition);//资源
+
+
+        CourseRecord courseRecord = new CourseRecord();//记录
         courseRecord.setCourseId(resourcePojos.getCourseId());
         courseRecord.setResourceId(resourcePojos.getId());
         courseRecord.setCourseName(courseName);
         courseRecord.setResourceName(resourcePojos.getName());
+
+
         courseRecord.setHistoryTime(MathUtil.percent(video_view.getCurrentPosition(), video_view.getDuration()));//获取播放的当前时间，单位为毫秒
+
+
+        courseRecord.setPastTime(video_view.getCurrentPosition());//获取播放的当前时间，单位为毫秒
+
+
         courseRecord.setResourceImg(resourcePojos.getCourseImg());
         return courseRecord;
     }
@@ -633,27 +658,10 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
 
         }
     }
-//
-//    private void onStsRetrySuccess(String mVid, String akid, String akSecret, String token) {
-//        PlayParameter.PLAY_PARAM_VID = mVid;
-//        PlayParameter.PLAY_PARAM_AK_ID = akid;
-//        PlayParameter.PLAY_PARAM_AK_SECRE = akSecret;
-//        PlayParameter.PLAY_PARAM_SCU_TOKEN = token;
-//
-//        inRequest = false;
-//
-//        AliyunVidSts vidSts = new AliyunVidSts();
-//        vidSts.setVid(PlayParameter.PLAY_PARAM_VID);
-//        vidSts.setAcId(PlayParameter.PLAY_PARAM_AK_ID);
-//        vidSts.setAkSceret(PlayParameter.PLAY_PARAM_AK_SECRE);
-//        vidSts.setSecurityToken(PlayParameter.PLAY_PARAM_SCU_TOKEN);
-//
-//        video_view.setVidSts(vidSts);
-//    }
 
 
     //根据vid获取播放视频url
-    private void onChangePlaySource(String videoId) {
+    private void onChangePlaySource(final String videoId, final int pastTime) {
 
         mdl.resourceUrl(videoId, new RxSubscribe<Video>(context, true) {
             @Override
@@ -666,7 +674,11 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
                         playUrl = playInfo.getPlayURL();
                     }
                 }
-                changePlayURLSource(playUrl, video.getVideoBase().getTitle());
+
+                if (pastTime == 0)
+                    changePlayURLSource(playUrl, video.getVideoBase().getTitle());
+                else
+                    changePlayURLSourceSeekTo(playUrl, video.getVideoBase().getTitle(), pastTime);
             }
 
             @Override
@@ -683,18 +695,29 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
      */
 
     public void changePlayURLSource(String url, String title) {
-
-
         AliyunLocalSource.AliyunLocalSourceBuilder alsb = new AliyunLocalSource.AliyunLocalSourceBuilder();
         PlayParameter.PLAY_PARAM_URL = url;
         alsb.setSource(PlayParameter.PLAY_PARAM_URL);
-
         alsb.setTitle(title);
-
         AliyunLocalSource localSource = alsb.build();
         video_view.setLocalSource(localSource);
-
     }
+
+    /**
+     * 切换播放url资源 跳转到指定时间点的视频画面，时间单位为秒
+     * * @param title 切换视频的title
+     */
+
+    public void changePlayURLSourceSeekTo(String url, String title, int s) {
+        AliyunLocalSource.AliyunLocalSourceBuilder alsb = new AliyunLocalSource.AliyunLocalSourceBuilder();
+        PlayParameter.PLAY_PARAM_URL = url;
+        alsb.setSource(PlayParameter.PLAY_PARAM_URL);
+        alsb.setTitle(title);
+        AliyunLocalSource localSource = alsb.build();
+        video_view.seekTo(s);
+        video_view.setLocalSource(localSource);
+    }
+
 
     /**
      * 切换播放url资源 使用vid+playAuth方式播放

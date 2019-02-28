@@ -143,8 +143,8 @@
                         android:paddingTop="3dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="3dp"
-                        android:text="检测"
-                        android:textColor="#FF000000"
+                        android:text="注册"
+                        android:textColor="#fff"
                         android:textSize="12sp"
                         android:visibility="gone" />
 

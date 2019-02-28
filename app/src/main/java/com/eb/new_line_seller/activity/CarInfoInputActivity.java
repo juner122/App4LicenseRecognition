@@ -113,7 +113,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     int type_action;//页面逻辑  1 添加车况 2修改车况
     CarInfoRequestParameters carEntity;//
-    int car_id;//上个页面转递
+    int car_id, new_car_id;//上个页面转递
 
 
     @OnClick({R.id.tv_enter_order, R.id.tv_car_model})
@@ -167,12 +167,70 @@ public class CarInfoInputActivity extends BaseActivity {
         tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
     }
 
+
+    private void showCarInfo(int car_id) {
+
+        Api().showCarInfo(car_id).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
+            @Override
+            protected void _onNext(CarInfoRequestParameters o) {
+                carEntity = o;
+                tv_car_no.setText(carEntity.getCarNo());
+                tv_car_model.setText(o.getBrand() + "\t" + o.getName());
+                if ("".equals(o.getPostscript()))
+                    et_remarks.setHint("暂无备注");
+                else
+                    et_remarks.setText(o.getPostscript());
+
+                selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
+                autoModel = new AutoModel(o.getNameId(), o.getName());
+
+
+                for (UpDataPicEntity picEntity : o.getImagesList()) {
+
+                    LocalMedia localMedia = new LocalMedia();
+                    localMedia.setPath(picEntity.getImageUrl());
+                    localMedia.setId(picEntity.getId());
+                    localMedia.setDate(picEntity.getCarateTime4Date());
+
+
+                    switch (picEntity.getType()) {
+                        case 1:
+                            netList.add(localMedia);
+                            break;
+                        case 2:
+                            netList2.add(localMedia);
+                            break;
+                        case 3:
+                            netList3.add(localMedia);
+                            break;
+                    }
+                }
+
+                showlist.addAll(netList);
+                showlist2.addAll(netList2);
+                showlist3.addAll(netList3);
+                adapter.setList(showlist);
+                adapter.notifyDataSetChanged();
+                adapter2.setList(showlist2);
+                adapter2.notifyDataSetChanged();
+                adapter3.setList(showlist3);
+                adapter3.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Toast.makeText(CarInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
     @Override
     protected void init() {
 
 
         car_id = getIntent().getIntExtra(Configure.CARID, 0);
-
+        new_car_id = getIntent().getIntExtra("new_car_id", 0);
 
         tv_car_no.setTransformationMethod(new A2bigA());
         if (0 == car_id) {
@@ -181,68 +239,18 @@ public class CarInfoInputActivity extends BaseActivity {
             type_action = 1;
             tv_car_no.setText(getIntent().getStringExtra(Configure.car_no));
 
+            if (new_car_id != 0)
+                showCarInfo(new_car_id);
+
         } else {
             tv_car_no.setFocusable(false);
             tv_title.setText("车况确认");
             type_action = 2;
 
-            Api().showCarInfo(car_id).subscribe(new RxSubscribe<CarInfoRequestParameters>(this, true) {
-                @Override
-                protected void _onNext(CarInfoRequestParameters o) {
-                    carEntity = o;
-                    tv_car_no.setText(carEntity.getCarNo());
-                    tv_car_model.setText(o.getBrand() + "\t" + o.getName());
-                    if ("".equals(o.getPostscript()))
-                        et_remarks.setHint("暂无备注");
-                    else
-                        et_remarks.setText(o.getPostscript());
-
-                    selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
-                    autoModel = new AutoModel(o.getNameId(), o.getName());
-
-
-                    for (UpDataPicEntity picEntity : o.getImagesList()) {
-
-                        LocalMedia localMedia = new LocalMedia();
-                        localMedia.setPath(picEntity.getImageUrl());
-                        localMedia.setId(picEntity.getId());
-                        localMedia.setDate(picEntity.getCarateTime4Date());
-
-
-                        switch (picEntity.getType()) {
-                            case 1:
-                                netList.add(localMedia);
-                                break;
-                            case 2:
-                                netList2.add(localMedia);
-                                break;
-                            case 3:
-                                netList3.add(localMedia);
-                                break;
-                        }
-                    }
-
-                    showlist.addAll(netList);
-                    showlist2.addAll(netList2);
-                    showlist3.addAll(netList3);
-                    adapter.setList(showlist);
-                    adapter.notifyDataSetChanged();
-                    adapter2.setList(showlist2);
-                    adapter2.notifyDataSetChanged();
-                    adapter3.setList(showlist3);
-                    adapter3.notifyDataSetChanged();
-                }
-
-                @Override
-                protected void _onError(String message) {
-                    Toast.makeText(CarInfoInputActivity.this, message, Toast.LENGTH_SHORT).show();
-
-                }
-            });
+            showCarInfo(car_id);
 
 
         }
-
 
         pictureSelector = PictureSelector.create(CarInfoInputActivity.this);
         pictureSelector2 = PictureSelector.create(CarInfoInputActivity.this);
@@ -550,8 +558,13 @@ public class CarInfoInputActivity extends BaseActivity {
             parameters.setCarNo(tv_car_no.getText().toString().toUpperCase());
         } else {
 
-            parameters.setUserId(carEntity.getUserId());
-            parameters.setId(carEntity.getId());
+            if (new_car_id != 0)//旧车 绑定新用户
+                parameters.setUserId(new AppPreferences(this).getString(Configure.user_id, ""));
+            else {
+                parameters.setUserId(carEntity.getUserId());
+                parameters.setId(carEntity.getId());
+            }
+
             parameters.setCarNo(carEntity.getCarNo());
         }
 

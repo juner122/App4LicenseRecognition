@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_about"
-                android:text="关于安安养车" />
+                android:text="关于哥爱车" />
 
 
             <TextView

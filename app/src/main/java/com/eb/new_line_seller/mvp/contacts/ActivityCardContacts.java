@@ -36,6 +36,9 @@ public class ActivityCardContacts {
 
         //显示录入信息页面
         void showView();
+        //
+        void showCheckView();
+        void hideCheckView();
 
         void onShowConfirmDialog();//显示确认Dialog
 
@@ -43,6 +46,7 @@ public class ActivityCardContacts {
 
         void setCarName(String userName);//设置车主姓名
 
+        void etsetFocusable(boolean b);//
     }
 
     /**

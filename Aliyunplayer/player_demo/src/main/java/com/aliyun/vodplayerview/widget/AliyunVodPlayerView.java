@@ -427,6 +427,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
      * @param fromPort 是否从竖屏变过来
      */
     private void changedToLandScape(boolean fromPort) {
+
+//        mControlView.showTitlebarBackBtn();
         //如果不是从竖屏变过来，也就是一直是横屏的时候，就不用操作了
         if (!fromPort) {
             return;
@@ -434,6 +436,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         //屏幕由竖屏转为横屏
         if (mCurrentScreenMode == AliyunScreenMode.Full) {
             //全屏情况转到了横屏
+
         } else if (mCurrentScreenMode == AliyunScreenMode.Small) {
             changeScreenMode(AliyunScreenMode.Full);
         }
@@ -441,6 +444,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         if (orientationChangeListener != null) {
             orientationChangeListener.orientationChange(fromPort, mCurrentScreenMode);
         }
+
+
     }
 
     /**
@@ -449,6 +454,7 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
      * @param fromLand 是否从横屏转过来
      */
     private void changedToPortrait(boolean fromLand) {
+//        mControlView.hideTitlebarBackBtn();
         //屏幕转为竖屏
         if (mIsFullScreenLocked) {
             return;
@@ -473,6 +479,8 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
         if (orientationChangeListener != null) {
             orientationChangeListener.orientationChange(fromLand, mCurrentScreenMode);
         }
+
+
     }
 
     /**

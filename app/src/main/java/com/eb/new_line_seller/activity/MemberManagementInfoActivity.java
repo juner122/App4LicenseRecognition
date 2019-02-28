@@ -59,7 +59,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     String car_number = "", new_car_number, moblie, user_name;
 
-    int user_id, car_id;
+    int user_id, car_id,new_car_id;
 
 
     List<CarInfoRequestParameters> cars = new ArrayList<>();
@@ -75,8 +75,11 @@ public class MemberManagementInfoActivity extends BaseActivity {
     protected void init() {
 
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
+        new_car_id = getIntent().getIntExtra("new_car_id", 0);
         new_car_number = getIntent().getStringExtra(Configure.car_no);
         tv_new_car_numb.setText(new_car_number);
+
+
         new AppPreferences(this).put(Configure.user_id, user_id);
 
 
@@ -163,6 +166,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     private void memberOrderList() {
         new AppPreferences(this).put(Configure.user_id, user_id);
+
         Api().memberOrderList(user_id).subscribe(new RxSubscribe<MemberOrder>(this, true) {
             @Override
             protected void _onNext(MemberOrder memberOrder) {
@@ -179,20 +183,23 @@ public class MemberManagementInfoActivity extends BaseActivity {
                     return;
                 }
 
-                adpter1.setNewData(cars);
-                adapter2.setNewData(memberOrder.getOrderList());
 
-                if ("".equals(new_car_number) && cars.size() > 1) {
+                if (!"".equals(new_car_number)) {
                     for (int i = 0; i < cars.size(); i++) {
                         if (cars.get(i).getCarNo().equals(new_car_number)) {
                             cars.get(i).setSelected(true);//设置车为选中
                             car_number = memberOrder.getCarList().get(i).getCarNo();
                             car_id = memberOrder.getCarList().get(i).getId();
+
+                            new_car_number = "";//清空
+                            tv_new_car_numb.setVisibility(View.INVISIBLE);
                             break;
                         }
                     }
                 }
 
+                adpter1.setNewData(cars);
+                adapter2.setNewData(memberOrder.getOrderList());
 
             }
 
@@ -245,11 +252,19 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_add_car:
 
+//
+//                Intent intent = new Intent(this, CarInfoInputActivity.class);
+//                intent.putExtra(Configure.car_no, new_car_number);
+//                reCarListInfo(intent);
+//                new AppPreferences(this).put(Configure.user_id, user_id);
 
-                Intent intent = new Intent(this, CarInfoInputActivity.class);
-                intent.putExtra("result_code", 1);
-                intent.putExtra(Configure.car_no, new_car_number);
-                reCarListInfo(intent);
+
+                Intent intent3 = new Intent(this, CarInfoInputActivity.class);
+                intent3.putExtra(Configure.car_no, new_car_number);
+                intent3.putExtra("result_code", 1);
+                intent3.putExtra("new_car_id", new_car_id);
+                startActivity(intent3);
+
                 break;
             case R.id.ll_change_name://修改用户名
 

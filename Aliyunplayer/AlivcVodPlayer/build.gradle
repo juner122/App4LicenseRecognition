@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('AliyunVodPlayer-3.4.9.aar'))

@@ -14,8 +14,8 @@
         android:id="@+id/iv"
         android:src="@mipmap/icon_about2"
         android:scaleType="fitXY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="180dp" />
 
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginTop="10dp"
         android:background="#fff"
         android:padding="10dp"
-        android:text="这是一款汽车维修保养的软件，很多用户都在关注，通过这个软件可以在全国各地旗下的汽修店进行汽车维修和保养等等服务，包括各种洗车，车检等等！软件介绍新干线汽车服务连锁创立于1994年，属广州市新干线实业有限公司旗下品牌，专注于汽车保养、汽车维修、汽车美容、钣金喷漆、尾气治理、车险理赔、汽车用品销售等一站式服务。目前，新干线旗下拥有数十家的汽车服务连锁店。软件功能【汽车美容】洗车、打蜡、室内干洗、战铠镀"
+        android:text="\t哥爱车是车浩养公司打造的一个汽车服务平台，已经与广州汽车后市场服务行业的广州新干线养车e站开展深度合作，依托着线下庞大的汽车服务门店资源以及自身多年的网络运营成功经验，致力于打造e站养车生活服务圈。\n\t车浩养公司在2015年推出哥爱车，以汽车后市场线上商城+线下直营门店为经营模式，以车主汽车生活为核心，通过在线平台和汽车服务店提供汽车养护、汽车维修、汽车美容、汽车钣喷、24小时汽车急救、尾气超标治理、车险理赔、汽车用品销售等多方面的服务，实现一站式养车。同时，哥爱车还为线下服务商家提供一站式O2O精准营销解决方案，包括在门店结构规划与设计，接待与施工，项目定价与销售及配件采购和配送等完整的门店经营解决方案。"
         android:textColor="#ff666666"
         android:textSize="12sp" />
 </LinearLayout>

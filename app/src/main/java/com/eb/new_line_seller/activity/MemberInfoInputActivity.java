@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
+import com.eb.new_line_seller.view.ConfirmDialog;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.CarListAdapter;
@@ -67,12 +68,12 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     String new_car_number;
 
-    int user_id, car_id;
+    int user_id, car_id, new_car_id;
 
     @SuppressLint("CheckResult")
     @Override
     protected void init() {
-
+        new_car_id = getIntent().getIntExtra("new_car_id", 0);
         new_car_number = new AppPreferences(this).getString(Configure.car_no, "");
         tv_new_car_numb.setText(new_car_number);
 
@@ -158,9 +159,14 @@ public class MemberInfoInputActivity extends BaseActivity {
             case R.id.tv_add_car:
 
                 new AppPreferences(this).put(Configure.user_id, user_id);
+                Intent intent3 = new Intent(this, CarInfoInputActivity.class);
+                intent3.putExtra(Configure.car_no, new_car_number);
+                intent3.putExtra("new_car_id", new_car_id);
+                startActivity(intent3);
 
-                toActivity(CarInfoInputActivity.class, Configure.car_no, new_car_number);
+
                 break;
+
             case R.id.tv_check:
 
                 if (TextUtils.isEmpty(et_mobile.getText()) || TextUtils.isEmpty(name.getText())) {
@@ -171,7 +177,24 @@ public class MemberInfoInputActivity extends BaseActivity {
                     ToastUtils.showToast("请填写正确手机号码!");
                     return;
                 }
-                getAddUser();
+                String name_s = name.getText().toString();
+                String mobile_s = et_mobile.getText().toString();
+
+                final ConfirmDialog confirmDialog = new ConfirmDialog(this, name_s, mobile_s);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        getAddUser();
+                        confirmDialog.cancel();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.cancel();
+                    }
+                });
+
                 break;
         }
 
@@ -188,11 +211,14 @@ public class MemberInfoInputActivity extends BaseActivity {
                     name.setFocusable(true);
 
                 } else {
+                    name.setFocusable(false);
+                    et_mobile.setFocusable(false);
 
                     if (null != s.getCarList() && s.getCarList().size() > 0) {//新车 老会员
                         Intent intent = new Intent(MemberInfoInputActivity.this, MemberManagementInfoActivity.class);
                         intent.putExtra(Configure.user_id, s.getUser_id());
                         intent.putExtra(Configure.car_no, new_car_number);
+                        intent.putExtra("new_car_id", new_car_id);
                         startActivity(intent);
                         finish();
 
@@ -234,9 +260,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
 
-                ll.setVisibility(View.VISIBLE);
-                car_number = carListAdapter.getData().get(position).getCarNo();
-                car_id = carListAdapter.getData().get(position).getId();
+                setCarInfo(carListAdapter.getData().get(position).getCarNo(), carListAdapter.getData().get(position).getId());
 
                 for (CarInfoRequestParameters c : cars) {
                     c.setSelected(false);
@@ -260,6 +284,13 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     }
 
+    private void setCarInfo(String number, int id) {
+        ll.setVisibility(View.VISIBLE);
+        car_number = number;
+        car_id = id;
+
+    }
+
     private void memberOrderList(int user_id) {
         Api().memberOrderList(user_id).subscribe(new RxSubscribe<MemberOrder>(this, true) {
             @Override
@@ -269,7 +300,8 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                 cars = entity.getCarList();
                 cars.get(0).setSelected(true);
-                ll.setVisibility(View.VISIBLE);
+                setCarInfo(cars.get(0).getCarNo(), cars.get(0).getId());
+
                 carListAdapter.setNewData(cars);
             }
 

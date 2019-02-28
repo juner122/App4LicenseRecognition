@@ -22,7 +22,6 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
 
 
 
-
     public String getLastTime() {
         return lastTime;
     }
