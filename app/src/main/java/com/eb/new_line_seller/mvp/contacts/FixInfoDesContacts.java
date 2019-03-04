@@ -2,6 +2,7 @@ package com.eb.new_line_seller.mvp.contacts;
 
 
 import android.graphics.Bitmap;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.juner.mvp.api.http.RxSubscribe;
@@ -36,6 +37,8 @@ public class FixInfoDesContacts {
         String getDescribe();//描述
 
         Bitmap getDrawableBitmap();//获取签名图片DrawableBitmap
+
+        void cleanText(String ct);//清除指定字符
     }
 
     public interface FixInfoDesPtr extends IBasePresenter {
@@ -45,7 +48,6 @@ public class FixInfoDesContacts {
         void getInfo();
 
         void toTechnicianListActivity();//前往技师选择页面
-
 
 
         void onStart();
@@ -59,6 +61,8 @@ public class FixInfoDesContacts {
         void btnReceiptPrint();//连接蓝牙然后打印
 
         void showConfirmDialog(boolean isFinish);//弹出确认框
+
+        void setEtText(EditText et);//故障描述输入框
 
 
     }

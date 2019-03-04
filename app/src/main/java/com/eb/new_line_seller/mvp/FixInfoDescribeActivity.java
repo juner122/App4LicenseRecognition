@@ -51,7 +51,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     ImageView iv_lpv;
 
 
-    @BindViews({R.id.tv_re1, R.id.tv_re2, R.id.tv_re3, R.id.tv_re4, R.id.tv_re5, R.id.tv_re6, R.id.tv_re7, R.id.tv_re8, R.id.tv_re9, R.id.tv_re10, R.id.tv_re11, R.id.tv_re12, R.id.tv_re13, R.id.tv_re14, R.id.tv_re15})
+    @BindViews({R.id.tv_re7, R.id.tv_re8, R.id.tv_re9, R.id.tv_re10, R.id.tv_re11, R.id.tv_re12, R.id.tv_re13, R.id.tv_re14, R.id.tv_re15})
     public List<TextView> textViews;
 
     @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph})
@@ -121,6 +121,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
         setRTitle("凭证打印");
         getPresenter().getInfo();
         getPresenter().setTipClickListener(textViews);
+        getPresenter().setEtText(et);
 
 
     }
@@ -148,7 +149,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @Override
     public void setTip(String tip) {
-        et.append(tip + ",");
+        et.append(tip);
     }
 
     @Override
@@ -175,6 +176,13 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     @Override
     public Bitmap getDrawableBitmap() {
         return ((BitmapDrawable) iv_lpv.getDrawable()).getBitmap();
+    }
+
+    @Override
+    public void cleanText(String ct) {
+        String re = et.getText().toString();
+        et.setText(re.replace(ct, ""));
+
     }
 
     @Override

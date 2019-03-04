@@ -142,12 +142,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button_check_selector"
-                android:drawableTop="@mipmap/icon_home_more"
+                android:drawableTop="@mipmap/icon_recruit"
                 android:drawablePadding="5dp"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="更多"
+                android:text="人事招聘"
                 android:textSize="10sp" />
 
 

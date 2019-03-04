@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.eb.new_line_seller.api.RxSubscribe;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.fragment.MainFragment1;
@@ -15,6 +16,7 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.new_line_seller.activity.fragment.MainFragmentPlate;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.juner.mvp.bean.VersionInfo;
 
 import java.util.ArrayList;
 
@@ -81,6 +83,13 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        ToastUtils.showToast("回到首页");
+    }
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_main;
@@ -128,5 +137,24 @@ public class MainActivity extends BaseActivity {
         setCurrentTab(fragment);
     }
 
+
+    //检查版本更新
+    private void checkVersionUpDate(){
+
+        Api().checkVersionUpDate().subscribe(new RxSubscribe<VersionInfo>(this,false) {
+            @Override
+            protected void _onNext(VersionInfo versionInfo) {
+
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        });
+
+    }
 
 }

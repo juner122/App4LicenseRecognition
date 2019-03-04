@@ -9,10 +9,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
@@ -41,7 +44,10 @@ import com.juner.mvp.bean.Technician;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -77,6 +83,9 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     String iv_lpv_url = "";//签名图片 七牛云url
 
 
+    Map<Integer, Boolean> pickMap;
+
+
     /**
      * 判断打印机所使用指令是否是ESC指令
      */
@@ -86,6 +95,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     public FixInfoDesPtr(@NonNull FixInfoDesContacts.FixInfoDesUI view) {
         super(view);
         mdl = new FixInfoDesMdl(view.getSelfActivity());
+        pickMap = new HashMap<>();
     }
 
     /**
@@ -93,17 +103,28 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
      */
     @Override
     public void setTipClickListener(List<TextView> textViews) {
+
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                view.setBackgroundResource(R.drawable.button_background_b);
-                getView().setTip(((TextView) view).getText().toString());
-
+                String tip = ((TextView) view).getText().toString();
+                if (!pickMap.get(view.getTag())) {//选中
+                    view.setBackgroundResource(R.drawable.button_background_b);
+                    getView().setTip(String.format("#%s#", tip));
+                    pickMap.put((Integer) view.getTag(), true);
+                } else {//取消选中
+                    view.setBackgroundResource(R.drawable.button_background_z);
+                    tip = String.format("#%s#", tip);
+                    getView().cleanText(tip);
+                    pickMap.put((Integer) view.getTag(), false);
+                }
             }
         };
-        for (TextView v : textViews) {
-            v.setOnClickListener(clickListener);
+
+        for (int i = 0; i < textViews.size(); i++) {
+            textViews.get(i).setOnClickListener(clickListener);
+            textViews.get(i).setTag(i);
+            pickMap.put(i, false);
         }
 
     }
@@ -172,6 +193,11 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     public void showConfirmDialog(final boolean isFinish) {
 
         quotationSave(isFinish);//保存退出
+
+    }
+
+    @Override
+    public void setEtText(EditText et) {
 
     }
 
@@ -299,7 +325,14 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     @Override
     public void toTechnicianListActivity() {
 
-        ((FixInfoDescribeActivity) getView().getSelfActivity()).startActivityForResult(new Intent(getView().getSelfActivity(), TechnicianListActivity.class), new ResultBack() {
+
+        Intent intent = new Intent(getView().getSelfActivity(), TechnicianListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
+        intent.putExtras(bundle);
+
+
+        ((FixInfoDescribeActivity) getView().getSelfActivity()).startActivityForResult(intent, new ResultBack() {
             @Override
             public void resultOk(Intent data) {
                 technicians = data.getParcelableArrayListExtra("Technician");

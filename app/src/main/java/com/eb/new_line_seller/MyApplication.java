@@ -2,6 +2,7 @@ package com.eb.new_line_seller;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
 import com.eb.new_line_seller.util.CartServerUtils;
@@ -37,5 +38,6 @@ public class MyApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+        MultiDex.install(this);//5.0以下要添加
     }
 }

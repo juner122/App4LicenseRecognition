@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/iv_pic"
             android:layout_width="150dp"
-            android:layout_height="75dp"
+            android:layout_height="80dp"
             android:background="#fff"
             tools:srcCompat="@tools:sample/avatars[6]" />
 
@@ -79,6 +79,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="#FFD9D9D9" />
+        android:layout_height="10dp"
+        android:background="#DAEBFD" />
 </LinearLayout>

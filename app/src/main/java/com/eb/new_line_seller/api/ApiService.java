@@ -42,7 +42,9 @@ import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
 import com.juner.mvp.bean.UserInfo;
+import com.juner.mvp.bean.VersionInfo;
 import com.juner.mvp.bean.Video;
+import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
 
@@ -354,6 +356,20 @@ public interface ApiService {
     Observable<BaseBean2<CarNumberRecogResult>> carLicense(@Url String url, @Field("pic") String pic);
 
 
+    /**
+     * 车辆vin识别
+     *
+     * @param url https://market.aliyun.com/products/57124001/cmapi023049.html?spm=5176.2020520132.101.14.5d9a7218KamDd0#sku=yuncode1704900000
+     * @param vinImageBody 车辆vin图像Base64字符串
+     */
+    @Headers({
+            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
+            "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
+    })
+    @POST()
+    Observable<CarNumberRecogResult> carVinLicense(@Url String url, @Body VinImageBody vinImageBody);
+
+
     //门店可录入套卡列表
     @POST("activity/queryAct")
     Observable<BaseBean<List<Meal2>>> queryAct(@Header("X-Nideshop-Token") String token);
@@ -384,6 +400,7 @@ public interface ApiService {
     @POST("course/list")
     @FormUrlEncoded
     Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("course_type") String course_type);
+
     //课程列表
     @POST("course/list")
     Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token);
@@ -401,6 +418,11 @@ public interface ApiService {
     //用户点击视频观看退出时访问，用来增加记录
     @POST("course/addWatchLog")
     Observable<BaseBean<NullDataEntity>> addWatchLog(@Header("X-Nideshop-Token") String token, @Body CourseRecord record);
+
+
+    //检查版本更新
+    @POST("work/getAppVersion")
+    Observable<BaseBean<VersionInfo>> checkVersionUpDate(@Header("X-Nideshop-Token") String token);
 
     //根据vid获取视频
     @POST("course/resourceUrl")

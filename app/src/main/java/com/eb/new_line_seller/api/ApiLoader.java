@@ -44,6 +44,8 @@ import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
+import com.juner.mvp.bean.VersionInfo;
+import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
 import com.eb.new_line_seller.util.ToastUtils;
@@ -792,6 +794,15 @@ public class ApiLoader {
 
 
     /**
+     * 车辆vin识别
+     */
+    public Observable<CarNumberRecogResult> carVinLicense(String pic) {
+
+        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
+    }
+
+
+    /**
      * 报价单列表条件查询
      */
     public Observable<FixInfoList> quotationList(int status, int page) {
@@ -849,6 +860,14 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> addWatchLog(CourseRecord courseRecord) {
         return apiService.addWatchLog(token, courseRecord).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
+     * 检查版本更新
+     */
+    public Observable<VersionInfo> checkVersionUpDate() {
+        return apiService.checkVersionUpDate(token).compose(RxHelper.<VersionInfo>observe());
     }
 
 

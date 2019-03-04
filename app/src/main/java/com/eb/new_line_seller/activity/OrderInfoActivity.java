@@ -2,6 +2,8 @@ package com.eb.new_line_seller.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -201,7 +203,12 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
 
             case R.id.tv_pick_technician://选择技师
-                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
+
+                Intent intent1 = new Intent(this, TechnicianListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
+                intent1.putExtras(bundle);
+                startActivityForResult(intent1, new ResultBack() {
                     @Override
                     public void resultOk(Intent data) {
                         //to do what you want when resultCode == RESULT_OK
@@ -364,6 +371,7 @@ public class OrderInfoActivity extends BaseActivity {
         et_info.setText(info.getOrderInfo().getPostscript());
 
         tv_technician.setText(String2Utils.getString(info.getOrderInfo().getSysUserList()));
+        technicians = info.getOrderInfo().getSysUserList();
 
         tv_jdy.setText(null == info.getReceptionist() || null == info.getReceptionist().getUsername() ? "-" : info.getReceptionist().getUsername());
 

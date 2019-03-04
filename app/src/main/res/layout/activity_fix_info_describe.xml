@@ -484,7 +484,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="开检修工单"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

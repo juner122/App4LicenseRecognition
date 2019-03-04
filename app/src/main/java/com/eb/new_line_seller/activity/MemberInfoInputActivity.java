@@ -231,6 +231,14 @@ public class MemberInfoInputActivity extends BaseActivity {
                         ll_car_list.setVisibility(View.VISIBLE);
                         carListAdapter.setNewData(s.getCarList());
                         initAdapter();
+
+                        new AppPreferences(MemberInfoInputActivity.this).put(Configure.user_id, user_id);
+                        Intent intent3 = new Intent(MemberInfoInputActivity.this, CarInfoInputActivity.class);
+                        intent3.putExtra(Configure.car_no, new_car_number);
+                        intent3.putExtra("new_car_id", new_car_id);
+                        startActivity(intent3);
+
+
                     }
                 }
 

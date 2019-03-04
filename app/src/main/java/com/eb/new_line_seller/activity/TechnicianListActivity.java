@@ -31,12 +31,13 @@ public class TechnicianListActivity extends BaseActivity {
 
     TechnicianAdpter adpter;
     List<Technician> list = new ArrayList<>();
-    List<Technician> pick_list = new ArrayList<>();
+    List<Technician> pick_list;
 
     @Override
     protected void init() {
         tv_title.setText("选择技师");
 
+        pick_list = getIntent().getParcelableArrayListExtra("Technician");
         rv.setLayoutManager(new LinearLayoutManager(this));
         adpter = new TechnicianAdpter(list);
         rv.setAdapter(adpter);
@@ -46,7 +47,7 @@ public class TechnicianListActivity extends BaseActivity {
             protected void _onNext(BasePage<Technician> t) {
 
                 list = t.getList();
-
+                setPick();
                 adpter.setNewData(list);
             }
 
@@ -61,6 +62,11 @@ public class TechnicianListActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
+                if (null == pick_list) {
+                    pick_list = new ArrayList<>();
+
+                }
+
 
                 if (list.get(position).isSelected()) {
                     list.get(position).setSelected(false);
@@ -69,7 +75,6 @@ public class TechnicianListActivity extends BaseActivity {
                     list.get(position).setSelected(true);
                     pick_list.add(list.get(position));
                 }
-
                 adapter.notifyDataSetChanged();
 
 
@@ -78,8 +83,28 @@ public class TechnicianListActivity extends BaseActivity {
 
     }
 
+    //设置选择的项
+    private void setPick() {
+
+        if (null != pick_list && pick_list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                for (int p = 0; p < pick_list.size(); p++) {
+                    if (pick_list.get(p).getUserId() == list.get(i).getUserId()) {
+                        list.get(i).setSelected(true);
+                        pick_list.remove(p);
+                        pick_list.add(p, list.get(i));
+                    }
+                }
+
+            }
+        }
+
+
+    }
+
+
     @OnClick({R.id.but_enter})
-    public void onClick() {
+    public void onClick(View view) {
 
         Intent intent = new Intent();
         Bundle bundle = new Bundle();

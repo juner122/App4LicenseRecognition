@@ -2,12 +2,12 @@ package com.juner.mvp;
 
 public class Configure {
 
-//    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
-    public static final String BaseUrl = "https://business.xgxshop.com/app/";
+    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+//    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
-    public static final String carNumberRecognition_AppCode = "APPCODE 5ae54531c09a4e79a5464422c9c1c907";//OCR文字识别-车牌识别
+    public static final String carVinRecognition = "https://vin.market.alicloudapi.com/api/predict/ocr_vin";//OCR文字识别-车辆vin识别
     public static final String LinePathView_url = "/sdcard/qm.png";//用户签名图片
     public static final int limit_page = 20;//分页数量
 

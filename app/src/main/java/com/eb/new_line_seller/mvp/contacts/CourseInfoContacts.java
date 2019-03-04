@@ -55,17 +55,14 @@ public class CourseInfoContacts {
 
         void initVideoListView(RecyclerView rv);
 
-        void loadPlayList();
+
 
         void onNext();
 
-        void onStsSuccess(String vid, final String akid, final String akSecret, final String token);
 
-        void setPlaySource();
 
-        void setInRequest(boolean is);
 
-        void setCurrentError(ErrorInfo error);
+
 
         void updatePlayerViewMode();
 

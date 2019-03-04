@@ -30,7 +30,7 @@
             android:paddingRight="15dp"
             android:paddingLeft="15dp"
 
-            android:src="@mipmap/icon_search" />
+            android:src="@mipmap/icon_search_black" />
 
     </RelativeLayout>
 

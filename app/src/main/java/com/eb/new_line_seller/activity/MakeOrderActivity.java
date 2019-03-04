@@ -40,9 +40,12 @@ import com.eb.new_line_seller.util.ToastUtils;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.OnClick;
 
 
@@ -84,13 +87,8 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
 
-    @BindView(R.id.tv_re1)
-    TextView tv_re1;
-    @BindView(R.id.tv_re2)
-    TextView tv_re2;
-    @BindView(R.id.tv_re3)
-    TextView tv_re3;
-
+    @BindViews({R.id.tv_re1, R.id.tv_re2, R.id.tv_re3})
+    public List<TextView> textViews;
 
     String car_number, moblie, user_name;
 
@@ -264,6 +262,40 @@ public class MakeOrderActivity extends BaseActivity {
         tv_car_no.setText(car_number);
 
 
+        pickMap = new HashMap<>();
+
+
+        for (int i = 0; i < textViews.size(); i++) {
+            textViews.get(i).setOnClickListener(clickListener);
+            textViews.get(i).setTag(i);
+            pickMap.put(i, false);
+        }
+
+    }
+
+    Map<Integer, Boolean> pickMap;
+
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String tip = ((TextView) view).getText().toString();
+            if (!pickMap.get(view.getTag())) {//选中
+                view.setBackgroundResource(R.drawable.button_background_b);
+                et_postscript.append(String.format("#%s#", tip));
+                pickMap.put((Integer) view.getTag(), true);
+            } else {//取消选中
+                view.setBackgroundResource(R.drawable.button_background_z);
+                tip = String.format("#%s#", tip);
+                cleanText(tip);
+                pickMap.put((Integer) view.getTag(), false);
+            }
+        }
+    };
+
+    public void cleanText(String ct) {
+        String re = et_postscript.getText().toString();
+        et_postscript.setText(re.replace(ct, ""));
+
     }
 
     @Override
@@ -282,7 +314,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_re1, R.id.tv_re2, R.id.tv_re3})
+    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
@@ -381,39 +413,8 @@ public class MakeOrderActivity extends BaseActivity {
                 }
                 break;
 
-            case R.id.tv_re1://加雨刮水
-
-                if (!re1) {
-                    tv_re1.setBackgroundResource(R.drawable.button_background_b);
-                    et_postscript.append("加雨刮水,");
-                    re1 = true;
-                }
-                break;
-            case R.id.tv_re2://检车胎压
-                if (!re2) {
-
-                    tv_re2.setBackgroundResource(R.drawable.button_background_b);
-                    et_postscript.append("检车胎压,");
-                    re2 = true;
-
-                }
-                break;
-            case R.id.tv_re3://清洗脚垫
-
-                if (!re3) {
-
-                    tv_re3.setBackgroundResource(R.drawable.button_background_b);
-                    et_postscript.append("清洗脚垫,");
-                    re3 = true;
-                }
-                break;
-
         }
     }
-
-    boolean re1;
-    boolean re2;
-    boolean re3;
 
     private void onMakeOrder() {
         if (cartUtils.isNull() && cartServerUtils.isNull()) {

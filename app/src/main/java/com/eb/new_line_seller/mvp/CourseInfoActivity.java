@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -134,7 +135,7 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
         tv_price.setText("免费");
         tv_type.setText(String.format("适用人群：%s", courses.getSuitable()));
         tv_number.setText(String.format("学习人次：%s人", courses.getPageView()));
-        tv_text.setText(courses.getCourseMarke());
+        tv_text.setText(Html.fromHtml(courses.getCourseMarke()));
     }
 
     @Override
@@ -148,12 +149,7 @@ public class CourseInfoActivity extends BaseActivity<CourseInfoContacts.CourseIn
         head_view.setVisibility(View.GONE);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getPresenter().setPlaySource();
-        getPresenter().loadPlayList();
-    }
+
 
     @Override
     protected void onResume() {

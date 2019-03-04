@@ -150,7 +150,7 @@ public class PreviewActivity2 extends BaseActivity {
 //                            toActivity(MemberManagementInfoActivity.class, Configure.user_id, user.getUserId());
                             Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
                             intent.putExtra(Configure.user_id, user.getUserId());
-                            intent.putExtra(Configure.car_no,mInputView.getNumber());
+                            intent.putExtra(Configure.car_no, mInputView.getNumber());
                             startActivity(intent);
 
                             finish();
@@ -159,8 +159,8 @@ public class PreviewActivity2 extends BaseActivity {
                         @Override
                         public void doAddUser() {
                             nd.cancel();//旧车 新用户
-                             int new_car_id =  entity.getCarinfo().getId();
-                            toActivity(MemberInfoInputActivity.class,"new_car_id",new_car_id);
+                            int new_car_id = entity.getCarinfo().getId();
+                            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
                             finish();
                         }
 
