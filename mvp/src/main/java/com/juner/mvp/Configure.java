@@ -8,6 +8,7 @@ public class Configure {
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
     public static final String carVinRecognition = "https://vin.market.alicloudapi.com/api/predict/ocr_vin";//OCR文字识别-车辆vin识别
+    public static final String carVinInfo = "https://ali-vin.showapi.com/vin";//OCR文字识别-车辆vin识别
     public static final String LinePathView_url = "/sdcard/qm.png";//用户签名图片
     public static final int limit_page = 20;//分页数量
 

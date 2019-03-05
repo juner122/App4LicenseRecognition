@@ -50,7 +50,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activity.CarVinDISActivity"
+            android:name=".activity.StartActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -221,7 +221,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activity.CourseRecordActivity" />
-        <!--<activity android:name=".activity.CarVinDISActivity"/>-->
+        <activity android:name=".activity.CarVinDISActivity"/>
     </application>
 
 </manifest>

@@ -89,8 +89,14 @@ public class CarInfoInputActivity extends BaseActivity {
     EditText tv_car_no;
     @BindView(R.id.tv_car_model)
     TextView tv_car_model;
+
+    @BindView(R.id.tv_car_vin)
+    TextView tv_car_vin;
+
     @BindView(R.id.et_remarks)
     EditText et_remarks;
+    @BindView(R.id.tv_car_mileage)
+    EditText tv_car_mileage;
 
 
     @BindView(R.id.recycler1)
@@ -112,11 +118,11 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
     int type_action;//页面逻辑  1 添加车况 2修改车况
-    CarInfoRequestParameters carEntity;//
+    CarInfoRequestParameters carEntity, carInfo;//
     int car_id, new_car_id;//上个页面转递
 
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_car_model})
+    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin})
     public void onclick(View v) {
         switch (v.getId()) {
 
@@ -126,6 +132,10 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
                 break;
+            case R.id.tv_car_vin:
+
+                toActivity(CarVinDISActivity.class);
+                break;
 
             case R.id.tv_enter_order:
 
@@ -134,7 +144,7 @@ public class CarInfoInputActivity extends BaseActivity {
                     return;
                 }
 
-                if (null == autoModel || autoModel.getId() == 0) {
+                if (null == autoModel || autoModel.getName().equals("")) {
                     ToastUtils.showToast("请选择车型！");
                     return;
                 }
@@ -162,9 +172,32 @@ public class CarInfoInputActivity extends BaseActivity {
         super.onNewIntent(intent);
 
 
-        selectAutoBrand = intent.getParcelableExtra(Configure.brand);
-        autoModel = intent.getParcelableExtra(Configure.brandModdel);
+        if (null != intent.getParcelableExtra("vinInfo")) {
+            carInfo = intent.getParcelableExtra("vinInfo");//车况对象
+            if (null == selectAutoBrand) {
+                selectAutoBrand = new AutoBrand();
+            } else {
+                selectAutoBrand.setId(0);
+            }
+            selectAutoBrand.setName(carInfo.getBrand());
+
+            if (null == autoModel) {
+                autoModel = new AutoModel();
+            } else {
+                autoModel.setId(0);
+                autoModel.setBrandId(0);
+            }
+            autoModel.setName(carInfo.getName());
+            tv_car_vin.setText(carInfo.getVin());
+        } else {
+
+            selectAutoBrand = intent.getParcelableExtra(Configure.brand);
+            autoModel = intent.getParcelableExtra(Configure.brandModdel);
+
+        }
+
         tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
+
     }
 
 
@@ -184,6 +217,10 @@ public class CarInfoInputActivity extends BaseActivity {
                 selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
                 autoModel = new AutoModel(o.getNameId(), o.getName());
 
+                tv_car_vin.setText(null != carEntity.getVin() || !TextUtils.isEmpty(carEntity.getVin()) ? carEntity.getVin() : "扫描识别车架号");
+
+
+                tv_car_mileage.setText(null == carEntity.getMileage() ? "0" : carEntity.getMileage());
 
                 for (UpDataPicEntity picEntity : o.getImagesList()) {
 
@@ -233,6 +270,8 @@ public class CarInfoInputActivity extends BaseActivity {
         new_car_id = getIntent().getIntExtra("new_car_id", 0);
 
         tv_car_no.setTransformationMethod(new A2bigA());
+        tv_car_vin.setTransformationMethod(new A2bigA());
+
         if (0 == car_id) {
             tv_car_no.setFocusable(true);
             tv_title.setText("车况录入");
@@ -574,6 +613,19 @@ public class CarInfoInputActivity extends BaseActivity {
         parameters.setNameId(null != autoModel ? autoModel.getId() : -1);
         parameters.setPostscript(et_remarks.getText().toString());
         parameters.setImagesList(upDataPicEntities);
+        parameters.setMileage(tv_car_mileage.getText().toString());
+
+
+        if (null != carInfo) {
+            parameters.setVin(carInfo.getVin());
+            parameters.setAllJson(carInfo.getAllJson());
+            parameters.setYear(carInfo.getYear());
+            parameters.setGuidingPrice(carInfo.getGuidingPrice());
+            parameters.setEffluentStandard(carInfo.getEffluentStandard());
+            parameters.setCarType(carInfo.getCarType());
+            parameters.setSaleName(carInfo.getSaleName());
+            parameters.setOutputVolume(carInfo.getOutputVolume());
+        }
 
         Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
         return parameters;

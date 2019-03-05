@@ -3,6 +3,7 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,96 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     private String postscript;
     private String lastTime;
 
+    private String saleName;
+    //排放标准
+    private String effluentStandard;
+    //级别
+    private String carType;
+    //车架号
+    private String vin;
+    //年份
+    private String year;
+    //车型
+    private String allJson;
+    //指导价
+    private BigDecimal guidingPrice;
+    //里程数
+    private String mileage;
 
+    //排量
+    private String outputVolume;
+
+    public String getOutputVolume() {
+        return outputVolume;
+    }
+
+    public void setOutputVolume(String outputVolume) {
+        this.outputVolume = outputVolume;
+    }
+
+    public String getSaleName() {
+        return saleName;
+    }
+
+    public void setSaleName(String saleName) {
+        this.saleName = saleName;
+    }
+
+    public String getEffluentStandard() {
+        return effluentStandard;
+    }
+
+    public void setEffluentStandard(String effluentStandard) {
+        this.effluentStandard = effluentStandard;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getAllJson() {
+        return allJson;
+    }
+
+    public void setAllJson(String allJson) {
+        this.allJson = allJson;
+    }
+
+    public BigDecimal getGuidingPrice() {
+        return guidingPrice;
+    }
+
+    public void setGuidingPrice(BigDecimal guidingPrice) {
+        this.guidingPrice = guidingPrice;
+    }
+
+    public String getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(String mileage) {
+        this.mileage = mileage;
+    }
 
     public String getLastTime() {
         return lastTime;
@@ -140,6 +230,15 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         dest.writeString(this.name);
         dest.writeString(this.postscript);
         dest.writeString(this.lastTime);
+        dest.writeString(this.saleName);
+        dest.writeString(this.effluentStandard);
+        dest.writeString(this.carType);
+        dest.writeString(this.vin);
+        dest.writeString(this.year);
+        dest.writeString(this.allJson);
+        dest.writeSerializable(this.guidingPrice);
+        dest.writeString(this.mileage);
+        dest.writeString(this.outputVolume);
         dest.writeList(this.imagesList);
     }
 
@@ -153,6 +252,15 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         this.name = in.readString();
         this.postscript = in.readString();
         this.lastTime = in.readString();
+        this.saleName = in.readString();
+        this.effluentStandard = in.readString();
+        this.carType = in.readString();
+        this.vin = in.readString();
+        this.year = in.readString();
+        this.allJson = in.readString();
+        this.guidingPrice = (BigDecimal) in.readSerializable();
+        this.mileage = in.readString();
+        this.outputVolume = in.readString();
         this.imagesList = new ArrayList<UpDataPicEntity>();
         in.readList(this.imagesList, UpDataPicEntity.class.getClassLoader());
     }

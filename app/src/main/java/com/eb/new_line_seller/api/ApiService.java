@@ -13,6 +13,7 @@ import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
@@ -56,9 +57,11 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface ApiService {
@@ -368,6 +371,21 @@ public interface ApiService {
     })
     @POST()
     Observable<CarNumberRecogResult> carVinLicense(@Url String url, @Body VinImageBody vinImageBody);
+
+
+
+  /**
+     * 车辆vin信息查询
+     *
+     * @param url https://ali-vin.showapi.com/vin
+     * @param vin 车辆vin
+     */
+    @Headers({
+            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
+            "Content-Type:application/json; charset=utf-8"
+    })
+    @GET()
+    Observable<CarVin> carVinInfoQuery(@Url String url, @Query("vin") String vin);
 
 
     //门店可录入套卡列表

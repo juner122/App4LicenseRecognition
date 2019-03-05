@@ -18,6 +18,7 @@ import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.Coupon;
@@ -799,6 +800,14 @@ public class ApiLoader {
     public Observable<CarNumberRecogResult> carVinLicense(String pic) {
 
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
+    }
+
+    /**
+     * 车辆vin信息查询
+     */
+    public Observable<CarVin> carVinInfoQuery(String vin) {
+
+        return apiService.carVinInfoQuery(Configure.carVinInfo, vin).compose(RxHelper.<CarVin>observeVin());
     }
 
 
