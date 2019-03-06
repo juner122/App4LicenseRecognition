@@ -13,16 +13,23 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.activity.fragment.FixInfoListFragment;
 import com.eb.new_line_seller.activity.fragment.OrderListFragment;
+import com.eb.new_line_seller.adapter.FixInfoListAdapter;
+import com.eb.new_line_seller.mvp.CourseInfoActivity;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ConfirmDialogReMakeName;
+import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.OrderList2Adapter;
 import com.eb.new_line_seller.adapter.SimpleCarInfoAdpter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
@@ -48,25 +55,25 @@ public class MemberManagementInfoActivity extends BaseActivity {
     @BindView(R.id.rv2)
     RecyclerView rv2;
 
+    @BindView(R.id.rv3)
+    RecyclerView rv3;
 
-    @BindView(R.id.st)
-    SlidingTabLayout st;
-    @BindView(R.id.vp)
-    ViewPager vp;
 
     SimpleCarInfoAdpter adpter1;
-    OrderList2Adapter adapter2;
+    OrderList2Adapter adapter2;//   订单
+    FixInfoListAdapter fixAdapter;//检修单
 
     String car_number = "", new_car_number, moblie, user_name;
 
-    int user_id, car_id,new_car_id;
+    int user_id, car_id, new_car_id;
 
 
     List<CarInfoRequestParameters> cars = new ArrayList<>();
+    @BindView(R.id.tl_button_bar)
+    CommonTabLayout commonTabLayout;
+    private String[] mTitles = {"订单历史", "检修单历史"};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
-
-    private String[] title = {"消费订单", "维修估价单"};
-    ArrayList<Fragment> fragments = new ArrayList<>();
 
     @BindView(R.id.tv_new_car_numb)
     TextView tv_new_car_numb;
@@ -103,6 +110,18 @@ public class MemberManagementInfoActivity extends BaseActivity {
             }
         });
         rv2.setAdapter(adapter2);
+
+
+        fixAdapter = new FixInfoListAdapter(R.layout.item_fragment2_main, null, this.getBaseContext());
+        rv3.setLayoutManager(new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                return false;
+            }
+        });
+        rv3.setAdapter(fixAdapter);
+
 
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
@@ -146,11 +165,39 @@ public class MemberManagementInfoActivity extends BaseActivity {
             }
         });
 
-        fragments.add(OrderListFragment.newInstance(0));
-        fragments.add(FixInfoListFragment.newInstance(-1));
-        st.setViewPager(vp, title, this, fragments);
+        fixAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+                toActivity(FixInfoActivity.class, "id", ((FixInfoEntity) adapter.getData().get(position)).getId());
+            }
+        });
 
 
+
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntities.add(new TabEntity(mTitles[i]));
+        }
+        commonTabLayout.setTabData(mTabEntities);
+        commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+
+                if (position == 0) {
+                    rv2.setVisibility(View.VISIBLE);
+                    rv3.setVisibility(View.GONE);
+                } else {
+                    rv3.setVisibility(View.VISIBLE);
+                    rv2.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
     }
 
     @Override
@@ -200,7 +247,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
                 adpter1.setNewData(cars);
                 adapter2.setNewData(memberOrder.getOrderList());
-
+                fixAdapter.setNewData(memberOrder.getFixInfoEntities());
             }
 
             @Override
@@ -315,6 +362,30 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
             }
         });
+
+    }
+
+    class TabEntity implements CustomTabEntity {
+        public String title;
+
+        public TabEntity(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public String getTabTitle() {
+            return title;
+        }
+
+        @Override
+        public int getTabSelectedIcon() {
+            return 0;
+        }
+
+        @Override
+        public int getTabUnselectedIcon() {
+            return 0;
+        }
 
     }
 }

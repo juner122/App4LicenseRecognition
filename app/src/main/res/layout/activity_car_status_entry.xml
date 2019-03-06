@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="#fff"
             android:orientation="vertical"
@@ -50,8 +50,8 @@
                         android:hint="输入车牌号码"
                         android:paddingTop="17dp"
                         android:paddingBottom="17dp"
-
                         android:textColor="#333"
+                        android:textColorHint="#666"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -174,20 +174,21 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="end"
-                        android:inputType="number"
                         android:hint="请输入公里数"
+                        android:inputType="number"
                         android:paddingTop="17dp"
                         android:paddingBottom="17dp"
                         android:textColor="#333"
+                        android:textColorHint="#666"
                         android:textSize="12sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Km"
                         android:layout_marginLeft="5dp"
-                        android:textColor="#ff666666"
-                        android:textSize="12sp" />
+                        android:text="Km"
+                        android:textColor="#333"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
 
@@ -200,6 +201,7 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_rv_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -226,15 +228,10 @@
                         android:layout_height="wrap_content"
                         android:text="记录油表，里程，仪表状态"
                         android:textColor="#333"
+                        android:drawableRight="@mipmap/icon_down"
+                        android:drawablePadding="10dp"
                         android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="(选填)"
-                        android:textColor="#F23325"
-                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -242,6 +239,7 @@
                 android:id="@+id/recycler1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:overScrollMode="never" />
 
 
@@ -251,6 +249,7 @@
                 android:background="#D9D9D9" />
 
             <LinearLayout
+                android:id="@+id/ll_rv_2"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -276,16 +275,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="记录车体内饰状态"
+                        android:drawableRight="@mipmap/icon_down"
+                        android:drawablePadding="10dp"
                         android:textColor="#333"
                         android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="(选填)"
-                        android:textColor="#F23325"
-                        android:textSize="12sp" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -293,6 +288,7 @@
                 android:id="@+id/recycler2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:overScrollMode="never" />
 
             <View
@@ -301,17 +297,18 @@
                 android:background="#D9D9D9" />
 
             <LinearLayout
+                android:id="@+id/ll_rv_3"
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingTop="15dp"
+
                     android:paddingBottom="15dp">
 
                     <TextView
@@ -326,16 +323,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="记录车体外观状态"
+                        android:drawableRight="@mipmap/icon_down"
+                        android:drawablePadding="10dp"
                         android:textColor="#ff000000"
                         android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="(选填)"
-                        android:textColor="#F23325"
-                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -343,6 +335,7 @@
                 android:id="@+id/recycler3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:overScrollMode="never" />
 
             <LinearLayout
@@ -359,6 +352,7 @@
                     android:layout_height="wrap_content"
                     android:text="备注"
                     android:textColor="#333"
+                    android:textColorHint="#666"
                     android:textSize="14sp" />
 
                 <EditText

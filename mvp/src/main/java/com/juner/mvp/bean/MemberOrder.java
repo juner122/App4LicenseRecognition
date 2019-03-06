@@ -14,6 +14,16 @@ public class MemberOrder implements Parcelable {
 
     List<CarInfoRequestParameters> carList;
 
+    List<FixInfoEntity> quotationList;
+
+    public List<FixInfoEntity> getFixInfoEntities() {
+        return quotationList;
+    }
+
+    public void setFixInfoEntities(List<FixInfoEntity> fixInfoEntities) {
+        this.quotationList = fixInfoEntities;
+    }
+
     public MemberEntity getMember() {
         return member;
     }
@@ -50,14 +60,16 @@ public class MemberOrder implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.member, flags);
         dest.writeTypedList(this.orderList);
-        dest.writeList(this.carList);
+        dest.writeTypedList(this.carList);
+        dest.writeList(this.quotationList);
     }
 
     protected MemberOrder(Parcel in) {
         this.member = in.readParcelable(MemberEntity.class.getClassLoader());
         this.orderList = in.createTypedArrayList(OrderInfoEntity.CREATOR);
-        this.carList = new ArrayList<CarInfoRequestParameters>();
-        in.readList(this.carList, CarInfoRequestParameters.class.getClassLoader());
+        this.carList = in.createTypedArrayList(CarInfoRequestParameters.CREATOR);
+        this.quotationList = new ArrayList<FixInfoEntity>();
+        in.readList(this.quotationList, FixInfoEntity.class.getClassLoader());
     }
 
     public static final Creator<MemberOrder> CREATOR = new Creator<MemberOrder>() {

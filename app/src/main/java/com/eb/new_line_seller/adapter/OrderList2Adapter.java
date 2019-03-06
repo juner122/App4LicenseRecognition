@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class OrderList2Adapter extends BaseQuickAdapter<OrderInfoEntity, BaseVie
         helper.setText(R.id.tv_order_number, String.format("订单号:%s", item.getOrder_sn()));
         helper.setText(R.id.tv_date, item.getAdd_time());
         helper.setText(R.id.tv_order_state, item.getOrder_status_text());
-        helper.setText(R.id.tv_money, String.format("￥%s", item.getOrder_price()));
+        helper.setText(R.id.tv_money, String.format("￥%s", MathUtil.twoDecimal(item.getOrder_price())));
 
 
         switch (item.getOrder_status()) {

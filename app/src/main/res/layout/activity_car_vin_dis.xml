@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
+    android:animateLayoutChanges="true"
     android:orientation="vertical">
 
     <include layout="@layout/head_view" />
@@ -16,13 +17,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="140dp">
+            android:layout_height="180dp">
 
 
             <com.camerakit.CameraKitView
                 android:id="@+id/camera"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="180dp"
                 android:adjustViewBounds="true" />
 
 
@@ -63,6 +64,8 @@
                 android:paddingLeft="18dp"
                 android:paddingTop="10dp"
                 android:paddingRight="18dp"
+
+
                 android:paddingBottom="10dp"
                 android:text="手动输入"
                 android:textColor="#ff4a9de3"
@@ -101,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="5dp"
             android:text="车架号"
             android:textColor="#999"
             android:textSize="12sp" />
@@ -112,9 +115,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="车架号"
+            android:letterSpacing="0.3"
             android:padding="10dp"
-            android:textColor="#999"
-            android:textSize="12sp" />
+            android:textColor="#333"
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_check"
@@ -412,7 +416,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="18dp"
                     android:paddingBottom="10dp"
-                    android:text="重扫"
+                    android:text="重  扫"
                     android:textColor="#ff4a9de3"
                     android:textSize="15sp" />
 
@@ -425,7 +429,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="18dp"
                     android:paddingBottom="10dp"
-                    android:text="确定"
+                    android:text="确  定"
                     android:textColor="#fff"
                     android:textSize="15sp" />
 

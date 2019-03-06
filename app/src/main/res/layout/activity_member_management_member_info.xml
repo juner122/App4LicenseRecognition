@@ -9,6 +9,7 @@
     <include layout="@layout/head_view" />
 
     <ScrollView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -17,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/fff"
+            android:background="#EFF5FD"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFF2F2F2"
+                android:background="#fff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -180,12 +181,13 @@
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFF2F2F2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <View
                     android:layout_width="wrap_content"
@@ -210,6 +212,24 @@
                     android:background="#FF666666" />
             </LinearLayout>
 
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/tl_button_bar"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#ffffff"
+                tl:tl_indicator_color="#FFFF3900"
+                tl:tl_indicator_height="3dp"
+                tl:tl_indicator_style="NORMAL"
+                tl:tl_indicator_width="30dp"
+                tl:tl_textSelectColor="#020202"
+                tl:tl_textUnselectColor="#66000000"
+                tl:tl_textsize="14sp"
+                tl:tl_underline_color="#000"
+                tl:tl_underline_height="0dp" />
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv2"
                 android:layout_width="match_parent"
@@ -217,33 +237,14 @@
                 android:layout_weight="1"
                 android:visibility="visible" />
 
-            <com.flyco.tablayout.SlidingTabLayout
-                android:id="@+id/st"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv3"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="8dp"
-                android:background="#fff"
-                android:visibility="gone"
-                tl:tl_divider_color="#1A000000"
-                tl:tl_divider_padding="10dp"
-                tl:tl_indicator_color="#FFF23325"
-                tl:tl_indicator_height="2dp"
-                tl:tl_indicator_width_equal_title="true"
-                tl:tl_tab_padding="10dp"
-                tl:tl_tab_space_equal="true"
-                tl:tl_textSelectColor="#000"
-                tl:tl_textUnselectColor="#FF666666"
-                tl:tl_textsize="12sp"
-                tl:tl_underline_color="#1A000000"
-                tl:tl_underline_height="1dp" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp"
-                android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:visibility="gone" />
+
+
         </LinearLayout>
     </ScrollView>
 

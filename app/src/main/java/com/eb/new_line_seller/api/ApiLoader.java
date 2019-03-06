@@ -844,10 +844,12 @@ public class ApiLoader {
      * 课程列表
      */
     public Observable<List<Courses>> courseList2(String name, String course_type) {
+
+
         if (course_type.equals("0"))
-            return apiService.courseList2(token).compose(RxHelper.<List<Courses>>observe());
+            return apiService.courseList2(token,1000).compose(RxHelper.<List<Courses>>observe());
         else
-            return apiService.courseList2(token, name, course_type).compose(RxHelper.<List<Courses>>observe());
+            return apiService.courseList2(token, name, course_type,1000).compose(RxHelper.<List<Courses>>observe());
     }
 
     /**
@@ -861,7 +863,7 @@ public class ApiLoader {
      * 课程列表
      */
     public Observable<List<Courses>> courseListSearch(String name) {
-        return apiService.courseList2(token, name, null).compose(RxHelper.<List<Courses>>observe());
+        return apiService.courseList2(token, name, null,1000).compose(RxHelper.<List<Courses>>observe());
     }
 
     /**

@@ -417,11 +417,11 @@ public interface ApiService {
     //课程列表
     @POST("course/list")
     @FormUrlEncoded
-    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("course_type") String course_type);
+    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("course_type") String course_type, @Field("limit") int limit);
 
     //课程列表
     @POST("course/list")
-    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token);
+    Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("limit") int limit);
 
     //课程详情
     @POST("course/info")

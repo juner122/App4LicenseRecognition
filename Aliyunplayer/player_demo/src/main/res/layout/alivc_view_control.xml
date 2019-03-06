@@ -16,7 +16,8 @@
             android:id="@+id/alivc_title_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_back" />
+            android:padding="10dp"
+            android:src="@mipmap/icon_back2" />
 
         <TextView
             android:id="@+id/alivc_title_title"

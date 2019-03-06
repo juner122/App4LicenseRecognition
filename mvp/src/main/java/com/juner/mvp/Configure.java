@@ -2,7 +2,7 @@ package com.juner.mvp;
 
 public class Configure {
 
-    public static final String BaseUrl = "http://222.111.88.239:8081/app/";
+    public static final String BaseUrl = "http://222.111.88.142:8081/app/";
 //    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
 

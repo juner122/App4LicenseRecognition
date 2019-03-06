@@ -15,6 +15,7 @@ import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.util.A2bigA;
 import com.eb.new_line_seller.util.BitmapUtil;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.eb.new_line_seller.view.AnimationUtil;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
@@ -104,8 +105,8 @@ public class CarVinDISActivity extends BaseActivity {
             case R.id.re_photo://重扫
 
                 carVinLicense();
-                break;
 
+                break;
             case R.id.enter://确定
 
                 toActivity(CarInfoInputActivity.class, carInfo, "vinInfo");
@@ -152,7 +153,7 @@ public class CarVinDISActivity extends BaseActivity {
 
                     @Override
                     protected void _onError(String message) {
-                        ToastUtils.showToast(message);
+                        ToastUtils.showToast("识别失败,请重新扫描！");
                     }
                 });
             }
@@ -167,7 +168,17 @@ public class CarVinDISActivity extends BaseActivity {
             @Override
             protected void _onNext(CarVin carVin) {
                 sv_info.setVisibility(View.VISIBLE);
+                sv_info.setAnimation(AnimationUtil.moveToViewLocation());
+
+
+
                 ll1.setVisibility(View.GONE);
+
+
+
+
+
+
                 CarVinInfo carVinInfo = carVin.getShowapi_res_body();
                 setCarInfo(carVinInfo);
                 toCarInfo(carVinInfo);
@@ -176,7 +187,7 @@ public class CarVinDISActivity extends BaseActivity {
 
             @Override
             protected void _onError(String message) {
-                ToastUtils.showToast("查询失败：" + message);
+                ToastUtils.showToast("查询失败,请重新查询！");
             }
         });
 
@@ -194,8 +205,6 @@ public class CarVinDISActivity extends BaseActivity {
     }
 
     private void toCarInfo(CarVinInfo carVinInfo) {
-
-
         carInfo = new CarInfoRequestParameters();
         carInfo.setBrand(carVinInfo.getBrand_name());
         carInfo.setName(carVinInfo.getModel_name());
@@ -207,7 +216,6 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setAllJson(carVinInfo.toString());
         carInfo.setVin(carVinInfo.getVin());
         carInfo.setOutputVolume(carVinInfo.getOutput_volume());
-
     }
 
 

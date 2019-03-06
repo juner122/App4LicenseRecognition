@@ -39,6 +39,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="订单号："
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
                     android:textSize="12sp" />
 
                 <TextView
@@ -63,6 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="服务中"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
 

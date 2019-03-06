@@ -122,7 +122,9 @@ public class CarInfoInputActivity extends BaseActivity {
     int car_id, new_car_id;//上个页面转递
 
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin})
+    boolean isrvShow1, isrvShow2, isrvShow3;
+
+    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3})
     public void onclick(View v) {
         switch (v.getId()) {
 
@@ -131,6 +133,36 @@ public class CarInfoInputActivity extends BaseActivity {
                 toActivity(AutoBrandActivity.class);
 
 
+                break;
+            case R.id.ll_rv_1:
+
+                if (isrvShow1) {
+                    recyclerView1.setVisibility(View.GONE);
+                    isrvShow1 = false;
+                } else {
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    isrvShow1 = true;
+                }
+                break;
+            case R.id.ll_rv_2:
+
+                if (isrvShow2) {
+                    recyclerView2.setVisibility(View.GONE);
+                    isrvShow2 = false;
+                } else {
+                    recyclerView2.setVisibility(View.VISIBLE);
+                    isrvShow2 = true;
+                }
+                break;
+            case R.id.ll_rv_3:
+
+                if (isrvShow3) {
+                    recyclerView3.setVisibility(View.GONE);
+                    isrvShow3 = false;
+                } else {
+                    recyclerView3.setVisibility(View.VISIBLE);
+                    isrvShow3 = true;
+                }
                 break;
             case R.id.tv_car_vin:
 
@@ -252,6 +284,20 @@ public class CarInfoInputActivity extends BaseActivity {
                 adapter2.notifyDataSetChanged();
                 adapter3.setList(showlist3);
                 adapter3.notifyDataSetChanged();
+
+                if (netList.size() > 0) {
+                    recyclerView1.setVisibility(View.VISIBLE);
+                    isrvShow1 = true;
+                }
+                if (netList2.size() > 0) {
+                    recyclerView2.setVisibility(View.VISIBLE);
+                    isrvShow2 = true;
+                }
+                if (netList3.size() > 0) {
+                    recyclerView3.setVisibility(View.VISIBLE);
+                    isrvShow3 = true;
+                }
+
             }
 
             @Override

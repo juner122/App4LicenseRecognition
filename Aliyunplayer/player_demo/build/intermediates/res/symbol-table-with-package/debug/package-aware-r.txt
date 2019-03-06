@@ -1156,6 +1156,7 @@ layout tooltip
 layout view_add_download
 layout view_add_download_horizontal
 layout view_item_quality
+mipmap icon_back2
 mipmap icon_delete_tips
 mipmap leak_canary_icon
 string abc_action_bar_home_description
