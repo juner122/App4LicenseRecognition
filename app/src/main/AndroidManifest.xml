@@ -221,7 +221,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activity.CourseRecordActivity" />
-        <activity android:name=".activity.CarVinDISActivity"/>
+        <activity android:name=".activity.CarVinDISActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

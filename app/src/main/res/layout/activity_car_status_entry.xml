@@ -226,10 +226,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="记录油表，里程，仪表状态"
-                        android:textColor="#333"
                         android:drawableRight="@mipmap/icon_down"
                         android:drawablePadding="10dp"
+                        android:text="记录油表，里程，仪表状态"
+                        android:textColor="#333"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -239,8 +239,8 @@
                 android:id="@+id/recycler1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                android:visibility="gone" />
 
 
             <View
@@ -274,9 +274,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="记录车体内饰状态"
                         android:drawableRight="@mipmap/icon_down"
                         android:drawablePadding="10dp"
+                        android:text="记录车体内饰状态"
                         android:textColor="#333"
                         android:textSize="12sp" />
 
@@ -288,8 +288,8 @@
                 android:id="@+id/recycler2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"
@@ -322,9 +322,9 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="记录车体外观状态"
                         android:drawableRight="@mipmap/icon_down"
                         android:drawablePadding="10dp"
+                        android:text="记录车体外观状态"
                         android:textColor="#ff000000"
                         android:textSize="12sp" />
 
@@ -335,8 +335,8 @@
                 android:id="@+id/recycler3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -365,6 +365,164 @@
                     android:hint="请输入备注内容，或者选择下列备注标签"
                     android:padding="8dp"
                     android:textSize="11sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="配置参数"
+                    android:textColor="#ff333333"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="级别"
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_car_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="轿车"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="变速箱"
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="5挡手动"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="排放标准 "
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="国6"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="进气形式"
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="自然吸气"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="生成年份"
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="2015年"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:text="驱动方式"
+                        android:textColor="#ff999999"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="前置前驱"
+                        android:textColor="#ff333333"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </LinearLayout>

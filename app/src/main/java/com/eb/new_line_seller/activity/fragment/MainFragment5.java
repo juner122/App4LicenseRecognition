@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.activity.ChangeStoreActivity;
+import com.eb.new_line_seller.activity.CourseRecordActivity;
 import com.eb.new_line_seller.mvp.LoginActivity2;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -103,7 +104,7 @@ public class MainFragment5 extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out, R.id.tv_change_store})
+    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.auth, R.id.project, R.id.about, R.id.updata, R.id.tv_user_report, R.id.tv_out, R.id.tv_change_store, R.id.mystudy})
     public void onclick(View v) {
 
         switch (v.getId()) {
@@ -155,6 +156,10 @@ public class MainFragment5 extends BaseFragment {
             case R.id.tv_change_store:
 
                 toActivity(ChangeStoreActivity.class);
+                break;
+            case R.id.mystudy:
+                toActivity(CourseRecordActivity.class);
+
                 break;
 
 

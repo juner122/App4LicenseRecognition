@@ -421,6 +421,7 @@ public interface ApiService {
 
     //课程列表
     @POST("course/list")
+    @FormUrlEncoded
     Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("limit") int limit);
 
     //课程详情
@@ -430,7 +431,8 @@ public interface ApiService {
 
     //课程学习记录列表
     @POST("course/queryWatchLog")
-    Observable<BaseBean<List<CourseRecord>>> courseRecord(@Header("X-Nideshop-Token") String token);
+    @FormUrlEncoded
+    Observable<BaseBean<List<CourseRecord>>> courseRecord(@Header("X-Nideshop-Token") String token, @Field("limit") int limit);
 
 
     //用户点击视频观看退出时访问，用来增加记录

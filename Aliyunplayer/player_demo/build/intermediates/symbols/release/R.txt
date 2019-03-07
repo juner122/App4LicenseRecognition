@@ -1155,8 +1155,9 @@ int layout tooltip 0x7f0f0054
 int layout view_add_download 0x7f0f0055
 int layout view_add_download_horizontal 0x7f0f0056
 int layout view_item_quality 0x7f0f0057
-int mipmap icon_delete_tips 0x7f110001
-int mipmap leak_canary_icon 0x7f110002
+int mipmap icon_back2 0x7f110001
+int mipmap icon_delete_tips 0x7f110002
+int mipmap leak_canary_icon 0x7f110003
 int string abc_action_bar_home_description 0x7f150001
 int string abc_action_bar_home_description_format 0x7f150002
 int string abc_action_bar_home_subtitle_description_format 0x7f150003

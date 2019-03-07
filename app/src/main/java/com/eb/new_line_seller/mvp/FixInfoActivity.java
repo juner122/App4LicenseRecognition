@@ -32,6 +32,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @BindView(R.id.tv_fix_sn)
     TextView tv_fix_sn;
+    @BindView(R.id.tv_fix_time)
+    TextView tv_fix_time;
 
 
     @BindView(R.id.tv_mobile)
@@ -160,9 +162,36 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
         tv_car_no.setText(fixInfo.getCarNo());
         tv_fix_sn.setText("单号：" + fixInfo.getQuotationSn());
+
+
+
+
+
         tv_dec.setText(fixInfo.getDescribe());
         tv_mobile.setText(fixInfo.getMobile());
         tv_consignee.setText(fixInfo.getUserName());
+
+
+
+       int status =  fixInfo.getStatus();
+       switch (status){
+           case 0:
+           case 1:
+
+               tv_fix_time.setText("接单时间：" + fixInfo.getAddTime());
+               break;
+           case 2:
+               tv_fix_time.setText("报价时间：" + fixInfo.getInformTime());
+               break;
+           case 3:
+               tv_fix_time.setText("确认时间：" + fixInfo.getInformTime());
+               break;
+           case 4:
+               tv_fix_time.setText("出单时间：" + fixInfo.getInformTime());
+               break;
+
+
+       }
 
 
     }

@@ -2,8 +2,6 @@ package com.eb.new_line_seller.activity;
 
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,16 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.new_line_seller.activity.fragment.FixInfoListFragment;
-import com.eb.new_line_seller.activity.fragment.OrderListFragment;
 import com.eb.new_line_seller.adapter.FixInfoListAdapter;
-import com.eb.new_line_seller.mvp.CourseInfoActivity;
 import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.eb.new_line_seller.view.ConfirmDialogReMakeName;
 import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
@@ -77,6 +71,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     @BindView(R.id.tv_new_car_numb)
     TextView tv_new_car_numb;
+
+
+
 
     @Override
     protected void init() {
@@ -198,6 +195,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
             }
         });
+
+
+
     }
 
     @Override

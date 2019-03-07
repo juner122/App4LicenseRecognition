@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,217 +9,209 @@
 
     <include layout="@layout/head_view" />
 
-    <ScrollView
 
+
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.design.widget.AppBarLayout
+
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#EFF5FD"
-            android:orientation="vertical">
+
+            app:elevation="0dp">
+
+
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                app:layout_scrollFlags="scroll"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.1dp"
+                        android:layout_marginLeft="90dp"
+                        android:layout_weight="1"
+                        android:background="#FF666666" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="基础信息"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0.1dp"
+                        android:layout_marginRight="90dp"
+                        android:layout_weight="1"
+                        android:background="#FF666666" />
+                </LinearLayout>
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:padding="15dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="手机号码"
+                        android:textColor="#ff000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.1dp"
-                    android:layout_marginLeft="90dp"
-                    android:layout_weight="1"
-                    android:background="#FF666666" />
+                    android:background="#FFD9D9D9" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_change_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="基础信息"
-                    android:textColor="#ff666666"
-                    android:textSize="12sp" />
+                    android:background="#fff"
+                    android:gravity="center_vertical"
+                    android:padding="15dp">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车主姓名"
+                        android:textColor="#ff000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:paddingRight="10dp"
+                        android:text=""
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@android:drawable/ic_menu_edit" />
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="0.1dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_weight="1"
-                    android:background="#FF666666" />
-            </LinearLayout>
+                    android:background="#FFD9D9D9" />
 
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center_vertical"
-                android:padding="15dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/tv_add_car"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="手机号码"
-                    android:textColor="#ff000000"
-                    android:textSize="14sp" />
+                    android:background="#fff"
+                    android:gravity="center"
+                    android:padding="15dp">
 
-                <TextView
-                    android:id="@+id/phone"
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="车辆列表"
+                        android:textColor="#ff000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_new_car_numb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text=""
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/button_background_b"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="3dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="3dp"
+                        android:text="新增"
+                        android:textColor="#fff"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <View
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text=""
-                    android:textColor="#ff666666"
-                    android:textSize="12sp" />
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#FFD9D9D9" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-            </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.1dp"
-                android:background="#FFD9D9D9" />
-
-            <LinearLayout
-                android:id="@+id/ll_change_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:gravity="center_vertical"
-                android:padding="15dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="车主姓名"
-                    android:textColor="#ff000000"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:paddingRight="10dp"
-                    android:text=""
-                    android:textColor="#ff666666"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@android:drawable/ic_menu_edit" />
 
             </LinearLayout>
+            <TextView
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.1dp"
-                android:background="#FFD9D9D9" />
-
-            <LinearLayout
-                android:id="@+id/tv_add_car"
+                android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
+
+                android:layout_height="200dp"
+
+                android:background="@android:color/holo_orange_light"
+
                 android:gravity="center"
-                android:padding="15dp">
 
+                android:text="这是头部滚动部分"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="车辆列表"
-                    android:textColor="#ff000000"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_new_car_numb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text=""
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/button_background_b"
-                    android:gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingTop="3dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="3dp"
-                    android:text="新增"
-                    android:textColor="#fff"
-                    android:textSize="12sp"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:background="#FFD9D9D9" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFF2F2F2"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0.1dp"
-                    android:layout_marginLeft="90dp"
-                    android:layout_weight="1"
-                    android:background="#FF666666" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="历史订单"
-                    android:textColor="#ff666666"
-                    android:textSize="12sp" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="0.1dp"
-                    android:layout_marginRight="90dp"
-                    android:layout_weight="1"
-                    android:background="#FF666666" />
-            </LinearLayout>
+                app:layout_scrollFlags="scroll" />
 
             <com.flyco.tablayout.CommonTabLayout
                 android:id="@+id/tl_button_bar"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="#ffffff"
+                android:visibility="visible"
                 tl:tl_indicator_color="#FFFF3900"
                 tl:tl_indicator_height="3dp"
                 tl:tl_indicator_style="NORMAL"
@@ -228,25 +221,52 @@
                 tl:tl_textsize="14sp"
                 tl:tl_underline_color="#000"
                 tl:tl_underline_height="0dp" />
+            <TextView
+
+                android:visibility="gone"
+                android:layout_width="match_parent"
+
+                android:layout_height="100dp"
+
+                android:background="@android:color/holo_blue_light"
+
+                android:gravity="center"
+
+                android:text="这是悬停部分" />
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv2"
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="visible" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:visibility="gone" />
+                android:background="#EFF5FD"
+                android:orientation="vertical">
 
 
-        </LinearLayout>
-    </ScrollView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="visible" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.design.widget.CoordinatorLayout>
 
 
     <LinearLayout

@@ -65,7 +65,6 @@ public class PreviewActivity2 extends BaseActivity {
     @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash})
     public void onClick(View v) {
 
-
         switch (v.getId()) {
             case R.id.photo:
                 cameraKitView.captureImage(new CameraKitView.ImageCallback() {
@@ -183,6 +182,8 @@ public class PreviewActivity2 extends BaseActivity {
 
         // 创建弹出键盘
         mPopupKeyboard = new PopupKeyboard(this);
+        mPopupKeyboard.getKeyboardView().setCNTextSize(14);
+        mPopupKeyboard.getKeyboardView().setENTextSize(14);
         // 弹出键盘内部包含一个KeyboardView，在此绑定输入两者关联。
         mPopupKeyboard.attach(mInputView, this);
 

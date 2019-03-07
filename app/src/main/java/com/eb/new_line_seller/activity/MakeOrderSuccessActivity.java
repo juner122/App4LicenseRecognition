@@ -41,6 +41,8 @@ import com.eb.new_line_seller.util.String2Utils;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.Server;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import java.io.File;
 import java.util.Set;
 import java.util.Vector;
@@ -293,8 +295,16 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // 设置打印左对齐
         esc.addSelectJustification(EscCommand.JUSTIFICATION.LEFT);
 
+        // 手机号码
+        esc.addText("手机号码：" + MathUtil.hidePhone(info.getOrderInfo().getMobile()) + "\n");
+        // 会员姓名
+        esc.addText("会员姓名：" + new AppPreferences(this).getString(Configure.user_name, "null_user_name").substring(0, 1) + "**" + "\n");
+
+
         // 打印文字
         esc.addText(tv_order_sn.getText().toString() + "\n");//打印订单号
+
+
         // 打印文字
         esc.addText(tv_make_date.getText().toString() + "\n");//打印下单时间
 

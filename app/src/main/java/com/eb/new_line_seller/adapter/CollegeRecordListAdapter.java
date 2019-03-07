@@ -1,8 +1,10 @@
 package com.eb.new_line_seller.adapter;
 
 import android.app.Activity;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,8 +12,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.util.MathUtil;
 import com.juner.mvp.bean.CourseRecord;
-import com.juner.mvp.bean.Courses;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class CollegeRecordListAdapter extends BaseQuickAdapter<CourseRecord, BaseViewHolder> {
@@ -33,11 +35,27 @@ public class CollegeRecordListAdapter extends BaseQuickAdapter<CourseRecord, Bas
                 .setText(R.id.tv_course, String.format("上次学习：%s", MathUtil.toDate(item.getAddTime())))
 //                .setText(R.id.tv_product, String.format("￥%s", item.getCoursePrice()))
                 .setText(R.id.tv_product, "免费")
-                .setText(R.id.tv_time, String.format("已学：%s", item.getHistoryTime()));
+                .setText(R.id.tv_time, String.format("已学习：%s", item.getHistoryTime()));
+
 
         Glide.with(activity)
                 .load(item.getResourceImg())
                 .into((ImageView) helper.getView(R.id.iv_pic));
+
+
+        ProgressBar progressBar = helper.getView(R.id.progressBar);
+        progressBar.setMax(100);
+
+
+        String historyTime = item.getHistoryTime();
+        historyTime = historyTime.substring(0, historyTime.length() - 1);
+
+        try {
+            BigDecimal pro = new BigDecimal(historyTime);
+            progressBar.setProgress(pro.intValue());
+        } catch (Exception e) {
+            progressBar.setProgress(0);
+        }
 
 
     }

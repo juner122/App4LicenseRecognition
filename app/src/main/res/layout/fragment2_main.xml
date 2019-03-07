@@ -3,7 +3,7 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="#f8fbfe"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -144,8 +144,8 @@
         tl:tl_textSelectColor="#000"
         tl:tl_textUnselectColor="#FF666666"
         tl:tl_textsize="12sp"
-        tl:tl_underline_color="#1A000000"
-        tl:tl_underline_height="1dp" />
+        tl:tl_underline_color="#d9d9d9"
+        tl:tl_underline_height="0.3dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="#f8fbfe"
     android:orientation="vertical">
 
     <TextView
@@ -89,6 +89,16 @@
                 android:layout_marginBottom="1dp"
                 android:drawableLeft="@mipmap/icon_renzheng"
                 android:text="我的认证" />
+
+            <TextView
+                android:id="@+id/mystudy"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:drawableLeft="@mipmap/icon_study"
+                android:text="我的学习" />
 
 
             <TextView

@@ -162,7 +162,7 @@ public final class R {
     public static final class mipmap {
         private mipmap() {}
 
-        public static int leak_canary_icon = 0x7f110002;
+        public static int leak_canary_icon = 0x7f110003;
     }
     public static final class string {
         private string() {}

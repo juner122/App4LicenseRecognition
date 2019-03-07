@@ -856,7 +856,7 @@ public class ApiLoader {
      * 课程学习记录列表
      */
     public Observable<List<CourseRecord>> courseRecord() {
-        return apiService.courseRecord(token).compose(RxHelper.<List<CourseRecord>>observe());
+        return apiService.courseRecord(token,1000).compose(RxHelper.<List<CourseRecord>>observe());
     }
 
     /**
