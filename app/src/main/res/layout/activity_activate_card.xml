@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".mvp.ActivateCardActivity">
 
@@ -225,6 +226,23 @@
                     android:layout_height="8dp"
                     android:background="#FFF2F2F2" />
 
+
+                <com.flyco.tablayout.CommonTabLayout
+                    android:id="@+id/tl_button_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="#ffffff"
+                    android:visibility="visible"
+                    tl:tl_indicator_color="#FFFF3900"
+                    tl:tl_indicator_height="3dp"
+                    tl:tl_indicator_style="NORMAL"
+                    tl:tl_indicator_width="30dp"
+                    tl:tl_textSelectColor="#020202"
+                    tl:tl_textUnselectColor="#66000000"
+                    tl:tl_textsize="14sp"
+                    tl:tl_underline_color="#000"
+                    tl:tl_underline_height="0dp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -281,13 +299,8 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"
-                    android:background="#FFF2F2F2" />
-
-
                 <LinearLayout
+
                     android:id="@+id/ll_card_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -297,7 +310,7 @@
                     android:paddingTop="8dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="8dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -372,7 +385,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
-                        android:text="录卡人"
+                        android:text="销售人"
                         android:textColor="#FF000000"
                         android:textSize="13sp" />
 

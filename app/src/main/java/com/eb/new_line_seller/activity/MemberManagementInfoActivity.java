@@ -63,6 +63,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
 
     List<CarInfoRequestParameters> cars = new ArrayList<>();
+
+
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
     private String[] mTitles = {"订单历史", "检修单历史"};

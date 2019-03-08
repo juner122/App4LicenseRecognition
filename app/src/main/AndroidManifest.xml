@@ -224,7 +224,8 @@
         <activity android:name=".activity.CarVinDISActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
-        <activity android:name=".mvp.MessageMarketingActivity"></activity>
+        <activity android:name=".mvp.MessageMarketingActivity" />
+        <activity android:name=".activity.PickCarOwnerActivity"></activity>
     </application>
 
 </manifest>

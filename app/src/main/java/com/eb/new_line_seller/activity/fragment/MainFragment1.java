@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.activity.OrderList4DayActivity;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoListActivity;
+import com.eb.new_line_seller.mvp.MessageMarketingActivity;
 import com.eb.new_line_seller.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -128,6 +129,7 @@ public class MainFragment1 extends BaseFragment {
                 break;
             case R.id.but_top7:
                 ToastUtils.showToast("开发中");
+//                toActivity(MessageMarketingActivity.class);
                 break;
             case R.id.but_top8:
                 ToastUtils.showToast("开发中");

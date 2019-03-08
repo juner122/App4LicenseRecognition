@@ -51,6 +51,11 @@ import butterknife.OnClick;
 
 public class MakeOrderActivity extends BaseActivity {
 
+    @Override
+    public int setLayoutResourceID() {
+        return R.layout.activity_make_order;
+    }
+
 
     public static final String TAG = "MakeOrderActivity";
     @BindView(R.id.bto_top1)
@@ -306,11 +311,6 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
-    }
-
-    @Override
-    public int setLayoutResourceID() {
-        return R.layout.activity_make_order;
     }
 
 

@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#fff"
+    android:id="@+id/ll1"
     android:orientation="vertical"
     tools:context=".mvp.MessageMarketingActivity">
 
@@ -45,12 +46,69 @@
         android:layout_marginTop="10dp"
         android:background="#D9D9D9" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收信人"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:text="13800138000、13800188000、13800138001、等"
+            android:textColor="#ff666666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_add" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#D9D9D9" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="短信内容"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        android:background="@drawable/button_background_z"
+        android:gravity="start"
+        android:hint="本店有活动,将于月底回馈新老顾客!欢迎前来围观。"
+        android:minLines="5"
+        android:padding="5dp"
+        android:textColor="#333333"
+        android:textSize="13sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="收信人"
-        android:textColor="#ff333333"
-        android:textSize="14sp" />
-
+        android:layout_margin="10dp"
+        android:text="注：每60字作为为一条短信结算，超过将按多条短信发送。"
+        android:textColor="#ff999999"
+        android:textSize="12sp" />
 </LinearLayout>

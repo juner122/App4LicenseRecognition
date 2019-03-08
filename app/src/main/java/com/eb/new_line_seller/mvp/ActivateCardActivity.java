@@ -22,11 +22,16 @@ import com.eb.new_line_seller.bean.Meal2;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.util.A2bigA;
 import com.eb.new_line_seller.view.ConfirmDialog;
+import com.eb.new_line_seller.view.TabEntity;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.eb.new_line_seller.mvp.contacts.ActivityCardContacts;
 import com.eb.new_line_seller.mvp.presenter.ActivateCardPtr;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,7 +44,15 @@ import static com.eb.new_line_seller.util.DateUtil.getFormatedDateTime;
  * 录卡功能
  */
 public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.ActivityCardPtr> implements ActivityCardContacts.ActivityCardUI, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
+    @Override
+    public int setLayoutResourceID() {
+        return R.layout.activity_activate_card;
+    }
 
+    @BindView(R.id.tl_button_bar)
+    CommonTabLayout commonTabLayout;
+    private String[] mTitles = {"新增套卡", "纸卡录入"};
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     @BindView(R.id.et_user_mobile)
     EditText et_mobile;//手机号码
@@ -73,6 +86,10 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     CarListAdapter carListAdapter;//车辆列表
     MealInfoListAdapter mealInfoListAdapter;//套卡商品列表
+
+
+    @BindView(R.id.ll_card_num)
+    View view_ll_num;
 
     @Override
     protected void init() {
@@ -155,6 +172,31 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
         //获取登陆用户的信息，设置录卡人
         getPresenter().getInfo();
+
+
+        for (int i = 0; i < mTitles.length; i++) {
+            mTabEntities.add(new TabEntity(mTitles[i]));
+        }
+        commonTabLayout.setTabData(mTabEntities);
+        commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+
+
+                if (position == 0) {
+
+                    view_ll_num.setVisibility(View.GONE);
+                } else
+                    view_ll_num.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
     }
 
 
@@ -175,6 +217,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                         getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
                         confirmDialog.cancel();
                     }
+
                     @Override
                     public void doCancel() {
                         confirmDialog.cancel();
@@ -232,11 +275,6 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         }
 
 
-    }
-
-    @Override
-    public int setLayoutResourceID() {
-        return R.layout.activity_activate_card;
     }
 
 
