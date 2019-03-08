@@ -602,7 +602,6 @@ public class CarInfoInputActivity extends BaseActivity {
             observable = Api().fixCarInfo(makeParameters());
         }
 
-
         observable.subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
@@ -658,7 +657,7 @@ public class CarInfoInputActivity extends BaseActivity {
         parameters.setName(null != autoModel ? autoModel.getName() : "");
         parameters.setNameId(null != autoModel ? autoModel.getId() : -1);
         parameters.setPostscript(et_remarks.getText().toString());
-        parameters.setImagesList(upDataPicEntities);
+        parameters.setImagesList(upDataPicEntities);//添加的图片
         parameters.setMileage(tv_car_mileage.getText().toString());
 
 

@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <include layout="@layout/head_view" />
@@ -14,14 +16,14 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
+        android:background="#EFF5FD"
+        android:layout_weight="1"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-
+            android:background="#EFF5FD"
             app:elevation="0dp">
 
 
@@ -30,6 +32,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 app:layout_scrollFlags="scroll"
+                android:background="#EFF5FD"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,23 +194,12 @@
 
 
             </LinearLayout>
-            <TextView
 
-                android:visibility="gone"
-                android:layout_width="match_parent"
-
-                android:layout_height="200dp"
-
-                android:background="@android:color/holo_orange_light"
-
-                android:gravity="center"
-
-                android:text="这是头部滚动部分"
-
-                app:layout_scrollFlags="scroll" />
 
             <com.flyco.tablayout.CommonTabLayout
                 android:id="@+id/tl_button_bar"
+                android:layout_marginTop="0.5dp"
+                android:layout_marginBottom="0.5dp"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="#ffffff"
@@ -221,19 +213,6 @@
                 tl:tl_textsize="14sp"
                 tl:tl_underline_color="#000"
                 tl:tl_underline_height="0dp" />
-            <TextView
-
-                android:visibility="gone"
-                android:layout_width="match_parent"
-
-                android:layout_height="100dp"
-
-                android:background="@android:color/holo_blue_light"
-
-                android:gravity="center"
-
-                android:text="这是悬停部分" />
-
 
         </android.support.design.widget.AppBarLayout>
 
@@ -251,6 +230,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv2"
+                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -258,6 +238,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv3"
+                    android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

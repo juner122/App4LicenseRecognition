@@ -89,35 +89,21 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
         tv_title.setText("会员信息");
         adpter1 = new SimpleCarInfoAdpter(cars);
-        rv1.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
+        rv1.setLayoutManager(new LinearLayoutManager(this) );
         rv1.setAdapter(adpter1);
 
         adapter2 = new OrderList2Adapter(null);
-        rv2.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
+        rv2.setLayoutManager(new LinearLayoutManager(this));
         rv2.setAdapter(adapter2);
 
 
         fixAdapter = new FixInfoListAdapter(R.layout.item_fragment2_main, null, this.getBaseContext());
-        rv3.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
+        rv3.setLayoutManager(new LinearLayoutManager(this) );
         rv3.setAdapter(fixAdapter);
+
+        adapter2.setEmptyView(R.layout.order_list_empty_view, rv2);
+        fixAdapter.setEmptyView(R.layout.fix_list_empty_view, rv3);
+
 
 
         adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

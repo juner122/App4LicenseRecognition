@@ -1,8 +1,10 @@
 package com.eb.new_line_seller.activity;
 
+import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -100,11 +102,22 @@ public class CarVinDISActivity extends BaseActivity {
             case R.id.input://手动输入
 
                 ll_tv_check.setVisibility(View.VISIBLE);
+                et_vin.setFocusable(true);
+                et_vin.setFocusableInTouchMode(true);
+                et_vin.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager)CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                et_vin.setText("");
+
                 break;
 
             case R.id.re_photo://重扫
 
-                carVinLicense();
+                ll_tv_check.setVisibility(View.GONE);
+                sv_info.setVisibility(View.GONE);
+                ll1.setVisibility(View.VISIBLE);
+
 
                 break;
             case R.id.enter://确定
@@ -171,12 +184,7 @@ public class CarVinDISActivity extends BaseActivity {
                 sv_info.setAnimation(AnimationUtil.moveToViewLocation());
 
 
-
                 ll1.setVisibility(View.GONE);
-
-
-
-
 
 
                 CarVinInfo carVinInfo = carVin.getShowapi_res_body();

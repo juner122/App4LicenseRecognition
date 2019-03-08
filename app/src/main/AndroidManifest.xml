@@ -222,7 +222,9 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activity.CourseRecordActivity" />
         <activity android:name=".activity.CarVinDISActivity" />
-        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".TestActivity" />
+        <activity android:name=".mvp.MarketingToolsActivity" />
+        <activity android:name=".mvp.MessageMarketingActivity"></activity>
     </application>
 
 </manifest>

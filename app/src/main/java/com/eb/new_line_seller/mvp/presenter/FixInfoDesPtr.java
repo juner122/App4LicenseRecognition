@@ -350,6 +350,11 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
             return;
         }
 
+        if (null == getView().getDescribe() || "".equals(getView().getDescribe())) {
+            ToastUtils.showToast("备注不能为空！");
+            return;
+        }
+
 
         fixInfo = new FixInfoEntity();
         fixInfo.setCarId(carId);

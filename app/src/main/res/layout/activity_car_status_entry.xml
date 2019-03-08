@@ -169,7 +169,7 @@
 
                     <EditText
                         android:id="@+id/tv_car_mileage"
-                        android:layout_width="wrap_content"
+                        android:layout_width="292dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
@@ -186,9 +186,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="Km"
+                        android:text="km"
                         android:textColor="#333"
-                        android:textSize="16sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
 
@@ -325,7 +325,7 @@
                         android:drawableRight="@mipmap/icon_down"
                         android:drawablePadding="10dp"
                         android:text="记录车体外观状态"
-                        android:textColor="#ff000000"
+                        android:textColor="#333"
                         android:textSize="12sp" />
 
                 </LinearLayout>
@@ -362,7 +362,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/button_background_z"
                     android:gravity="top"
-                    android:hint="请输入备注内容，或者选择下列备注标签"
+                    android:hint="请输入备注内容"
                     android:padding="8dp"
                     android:textSize="11sp" />
             </LinearLayout>

@@ -5,7 +5,6 @@
     android:background="#f2f2f2"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
-
     <include layout="@layout/head_view" />
 
 
@@ -93,7 +92,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:focusable="true"
         android:orientation="horizontal"
         android:paddingLeft="8dp"
         android:paddingTop="3dp"
@@ -107,17 +105,18 @@
             android:padding="5dp"
             android:text="车架号"
             android:textColor="#999"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
         <EditText
             android:id="@+id/et_vin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="车架号"
+            android:hint="请输入车架号"
             android:letterSpacing="0.3"
             android:padding="10dp"
             android:textColor="#333"
+            android:maxLines="17"
             android:textSize="13sp" />
 
         <TextView
