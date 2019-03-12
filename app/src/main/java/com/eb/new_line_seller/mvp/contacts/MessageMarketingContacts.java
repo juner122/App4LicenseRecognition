@@ -1,5 +1,7 @@
 package com.eb.new_line_seller.mvp.contacts;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 
@@ -21,13 +23,16 @@ public class MessageMarketingContacts {
      * presenter 层接口
      */
     public interface MessageMarketingPtr extends IBasePresenter {
+        void getRecordInfo( RecyclerView rv2);//
 
+        void getModleInfo( RecyclerView rv3);//
     }
 
     /**
      * model 层接口
      */
     public interface MessageMarketingMdl {
+
 
     }
 

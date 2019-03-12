@@ -75,8 +75,8 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp">
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp">
 
                 <ImageView
                     android:layout_width="23dp"

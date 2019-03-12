@@ -3,7 +3,7 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class MemberEntity implements Parcelable {
+public class MemberEntity extends SelectedBean implements Parcelable {
 
 
 

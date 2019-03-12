@@ -38,6 +38,7 @@ public class CardInputConfirmDialog extends Dialog {
     RecyclerView rv_meal;
     String mealName;//卡名
     String card_sn;//卡号
+    int position;
 
     public interface ClickListenerInterface {
 
@@ -46,12 +47,12 @@ public class CardInputConfirmDialog extends Dialog {
         public void doCancel();
     }
 
-    public CardInputConfirmDialog(Context context, List<MealEntity> mealInfoList, String mealName, String card_sn) {
+    public CardInputConfirmDialog(Context context, List<MealEntity> mealInfoList, String mealName, String card_sn, int position) {
         super(context, R.style.my_dialog);
         this.context = context;
         this.mealName = mealName;
         this.card_sn = card_sn;
-
+        this.position = position;
         mealInfoListAdapter = new MealInfoListAdapter(mealInfoList);
 
 
@@ -71,6 +72,7 @@ public class CardInputConfirmDialog extends Dialog {
         setContentView(view);
 
         et_code = view.findViewById(R.id.et_car_code);
+        View ll_card_num = view.findViewById(R.id.ll_card_num);
         TextView title = view.findViewById(R.id.title);
         rv_meal = view.findViewById(R.id.rv);
 
@@ -84,6 +86,11 @@ public class CardInputConfirmDialog extends Dialog {
 
         title.setText(mealName);
         et_code.setText(card_sn);
+
+        if (position == 0)
+            ll_card_num.setVisibility(View.GONE);
+        else
+            ll_card_num.setVisibility(View.VISIBLE);
 
         tv_confirm.setOnClickListener(new clickListener());
         tv_cancel.setOnClickListener(new clickListener());
@@ -106,7 +113,7 @@ public class CardInputConfirmDialog extends Dialog {
             int id = v.getId();
             switch (id) {
                 case R.id.tv_confirm:
-                    if (TextUtils.isEmpty(et_code.getText())) {
+                    if (TextUtils.isEmpty(et_code.getText()) && position != 0) {
                         Toast.makeText(context, "卡号不能为空！", Toast.LENGTH_SHORT).show();
                         return;
                     }

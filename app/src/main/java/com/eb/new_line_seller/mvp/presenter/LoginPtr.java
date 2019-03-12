@@ -53,7 +53,7 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
                 //保存token
                 mLoginMdl.saveToken(token, context);
                 mLoginMdl.savePhone(mobile, context);
-                getView().loginSuccess();
+                getView().loginSuccess(token.getAppMenuList());
             }
 
             @Override

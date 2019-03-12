@@ -1,7 +1,9 @@
 package com.eb.new_line_seller.adapter;
 
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -20,9 +22,6 @@ public class CarListAdapter extends BaseQuickAdapter<CarInfoRequestParameters, B
     @Override
     protected void convert(BaseViewHolder helper, CarInfoRequestParameters item) {
 
-        helper.setText(R.id.tv_car_no, item.getCarNo())
-                .addOnClickListener(R.id.tv_check_car);
-
 
         ImageView iv = helper.getView(R.id.iv);
 
@@ -30,6 +29,21 @@ public class CarListAdapter extends BaseQuickAdapter<CarInfoRequestParameters, B
             iv.setImageResource(R.drawable.icon_pick2);
         else
             iv.setImageResource(R.drawable.icon_unpick2);
+
+
+        if (item.getId() == -1) {
+            helper.setText(R.id.tv_car_no, "不限车牌");
+
+
+            helper.getView(R.id.tv_check_car).setVisibility(View.INVISIBLE);
+            helper.getView(R.id.tv_null).setVisibility(View.VISIBLE);
+        } else {
+
+            helper.setText(R.id.tv_car_no, item.getCarNo())
+                    .addOnClickListener(R.id.tv_check_car);
+            helper.getView(R.id.tv_check_car).setVisibility(View.VISIBLE);
+            helper.getView(R.id.tv_null).setVisibility(View.GONE);
+        }
 
 
     }

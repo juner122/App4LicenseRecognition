@@ -330,8 +330,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
         intent.putExtras(bundle);
-
-
         ((FixInfoDescribeActivity) getView().getSelfActivity()).startActivityForResult(intent, new ResultBack() {
             @Override
             public void resultOk(Intent data) {

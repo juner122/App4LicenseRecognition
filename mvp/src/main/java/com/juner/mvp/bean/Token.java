@@ -1,9 +1,21 @@
 package com.juner.mvp.bean;
 
+import java.util.List;
+
 public class Token {
 
 
     TokenEntity token;
+    List<AppMenu> appMenuList;
+
+
+    public List<AppMenu> getAppMenuList() {
+        return appMenuList;
+    }
+
+    public void setAppMenuList(List<AppMenu> appMenuList) {
+        this.appMenuList = appMenuList;
+    }
 
     public TokenEntity getToken() {
         return token;

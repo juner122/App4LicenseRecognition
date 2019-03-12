@@ -32,6 +32,10 @@ public interface ApiService {
     @POST("activity/remakeActCard")
     Observable<BaseBean<NullDataEntity>> remakeActCard(@Header("X-Nideshop-Token") String token, @Body List<RemakeActCard> list);
 
+    //纸质卡新增
+    @POST("activity/addActCard")
+    Observable<BaseBean<NullDataEntity>> addActCard(@Header("X-Nideshop-Token") String token, @Body List<RemakeActCard> list);
+
 
     //获取当前登录用户
     @POST("/app/sysuser/getInfo")

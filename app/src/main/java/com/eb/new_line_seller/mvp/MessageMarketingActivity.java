@@ -1,21 +1,32 @@
 package com.eb.new_line_seller.mvp;
 
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.PickCarOwnerActivity;
+import com.eb.new_line_seller.activity.ResultBack;
+import com.eb.new_line_seller.activity.TechnicianListActivity;
 import com.eb.new_line_seller.mvp.contacts.MessageMarketingContacts;
 import com.eb.new_line_seller.mvp.presenter.MessageMarketingPtr;
+import com.eb.new_line_seller.util.String2Utils;
 import com.eb.new_line_seller.view.TabEntity;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.juner.mvp.bean.MemberEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MessageMarketingActivity extends BaseActivity<MessageMarketingContacts.MessageMarketingPtr> implements MessageMarketingContacts.MessageMarketingUI {
 
@@ -31,6 +42,36 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
     RecyclerView rv2;
     @BindView(R.id.rv3)
     RecyclerView rv3;
+    @BindView(R.id.tv_list_pick)
+    TextView tv_list_pick;
+    List<MemberEntity> memberEntity;
+
+    @OnClick({R.id.ll_add})
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.ll_add:
+
+
+                Intent intent = new Intent(this, PickCarOwnerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("MemberEntity", (ArrayList<? extends Parcelable>) memberEntity);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, new ResultBack() {
+                    @Override
+                    public void resultOk(Intent data) {
+                        memberEntity = data.getParcelableArrayListExtra("MemberEntity");
+                        tv_list_pick.setText(String2Utils.getString2(memberEntity));
+
+                    }
+                });
+
+                break;
+
+        }
+
+
+    }
 
 
     @BindView(R.id.tl_button_bar)
@@ -42,7 +83,6 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
     @Override
     protected void init() {
         tv_title.setText("短信营销");
-
 
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i]));
@@ -60,6 +100,9 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
 
             }
         });
+
+        getPresenter().getModleInfo(rv3);
+        getPresenter().getRecordInfo(rv2);
 
 
     }

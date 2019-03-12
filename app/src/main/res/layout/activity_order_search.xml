@@ -28,6 +28,7 @@
             android:text="返回"
             android:textColor="#ff000000"
             android:textSize="12sp" />
+
         <include layout="@layout/search_bar" />
 
     </LinearLayout>
@@ -39,8 +40,14 @@
         android:background="#d9d9d9"
         android:paddingTop="20dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/easylayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.ajguan.library.EasyRefreshLayout>
 </LinearLayout>

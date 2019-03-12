@@ -7,20 +7,28 @@
     android:orientation="horizontal">
 
 
-
-
     <ImageView
         android:id="@+id/iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:layout_marginLeft="10dp"
         android:id="@+id/tv_car_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:text="苏JRE890"
+        android:textColor="#ff666666"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:text="不限车牌的套卡,请勿选择车牌"
         android:textColor="#ff666666"
         android:textSize="12sp" />
 
@@ -33,9 +41,10 @@
         android:background="@drawable/button_background_z"
         android:paddingLeft="13dp"
         android:paddingTop="5dp"
-        android:paddingRight="13dp"
+        android:paddingRight="10dp"
         android:paddingBottom="5dp"
         android:text="查看车况"
+        android:visibility="invisible"
         android:textColor="#ff000000"
         android:textSize="13sp" />
 </LinearLayout>

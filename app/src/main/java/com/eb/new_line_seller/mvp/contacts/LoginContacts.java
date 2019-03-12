@@ -7,8 +7,11 @@ import com.juner.mvp.api.http.RxSubscribe;
 
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
+import com.juner.mvp.bean.AppMenu;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Token;
+
+import java.util.List;
 
 /**
  * 登录页面契约类Contacts
@@ -23,7 +26,7 @@ public class LoginContacts {
         /**
          * 登录成功
          */
-        void loginSuccess();
+        void loginSuccess(List<AppMenu> list);//权限
 
         /**
          * 登录失败

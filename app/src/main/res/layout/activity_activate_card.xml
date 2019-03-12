@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".mvp.ActivateCardActivity">
 
@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
+            android:background="#fff"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:background="#fff"
             android:orientation="vertical">
 
             <LinearLayout
@@ -193,7 +193,8 @@
                             android:gravity="center"
                             android:text="不限车牌的套卡 请勿选择车牌"
                             android:textColor="#FFF23325"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:visibility="invisible" />
 
                         <ImageView
                             android:id="@+id/tv_add_car"
@@ -215,9 +216,9 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_car"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp" />
 

@@ -211,7 +211,13 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     }
 
 
+    public CarInfoRequestParameters(int id, String carNo) {
+        this.id = id;
+        this.carNo = carNo;
+    }
+
     public CarInfoRequestParameters() {
+
     }
 
     @Override

@@ -277,7 +277,7 @@ public class ApiLoader {
      * @return
      */
     public Observable<BasePage<Technician>> sysuserList() {
-
+        map.put("limit", 100);//页数
         return apiService.sysuserList(map).compose(RxHelper.<BasePage<Technician>>observe());
     }
 
@@ -837,6 +837,12 @@ public class ApiLoader {
      */
     public Observable<RecordMeal> queryConnectAct(String name) {
         return apiService.queryConnectAct(token, name).compose(RxHelper.<RecordMeal>observe());
+
+    }    /**
+     * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+     */
+    public Observable<RecordMeal> queryConnectAct(int page) {
+        return apiService.queryConnectAct(token, page).compose(RxHelper.<RecordMeal>observe());
 
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.eb.new_line_seller.activity.fragment.MainFragment1New;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -16,9 +17,11 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.new_line_seller.activity.fragment.MainFragmentPlate;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.juner.mvp.bean.AppMenu;
 import com.juner.mvp.bean.VersionInfo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,15 +33,15 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
-    private String[] mTitles = {"工作台", "订单", "", "学院", "我的"};
+    private String[] mTitles = {"工作台", "", "我的"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     private int[] mIconUnselectIds = {
-            R.mipmap.icon_bottom_button1_unselect, R.mipmap.icon_bottom_button2_unselect,
-            R.color.fff, R.mipmap.icon_bottom_button4_unselect, R.mipmap.icon_bottom_button5_unselect};
+            R.mipmap.icon_bottom_button1_unselect,
+            R.color.fff, R.mipmap.icon_bottom_button5_unselect};
     private int[] mIconSelectIds = {
-            R.mipmap.icon_bottom_button1_select, R.mipmap.icon_bottom_button2_select,
-            R.color.fff, R.mipmap.icon_bottom_button4_select, R.mipmap.icon_bottom_button5_select};
+            R.mipmap.icon_bottom_button1_select,
+            R.color.fff, R.mipmap.icon_bottom_button5_select};
 
     @OnClick({R.id.ll, R.id.ll2})
     public void onClick(View v) {
@@ -46,10 +49,7 @@ public class MainActivity extends BaseActivity {
             case R.id.ll:
                 toActivity(PreviewActivity2.class);
                 break;
-            case R.id.ll2:
-                ToastUtils.showToast("学院建设中！");
 
-                break;
         }
     }
 
@@ -65,11 +65,11 @@ public class MainActivity extends BaseActivity {
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
-        mFragments.add(new MainFragment1());
-        mFragments.add(new MainFragment2());
+        mFragments.add(new MainFragment1New());
+//        mFragments.add(new MainFragment2());
 //        mFragments.add(new MainFragment3());
         mFragments.add(new MainFragmentPlate());
-        mFragments.add(new MainFragment4());
+//        mFragments.add(new MainFragment4());
         mFragments.add(new MainFragment5());
         commonTabLayout.setTabData(mTabEntities, this, R.id.fragment, mFragments);
         setCurrentTab(0);
@@ -87,7 +87,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        ToastUtils.showToast("回到首页");
     }
 
     @Override
@@ -139,12 +138,11 @@ public class MainActivity extends BaseActivity {
 
 
     //检查版本更新
-    private void checkVersionUpDate(){
+    private void checkVersionUpDate() {
 
-        Api().checkVersionUpDate().subscribe(new RxSubscribe<VersionInfo>(this,false) {
+        Api().checkVersionUpDate().subscribe(new RxSubscribe<VersionInfo>(this, false) {
             @Override
             protected void _onNext(VersionInfo versionInfo) {
-
 
 
             }

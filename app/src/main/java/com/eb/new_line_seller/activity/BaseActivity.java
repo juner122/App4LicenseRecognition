@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -40,6 +41,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.tv_back)
     protected View tv_back;
 
+    @BindView(R.id.tv_iv_r)
+    protected ImageView iv_iv_r;
+
     @BindView(R.id.head_view)
     View head_view;
 
@@ -69,6 +73,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    public void showIVR() {
+        iv_iv_r.setVisibility(View.VISIBLE);
+
+    }
 
     public ApiLoader Api() {
 
@@ -255,7 +263,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (null == list) return;
+        if (null == list || list.size() == 0) return;
         if (resultCode == RESULT_OK) {
             list.get(requestCode).resultOk(data);
         } else {

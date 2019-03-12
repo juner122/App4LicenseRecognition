@@ -4,7 +4,7 @@ buildscript {
     repositories {
         jcenter()
         google()
-
+        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 //    apply from: 'thirdparty-lib/config.gradle'
 
@@ -21,7 +21,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         google()
         maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
-
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         flatDir { dirs 'libs' }
     }
 }

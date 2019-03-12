@@ -103,6 +103,17 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
 
     }
 
+    protected void toActivity(Class c, List p, String key) {
+
+
+        Intent intent = new Intent(this, c);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(key, (ArrayList<? extends Parcelable>) p);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
     protected void toActivity(Class c, ArrayList p, String key) {
 
 

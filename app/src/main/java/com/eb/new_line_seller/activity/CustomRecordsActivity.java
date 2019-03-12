@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.new_line_seller.R;
@@ -35,6 +37,11 @@ public class CustomRecordsActivity extends BaseActivity {
     RecordMealListAdapter adapter;
 
     List<MultiItemEntity> list;
+
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
+
+    int page = 1;//第一页
 
     @OnClick({R.id.iv_search, R.id.back})
     public void onClick(View v) {
@@ -86,6 +93,24 @@ public class CustomRecordsActivity extends BaseActivity {
 
         });
 
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                page++;
+                loadMoreData();
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                page = 1;
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                queryConnectAct("");
+
+            }
+        });
+
+
     }
 
     @Override
@@ -105,6 +130,7 @@ public class CustomRecordsActivity extends BaseActivity {
         Api().queryConnectAct(name).subscribe(new RxSubscribe<RecordMeal>(this, true) {
             @Override
             protected void _onNext(RecordMeal recordMeal) {
+                easylayout.refreshComplete();
                 list = generateData(recordMeal.getList());
                 adapter.setNewData(list);
 
@@ -120,6 +146,36 @@ public class CustomRecordsActivity extends BaseActivity {
             }
         });
     }
+
+    private void loadMoreData() {
+
+        Api().queryConnectAct(page).subscribe(new RxSubscribe<RecordMeal>(this, true) {
+            @Override
+            protected void _onNext(RecordMeal recordMeal) {
+
+                easylayout.loadMoreComplete();
+                if (recordMeal.getList().size() == 0) {
+                    ToastUtils.showToast("没有更多了！");
+
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
+                    return;
+                }
+
+                list.addAll(generateData(recordMeal.getList()));
+                adapter.setNewData(list);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                easylayout.loadMoreComplete();
+                easylayout.setLoadMoreModel(LoadModel.NONE);
+                ToastUtils.showToast(message);
+            }
+        });
+
+
+    }
+
 
     @Override
     public int setLayoutResourceID() {

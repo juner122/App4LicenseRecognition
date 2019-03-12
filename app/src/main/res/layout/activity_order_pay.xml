@@ -213,6 +213,7 @@
                 android:background="#D9D9D9" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -283,6 +284,7 @@
             </LinearLayout>
 
             <View
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginTop="8dp"

@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.MemberEntity;
 import com.juner.mvp.bean.Server;
 import com.juner.mvp.bean.Technician;
 
@@ -18,6 +19,18 @@ public class String2Utils {
 
         String s = "";
         for (Technician t : list) {
+            s = String.format("%s,\t%s", s, t.getUsername());
+        }
+
+        return s.substring(1);
+
+
+    } public static String getString2(List<MemberEntity> list) {
+
+        if (null == list || list.size() == 0) return "请选择技师";
+
+        String s = "";
+        for (MemberEntity t : list) {
             s = String.format("%s,\t%s", s, t.getUsername());
         }
 

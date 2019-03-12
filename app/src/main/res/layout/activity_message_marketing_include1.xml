@@ -47,6 +47,7 @@
         android:background="#D9D9D9" />
 
     <LinearLayout
+        android:id="@+id/ll_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -62,11 +63,13 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_list_pick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:text="13800138000、13800188000、13800138001、等"
+            android:text=""
+            android:ellipsize="end"
             android:textColor="#ff666666"
             android:textSize="12sp" />
 

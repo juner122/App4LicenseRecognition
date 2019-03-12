@@ -10,17 +10,17 @@ import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.activity.OrderList4DayActivity;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoListActivity;
-import com.eb.new_line_seller.mvp.MessageMarketingActivity;
+import com.eb.new_line_seller.mvp.MarketingToolsActivity;
 import com.eb.new_line_seller.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.activity.ActivityPackageListActivity;
 import com.eb.new_line_seller.activity.BillListActivity;
 import com.eb.new_line_seller.activity.MainActivity;
 import com.eb.new_line_seller.activity.MemberManagementActivity;
 import com.eb.new_line_seller.activity.ProductListActivity;
 import com.eb.new_line_seller.activity.StaffManagementActivity;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.WorkIndex;
 import com.eb.new_line_seller.util.MathUtil;
 import com.eb.new_line_seller.util.ToastUtils;
@@ -29,6 +29,11 @@ import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.juner.mvp.Configure.shop_address;
+import static com.juner.mvp.Configure.shop_name;
+import static com.juner.mvp.Configure.shop_phone;
+import static com.juner.mvp.Configure.shop_user_name;
 
 /**
  * 主页页面：工作台
@@ -69,7 +74,7 @@ public class MainFragment1 extends BaseFragment {
         Glide.with(this)
                 .load(getResources().getDrawable(R.mipmap.banner2))
                 .into(iv);
-
+        new AppPreferences(getContext()).put(Configure.car_no, "");
     }
 
     @Override
@@ -99,13 +104,16 @@ public class MainFragment1 extends BaseFragment {
 
             }
         });
+
+
+
     }
 
     @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.but_top5, R.id.but_top6, R.id.but_top7, R.id.but_top8, R.id.rv_button_bill, R.id.rv_order_count, R.id.rv_new_members, R.id.ll_moon, R.id.ll_day})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_top1:
-                new AppPreferences(getContext()).put(Configure.car_no, "");
+
 
                 toActivity(MemberManagementActivity.class);
                 break;
@@ -128,8 +136,9 @@ public class MainFragment1 extends BaseFragment {
                 toActivity(ActivateCardActivity.class);
                 break;
             case R.id.but_top7:
-                ToastUtils.showToast("开发中");
-//                toActivity(MessageMarketingActivity.class);
+//                ToastUtils.showToast("开发中");
+                toActivity(MarketingToolsActivity.class);
+
                 break;
             case R.id.but_top8:
                 ToastUtils.showToast("开发中");

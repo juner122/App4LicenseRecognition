@@ -1,5 +1,6 @@
 package com.eb.new_line_seller.mvp;
 
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -8,6 +9,12 @@ import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.MainActivity;
 import com.eb.new_line_seller.mvp.contacts.LoginContacts;
 import com.eb.new_line_seller.mvp.presenter.LoginPtr;
+import com.google.gson.Gson;
+import com.juner.mvp.bean.AppMenu;
+
+import net.grandcentrix.tray.AppPreferences;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -59,11 +66,14 @@ public class LoginActivity2 extends BaseActivity<LoginContacts.LoginPtr> impleme
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(List<AppMenu> list) {
         showToast("登录成功");
+        Gson gson = new Gson();
+        new AppPreferences(this).put("AppMenu", gson.toJson(list));
         toActivity(MainActivity.class);
         finish();
     }
+
 
     @Override
     public void loginFailure(String masage) {

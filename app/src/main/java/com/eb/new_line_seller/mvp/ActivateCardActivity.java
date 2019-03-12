@@ -51,7 +51,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
-    private String[] mTitles = {"新增套卡", "纸卡录入"};
+    private String[] mTitles = {"新增套卡", "会员开卡"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     @BindView(R.id.et_user_mobile)
@@ -91,10 +91,13 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @BindView(R.id.ll_card_num)
     View view_ll_num;
 
+
+    int p;//是否为录旧卡 或新增卡
+
     @Override
     protected void init() {
-        tv_title.setText("纸卡录入");
-        setRTitle("录卡记录");
+        tv_title.setText("会员开卡");
+        setRTitle("开卡记录");
 
 
         carListAdapter = new CarListAdapter(null);
@@ -184,11 +187,13 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
 
                 if (position == 0) {
-
                     view_ll_num.setVisibility(View.GONE);
-                } else
+                } else {
                     view_ll_num.setVisibility(View.VISIBLE);
+                }
 
+
+                p = position;
             }
 
             @Override
@@ -229,7 +234,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
             case R.id.tv_enter_order://确认录入
 
-                getPresenter().showConfirmDialog();//显示确认Dialog
+                getPresenter().showConfirmDialog(p);//显示确认Dialog
 
                 break;
             case R.id.v_date1://开始时间
@@ -285,6 +290,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @Override
     public void setCarList(List<CarInfoRequestParameters> carList) {
+        carList.add(0, new CarInfoRequestParameters(-1, ""));//设置空项
         carListAdapter.setNewData(carList);
     }
 
@@ -315,7 +321,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     public void onShowConfirmDialog() {
 
-        getPresenter().confirmInput();
+        getPresenter().confirmInput(p);
     }
 
     @Override
@@ -347,6 +353,8 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 c.setSelected(false);
             }
             carListAdapter.getData().get(position).setSelected(true);
+
+
             getPresenter().setCarNo(carListAdapter.getData().get(position).getCarNo());
         }
         carListAdapter.notifyDataSetChanged();

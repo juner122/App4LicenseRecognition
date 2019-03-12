@@ -56,7 +56,7 @@ public class ActivityCardContacts {
 
         void checkMember(String phone, String name);//会员检测
 
-        void confirmInput();//确认录入
+        void confirmInput(int position);//确认录入
 
         void setMealList(Meal2 meal2);//处理从选择套卡页面返回的套卡对象 变为录入接口的请求对象
 
@@ -68,7 +68,7 @@ public class ActivityCardContacts {
 
         void setEndData(View view);//设置结束时间
 
-        void showConfirmDialog();//显示确认Dialog
+        void showConfirmDialog(int position);//显示确认Dialog
 
         void getInfo();//获取当前登录用户
 
@@ -83,6 +83,7 @@ public class ActivityCardContacts {
         void checkMember(String phone, String name, RxSubscribe<SaveUserAndCarEntity> rxSubscribe);//检测用户
 
         void confirmInput(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe);//确认录入
+        void confirmAdd(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe);//新增套卡
 
         void getInfo(RxSubscribe<UserEntity> rxSubscribe);//获取当前登录用户
 

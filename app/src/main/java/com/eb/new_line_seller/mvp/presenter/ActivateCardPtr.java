@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.eb.new_line_seller.activity.CustomRecordsActivity;
 import com.eb.new_line_seller.activity.MemberInfoInputActivity;
 import com.eb.new_line_seller.activity.MemberManagementInfoActivity;
 import com.eb.new_line_seller.bean.Meal2;
@@ -62,6 +63,8 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
 
         pvTimeStart = new MyTimePickerView(context);
         pvTimeEnd = new MyTimePickerView(context);
+        dataStart = System.currentTimeMillis();
+        dataEnd = dataStart;
     }
 
     @Override
@@ -87,7 +90,7 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
                     getView().showView();
                     getView().hideCheckView();
                     getView().setCarName(s.getUser_name());
-                    if (null != s.getCarList() && s.getCarList().size() > 0) {//新车 老会员
+                    if (null != s.getCarList()) {//新车 老会员
                         getView().setCarList(s.getCarList());//车辆列表
                     }
 
@@ -105,23 +108,47 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
     }
 
     @Override
-    public void confirmInput() {
+    public void confirmInput(int position) {
 
         refreshList();
-        mdl.confirmInput(list, new RxSubscribe<NullDataEntity>(context, true) {
-            @Override
-            protected void _onNext(NullDataEntity n) {
 
-                getView().showToast("录入成功！");
+        if (position == 1) {
+            mdl.confirmInput(list, new RxSubscribe<NullDataEntity>(context, true) {
+                @Override
+                protected void _onNext(NullDataEntity n) {
 
-                context.finish();
-            }
+                    getView().showToast("录入成功！");
 
-            @Override
-            protected void _onError(String message) {
-                getView().showToast("录入失败:" + message);
-            }
-        });
+                    context.finish();
+
+                    context.startActivity(new Intent(context, CustomRecordsActivity.class));
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    getView().showToast("录入失败:" + message);
+                }
+            });
+        }
+        if (position == 0) {
+
+            mdl.confirmAdd(list, new RxSubscribe<NullDataEntity>(context, true) {
+                @Override
+                protected void _onNext(NullDataEntity n) {
+
+                    getView().showToast("新增成功！");
+
+                    context.finish();
+                    context.startActivity(new Intent(context, CustomRecordsActivity.class));
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    getView().showToast("新增失败:" + message);
+                }
+            });
+        }
+
 
     }
 
@@ -157,7 +184,7 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
     }
 
 
-    private boolean judgeNull() {
+    private boolean judgeNull(int position) {
 //        if (car_no.equals("")) {
 //            getView().showToast("请选择车辆！");
 //            return false;
@@ -173,7 +200,9 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             return false;
 
         }
-        if (card_sn.equals("")) {
+
+
+        if (card_sn.equals("") && position != 0) {
             getView().showToast("卡号不能为空！");
             return false;
         }
@@ -223,10 +252,10 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
     }
 
     @Override
-    public void showConfirmDialog() {
-        if (!judgeNull()) return;
+    public void showConfirmDialog(int position) {
+        if (!judgeNull(position)) return;
 
-        confirmDialog = new CardInputConfirmDialog(context, goodsList, actName, card_sn);
+        confirmDialog = new CardInputConfirmDialog(context, goodsList, actName, card_sn, position);
         confirmDialog.setClicklistener(new CardInputConfirmDialog.ClickListenerInterface() {
             @Override
             public void doConfirm(String sn) {

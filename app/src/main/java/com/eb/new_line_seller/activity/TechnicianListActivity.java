@@ -67,7 +67,6 @@ public class TechnicianListActivity extends BaseActivity {
 
                 }
 
-
                 if (list.get(position).isSelected()) {
                     list.get(position).setSelected(false);
                     pick_list.remove(list.get(position));

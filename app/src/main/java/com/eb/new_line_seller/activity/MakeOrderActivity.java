@@ -3,6 +3,8 @@ package com.eb.new_line_seller.activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -18,6 +20,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.MyApplication;
 import com.eb.new_line_seller.R;
@@ -39,6 +42,7 @@ import com.eb.new_line_seller.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -338,13 +342,29 @@ public class MakeOrderActivity extends BaseActivity {
                 break;
             case R.id.but_to_technician_list:
 
-                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
+//                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
+//                    @Override
+//                    public void resultOk(Intent data) {
+//                        //to do what you want when resultCode == RESULT_OK
+//                        but_to_technician_list.setText("");
+//                        technicians = data.getParcelableArrayListExtra("Technician");
+//                        but_to_technician_list.setText(String2Utils.getString(technicians));
+//                    }
+//                });
+
+
+
+                Intent intent4 = new Intent(this, TechnicianListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
+                intent4.putExtras(bundle);
+                startActivityForResult(intent4, new ResultBack() {
                     @Override
                     public void resultOk(Intent data) {
-                        //to do what you want when resultCode == RESULT_OK
                         but_to_technician_list.setText("");
                         technicians = data.getParcelableArrayListExtra("Technician");
                         but_to_technician_list.setText(String2Utils.getString(technicians));
+
                     }
                 });
 

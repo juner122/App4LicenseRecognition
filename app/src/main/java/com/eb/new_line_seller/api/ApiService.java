@@ -362,7 +362,7 @@ public interface ApiService {
     /**
      * 车辆vin识别
      *
-     * @param url https://market.aliyun.com/products/57124001/cmapi023049.html?spm=5176.2020520132.101.14.5d9a7218KamDd0#sku=yuncode1704900000
+     * @param url          https://market.aliyun.com/products/57124001/cmapi023049.html?spm=5176.2020520132.101.14.5d9a7218KamDd0#sku=yuncode1704900000
      * @param vinImageBody 车辆vin图像Base64字符串
      */
     @Headers({
@@ -373,8 +373,7 @@ public interface ApiService {
     Observable<CarNumberRecogResult> carVinLicense(@Url String url, @Body VinImageBody vinImageBody);
 
 
-
-  /**
+    /**
      * 车辆vin信息查询
      *
      * @param url https://ali-vin.showapi.com/vin
@@ -413,6 +412,12 @@ public interface ApiService {
     @POST("activity/queryConnectAct")
     @FormUrlEncoded
     Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name);
+
+
+    //纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+    @POST("activity/queryConnectAct")
+    @FormUrlEncoded
+    Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("page") int page);
 
     //课程列表
     @POST("course/list")

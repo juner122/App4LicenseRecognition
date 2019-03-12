@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="13dp">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:background="@drawable/button_background_cc"
+            android:layout_width="28dp"
+            android:gravity="center"
+            android:layout_marginRight="8dp"
+            android:layout_height="28dp"
+            android:textColor="#fff"
+            android:text="王" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:text=""
+            android:gravity="end"
+            android:textColor="#FF000000"
+            android:textSize="14sp" />
+
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+
+            android:gravity="center_vertical|end"
+            android:text=""
+            android:textColor="#FF666666"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#FFD9D9D9" />
+</LinearLayout>

@@ -55,4 +55,10 @@ public class ActivateCardMdl extends BaseModel implements ActivityCardContacts.A
 
         sendRequest(HttpUtils.getApi().remakeActCard(getToken(context), list).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
     }
+
+    @Override
+    public void confirmAdd(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe) {
+        sendRequest(HttpUtils.getApi().addActCard(getToken(context), list).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+
+    }
 }
