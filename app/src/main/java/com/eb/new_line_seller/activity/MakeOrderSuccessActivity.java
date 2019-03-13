@@ -573,7 +573,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 Api().beginServe(info.getOrderInfo().getId(), info.getOrderInfo().getOrder_sn(), iv_lpv_url).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
-                        toMain(1);
+                        finish();
+                        toMain(0);
                     }
 
                     @Override
@@ -584,7 +585,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 });
                 break;
             case R.id.tv_back:
-                toMain(1);
+                finish();
                 break;
 
             case R.id.ll_autograph://签名
@@ -632,7 +633,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         Log.i(TAG, "onBackPressed");
 
-        toMain(1);
+        toMain(0);
 
     }
 

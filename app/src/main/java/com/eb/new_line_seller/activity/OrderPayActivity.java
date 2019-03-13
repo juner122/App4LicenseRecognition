@@ -88,7 +88,7 @@ public class OrderPayActivity extends BaseActivity {
     Brandadapter2 brandadapter;
 
     Coupon c;//选择的优惠券
-    int pay_type = 11;//
+    int pay_type = 0;//
 
     List<OffLinePayType> olpy;
 
@@ -397,7 +397,7 @@ public class OrderPayActivity extends BaseActivity {
                 ToastUtils.showToast("收款成功");
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
 
-                    toMain(1);
+                    toMain(0);
 
 
                 } else if (infoEntity.getOrderInfo().getOrder_status() == 1)

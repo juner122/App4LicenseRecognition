@@ -145,7 +145,7 @@ public class OrderDoneActivity extends BaseActivity {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
 
-                        toMain(1);
+                        toMain(0);
                     }
 
                     @Override

@@ -164,44 +164,40 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         tv_fix_sn.setText("单号：" + fixInfo.getQuotationSn());
 
 
-
-
-
         tv_dec.setText(fixInfo.getDescribe());
         tv_mobile.setText(fixInfo.getMobile());
         tv_consignee.setText(fixInfo.getUserName());
 
 
+        int status = fixInfo.getStatus();
+        switch (status) {
+            case 0:
+            case 1:
 
-       int status =  fixInfo.getStatus();
-       switch (status){
-           case 0:
-           case 1:
-
-               tv_fix_time.setText("接单时间：" + fixInfo.getAddTime());
-               break;
-           case 2:
-               tv_fix_time.setText("报价时间：" + fixInfo.getInformTime());
-               break;
-           case 3:
-               tv_fix_time.setText("确认时间：" + fixInfo.getInformTime());
-               break;
-           case 4:
-               tv_fix_time.setText("出单时间：" + fixInfo.getInformTime());
-               break;
+                tv_fix_time.setText("接单时间：" + fixInfo.getAddTime());
+                break;
+            case 2:
+                tv_fix_time.setText("报价时间：" + fixInfo.getInformTime());
+                break;
+            case 3:
+                tv_fix_time.setText("确认时间：" + fixInfo.getInformTime());
+                break;
+            case 4:
+                tv_fix_time.setText("出单时间：" + fixInfo.getInformTime());
+                break;
 
 
-       }
+        }
 
 
     }
 
     @Override
     public void createOrderSuccess(int i) {
-        ToastUtils.showToast("生成成功！");
+        ToastUtils.showToast("订单已生成,请前往订单列表查看！");
         finish();
 
-        toMain(i);
+        toMain(0);
     }
 
     @Override

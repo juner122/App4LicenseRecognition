@@ -6,6 +6,9 @@ import android.view.View;
 
 import com.eb.new_line_seller.activity.fragment.MainFragment1New;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.service.GeTuiIntentService;
+import com.eb.new_line_seller.service.GeTuiPushService;
+import com.igexin.sdk.PushManager;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.fragment.MainFragment1;
@@ -57,6 +60,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         hideHeadView();
+
+
+        //初始化个推
+        PushManager.getInstance().initialize(this.getApplicationContext(), GeTuiPushService.class);
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
     }
 
     @Override

@@ -149,6 +149,8 @@ public class MainFragment1 extends BaseFragment {
                 break;
             case R.id.rv_order_count:
                 ((MainActivity) getActivity()).setCurrentTab(1);
+
+
                 break;
             case R.id.rv_new_members:
                 toActivity(MemberManagementActivity.class);

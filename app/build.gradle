@@ -22,6 +22,15 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        //个推
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "CDDnSWpkdW8ikJVPopRdS1",
+                GETUI_APP_KEY   : "U1wz2HN4DQ9wZ6iUFQqdw7",
+                GETUI_APP_SECRET: "Y85XI3QTyl7ysq3XeefvA7"
+        ]
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -144,8 +153,6 @@ dependencies {
     }
 
     //友盟
-//    implementation 'com.umeng.umsdk:common:1.5.4'
-//    implementation 'com.umeng.umsdk:utdid:1.1.5.3'
     implementation files('libs/umeng-common-2.0.2.jar')
     implementation files('libs/umeng-share-core-6.9.4.jar')
     implementation files('libs/umeng-share-Ding-6.9.4.jar')
@@ -153,4 +160,9 @@ dependencies {
     implementation files('libs/umeng-share-sina-simplify-6.9.4.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.4.jar')
     implementation files('libs/umeng-sharetool-6.9.4.jar')
+
+    //个推
+    implementation 'com.getui:sdk:2.13.0.0'
+
+
 }

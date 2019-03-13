@@ -103,7 +103,7 @@
         android:gravity="start"
         android:hint="本店有活动,将于月底回馈新老顾客!欢迎前来围观。"
         android:minLines="5"
-        android:padding="5dp"
+        android:padding="8dp"
         android:textColor="#333333"
         android:textSize="13sp" />
 

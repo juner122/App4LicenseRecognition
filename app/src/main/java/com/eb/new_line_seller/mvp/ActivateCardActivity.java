@@ -51,7 +51,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
-    private String[] mTitles = {"新增套卡", "会员开卡"};
+    private String[] mTitles = {"新增套卡", "旧卡录入"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     @BindView(R.id.et_user_mobile)
@@ -201,6 +201,15 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
             }
         });
+
+        String moblie = getIntent().getStringExtra(Configure.moblie);
+        String name = getIntent().getStringExtra(Configure.user_name);
+
+        if (null != moblie && null != name) {
+            getPresenter().checkMember(moblie, name);
+            et_mobile.setText(moblie);
+        }
+
 
     }
 

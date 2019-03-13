@@ -35,9 +35,6 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <!-- 推荐的权限 -->
-    <!-- 添加如下权限，以便使用更多的第三方SDK和更精准的统计数据 -->
-
     <uses-feature
         android:name="android.hardware.usb.host"
         android:required="true" />
@@ -51,6 +48,7 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data
             android:name="UMENG_APPKEY"
@@ -289,7 +287,17 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.OrderListActivity" />
-        <activity android:name=".activity.CollegeActivity"></activity>
+        <activity android:name=".activity.CollegeActivity" />
+        <activity android:name=".activity.MessageCreateActivity" />
+
+        <service
+            android:name=".service.GeTuiPushService"
+            android:exported="true"
+            android:label="PushService"
+            android:process=":pushservice"></service>
+        <service android:name=".service.GeTuiIntentService" />
+
+        <activity android:name=".activity.ProductMealActivity"></activity>
     </application>
 
 </manifest>

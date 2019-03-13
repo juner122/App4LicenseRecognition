@@ -105,9 +105,10 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 ToastUtils.showToast("开发中");
                 break;
             case "maket":
-                Intent intent = new Intent(activity, CollegeActivity.class);
+                Intent intent = new Intent(activity, ProductListActivity.class);
                 intent.putExtra(Configure.isShow, 0);
                 activity.startActivity(intent);
+
                 break;
 
             case "store":
