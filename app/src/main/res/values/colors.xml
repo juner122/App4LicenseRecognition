@@ -17,4 +17,7 @@
     <color name="pwk_primary_color">#FF4A9DE3</color>
     <!--确定按键按下时的颜色-->
     <color name="pwk_primary_dark_color">#FF4A9DE3</color>
+
+
+    <color name="background_color">#F0F7FD</color>
 </resources>

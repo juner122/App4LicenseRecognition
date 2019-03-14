@@ -294,10 +294,11 @@
             android:name=".service.GeTuiPushService"
             android:exported="true"
             android:label="PushService"
-            android:process=":pushservice"></service>
+            android:process=":pushservice" />
         <service android:name=".service.GeTuiIntentService" />
 
-        <activity android:name=".activity.ProductMealActivity"></activity>
+        <activity android:name=".activity.ProductMealActivity" />
+        <activity android:name=".activity.RecruitActivity"></activity>
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import com.juner.mvp.bean.ActivityPage;
 import com.eb.new_line_seller.bean.AutoBrand;
 import com.juner.mvp.bean.AutoModel;
 import com.juner.mvp.bean.BankList;
+import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
 import com.juner.mvp.bean.CarInfoRequestParameters;
@@ -571,6 +572,14 @@ public class ApiLoader {
     public Observable<Shop> shopInfo() {
         map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
         return apiService.shopInfo(map).compose(RxHelper.<Shop>observe());
+    }
+
+    /**
+     * 工作台信息
+     */
+    public Observable<List<Banner>> getWorkHeaderAd() {
+        map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
+        return apiService.getWorkHeaderAd(map).compose(RxHelper.<List<Banner>>observe());
     }
 
 

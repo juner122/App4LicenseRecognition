@@ -34,10 +34,10 @@ public class MarketingToolsActivity extends BaseActivity {
             case R.id.ll2:
                 //分享营销
 //                ToastUtils.showToast("开发中");
-                UMImage thumb =  new UMImage(this, R.mipmap.s_p_c);
+                UMImage thumb = new UMImage(this, R.mipmap.s_p_c);
 
 
-                new ShareAction(this).withText("关注小程序").withMedia(thumb).setDisplayList(SHARE_MEDIA.DINGTALK,SHARE_MEDIA.SINA, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QQ)
+                new ShareAction(this).withText("关注小程序").withMedia(thumb).setDisplayList(SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.QQ)
                         .setCallback(shareListener).open();
                 break;
 
@@ -111,6 +111,6 @@ public class MarketingToolsActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +16,7 @@ import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.mvp.FixInfoDescribeActivity;
 import com.eb.new_line_seller.util.ToastUtils;
+import com.eb.new_line_seller.view.CommonPopupWindow;
 import com.eb.new_line_seller.view.ConfirmDialogReMakeName;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -89,7 +92,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
 
         tv_title.setText("会员信息");
-        setRTitle("有效套卡");
+        IvRSetSrc(R.mipmap.icon_onpe3);
+
         adpter1 = new SimpleCarInfoAdpter(cars);
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adpter1);
@@ -254,7 +258,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
         return R.layout.activity_member_management_member_info;
     }
 
-    @OnClick({R.id.tv_new_order, R.id.tv_add_car, R.id.tv_fix_order, R.id.ll_change_name, R.id.tv_title_r, R.id.tv_car_open})
+    @OnClick({R.id.tv_new_order, R.id.tv_add_car, R.id.tv_fix_order, R.id.ll_change_name, R.id.tv_iv_r})
     public void onClick(View v) {
         switch (v.getId()) {
 
@@ -283,14 +287,6 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.tv_add_car:
-
-//
-//                Intent intent = new Intent(this, CarInfoInputActivity.class);
-//                intent.putExtra(Configure.car_no, new_car_number);
-//                reCarListInfo(intent);
-//                new AppPreferences(this).put(Configure.user_id, user_id);
-
-
                 Intent intent3 = new Intent(this, CarInfoInputActivity.class);
                 intent3.putExtra(Configure.car_no, new_car_number);
                 intent3.putExtra("result_code", 1);
@@ -330,25 +326,47 @@ public class MemberManagementInfoActivity extends BaseActivity {
                         confirmDialog.dismiss();
                     }
                 });
-            case R.id.tv_title_r:
-                //有效套卡
-                Intent i = new Intent(this, ProductMealActivity.class);
-                i.putExtra(Configure.user_id, user_id);
+            case R.id.tv_iv_r:
+                LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_member_management_member_info_onpe_car, null);
 
-                i.putExtra(Configure.car_no, car_number);
-                startActivity(i);
-                break;
-            case R.id.tv_car_open:
-                //会员开卡
-                Intent intent = new Intent(this, ActivateCardActivity.class);
+                Button b1 = ll.findViewById(R.id.button_1);
+                Button b2 = ll.findViewById(R.id.button_2);
 
-                intent.putExtra(Configure.moblie, moblie);
-                intent.putExtra(Configure.user_name, user_name);
-                startActivity(intent);
+                b1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //有效套卡
+                        Intent i = new Intent(MemberManagementInfoActivity.this, ProductMealActivity.class);
+                        i.putExtra(Configure.user_id, user_id);
+                        i.putExtra(Configure.car_no, car_number);
+                        startActivity(i);
+
+                        popupWindow.dismiss();
+                    }
+                });
+                b2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //会员开卡
+                        Intent intent = new Intent(MemberManagementInfoActivity.this, ActivateCardActivity.class);
+                        intent.putExtra(Configure.moblie, moblie);
+                        intent.putExtra(Configure.user_name, user_name);
+                        startActivity(intent);
+                        popupWindow.dismiss();
+                    }
+                });
+                //功能按钮
+                popupWindow = new CommonPopupWindow.Builder(this)
+                        .setView(ll)
+                        .create();
+                popupWindow.showAsDropDown(v, 0, 0);
+
+
                 break;
         }
     }
 
+    CommonPopupWindow popupWindow;
 
     private void reCarListInfo(Intent intent) {
 

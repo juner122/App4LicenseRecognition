@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
@@ -16,6 +17,7 @@ import com.eb.new_line_seller.activity.MemberManagementActivity;
 import com.eb.new_line_seller.activity.MyBalanceActivity;
 import com.eb.new_line_seller.activity.OrderListActivity;
 import com.eb.new_line_seller.activity.ProductListActivity;
+import com.eb.new_line_seller.activity.RecruitActivity;
 import com.eb.new_line_seller.activity.StaffManagementActivity;
 import com.eb.new_line_seller.mvp.ActivateCardActivity;
 import com.eb.new_line_seller.mvp.FixInfoListActivity;
@@ -39,15 +41,21 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, final MenuBut item) {
-        Button button = helper.getView(R.id.but);
-        button.setText(item.getName());
-        button.setCompoundDrawables(null, getBackground(item.getPerms()), null, null);
-        button.setOnClickListener(new View.OnClickListener() {
+        helper.setText(R.id.but, item.getName());
+
+        View ll = helper.getView(R.id.ll);
+        ImageView icon = helper.getView(R.id.icon);
+
+        ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toActivity(item.getPerms());
             }
         });
+
+        Glide.with(activity)
+                .load(item.getIcon())
+                .into(icon);
 
     }
 
@@ -101,8 +109,8 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 ToastUtils.showToast("开发中");
                 break;
             case "job":
+                activity.startActivity(new Intent(activity, RecruitActivity.class));
 
-                ToastUtils.showToast("开发中");
                 break;
             case "maket":
                 Intent intent = new Intent(activity, ProductListActivity.class);

@@ -2,7 +2,6 @@ package com.eb.new_line_seller.adapter;
 
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,22 +10,21 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.new_line_seller.R;
-
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.bean.MealL0Entity;
 import com.eb.new_line_seller.bean.MyMultipleItem;
 
 import java.util.List;
 
-public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+public class MealListAdapter2 extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
 
 
 
-    public MealListAdapter( @Nullable List<MultiItemEntity> data) {
+    public MealListAdapter2(@Nullable List<MultiItemEntity> data) {
         super(data);
         addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item);
-        addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_product_meal_list_item_item);
+        addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_pick_meal_list_item_item2);
     }
 
     @Override
@@ -53,22 +51,6 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
                 helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum() + "次"));
-
-                ImageView iv = helper.getView(R.id.iv);
-                TextView tv_goodName = helper.getView(R.id.tv_name);
-
-
-                if (me.getGoodsNum() > 0) {//可用次数不为0
-                    helper.addOnClickListener(R.id.ll_item);
-                    tv_goodName.getPaint().setFlags(0);
-                    if (me.isSelected())
-                        iv.setImageResource(R.drawable.icon_pick2);
-                    else
-                        iv.setImageResource(R.drawable.icon_unpick2);
-                } else {
-                    iv.setImageResource(R.drawable.icon_unpick2);
-                    tv_goodName.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG); //添加删除线
-                }
 
                 break;
 

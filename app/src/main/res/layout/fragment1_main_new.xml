@@ -34,16 +34,16 @@
 
         <LinearLayout
             android:id="@+id/ll1"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F2F2F2" />
+                android:background="@color/background_color" />
 
             <TextView
 
@@ -58,20 +58,21 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll2"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F2F2F2" />
+                android:background="@color/background_color" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -85,21 +86,22 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv2"
+                android:paddingLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll3"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F2F2F2" />
+                android:background="@color/background_color" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -113,21 +115,22 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv3"
+                android:paddingLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll4"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F2F2F2" />
+                android:background="@color/background_color" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -141,21 +144,22 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv4"
+                android:paddingLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll5"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:background="#F2F2F2" />
+                android:background="@color/background_color" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -169,6 +173,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv5"
+                android:paddingLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -178,6 +183,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:background="#F2F2F2" />
+            android:background="@color/background_color" />
     </LinearLayout>
 </ScrollView>

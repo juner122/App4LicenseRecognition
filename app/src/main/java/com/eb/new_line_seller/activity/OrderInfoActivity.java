@@ -204,23 +204,6 @@ public class OrderInfoActivity extends BaseActivity {
 
             case R.id.tv_pick_technician://选择技师
 
-//                Intent intent1 = new Intent(this, TechnicianListActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
-//                intent1.putExtras(bundle);
-//                startActivityForResult(intent1, new ResultBack() {
-//                    @Override
-//                    public void resultOk(Intent data) {
-//                        //to do what you want when resultCode == RESULT_OK
-//                        tv_technician.setText("");
-//                        technicians = data.getParcelableArrayListExtra("Technician");
-//                        tv_technician.setText(String2Utils.getString(technicians));
-//                        info.getOrderInfo().setSysUserList(technicians);
-//                        remake();
-//
-//                    }
-//                });
-
 
                 Intent intent4 = new Intent(this, TechnicianListActivity.class);
                 Bundle bundle = new Bundle();

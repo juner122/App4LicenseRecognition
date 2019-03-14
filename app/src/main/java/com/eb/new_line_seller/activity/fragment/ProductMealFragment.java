@@ -14,6 +14,7 @@ import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.bean.Meal;
 import com.eb.new_line_seller.bean.MealEntity;
 import com.eb.new_line_seller.bean.MealL0Entity;
+import com.eb.new_line_seller.util.ToastUtils;
 
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class ProductMealFragment extends BaseFragment {
     MealListAdapter mealListAdapter;
     List<MultiItemEntity> list;
 
-    public static ProductMealFragment getInstance(int user_id,String no) {
+    public static ProductMealFragment getInstance(int user_id, String no) {
         ProductMealFragment sf = new ProductMealFragment();
         id = user_id;
         car_no = no;
@@ -77,7 +78,7 @@ public class ProductMealFragment extends BaseFragment {
     protected void onVisible() {
         super.onVisible();
 
-        Api().queryUserAct(id,car_no).subscribe(new RxSubscribe<Meal>(getContext(), true) {
+        Api().queryUserAct(id, car_no).subscribe(new RxSubscribe<Meal>(getContext(), true) {
             @Override
             protected void _onNext(Meal mealList) {
                 list = generateData(mealList.getList());
@@ -97,6 +98,9 @@ public class ProductMealFragment extends BaseFragment {
     private List<MultiItemEntity> generateData(Map<String, List<MealEntity>> map) {
 
         List<MultiItemEntity> res = new ArrayList<>();
+        if (null == map) {
+            return res;
+        }
 
         for (List<MealEntity> list : map.values()) {
 

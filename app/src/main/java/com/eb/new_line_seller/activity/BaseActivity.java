@@ -103,6 +103,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         iv_r.setVisibility(View.GONE);
     }
 
+    public void IvRSetSrc(int source) {
+        iv_iv_r.setImageResource(source);
+        showIVR();
+    }
+
 
     protected abstract void init();
 

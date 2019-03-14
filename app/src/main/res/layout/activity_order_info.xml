@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#F2F2F2"
+    android:background="@color/background_color"
     android:orientation="vertical">
 
     <include layout="@layout/head_view" />
@@ -517,7 +517,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/button_background_a"
+                    android:background="@drawable/button_background_z"
                     android:gravity="top"
                     android:padding="8dp"
                     android:textSize="11sp" />

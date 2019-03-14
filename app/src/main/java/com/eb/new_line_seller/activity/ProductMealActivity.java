@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.MealListAdapter;
+import com.eb.new_line_seller.adapter.MealListAdapter2;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.bean.Meal;
 import com.eb.new_line_seller.bean.MealEntity;
@@ -27,7 +28,7 @@ public class ProductMealActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView rv;
-    MealListAdapter mealListAdapter;
+    MealListAdapter2 mealListAdapter;
     List<MultiItemEntity> list;
 
     @Override
@@ -40,6 +41,18 @@ public class ProductMealActivity extends BaseActivity {
         tv_title.setText("可用套卡");
         id = getIntent().getIntExtra(Configure.user_id, 0);
         car_no = getIntent().getStringExtra(Configure.car_no);
+
+    }
+
+    @Override
+    protected void setUpView() {
+
+        mealListAdapter = new MealListAdapter2(null);
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(mealListAdapter);
+        mealListAdapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
+
         Api().queryUserAct(id, car_no).subscribe(new RxSubscribe<Meal>(this, true) {
             @Override
             protected void _onNext(Meal mealList) {
@@ -54,17 +67,6 @@ public class ProductMealActivity extends BaseActivity {
                 ToastUtils.showToast(message);
             }
         });
-
-    }
-
-    @Override
-    protected void setUpView() {
-
-        mealListAdapter = new MealListAdapter(null);
-
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(mealListAdapter);
-        mealListAdapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
 
 
     }

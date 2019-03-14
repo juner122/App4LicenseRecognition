@@ -7,6 +7,7 @@ import com.juner.mvp.bean.ActivityPage;
 import com.eb.new_line_seller.bean.AutoBrand;
 import com.juner.mvp.bean.AutoModel;
 import com.juner.mvp.bean.BankList;
+import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.BaseBean2;
 import com.juner.mvp.bean.BasePage;
@@ -131,6 +132,11 @@ public interface ApiService {
     @POST("shop/info")
     @FormUrlEncoded
     Observable<BaseBean<Shop>> shopInfo(@FieldMap Map<String, Object> maps);
+
+    //工作台信息
+    @POST("work/getWorkHeaderAd")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Banner>>> getWorkHeaderAd(@FieldMap Map<String, Object> maps);
 
     //4.批量删除车况图片
     @POST("usercarconditionpicture/delete")

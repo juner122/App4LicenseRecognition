@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F2F2F2"
-    android:scrollbars="none">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/button_check_selector"
+    android:gravity="center"
+    android:padding="10dp"
+    android:id="@+id/ll"
+    android:orientation="vertical">
 
-    <Button
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:src="@mipmap/icon_home_menu1" />
+
+    <TextView
         android:id="@+id/but"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:background="@drawable/button_check_selector"
-        android:drawableTop="@mipmap/icon_home_menu1"
-        android:drawablePadding="5dp"
-        android:gravity="center"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="会员管理"
         android:textSize="10sp" />
+
 </LinearLayout>

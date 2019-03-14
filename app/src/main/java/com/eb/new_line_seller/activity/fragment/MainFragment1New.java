@@ -31,6 +31,7 @@ import com.eb.new_line_seller.util.ToastUtils;
 import com.google.gson.Gson;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.AppMenu;
+import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.Shop;
 import com.umeng.commonsdk.debug.E;
 
@@ -98,9 +99,7 @@ public class MainFragment1New extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        Glide.with(this)
-                .load(getResources().getDrawable(R.mipmap.banner2))
-                .into(iv);
+
 
         muneButAdapter1 = new MuneButAdapter(null, getActivity());
         muneButAdapter2 = new MuneButAdapter(null, getActivity());
@@ -151,47 +150,49 @@ public class MainFragment1New extends BaseFragment {
         });
 
         AppMenu[] array = new Gson().fromJson(new AppPreferences(getContext()).getString("AppMenu", ""), AppMenu[].class);
-        list = Arrays.asList(array);
-
-        for (AppMenu appMenu : list) {
-            switch (appMenu.getPerms()) {
-                case "shop":
-                    if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                        muneButAdapter1.setNewData(appMenu.getList());
-                        ll1.setVisibility(View.VISIBLE);
-                    }
-
-                    break;
-                case "business":
-                    if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                        muneButAdapter2.setNewData(appMenu.getList());
-                        ll2.setVisibility(View.VISIBLE);
-                    }
 
 
-                    break;
-                case "ad":
-                    if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                        muneButAdapter3.setNewData(appMenu.getList());
-                        ll3.setVisibility(View.VISIBLE);
-                    }
+        if (null != array) {
+            list = Arrays.asList(array);
+            for (AppMenu appMenu : list) {
+                switch (appMenu.getPerms()) {
+                    case "shop":
+                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
+                            muneButAdapter1.setNewData(appMenu.getList());
+                            ll1.setVisibility(View.VISIBLE);
+                        }
 
-                    break;
-                case "school":
-                    if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                        muneButAdapter4.setNewData(appMenu.getList());
-                        ll4.setVisibility(View.VISIBLE);
-                    }
-                    break;
-                case "erp":
-                    if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                        muneButAdapter5.setNewData(appMenu.getList());
-                        ll5.setVisibility(View.VISIBLE);
-                    }
-                    break;
+                        break;
+                    case "business":
+                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
+                            muneButAdapter2.setNewData(appMenu.getList());
+                            ll2.setVisibility(View.VISIBLE);
+                        }
+
+
+                        break;
+                    case "ad":
+                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
+                            muneButAdapter3.setNewData(appMenu.getList());
+                            ll3.setVisibility(View.VISIBLE);
+                        }
+
+                        break;
+                    case "school":
+                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
+                            muneButAdapter4.setNewData(appMenu.getList());
+                            ll4.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case "erp":
+                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
+                            muneButAdapter5.setNewData(appMenu.getList());
+                            ll5.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                }
             }
         }
-
 
     }
 
@@ -236,6 +237,25 @@ public class MainFragment1New extends BaseFragment {
                 SystemUtil.isReLogin(message, getActivity());
             }
         });
+
+
+        Api().getWorkHeaderAd().subscribe(new RxSubscribe<List<Banner>>(getContext(), true) {
+            @Override
+            protected void _onNext(List<Banner> banners) {
+                if (null != banners && banners.size() > 0) {
+                    Glide.with(getActivity())
+                            .load(banners.get(0).getLink())
+                            .into(iv);
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+
     }
 
 }

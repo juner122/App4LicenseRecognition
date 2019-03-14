@@ -7,6 +7,15 @@ public class MenuBut implements Parcelable {
     String name;
     String perms;
     int orderNum;
+    String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getName() {
         return name;
@@ -32,6 +41,9 @@ public class MenuBut implements Parcelable {
         this.orderNum = orderNum;
     }
 
+    public MenuBut() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -42,18 +54,17 @@ public class MenuBut implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.perms);
         dest.writeInt(this.orderNum);
-    }
-
-    public MenuBut() {
+        dest.writeString(this.icon);
     }
 
     protected MenuBut(Parcel in) {
         this.name = in.readString();
         this.perms = in.readString();
         this.orderNum = in.readInt();
+        this.icon = in.readString();
     }
 
-    public static final Parcelable.Creator<MenuBut> CREATOR = new Parcelable.Creator<MenuBut>() {
+    public static final Creator<MenuBut> CREATOR = new Creator<MenuBut>() {
         @Override
         public MenuBut createFromParcel(Parcel source) {
             return new MenuBut(source);

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3F3F2"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".mvp.FixInfoActivity">
 
@@ -40,7 +40,7 @@
                         android:layout_alignTop="@+id/tv2"
                         android:layout_alignParentStart="true"
                         android:layout_weight="1"
-                        android:background="#F2F2F2"
+                        android:background="@color/background_color"
                         android:padding="10dp"
                         android:text="单号"
                         android:textColor="#ff666666"
@@ -53,7 +53,7 @@
                         android:layout_alignTop="@+id/tv2"
                         android:layout_alignParentStart="true"
                         android:layout_weight="1"
-                        android:background="#F2F2F2"
+                        android:background="@color/background_color"
                         android:gravity="end"
                         android:padding="10dp"
                         android:text=""
