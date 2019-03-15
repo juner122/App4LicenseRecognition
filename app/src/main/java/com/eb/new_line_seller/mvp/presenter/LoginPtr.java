@@ -36,7 +36,7 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
     }
 
     @Override
-    public void login(final String mobile, String authCode) {
+    public void login(final String mobile, String authCode, String cid) {
 
         if (TextUtils.isEmpty(mobile)) {
             ToastUtils.showToast("请输入正确的手机号码！", context);
@@ -46,8 +46,12 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
             ToastUtils.showToast("请输入验证码！", context);
             return;
         }
+        if (TextUtils.isEmpty(cid)) {
+            ToastUtils.showToast("获取个推CID失败，接收推送功能失效！", context);
 
-        mLoginMdl.login(mobile, authCode, new RxSubscribe<Token>(context, true) {
+        }
+
+        mLoginMdl.login(mobile, authCode, cid,new RxSubscribe<Token>(context, true) {
             @Override
             protected void _onNext(Token token) {
                 //保存token

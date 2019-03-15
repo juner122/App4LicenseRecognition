@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.new_line_seller.util.A2bigA;
 import com.eb.new_line_seller.util.MathUtil;
+import com.eb.new_line_seller.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.adapter.Brandadapter2;
@@ -285,8 +286,6 @@ public class OrderPayActivity extends BaseActivity {
                         ToastUtils.showToast("全额为0 不支持微信支付！");
                         return;
                     }
-
-
                     Intent i = new Intent(OrderPayActivity.this, WeiXinPayCodeActivity.class);
                     i.putExtra("shop_name", infoEntity.getShop().getShopName());
                     i.putExtra("price", tv_price.getText().toString());
@@ -296,8 +295,24 @@ public class OrderPayActivity extends BaseActivity {
                     bundle.putParcelable(Configure.ORDERINFO, infoEntity.getOrderInfo());
                     i.putExtras(bundle);
                     startActivity(i);
-                } else
-                    Pay();
+                } else {
+                    //弹出对话框
+                    final ConfirmDialogCanlce dialogCanlce = new ConfirmDialogCanlce(OrderPayActivity.this, "是否确认订单服务已完成");
+                    dialogCanlce.show();
+                    dialogCanlce.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                        @Override
+                        public void doConfirm() {
+                            dialogCanlce.dismiss();
+                            Pay();
+                        }
+
+                        @Override
+                        public void doCancel() {
+                            dialogCanlce.dismiss();
+                        }
+                    });
+
+                }
                 break;
 
             case R.id.tv_pick_pay_type:

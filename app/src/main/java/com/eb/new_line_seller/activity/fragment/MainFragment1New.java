@@ -1,11 +1,7 @@
 package com.eb.new_line_seller.activity.fragment;
 
 
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,41 +10,22 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.R;
-import com.eb.new_line_seller.activity.CollegeActivity;
-import com.eb.new_line_seller.activity.MemberManagementActivity;
-import com.eb.new_line_seller.activity.MyBalanceActivity;
-import com.eb.new_line_seller.activity.OrderListActivity;
-import com.eb.new_line_seller.activity.ProductListActivity;
-import com.eb.new_line_seller.activity.StaffManagementActivity;
 import com.eb.new_line_seller.adapter.MuneButAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
-import com.eb.new_line_seller.mvp.ActivateCardActivity;
-import com.eb.new_line_seller.mvp.FixInfoListActivity;
-import com.eb.new_line_seller.mvp.MarketingToolsActivity;
-import com.eb.new_line_seller.mvp.MessageMarketingActivity;
 import com.eb.new_line_seller.util.SystemUtil;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.google.gson.Gson;
-import com.juner.mvp.Configure;
 import com.juner.mvp.bean.AppMenu;
 import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.Shop;
-import com.umeng.commonsdk.debug.E;
 
 import net.grandcentrix.tray.AppPreferences;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.juner.mvp.Configure.shop_address;
-import static com.juner.mvp.Configure.shop_name;
-import static com.juner.mvp.Configure.shop_phone;
-import static com.juner.mvp.Configure.shop_user_name;
-
 /**
  * 主页页面：工作台
  */
@@ -58,8 +35,6 @@ public class MainFragment1New extends BaseFragment {
 
     @BindView(R.id.iv)
     ImageView iv;
-    @BindView(R.id.tv_shopName)
-    TextView tv_shopName;
     List<AppMenu> list;
 
     @BindView(R.id.rv1)
@@ -220,23 +195,6 @@ public class MainFragment1New extends BaseFragment {
     }
 
     private void getInfo() {
-        Api().shopInfo().subscribe(new RxSubscribe<Shop>(getContext(), true) {
-            @Override
-            protected void _onNext(Shop shop) {
-                tv_shopName.setText(shop.getShop().getShopName());
-                new AppPreferences(getContext()).put(shop_name, shop.getShop().getShopName());
-                new AppPreferences(getContext()).put(shop_address, shop.getShop().getAddress());
-                new AppPreferences(getContext()).put(shop_phone, shop.getShop().getPhone());
-                new AppPreferences(getContext()).put(shop_user_name, shop.getShop().getName());
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-                //判断是否是401 token失效
-                SystemUtil.isReLogin(message, getActivity());
-            }
-        });
 
 
         Api().getWorkHeaderAd().subscribe(new RxSubscribe<List<Banner>>(getContext(), true) {
@@ -257,5 +215,4 @@ public class MainFragment1New extends BaseFragment {
 
 
     }
-
 }

@@ -10,20 +10,6 @@
         android:layout_height="wrap_content"
         android:background="#fff"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_shopName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp"
-            android:paddingLeft="8dp"
-            android:text="岗顶店"
-            android:textColor="#ff333333"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-
         <ImageView
             android:id="@+id/iv"
             android:layout_width="match_parent"

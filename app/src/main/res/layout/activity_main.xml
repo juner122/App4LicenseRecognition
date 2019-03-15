@@ -1,17 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/head_view" />
+    <include
+        layout="@layout/head_view"
+        android:visibility="gone" />
 
-    <FrameLayout
-        android:id="@+id/fragment"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="54dp" />
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_shopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:paddingLeft="8dp"
+                android:text="岗顶店"
+                android:textColor="#ff333333"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tl:layout_constraintBottom_toBottomOf="parent"
+                tl:layout_constraintStart_toStartOf="parent"
+                tl:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="3dp"
+                android:src="@mipmap/icon_new"
+                tl:layout_constraintBottom_toBottomOf="parent"
+                tl:layout_constraintEnd_toEndOf="parent"
+                tl:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_new_num"
+                tl:layout_constraintLeft_toLeftOf="@id/iv1"
+                tl:layout_constraintTop_toTopOf="@id/iv1" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_gravity="center"
+            android:background="#d9d9d9"
+            android:paddingTop="20dp" />
+
+        <FrameLayout
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="54dp" />
+    </LinearLayout>
 
 
     <com.flyco.tablayout.CommonTabLayout
@@ -97,15 +157,15 @@
 
             <View
                 android:id="@+id/ll2"
-                android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingLeft="25dp"
+                android:paddingRight="25dp"
 
-                android:paddingRight="25dp" />
+                android:visibility="invisible" />
 
             <View
                 android:layout_width="wrap_content"

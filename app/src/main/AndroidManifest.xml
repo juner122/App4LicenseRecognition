@@ -298,7 +298,8 @@
         <service android:name=".service.GeTuiIntentService" />
 
         <activity android:name=".activity.ProductMealActivity" />
-        <activity android:name=".activity.RecruitActivity"></activity>
+        <activity android:name=".activity.RecruitActivity" />
+        <activity android:name=".activity.TechnicianInfoActivity"></activity>
     </application>
 
 </manifest>

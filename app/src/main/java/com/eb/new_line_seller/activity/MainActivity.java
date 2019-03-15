@@ -1,13 +1,19 @@
 package com.eb.new_line_seller.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.TextView;
 
 import com.eb.new_line_seller.activity.fragment.MainFragment1New;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.service.GeTuiIntentService;
 import com.eb.new_line_seller.service.GeTuiPushService;
+import com.eb.new_line_seller.util.SystemUtil;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.igexin.sdk.PushManager;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
@@ -21,6 +27,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.new_line_seller.activity.fragment.MainFragmentPlate;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.AppMenu;
+import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
 import java.util.ArrayList;
@@ -31,11 +38,17 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity {
 
+    public static final String action = "getMessage_quantity";
+
 
     private ArrayList<Fragment> mFragments = new ArrayList<>();
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
+    @BindView(R.id.tv_shopName)
+    TextView tv_shopName;
+
+
     private String[] mTitles = {"工作台", "", "我的"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
@@ -66,7 +79,11 @@ public class MainActivity extends BaseActivity {
         PushManager.getInstance().initialize(this.getApplicationContext(), GeTuiPushService.class);
         // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
+
+        //注册广播
+        registBroadcast();
     }
+
 
     @Override
     public void setUpView() {
@@ -83,12 +100,43 @@ public class MainActivity extends BaseActivity {
         commonTabLayout.setTabData(mTabEntities, this, R.id.fragment, mFragments);
         setCurrentTab(0);
 
+        commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                if (position == 0) {
+                    tv_shopName.setVisibility(View.VISIBLE);
+                } else {
+                    tv_shopName.setVisibility(View.GONE);
+                }
+
+
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
+
 
     }
 
 
     @Override
     protected void setUpData() {
+        Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
+            @Override
+            protected void _onNext(Shop shop) {
+                tv_shopName.setText(shop.getShop().getShopName());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+                //判断是否是401 token失效
+                SystemUtil.isReLogin(message, MainActivity.this);
+            }
+        });
 
     }
 
@@ -138,8 +186,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
-
         int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
 
         setCurrentTab(fragment);
@@ -148,7 +194,6 @@ public class MainActivity extends BaseActivity {
 
     //检查版本更新
     private void checkVersionUpDate() {
-
         Api().checkVersionUpDate().subscribe(new RxSubscribe<VersionInfo>(this, false) {
             @Override
             protected void _onNext(VersionInfo versionInfo) {
@@ -161,7 +206,24 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-
     }
 
+    MyBroadcastReceiver broadcastReceiver;
+
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+//            //没接收到一次广播就执行一次方法
+//            tv_shopName.setText("更新消息数量");
+        }
+    }
+
+    public void registBroadcast() {
+        //实例化广播对象
+        broadcastReceiver = new MyBroadcastReceiver();
+        //实例化广播过滤器，只拦截指定的广播
+        IntentFilter filter = new IntentFilter(action);
+        //注册广播
+        this.registerReceiver(broadcastReceiver, filter);
+    }
 }

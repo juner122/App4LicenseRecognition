@@ -47,7 +47,7 @@ public class LoginContacts {
      * presenter 层接口
      */
     public interface LoginPtr extends IBasePresenter {
-        void login(String mobile, String authCode);
+        void login(String mobile, String authCode, String cid);//cid 个推cid
 
         void smsSendSms(String mobile);//发送短信
 
@@ -59,9 +59,10 @@ public class LoginContacts {
      */
     public interface LoginMdl {
 
-        void login(String mobile, String authCode, RxSubscribe<Token> rxSubscribe);
+        void login(String mobile, String authCode, String cid, RxSubscribe<Token> rxSubscribe);
 
         void saveToken(Token token, Context context);
+
         void savePhone(String phone, Context context);
 
         void smsSendSms(String mobile, RxSubscribe<NullDataEntity> rxSubscribe);//发送短信

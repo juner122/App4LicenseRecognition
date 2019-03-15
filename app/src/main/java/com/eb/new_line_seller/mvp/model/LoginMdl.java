@@ -31,11 +31,12 @@ public class LoginMdl extends BaseModel implements LoginContacts.LoginMdl {
      * @param rxSubscribe 网络请求回调
      */
     @Override
-    public void login(String mobile, String authCode, RxSubscribe<Token> rxSubscribe) {
+    public void login(String mobile, String authCode, String cid, RxSubscribe<Token> rxSubscribe) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("authCode", authCode);
+        map.put("cid", cid);
         map.put("version", SystemUtil.packaGetName());
 
         sendRequest(HttpUtils.getLoginApi().login(map).compose(RxHelper.<Token>observe()), rxSubscribe);

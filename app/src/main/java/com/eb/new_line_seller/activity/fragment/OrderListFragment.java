@@ -10,6 +10,8 @@ import android.view.View;
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.new_line_seller.activity.AutographActivity;
+import com.eb.new_line_seller.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.MakeOrderSuccessActivity;
@@ -163,6 +165,7 @@ public class OrderListFragment extends BaseFragment {
                 if (list.size() < Configure.limit_page)
                     easylayout.setLoadMoreModel(LoadModel.NONE);
             }
+
             @Override
             protected void _onError(String message) {
                 easylayout.refreshComplete();
@@ -202,7 +205,7 @@ public class OrderListFragment extends BaseFragment {
 
         Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(getContext(), true) {
             @Override
-            protected void _onNext(OrderInfo orderInfo) {
+            protected void _onNext(final OrderInfo orderInfo) {
                 int order_staus = orderInfo.getOrderInfo().getOrder_status();
                 int pay_staus = orderInfo.getOrderInfo().getPay_status();
 
@@ -212,9 +215,23 @@ public class OrderListFragment extends BaseFragment {
                     else
                         toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
                 else if (order_staus == 1) {//服务中
-                    if (pay_staus == 2)
-                        toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
-                    else
+                    if (pay_staus == 2) {
+                        //弹出对话框
+                        final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getContext(), "是否确认订单服务已完成");
+                        confirmDialog.show();
+                        confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                            @Override
+                            public void doConfirm() {
+                                confirmDialog.dismiss();
+                                toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
+                            }
+
+                            @Override
+                            public void doCancel() {
+                                confirmDialog.dismiss();
+                            }
+                        });
+                    } else
                         sendOrderInfo(OrderPayActivity.class, orderInfo);
                 } else
 

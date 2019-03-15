@@ -581,7 +581,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商品金额"
+                    android:text="金额合计"
                     android:textColor="#ff000000"
                     android:textSize="12sp" />
 

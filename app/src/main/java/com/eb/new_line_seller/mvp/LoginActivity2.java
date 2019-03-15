@@ -10,6 +10,7 @@ import com.eb.new_line_seller.activity.MainActivity;
 import com.eb.new_line_seller.mvp.contacts.LoginContacts;
 import com.eb.new_line_seller.mvp.presenter.LoginPtr;
 import com.google.gson.Gson;
+import com.igexin.sdk.PushManager;
 import com.juner.mvp.bean.AppMenu;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -32,7 +33,7 @@ public class LoginActivity2 extends BaseActivity<LoginContacts.LoginPtr> impleme
 
     @BindView(R.id.et_car_code)
     EditText et_car_code;
-
+    String cid;
 
     @Override
     public int setLayoutResourceID() {
@@ -46,7 +47,8 @@ public class LoginActivity2 extends BaseActivity<LoginContacts.LoginPtr> impleme
 
             case R.id.but_login:
                 //登录
-                getPresenter().login(et_phone.getText().toString(), et_car_code.getText().toString());
+
+                getPresenter().login(et_phone.getText().toString(), et_car_code.getText().toString(), cid);
                 break;
             case R.id.btu_get_phone_code:
                 //发送短信
@@ -58,6 +60,12 @@ public class LoginActivity2 extends BaseActivity<LoginContacts.LoginPtr> impleme
     @Override
     protected void init() {
         hideHeadView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cid = PushManager.getInstance().getClientid(this);
     }
 
     @Override
