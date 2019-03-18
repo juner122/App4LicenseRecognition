@@ -35,8 +35,10 @@ import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.MyBalanceEntity;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.NumberBean;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
+import com.juner.mvp.bean.OrderNews;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.ResourcePojos;
@@ -582,6 +584,33 @@ public class ApiLoader {
         return apiService.getWorkHeaderAd(map).compose(RxHelper.<List<Banner>>observe());
     }
 
+    /**
+     * 未读新消息数量
+     */
+    public Observable<Integer> needRead() {
+        map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
+        return apiService.needRead(map).compose(RxHelper.<NumberBean>observeNub());
+    }
+
+
+    /**
+     * 未读新消息list
+     */
+    public Observable<List<OrderNews>> pushlogList(int page) {
+        map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
+        map.put("page", page);
+        return apiService.pushlogList(map).compose(RxHelper.<List<OrderNews>>observe());
+    }
+
+    /**
+     * 标为已读
+     */
+    public Observable<NullDataEntity> updateRead(int id) {
+        map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
+        map.put("id", id);
+        return apiService.updateRead(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
 
     /**
      * 获取优惠券列表 [达到满减，未到期，未用过]
@@ -847,7 +876,9 @@ public class ApiLoader {
     public Observable<RecordMeal> queryConnectAct(String name) {
         return apiService.queryConnectAct(token, name).compose(RxHelper.<RecordMeal>observe());
 
-    }    /**
+    }
+
+    /**
      * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
      */
     public Observable<RecordMeal> queryConnectAct(int page) {
@@ -862,23 +893,23 @@ public class ApiLoader {
 
 
         if (course_type.equals("0"))
-            return apiService.courseList2(token,1000).compose(RxHelper.<List<Courses>>observe());
+            return apiService.courseList2(token, 1000).compose(RxHelper.<List<Courses>>observe());
         else
-            return apiService.courseList2(token, name, course_type,1000).compose(RxHelper.<List<Courses>>observe());
+            return apiService.courseList2(token, name, course_type, 1000).compose(RxHelper.<List<Courses>>observe());
     }
 
     /**
      * 课程学习记录列表
      */
     public Observable<List<CourseRecord>> courseRecord() {
-        return apiService.courseRecord(token,1000).compose(RxHelper.<List<CourseRecord>>observe());
+        return apiService.courseRecord(token, 1000).compose(RxHelper.<List<CourseRecord>>observe());
     }
 
     /**
      * 课程列表
      */
     public Observable<List<Courses>> courseListSearch(String name) {
-        return apiService.courseList2(token, name, null,1000).compose(RxHelper.<List<Courses>>observe());
+        return apiService.courseList2(token, name, null, 1000).compose(RxHelper.<List<Courses>>observe());
     }
 
     /**

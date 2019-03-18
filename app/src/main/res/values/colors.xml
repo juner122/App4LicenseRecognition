@@ -20,4 +20,5 @@
 
 
     <color name="background_color">#F0F7FD</color>
+    <color name="rv_line">#D9D9D9</color>
 </resources>

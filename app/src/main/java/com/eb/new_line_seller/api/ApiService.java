@@ -31,8 +31,10 @@ import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.MyBalanceEntity;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.NumberBean;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
+import com.juner.mvp.bean.OrderNews;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.ResourcePojos;
@@ -137,6 +139,21 @@ public interface ApiService {
     @POST("work/getWorkHeaderAd")
     @FormUrlEncoded
     Observable<BaseBean<List<Banner>>> getWorkHeaderAd(@FieldMap Map<String, Object> maps);
+
+    //未读新消息数量
+    @POST("pushlog/needRead")
+    @FormUrlEncoded
+    Observable<NumberBean> needRead(@FieldMap Map<String, Object> maps);
+
+    //未读新消息list
+    @POST("pushlog/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<OrderNews>>> pushlogList(@FieldMap Map<String, Object> maps);
+
+    //标为已读
+    @POST("pushlog/updateRead")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> updateRead(@FieldMap Map<String, Object> maps);
 
     //4.批量删除车况图片
     @POST("usercarconditionpicture/delete")

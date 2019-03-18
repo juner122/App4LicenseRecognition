@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.BillListActivity;
 import com.eb.new_line_seller.activity.CollegeActivity;
 import com.eb.new_line_seller.activity.MemberManagementActivity;
 import com.eb.new_line_seller.activity.MyBalanceActivity;
@@ -86,8 +87,9 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
                 break;
             case "stat":
-
-                activity.startActivity(new Intent(activity, MyBalanceActivity.class));
+                Intent intent2 = new Intent(activity, BillListActivity.class);
+                intent2.putExtra("isShowAll", 1);
+                activity.startActivity(intent2);
                 break;
             case "shopAd":
                 activity.startActivity(new Intent(activity, MarketingToolsActivity.class));

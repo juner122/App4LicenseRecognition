@@ -12,12 +12,18 @@ import android.widget.RemoteViews;
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.MainActivity;
 import com.eb.new_line_seller.activity.MemberManagementActivity;
+import com.eb.new_line_seller.activity.OrderInfoActivity;
+import com.eb.new_line_seller.api.ApiLoader;
+import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.google.gson.Gson;
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
+import com.juner.mvp.Configure;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.PushMessage;
 
 /**
@@ -47,7 +53,7 @@ public class GeTuiIntentService extends GTIntentService {
         PushMessage pm = new Gson().fromJson(s, PushMessage.class);
 
         getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
-        showNotification(pm.getTitle(), pm.getText());
+        showNotification(pm);
 
     }
 
@@ -75,7 +81,7 @@ public class GeTuiIntentService extends GTIntentService {
     }
 
     //显示通知栏
-    private void showNotification(String title, String info) {
+    private void showNotification(PushMessage pm) {
 
         NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(NOTIFICATION_SERVICE);
 
@@ -137,7 +143,7 @@ public class GeTuiIntentService extends GTIntentService {
 
         //加载自定义布局
 
-        notification.contentView = getRemoteViews(getApplicationContext(), title, info);
+        notification.contentView = getRemoteViews(getApplicationContext(), pm);
 
         // 点击清除按钮或点击通知后会自动消失
 
@@ -155,28 +161,30 @@ public class GeTuiIntentService extends GTIntentService {
 
     //自定义notification布局
 
-    public static RemoteViews getRemoteViews(Context context, String title, String info) {
+    public static RemoteViews getRemoteViews(Context context, PushMessage pm) {
         RemoteViews remoteviews = new RemoteViews(context.getPackageName(), R.layout.notification_layout);
         remoteviews.setImageViewResource(R.id.download_promp_icon, R.mipmap.push);
-        remoteviews.setTextViewText(R.id.download_title, title);
-        remoteviews.setTextViewText(R.id.download_promp_info, info);
+        remoteviews.setTextViewText(R.id.download_title, pm.getTitle());
+        remoteviews.setTextViewText(R.id.download_promp_info, pm.getText());
         //找到对应的控件（R.id.download_notification_root），为控件添加点击事件getPendingIntent(context)
-        remoteviews.setOnClickPendingIntent(R.id.download_notification_root, getPendingIntent(context));
+        remoteviews.setOnClickPendingIntent(R.id.download_notification_root, getPendingIntent(context, pm));
+
         return remoteviews;
     }
 
 
-    private static PendingIntent getPendingIntent(Context context) {
-
-        Intent intent = new Intent(context, MemberManagementActivity.class);
-
+    private static PendingIntent getPendingIntent(Context context, PushMessage pm) {
+        Intent intent;
+        intent = new Intent(context, MainActivity.class);
         intent.putExtra("msg", "从通知栏点击进来的");
-
+        intent.putExtra("push", true);
+        intent.putExtra("PushMessage", pm);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         return pendingIntent;
 
     }
+
+
 
 
 }

@@ -62,6 +62,9 @@ public class MemberManagementActivity extends BaseActivity {
 
                 getList(0, et.getText().toString());
                 break;
+
+
+
         }
     }
 

@@ -147,7 +147,7 @@ public class OrderInfoActivity extends BaseActivity {
 
     List<Technician> technicians;
 
-    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice})
+    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice,R.id.tv_back})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -265,7 +265,13 @@ public class OrderInfoActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.tv_back:
+                if (getIntent().getBooleanExtra("push", false))
+                    toActivity(MainActivity.class);
+                else
+                    finish();
 
+                break;
         }
 
 

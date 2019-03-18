@@ -325,7 +325,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
                     public void doCancel() {
                         confirmDialog.dismiss();
                     }
+
                 });
+                break;
             case R.id.tv_iv_r:
                 LinearLayout ll = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_member_management_member_info_onpe_car, null);
 

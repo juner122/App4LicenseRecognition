@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.eb.new_line_seller.R;
+import com.eb.new_line_seller.activity.OrderNewsListActivity;
 import com.eb.new_line_seller.adapter.MuneButAdapter;
 import com.eb.new_line_seller.api.RxSubscribe;
 import com.eb.new_line_seller.util.SystemUtil;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 /**
  * 主页页面：工作台
  */
@@ -65,6 +67,7 @@ public class MainFragment1New extends BaseFragment {
     MuneButAdapter muneButAdapter3;
     MuneButAdapter muneButAdapter4;
     MuneButAdapter muneButAdapter5;
+
 
 
     @Override
@@ -175,17 +178,9 @@ public class MainFragment1New extends BaseFragment {
     public void onResume() {
         super.onResume();
         getInfo();
-
     }
 
-    @OnClick({})
-    public void onClick(View view) {
-        switch (view.getId()) {
 
-
-        }
-
-    }
 
     public static final String TAG = "MainFragment1New";
 
@@ -197,7 +192,8 @@ public class MainFragment1New extends BaseFragment {
     private void getInfo() {
 
 
-        Api().getWorkHeaderAd().subscribe(new RxSubscribe<List<Banner>>(getContext(), true) {
+        //获取主页权限信息
+        Api().getWorkHeaderAd().subscribe(new RxSubscribe<List<Banner>>(getContext(), false) {
             @Override
             protected void _onNext(List<Banner> banners) {
                 if (null != banners && banners.size() > 0) {
@@ -215,4 +211,7 @@ public class MainFragment1New extends BaseFragment {
 
 
     }
+
+
+
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.eb.new_line_seller.R;
 import com.eb.new_line_seller.activity.CarInfoInputActivity;
+import com.eb.new_line_seller.activity.MainActivity;
 import com.eb.new_line_seller.activity.UserAuthorizeActivity;
 import com.eb.new_line_seller.mvp.contacts.FixInfoContacts;
 import com.eb.new_line_seller.mvp.presenter.FixInfoPtr;
@@ -83,7 +84,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r, R.id.tv_notice})
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r, R.id.tv_notice, R.id.tv_back})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -132,6 +133,14 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(tv_dec, 0);
+
+                break;
+
+            case R.id.tv_back:
+                if (getIntent().getBooleanExtra("push", false))
+                    toActivity(MainActivity.class);
+                else
+                    finish();
 
                 break;
         }

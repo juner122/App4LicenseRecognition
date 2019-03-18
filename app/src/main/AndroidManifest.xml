@@ -299,7 +299,12 @@
 
         <activity android:name=".activity.ProductMealActivity" />
         <activity android:name=".activity.RecruitActivity" />
-        <activity android:name=".activity.TechnicianInfoActivity"></activity>
+        <activity android:name=".activity.TechnicianInfoActivity" />
+        <activity
+            android:name=".activity.OrderNewsListActivity"
+            android:launchMode="singleTask" />
+
+
     </application>
 
 </manifest>

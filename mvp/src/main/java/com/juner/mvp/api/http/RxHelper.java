@@ -3,6 +3,7 @@ package com.juner.mvp.api.http;
 import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.BaseBean2;
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.NumberBean;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -29,6 +30,35 @@ public class RxHelper {
                 return upstream.flatMap(new Function<BaseBean<T>, Observable<T>>() {
                     @Override
                     public Observable<T> apply(BaseBean<T> result) {
+
+                        if (result.ifSuccess()) {//检查是否掉接口成功了
+                            return createData(result.getData());//成功，剥取我们要的数据，把BaseModel丢掉
+                        } else {
+
+                            return Observable.error(new Exception(result.getErrno() + ":" + result.getErrmsg()));//出错就返回服务器错误
+                        }
+
+                    }
+                }).subscribeOn(Schedulers.io())
+                        .unsubscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+    /**
+     * 对结果进行预处理
+     *
+     *
+     * @return
+     */
+    public static final  ObservableTransformer<NumberBean, Integer> observeNub() {
+        return new ObservableTransformer<NumberBean, Integer>() {
+            @Override
+            public ObservableSource apply(Observable upstream) {
+                return upstream.flatMap(new Function<NumberBean, Observable<Integer>>() {
+                    @Override
+                    public Observable<Integer> apply(NumberBean result) {
 
                         if (result.ifSuccess()) {//检查是否掉接口成功了
                             return createData(result.getData());//成功，剥取我们要的数据，把BaseModel丢掉

@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -48,14 +49,17 @@
                 tl:layout_constraintEnd_toEndOf="parent"
                 tl:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/icon_new_num"
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:background="@drawable/button_background_aaa"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="#fff"
+                android:textSize="10sp"
                 tl:layout_constraintLeft_toLeftOf="@id/iv1"
                 tl:layout_constraintTop_toTopOf="@id/iv1" />
-
 
         </android.support.constraint.ConstraintLayout>
 

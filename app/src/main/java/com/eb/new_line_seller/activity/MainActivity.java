@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.new_line_seller.activity.fragment.MainFragment1New;
+import com.eb.new_line_seller.api.ApiLoader;
 import com.eb.new_line_seller.api.RxSubscribe;
+import com.eb.new_line_seller.mvp.FixInfoActivity;
 import com.eb.new_line_seller.service.GeTuiIntentService;
 import com.eb.new_line_seller.service.GeTuiPushService;
 import com.eb.new_line_seller.util.SystemUtil;
@@ -27,6 +29,8 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.new_line_seller.activity.fragment.MainFragmentPlate;
 import com.eb.new_line_seller.util.ToastUtils;
 import com.juner.mvp.bean.AppMenu;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.PushMessage;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
@@ -48,6 +52,12 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tv_shopName)
     TextView tv_shopName;
 
+    @BindView(R.id.number)
+    TextView number;
+    @BindView(R.id.cl)
+    View cl;
+
+
 
     private String[] mTitles = {"工作台", "", "我的"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
@@ -59,11 +69,14 @@ public class MainActivity extends BaseActivity {
             R.mipmap.icon_bottom_button1_select,
             R.color.fff, R.mipmap.icon_bottom_button5_select};
 
-    @OnClick({R.id.ll, R.id.ll2})
+    @OnClick({R.id.ll, R.id.ll2, R.id.iv1})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll:
                 toActivity(PreviewActivity2.class);
+                break;
+            case R.id.iv1:
+                toActivity(OrderNewsListActivity.class);//新消息
                 break;
 
         }
@@ -74,7 +87,7 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         hideHeadView();
 
-
+        toInfoActivity(getIntent());
         //初始化个推
         PushManager.getInstance().initialize(this.getApplicationContext(), GeTuiPushService.class);
         // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
@@ -104,12 +117,10 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 if (position == 0) {
-                    tv_shopName.setVisibility(View.VISIBLE);
+                    cl.setVisibility(View.VISIBLE);
                 } else {
-                    tv_shopName.setVisibility(View.GONE);
+                    cl.setVisibility(View.GONE);
                 }
-
-
             }
 
             @Override
@@ -144,6 +155,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        needRead();
     }
 
     @Override
@@ -186,9 +198,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
 
+        int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
         setCurrentTab(fragment);
+
+
+        toInfoActivity(intent);
+
     }
 
 
@@ -214,7 +230,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 //            //没接收到一次广播就执行一次方法
-//            tv_shopName.setText("更新消息数量");
+            needRead();
         }
     }
 
@@ -225,5 +241,59 @@ public class MainActivity extends BaseActivity {
         IntentFilter filter = new IntentFilter(action);
         //注册广播
         this.registerReceiver(broadcastReceiver, filter);
+    }
+
+    private void needRead() {
+        //未读新消息数量
+        Api().needRead().subscribe(new RxSubscribe<Integer>(this, false) {
+            @Override
+            protected void _onNext(Integer integer) {
+                if (integer > 0) {
+                    number.setText(String.valueOf(integer));
+                    number.setVisibility(View.VISIBLE);
+                } else {
+                    number.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+                number.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    private void toInfoActivity(Intent i) {
+        if (i.getBooleanExtra("push", false)) {
+            PushMessage pm = i.getParcelableExtra("PushMessage");
+            updateRead(pm);
+        }
+
+
+    }
+
+    //标记已读
+    private void updateRead(final PushMessage pm) {
+        Api().updateRead(pm.getId()).subscribe(new RxSubscribe<NullDataEntity>(this, false) {
+            @Override
+            protected void _onNext(NullDataEntity entity) {
+                Intent intent;
+                if (pm.getType() == 1) {
+                    intent = new Intent(MainActivity.this, OrderInfoActivity.class);
+                    intent.putExtra(Configure.ORDERINFOID, pm.getOrderId());
+                } else {
+                    intent = new Intent(MainActivity.this, FixInfoActivity.class);
+                    intent.putExtra("id", pm.getOrderId());
+                }
+                startActivity(intent);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
     }
 }
