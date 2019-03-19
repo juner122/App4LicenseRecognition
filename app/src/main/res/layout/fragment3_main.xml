@@ -27,7 +27,7 @@
             android:layout_height="350dp">
 
 
-            <com.eb.new_line_seller.view.PlateRecognizerView
+            <com.eb.geaiche.view.PlateRecognizerView
                 android:id="@+id/surface_view"
                 android:background="@mipmap/background_carme"
                 android:layout_width="match_parent"

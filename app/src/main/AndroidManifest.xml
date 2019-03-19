@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.eb.new_line_seller">
+    package="com.eb.geaiche">
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -40,7 +40,7 @@
         android:required="true" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.eb.geaiche.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_login"
         android:label="@string/app_name"
@@ -58,7 +58,7 @@
             android:value="gac" />
 
         <activity
-            android:name=".activity.StartActivity"
+            android:name="com.eb.geaiche.activity.StartActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,176 +67,176 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name="com.eb.geaiche.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MemberManagementActivity"
+            android:name="com.eb.geaiche.activity.MemberManagementActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.StaffManagementActivity"
+            android:name="com.eb.geaiche.activity.StaffManagementActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ProductListActivity"
+            android:name="com.eb.geaiche.activity.ProductListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.ActivityPackageListActivity"
+            android:name="com.eb.geaiche.activity.ActivityPackageListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BillListActivity"
+            android:name="com.eb.geaiche.activity.BillListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MemberInfoInputActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity
-            android:name=".activity.CarInfoInputActivity"
+            android:name="com.eb.geaiche.activity.MemberInfoInputActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.MakeOrderActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MealListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TechnicianListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MakeOrderSuccessActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.OrderPayActivity"
+            android:name="com.eb.geaiche.activity.CarInfoInputActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.OrderDoneActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.MyBalanceActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.BillListItemInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.OrderInfoActivity"
+            android:name="com.eb.geaiche.activity.MakeOrderActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AutoBrandActivity"
+            android:name="com.eb.geaiche.activity.MealListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.TechnicianListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.MakeOrderSuccessActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.OrderPayActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.eb.geaiche.activity.OrderDoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.MyBalanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.BillListItemInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.OrderInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eb.geaiche.activity.AutoBrandActivity"
             android:screenOrientation="portrait" />
         //车牌扫描测试
         <activity
-            android:name=".activity.MemberManagementInfoActivity"
+            android:name="com.eb.geaiche.activity.MemberManagementInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ShopInfoActivity"
+            android:name="com.eb.geaiche.activity.ShopInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CarInfoActivity"
+            android:name="com.eb.geaiche.activity.CarInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.PickCoupons"
+            android:name="com.eb.geaiche.activity.PickCoupons"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CourseEnrolmentActivity"
+            android:name="com.eb.geaiche.activity.CourseEnrolmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.CashWithdrawActivity"
+            android:name="com.eb.geaiche.activity.CashWithdrawActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AuthenActivity"
+            android:name="com.eb.geaiche.activity.AuthenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.UserReportActivity"
+            android:name="com.eb.geaiche.activity.UserReportActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AboutActivity"
+            android:name="com.eb.geaiche.activity.AboutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="com.eb.geaiche.activity.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mvp.LoginActivity2"
+            android:name="com.eb.geaiche.mvp.LoginActivity2"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SetProjectActivity"
+            android:name="com.eb.geaiche.activity.SetProjectActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ActivityInfoActivity"
+            android:name="com.eb.geaiche.activity.ActivityInfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ServeListActivity"
+            android:name="com.eb.geaiche.activity.ServeListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.WeiXinPayCodeActivity"
+            android:name="com.eb.geaiche.activity.WeiXinPayCodeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ProductMealListActivity"
+            android:name="com.eb.geaiche.activity.ProductMealListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".activity.AutographActivity"
+            android:name="com.eb.geaiche.activity.AutographActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.PreviewActivity2" />
+        <activity android:name="com.eb.geaiche.activity.PreviewActivity2" />
         <activity
-            android:name=".mvp.ActivateCardActivity"
+            android:name="com.eb.geaiche.mvp.ActivateCardActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.PickMealCardActivity" />
+        <activity android:name="com.eb.geaiche.mvp.PickMealCardActivity" />
         <activity
-            android:name=".mvp.FixInfoDescribeActivity"
+            android:name="com.eb.geaiche.mvp.FixInfoDescribeActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".mvp.FixInfoListActivity" />
-        <activity android:name=".mvp.FixInfoPartsAndServerActivity" />
+        <activity android:name="com.eb.geaiche.mvp.FixInfoListActivity" />
+        <activity android:name="com.eb.geaiche.mvp.FixInfoPartsAndServerActivity" />
         <activity
-            android:name=".mvp.FixInfoActivity"
+            android:name="com.eb.geaiche.mvp.FixInfoActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".mvp.FixPickServiceActivity"
+            android:name="com.eb.geaiche.mvp.FixPickServiceActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
-            android:name=".mvp.FixPickPartsActivity"
+            android:name="com.eb.geaiche.mvp.FixPickPartsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".mvp.CustomPartsActivity" />
-        <activity android:name=".activity.OrderList4DayActivity" />
-        <activity android:name=".activity.ChangeStoreActivity" />
-        <activity android:name=".activity.OrderSearch" />
-        <activity android:name=".activity.CustomRecordsActivity" />
+        <activity android:name="com.eb.geaiche.mvp.CustomPartsActivity" />
+        <activity android:name="com.eb.geaiche.activity.OrderList4DayActivity" />
+        <activity android:name="com.eb.geaiche.activity.ChangeStoreActivity" />
+        <activity android:name="com.eb.geaiche.activity.OrderSearch" />
+        <activity android:name="com.eb.geaiche.activity.CustomRecordsActivity" />
         <activity
-            android:name=".activity.UserAuthorizeActivity"
+            android:name="com.eb.geaiche.activity.UserAuthorizeActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.CourseListActivity" />
+        <activity android:name="com.eb.geaiche.activity.CourseListActivity" />
         <activity
-            android:name=".mvp.CourseInfoActivity"
+            android:name="com.eb.geaiche.mvp.CourseInfoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activity.CourseRecordActivity" />
-        <activity android:name=".activity.CarVinDISActivity" />
-        <activity android:name=".TestActivity" />
-        <activity android:name=".mvp.MarketingToolsActivity" />
-        <activity android:name=".mvp.MessageMarketingActivity" />
-        <activity android:name=".activity.PickCarOwnerActivity" />
+        <activity android:name="com.eb.geaiche.activity.CourseRecordActivity" />
+        <activity android:name="com.eb.geaiche.activity.CarVinDISActivity" />
+        <activity android:name="com.eb.geaiche.TestActivity" />
+        <activity android:name="com.eb.geaiche.mvp.MarketingToolsActivity" />
+        <activity android:name="com.eb.geaiche.mvp.MessageMarketingActivity" />
+        <activity android:name="com.eb.geaiche.activity.PickCarOwnerActivity" />
         //微信
         <activity
-            android:name=".wxapi.WXEntryActivity"
+            android:name="com.eb.geaiche.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -263,7 +263,7 @@
         </activity>
         //钉钉
         <activity
-            android:name=".ddshare.DDShareActivity"
+            android:name="com.eb.geaiche.ddshare.DDShareActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -286,25 +286,24 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.OrderListActivity" />
-        <activity android:name=".activity.CollegeActivity" />
-        <activity android:name=".activity.MessageCreateActivity" />
+        <activity android:name="com.eb.geaiche.activity.OrderListActivity" />
+        <activity android:name="com.eb.geaiche.activity.CollegeActivity" />
+        <activity android:name="com.eb.geaiche.activity.MessageCreateActivity" />
 
         <service
-            android:name=".service.GeTuiPushService"
+            android:name="com.eb.geaiche.service.GeTuiPushService"
             android:exported="true"
             android:label="PushService"
             android:process=":pushservice" />
-        <service android:name=".service.GeTuiIntentService" />
+        <service android:name="com.eb.geaiche.service.GeTuiIntentService" />
 
-        <activity android:name=".activity.ProductMealActivity" />
-        <activity android:name=".activity.RecruitActivity" />
-        <activity android:name=".activity.TechnicianInfoActivity" />
+        <activity android:name="com.eb.geaiche.activity.ProductMealActivity" />
+        <activity android:name="com.eb.geaiche.activity.RecruitActivity" />
+        <activity android:name="com.eb.geaiche.activity.TechnicianInfoActivity" />
         <activity
-            android:name=".activity.OrderNewsListActivity"
+            android:name="com.eb.geaiche.activity.OrderNewsListActivity"
             android:launchMode="singleTask" />
-
-
+        <activity android:name="com.eb.geaiche.activity.StaffInfoFixActivity"></activity>
     </application>
 
 </manifest>

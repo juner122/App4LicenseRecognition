@@ -4,9 +4,11 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //技师
 public class Technician extends SelectedBean implements Parcelable {
-
 
 
     int userId;
@@ -19,6 +21,24 @@ public class Technician extends SelectedBean implements Parcelable {
     String email;
     String mobile;
     String roleName;
+    List<Long> roleList;
+    String userSn;
+
+    public List<Long> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Long> roleList) {
+        this.roleList = roleList;
+    }
+
+    public String getUserSn() {
+        return userSn;
+    }
+
+    public void setUserSn(String userSn) {
+        this.userSn = userSn;
+    }
 
     public String getRoleName() {
         return roleName;
@@ -135,6 +155,8 @@ public class Technician extends SelectedBean implements Parcelable {
         dest.writeString(this.email);
         dest.writeString(this.mobile);
         dest.writeString(this.roleName);
+        dest.writeList(this.roleList);
+        dest.writeString(this.userSn);
     }
 
     protected Technician(Parcel in) {
@@ -148,6 +170,9 @@ public class Technician extends SelectedBean implements Parcelable {
         this.email = in.readString();
         this.mobile = in.readString();
         this.roleName = in.readString();
+        this.roleList = new ArrayList<Long>();
+        in.readList(this.roleList, Long.class.getClassLoader());
+        this.userSn = in.readString();
     }
 
     public static final Creator<Technician> CREATOR = new Creator<Technician>() {

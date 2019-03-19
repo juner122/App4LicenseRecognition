@@ -7,7 +7,7 @@
     tools:context=".activity.AutographActivity">
     <include layout="@layout/head_view" />
 
-    <com.eb.new_line_seller.view.LinePathView
+    <com.eb.geaiche.view.LinePathView
         android:id="@+id/lpv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

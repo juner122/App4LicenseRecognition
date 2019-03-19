@@ -14,7 +14,7 @@ android {
     defaultConfig {
 
         multiDexEnabled true
-        applicationId "com.eb.new_line_seller"
+        applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 21
