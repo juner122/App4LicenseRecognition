@@ -108,8 +108,9 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         getView().onChangeView(type);
     }
 
+
     @Override
-    public void confirm(final String dec, final String name, final String price, int number, final boolean isContinue) {
+    public void confirm(final String dec, final String name, final String price, int number, int openStatus, final boolean isContinue) {
 
         if (parent_id2 == -1) {
             ToastUtils.showToast("请选择二级分类！");
@@ -125,7 +126,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         }
 
         if (type == 0) {
-            mdl.addShopService(getShopProject(dec, name, price), new RxSubscribe<ShopProject>(getView().getSelfActivity(), true) {
+            mdl.addShopService(getShopProject(dec, name, price, openStatus), new RxSubscribe<ShopProject>(getView().getSelfActivity(), true) {
                 @Override
                 protected void _onNext(ShopProject shopProject) {
                     ToastUtils.showToast("添加成功！");
@@ -133,7 +134,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
                     servieList.add(getFixServie(shopProject));
                     if (!isContinue) {//确认添加返回详情页面
                         finish();
-                        getView().confirm(servieList, type);
+//                        getView().confirm(servieList, type);
                     } else {
                         onContinue();
                     }
@@ -145,7 +146,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
                 }
             });
         } else {
-            mdl.componentSave(getComponent(dec, name, price), new RxSubscribe<Component>(getView().getSelfActivity(), true) {
+            mdl.componentSave(getComponent(dec, name, price, openStatus), new RxSubscribe<Component>(getView().getSelfActivity(), true) {
                 @Override
                 protected void _onNext(Component component) {
                     ToastUtils.showToast("添加成功！");
@@ -153,7 +154,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
                     if (!isContinue) {//确认添加返回详情页面
                         finish();
-                        getView().confirm(fixParts, type);
+//                        getView().confirm(fixParts, type);
                     } else {
                         onContinue();
                     }
@@ -282,20 +283,22 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
     }
 
-    private ShopProject getShopProject(String dec, String name, String price) {
+    private ShopProject getShopProject(String dec, String name, String price, int openStatus) {
         ShopProject sp = new ShopProject();
         sp.setName(name);
         sp.setPrice(price);
         sp.setExplain(dec);
+        sp.setOpenStatus(openStatus);
         sp.setServiceId(parent_id2);
         return sp;
     }
 
-    private Component getComponent(String dec, String name, String price) {
+    private Component getComponent(String dec, String name, String price, int openStatus) {
         Component com = new Component();
         com.setName(name);
         com.setRetailPrice(price);
         com.setGoodsDesc(dec);
+        com.setOpenStatus(openStatus);
         com.setCategoryId(parent_id2);
         return com;
     }

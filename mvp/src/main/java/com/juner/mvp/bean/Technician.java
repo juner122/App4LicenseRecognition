@@ -21,14 +21,14 @@ public class Technician extends SelectedBean implements Parcelable {
     String email;
     String mobile;
     String roleName;
-    List<Long> roleList;
+    List<Integer> roleList;
     String userSn;
 
-    public List<Long> getRoleList() {
+    public List<Integer> getRoleList() {
         return roleList;
     }
 
-    public void setRoleList(List<Long> roleList) {
+    public void setRoleList(List<Integer> roleList) {
         this.roleList = roleList;
     }
 
@@ -170,7 +170,7 @@ public class Technician extends SelectedBean implements Parcelable {
         this.email = in.readString();
         this.mobile = in.readString();
         this.roleName = in.readString();
-        this.roleList = new ArrayList<Long>();
+        this.roleList = new ArrayList<Integer>();
         in.readList(this.roleList, Long.class.getClassLoader());
         this.userSn = in.readString();
     }

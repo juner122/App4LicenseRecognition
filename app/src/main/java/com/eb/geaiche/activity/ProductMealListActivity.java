@@ -46,6 +46,8 @@ public class ProductMealListActivity extends BaseActivity {
 
     boolean isFixOrder;
 
+    int currentTab;
+
     @Override
     protected void init() {
         tv_title.setText("商品套餐列表");
@@ -59,8 +61,10 @@ public class ProductMealListActivity extends BaseActivity {
 
 
         fragments.add(new ProductFragment());
-        fragments.add(ProductMealFragment.getInstance(user_id,car_no));
+        fragments.add(ProductMealFragment.getInstance(user_id, car_no));
         onPulsTotalPrice(MyApplication.cartUtils.getProductPrice());
+
+        currentTab = getIntent().getIntExtra("currentTab", 0);
 
     }
 
@@ -68,6 +72,8 @@ public class ProductMealListActivity extends BaseActivity {
     protected void setUpView() {
 
         stl.setViewPager(vp, title, this, fragments);
+
+        stl.setCurrentTab(currentTab);
     }
 
     @Override

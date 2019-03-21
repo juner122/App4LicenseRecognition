@@ -32,7 +32,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_background_aa"
             android:gravity="center"
-            android:text="张"
+            android:text=""
             android:textColor="#fff"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="张三丰"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="13sp"
             app:layout_constraintLeft_toRightOf="@id/tv_name_s"
@@ -53,7 +53,7 @@
             android:id="@+id/tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="钣金技师"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="10sp"
             app:layout_constraintLeft_toLeftOf="@id/tv_name"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:text="5000.00元"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="17dp"
             android:layout_marginStart="10dp"
-            android:text="新干线养车e站（岗顶店）"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_address"
@@ -120,7 +120,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
-            android:text="天河路490号壬丰大厦地下负1楼"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:text="13800138000"
+            android:text=""
             android:textColor="#ffffffff"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -166,24 +166,25 @@
             android:textSize="14sp" />
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableRight="@mipmap/icon_enter"
             android:drawablePadding="5dp"
             android:text="历史记录"
             android:textColor="#ff666666"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="visible" />
 
     </LinearLayout>
 
     <View
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:background="#d9d9d9"
         android:paddingTop="20dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"

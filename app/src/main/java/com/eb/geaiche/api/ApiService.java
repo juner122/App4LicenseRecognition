@@ -37,6 +37,7 @@ import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.OrderNews;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.Roles;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
@@ -487,5 +488,25 @@ public interface ApiService {
     //修改员工
     @POST("sysuser/update")
     Observable<BaseBean<NullDataEntity>> sysuserUpdate(@Header("X-Nideshop-Token") String token, @Body Technician technicianInfo);
+
+    //
+    //添加员工
+    @POST("sysuser/save")
+    Observable<BaseBean<NullDataEntity>> sysuserSave(@Header("X-Nideshop-Token") String token, @Body Technician technicianInfo);
+
+    //供选择的角色列表
+    @POST("sysuser/queryRoles")
+    Observable<BaseBean<List<Roles>>> queryRoles(@Header("X-Nideshop-Token") String token);
+
+
+    //获取员工服务订单
+    @POST("sysuser/orderList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<OrderInfoEntity>>> sysOrderList(@Header("X-Nideshop-Token") String token,@Field("user_id") int user_id);
+
+    //获取员工销售订单
+    @POST("sysuser/saleList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<OrderInfoEntity>>> saleList(@Header("X-Nideshop-Token") String token, @Field("sysuser_id") int sysuser_id);
 
 }

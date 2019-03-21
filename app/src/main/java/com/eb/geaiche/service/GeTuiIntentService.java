@@ -11,12 +11,16 @@ import android.widget.RemoteViews;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.MainActivity;
+import com.eb.geaiche.mvp.LoginActivity2;
 import com.google.gson.Gson;
 import com.igexin.sdk.GTIntentService;
+import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
 import com.juner.mvp.bean.PushMessage;
+
+import net.grandcentrix.tray.AppPreferences;
 
 /**
  * 继承 GTIntentService 接收来自个推的消息, 所有消息在线程中回调, 如果注册了该服务, 则务必要在 AndroidManifest中声明, 否则无法接受消息<br>
@@ -52,6 +56,9 @@ public class GeTuiIntentService extends GTIntentService {
     @Override
     public void onReceiveClientId(Context context, String clientid) {
         Log.e(TAG, "onReceiveClientId -> " + "clientid = " + clientid);
+        new AppPreferences(getApplicationContext()).put("cid", clientid);
+
+        getApplicationContext().sendBroadcast(new Intent(LoginActivity2.action));
     }
 
     @Override
@@ -175,8 +182,6 @@ public class GeTuiIntentService extends GTIntentService {
         return pendingIntent;
 
     }
-
-
 
 
 }

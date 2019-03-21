@@ -1,6 +1,7 @@
 package com.eb.geaiche.activity;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -38,8 +39,10 @@ public class StaffManagementActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_add:
-                toActivity(StaffInfoFixActivity.class);
+                Intent intent = new Intent(this, StaffInfoFixActivity.class);
 
+                intent.putExtra("type", 1);
+                startActivity(intent);
                 break;
 
         }
@@ -48,6 +51,12 @@ public class StaffManagementActivity extends BaseActivity {
     @Override
     protected void setUpView() {
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         adpter = new TechnicianInfoAdpter(list);

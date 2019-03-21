@@ -89,6 +89,8 @@ public class ProductMealActivity extends BaseActivity {
             MealL0Entity lv0 = new MealL0Entity(list.get(0).getActivityName(), list.get(0).getActivitySn());
 
             for (MealEntity entity : list) {
+                lv0.setCarNo(entity.getCarNo());
+                lv0.setEndTime(entity.getEndTime());
                 lv0.addSubItem(entity);
             }
             res.add(lv0);

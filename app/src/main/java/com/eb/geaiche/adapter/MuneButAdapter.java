@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BillListActivity;
 import com.eb.geaiche.activity.CollegeActivity;
+import com.eb.geaiche.activity.CourseRecordActivity;
 import com.eb.geaiche.activity.MemberManagementActivity;
 import com.eb.geaiche.activity.OrderListActivity;
 import com.eb.geaiche.activity.ProductListActivity;
@@ -20,6 +21,8 @@ import com.eb.geaiche.activity.RecruitActivity;
 import com.eb.geaiche.activity.StaffManagementActivity;
 import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
+import com.eb.geaiche.mvp.FixPickPartsActivity;
+import com.eb.geaiche.mvp.FixPickServiceActivity;
 import com.eb.geaiche.mvp.MarketingToolsActivity;
 import com.eb.geaiche.mvp.MessageMarketingActivity;
 import com.eb.geaiche.util.ToastUtils;
@@ -61,6 +64,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
         switch (perms) {
             case "vip":
+
                 activity.startActivity(new Intent(activity, MemberManagementActivity.class));
 
                 break;
@@ -71,7 +75,10 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 activity.startActivity(new Intent(activity, ActivateCardActivity.class));
                 break;
             case "service":
-                ToastUtils.showToast("开发中");
+                //自定服务
+                Intent iss = new Intent(activity, FixPickServiceActivity.class);
+                iss.putExtra("show", true);
+                activity.startActivity(iss);
 
                 break;
             case "order":
@@ -118,8 +125,15 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
                 break;
 
-            case "store":
-                ToastUtils.showToast("开发中");
+            case "store"://自定商品
+
+
+                Intent is = new Intent(activity, FixPickPartsActivity.class);
+                is.putExtra("show", true);
+                activity.startActivity(is);
+                break;
+            case "studyLog":
+                activity.startActivity(new Intent(activity, CourseRecordActivity.class));
                 break;
 
         }

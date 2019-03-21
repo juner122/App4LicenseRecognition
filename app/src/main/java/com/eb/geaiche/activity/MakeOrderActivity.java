@@ -258,6 +258,7 @@ public class MakeOrderActivity extends BaseActivity {
         cartServerUtils = MyApplication.cartServerUtils;
 
         tv_title.setText("下单信息");
+        setRTitle("套卡下单");
         getTopData();
         car_number = new AppPreferences(this).getString(Configure.car_no, "null_car_no");
         user_id = new AppPreferences(this).getInt(Configure.user_id, 0);
@@ -317,7 +318,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4})
+    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
@@ -350,7 +351,6 @@ public class MakeOrderActivity extends BaseActivity {
 //                        but_to_technician_list.setText(String2Utils.getString(technicians));
 //                    }
 //                });
-
 
 
                 Intent intent4 = new Intent(this, TechnicianListActivity.class);
@@ -430,6 +430,19 @@ public class MakeOrderActivity extends BaseActivity {
                     ToastUtils.showToast("该商品不能选择");
 
                 }
+                break;
+
+            case R.id.tv_title_r:
+
+
+                Intent r = new Intent(this, ProductMealListActivity.class);
+                r.putExtra(Configure.user_id, user_id);
+                r.putExtra(Configure.car_no, car_number);
+                r.putExtra("currentTab", 1);
+
+                r.putExtra(Configure.isFixOrder, false);
+                startActivity(r);
+
                 break;
 
         }

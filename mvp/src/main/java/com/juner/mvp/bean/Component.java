@@ -15,6 +15,16 @@ public class Component implements Parcelable {
     private String goodsDesc;
     //价格
     private String retailPrice;
+    private int openStatus;
+
+    public int getOpenStatus() {
+
+        return openStatus;
+    }
+
+    public void setOpenStatus(int openStatus) {
+        this.openStatus = openStatus;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -48,6 +58,9 @@ public class Component implements Parcelable {
         this.retailPrice = retailPrice;
     }
 
+    public Component() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,9 +72,7 @@ public class Component implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.goodsDesc);
         dest.writeString(this.retailPrice);
-    }
-
-    public Component() {
+        dest.writeInt(this.openStatus);
     }
 
     protected Component(Parcel in) {
@@ -69,9 +80,10 @@ public class Component implements Parcelable {
         this.name = in.readString();
         this.goodsDesc = in.readString();
         this.retailPrice = in.readString();
+        this.openStatus = in.readInt();
     }
 
-    public static final Parcelable.Creator<Component> CREATOR = new Parcelable.Creator<Component>() {
+    public static final Creator<Component> CREATOR = new Creator<Component>() {
         @Override
         public Component createFromParcel(Parcel source) {
             return new Component(source);

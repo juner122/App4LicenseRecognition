@@ -11,7 +11,6 @@
     <include layout="@layout/head_view" />
 
     <android.support.constraint.ConstraintLayout
-        android:paddingBottom="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -30,15 +29,19 @@
 
         <EditText
             android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="12dp"
-            android:gravity="end"
             android:background="@null"
-            android:text="13800138000"
+            android:gravity="end"
+            android:inputType="number"
+            android:maxLength="11"
+            android:text=""
             android:textColor="#ff333333"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
             app:layout_constraintTop_toTopOf="@+id/textView3" />
 
         <TextView
@@ -55,16 +58,18 @@
 
         <EditText
             android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
             android:background="@null"
-            android:text="张三丰"
             android:gravity="end"
+            android:text=""
             android:textColor="#ff333333"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
@@ -82,8 +87,9 @@
 
         <EditText
             android:id="@+id/tv_number"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
             android:background="@null"
@@ -92,6 +98,7 @@
             android:textColor="#ff999999"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/view1" />
 
         <TextView
@@ -106,10 +113,11 @@
             app:layout_constraintTop_toBottomOf="@+id/view2" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="0dp"
+            android:padding="12dp"
             android:layout_marginEnd="12dp"
             android:drawableRight="@mipmap/icon_down"
             android:drawablePadding="5dp"

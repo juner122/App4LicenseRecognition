@@ -5,10 +5,15 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
+import com.eb.geaiche.service.GeTuiIntentService;
+import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartServerUtils;
 import com.eb.geaiche.util.CartUtils;
+import com.igexin.sdk.PushManager;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
+
+import net.grandcentrix.tray.AppPreferences;
 
 
 public class MyApplication extends Application {
@@ -37,17 +42,19 @@ public class MyApplication extends Application {
         AliVcMediaPlayer.init(getApplicationContext());
 
 
-
-
-
         //友盟
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "");
         UMConfigure.setLogEnabled(true);
-        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setWeixin("wx6208849918d52d41", "6edbaaf0c484df8f5f4b1f63aebff310");
         //豆瓣RENREN平台目前只能在服务器端配置
-        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
         PlatformConfig.setQQZone("101555807", "05fc786f1284fee3ea84bc2b6a64b5c1");
         PlatformConfig.setDing("dingoalmlnohc0wggfedpk");
+
+        //初始化个推
+        PushManager.getInstance().initialize(this.getApplicationContext(), GeTuiPushService.class);
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
 
     }
 

@@ -40,6 +40,7 @@ import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.OrderNews;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
+import com.juner.mvp.bean.Roles;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
@@ -940,6 +941,36 @@ public class ApiLoader {
     public Observable<NullDataEntity> sysuserUpdate(Technician technicianInfo) {
         return apiService.sysuserUpdate(token, technicianInfo).compose(RxHelper.<NullDataEntity>observe());
 
+    }
+
+    /**
+     * 修改员工
+     */
+    public Observable<NullDataEntity> sysuserSave(Technician technicianInfo) {
+        return apiService.sysuserSave(token, technicianInfo).compose(RxHelper.<NullDataEntity>observe());
+
+    }
+
+    /**
+     * 供选择的角色列表
+     */
+    public Observable<List<Roles>> queryRoles() {
+        return apiService.queryRoles(token).compose(RxHelper.<List<Roles>>observe());
+
+    }
+
+    /**
+     * 获取员工销售订单
+     */
+    public Observable<List<OrderInfoEntity>> saleList(int id) {
+        return apiService.saleList(token,id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+    }
+
+    /**
+     * 获取员工服务订单
+     */
+    public Observable<List<OrderInfoEntity>> sysOrderList(int id) {
+        return apiService.sysOrderList(token,id).compose(RxHelper.<List<OrderInfoEntity>>observe());
     }
 
 

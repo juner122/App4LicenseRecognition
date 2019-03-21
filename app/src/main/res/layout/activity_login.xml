@@ -1,111 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
-
-    <include layout="@layout/head_view" />
+    android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp">
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:src="@mipmap/icon_login" />
+        <include layout="@layout/head_view" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginBottom="40dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp">
 
-            <EditText
-                android:id="@+id/et_phone"
-                android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableLeft="@mipmap/icon_login_name"
-                android:drawablePadding="20dp"
-                android:hint="请输入手机号码"
-                android:maxLength="11"
-                android:inputType="phone"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="#ff666666"
-                android:textSize="12sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#FF000000" />
+                android:layout_marginTop="40dp"
+                android:src="@mipmap/icon_login" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical">
-
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/et_car_code"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@null"
-                    android:drawableLeft="@mipmap/icon_login_pwd"
-                    android:drawablePadding="18dp"
-                    android:hint="请输入验证码"
-                    android:inputType="number"
+                    android:drawableLeft="@mipmap/icon_login_name"
+                    android:drawablePadding="20dp"
+                    android:hint="请输入手机号码"
+                    android:inputType="phone"
+                    android:maxLength="11"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:textColor="#ff666666"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/btu_get_phone_code"
-                    android:layout_width="75dp"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#FF000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/button_background_b"
-                    android:gravity="center"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="获取验证码"
-                    android:textColor="#fff"
-                    android:textSize="10sp" />
+                    android:gravity="center_vertical">
+
+
+                    <EditText
+                        android:id="@+id/et_car_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawableLeft="@mipmap/icon_login_pwd"
+                        android:drawablePadding="18dp"
+                        android:hint="请输入验证码"
+                        android:inputType="number"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/btu_get_phone_code"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_background_b"
+                        android:gravity="center"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="获取验证码"
+                        android:textColor="#fff"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#FF000000" />
             </LinearLayout>
 
-            <View
+            <TextView
+                android:id="@+id/but_login"
                 android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="#FF000000" />
-        </LinearLayout>
+                android:layout_height="40dp"
+                android:background="@drawable/button_background_b"
+                android:gravity="center"
+                android:text="验证并登录"
+                android:textColor="#fff"
+                android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/but_login"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/button_background_b"
-            android:gravity="center"
-            android:text="验证并登录"
-            android:textColor="#fff"
-            android:textSize="14sp" />
+        </LinearLayout>
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_hide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ccffffff"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
 
 
-</LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="网络请求中，请稍后..." />
+
+    </LinearLayout>
+
+</FrameLayout>

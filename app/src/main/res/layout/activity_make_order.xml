@@ -52,7 +52,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_xiche" />
+                        android:src="@mipmap/icon_wangneng" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_baoyan" />
+                        android:src="@mipmap/icon_wangneng" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_taiya" />
+                        android:src="@mipmap/icon_wangneng" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/icon_meirong" />
+                        android:src="@mipmap/icon_wangneng" />
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -97,7 +97,7 @@
             android:background="@drawable/button_background_c"
             android:gravity="center"
             android:text="确认选择"
-            android:textColor="#ff000000"
+            android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

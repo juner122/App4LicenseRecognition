@@ -19,6 +19,10 @@ public class MathUtil {
 
     //显示两位小数
     public static String twoDecimal(String s) {
+
+        if (null == s)
+            return "0.00";
+
         Double d = Double.parseDouble(s);
         DecimalFormat format = new DecimalFormat("##0.00");
         String s1 = format.format(d);
@@ -108,6 +112,7 @@ public class MathUtil {
 
         return simpleDateFormat.format(date);
     }
+
     /*
      * 毫秒转化
      */

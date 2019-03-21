@@ -15,6 +15,15 @@ public class ShopProject implements Parcelable {
     private String explain;
     //价格
     private String price;
+    private int openStatus;
+
+    public int getOpenStatus() {
+        return openStatus;
+    }
+
+    public void setOpenStatus(int openStatus) {
+        this.openStatus = openStatus;
+    }
 
     public int getServiceId() {
         return serviceId;
@@ -48,6 +57,9 @@ public class ShopProject implements Parcelable {
         this.price = price;
     }
 
+    public ShopProject() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -59,9 +71,7 @@ public class ShopProject implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.explain);
         dest.writeString(this.price);
-    }
-
-    public ShopProject() {
+        dest.writeInt(this.openStatus);
     }
 
     protected ShopProject(Parcel in) {
@@ -69,9 +79,10 @@ public class ShopProject implements Parcelable {
         this.name = in.readString();
         this.explain = in.readString();
         this.price = in.readString();
+        this.openStatus = in.readInt();
     }
 
-    public static final Parcelable.Creator<ShopProject> CREATOR = new Parcelable.Creator<ShopProject>() {
+    public static final Creator<ShopProject> CREATOR = new Creator<ShopProject>() {
         @Override
         public ShopProject createFromParcel(Parcel source) {
             return new ShopProject(source);

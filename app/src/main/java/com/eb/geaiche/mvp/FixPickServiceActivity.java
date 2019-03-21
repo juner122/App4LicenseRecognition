@@ -41,7 +41,8 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @BindView(R.id.et_key)
     EditText et_key;//
-
+    @BindView(R.id.ll_bottom)
+    View ll_bottom;//
 
     @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {
@@ -72,10 +73,14 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @Override
     protected void init() {
-        tv_title.setText("请选择服务工时");
+        tv_title.setText("工时库");
         setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
 
+        if (getIntent().getBooleanExtra("show", false)) {
+            ll_bottom.setVisibility(View.GONE);
+        } else
+            ll_bottom.setVisibility(View.VISIBLE);
     }
 
     @Override

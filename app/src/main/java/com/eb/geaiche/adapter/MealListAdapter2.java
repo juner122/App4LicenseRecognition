@@ -10,17 +10,16 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.bean.MyMultipleItem;
+import com.eb.geaiche.util.MathUtil;
 
 import java.util.List;
 
 public class MealListAdapter2 extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
 
-
-
     public MealListAdapter2(@Nullable List<MultiItemEntity> data) {
         super(data);
-        addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item);
+        addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item2);
         addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_pick_meal_list_item_item2);
     }
 
@@ -31,6 +30,8 @@ public class MealListAdapter2 extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 final MealL0Entity m = (MealL0Entity) item;
 
                 helper.setText(R.id.tv_name, m.getActivityName());
+                helper.setText(R.id.tv_mobile, null == m.getCarNo() || m.getCarNo().equals("") ? "不限车牌" : m.getCarNo());
+                helper.setText(R.id.tv_time, String.format("有效期:%s", MathUtil.toDate4Day(m.getEndTime())));
 
                 //set view content
                 helper.itemView.setOnClickListener(new View.OnClickListener() {

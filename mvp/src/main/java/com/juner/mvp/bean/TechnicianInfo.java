@@ -7,6 +7,7 @@ public class TechnicianInfo {
     String money;
     Technician sysUser;
     List<OrderInfoEntity> orderList;
+    List<OrderInfoEntity> saleList;
 
     ShopEntity shop;
 
@@ -40,5 +41,13 @@ public class TechnicianInfo {
 
     public void setOrderList(List<OrderInfoEntity> orderList) {
         this.orderList = orderList;
+    }
+
+    public List<OrderInfoEntity> getSaleList() {
+        return saleList;
+    }
+
+    public void setSaleList(List<OrderInfoEntity> saleList) {
+        this.saleList = saleList;
     }
 }

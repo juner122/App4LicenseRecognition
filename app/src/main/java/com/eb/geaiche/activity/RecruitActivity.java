@@ -24,20 +24,20 @@ public class RecruitActivity extends BaseActivity {
 
         switch (v.getId()) {
             case R.id.ll1:
-                content_url = Uri.parse("https://qy.58.com/36379426/?PGTID=0d302408-0000-3494-3d3e-2ce93178655e&ClickID=3");
+                content_url = Uri.parse("https://jianli.58.com/?from=pc_topbar_link_job");
 
                 break;
             case R.id.ll2:
 
-                content_url = Uri.parse("https://jobs.51job.com/all/co264282.html");
+                content_url = Uri.parse("https://ehire.51job.com/");
                 break;
             case R.id.ll3:
 
-                content_url = Uri.parse("http://search.chinahr.com/gz/job/?key=%E6%96%B0%E5%B9%B2%E7%BA%BF");
+                content_url = Uri.parse("https://signup.zhipin.com/?intent=1&ka=header-boss");
                 break;
             case R.id.ll4:
 
-                content_url = Uri.parse("http://www.ganji.com/gongsi/105965025/");
+                content_url = Uri.parse("https://ihr.zhaopin.com/register_2_pc/?invuserid=100822&invtp=8&invmode=3");
                 break;
         }
 

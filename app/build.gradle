@@ -17,16 +17,16 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 21
-        versionName "1.4.4"
+        versionCode 22
+        versionName "1.4.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //个推
         manifestPlaceholders = [
-                GETUI_APP_ID    : "CDDnSWpkdW8ikJVPopRdS1",
-                GETUI_APP_KEY   : "U1wz2HN4DQ9wZ6iUFQqdw7",
-                GETUI_APP_SECRET: "Y85XI3QTyl7ysq3XeefvA7"
+                GETUI_APP_ID    : "XLNwUJC6sv6UAJzHqYlKE9",
+                GETUI_APP_KEY   : "OsJQXPdwP47ou8gViwT352",
+                GETUI_APP_SECRET: "WW2SJu3dau9Hk5InPazDu8"
         ]
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86_64"
@@ -37,6 +37,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+
+
+        debug {
+
+            signingConfig signingConfigs.release
+
         }
     }
     packagingOptions {

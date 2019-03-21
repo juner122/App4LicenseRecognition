@@ -41,6 +41,9 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     @BindView(R.id.et_key)
     EditText et_key;//
 
+    @BindView(R.id.ll_bottom)
+    View ll_bottom;//
+
     @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -72,10 +75,18 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
     @Override
     protected void init() {
-        tv_title.setText("请选择配件");
+
+        tv_title.setText("配件库");
         setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1);
 
+        if (getIntent().getBooleanExtra("show", false)) {
+            ll_bottom.setVisibility(View.GONE);
+
+        } else {
+            ll_bottom.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
