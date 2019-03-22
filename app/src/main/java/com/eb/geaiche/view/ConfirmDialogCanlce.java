@@ -20,7 +20,7 @@ public class ConfirmDialogCanlce extends Dialog {
 
     private ClickListenerInterface clickListenerInterface;
 
-    String string, title = "";
+    String string = "", title = "", cancle = "", enter = "";
 
     public interface ClickListenerInterface {
 
@@ -48,6 +48,15 @@ public class ConfirmDialogCanlce extends Dialog {
         this.title = title;
     }
 
+    public ConfirmDialogCanlce(Context context, String str, String title, String cancle, String enter) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        string = str;
+        this.title = title;
+        this.cancle = cancle;
+        this.enter = enter;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +80,16 @@ public class ConfirmDialogCanlce extends Dialog {
             tv_title.setText("提示信息");
         else
             tv_title.setText(title);
+
+        if (cancle.equals(""))
+            tv_cancel.setText("取消");
+        else
+            tv_cancel.setText(cancle);
+
+        if (enter.equals(""))
+            tv_confirm.setText("确认");
+        else
+            tv_confirm.setText(enter);
 
 
         tv_confirm.setOnClickListener(new clickListener());

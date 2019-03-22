@@ -20,13 +20,15 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
     int status;//检修单状态
 
+    boolean isShowCheck;
 
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data) {
+    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data, boolean is) {
         super(R.layout.activity_fix_info_item, data);
+        isShowCheck = is;
     }
 
     @Override
@@ -46,6 +48,9 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
 
         ImageView iv = helper.getView(R.id.iv);
+
+
+
         TextView tv = helper.getView(R.id.tv);
         switch (status) {
             case 0:
@@ -103,7 +108,10 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
                 tv.setVisibility(View.INVISIBLE);
                 break;
         }
-
+        if (isShowCheck)
+            iv.setVisibility(View.VISIBLE);
+        else
+            iv.setVisibility(View.INVISIBLE);
 
     }
 }

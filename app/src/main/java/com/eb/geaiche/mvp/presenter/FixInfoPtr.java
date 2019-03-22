@@ -52,8 +52,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         context = view.getSelfActivity();
         mdl = new FixInfoMdl(context);
 
-        adapter_service = new FixInfoServiceItemAdapter(null);
-        adapter_parts = new FixInfoPartsItemAdapter(null);
+        adapter_service = new FixInfoServiceItemAdapter(null,true);
+        adapter_parts = new FixInfoPartsItemAdapter(null,true);
     }
 
     BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
@@ -275,6 +275,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 getView().createOrderSuccess(0);
+
+
             }
 
             @Override
@@ -323,6 +325,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                     mdl.replaceConfirm(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
                         @Override
                         protected void _onNext(NullDataEntity nullDataEntity) {
+                            ToastUtils.showToast("检修单已确认");
                             finish();
                         }
 

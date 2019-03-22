@@ -7,12 +7,31 @@
     tools:context=".activity.CourseRecordActivity">
 
 
+    <include layout="@layout/head_view" />
 
-    <include layout="@layout/head_view"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_to_s"
+            android:text="前往学习"
+            android:padding="10dp"
+            android:visibility="visible"
+            android:background="@drawable/button_background_aa"
+            android:layout_width="wrap_content"
+            android:textColor="#fff"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
 
 </LinearLayout>

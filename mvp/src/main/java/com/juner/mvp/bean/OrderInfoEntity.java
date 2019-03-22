@@ -289,7 +289,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public String getConsignee() {
-        return consignee;
+        return null == consignee || "".equals(consignee) ? "匿名" : consignee;
     }
 
     public void setConsignee(String consignee) {

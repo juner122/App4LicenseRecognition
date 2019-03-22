@@ -77,7 +77,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
         setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
 
-        if (getIntent().getBooleanExtra("show", false)) {
+        if (!getIntent().getBooleanExtra("show", false)) {
             ll_bottom.setVisibility(View.GONE);
         } else
             ll_bottom.setVisibility(View.VISIBLE);
@@ -91,7 +91,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @Override
     public FixPickServiceContacts.FixPickServicePtr onBindPresenter() {
-        return new FixPickServicePtr(this);
+        return new FixPickServicePtr(this,getIntent().getBooleanExtra("show", false));
     }
 
 

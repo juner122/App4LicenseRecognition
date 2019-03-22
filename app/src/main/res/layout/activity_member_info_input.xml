@@ -59,6 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="(必填)"
+                    android:visibility="gone"
                     android:textColor="#F23325"
                     android:textSize="12sp" />
 
@@ -123,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="(必填)"
+                    android:visibility="gone"
                     android:textColor="#F23325"
                     android:textSize="12sp" />
 

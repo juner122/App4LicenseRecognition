@@ -304,15 +304,15 @@
             android:name=".activity.OrderNewsListActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.StaffInfoFixActivity" />
-        <activity android:name=".activity.WorkOrderListActivity"></activity>
+        <activity android:name=".activity.WorkOrderListActivity" />
 
-        <receiver android:name=".activity.MainActivity$DownLoadBroadcastReceiver">        <!-- 注意是$符号，表示内部类 -->
-            <intent-filter android:priority="1000">             <!-- 有序广播设置优先级：priority表示优先级（0-1000），默认是500 ,1000的优先级最高-->
+        <receiver android:name=".activity.MainActivity$DownLoadBroadcastReceiver"> <!-- 注意是$符号，表示内部类 -->
+            <intent-filter android:priority="1000"> <!-- 有序广播设置优先级：priority表示优先级（0-1000），默认是500 ,1000的优先级最高 -->
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".activity.MemberInfoFixActivity"></activity>
     </application>
 
 </manifest>

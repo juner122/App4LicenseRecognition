@@ -47,12 +47,12 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     int id;//当前选择分类id
 
-    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view) {
+    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view,boolean is) {
         super(view);
         mdl = new FixPickPartsMdl(view.getSelfActivity());
         pick_partsList = new HashSet<>();
         adapter_s2 = new FixPickParts2ItemAdapter(null);
-        adapter_item = new FixInfoPartsItemAdapter(null);
+        adapter_item = new FixInfoPartsItemAdapter(null,is);
         adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -195,9 +195,10 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             return;
         }
 
-        mdl.seekPartsforKey(id, key, new RxSubscribe<FixPartsEntityList>(getView().getSelfActivity(), true) {
+        mdl.seekPartsforKey(-1, key, new RxSubscribe<FixPartsEntityList>(getView().getSelfActivity(), true) {
             @Override
             protected void _onNext(FixPartsEntityList fixPartsEntityList) {
+                getView().showPartsList();
                 set2Data(toFixPartsList(fixPartsEntityList.getProjectList()));
             }
 

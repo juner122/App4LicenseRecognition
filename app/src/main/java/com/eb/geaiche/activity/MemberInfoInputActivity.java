@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.view.ConfirmDialog;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.CarListAdapter;
@@ -109,8 +110,8 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-        tv_title.setText("会员信息录入");
-
+        tv_title.setText("新增会员");
+        setRTitle("匿名注册");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carListAdapter);
 
@@ -128,23 +129,23 @@ public class MemberInfoInputActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_add_car, R.id.tv_check, R.id.tv_fix})
+    @OnClick({R.id.tv_enter_order, R.id.tv_add_car, R.id.tv_check, R.id.tv_fix, R.id.tv_title_r})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_order:
-                if (TextUtils.isEmpty(name.getText())) {
-                    ToastUtils.showToast("请输入车主姓名！");
-                    return;
-                }
+//                if (TextUtils.isEmpty(name.getText())) {
+//                    ToastUtils.showToast("请输入车主姓名！");
+//                    return;
+//                }
                 toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
                 break;
 
             case R.id.tv_fix://新增检修单
-
-                if (TextUtils.isEmpty(name.getText())) {
-                    ToastUtils.showToast("请输入车主姓名！");
-                    return;
-                }
+//
+//                if (TextUtils.isEmpty(name.getText())) {
+//                    ToastUtils.showToast("请输入车主姓名！");
+//                    return;
+//                }
 
                 Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
                 intent2.putExtra(Configure.car_no, car_number);
@@ -194,6 +195,27 @@ public class MemberInfoInputActivity extends BaseActivity {
                     }
                 });
 
+                break;
+
+            case R.id.tv_title_r:
+                //弹出对话框
+                final ConfirmDialogCanlce c2 = new ConfirmDialogCanlce(this, "匿名注册您将失去该用户的联系！\n请谨慎使用匿名注册功能！", "重要提示！", "匿名注册", "去完善注册信息");
+                c2.show();
+                c2.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        c2.dismiss();
+
+
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        c2.dismiss();
+                        getAddUser();
+
+                    }
+                });
                 break;
         }
 

@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#FFF2F2F2"
+    android:background="#fff"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
+    android:paddingLeft="15dp"
     android:paddingTop="10dp"
-    android:paddingRight="10dp"
+    android:paddingRight="15dp"
     android:paddingBottom="15dp">
 
     <TextView
@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="提示信息"
-        android:textColor="#fff23325"
+        android:textColor="#333"
         android:textSize="14sp" />
 
     <View
@@ -44,12 +44,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_background_d"
+            android:background="@drawable/button_background_ccccc"
             android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:text="取消"
-            android:textColor="#ff000000"
+            android:textColor="#999999"
             android:textSize="14sp" />
 
         <View
@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/button_background_c"
+            android:background="@drawable/button_background_cccc"
             android:gravity="center"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"

@@ -130,6 +130,9 @@ public class OrderInfoActivity extends BaseActivity {
     @BindView(R.id.et_info)
     TextView et_info;
 
+    @BindView(R.id.tv_notice)
+    TextView tv_notice;
+
     @BindView(R.id.but_product_list)
     ImageButton but_product_list;
     @BindView(R.id.but_meal_list)
@@ -147,7 +150,7 @@ public class OrderInfoActivity extends BaseActivity {
 
     List<Technician> technicians;
 
-    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice,R.id.tv_back})
+    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice, R.id.tv_back})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -365,6 +368,9 @@ public class OrderInfoActivity extends BaseActivity {
         productList = info.getOrderInfo().getGoodsList();
         server = info.getOrderInfo().getSkillList();
         meal = info.getOrderInfo().getUserActivityList();
+
+        if (null == info.getOrderInfo().getMobile() || "".equals(info.getOrderInfo().getMobile()))
+            tv_notice.setVisibility(View.INVISIBLE);
 
 
         setRTitle(info.getOrderInfo().getOrder_status_text());

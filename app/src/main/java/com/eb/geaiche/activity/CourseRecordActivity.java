@@ -16,12 +16,24 @@ import com.juner.mvp.bean.CourseRecord;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class CourseRecordActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView recyclerView;
     CollegeRecordListAdapter adapter;
+
+    @OnClick(R.id.tv_to_s)
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_to_s:
+
+                toActivity(CollegeActivity.class);
+                finish();
+                break;
+        }
+    }
 
     @Override
     protected void init() {
@@ -51,6 +63,11 @@ public class CourseRecordActivity extends BaseActivity {
         Api().courseRecord().subscribe(new RxSubscribe<List<CourseRecord>>(this, true) {
             @Override
             protected void _onNext(List<CourseRecord> courses) {
+                if (courses.size() == 0) {
+                    recyclerView.setVisibility(View.GONE);
+                    return;
+                }
+
                 adapter.setNewData(courses);
             }
 

@@ -77,7 +77,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
             case "service":
                 //自定服务
                 Intent iss = new Intent(activity, FixPickServiceActivity.class);
-                iss.putExtra("show", true);
+                iss.putExtra("show", false);
                 activity.startActivity(iss);
 
                 break;
@@ -129,7 +129,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
 
                 Intent is = new Intent(activity, FixPickPartsActivity.class);
-                is.putExtra("show", true);
+                is.putExtra("show", false);
                 activity.startActivity(is);
                 break;
             case "studyLog":

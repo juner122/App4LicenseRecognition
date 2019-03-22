@@ -80,7 +80,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1);
 
-        if (getIntent().getBooleanExtra("show", false)) {
+        if (!getIntent().getBooleanExtra("show", true)) {
             ll_bottom.setVisibility(View.GONE);
 
         } else {
@@ -130,6 +130,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
     @Override
     public FixPickPartsContacts.FixPickPartsPtr onBindPresenter() {
-        return new FixPickPartsPtr(this);
+        return new FixPickPartsPtr(this,getIntent().getBooleanExtra("show", true));
     }
 }
