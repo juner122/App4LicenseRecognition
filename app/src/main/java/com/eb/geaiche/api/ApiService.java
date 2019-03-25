@@ -509,4 +509,12 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<List<OrderInfoEntity>>> saleList(@Header("X-Nideshop-Token") String token, @Field("sysuser_id") int sysuser_id);
 
+
+    //更改客户信息发送验证码
+    @POST("sms/updateUserSms")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> updateUserSms(@FieldMap Map<String, Object> maps);
+
+
+
 }

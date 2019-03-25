@@ -136,6 +136,7 @@
         //车牌扫描测试
         <activity
             android:name=".activity.MemberManagementInfoActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShopInfoActivity"
@@ -312,7 +313,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.MemberInfoFixActivity"></activity>
+        <activity android:name=".activity.MemberInfoFixActivity" />
+        <activity android:name=".activity.MemberRecordActivity"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,12 @@
 package com.juner.mvp.api.http;
 
+import android.util.Log;
+
 import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.BaseBean2;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.NumberBean;
+import com.juner.mvp.utils.ToastUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -34,7 +37,7 @@ public class RxHelper {
                         if (result.ifSuccess()) {//检查是否掉接口成功了
                             return createData(result.getData());//成功，剥取我们要的数据，把BaseModel丢掉
                         } else {
-
+                            Log.e("json", result.toString());
                             return Observable.error(new Exception(result.getErrno() + ":" + result.getErrmsg()));//出错就返回服务器错误
                         }
 
@@ -49,10 +52,9 @@ public class RxHelper {
     /**
      * 对结果进行预处理
      *
-     *
      * @return
      */
-    public static final  ObservableTransformer<NumberBean, Integer> observeNub() {
+    public static final ObservableTransformer<NumberBean, Integer> observeNub() {
         return new ObservableTransformer<NumberBean, Integer>() {
             @Override
             public ObservableSource apply(Observable upstream) {
@@ -124,7 +126,9 @@ public class RxHelper {
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
-    }  /**
+    }
+
+    /**
      * 对结果进行预处理
      *
      * @param <T>
@@ -152,8 +156,6 @@ public class RxHelper {
             }
         };
     }
-
-
 
 
     /**

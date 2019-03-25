@@ -6,7 +6,6 @@ import android.os.Parcelable;
 public class MemberEntity extends SelectedBean implements Parcelable {
 
 
-
     int userId;
     String username;
     String mobile;
@@ -20,7 +19,7 @@ public class MemberEntity extends SelectedBean implements Parcelable {
     }
 
     public String getUsername() {
-        return username;
+        return null == username || "".equals(username) ? "匿名" : username;
     }
 
     public void setUsername(String username) {

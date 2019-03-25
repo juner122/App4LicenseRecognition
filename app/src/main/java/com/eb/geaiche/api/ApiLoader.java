@@ -2,6 +2,7 @@ package com.eb.geaiche.api;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.bean.RecordMeal;
@@ -730,6 +731,64 @@ public class ApiLoader {
         return disposable[0];
     }
 
+
+    /**
+     * 更改客户信息发送验证码
+     */
+    public Disposable updateUserSms(String mobile, final TextView tv, final View v, final Context context) {
+        final String TAG = "短信验证码:";
+        final int con = 60;
+
+        map.put("mobile", mobile);
+        final Disposable[] disposable = new Disposable[1];
+
+        apiService.updateUserSms(map).compose(RxHelper.<NullDataEntity>observe()).subscribe(new RxSubscribe<NullDataEntity>(context, false) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                v.setVisibility(View.VISIBLE);
+                disposable[0] = Observable //计时器
+                        .interval(0, 1, TimeUnit.SECONDS)
+                        .take(con)//次数
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) {
+                                Log.e(TAG, "onNext");
+                                Long l = con - aLong;
+                                tv.setText(l + "s");
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) {
+                                Log.e(TAG, "onError");
+                                tv.setClickable(true);
+                                throwable.printStackTrace();
+                            }
+                        }, new Action() {
+                            @Override
+                            public void run() {
+                                Log.e(TAG, "onComplete");
+                                tv.setText("获取验证码");
+                                tv.setClickable(true);
+                            }
+                        }, new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) {
+                                Log.e(TAG, "onSubscribe");
+                                tv.setClickable(false);
+                            }
+                        });
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+        return disposable[0];
+    }
+
     /**
      * 银行卡验证短信
      */
@@ -963,14 +1022,36 @@ public class ApiLoader {
      * 获取员工销售订单
      */
     public Observable<List<OrderInfoEntity>> saleList(int id) {
-        return apiService.saleList(token,id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+        return apiService.saleList(token, id).compose(RxHelper.<List<OrderInfoEntity>>observe());
     }
 
     /**
      * 获取员工服务订单
      */
     public Observable<List<OrderInfoEntity>> sysOrderList(int id) {
-        return apiService.sysOrderList(token,id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+        return apiService.sysOrderList(token, id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+    }
+
+
+    /**
+     * 更改客户信息发送验证码
+     */
+    public Observable<NullDataEntity> updateUserSms(String mobile) {
+
+        map.put("mobile", mobile);
+        return apiService.updateUserSms(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 更改客户信息
+     */
+    public Observable<NullDataEntity> remakeUserName(int user_id, String user_name, String authCode, String mobile) {
+
+        map.put("mobile", mobile);
+        map.put("user_id", user_id);
+        map.put("user_name", user_name);
+        map.put("authCode", authCode);
+        return apiService.remakeUserName(map).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

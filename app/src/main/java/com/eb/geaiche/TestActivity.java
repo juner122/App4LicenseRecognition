@@ -13,22 +13,11 @@ import butterknife.BindView;
 
 public class TestActivity extends BaseActivity {
 
-    @BindView(R.id.recyclerview)
-    RecyclerView view;
-
     OrderList2Adapter adapter2;//   订单
 
     @Override
     protected void init() {
         adapter2 = new OrderList2Adapter(null);
-        view.setLayoutManager(new LinearLayoutManager(this) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
-        view.setAdapter(adapter2);
 
     }
 
