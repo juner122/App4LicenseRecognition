@@ -17,11 +17,13 @@ import com.juner.mvp.bean.BankList;
 import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
+import com.juner.mvp.bean.CarCheckResul;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseRecord;
@@ -45,6 +47,8 @@ import com.juner.mvp.bean.Roles;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.ShopCar;
+import com.juner.mvp.bean.ShopCarBane;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
@@ -1052,6 +1056,61 @@ public class ApiLoader {
         map.put("user_name", user_name);
         map.put("authCode", authCode);
         return apiService.remakeUserName(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 门店检修报告选项列表
+     */
+    public Observable<List<CheckOptions>> queryCheckOptions() {
+
+        return apiService.queryCheckOptions(token).compose(RxHelper.<List<CheckOptions>>observe());
+    }
+
+
+    /**
+     * 暂存或者生成检测报告
+     */
+    public Observable<NullDataEntity> checkOutResult(CarCheckResul checkResul) {
+
+        return apiService.checkOutResult(token, checkResul).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
+     * 检测报告单列表
+     */
+    public Observable<List<CarCheckResul>> checkResultList(int car_id) {
+        map.put("car_id", car_id);
+        map.put("limit", 100);//页数
+        return apiService.checkResultList(map).compose(RxHelper.<List<CarCheckResul>>observe());
+    }
+
+
+    /**
+     * 检测报告单结果详情
+     */
+    public Observable<CarCheckResul> checkResultDetail(int id) {
+        map.put("id", id);
+        return apiService.checkResultDetail(map).compose(RxHelper.<CarCheckResul>observe());
+    }
+
+
+    /**
+     * 修改暂存的门店检测报告 type为1的不可访问此接口
+     */
+    public Observable<NullDataEntity> updateCheckResult(CarCheckResul checkResul) {
+
+        return apiService.updateCheckResult(token, checkResul).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+
+    /**
+     * 门店服务过的车辆管理
+     */
+
+    public Observable<ShopCarBane> shopCarList() {
+        map.put("limit", 100);//页数
+        return apiService.shopCarList(map).compose(RxHelper.<ShopCarBane>observe());
     }
 
 

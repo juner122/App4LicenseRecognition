@@ -314,7 +314,10 @@
         </receiver>
 
         <activity android:name=".activity.MemberInfoFixActivity" />
-        <activity android:name=".activity.MemberRecordActivity"></activity>
+        <activity android:name=".activity.MemberRecordActivity" />
+        <activity android:name=".activity.CarCheckResultListActivity" />
+        <activity android:name=".activity.CarCheckResultActivity" />
+        <activity android:name=".activity.ShopCarListActivity"></activity>
     </application>
 
 </manifest>

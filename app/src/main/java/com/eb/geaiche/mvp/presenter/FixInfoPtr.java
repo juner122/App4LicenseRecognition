@@ -52,8 +52,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         context = view.getSelfActivity();
         mdl = new FixInfoMdl(context);
 
-        adapter_service = new FixInfoServiceItemAdapter(null,true);
-        adapter_parts = new FixInfoPartsItemAdapter(null,true);
+        adapter_service = new FixInfoServiceItemAdapter(null,R.layout.activity_fix_info_item);
+        adapter_parts = new FixInfoPartsItemAdapter(null,R.layout.activity_fix_info_item);
     }
 
     BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
@@ -274,9 +274,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         final RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                getView().createOrderSuccess(0);
-
-
+                getView().createOrderSuccess(0);//生成检修单
             }
 
             @Override
@@ -345,7 +343,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             mdl.submit(createOrderObj(entity), new RxSubscribe<NullDataEntity>(context, true) {
                 @Override
                 protected void _onNext(NullDataEntity nullDataEntity) {
-                    getView().createOrderSuccess(1);
+                    getView().createOrderSuccess(1);//生成订单
                 }
 
                 @Override
@@ -461,6 +459,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         finish();
                         break;
                     case 1:
+
                         getView().getSelfActivity().startActivity(new Intent(context, FixPickServiceActivity.class));
                         break;
                     case 2:

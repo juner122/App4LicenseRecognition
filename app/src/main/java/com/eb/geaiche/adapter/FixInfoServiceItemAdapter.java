@@ -19,16 +19,15 @@ import java.util.List;
 public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseViewHolder> {
 
 
-    int status;//检修单状态
-    boolean isShowCheck;
+    int status ;//检修单状态
+
     public void setStatus(int status) {
         this.status = status;
     }
 
 
-    public FixInfoServiceItemAdapter(@Nullable List<FixServie> data, boolean is) {
-        super(R.layout.activity_fix_info_item, data);
-        isShowCheck = is;
+    public FixInfoServiceItemAdapter(@Nullable List<FixServie> data,int layout) {
+        super(layout, data);
     }
 
     @Override
@@ -104,13 +103,12 @@ public class FixInfoServiceItemAdapter extends BaseQuickAdapter<FixServie, BaseV
             default:
                 iv.setVisibility(View.INVISIBLE);
                 tv.setVisibility(View.INVISIBLE);
+
+
                 break;
         }
 
-        if (isShowCheck)
-            iv.setVisibility(View.VISIBLE);
-        else
-            iv.setVisibility(View.INVISIBLE);
+
 
     }
 

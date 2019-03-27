@@ -104,7 +104,8 @@ public class WeiXinPayCodeActivity extends BaseActivity {
 
                                 ToastUtils.showToast("收款成功!");
                                 if (infoEntity.getOrder_status() == 0) {
-                                    toMain(0);
+//                                    toMain(0);
+                                    toOrderList(0);
                                 } else {
                                     toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, infoEntity.getId());
                                 }

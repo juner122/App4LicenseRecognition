@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
     android:animateLayoutChanges="true"
+    android:background="@color/background_color"
     android:orientation="vertical">
+
     <include layout="@layout/head_view" />
 
 
@@ -56,14 +57,14 @@
 
             <TextView
                 android:id="@+id/input"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="60dp"
                 android:background="@drawable/button_background_bb"
+                android:gravity="center"
                 android:paddingLeft="18dp"
                 android:paddingTop="10dp"
                 android:paddingRight="18dp"
-
 
                 android:paddingBottom="10dp"
                 android:text="手动输入"
@@ -72,14 +73,15 @@
 
             <TextView
                 android:id="@+id/photo"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_background_b"
+                android:gravity="center"
                 android:paddingLeft="18dp"
                 android:paddingTop="10dp"
                 android:paddingRight="18dp"
                 android:paddingBottom="10dp"
-                android:text="一键识别"
+                android:text="识     别"
                 android:textColor="#fff"
                 android:textSize="15sp" />
 
@@ -114,9 +116,9 @@
             android:layout_weight="1"
             android:hint="请输入车架号"
             android:letterSpacing="0.3"
+            android:maxLines="17"
             android:padding="10dp"
             android:textColor="#333"
-            android:maxLines="17"
             android:textSize="13sp" />
 
         <TextView

@@ -18,17 +18,15 @@ import java.util.List;
 //检修单信息中的配件
 public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseViewHolder> {
 
-    int status;//检修单状态
+    int status ;//检修单状态
 
-    boolean isShowCheck;
 
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data, boolean is) {
-        super(R.layout.activity_fix_info_item, data);
-        isShowCheck = is;
+    public FixInfoPartsItemAdapter(@Nullable List<FixParts> data,int layout) {
+        super(layout, data);
     }
 
     @Override
@@ -48,7 +46,6 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
 
         ImageView iv = helper.getView(R.id.iv);
-
 
 
         TextView tv = helper.getView(R.id.tv);
@@ -108,10 +105,6 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
                 tv.setVisibility(View.INVISIBLE);
                 break;
         }
-        if (isShowCheck)
-            iv.setVisibility(View.VISIBLE);
-        else
-            iv.setVisibility(View.INVISIBLE);
 
     }
 }

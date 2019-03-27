@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickServiceContacts;
+import com.eb.geaiche.mvp.presenter.FixPickPartsPtr;
 import com.eb.geaiche.mvp.presenter.FixPickServicePtr;
 import com.juner.mvp.bean.FixServie;
 
@@ -77,7 +78,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
         setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1);
 
-        if (!getIntent().getBooleanExtra("show", false)) {
+        if (!getIntent().getBooleanExtra("show", true)) {
             ll_bottom.setVisibility(View.GONE);
         } else
             ll_bottom.setVisibility(View.VISIBLE);
@@ -91,7 +92,11 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     @Override
     public FixPickServiceContacts.FixPickServicePtr onBindPresenter() {
-        return new FixPickServicePtr(this,getIntent().getBooleanExtra("show", false));
+        if (!getIntent().getBooleanExtra("show", true)) {
+            return new FixPickServicePtr(this, R.layout.activity_fix_info_item_show);
+        } else
+            return new FixPickServicePtr(this, R.layout.activity_fix_info_item);
+
     }
 
 

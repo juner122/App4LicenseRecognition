@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eb.geaiche.R;
+
+import com.eb.geaiche.activity.CarCheckResultListActivity;
 import com.eb.geaiche.activity.CarInfoInputActivity;
 import com.eb.geaiche.activity.MainActivity;
 import com.eb.geaiche.mvp.contacts.FixInfoContacts;
@@ -25,6 +27,10 @@ import butterknife.OnClick;
 
 
 public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> implements FixInfoContacts.FixInfoUI {
+
+
+    @BindView(R.id.ll_to_car_check)
+    View ll_to_car_check;
 
 
     @BindView(R.id.tv_car_no)
@@ -83,7 +89,10 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r, R.id.tv_notice, R.id.tv_back})
+    String car_no;
+    int car_id;
+
+    @OnClick({R.id.iv_add1, R.id.iv_add2, R.id.tv_new_order, R.id.tv_car_info, R.id.tv_save, R.id.tv_fix_dec, R.id.tv_post_fix, R.id.tv_title_r, R.id.tv_notice, R.id.tv_back, R.id.ll_to_car_check})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add1:
@@ -142,6 +151,16 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
                     finish();
 
                 break;
+            case R.id.ll_to_car_check:
+
+
+                Intent intent = new Intent(this, CarCheckResultListActivity.class);
+                intent.putExtra(Configure.car_no, car_no);
+                intent.putExtra(Configure.car_id, car_id);
+
+                startActivity(intent);
+
+                break;
         }
     }
 
@@ -167,7 +186,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @Override
     public void setInfo(FixInfoEntity fixInfo) {
-
+        car_id = fixInfo.getCarId();
+        car_no = fixInfo.getCarNo();
         tv_car_no.setText(fixInfo.getCarNo());
         tv_fix_sn.setText("单号：" + fixInfo.getQuotationSn());
 
@@ -202,10 +222,16 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @Override
     public void createOrderSuccess(int i) {
-        ToastUtils.showToast("订单已生成,请前往订单列表查看！");
+
         finish();
 
-        toMain(0);
+        if (i == 0) {
+            toFixList(0);
+            ToastUtils.showToast("检修单已生成！");
+        } else if (i == 1) {
+            toOrderList(0);
+            ToastUtils.showToast("订单已生成！");
+        }
     }
 
     @Override

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:orientation="vertical"
+    tools:context=".activity.CarCheckResultActivity">
+
+    <include layout="@layout/head_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="检修结论"
+                android:textColor="#ff111011"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_fix_dec"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:visibility="invisible"
+                android:text="复制"
+                android:textColor="@color/appColor"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/tv_dec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button_background_z"
+            android:gravity="top"
+            android:hint="请输入检查结果"
+            android:minLines="3"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="11sp" />
+    </LinearLayout>
+
+
+    <HorizontalScrollView
+        android:scrollbars="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.flyco.tablayout.CommonTabLayout
+            android:id="@+id/tl_button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#ffffff"
+            android:visibility="visible"
+            tl:tl_indicator_color="#FFFF3900"
+            tl:tl_indicator_height="3dp"
+            tl:tl_indicator_style="NORMAL"
+            tl:tl_indicator_width="30dp"
+            tl:tl_tab_width="80dp"
+            tl:tl_textSelectColor="#020202"
+            tl:tl_textUnselectColor="#66000000"
+            tl:tl_textsize="14sp"
+            tl:tl_underline_color="#000"
+            tl:tl_underline_height="0dp" />
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/but_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#fff"
+            android:gravity="center"
+            android:text="生成检查报告"
+            android:textColor="@color/appColor"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/but_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_c"
+            android:gravity="center"
+            android:text="暂存"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+          <TextView
+            android:id="@+id/but_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_c"
+            android:gravity="center"
+            android:text="修改"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -12,11 +12,13 @@ import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.BaseBean2;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
+import com.juner.mvp.bean.CarCheckResul;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseInfo;
@@ -42,6 +44,8 @@ import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
 
+import com.juner.mvp.bean.ShopCar;
+import com.juner.mvp.bean.ShopCarBane;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
@@ -502,7 +506,7 @@ public interface ApiService {
     //获取员工服务订单
     @POST("sysuser/orderList")
     @FormUrlEncoded
-    Observable<BaseBean<List<OrderInfoEntity>>> sysOrderList(@Header("X-Nideshop-Token") String token,@Field("user_id") int user_id);
+    Observable<BaseBean<List<OrderInfoEntity>>> sysOrderList(@Header("X-Nideshop-Token") String token, @Field("user_id") int user_id);
 
     //获取员工销售订单
     @POST("sysuser/saleList")
@@ -515,6 +519,37 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> updateUserSms(@FieldMap Map<String, Object> maps);
 
+
+    //门店检修报告选项列表
+    @POST("shop/queryCheckOptions")
+    Observable<BaseBean<List<CheckOptions>>> queryCheckOptions(@Header("X-Nideshop-Token") String token);
+
+
+    //暂存或者生成检测报告
+    @POST("shop/checkOutResult")
+    Observable<BaseBean<NullDataEntity>> checkOutResult(@Header("X-Nideshop-Token") String token, @Body CarCheckResul checkResul);
+
+
+
+    //检测报告单列表
+    @POST("shop/checkResultList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<CarCheckResul>>> checkResultList(@FieldMap Map<String, Object> maps);
+
+    //检测报告单列表
+    @POST("shop/checkResultDetail")
+    @FormUrlEncoded
+    Observable<BaseBean<CarCheckResul>> checkResultDetail(@FieldMap Map<String, Object> maps);
+
+    //修改暂存的门店检测报告 type为1的不可访问此接口
+    @POST("shop/updateCheckResult")
+    Observable<BaseBean<NullDataEntity>> updateCheckResult(@Header("X-Nideshop-Token") String token, @Body CarCheckResul checkResul);
+
+
+    //门店服务过的车辆管理
+    @POST("user/shopCarList")
+    @FormUrlEncoded
+    Observable<BaseBean<ShopCarBane>> shopCarList(@FieldMap Map<String, Object> maps);
 
 
 }

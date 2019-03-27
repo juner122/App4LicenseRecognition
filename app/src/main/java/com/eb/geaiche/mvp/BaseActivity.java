@@ -132,6 +132,24 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         startActivity(intent2);
 
     }
+    protected void toFixList(int fragment_p) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        intent.putExtra("type", "toFix");
+        startActivity(intent);
+
+    }
+    protected void toOrderList(int fragment_p) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        intent.putExtra("type", "toOrder");
+        startActivity(intent);
+
+    }
+
+
 
     private ArrayList<ResultBack> list = new ArrayList<>();//保存所有activity返回的回调，跟随activity生命周期
 

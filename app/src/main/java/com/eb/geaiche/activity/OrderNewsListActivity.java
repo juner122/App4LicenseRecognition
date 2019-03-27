@@ -73,8 +73,14 @@ public class OrderNewsListActivity extends BaseActivity {
     }
 
     @Override
-    protected void setUpData() {
+    protected void onResume() {
+        super.onResume();
+
         pushlogList(0);
+    }
+
+    @Override
+    protected void setUpData() {
     }
 
     @Override

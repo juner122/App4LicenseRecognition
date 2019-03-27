@@ -19,7 +19,7 @@ public class MemberEntity extends SelectedBean implements Parcelable {
     }
 
     public String getUsername() {
-        return null == username || "".equals(username) ? "匿名" : username;
+        return username;
     }
 
     public void setUsername(String username) {

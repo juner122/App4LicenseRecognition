@@ -44,12 +44,12 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     int id = -1;//当前选择分类id
 
-    public FixPickServicePtr(@NonNull FixPickServiceContacts.FixPickServiceUI view,boolean is) {
+    public FixPickServicePtr(@NonNull FixPickServiceContacts.FixPickServiceUI view,int layout) {
         super(view);
         mdl = new FixPickServiceMdl(view.getSelfActivity());
         pick_servieList = new HashSet<>();
         adapter_s2 = new FixPickService2ItemAdapter(null);
-        adapter_item = new FixInfoServiceItemAdapter(null,is);
+        adapter_item = new FixInfoServiceItemAdapter(null,layout);
         adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

@@ -411,7 +411,10 @@ public class OrderPayActivity extends BaseActivity {
                 ToastUtils.showToast("收款成功");
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
 
-                    toMain(0);
+
+
+
+                    toOrderList(0);
 
 
                 } else if (infoEntity.getOrderInfo().getOrder_status() == 1)
@@ -422,6 +425,7 @@ public class OrderPayActivity extends BaseActivity {
             protected void _onError(String message) {
                 Log.i("OrderPayActivity", message);
                 ToastUtils.showToast("收款失败：" + message);
+                toOrderList(0);
             }
         });
     }

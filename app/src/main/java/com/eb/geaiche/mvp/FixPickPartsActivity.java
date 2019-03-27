@@ -51,7 +51,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
                 //确认选择
                 getPresenter().confirm();
                 break;
-
             case R.id.iv_search:
                 //搜索
                 getPresenter().seekPartsforKey(et_key.getText().toString());
@@ -82,7 +81,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
         if (!getIntent().getBooleanExtra("show", true)) {
             ll_bottom.setVisibility(View.GONE);
-
         } else {
             ll_bottom.setVisibility(View.VISIBLE);
 
@@ -130,6 +128,9 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
     @Override
     public FixPickPartsContacts.FixPickPartsPtr onBindPresenter() {
-        return new FixPickPartsPtr(this,getIntent().getBooleanExtra("show", true));
+        if (!getIntent().getBooleanExtra("show", true)) {
+            return new FixPickPartsPtr(this, R.layout.activity_fix_info_item_show);
+        } else
+            return new FixPickPartsPtr(this, R.layout.activity_fix_info_item);
     }
 }

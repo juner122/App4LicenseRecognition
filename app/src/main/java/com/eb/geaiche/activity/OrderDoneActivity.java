@@ -145,13 +145,15 @@ public class OrderDoneActivity extends BaseActivity {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
 
-                        toMain(0);
+//                        toMain(0);
+                        toOrderList(0);
                     }
 
                     @Override
                     protected void _onError(String message) {
                         Log.d(TAG, message);
                         Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
+                        toOrderList(0);
                     }
                 });
                 break;

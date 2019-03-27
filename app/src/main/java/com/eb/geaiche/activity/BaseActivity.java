@@ -220,6 +220,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    protected void toOrderList(int fragment_p) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        intent.putExtra("type", "toOrder");
+        toActivity(intent);
+
+    }
+
+
     protected void msgManagement(int what, int tag) {
     }
 

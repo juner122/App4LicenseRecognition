@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_marginTop="10dp"
+    android:layout_height="wrap_content"
+    tools:context=".activity.ShopCarListActivity">
+
+    <TextView
+        android:id="@+id/tv_car_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="粤A78397"
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="张三丰"
+        android:textColor="#ff666666"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/order_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="历史订单：0"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_car_no"
+        app:layout_constraintTop_toBottomOf="@+id/tv_car_no" />
+
+    <TextView
+        android:id="@+id/quotation_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="检修报价单：0"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/order_sum"
+        app:layout_constraintTop_toTopOf="@+id/order_sum" />
+
+    <TextView
+        android:id="@+id/tv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="135467894545"
+        android:textColor="#ff666666"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+</android.support.constraint.ConstraintLayout>

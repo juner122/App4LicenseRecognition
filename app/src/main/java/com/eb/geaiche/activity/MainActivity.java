@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.eb.geaiche.activity.fragment.MainFragment1New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
+import com.eb.geaiche.mvp.FixInfoListActivity;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.SystemUtil;
@@ -201,9 +202,15 @@ public class MainActivity extends BaseActivity {
 
         int fragment = intent.getIntExtra(Configure.show_fragment, 0);//显示哪个fragment
         setCurrentTab(fragment);
-
-
         toInfoActivity(intent);
+
+        if (intent.getStringExtra("type").equals("toOrder")) {
+            toActivity(OrderListActivity.class);
+        }
+        if (intent.getStringExtra("type").equals("toFix")) {
+            toActivity(FixInfoListActivity.class);
+        }
+
 
     }
 

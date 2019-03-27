@@ -10,10 +10,10 @@
     <include layout="@layout/head_view" />
 
     <LinearLayout
-        android:gravity="center"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
@@ -23,14 +23,17 @@
 
         <TextView
             android:id="@+id/tv_to_s"
-            android:text="前往学习"
-            android:padding="10dp"
-            android:visibility="visible"
-            android:background="@drawable/button_background_aa"
             android:layout_width="wrap_content"
-            android:textColor="#fff"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:background="@drawable/button_background_aa"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:text="前往学习"
+            android:textColor="#fff"
+            android:visibility="visible" />
 
     </LinearLayout>
 

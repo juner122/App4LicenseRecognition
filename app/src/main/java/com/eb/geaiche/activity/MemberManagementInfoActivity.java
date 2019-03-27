@@ -148,7 +148,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 user_name = memberOrder.getMember().getUsername();
 
                 phone.setText(moblie);
-                name.setText(user_name);
+                name.setText(null == user_name || "".equals(user_name) ? "匿名" : user_name);
 
                 cars = memberOrder.getCarList();
 
@@ -223,7 +223,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
             case R.id.ll_change_name://修改用户名
 
                 //弹出对话框
-                final FixNameDialog fixNameDialog = new FixNameDialog(this, user_id);
+                final FixNameDialog fixNameDialog = new FixNameDialog(this, user_id,phone.getText().toString(),user_name);
                 fixNameDialog.show();
 
 

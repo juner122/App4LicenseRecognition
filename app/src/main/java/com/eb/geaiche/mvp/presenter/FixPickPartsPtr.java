@@ -47,12 +47,12 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     int id;//当前选择分类id
 
-    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view,boolean is) {
+    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view,int layout) {
         super(view);
         mdl = new FixPickPartsMdl(view.getSelfActivity());
         pick_partsList = new HashSet<>();
         adapter_s2 = new FixPickParts2ItemAdapter(null);
-        adapter_item = new FixInfoPartsItemAdapter(null,is);
+        adapter_item = new FixInfoPartsItemAdapter(null,layout);
         adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

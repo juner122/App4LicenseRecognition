@@ -160,7 +160,8 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @Override
     public void toMian() {
-        toMain(0);
+
+        toFixList(0);
     }
 
     @Override

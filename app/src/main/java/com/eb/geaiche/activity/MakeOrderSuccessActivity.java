@@ -574,13 +574,15 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
                         finish();
-                        toMain(0);
+//                        toMain(0);
+                        toOrderList(0);
                     }
 
                     @Override
                     protected void _onError(String message) {
                         Log.d(TAG, message);
                         ToastUtils.showToast(message);
+                        toOrderList(0);
                     }
                 });
                 break;

@@ -50,6 +50,9 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
 
     int con = 60;
 
+    String phone_s, name_s;
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -65,10 +68,12 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
     }
 
 
-    public FixNameDialog(Activity context, int user_id) {
+    public FixNameDialog(Activity context, int user_id, String phone_s, String name_s) {
         super(context, R.style.my_dialog);
         this.context = context;
         this.user_id = user_id;
+        this.phone_s = phone_s;
+        this.name_s = name_s;
 
     }
 
@@ -93,6 +98,10 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
         name_new = view.findViewById(R.id.et_name_new);
         tv_get_code = view.findViewById(R.id.tv_get_code);
         tv_info1 = view.findViewById(R.id.textView2);
+
+        name_new.setText(name_s);
+        phone.setText(phone_s);
+
 
         tv_done = view.findViewById(R.id.tv_done);
 
@@ -198,7 +207,7 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
             @Override
             protected void _onError(String message) {
                 dismiss();
-                ToastUtils.showToast(message + "修改失败！");
+                ToastUtils.showToast(message + "：修改失败！");
 
             }
         });
