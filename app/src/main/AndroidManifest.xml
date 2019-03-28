@@ -317,7 +317,10 @@
         <activity android:name=".activity.MemberRecordActivity" />
         <activity android:name=".activity.CarCheckResultListActivity" />
         <activity android:name=".activity.CarCheckResultActivity" />
-        <activity android:name=".activity.ShopCarListActivity"></activity>
+        <activity
+            android:name=".activity.ShopCarListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

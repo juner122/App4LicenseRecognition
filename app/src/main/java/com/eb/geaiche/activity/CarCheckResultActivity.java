@@ -117,8 +117,10 @@ public class CarCheckResultActivity extends BaseActivity {
         isFix = getIntent().getBooleanExtra("isfix", false);
         if (isFix) {
             ll_bottom.setVisibility(View.VISIBLE);
-        } else
+        } else {
+
             ll_bottom.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -185,7 +187,7 @@ public class CarCheckResultActivity extends BaseActivity {
                 @Override
                 protected void _onNext(CarCheckResul carCheckResul) {
                     list = carCheckResul.getOptionsList();
-                    tv_dec.setText(carCheckResul.getPostscript());
+                    tv_dec.setText(null == carCheckResul.getPostscript() || carCheckResul.getPostscript().equals("") ? "暂无结论" : carCheckResul.getPostscript());
 
 
                     carCheckItemAdapter.setNewData(getList(1));
@@ -193,6 +195,7 @@ public class CarCheckResultActivity extends BaseActivity {
 
                     if (carCheckResul.getType() == 1) {//已完成的报告，不能编辑
                         tv_dec.setFocusable(false);
+
                     }
                 }
 

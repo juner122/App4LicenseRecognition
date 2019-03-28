@@ -73,7 +73,7 @@ public class BillListActivity extends BaseActivity {
     @Override
     protected void init() {
 
-        isShowAll = getIntent().getIntExtra("isShowAll", -1);
+        isShowAll = getIntent().getIntExtra(Configure.isShow, 1);
 
         if (isShowAll == 0) {
             ll1.setVisibility(View.GONE);

@@ -49,7 +49,7 @@ public class Configure {
     public static final String CARINFO = "carinfo";//
 
 
-    public static final String isShow = "isShow";//
+    public static final String isShow = "show";//
     public static final String setProject = "setProject";//
     public static final String valueId = "valueId";//
     public static final String goodName = "goodName";//
@@ -62,6 +62,7 @@ public class Configure {
     public static final String isFixOrder = "isFixOrder";//是否是修改订单
     public static final String pick_servers = "pick_servers";//选择的服务列表
     public static final String Class = "Calss";//选择的服务列表的activity
+
 
 
 }

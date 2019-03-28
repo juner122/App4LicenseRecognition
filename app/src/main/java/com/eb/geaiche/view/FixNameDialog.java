@@ -129,10 +129,13 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
 
         tv_info1.setVisibility(View.INVISIBLE);
 
+
+
         ((MemberManagementInfoActivity) context).Api().updateUserSms(phone.getText().toString()).subscribe(new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-
+                tv_info1.setText("验证码已发送,请向车主获取验证码.");
+                tv_info1.setVisibility(View.VISIBLE);
 
                 smsDisposable = Observable //计时器
                         .interval(0, 1, TimeUnit.SECONDS)
@@ -154,7 +157,7 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
                             @Override
                             public void run() {
 
-                                tv_get_code.setText("获取验证码");
+                                tv_get_code.setText("获取手机验证码");
                                 tv_get_code.setClickable(true);
                             }
                         }, new Consumer<Disposable>() {

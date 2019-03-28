@@ -65,10 +65,13 @@ public class CourseRecordActivity extends BaseActivity {
             protected void _onNext(List<CourseRecord> courses) {
                 if (courses.size() == 0) {
                     recyclerView.setVisibility(View.GONE);
-                    return;
+
+                } else {
+
+                    adapter.setNewData(courses);
+                    recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                adapter.setNewData(courses);
             }
 
             @Override

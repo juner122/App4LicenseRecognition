@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickPartsContacts;
 import com.eb.geaiche.mvp.presenter.FixPickPartsPtr;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.FixParts;
 
 import java.util.ArrayList;
@@ -79,10 +80,10 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1);
 
-        if (!getIntent().getBooleanExtra("show", true)) {
-            ll_bottom.setVisibility(View.GONE);
-        } else {
+        if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
             ll_bottom.setVisibility(View.VISIBLE);
+        } else {
+            ll_bottom.setVisibility(View.GONE);
 
         }
     }
@@ -128,9 +129,9 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
     @Override
     public FixPickPartsContacts.FixPickPartsPtr onBindPresenter() {
-        if (!getIntent().getBooleanExtra("show", true)) {
-            return new FixPickPartsPtr(this, R.layout.activity_fix_info_item_show);
-        } else
+        if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
             return new FixPickPartsPtr(this, R.layout.activity_fix_info_item);
+        } else
+            return new FixPickPartsPtr(this, R.layout.activity_fix_info_item_show);
     }
 }

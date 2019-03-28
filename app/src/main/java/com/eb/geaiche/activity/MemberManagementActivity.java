@@ -52,19 +52,13 @@ public class MemberManagementActivity extends BaseActivity {
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.iv_search:
                 if (TextUtils.isEmpty(et.getText())) {
-
                     ToastUtils.showToast("请输入搜索内容！");
                     return;
                 }
-
                 getList(0, et.getText().toString());
                 break;
-
-
-
         }
     }
 

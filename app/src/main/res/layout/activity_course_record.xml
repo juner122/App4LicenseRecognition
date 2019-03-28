@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.CourseRecordActivity">
-
-
     <include layout="@layout/head_view" />
 
     <LinearLayout
@@ -21,19 +19,36 @@
             android:layout_height="match_parent"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_to_s"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/button_background_aa"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="5dp"
-            android:text="前往学习"
-            android:textColor="#fff"
-            android:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:src="@mipmap/icon_emty_c" />
+
+            <TextView
+                android:id="@+id/tv_to_s"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background_aa"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="5dp"
+                android:text="前往学习"
+                android:textColor="#fff"
+                android:textSize="13sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

@@ -26,7 +26,6 @@ import com.eb.geaiche.mvp.FixPickServiceActivity;
 import com.eb.geaiche.mvp.MarketingToolsActivity;
 import com.eb.geaiche.mvp.MessageMarketingActivity;
 import com.eb.geaiche.util.ToastUtils;
-import com.juner.mvp.Configure;
 import com.juner.mvp.bean.MenuBut;
 
 import java.util.List;
@@ -77,7 +76,6 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
             case "service":
                 //自定服务
                 Intent iss = new Intent(activity, FixPickServiceActivity.class);
-                iss.putExtra("show", false);
                 activity.startActivity(iss);
 
                 break;
@@ -92,7 +90,6 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 break;
             case "stat":
                 Intent intent2 = new Intent(activity, BillListActivity.class);
-                intent2.putExtra("isShowAll", 1);
                 activity.startActivity(intent2);
                 break;
             case "shopAd":
@@ -120,20 +117,26 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 break;
             case "maket":
                 Intent intent = new Intent(activity, ProductListActivity.class);
-                intent.putExtra(Configure.isShow, 0);
                 activity.startActivity(intent);
 
                 break;
 
             case "store"://自定商品
-
-
                 Intent is = new Intent(activity, FixPickPartsActivity.class);
-                is.putExtra("show", false);
                 activity.startActivity(is);
                 break;
             case "studyLog":
                 activity.startActivity(new Intent(activity, CourseRecordActivity.class));
+                break;
+
+            default:
+                try {
+                    Class clazz = Class.forName(perms);
+                    activity.startActivity(new Intent(activity, clazz));
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+
                 break;
 
         }

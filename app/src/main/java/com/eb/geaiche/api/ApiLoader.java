@@ -1080,7 +1080,8 @@ public class ApiLoader {
      * 检测报告单列表
      */
     public Observable<List<CarCheckResul>> checkResultList(int car_id) {
-        map.put("car_id", car_id);
+        if (car_id != -1)
+            map.put("car_id", car_id);
         map.put("limit", 100);//页数
         return apiService.checkResultList(map).compose(RxHelper.<List<CarCheckResul>>observe());
     }
@@ -1108,8 +1109,11 @@ public class ApiLoader {
      * 门店服务过的车辆管理
      */
 
-    public Observable<ShopCarBane> shopCarList() {
-        map.put("limit", 100);//页数
+    public Observable<ShopCarBane> shopCarList(String key,int page) {
+        if (!key.equals(""))
+            map.put("name", key);
+        map.put("limit", Configure.limit_page);//页数
+        map.put("page", page);
         return apiService.shopCarList(map).compose(RxHelper.<ShopCarBane>observe());
     }
 

@@ -52,6 +52,10 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     TextView tv_new_order;
 
 
+    @BindView(R.id.ll_car_fix_list)
+    View ll_car_fix_list;
+
+
     @BindView(R.id.tv_save)
     TextView tv_save;//保存退出
 
@@ -87,6 +91,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     @BindView(R.id.rv2)
     RecyclerView rv2;//服务
+
+
 
 
     String car_no;
@@ -154,9 +160,12 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             case R.id.ll_to_car_check:
 
 
+
+                //车况检修记录列表
                 Intent intent = new Intent(this, CarCheckResultListActivity.class);
                 intent.putExtra(Configure.car_no, car_no);
                 intent.putExtra(Configure.car_id, car_id);
+                intent.putExtra(Configure.isShow, 1);
 
                 startActivity(intent);
 
@@ -256,12 +265,14 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     public void showAddButton() {
         iv_add1.setVisibility(View.VISIBLE);
         iv_add2.setVisibility(View.VISIBLE);
+        ll_car_fix_list.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideAddButton() {
         iv_add1.setVisibility(View.INVISIBLE);
         iv_add2.setVisibility(View.INVISIBLE);
+        ll_car_fix_list.setVisibility(View.GONE);
     }
 
     @Override

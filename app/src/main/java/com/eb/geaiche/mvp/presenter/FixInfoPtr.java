@@ -22,6 +22,7 @@ import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.ConfirmDialog4;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.eb.geaiche.view.NoticeDialog;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixInfo;
@@ -52,8 +53,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         context = view.getSelfActivity();
         mdl = new FixInfoMdl(context);
 
-        adapter_service = new FixInfoServiceItemAdapter(null,R.layout.activity_fix_info_item);
-        adapter_parts = new FixInfoPartsItemAdapter(null,R.layout.activity_fix_info_item);
+        adapter_service = new FixInfoServiceItemAdapter(null, R.layout.activity_fix_info_item);
+        adapter_parts = new FixInfoPartsItemAdapter(null, R.layout.activity_fix_info_item);
     }
 
     BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
@@ -375,6 +376,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         infoEntity.setOrder_price(Double.parseDouble(entity.getActualPrice()));
         infoEntity.setCar_no(entity.getCarNo());
         infoEntity.setPostscript(getView().getDec());
+
         return infoEntity;
 
 
@@ -459,11 +461,14 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         finish();
                         break;
                     case 1:
-
-                        getView().getSelfActivity().startActivity(new Intent(context, FixPickServiceActivity.class));
+                        Intent intent = new Intent(context, FixPickServiceActivity.class);
+                        intent.putExtra(Configure.isShow, 1);
+                        getView().getSelfActivity().startActivity(intent);
                         break;
                     case 2:
-                        getView().getSelfActivity().startActivity(new Intent(context, FixPickPartsActivity.class));
+                        Intent intent2 = new Intent(context, FixPickPartsActivity.class);
+                        intent2.putExtra(Configure.isShow, 1);
+                        getView().getSelfActivity().startActivity(intent2);
                         break;
 
                 }

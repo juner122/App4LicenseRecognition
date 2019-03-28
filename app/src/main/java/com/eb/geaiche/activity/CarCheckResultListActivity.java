@@ -20,9 +20,18 @@ import butterknife.OnClick;
 
 
 public class CarCheckResultListActivity extends BaseActivity {
+    @BindView(R.id.tv_add)
+    View add;
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_car_check_result_list;
+    }
+
+    @Override
+    protected void init() {
+        tv_title.setText("车辆检查记录");
+
     }
 
     @BindView(R.id.rv)
@@ -43,12 +52,6 @@ public class CarCheckResultListActivity extends BaseActivity {
 
 
     @Override
-    protected void init() {
-        tv_title.setText("车辆检查记录");
-
-    }
-
-    @Override
     protected void setUpView() {
 
         carCheckAdapter = new CarCheckAdapter(null);
@@ -62,6 +65,14 @@ public class CarCheckResultListActivity extends BaseActivity {
 
             }
         });
+
+        if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
+            add.setVisibility(View.VISIBLE);
+        } else {
+            add.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override

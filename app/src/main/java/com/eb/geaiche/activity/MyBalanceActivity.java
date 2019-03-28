@@ -80,7 +80,7 @@ public class MyBalanceActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.ll_bill_list:
-                toActivity(BillListActivity.class, "isShowAll", 1);
+                toActivity(BillListActivity.class, Configure.isShow, 1);
 
                 break;
             case R.id.tv_action_applied:

@@ -9,23 +9,23 @@ import java.util.List;
 
 public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
-    int id;
-    int quotation_id;
+    Integer id;
+    Integer quotation_id;
 
     String order_sn;
-    int user_id;
-    int order_status;
+    Integer user_id;
+    Integer order_status;
     String shipping_status;
-    int pay_status;
+    Integer pay_status;
     String pay_name;
     String pay_status_text;
     double actual_price;//实际支付
     double coupon_price;
-    int coupon_id;
+    Integer coupon_id;
 
     String consignee;//
     String mobile;
-    int car_id;
+    Integer car_id;
     String postscript;
     String order_status_text;//未付款
     String add_time;//
@@ -56,11 +56,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
             return null == pay_name || pay_name.equals("") ? "-" : pay_name;
     }
 
-    public int getQuotation_id() {
+    public Integer getQuotation_id() {
         return quotation_id;
     }
 
-    public void setQuotation_id(int quotation_id) {
+    public void setQuotation_id(Integer quotation_id) {
         this.quotation_id = quotation_id;
     }
 
@@ -84,11 +84,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.pay_name = pay_name;
     }
 
-    public int getCoupon_id() {
+    public Integer getCoupon_id() {
         return coupon_id;
     }
 
-    public void setCoupon_id(int coupon_id) {
+    public void setCoupon_id(Integer coupon_id) {
         this.coupon_id = coupon_id;
     }
 
@@ -148,7 +148,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.confirm_time = confirm_time;
     }
 
-    public int getPay_type() {
+    public Integer getPay_type() {
         return pay_type;
     }
 
@@ -160,7 +160,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.pay_time = pay_time;
     }
 
-    public void setPay_type(int pay_type) {
+    public void setPay_type(Integer pay_type) {
         this.pay_type = pay_type;
     }
 
@@ -232,7 +232,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
 
-    public OrderInfoEntity(int user_id, String moblie, int car_id, String car_number, String consignee) {
+    public OrderInfoEntity(Integer user_id, String moblie, Integer car_id, String car_number, String consignee) {
         this.user_id = user_id;
         this.mobile = moblie;
         this.car_id = car_id;
@@ -240,11 +240,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.consignee = consignee;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -256,19 +256,19 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.order_sn = order_sn;
     }
 
-    public int getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
     }
 
-    public int getOrder_status() {
+    public Integer getOrder_status() {
         return order_status;
     }
 
-    public void setOrder_status(int order_status) {
+    public void setOrder_status(Integer order_status) {
         this.order_status = order_status;
     }
 
@@ -280,11 +280,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.shipping_status = shipping_status;
     }
 
-    public int getPay_status() {
+    public Integer getPay_status() {
         return pay_status;
     }
 
-    public void setPay_status(int pay_status) {
+    public void setPay_status(Integer pay_status) {
         this.pay_status = pay_status;
     }
 
@@ -304,11 +304,11 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.mobile = mobile;
     }
 
-    public int getCar_id() {
+    public Integer getCar_id() {
         return car_id;
     }
 
-    public void setCar_id(int car_id) {
+    public void setCar_id(Integer car_id) {
         this.car_id = car_id;
     }
 
@@ -388,21 +388,21 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.quotation_id);
+        dest.writeValue(this.id);
+        dest.writeValue(this.quotation_id);
         dest.writeString(this.order_sn);
-        dest.writeInt(this.user_id);
-        dest.writeInt(this.order_status);
+        dest.writeValue(this.user_id);
+        dest.writeValue(this.order_status);
         dest.writeString(this.shipping_status);
-        dest.writeInt(this.pay_status);
+        dest.writeValue(this.pay_status);
         dest.writeString(this.pay_name);
         dest.writeString(this.pay_status_text);
         dest.writeDouble(this.actual_price);
         dest.writeDouble(this.coupon_price);
-        dest.writeInt(this.coupon_id);
+        dest.writeValue(this.coupon_id);
         dest.writeString(this.consignee);
         dest.writeString(this.mobile);
-        dest.writeInt(this.car_id);
+        dest.writeValue(this.car_id);
         dest.writeString(this.postscript);
         dest.writeString(this.order_status_text);
         dest.writeString(this.add_time);
@@ -424,21 +424,21 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     protected OrderInfoEntity(Parcel in) {
-        this.id = in.readInt();
-        this.quotation_id = in.readInt();
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.quotation_id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.order_sn = in.readString();
-        this.user_id = in.readInt();
-        this.order_status = in.readInt();
+        this.user_id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.order_status = (Integer) in.readValue(Integer.class.getClassLoader());
         this.shipping_status = in.readString();
-        this.pay_status = in.readInt();
+        this.pay_status = (Integer) in.readValue(Integer.class.getClassLoader());
         this.pay_name = in.readString();
         this.pay_status_text = in.readString();
         this.actual_price = in.readDouble();
         this.coupon_price = in.readDouble();
-        this.coupon_id = in.readInt();
+        this.coupon_id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.consignee = in.readString();
         this.mobile = in.readString();
-        this.car_id = in.readInt();
+        this.car_id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.postscript = in.readString();
         this.order_status_text = in.readString();
         this.add_time = in.readString();

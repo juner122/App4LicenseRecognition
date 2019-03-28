@@ -139,7 +139,7 @@ public class MainFragment1 extends BaseFragment {
                 break;
 
             case R.id.rv_button_bill:
-                toActivity(BillListActivity.class, "isShowAll", 0);
+                toActivity(BillListActivity.class, Configure.isShow, 0);
                 break;
             case R.id.rv_order_count:
                 ((MainActivity) getActivity()).setCurrentTab(1);

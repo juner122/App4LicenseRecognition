@@ -345,7 +345,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @Override
     public void etsetFocusable(boolean b) {
-        et_name.setFocusable(b);
+//        et_name.setFocusable(b);
         et_mobile.setFocusable(b);
     }
 
