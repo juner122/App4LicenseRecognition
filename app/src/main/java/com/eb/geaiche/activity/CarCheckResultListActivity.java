@@ -44,7 +44,7 @@ public class CarCheckResultListActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_add:
 
-                toInfoActivity(true, 0);
+                toInfoActivity(true);
 
                 break;
         }
@@ -60,17 +60,14 @@ public class CarCheckResultListActivity extends BaseActivity {
         carCheckAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                int id = carCheckAdapter.getData().get(position).getId();
+                int car_id = carCheckAdapter.getData().get(position).getCarId();
+                String car_no = carCheckAdapter.getData().get(position).getCarNo();
 
-                toInfoActivity(carCheckAdapter.getData().get(position).getType() != 1, carCheckAdapter.getData().get(position).getId());
+                toInfoActivityforId(carCheckAdapter.getData().get(position).getType() != 1, id, car_id, car_no);
 
             }
         });
-
-        if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
-            add.setVisibility(View.VISIBLE);
-        } else {
-            add.setVisibility(View.GONE);
-        }
 
 
     }
@@ -113,11 +110,25 @@ public class CarCheckResultListActivity extends BaseActivity {
     /**
      * @param isfix 是否可修改
      */
-    private void toInfoActivity(boolean isfix, int id) {
+    private void toInfoActivity(boolean isfix) {
 
         Intent intent = new Intent(this, CarCheckResultActivity.class);
         intent.putExtra(Configure.car_no, getIntent().getStringExtra(Configure.car_no));
         intent.putExtra(Configure.car_id, getIntent().getIntExtra(Configure.car_id, -1));
+        intent.putExtra("isfix", isfix);
+        intent.putExtra("id", 0);
+        startActivity(intent);
+
+    }
+
+    /**
+     * @param isfix 是否可修改
+     */
+    private void toInfoActivityforId(boolean isfix, int id, int carid, String carno) {
+
+        Intent intent = new Intent(this, CarCheckResultActivity.class);
+        intent.putExtra(Configure.car_no, carno);
+        intent.putExtra(Configure.car_id, carid);
         intent.putExtra("isfix", isfix);
         intent.putExtra("id", id);
         startActivity(intent);

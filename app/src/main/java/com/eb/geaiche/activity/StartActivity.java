@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,14 +17,12 @@ import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.igexin.sdk.PushManager;
 import com.juner.mvp.Configure;
-import com.umeng.commonsdk.debug.I;
 
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 
 public class StartActivity extends PermissionsActivity implements View.OnClickListener {
 
@@ -39,10 +36,11 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        init();
-        if (isHavePermissionsList(strings)) {
-//            toActivity();
-        } else {
+
+
+
+
+        if (!isHavePermissionsList(strings)) {
             checkPermissions(strings, 300, new PermissionsResultListener() {
                 @Override
                 public void onSuccessful(int[] grantResults) {
@@ -68,7 +66,14 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
         PushManager.getInstance().initialize(this.getApplicationContext(), GeTuiPushService.class);
         // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
+        String token = new AppPreferences(this).getString(Configure.Token, "");
 
+
+        if (token.equals("")) {
+            init();
+        }else {
+            toActivity();
+        }
     }
 
     private void init() {
@@ -100,9 +105,9 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
             @Override
             public void onPageSelected(int position) {
 
-                if(position ==2){
+                if (position == 2) {
                     tv_start.setVisibility(View.VISIBLE);
-                }else {
+                } else {
 
                     tv_start.setVisibility(View.GONE);
                 }

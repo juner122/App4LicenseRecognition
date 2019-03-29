@@ -582,7 +582,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     protected void _onError(String message) {
                         Log.d(TAG, message);
                         ToastUtils.showToast(message);
-                        toOrderList(0);
                     }
                 });
                 break;

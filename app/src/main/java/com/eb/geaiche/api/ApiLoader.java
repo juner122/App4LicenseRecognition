@@ -29,6 +29,7 @@ import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
@@ -1026,14 +1027,19 @@ public class ApiLoader {
      * 获取员工销售订单
      */
     public Observable<List<OrderInfoEntity>> saleList(int id) {
-        return apiService.saleList(token, id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+        map.put("limit", 100);
+        map.put("sysuser_id", id);
+
+        return apiService.saleList(map).compose(RxHelper.<List<OrderInfoEntity>>observe());
     }
 
     /**
      * 获取员工服务订单
      */
     public Observable<List<OrderInfoEntity>> sysOrderList(int id) {
-        return apiService.sysOrderList(token, id).compose(RxHelper.<List<OrderInfoEntity>>observe());
+        map.put("limit", 100);
+        map.put("user_id", id);
+        return apiService.sysOrderList(map).compose(RxHelper.<List<OrderInfoEntity>>observe());
     }
 
 
@@ -1109,12 +1115,21 @@ public class ApiLoader {
      * 门店服务过的车辆管理
      */
 
-    public Observable<ShopCarBane> shopCarList(String key,int page) {
+    public Observable<ShopCarBane> shopCarList(String key, int page) {
         if (!key.equals(""))
             map.put("name", key);
         map.put("limit", Configure.limit_page);//页数
         map.put("page", page);
         return apiService.shopCarList(map).compose(RxHelper.<ShopCarBane>observe());
+    }
+
+
+    /**
+     * 获取商品分类
+     */
+    public Observable<List<GoodsCategory>> queryShopcategoryAll() {
+
+        return apiService.queryShopcategoryAll(token).compose(RxHelper.<List<GoodsCategory>>observe());
     }
 
 

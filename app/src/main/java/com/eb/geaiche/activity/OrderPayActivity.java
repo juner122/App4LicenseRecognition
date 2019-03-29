@@ -425,7 +425,6 @@ public class OrderPayActivity extends BaseActivity {
             protected void _onError(String message) {
                 Log.i("OrderPayActivity", message);
                 ToastUtils.showToast("收款失败：" + message);
-                toOrderList(0);
             }
         });
     }

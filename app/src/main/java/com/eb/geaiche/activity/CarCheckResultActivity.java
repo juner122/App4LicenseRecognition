@@ -1,10 +1,12 @@
 package com.eb.geaiche.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
@@ -50,7 +52,20 @@ public class CarCheckResultActivity extends BaseActivity {
     @BindView(R.id.but_3)
     View but_3;
 
-    @OnClick({R.id.but_1, R.id.but_2, R.id.but_3})
+
+    @BindView(R.id.tv_car_no)
+    TextView tv_car_no;
+
+
+    @BindView(R.id.ll_car_on)
+    View ll_car_on;
+
+
+    @BindView(R.id.iv_iv)
+    View iv_iv;
+
+
+    @OnClick({R.id.but_1, R.id.but_2, R.id.but_3, R.id.ll_car_on})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -70,6 +85,11 @@ public class CarCheckResultActivity extends BaseActivity {
             case R.id.but_3://修改
                 updateCheckResult(0);
                 break;
+            case R.id.ll_car_on://
+                //选择车辆
+
+                toActivity(ShopCarListActivity.class, "pick", 1);
+                break;
         }
     }
 
@@ -83,6 +103,7 @@ public class CarCheckResultActivity extends BaseActivity {
     CarCheckItemAdapter carCheckItemAdapter;
 
     String car_no;
+    int car_id;
 
 
     boolean isFix;//是否能修改
@@ -91,7 +112,9 @@ public class CarCheckResultActivity extends BaseActivity {
 
     @Override
     protected void init() {
-
+        tv_title.setText("车辆检查");
+        car_id = getIntent().getIntExtra(Configure.car_id, -1);
+        car_no = getIntent().getStringExtra(Configure.car_no);
         for (int i = 0; i < mTitles.length; i++) {
 
             mTabEntities.add(new TabEntity(mTitles[i]));
@@ -111,9 +134,16 @@ public class CarCheckResultActivity extends BaseActivity {
             }
         });
 
-        car_no = getIntent().getStringExtra(Configure.car_no);
 
-        tv_title.setText(car_no);
+        if (null == car_no || "".equals(car_no)) {
+            iv_iv.setVisibility(View.VISIBLE);
+            tv_car_no.setText("选择车牌号码");
+            ll_car_on.setClickable(true);
+        } else {
+            tv_car_no.setText(car_no);
+            iv_iv.setVisibility(View.INVISIBLE);
+            ll_car_on.setClickable(false);
+        }
         isFix = getIntent().getBooleanExtra("isfix", false);
         if (isFix) {
             ll_bottom.setVisibility(View.VISIBLE);
@@ -122,6 +152,7 @@ public class CarCheckResultActivity extends BaseActivity {
             ll_bottom.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     protected void setUpView() {
@@ -152,6 +183,15 @@ public class CarCheckResultActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        car_id = intent.getIntExtra(Configure.car_id, -1);
+        car_no = intent.getStringExtra(Configure.car_no);
+        tv_car_no.setText(car_no);
+
     }
 
     @Override
@@ -213,7 +253,10 @@ public class CarCheckResultActivity extends BaseActivity {
     //暂存或者生成检测报告
     private void checkOutResult(int type) {
 
-
+        if (car_id == -1) {
+            ToastUtils.showToast("请选择一辆车！");
+            return;
+        }
         Api().checkOutResult(getCarCheckResul(type)).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity entity) {
@@ -233,7 +276,10 @@ public class CarCheckResultActivity extends BaseActivity {
 
     //修改暂存的门店检测报告 type为1的不可访问此接口
     private void updateCheckResult(int type) {
-
+        if (car_id == -1) {
+            ToastUtils.showToast("请选择一辆车！");
+            return;
+        }
 
         Api().updateCheckResult(getCarCheckResul(type)).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
@@ -256,11 +302,13 @@ public class CarCheckResultActivity extends BaseActivity {
      * @param type 检验报告type
      */
     private CarCheckResul getCarCheckResul(int type) {
+
+
         CarCheckResul checkResul = new CarCheckResul();
         checkResul.setType(type);
         checkResul.setId(id);
         checkResul.setPostscript(tv_dec.getText().toString());
-        checkResul.setCarId(getIntent().getIntExtra(Configure.car_id, -1));
+        checkResul.setCarId(car_id);
         checkResul.setCarNo(car_no);
         checkResul.setOptionsList(list);
         return checkResul;

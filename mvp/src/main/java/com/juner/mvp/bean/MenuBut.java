@@ -4,10 +4,20 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class MenuBut implements Parcelable {
+
     String name;
     String perms;
     int orderNum;
     String icon;
+    String androidInfo;
+
+    public String getAndroidInfo() {
+        return androidInfo;
+    }
+
+    public void setAndroidInfo(String androidInfo) {
+        this.androidInfo = androidInfo;
+    }
 
     public String getIcon() {
         return icon;
@@ -55,6 +65,7 @@ public class MenuBut implements Parcelable {
         dest.writeString(this.perms);
         dest.writeInt(this.orderNum);
         dest.writeString(this.icon);
+        dest.writeString(this.androidInfo);
     }
 
     protected MenuBut(Parcel in) {
@@ -62,6 +73,7 @@ public class MenuBut implements Parcelable {
         this.perms = in.readString();
         this.orderNum = in.readInt();
         this.icon = in.readString();
+        this.androidInfo = in.readString();
     }
 
     public static final Creator<MenuBut> CREATOR = new Creator<MenuBut>() {

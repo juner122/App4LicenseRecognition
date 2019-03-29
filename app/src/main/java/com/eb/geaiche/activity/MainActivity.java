@@ -204,10 +204,10 @@ public class MainActivity extends BaseActivity {
         setCurrentTab(fragment);
         toInfoActivity(intent);
 
-        if (intent.getStringExtra("type").equals("toOrder")) {
+        if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toOrder")) {
             toActivity(OrderListActivity.class);
         }
-        if (intent.getStringExtra("type").equals("toFix")) {
+        if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toFix")) {
             toActivity(FixInfoListActivity.class);
         }
 

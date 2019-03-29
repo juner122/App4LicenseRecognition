@@ -25,6 +25,7 @@ import com.juner.mvp.bean.CourseInfo;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
@@ -506,12 +507,12 @@ public interface ApiService {
     //获取员工服务订单
     @POST("sysuser/orderList")
     @FormUrlEncoded
-    Observable<BaseBean<List<OrderInfoEntity>>> sysOrderList(@Header("X-Nideshop-Token") String token, @Field("user_id") int user_id);
+    Observable<BaseBean<List<OrderInfoEntity>>> sysOrderList(@FieldMap Map<String, Object> maps);
 
     //获取员工销售订单
     @POST("sysuser/saleList")
     @FormUrlEncoded
-    Observable<BaseBean<List<OrderInfoEntity>>> saleList(@Header("X-Nideshop-Token") String token, @Field("sysuser_id") int sysuser_id);
+    Observable<BaseBean<List<OrderInfoEntity>>> saleList(@FieldMap Map<String, Object> maps);
 
 
     //更改客户信息发送验证码
@@ -528,7 +529,6 @@ public interface ApiService {
     //暂存或者生成检测报告
     @POST("shop/checkOutResult")
     Observable<BaseBean<NullDataEntity>> checkOutResult(@Header("X-Nideshop-Token") String token, @Body CarCheckResul checkResul);
-
 
 
     //检测报告单列表
@@ -550,6 +550,10 @@ public interface ApiService {
     @POST("user/shopCarList")
     @FormUrlEncoded
     Observable<BaseBean<ShopCarBane>> shopCarList(@FieldMap Map<String, Object> maps);
+
+    //获取商品分类
+    @POST("http://222.111.88.99:8080/app/shopcategory/queryAll")
+    Observable<BaseBean<List<GoodsCategory>>> queryShopcategoryAll(@Header("X-Nideshop-Token") String token);
 
 
 }

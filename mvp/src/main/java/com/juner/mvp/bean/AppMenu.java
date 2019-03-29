@@ -14,6 +14,16 @@ public class AppMenu implements Parcelable {
 
     List<MenuBut> list;
 
+    String androidInfo;
+
+    public String getAndroidInfo() {
+        return androidInfo;
+    }
+
+    public void setAndroidInfo(String androidInfo) {
+        this.androidInfo = androidInfo;
+    }
+
     public String getName() {
         return name;
     }
@@ -38,6 +48,9 @@ public class AppMenu implements Parcelable {
         this.list = list;
     }
 
+    public AppMenu() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -47,20 +60,18 @@ public class AppMenu implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeString(this.perms);
-        dest.writeList(this.list);
-    }
-
-    public AppMenu() {
+        dest.writeTypedList(this.list);
+        dest.writeString(this.androidInfo);
     }
 
     protected AppMenu(Parcel in) {
         this.name = in.readString();
         this.perms = in.readString();
-        this.list = new ArrayList<MenuBut>();
-        in.readList(this.list, MenuBut.class.getClassLoader());
+        this.list = in.createTypedArrayList(MenuBut.CREATOR);
+        this.androidInfo = in.readString();
     }
 
-    public static final Parcelable.Creator<AppMenu> CREATOR = new Parcelable.Creator<AppMenu>() {
+    public static final Creator<AppMenu> CREATOR = new Creator<AppMenu>() {
         @Override
         public AppMenu createFromParcel(Parcel source) {
             return new AppMenu(source);

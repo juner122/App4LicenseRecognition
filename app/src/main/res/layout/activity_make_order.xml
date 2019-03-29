@@ -55,12 +55,17 @@
                         android:src="@mipmap/icon_wangneng" />
 
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="洗车"
-                        android:textColor="#ff000000"
-                        android:textSize="14sp" />
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="全车美容清洗轮毂镀晶"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -86,12 +91,17 @@
                         android:src="@mipmap/icon_wangneng" />
 
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="保养"
-                        android:textColor="#ff000000"
-                        android:textSize="14sp" />
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="常规保养：机油、三滤"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -117,12 +127,17 @@
                         android:src="@mipmap/icon_wangneng" />
 
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="胎压检测"
-                        android:textColor="#ff000000"
-                        android:textSize="14sp" />
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="胎压检测   四轮定位"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -142,19 +157,22 @@
                     android:paddingBottom="15dp">
 
                     <ImageView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/icon_wangneng" />
 
                     <TextView
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="美容"
-                        android:textColor="#ff000000"
-                        android:textSize="14sp" />
-
+                        android:maxLines="2"
+                        android:minLines="2"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="机车拆装检查费¥ 50"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
 

@@ -1,6 +1,7 @@
 package com.eb.geaiche.activity;
 
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -39,6 +40,8 @@ public class ShopCarListActivity extends BaseActivity {
         return R.layout.activity_shop_car_list;
     }
 
+    int pick;//是否为选择车辆  1是，0否
+
     @OnClick({R.id.iv_search})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -58,6 +61,8 @@ public class ShopCarListActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("车辆管理");
+
+        pick = getIntent().getIntExtra("pick", 0);
     }
 
     @Override
@@ -69,7 +74,15 @@ public class ShopCarListActivity extends BaseActivity {
         listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(CarInfoInputActivity.class, Configure.CARID, listAdapter.getData().get(position).getCar_id());
+                if (pick == 1) {//返回生成车辆生成检查页面
+
+                    Intent intent = new Intent(ShopCarListActivity.this, CarCheckResultActivity.class);
+                    intent.putExtra(Configure.car_id, listAdapter.getData().get(position).getCar_id());
+                    intent.putExtra(Configure.car_no, listAdapter.getData().get(position).getCar_no());
+                    startActivity(intent);
+                } else {//进入车况页面
+                    toActivity(CarInfoInputActivity.class, Configure.CARID, listAdapter.getData().get(position).getCar_id());
+                }
             }
         });
 

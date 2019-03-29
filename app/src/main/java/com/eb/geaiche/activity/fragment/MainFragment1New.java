@@ -2,6 +2,7 @@ package com.eb.geaiche.activity.fragment;
 
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.eb.geaiche.R;
+import com.eb.geaiche.adapter.AppMenuAdapter;
 import com.eb.geaiche.adapter.MuneButAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
@@ -34,35 +36,9 @@ public class MainFragment1New extends BaseFragment {
     ImageView iv;
     List<AppMenu> list;
 
-    @BindView(R.id.rv1)
-    RecyclerView rv1;
-    @BindView(R.id.rv2)
-    RecyclerView rv2;
-    @BindView(R.id.rv3)
-    RecyclerView rv3;
-    @BindView(R.id.rv4)
-    RecyclerView rv4;
-    @BindView(R.id.rv5)
-    RecyclerView rv5;
 
-
-    @BindView(R.id.ll1)
-    LinearLayout ll1;
-    @BindView(R.id.ll2)
-    LinearLayout ll2;
-    @BindView(R.id.ll3)
-    LinearLayout ll3;
-    @BindView(R.id.ll4)
-    LinearLayout ll4;
-    @BindView(R.id.ll5)
-    LinearLayout ll5;
-
-    MuneButAdapter muneButAdapter1;
-    MuneButAdapter muneButAdapter2;
-    MuneButAdapter muneButAdapter3;
-    MuneButAdapter muneButAdapter4;
-    MuneButAdapter muneButAdapter5;
-
+    @BindView(R.id.rv)
+    RecyclerView rv;
 
 
     @Override
@@ -73,98 +49,20 @@ public class MainFragment1New extends BaseFragment {
     @Override
     protected void setUpView() {
 
-
-        muneButAdapter1 = new MuneButAdapter(null, getActivity());
-        muneButAdapter2 = new MuneButAdapter(null, getActivity());
-        muneButAdapter3 = new MuneButAdapter(null, getActivity());
-        muneButAdapter4 = new MuneButAdapter(null, getActivity());
-        muneButAdapter5 = new MuneButAdapter(null, getActivity());
-
-        rv1.setAdapter(muneButAdapter1);
-        rv2.setAdapter(muneButAdapter2);
-        rv3.setAdapter(muneButAdapter3);
-        rv4.setAdapter(muneButAdapter4);
-        rv5.setAdapter(muneButAdapter5);
-
-        rv1.setLayoutManager(new GridLayoutManager(getContext(), 4) {
+        rv.setLayoutManager(new LinearLayoutManager(getContext()){
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
-        rv2.setLayoutManager(new GridLayoutManager(getContext(), 4) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
-        rv3.setLayoutManager(new GridLayoutManager(getContext(), 4) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
-        rv4.setLayoutManager(new GridLayoutManager(getContext(), 4) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
-                return false;
-            }
-        });
-        rv5.setLayoutManager(new GridLayoutManager(getContext(), 4) {
-            @Override
-            public boolean canScrollVertically() {
-                //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
+                //如果你的RecyclerView是水平滑动的话可以重写canScrollHorizontally方法
                 return false;
             }
         });
 
         AppMenu[] array = new Gson().fromJson(new AppPreferences(getContext()).getString("AppMenu", ""), AppMenu[].class);
 
-
         if (null != array) {
             list = Arrays.asList(array);
-            for (AppMenu appMenu : list) {
-                switch (appMenu.getPerms()) {
-                    case "shop":
-                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                            muneButAdapter1.setNewData(appMenu.getList());
-                            ll1.setVisibility(View.VISIBLE);
-                        }
-
-                        break;
-                    case "business":
-                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                            muneButAdapter2.setNewData(appMenu.getList());
-                            ll2.setVisibility(View.VISIBLE);
-                        }
-
-
-                        break;
-                    case "ad":
-                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                            muneButAdapter3.setNewData(appMenu.getList());
-                            ll3.setVisibility(View.VISIBLE);
-                        }
-
-                        break;
-                    case "school":
-                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                            muneButAdapter4.setNewData(appMenu.getList());
-                            ll4.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case "erp":
-                        if (null != appMenu.getList() && appMenu.getList().size() > 0) {
-                            muneButAdapter5.setNewData(appMenu.getList());
-                            ll5.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                }
-            }
+            rv.setAdapter(new AppMenuAdapter(list, getActivity()));
         }
 
     }
@@ -174,7 +72,6 @@ public class MainFragment1New extends BaseFragment {
         super.onResume();
         getInfo();
     }
-
 
 
     public static final String TAG = "MainFragment1New";
@@ -206,7 +103,6 @@ public class MainFragment1New extends BaseFragment {
 
 
     }
-
 
 
 }

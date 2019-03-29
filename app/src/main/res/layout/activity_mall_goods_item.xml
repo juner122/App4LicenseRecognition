@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="8dp"
+    android:orientation="vertical"
+    tools:context=".activity.MallGoodsActivity">
+
+    <ImageView
+        android:id="@+id/iv_src"
+        android:layout_width="160dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#FAFAFA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="车润A7"
+        android:textColor="#ff333333"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/iv_src"
+        app:layout_constraintTop_toBottomOf="@+id/iv_src" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¥95.00 "
+        android:textColor="#ffff3900"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintEnd_toEndOf="@+id/iv_src" />
+
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:minLines="2"
+        android:text="车润A7（有机氮钼富勒烯 技术）"
+        android:ellipsize="end"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_price"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="已售200件"
+        android:textColor="#ff666666"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_info"
+        app:layout_constraintTop_toBottomOf="@+id/tv_info" />
+</android.support.constraint.ConstraintLayout>

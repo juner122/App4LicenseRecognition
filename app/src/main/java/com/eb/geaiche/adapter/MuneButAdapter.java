@@ -1,6 +1,7 @@
 package com.eb.geaiche.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
@@ -32,9 +33,9 @@ import java.util.List;
 
 public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
-    Activity activity;
+    Context activity;
 
-    public MuneButAdapter(@Nullable List<MenuBut> data, Activity activity) {
+    public MuneButAdapter(@Nullable List<MenuBut> data, Context activity) {
         super(R.layout.fragment1_main_button_item, data);
         this.activity = activity;
     }
@@ -49,7 +50,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toActivity(item.getPerms());
+                toActivity(item.getAndroidInfo());
             }
         });
 
@@ -128,6 +129,9 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
             case "studyLog":
                 activity.startActivity(new Intent(activity, CourseRecordActivity.class));
                 break;
+
+
+
 
             default:
                 try {

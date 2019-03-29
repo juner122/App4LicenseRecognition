@@ -98,6 +98,9 @@ public class CarInfoInputActivity extends BaseActivity {
     @BindView(R.id.tv_car_mileage)
     EditText tv_car_mileage;
 
+    @BindView(R.id.ll_check)
+    View ll_check;
+
 
     @BindView(R.id.recycler1)
     RecyclerView recyclerView1;
@@ -124,7 +127,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     boolean isrvShow1, isrvShow2, isrvShow3;
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3})
+    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
     public void onclick(View v) {
         switch (v.getId()) {
 
@@ -185,6 +188,20 @@ public class CarInfoInputActivity extends BaseActivity {
                     onAddCarInfoOfFixCarInfo();//接口提交
                 else
                     ToastUtils.showToast("请等待图片上传完成");
+
+                break;
+
+            case R.id.ll_check:
+
+                //车况检查表
+                //车况检修记录列表
+                Intent intent = new Intent(this, CarCheckResultListActivity.class);
+                intent.putExtra(Configure.car_no, carEntity.getCarNo());
+                intent.putExtra(Configure.car_id, car_id);
+                intent.putExtra(Configure.isShow, 1);
+
+                startActivity(intent);
+
 
                 break;
         }
@@ -324,15 +341,20 @@ public class CarInfoInputActivity extends BaseActivity {
             type_action = 1;
             tv_car_no.setText(getIntent().getStringExtra(Configure.car_no));
 
-            if (new_car_id != 0)
-                showCarInfo(new_car_id);
+            ll_check.setVisibility(View.GONE);//车况检查表
 
+            if (new_car_id != 0) {
+                showCarInfo(new_car_id);
+                ll_check.setVisibility(View.VISIBLE);//车况检查表
+            }
         } else {
+
             tv_car_no.setFocusable(false);
             tv_title.setText("车况确认");
             type_action = 2;
 
             showCarInfo(car_id);
+            ll_check.setVisibility(View.VISIBLE);//车况检查表
 
 
         }

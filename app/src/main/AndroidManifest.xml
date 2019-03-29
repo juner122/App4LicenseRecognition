@@ -316,11 +316,18 @@
         <activity android:name=".activity.MemberInfoFixActivity" />
         <activity android:name=".activity.MemberRecordActivity" />
         <activity android:name=".activity.CarCheckResultListActivity" />
-        <activity android:name=".activity.CarCheckResultActivity" />
+        <activity
+            android:name=".activity.CarCheckResultActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShopCarListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
+        <!--<activity android:name=".activity.MallActivity" />-->
+        <!--<activity android:name=".activity.MallTypeActivity" />-->
+        <activity android:name=".activity.MallGoodsActivity" />
+        <activity android:name=".activity.MallGoodsInfoActivity" />
     </application>
 
 </manifest>

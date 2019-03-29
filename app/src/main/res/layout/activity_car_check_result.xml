@@ -11,6 +11,53 @@
     <include layout="@layout/head_view" />
 
     <LinearLayout
+        android:id="@+id/ll_car_on"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="13dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="13dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="车牌号码"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_car_no"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+
+            android:text="选择车牌号码"
+            android:textColor="#ff666666"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/iv_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:src="@mipmap/icon_enter" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -35,10 +82,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:visibility="invisible"
                 android:text="复制"
                 android:textColor="@color/appColor"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="invisible" />
 
         </LinearLayout>
 
@@ -58,9 +105,9 @@
 
 
     <HorizontalScrollView
-        android:scrollbars="none"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/tl_button_bar"
@@ -123,7 +170,8 @@
             android:text="暂存"
             android:textColor="#fff"
             android:textSize="14sp" />
-          <TextView
+
+        <TextView
             android:id="@+id/but_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
