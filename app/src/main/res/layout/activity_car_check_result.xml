@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".activity.CarCheckResultActivity">
 
     <include layout="@layout/head_view" />

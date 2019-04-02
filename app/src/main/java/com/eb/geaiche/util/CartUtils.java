@@ -211,7 +211,6 @@ public class CartUtils {
             tempCart = good;
             tempCart.setNumber(1);
         }
-
         data.put(good.getId(), tempCart);
 
         commit();

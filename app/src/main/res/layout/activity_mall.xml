@@ -3,23 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".activity.MallActivity">
 
-    <include layout="@layout/head_view" />
+    <include
+        layout="@layout/head_view"
+        android:visibility="gone" />
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp" />
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv1"
+        <TextView
+            android:id="@+id/tv_back2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawableLeft="@mipmap/icon_back"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:text="返回"
+            android:textColor="#ff000000"
+            android:textSize="12sp" />
+
+
+        <include layout="@layout/search_bar" />
+
+    </LinearLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv2"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/ll_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="商品分类"
+                    android:textColor="#333" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/icon_enter"
+                    android:drawablePadding="5dp"
+                    android:text="更多"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="#fff"
+                android:nestedScrollingEnabled="false" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false"
+                android:background="#fff" />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

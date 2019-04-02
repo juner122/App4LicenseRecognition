@@ -26,11 +26,11 @@
 
         <TextView
             android:id="@+id/tv_name_s"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/button_background_aa"
+            android:background="@mipmap/icon_head"
             android:gravity="center"
             android:text=""
             android:textColor="#fff"

@@ -1,5 +1,6 @@
 package com.eb.geaiche.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,10 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 //商城商品分类列表
 public class MallTypeActivity extends BaseActivity {
 
+    public static final String goodsBrandId = "goodsBrandId";
 
     @Override
     public int setLayoutResourceID() {
@@ -34,9 +37,22 @@ public class MallTypeActivity extends BaseActivity {
     @BindView(R.id.rv2)
     RecyclerView rv2;//商品品牌
 
+    @BindView(R.id.ll_rv2)
+    View ll_rv2;
+
     MallTypeListAdapter typeListAdapter;//商品分类
     MallTypeBrandListAdapter brandListAdapter;//商品品牌
 
+
+    @OnClick({R.id.back2})
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.back2:
+                ll_rv2.setVisibility(View.GONE);
+                break;
+        }
+    }
 
     @Override
     protected void init() {
@@ -60,22 +76,19 @@ public class MallTypeActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                rv2.setVisibility(View.VISIBLE);
+                getBrandList(typeListAdapter.getData().get(position).getCategoryId());
+            }
+        });
 
-                List<GoodsBrand> data = new ArrayList<>();
+        brandListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                data.add(new GoodsBrand("米其林"));
-                data.add(new GoodsBrand("马牌"));
-                data.add(new GoodsBrand("米其林"));
-                data.add(new GoodsBrand("马牌"));
-                data.add(new GoodsBrand("米其林"));
-                data.add(new GoodsBrand("马牌"));
-                data.add(new GoodsBrand("米其林"));
-                data.add(new GoodsBrand("马牌"));
-                data.add(new GoodsBrand("米其林"));
-                data.add(new GoodsBrand("马牌"));
 
-                brandListAdapter.setNewData(data);
+                Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
+                intent.putExtra(goodsBrandId, brandListAdapter.getData().get(position).getBrandId());
+                intent.putExtra(MallActivity.categoryId, brandListAdapter.getData().get(position).getCategoryId());
+                startActivity(intent);
 
             }
         });
@@ -90,9 +103,11 @@ public class MallTypeActivity extends BaseActivity {
 
     private void queryAll() {
 
-        Api().queryShopcategoryAll().subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
+        Api().queryShopcategoryAll(null).subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
             @Override
             protected void _onNext(List<GoodsCategory> goodsCategories) {
+
+
                 typeListAdapter.setNewData(goodsCategories);
 
             }
@@ -102,7 +117,35 @@ public class MallTypeActivity extends BaseActivity {
                 ToastUtils.showToast(message);
             }
         });
+
     }
 
+    //获取品牌列表
+    public void getBrandList(String id) {
+
+        Api().shopcategoryInfo(id).subscribe(new RxSubscribe<List<GoodsBrand>>(this, true) {
+            @Override
+            protected void _onNext(List<GoodsBrand> goodsBrands) {
+
+                int size = goodsBrands.size();
+                if (size == 0) {
+                    ToastUtils.showToast("该分类暂无商品！");
+                    ll_rv2.setVisibility(View.GONE);
+                    return;
+                }
+
+                ll_rv2.setVisibility(View.VISIBLE);
+                brandListAdapter.setNewData(goodsBrands);
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast(message);
+            }
+        });
+
+
+    }
 
 }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
     android:layout_marginTop="10dp"
+    android:background="#fff"
     tools:context=".activity.CarCheckResultListActivity">
 
     <TextView
@@ -77,4 +77,15 @@
         android:layout_alignParentBottom="true"
         android:background="#d9d9d9"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/rv_is_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="是否继续检查?"
+        android:textColor="#4A9DE3"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/tv_num" />
 </android.support.constraint.ConstraintLayout>

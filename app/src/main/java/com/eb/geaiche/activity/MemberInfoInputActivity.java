@@ -114,8 +114,6 @@ public class MemberInfoInputActivity extends BaseActivity {
         setRTitle("匿名注册");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carListAdapter);
-
-
     }
 
     @Override
@@ -232,7 +230,6 @@ public class MemberInfoInputActivity extends BaseActivity {
                     name.setFocusable(true);
 
                 } else {
-                    name.setFocusable(false);
                     et_mobile.setFocusable(false);
 
                     if (null != s.getCarList() && s.getCarList().size() > 0) {//新车 老会员

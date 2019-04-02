@@ -25,8 +25,11 @@ import com.juner.mvp.bean.CourseInfo;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsBrand;
 import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
@@ -553,7 +556,23 @@ public interface ApiService {
 
     //获取商品分类
     @POST("http://222.111.88.99:8080/app/shopcategory/queryAll")
-    Observable<BaseBean<List<GoodsCategory>>> queryShopcategoryAll(@Header("X-Nideshop-Token") String token);
+    @FormUrlEncoded
+    Observable<BaseBean<List<GoodsCategory>>> queryShopcategoryAll(@FieldMap Map<String, Object> maps);
+
+    //根据商品分类查询品牌
+    @POST("http://222.111.88.99:8080/app/shopcategory/info")
+    @FormUrlEncoded
+    Observable<BaseBean<List<GoodsBrand>>> shopcategoryInfo(@FieldMap Map<String, Object> maps);
+
+    //查询商品（分页）
+    @POST("http://222.111.88.99:8080/app/xgxshopgoods/list")
+    @FormUrlEncoded
+    Observable<BaseBean<GoodsList>> xgxshopgoodsList(@FieldMap Map<String, Object> maps);
+
+    //查询商品详情
+    @POST("http://222.111.88.99:8080/app/xgxshopgoods/info")
+    @FormUrlEncoded
+    Observable<BaseBean<Goods>> xgxshopgoodsInfo(@FieldMap Map<String, Object> maps);
 
 
 }

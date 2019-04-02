@@ -8,7 +8,9 @@
 
     <include layout="@layout/head_view" />
 
-    <include layout="@layout/search_bar" />
+    <include
+        layout="@layout/search_bar"
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"
@@ -27,15 +29,38 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv2"
+        <LinearLayout
+            android:id="@+id/ll_rv2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="100dp"
             android:background="#fff"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:visibility="gone" />
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/back2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:src="@mipmap/icon_back" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="20dp"
+                android:background="#d9d9d9" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+        </LinearLayout>
+
 
     </FrameLayout>
 </LinearLayout>

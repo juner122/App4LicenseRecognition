@@ -35,6 +35,9 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <!-- if you want to load images from a file OR from the internet -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-feature
         android:name="android.hardware.usb.host"
         android:required="true" />
@@ -198,7 +201,9 @@
         <activity android:name=".mvp.PickMealCardActivity" />
         <activity
             android:name=".mvp.FixInfoDescribeActivity"
-            android:launchMode="singleTask" />
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity android:name=".mvp.FixInfoListActivity" />
         <activity android:name=".mvp.FixInfoPartsAndServerActivity" />
         <activity
@@ -318,16 +323,21 @@
         <activity android:name=".activity.CarCheckResultListActivity" />
         <activity
             android:name=".activity.CarCheckResultActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShopCarListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <!--<activity android:name=".activity.MallActivity" />-->
-        <!--<activity android:name=".activity.MallTypeActivity" />-->
+        <activity
+            android:name=".activity.MallActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.MallTypeActivity" />
         <activity android:name=".activity.MallGoodsActivity" />
         <activity android:name=".activity.MallGoodsInfoActivity" />
+        <activity android:name=".mvp.ShoppingCartActivity"></activity>
     </application>
 
 </manifest>

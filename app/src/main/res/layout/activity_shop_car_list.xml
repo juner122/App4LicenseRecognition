@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".activity.ShopCarListActivity">
 
     <include layout="@layout/head_view" />

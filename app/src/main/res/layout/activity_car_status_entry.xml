@@ -86,13 +86,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableRight="@mipmap/icon_enter"
+                        android:drawableRight="@mipmap/icon_scan"
                         android:drawablePadding="10dp"
                         android:gravity="end"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:text="扫描识别车架号"
-                        android:textColor="#333"
+                        android:textColor="#666"
                         android:textSize="12sp" />
 
 
@@ -135,7 +135,7 @@
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
                         android:text="请选择车型"
-                        android:textColor="#333"
+                        android:textColor="#666"
                         android:textSize="12sp" />
 
 

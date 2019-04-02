@@ -24,11 +24,11 @@ public class MallTypeBrandListAdapter extends BaseQuickAdapter<GoodsBrand, BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, GoodsBrand item) {
-        helper.setText(R.id.tv_name, item.getName());
+        helper.setText(R.id.tv_name, item.getBrandTitle());
 
 
-//        Glide.with(context)
-//                .load(item.getSrc())
-//                .into((ImageView) helper.getView(R.id.src));
+        Glide.with(context)
+                .load(item.getBrandLogo())
+                .into((ImageView) helper.getView(R.id.src));
     }
 }

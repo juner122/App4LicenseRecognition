@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/button_background_e"
+            android:background="@drawable/button_background_c1"
             android:gravity="center"
             android:text="新增检修单"
             android:textColor="#fff"

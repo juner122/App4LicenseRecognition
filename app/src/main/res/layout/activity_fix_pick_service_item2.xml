@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:background="#eee"
+        android:background="#fff"
         android:text="一级护理"
         android:layout_marginBottom="0.2dp"
         android:textColor="#ff010101"

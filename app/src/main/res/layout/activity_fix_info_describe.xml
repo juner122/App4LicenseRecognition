@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context=".mvp.FixInfoDescribeActivity">
 
@@ -411,11 +413,15 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
+
             <LinearLayout
                 android:id="@+id/ll_autograph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:orientation="vertical"
@@ -469,7 +475,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/button_background_e"
+            android:background="@drawable/button_background_c1"
             android:gravity="center"
             android:text="保存退出"
             android:textColor="#fff"

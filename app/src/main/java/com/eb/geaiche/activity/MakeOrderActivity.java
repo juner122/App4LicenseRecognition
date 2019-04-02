@@ -95,6 +95,18 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
 
+    @BindView(R.id.tv_top1)
+    TextView tv_top1;
+
+    @BindView(R.id.tv_top2)
+    TextView tv_top2;
+
+    @BindView(R.id.tv_top3)
+    TextView tv_top3;
+
+    @BindView(R.id.tv_top4)
+    TextView tv_top4;
+
     @BindViews({R.id.tv_re1, R.id.tv_re2, R.id.tv_re3})
     public List<TextView> textViews;
 
@@ -290,10 +302,12 @@ public class MakeOrderActivity extends BaseActivity {
             String tip = ((TextView) view).getText().toString();
             if (!pickMap.get(view.getTag())) {//选中
                 view.setBackgroundResource(R.drawable.button_background_b);
+                ((TextView) view).setTextColor(Color.parseColor("#ffffff"));
                 et_postscript.append(String.format("#%s#", tip));
                 pickMap.put((Integer) view.getTag(), true);
             } else {//取消选中
                 view.setBackgroundResource(R.drawable.button_background_z);
+                ((TextView) view).setTextColor(Color.parseColor("#111011"));
                 tip = String.format("#%s#", tip);
                 cleanText(tip);
                 pickMap.put((Integer) view.getTag(), false);
@@ -407,6 +421,7 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.bto_top2:
                 try {
                     cartUtils.addProductData(goods_top.get(1));
+
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
@@ -416,6 +431,7 @@ public class MakeOrderActivity extends BaseActivity {
 
                 try {
                     cartUtils.addProductData(goods_top.get(2));
+
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该商品不能选择");
@@ -523,6 +539,15 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onNext(GoodsListEntity goodsListEntity) {
                 goods_top = goodsListEntity.getGoodsList();
+                try {
+                    tv_top4.setText(goods_top.get(3).getName());
+                    tv_top3.setText(goods_top.get(2).getName());
+                    tv_top2.setText(goods_top.get(1).getName());
+                    tv_top1.setText(goods_top.get(0).getName());
+                } catch (Exception e) {
+
+                }
+
 
             }
 

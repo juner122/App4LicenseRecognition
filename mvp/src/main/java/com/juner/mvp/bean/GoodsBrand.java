@@ -3,28 +3,40 @@ package com.juner.mvp.bean;
 
 //商品品牌
 public class GoodsBrand {
+    String brandTitle;
+    String brandId;
+    String categoryId;
+    String brandLogo;
 
-    String name;
-    String src;
-
-    public GoodsBrand(String name) {
-        this.name = name;
+    public String getBrandTitle() {
+        return brandTitle;
     }
 
-    public String getSrc() {
-        return src;
+    public void setBrandTitle(String brandTitle) {
+        this.brandTitle = brandTitle;
     }
 
-    public void setSrc(String src) {
-        this.src = src;
+    public String getBrandId() {
+        return brandId;
     }
 
-    public String getName() {
-
-        return name;
+    public void setBrandId(String brandId) {
+        this.brandId = brandId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getBrandLogo() {
+        return brandLogo;
+    }
+
+    public void setBrandLogo(String brandLogo) {
+        this.brandLogo = brandLogo;
     }
 }

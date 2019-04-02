@@ -29,8 +29,11 @@ import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
 import com.juner.mvp.bean.FixInfoList;
+import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsBrand;
 import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
@@ -1125,11 +1128,54 @@ public class ApiLoader {
 
 
     /**
-     * 获取商品分类
+     * @param type 1 ：8个分类   2：所有
+     *             获取商品分类
      */
-    public Observable<List<GoodsCategory>> queryShopcategoryAll() {
+    public Observable<List<GoodsCategory>> queryShopcategoryAll(String type) {
+        if (null != type)
+            map.put("type", type);
+        return apiService.queryShopcategoryAll(map).compose(RxHelper.<List<GoodsCategory>>observe());
+    }
 
-        return apiService.queryShopcategoryAll(token).compose(RxHelper.<List<GoodsCategory>>observe());
+    /**
+     * @param goodsTitle   商品名称
+     * @param goodsBrandId 商品品牌Id
+     * @param categoryId   商品分类Id
+     *                     查询商品（分页） 无参
+     */
+    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId,int page) {
+        if (null != goodsTitle)
+            map.put("goodsTitle", goodsTitle);
+        if (null != goodsBrandId)
+            map.put("goodsBrandId", goodsBrandId);
+        if (null != categoryId)
+            map.put("categoryId", categoryId);
+
+        map.put("limit", Configure.limit_page);//页数
+        map.put("page", page);
+        return apiService.xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe());
+    }
+
+    /**
+     * @param id 商品分类id
+     *           根据商品分类查询品牌
+     */
+    public Observable<List<GoodsBrand>> shopcategoryInfo(String id) {
+
+        map.put("id", id);
+
+        return apiService.shopcategoryInfo(map).compose(RxHelper.<List<GoodsBrand>>observe());
+    }
+
+
+    /**
+     * @param id 商品id
+     *           id
+     */
+    public Observable<Goods> xgxshopgoodsInfo(int id) {
+
+        map.put("id", id);
+        return apiService.xgxshopgoodsInfo(map).compose(RxHelper.<Goods>observe());
     }
 
 

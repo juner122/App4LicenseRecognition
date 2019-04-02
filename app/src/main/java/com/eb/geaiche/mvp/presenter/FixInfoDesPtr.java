@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -102,10 +103,12 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
                 String tip = ((TextView) view).getText().toString();
                 if (!pickMap.get(view.getTag())) {//选中
                     view.setBackgroundResource(R.drawable.button_background_b);
+                    ((TextView) view).setTextColor(Color.parseColor("#ffffff"));
                     getView().setTip(String.format("#%s#", tip));
                     pickMap.put((Integer) view.getTag(), true);
                 } else {//取消选中
                     view.setBackgroundResource(R.drawable.button_background_z);
+                    ((TextView) view).setTextColor(Color.parseColor("#111011"));
                     tip = String.format("#%s#", tip);
                     getView().cleanText(tip);
                     pickMap.put((Integer) view.getTag(), false);

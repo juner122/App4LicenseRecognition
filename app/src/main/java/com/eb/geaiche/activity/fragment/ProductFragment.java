@@ -1,6 +1,7 @@
 package com.eb.geaiche.activity.fragment;
 
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,6 +22,7 @@ import com.eb.geaiche.R;
 
 import com.eb.geaiche.adapter.Brandadapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.bean.Category;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.GoodsEntity;
@@ -208,9 +211,10 @@ public class ProductFragment extends BaseFragment {
 
             case R.id.iv_search:
 
-                if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods4Key( et_key.getText().toString());
-                else
+                if (!TextUtils.isEmpty(et_key.getText())) {
+                    onQueryAnyGoods4Key(et_key.getText().toString());
+                    SoftInputUtil.hideSoftInput(getContext(),et_key);
+                } else
                     ToastUtils.showToast("请输入搜索关键字！");
 
                 break;
