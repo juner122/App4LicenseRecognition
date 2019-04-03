@@ -12,6 +12,7 @@ import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.GoodsList;
 
 
@@ -70,6 +71,15 @@ public class MallGoodsActivity extends BaseActivity {
             }
         });
 
+        //添加购物车监听器
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
+             int goodsId =   adapter.getData().get(position).getId();
+//                addToShoppingCart(goodsId);
+            }
+        });
+
     }
 
     @Override
@@ -115,4 +125,18 @@ public class MallGoodsActivity extends BaseActivity {
         });
     }
 
+
+    private void addToShoppingCart() {
+//        Api().addToShoppingCart().subscribe(new RxSubscribe<CartList>(this, true) {
+//            @Override
+//            protected void _onNext(CartList cartList) {
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//
+//            }
+//        });
+    }
 }

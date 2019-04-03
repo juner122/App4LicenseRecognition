@@ -29,7 +29,7 @@ public class MallTypeGoodsListAdapter extends BaseQuickAdapter<Goods, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, Goods item) {
         helper.setText(R.id.tv_name, item.getGoodsTitle());
-
+        helper.addOnClickListener(R.id.add_cart);
         if (item.getGoodsDetailsPojoList().size() == 0)
             helper.setText(R.id.tv_price, "暂无报价");
         else

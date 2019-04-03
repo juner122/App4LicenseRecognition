@@ -68,9 +68,19 @@
         android:layout_marginStart="8dp"
         android:layout_marginBottom="2dp"
         android:text="原价 ¥50.00"
-        android:visibility="invisible"
         android:textColor="#ff999999"
         android:textSize="10sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/tv_price"
         app:layout_constraintStart_toEndOf="@+id/tv_price" />
+
+
+    <ImageView
+        android:id="@+id/add_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_add_cart"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_price"
+        app:layout_constraintEnd_toEndOf="@+id/iv_src" />
 </android.support.constraint.ConstraintLayout>

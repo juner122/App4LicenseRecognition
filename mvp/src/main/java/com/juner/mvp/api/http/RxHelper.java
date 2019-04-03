@@ -142,7 +142,7 @@ public class RxHelper {
                     @Override
                     public Observable<T> apply(T result) {
                         try {
-
+                            String t = result.toString();
                             return createData(result);//成功，剥取我们要的数据，把BaseModel丢掉
                         } catch (Exception e) {
                             e.printStackTrace();

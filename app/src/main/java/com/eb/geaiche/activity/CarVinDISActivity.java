@@ -3,6 +3,7 @@ package com.eb.geaiche.activity;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.CarVinInfo;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -104,7 +107,7 @@ public class CarVinDISActivity extends BaseActivity {
                 et_vin.setFocusableInTouchMode(true);
                 et_vin.requestFocus();
 
-                InputMethodManager imm = (InputMethodManager)CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 et_vin.setText("");
 
@@ -174,17 +177,13 @@ public class CarVinDISActivity extends BaseActivity {
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-//        vin = "LFPM5ACP6H1A30016";
+        vin = "lbvtz4100ksp30049";
         Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
                 sv_info.setVisibility(View.VISIBLE);
                 sv_info.setAnimation(AnimationUtil.moveToViewLocation());
-
-
                 ll1.setVisibility(View.GONE);
-
-
                 CarVinInfo carVinInfo = carVin.getShowapi_res_body();
                 setCarInfo(carVinInfo);
                 toCarInfo(carVinInfo);
@@ -193,6 +192,7 @@ public class CarVinDISActivity extends BaseActivity {
 
             @Override
             protected void _onError(String message) {
+                Log.e("车架号vin信息查询:", message);
                 ToastUtils.showToast("查询失败,请重新查询！");
             }
         });
@@ -217,7 +217,7 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setSaleName(carVinInfo.getSale_name());
         carInfo.setCarType(carVinInfo.getCar_type());
         carInfo.setEffluentStandard(carVinInfo.getEffluent_standard());
-        carInfo.setGuidingPrice(carVinInfo.getGuiding_price());
+        carInfo.setGuidingPrice(new BigDecimal(carVinInfo.getGuiding_price()));
         carInfo.setYear(carVinInfo.getYear());
         carInfo.setAllJson(carVinInfo.toString());
         carInfo.setVin(carVinInfo.getVin());

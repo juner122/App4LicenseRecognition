@@ -22,7 +22,7 @@ public class CarVinInfo {
     private String year;
 
     //指导价
-    private BigDecimal guiding_price;
+    private String guiding_price;
     //排量
     private String output_volume;
 
@@ -91,11 +91,11 @@ public class CarVinInfo {
         this.year = year;
     }
 
-    public BigDecimal getGuiding_price() {
-        return guiding_price;
+    public String getGuiding_price() {
+        return null == guiding_price || guiding_price.equals("") ? "0" : guiding_price;
     }
 
-    public void setGuiding_price(BigDecimal guiding_price) {
+    public void setGuiding_price(String guiding_price) {
         this.guiding_price = guiding_price;
     }
 

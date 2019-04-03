@@ -22,6 +22,7 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
@@ -1143,7 +1144,7 @@ public class ApiLoader {
      * @param categoryId   商品分类Id
      *                     查询商品（分页） 无参
      */
-    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId,int page) {
+    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId, int page) {
         if (null != goodsTitle)
             map.put("goodsTitle", goodsTitle);
         if (null != goodsBrandId)
@@ -1176,6 +1177,22 @@ public class ApiLoader {
 
         map.put("id", id);
         return apiService.xgxshopgoodsInfo(map).compose(RxHelper.<Goods>observe());
+    }
+
+
+    /**
+     * 添加购物车
+     *
+     * @param goodsId   商品id
+     * @param productId 商品规格id
+     * @param number    数量
+     */
+    public Observable<CartList> addToShoppingCart(int goodsId, int productId, int number) {
+
+        map.put("goodsId", goodsId);
+        map.put("productId", productId);
+        map.put("number", number);
+        return apiService.addToShoppingCart(map).compose(RxHelper.<CartList>observe());
     }
 
 

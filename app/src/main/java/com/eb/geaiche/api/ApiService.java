@@ -17,6 +17,7 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
@@ -573,6 +574,15 @@ public interface ApiService {
     @POST("http://222.111.88.99:8080/app/xgxshopgoods/info")
     @FormUrlEncoded
     Observable<BaseBean<Goods>> xgxshopgoodsInfo(@FieldMap Map<String, Object> maps);
+
+    //获取登录用户购物车数据
+    @POST("http://222.111.88.99:8080/app/cart/getCart")
+    Observable<BaseBean<CartList>> getShoppingCart(@Header("X-Nideshop-Token") String token);
+
+    //添加购物车
+    @POST("http://222.111.88.99:8080/app/cart/getCart")
+    @FormUrlEncoded
+    Observable<BaseBean<CartList>> addToShoppingCart(@FieldMap Map<String, Object> maps);
 
 
 }
