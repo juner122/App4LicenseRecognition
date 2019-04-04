@@ -20,7 +20,7 @@ public class SimpleMealInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
 
-        helper.setText(R.id.name, item.getGoodsName())
+        helper.setText(R.id.name, item.getGoods_name())
                 .setText(R.id.price, "套餐抵扣")
                 .setText(R.id.tv_number, String.valueOf("x1"));
 

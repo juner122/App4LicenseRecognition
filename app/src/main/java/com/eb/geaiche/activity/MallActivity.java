@@ -31,11 +31,13 @@ import butterknife.OnClick;
 public class MallActivity extends BaseActivity {
     public static final String categoryId = "categoryId";
     public static final String goodsTitle = "goodsTitle";
-
+    public static final int type = 1;
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_mall;
     }
+
+
 
     @BindView(R.id.rv1)
     RecyclerView rv1;
@@ -127,21 +129,6 @@ public class MallActivity extends BaseActivity {
 
         mallTypeGoodsListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
 
-//        easylayout.setRefreshing(false);
-//        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
-//            @Override
-//            public void onLoadMore() {
-//                getGoodsList(1);
-//            }
-//
-//            @Override
-//            public void onRefreshing() {
-//
-//                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
-//                getGoodsList(0);
-//
-//            }
-//        });
 
     }
 
@@ -163,14 +150,14 @@ public class MallActivity extends BaseActivity {
         getGoodsList(0);
     }
 
-    private void getGoodsList(final int type) {
-        if (type == 0)
+    private void getGoodsList(final int stu) {
+        if (stu == 0)
             page = 1;
         else
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(null, null, null, page).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
+        Api().xgxshopgoodsList(null, null, null, page, type).subscribe(new RxSubscribe<GoodsList>(this, stu == 0) {
             @Override
             protected void _onNext(GoodsList goods) {
 

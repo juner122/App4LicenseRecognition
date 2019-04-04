@@ -19,7 +19,7 @@ public class SimpleActivityInfo2Adpter extends BaseQuickAdapter<GoodsEntity, Bas
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
 
-        helper.setText(R.id.name, item.getGoodsName());
+        helper.setText(R.id.name, item.getGoods_name());
 
         helper.setText(R.id.price, "套餐抵扣").setText(R.id.tv_number, "x1");
 

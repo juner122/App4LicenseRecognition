@@ -18,6 +18,7 @@ import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.ProductListAdpter;
 
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.ProductValue;
 import com.eb.geaiche.util.ToastUtils;
@@ -29,10 +30,11 @@ public class ProductListDialog extends Dialog {
 
     private Context context;
     private ClickListenerInterface clickListenerInterface;
-    List<ProductValue> valueList;
+    List<Goods.GoodsStandard> valueList;
 
-    ProductValue pick_value;
+    Goods.GoodsStandard pick_value;
 
+    Goods goods;
     int cont;//数量
     TextView tv_number;
     TextView tv_value;
@@ -43,16 +45,16 @@ public class ProductListDialog extends Dialog {
 
     public interface ClickListenerInterface {
 
-        void doConfirm(ProductValue productValue);
+        void doConfirm(Goods.GoodsStandard productValue);
 
         void doCancel();
     }
 
-    public ProductListDialog(Context context, List<ProductValue> list) {
+    public ProductListDialog(Context context, List<Goods.GoodsStandard> list, Goods goods) {
         super(context, R.style.my_dialog);
         this.context = context;
         this.valueList = list;
-
+        this.goods= goods;
     }
 
     @Override
@@ -108,8 +110,8 @@ public class ProductListDialog extends Dialog {
 
     private void setSelect(int position) {
         pick_value = valueList.get(position);
-        tv_value.setText(pick_value.getValue());
-        for (ProductValue c : valueList) {
+        tv_value.setText(pick_value.getGoodsStandardTitle());
+        for (Goods.GoodsStandard c : valueList) {
             c.setSelected(false);
         }
         valueList.get(position).setSelected(true);
@@ -163,14 +165,14 @@ public class ProductListDialog extends Dialog {
     private void setCont() {
 
         tv_number.setText(String.valueOf(cont));
-        pick_value.setNumber(cont);
+        pick_value.setNum(cont);
         setPrice();
 
     }
 
     private void setPrice() {
 
-        double parseDouble = Double.parseDouble(pick_value.getRetail_price());
+        double parseDouble = Double.parseDouble(pick_value.getGoodsStandardPrice());
         parseDouble = parseDouble * cont;
         tv_price.setText("￥" + String.valueOf(parseDouble));
 
@@ -186,21 +188,35 @@ public class ProductListDialog extends Dialog {
     }
 
 
-    private GoodsEntity toGood(ProductValue pv) {
+    private GoodsEntity toGood(Goods.GoodsStandard pv) {
 
         GoodsEntity goodsEntity = new GoodsEntity();
 
-        goodsEntity.setId(pv.getGoods_id());
+//        goodsEntity.setId(pv.getGoodsId());
+//        goodsEntity.setProduct_id(pv.getId());
+//        goodsEntity.setGoods_specifition_ids("");
+//        goodsEntity.setRetail_price("0");
+//        goodsEntity.setMarket_price("0");
+//        goodsEntity.setPrimary_pic_url("");
+//        goodsEntity.setGoods_specifition_name_value(pv.getGoodsStandardPrice());
+//        goodsEntity.setGoods_sn("");
+//        goodsEntity.setGoodsName(pv.getGoodsStandardTitle());
+//        goodsEntity.setName(pv.getGoodsStandardTitle());
+//        goodsEntity.setNumber(pv.getNum());
+
+
+        goodsEntity.setGoods_id(pv.getGoodsId());
+        goodsEntity.setId(pv.getGoodsId());
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(pv.getId());
-        goodsEntity.setGoods_specifition_ids(pv.getGoods_specification_ids());
-        goodsEntity.setRetail_price(pv.getRetail_price());
-        goodsEntity.setMarket_price(pv.getMarket_price());
-        goodsEntity.setPrimary_pic_url(pv.getList_pic_url());
-        goodsEntity.setGoods_specifition_name_value(pv.getValue());
-        goodsEntity.setGoods_sn(pv.getGoods_sn());
-        goodsEntity.setGoodsName(pv.getGoods_name());
-        goodsEntity.setName(pv.getGoods_name());
-        goodsEntity.setNumber(pv.getNumber());
+        goodsEntity.setNumber(pv.getNum());
+        goodsEntity.setMarket_price(pv.getGoodsStandardPrice());
+        goodsEntity.setRetail_price(pv.getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(pv.getGoodsStandardTitle());
 
         return goodsEntity;
     }

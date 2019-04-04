@@ -240,6 +240,9 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         } else if (i == 1) {
             toOrderList(0);
             ToastUtils.showToast("订单已生成！");
+        }else if (i == 2) {
+            toFixList(0);
+            ToastUtils.showToast("检修单已确认！");
         }
     }
 

@@ -33,6 +33,7 @@ import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -145,8 +146,10 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 getView().setInfo(entity);
 
 
-                upServiceDataList(entity.getOrderProjectList(), true);
-                upPartsDataList(entity.getOrderGoodsList(), true);
+                upServiceDataList(toServie(getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_3)), true);
+
+
+                upPartsDataList(getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_4), true);
 
                 //根据status改变页面
                 changeView(entity.getStatus());
@@ -313,18 +316,23 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 public void doConfirm() {
                     confirmDialog.dismiss();
                     //默认将选择的项目变成已确认
-                    for (FixServie fixServie : entity.getOrderProjectList()) {
-                        if (fixServie.getSelected() == 1)
-                            fixServie.setSelected(2);
-                    }
-                    for (FixParts fixParts : entity.getOrderGoodsList()) {
-                        if (fixParts.getSelected() == 1)
-                            fixParts.setSelected(2);
-                    }
-                    mdl.replaceConfirm(createFixInfoEntity(), new RxSubscribe<NullDataEntity>(context, true) {
+                    setS();
+//                    for (FixServie fixServie : toServie(getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_3))) {
+//                        if (fixServie.getSelected() == 1)
+//                            fixServie.setSelected(2);
+//                    }
+//                    for (FixParts fixParts : getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_4)) {
+//                        if (fixParts.getSelected() == 1)
+//                            fixParts.setSelected(2);
+//                    }
+
+
+                    mdl.replaceConfirm(createFixInfoEntityConfirm(), new RxSubscribe<NullDataEntity>(context, true) {
                         @Override
                         protected void _onNext(NullDataEntity nullDataEntity) {
-                            ToastUtils.showToast("检修单已确认");
+//                            ToastUtils.showToast("检修单已确认");
+                            getView().createOrderSuccess(2);//检修单已确认
+
                             finish();
                         }
 
@@ -376,7 +384,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         infoEntity.setOrder_price(Double.parseDouble(entity.getActualPrice()));
         infoEntity.setCar_no(entity.getCarNo());
         infoEntity.setPostscript(getView().getDec());
-
         return infoEntity;
 
 
@@ -578,8 +585,33 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     //创建估价单对象
     private FixInfoEntity createFixInfoEntity() {
 
-        entity.setOrderGoodsList(adapter_parts.getData());
-        entity.setOrderProjectList(adapter_service.getData());
+        List<FixParts> fixPartsList = new ArrayList<>();
+        fixPartsList.addAll(adapter_parts.getData());
+        fixPartsList.addAll(toParts(adapter_service.getData()));
+
+        entity.setOrderGoodsList(fixPartsList);
+
+
+//        entity.setOrderProjectList(adapter_service.getData());
+        entity.setDescribe(getView().getDec());
+        entity.setReplaceSignPic(iv_lpv_url); //客户签名
+        entity.setReplaceOterPic("");
+        countAllPrice();
+
+        return entity;
+    }
+
+    //创建估价单对象
+    private FixInfoEntity createFixInfoEntityConfirm() {
+
+        List<FixParts> fixPartsList = new ArrayList<>();
+        fixPartsList.addAll(adapter_parts.getData());
+        fixPartsList.addAll(toPartsS2(adapter_service.getData()));
+
+        entity.setOrderGoodsList(fixPartsList);
+
+
+//        entity.setOrderProjectList(adapter_service.getData());
         entity.setDescribe(getView().getDec());
         entity.setReplaceSignPic(iv_lpv_url); //客户签名
         entity.setReplaceOterPic("");
@@ -592,16 +624,112 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     private FixInfoEntity addFixInfoEntity
     (List<FixServie> fixServies, List<FixParts> fixParts) {
 
+        List<FixParts> fixPartsList = new ArrayList<>();
+        if (null != fixParts)
+            fixPartsList.addAll(fixParts);
+        fixPartsList.addAll(toParts(fixServies));
 
-        entity.setOrderGoodsList(fixParts);
-        entity.setOrderProjectList(fixServies);
+        entity.setOrderGoodsList(fixPartsList);
+
+//        entity.setOrderProjectList(fixServies);
         countAllPrice();
         return entity;
     }
 
     private void countAllPrice() {
-        Double all = Double.parseDouble(entity.getGoodsPrice()) + Double.parseDouble(entity.getServePrice());
+        Double all = Double.parseDouble(entity.getGoodsPrice());
         entity.setActualPrice(MathUtil.twoDecimal(all.toString()));
+    }
+
+
+    private List<FixParts> toPartsS2(List<FixServie> data) {
+
+        List<FixParts> fixParts = new ArrayList<>();
+        if (null == data || data.size() == 0) {
+            return fixParts;
+        }
+        for (FixServie fs : data) {
+
+            FixParts fp = new FixParts();
+            fp.setGoods_name(fs.getName());
+            fp.setRetail_price(fs.getPrice());
+            fp.setGoods_id(fs.getServiceId());
+            fp.setNumber(fs.getNumber());//数量
+            fp.setSelected(2);//默认选择中
+            fp.setType(fs.getType());
+            fp.setGoods_sn(fs.getGoods_sn());
+            fp.setId(fs.getId());
+            fixParts.add(fp);
+        }
+        return fixParts;
+    }
+
+    private List<FixParts> toParts(List<FixServie> data) {
+
+        List<FixParts> fixParts = new ArrayList<>();
+        if (null == data || data.size() == 0) {
+            return fixParts;
+        }
+        for (FixServie fs : data) {
+
+            FixParts fp = new FixParts();
+            fp.setGoods_name(fs.getName());
+            fp.setRetail_price(fs.getPrice());
+            fp.setGoods_id(fs.getServiceId());
+            fp.setNumber(fs.getNumber());//数量
+            fp.setSelected(fs.getSelected());//默认选择中
+            fp.setType(fs.getType());
+            fp.setGoods_sn(fs.getGoods_sn());
+
+            fixParts.add(fp);
+        }
+        return fixParts;
+    }
+
+    private List<FixServie> toServie(List<FixParts> data) {
+        List<FixServie> fixServies = new ArrayList<>();
+
+        if (null == data || data.size() == 0) {
+            return fixServies;
+        }
+        for (FixParts fp : data) {
+            FixServie fs = new FixServie();
+            fs.setName(fp.getGoods_name());
+            fs.setPrice(fp.getRetail_price());
+            fs.setServiceId(fp.getGoods_id());
+            fs.setNumber(fp.getNumber());//数量
+            fs.setSelected(fp.getSelected());//默认选择中
+            fs.setType(fp.getType());
+            fs.setGoods_sn(fp.getGoods_sn());
+            fs.setId(fp.getId());
+            fixServies.add(fs);
+        }
+        return fixServies;
+    }
+
+    private List<FixParts> getfpType(List<FixParts> parts, int type) {
+
+        List<FixParts> fixParts = new ArrayList<>();
+        for (FixParts f : parts) {
+
+            if (f.getType() == type) {
+                fixParts.add(f);
+            }
+        }
+        return fixParts;
+
+
+    }
+
+
+    //设置选中
+    private void setS() {
+
+
+        for (FixParts fixParts : entity.getOrderGoodsList()) {
+            if (fixParts.getSelected() == 1)
+                fixParts.setSelected(2);
+        }
     }
 
 }

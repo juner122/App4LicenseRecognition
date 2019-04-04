@@ -26,6 +26,8 @@ import com.juner.mvp.bean.FixPartsEntityList;
 import com.juner.mvp.bean.FixPartsList;
 import com.juner.mvp.bean.FixPartsListEntity;
 import com.juner.mvp.bean.FixPartsSeek;
+import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsList;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,12 +49,14 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     int id;//当前选择分类id
 
-    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view,int layout) {
+    public FixPickPartsPtr(@NonNull FixPickPartsContacts.FixPickPartsUI view, int layout) {
         super(view);
         mdl = new FixPickPartsMdl(view.getSelfActivity());
         pick_partsList = new HashSet<>();
         adapter_s2 = new FixPickParts2ItemAdapter(null);
-        adapter_item = new FixInfoPartsItemAdapter(null,layout);
+        adapter_item = new FixInfoPartsItemAdapter(null, layout);
+
+
         adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -87,22 +91,20 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
     @Override
     public void onGetData(final RadioGroup rg) {
 
-        mdl.getPartsData(new RxSubscribe<FixPartsList>(getView().getSelfActivity(), true) {
-            @Override
-            protected void _onNext(FixPartsList list) {
-
-                init0Data(rg, list.getCategoryList());//根据第一级类别数量 创建RadioButton
-                set1Data(list.getCategoryList().get(0).getSubCategoryList());//设置第二级类别
-                set2Data(toFixPartsList(list.getFirstComponent()));
-                getView().showPartsList();//直接显示10个默认配件
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-            }
-        });
+//        mdl.getPartsData(new RxSubscribe<FixPartsList>(getView().getSelfActivity(), true) {
+//            @Override
+//            protected void _onNext(FixPartsList list) {
+//
+//                getGoodList(null);
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//            }
+//        });
+        getGoodList(null);
     }
 
     public void init0Data(RadioGroup rg, final List<FixPartsListEntity> list) {
@@ -195,19 +197,20 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             return;
         }
 
-        mdl.seekPartsforKey(-1, key, new RxSubscribe<FixPartsEntityList>(getView().getSelfActivity(), true) {
-            @Override
-            protected void _onNext(FixPartsEntityList fixPartsEntityList) {
-                getView().showPartsList();
-                set2Data(toFixPartsList(fixPartsEntityList.getProjectList()));
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-
-            }
-        });
+//        mdl.seekPartsforKey(-1, key, new RxSubscribe<FixPartsEntityList>(getView().getSelfActivity(), true) {
+//            @Override
+//            protected void _onNext(FixPartsEntityList fixPartsEntityList) {
+//                getView().showPartsList();
+//                set2Data(toFixPartsList(fixPartsEntityList.getProjectList()));
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//
+//            }
+//        });
+        getGoodList(key);
     }
 
 
@@ -241,4 +244,37 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     }
 
+    private void getGoodList(String key) {
+        mdl.getGoodList(new RxSubscribe<GoodsList>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(GoodsList goodsList) {
+
+                adapter_item.setNewData(toFixParts(goodsList.getList()));
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        }, key, 1);
+    }
+
+    private List<FixParts> toFixParts(List<Goods> data) {
+        List<FixParts> parts = new ArrayList<>();
+
+        for (Goods goods : data) {
+            FixParts fp = new FixParts();
+            fp.setGoods_name(goods.getGoodsTitle());
+            fp.setRetail_price(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
+            fp.setGoods_id(goods.getId());
+            fp.setNumber(1);//数量
+            fp.setSelected(0);//默认选择中
+            fp.setType(goods.getType());
+            fp.setGoods_sn(goods.getGoodsCode());
+
+            parts.add(fp);
+        }
+        return parts;
+
+    }
 }

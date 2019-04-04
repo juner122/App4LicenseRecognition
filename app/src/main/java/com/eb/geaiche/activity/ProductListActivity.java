@@ -24,6 +24,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.Category;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.juner.mvp.bean.SubCategoryEntity;
 
@@ -40,6 +41,7 @@ import butterknife.OnClick;
 
 public class ProductListActivity extends BaseActivity {
 
+    public static final int type = 4;
     @BindView(R.id.rg_type)
     RadioGroup radioGroup;
 
@@ -89,6 +91,7 @@ public class ProductListActivity extends BaseActivity {
 
         replaceFragment();
 
+        //旧接口
         Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
             @Override
             protected void _onNext(CategoryBrandList o) {
@@ -126,8 +129,32 @@ public class ProductListActivity extends BaseActivity {
             }
         });
 
+        //新接口
+        xgxshopgoodsList(null);
+
 
     }
+
+    /**
+     * 新商品接口
+     *
+     * @param key 搜索关键字
+     */
+
+    private void xgxshopgoodsList(String key) {
+        Api().xgxshopgoodsList(key, null, null, 1, type).subscribe(new RxSubscribe<GoodsList>(this, true) {
+            @Override
+            protected void _onNext(GoodsList goods) {
+                fragment.switchData(goods.getList());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+    }
+
 
     @OnClick({R.id.but_enter_order, R.id.iv_search})
     public void onClick(View v) {
@@ -140,9 +167,10 @@ public class ProductListActivity extends BaseActivity {
                 break;
             case R.id.iv_search:
 
-                if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods4Key(et_key.getText().toString());
-                else
+                if (!TextUtils.isEmpty(et_key.getText())) {
+//                    onQueryAnyGoods4Key(et_key.getText().toString());
+                    xgxshopgoodsList(et_key.getText().toString());
+                } else
                     ToastUtils.showToast("请输入搜索关键字！");
 
                 break;

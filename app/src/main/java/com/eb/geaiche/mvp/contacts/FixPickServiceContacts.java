@@ -10,6 +10,7 @@ import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.FixServieEntity;
+import com.juner.mvp.bean.GoodsList;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class FixPickServiceContacts {
 
         void searchServer(int id, String key, RxSubscribe<FixServieEntity> rxSubscribe);//搜索
 
-
+        void getGoodList(RxSubscribe<GoodsList> rxSubscribe, String goodsTitle, int page);
     }
 
 

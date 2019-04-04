@@ -566,7 +566,7 @@ public interface ApiService {
     Observable<BaseBean<List<GoodsBrand>>> shopcategoryInfo(@FieldMap Map<String, Object> maps);
 
     //查询商品（分页）
-    @POST("http://222.111.88.99:8080/app/xgxshopgoods/list")
+    @POST("xgxshopgoods/list")
     @FormUrlEncoded
     Observable<BaseBean<GoodsList>> xgxshopgoodsList(@FieldMap Map<String, Object> maps);
 

@@ -17,6 +17,7 @@ import com.eb.geaiche.activity.ProductMealListActivity;
 import com.eb.geaiche.activity.SetProjectActivity;
 import com.eb.geaiche.adapter.ProductListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.ProductValue;
@@ -38,7 +39,11 @@ public class ProductListFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     ProductListAdapter productListAdapter;
-    List<GoodsEntity> list = new ArrayList<>();
+//    List<GoodsEntity> list = new ArrayList<>();
+
+    List<Goods> goodsList = new ArrayList<>();//新商品Goods
+
+
     String category_id, brand_id;//种类id,品牌id
 
     int isShow = 0;
@@ -72,7 +77,7 @@ public class ProductListFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productListAdapter = new ProductListAdapter(this, list, isShow);
+        productListAdapter = new ProductListAdapter(this, goodsList, isShow);
         recyclerView.setAdapter(productListAdapter);
         productListAdapter.setEmptyView(R.layout.order_list_empty_view_p, recyclerView);
 
@@ -87,10 +92,10 @@ public class ProductListFragment extends BaseFragment {
                     View ib_reduce = adapter.getViewByPosition(recyclerView, position, R.id.ib_reduce);//减号
 
 
-                    int number = list.get(position).getNumber();//获取
+                    int number = goodsList.get(position).getNum();//获取
                     switch (view.getId()) {
                         case R.id.ib_plus:
-                            if (list.get(position).getProduct_id() == 0) {
+                            if (null == goodsList.get(position).getGoodsStandard() || goodsList.get(position).getGoodsStandard().getId() == 0) {
                                 ToastUtils.showToast("请选择规格");
                                 return;
                             }
@@ -100,11 +105,11 @@ public class ProductListFragment extends BaseFragment {
                                 tv_number.setVisibility(View.VISIBLE);
                             }
 
-                            MyApplication.cartUtils.addProductData(list.get(position));
+                            MyApplication.cartUtils.addProductData(toGoodsEntity(goodsList.get(position)));
                             tv_number.setText(String.valueOf(number));
 
 
-                            list.get(position).setNumber(number);//设置
+                            goodsList.get(position).setNum(number);//设置
                             sendMsg(MyApplication.cartUtils.getProductPrice());
 
 
@@ -117,11 +122,11 @@ public class ProductListFragment extends BaseFragment {
                                 tv_number.setVisibility(View.INVISIBLE);
                             }
 
-                            MyApplication.cartUtils.reduceData(list.get(position));
+                            MyApplication.cartUtils.reduceData(toGoodsEntity(goodsList.get(position)));
                             tv_number.setText(String.valueOf(number));
 
 
-                            list.get(position).setNumber(number);//设置
+                            goodsList.get(position).setNum(number);//设置
                             sendMsg(MyApplication.cartUtils.getProductPrice());
 
 
@@ -129,7 +134,7 @@ public class ProductListFragment extends BaseFragment {
 
                         case R.id.tv_product_value:
 
-                            getProductValue(view_value, position);
+                            getProductValue(view_value, productListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, productListAdapter.getData().get(position));
                             break;
                     }
                 }
@@ -138,9 +143,9 @@ public class ProductListFragment extends BaseFragment {
             productListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    GoodsEntity g = (GoodsEntity) adapter.getData().get(position);
+                    Goods g = (Goods) adapter.getData().get(position);
                     Intent intent = new Intent(getContext(), SetProjectActivity.class);
-                    intent.putExtra(ORDERINFO, g);
+                    intent.putExtra(ORDERINFO, toGoodsEasyEntity(g));
                     intent.putExtra(setProject, ProductListActivity.setProject);
                     startActivity(intent);
                 }
@@ -153,50 +158,71 @@ public class ProductListFragment extends BaseFragment {
     }
 
     //获取规格列表
-    private void getProductValue(final TextView view, final int positions) {
+    private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
+//
+//        Api().sku(list.get(positions).getId()).subscribe(new RxSubscribe<ProductList>(getContext(), true) {
+//            @Override
+//            protected void _onNext(final ProductList p) {
+//
+//                final ProductListDialog confirmDialog = new ProductListDialog(getContext(), p.getProductList());
+//                confirmDialog.show();
+//                confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
+//                    @Override
+//                    public void doConfirm(ProductValue pick_value) {
+//                        confirmDialog.dismiss();
+//                        view.setText(pick_value.getValue());
+//                        list.get(positions).setProduct_id(pick_value.getId());
+//                        list.get(positions).setGoods_specifition_ids(pick_value.getGoods_specification_ids());
+//                        list.get(positions).setRetail_price(pick_value.getRetail_price());
+//                        list.get(positions).setMarket_price(pick_value.getMarket_price());
+//                        list.get(positions).setPrimary_pic_url(pick_value.getList_pic_url());
+//                        list.get(positions).setGoods_specifition_name_value(pick_value.getValue());
+//                        list.get(positions).setGoods_sn(pick_value.getGoods_sn());
+//                        list.get(positions).setNumber(pick_value.getNumber());
+////                        productListAdapter.setNewData(list);
+//                        //按确认才保存
+//                        MyApplication.cartUtils.commit();
+//                        sendMsg(MyApplication.cartUtils.getProductPrice());
+//
+//                    }
+//
+//                    @Override
+//                    public void doCancel() {
+//                        confirmDialog.dismiss();
+//                    }
+//                });
+//
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//            }
+//        });
 
-        Api().sku(list.get(positions).getId()).subscribe(new RxSubscribe<ProductList>(getContext(), true) {
+        final ProductListDialog confirmDialog = new ProductListDialog(getContext(), goodsStandards, goods);
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
             @Override
-            protected void _onNext(final ProductList p) {
+            public void doConfirm(Goods.GoodsStandard pick_value) {
+                confirmDialog.dismiss();
+                view.setText(pick_value.getGoodsStandardTitle());
 
-                final ProductListDialog confirmDialog = new ProductListDialog(getContext(), p.getProductList());
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm(ProductValue pick_value) {
-                        confirmDialog.dismiss();
-                        view.setText(pick_value.getValue());
-                        list.get(positions).setProduct_id(pick_value.getId());
-                        list.get(positions).setGoods_specifition_ids(pick_value.getGoods_specification_ids());
-                        list.get(positions).setRetail_price(pick_value.getRetail_price());
-                        list.get(positions).setMarket_price(pick_value.getMarket_price());
-                        list.get(positions).setPrimary_pic_url(pick_value.getList_pic_url());
-                        list.get(positions).setGoods_specifition_name_value(pick_value.getValue());
-                        list.get(positions).setGoods_sn(pick_value.getGoods_sn());
-                        list.get(positions).setNumber(pick_value.getNumber());
-                        productListAdapter.setNewData(list);
-                        //按确认才保存
-                        MyApplication.cartUtils.commit();
-                        sendMsg(MyApplication.cartUtils.getProductPrice());
-
-                    }
-
-                    @Override
-                    public void doCancel() {
-                        confirmDialog.dismiss();
-                    }
-                });
-
+                goodsList.get(positions).setGoodsStandard(pick_value);
+                goodsList.get(positions).setNum(pick_value.getNum());
+                productListAdapter.setNewData(goodsList);
+                //按确认才保存
+                MyApplication.cartUtils.commit();
+                sendMsg(MyApplication.cartUtils.getProductPrice());
 
             }
 
             @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
+            public void doCancel() {
+                confirmDialog.dismiss();
             }
         });
-
-
     }
 
 
@@ -210,7 +236,13 @@ public class ProductListFragment extends BaseFragment {
     public void switchData(String category_id, String brand_id, List<GoodsEntity> l) {
         this.category_id = category_id;
         this.brand_id = brand_id;
-        this.list = l;
+//        this.list = l;
+//        productListAdapter.setNewData(list);
+    }
+
+    public void switchData(List<Goods> list) {
+
+        this.goodsList = list;
         productListAdapter.setNewData(list);
     }
 
@@ -221,5 +253,51 @@ public class ProductListFragment extends BaseFragment {
         return TAG;
     }
 
+
+    private GoodsEntity toGoodsEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
+
+        goodsEntity.setGoodsId(goods.getId());
+        goodsEntity.setId(goods.getId());
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setGoodsSn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
+        goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
+        return goodsEntity;
+    }
+
+
+    //设置快捷商品
+    private GoodsEntity toGoodsEasyEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
+
+        Goods.GoodsStandard goodsStandard = goods.getXgxGoodsStandardPojoList().get(0);
+
+
+        goodsEntity.setGoodsId(goods.getId());
+        goodsEntity.setGoods_id(goods.getId());
+        goodsEntity.setId(goods.getId());
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setGoodsSn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
+        goodsEntity.setProduct_id(goodsStandard.getId());
+//        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setMarket_price(goodsStandard.getGoodsStandardPrice());
+        goodsEntity.setRetail_price(goodsStandard.getGoodsStandardPrice());
+//        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
+        return goodsEntity;
+    }
 
 }

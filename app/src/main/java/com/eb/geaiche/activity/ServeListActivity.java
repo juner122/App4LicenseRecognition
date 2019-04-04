@@ -18,6 +18,9 @@ import com.eb.geaiche.adapter.ServeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 
 
+import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.Server;
 import com.juner.mvp.bean.ServerList;
 
@@ -49,14 +52,12 @@ public class ServeListActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     ServeListAdapter serveListAdapter;
-    List<Server> servers = new ArrayList<>();//所有数据
-
+    List<Goods> servers = new ArrayList<>();//所有数据
 
 
     @Override
     protected void init() {
         ll_search.setVisibility(View.GONE);
-
 
 
         //计算总价
@@ -69,27 +70,27 @@ public class ServeListActivity extends BaseActivity {
         recyclerView.setAdapter(serveListAdapter);
 
 
-        Api().goodsServeList().subscribe(new RxSubscribe<ServerList>(this, true) {
-            @Override
-            protected void _onNext(ServerList o) {
-
-                servers = o.getList();
-                for (Server ps : MyApplication.cartServerUtils.getServerList()) {
-                    for (int i = 0; i < servers.size(); i++) {
-                        if (ps.getId() == servers.get(i).getId()) {
-                            servers.get(i).setSelected(true);
-                        }
-                    }
-                }
-
-                serveListAdapter.setNewData(servers);
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-            }
-        });
+//        Api().goodsServeList().subscribe(new RxSubscribe<ServerList>(this, true) {
+//            @Override
+//            protected void _onNext(ServerList o) {
+//
+//                servers = o.getList();
+//                for (Server ps : MyApplication.cartServerUtils.getServerList()) {
+//                    for (int i = 0; i < servers.size(); i++) {
+//                        if (ps.getId() == servers.get(i).getId()) {
+//                            servers.get(i).setSelected(true);
+//                        }
+//                    }
+//                }
+//
+//                serveListAdapter.setNewData(servers);
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//            }
+//        });
         serveListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -97,22 +98,50 @@ public class ServeListActivity extends BaseActivity {
 
                 if (servers.get(position).isSelected()) {
                     servers.get(position).setSelected(false);
-                    MyApplication.cartServerUtils.reduceData(servers.get(position));
+                    MyApplication.cartUtils.reduceData(toGoodsEntity(servers.get(position)));
                 } else {
                     servers.get(position).setSelected(true);
-                    MyApplication.cartServerUtils.addData(servers.get(position));
+                    MyApplication.cartUtils.addData(toGoodsEntity(servers.get(position)));
                 }
 
                 //计算总价
                 count();
                 adapter.notifyDataSetChanged();
+            }
+        });
 
 
+        xgxshopgoodsList("");
+
+    }
+
+    private void xgxshopgoodsList(String key) {
+
+        Api().xgxshopgoodsList(key, null, null, 1, 3).subscribe(new RxSubscribe<GoodsList>(this, true) {
+            @Override
+            protected void _onNext(GoodsList goodsList) {
+                servers = goodsList.getList();
+                for (GoodsEntity ps : MyApplication.cartUtils.getServerList()) {
+                    for (int i = 0; i < servers.size(); i++) {
+                        if (ps.getGoods_id() == servers.get(i).getId()) {
+                            servers.get(i).setSelected(true);
+                        }
+                    }
+                }
+
+                serveListAdapter.setNewData(servers);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
             }
         });
 
 
     }
+
 
     @OnClick({R.id.but_enter_order, R.id.iv_search})
     public void onClick(View v) {
@@ -167,5 +196,26 @@ public class ServeListActivity extends BaseActivity {
         return R.layout.activity_server_list;
     }
 
+    private GoodsEntity toGoodsEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
 
+        //暂时用第一个规格
+        goods.setGoodsStandard(goods.getXgxGoodsStandardPojoList().get(0));
+
+        goodsEntity.setGoodsId(goods.getId());
+        goodsEntity.setGoods_id(goods.getId());
+        goodsEntity.setId(goods.getId());
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
+        goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
+        return goodsEntity;
+    }
 }

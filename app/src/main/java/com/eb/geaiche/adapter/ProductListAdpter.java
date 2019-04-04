@@ -6,23 +6,24 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.ProductValue;
 
 import java.util.List;
 
-public class ProductListAdpter extends BaseQuickAdapter<ProductValue, BaseViewHolder> {
+public class ProductListAdpter extends BaseQuickAdapter<Goods.GoodsStandard, BaseViewHolder> {
 
 
-    public ProductListAdpter(@Nullable List<ProductValue> data) {
+    public ProductListAdpter(@Nullable List<Goods.GoodsStandard> data) {
         super(R.layout.dialog_product_list_item, data);
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProductValue item) {
+    protected void convert(BaseViewHolder helper, Goods.GoodsStandard item) {
 
 
-        helper.setText(R.id.tv1, item.getValue());
+        helper.setText(R.id.tv1, item.getGoodsStandardTitle());
         View v = helper.getView(R.id.tv1);
 
         if (item.isSelected()) {

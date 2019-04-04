@@ -288,7 +288,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 
     List<GoodsEntity> productList = new ArrayList<>();//显示的商品
-    List<Server> server = new ArrayList<>();//显示的工时
+    List<GoodsEntity> server = new ArrayList<>();//显示的工时
     List<GoodsEntity> meal = new ArrayList<>();//显示的套餐
 
     @Override
@@ -366,7 +366,7 @@ public class OrderInfoActivity extends BaseActivity {
         order_status = info.getOrderInfo().getOrder_status();
 
         productList = info.getOrderInfo().getGoodsList();
-        server = info.getOrderInfo().getSkillList();
+
         meal = info.getOrderInfo().getUserActivityList();
 
         if (null == info.getOrderInfo().getMobile() || "".equals(info.getOrderInfo().getMobile()))
@@ -464,7 +464,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         double goodsPrice = String2Utils.getOrderGoodsPrice(productList);
 
-        double ServerPrice = String2Utils.getOrderServicePrice(server);
+        double ServerPrice = String2Utils.getOrderGoodsPrice(server);
 
         tv_goods_price.setText(String.valueOf("已选：￥" + MathUtil.twoDecimal(goodsPrice)));
 

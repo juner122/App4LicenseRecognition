@@ -153,7 +153,7 @@ public class SetProjectActivity extends BaseActivity {
                 }
             });
         } else {
-            g.setEasy_id(setProjects.get(position).getEasy_id());
+            g.setId(setProjects.get(position).getEasy_id());
             //更新
             Api().shopeasyUpdate(g).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
@@ -163,14 +163,11 @@ public class SetProjectActivity extends BaseActivity {
                         return;
 
                     }
-
-
                     ToastUtils.showToast("更新成功！");
 
                     setProjects.remove(position);
                     g.setEasy_id(n);
                     setProjects.add(position, g);
-
                     setProjectAdapter.setNewData(setProjects);
                 }
 

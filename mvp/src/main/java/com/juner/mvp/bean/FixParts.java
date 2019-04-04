@@ -12,15 +12,16 @@ public class FixParts extends FixInfoItem implements Parcelable {
     int goods_id;
     int product_id;
     int number;
-    int quotation_id;
+
     int component_id;
     String goods_name;
     String goods_sn;
     String market_price;
     String retail_price;
     String goods_specifition_name_value;
-    String type;
+    int type;
     String status;
+
 
     public int getId() {
         return id;
@@ -62,13 +63,6 @@ public class FixParts extends FixInfoItem implements Parcelable {
         this.number = number;
     }
 
-    public int getQuotation_id() {
-        return quotation_id;
-    }
-
-    public void setQuotation_id(int quotation_id) {
-        this.quotation_id = quotation_id;
-    }
 
     public int getComponent_id() {
         return component_id;
@@ -126,11 +120,11 @@ public class FixParts extends FixInfoItem implements Parcelable {
         this.goods_specifition_name_value = goods_specifition_name_value;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -143,6 +137,9 @@ public class FixParts extends FixInfoItem implements Parcelable {
     }
 
 
+    public FixParts() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -150,41 +147,39 @@ public class FixParts extends FixInfoItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeInt(this.order_id);
         dest.writeInt(this.goods_id);
         dest.writeInt(this.product_id);
         dest.writeInt(this.number);
-        dest.writeInt(this.quotation_id);
+
         dest.writeInt(this.component_id);
         dest.writeString(this.goods_name);
         dest.writeString(this.goods_sn);
         dest.writeString(this.market_price);
         dest.writeString(this.retail_price);
         dest.writeString(this.goods_specifition_name_value);
-        dest.writeString(this.type);
+        dest.writeInt(this.type);
         dest.writeString(this.status);
     }
 
-    public FixParts() {
-    }
-
     protected FixParts(Parcel in) {
+        super(in);
         this.order_id = in.readInt();
         this.goods_id = in.readInt();
         this.product_id = in.readInt();
         this.number = in.readInt();
-        this.quotation_id = in.readInt();
         this.component_id = in.readInt();
         this.goods_name = in.readString();
         this.goods_sn = in.readString();
         this.market_price = in.readString();
         this.retail_price = in.readString();
         this.goods_specifition_name_value = in.readString();
-        this.type = in.readString();
+        this.type = in.readInt();
         this.status = in.readString();
     }
 
-    public static final Parcelable.Creator<FixParts> CREATOR = new Parcelable.Creator<FixParts>() {
+    public static final Creator<FixParts> CREATOR = new Creator<FixParts>() {
         @Override
         public FixParts createFromParcel(Parcel source) {
             return new FixParts(source);

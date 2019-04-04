@@ -1,7 +1,6 @@
 package com.eb.geaiche.activity.fragment;
 
 
-import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,6 +24,7 @@ import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.bean.Category;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.GoodsEntity;
+import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.juner.mvp.bean.SubCategoryEntity;
 import com.eb.geaiche.util.ToastUtils;
@@ -39,7 +38,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ProductFragment extends BaseFragment {
-
+    public static final int type = 4;
 
     @BindView(R.id.rg_type)
     RadioGroup radioGroup;
@@ -136,6 +135,31 @@ public class ProductFragment extends BaseFragment {
                 .setView(commonPopupRecyclerView)
                 .create();
 
+
+        //新接口
+        xgxshopgoodsList(null);
+
+
+    }
+
+    /**
+     * 新商品接口
+     *
+     * @param key 搜索关键字
+     */
+
+    private void xgxshopgoodsList(String key) {
+        Api().xgxshopgoodsList(key, null, null, 1, type).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
+            @Override
+            protected void _onNext(GoodsList goods) {
+                fragment.switchData(goods.getList());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
     }
 
     private void showPopupWindow(View v) {
@@ -212,8 +236,9 @@ public class ProductFragment extends BaseFragment {
             case R.id.iv_search:
 
                 if (!TextUtils.isEmpty(et_key.getText())) {
-                    onQueryAnyGoods4Key(et_key.getText().toString());
-                    SoftInputUtil.hideSoftInput(getContext(),et_key);
+//                    onQueryAnyGoods4Key(et_key.getText().toString());
+                    xgxshopgoodsList(et_key.getText().toString());
+                    SoftInputUtil.hideSoftInput(getContext(), et_key);
                 } else
                     ToastUtils.showToast("请输入搜索关键字！");
 

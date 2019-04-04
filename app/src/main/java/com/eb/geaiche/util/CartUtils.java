@@ -17,6 +17,8 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.juner.mvp.Configure.Goods_TYPE_3;
+import static com.juner.mvp.Configure.Goods_TYPE_4;
 import static com.juner.mvp.Configure.JSON_CART;
 
 public class CartUtils {
@@ -79,7 +81,7 @@ public class CartUtils {
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = getDataFromLocal();
         for (GoodsEntity c : list) {
-            if (c.getType() == 1)
+            if (c.getType() == Goods_TYPE_4)
                 carts.add(c);
         }
         return carts;
@@ -91,18 +93,29 @@ public class CartUtils {
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = getDataFromLocal();
         for (GoodsEntity c : list) {
-            if (c.getType() == 2)
+            if (c.getType() == Goods_TYPE_3)
                 carts.add(c);
         }
         return carts;
     }
+
+    public List<GoodsEntity> getAllGoods() {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        carts.addAll(getProductList());
+        carts.addAll(getServerList());
+        return carts;
+    }
+
+
+
 
     public List<GoodsEntity> getMealList() {
 
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = getDataFromLocal();
         for (GoodsEntity c : list) {
-            if (c.getType() == 3)
+            if (c.getType() == 1)
                 carts.add(c);
         }
         return carts;
@@ -111,7 +124,6 @@ public class CartUtils {
 
     public void addServieData(GoodsEntity good) {
 
-        good.setType(2);
 
         addData(good);
     }
@@ -123,7 +135,6 @@ public class CartUtils {
 
     public void addProductData(GoodsEntity good) {
 
-        good.setType(1);
 
         addData(good);
 
@@ -164,7 +175,6 @@ public class CartUtils {
 
         GoodsEntity good = new GoodsEntity();
 
-
         good.setId(entity.getId());
         good.setGoodsId(entity.getGoodsId());
         good.setName(entity.getGoodsName());
@@ -173,7 +183,6 @@ public class CartUtils {
         good.setActivitySn(entity.getActivitySn());
         good.setActivityName(entity.getActivityName());
         good.setGoodsName(entity.getGoodsName());
-
 
         good.setType(3);
         addData(good);
@@ -201,9 +210,9 @@ public class CartUtils {
     public void addData(GoodsEntity good) {
 
         //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
         if (tempCart != null) {
-            if (good.getType() == 1)
+            if (good.getType() == 4)
                 tempCart.setNumber(tempCart.getNumber() + 1);
             else
                 tempCart.setRetail_price(good.getRetail_price());
@@ -211,7 +220,7 @@ public class CartUtils {
             tempCart = good;
             tempCart.setNumber(1);
         }
-        data.put(good.getId(), tempCart);
+        data.put(good.getGoods_id(), tempCart);
 
         commit();
 
@@ -219,7 +228,7 @@ public class CartUtils {
 
     public void addDataNoCommit(GoodsEntity good) {
 
-        good.setType(1);
+
         //添加数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
         if (tempCart != null) {
@@ -233,7 +242,7 @@ public class CartUtils {
     }
 
     public void reduceData(GoodsEntity good) {
-        good.setType(1);
+
         //减数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
         if (tempCart != null) {
@@ -247,9 +256,6 @@ public class CartUtils {
             commit();
         }
     }
-
-
-
 
 
     public void reduceDataNoCommit(GoodsEntity good) {

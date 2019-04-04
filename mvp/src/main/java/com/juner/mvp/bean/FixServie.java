@@ -8,7 +8,7 @@ import android.os.Parcelable;
 public class FixServie extends FixInfoItem implements Parcelable {
 
     int orderId;
-    int quotationId;
+
     int projectId;
     int serviceId;
     int type;
@@ -17,6 +17,15 @@ public class FixServie extends FixInfoItem implements Parcelable {
     String price;
     String marketPrice;
     int number = 1;
+    String goods_sn;
+
+    public String getGoods_sn() {
+        return goods_sn;
+    }
+
+    public void setGoods_sn(String goods_sn) {
+        this.goods_sn = goods_sn;
+    }
 
     public int getNumber() {
         return number;
@@ -34,13 +43,6 @@ public class FixServie extends FixInfoItem implements Parcelable {
         this.orderId = orderId;
     }
 
-    public int getQuotationId() {
-        return quotationId;
-    }
-
-    public void setQuotationId(int quotationId) {
-        this.quotationId = quotationId;
-    }
 
     public int getProjectId() {
         return projectId;
@@ -119,7 +121,7 @@ public class FixServie extends FixInfoItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(this.orderId);
-        dest.writeInt(this.quotationId);
+
         dest.writeInt(this.projectId);
         dest.writeInt(this.serviceId);
         dest.writeInt(this.type);
@@ -128,12 +130,13 @@ public class FixServie extends FixInfoItem implements Parcelable {
         dest.writeString(this.price);
         dest.writeString(this.marketPrice);
         dest.writeInt(this.number);
+        dest.writeString(this.goods_sn);
     }
 
     protected FixServie(Parcel in) {
         super(in);
         this.orderId = in.readInt();
-        this.quotationId = in.readInt();
+
         this.projectId = in.readInt();
         this.serviceId = in.readInt();
         this.type = in.readInt();
@@ -142,6 +145,7 @@ public class FixServie extends FixInfoItem implements Parcelable {
         this.price = in.readString();
         this.marketPrice = in.readString();
         this.number = in.readInt();
+        this.goods_sn = in.readString();
     }
 
     public static final Creator<FixServie> CREATOR = new Creator<FixServie>() {

@@ -11,6 +11,7 @@ public class GoodsEntity implements Parcelable {
     Integer id;
     String name;
     String goods_sn;
+    String goodsSn;//新的
     String brand_id;
 
 
@@ -35,12 +36,53 @@ public class GoodsEntity implements Parcelable {
     String goodsName;//套餐商品名
 
 
+    int firstCategoryId;
+
+    public int getFirstCategoryId() {
+        return firstCategoryId;
+    }
+
+    public void setFirstCategoryId(int firstCategoryId) {
+        this.firstCategoryId = firstCategoryId;
+    }
+
+    public String getGoodsSn() {
+        return goodsSn;
+    }
+
+    public void setGoodsSn(String goodsSn) {
+        this.goodsSn = goodsSn;
+    }
+
+
     String goods_specifition_name_value;
     String goods_specifition_ids;
     int product_id;
     String retail_price;
     String market_price;
 
+
+    int goods_id;
+
+
+    public int getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(int goods_id) {
+        this.goods_id = goods_id;
+    }
+
+    //以下是新商品接口
+    String goods_name;//新商品接口
+
+    public String getGoods_name() {
+        return goods_name;
+    }
+
+    public void setGoods_name(String goods_name) {
+        this.goods_name = goods_name;
+    }
 
     public int getProduct_id() {
         return product_id;
@@ -200,7 +242,7 @@ public class GoodsEntity implements Parcelable {
     }
 
     public String getNumberStringX() {
-        return number == 0 ? "" : String.valueOf("x"+number);
+        return number == 0 ? "" : String.valueOf("x" + number);
     }
 
     public void setNumber(int number) {
@@ -285,82 +327,6 @@ public class GoodsEntity implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.type);
-        dest.writeByte(this.isSet ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.id);
-        dest.writeString(this.name);
-        dest.writeString(this.goods_sn);
-        dest.writeString(this.brand_id);
-        dest.writeString(this.keywords);
-        dest.writeString(this.goods_brief);
-        dest.writeString(this.goods_desc);
-        dest.writeString(this.category_id);
-        dest.writeString(this.list_pic_url);
-        dest.writeInt(this.easy_id);
-        dest.writeInt(this.number);
-        dest.writeString(this.price);
-        dest.writeInt(this.is_hot);
-        dest.writeString(this.activitySn);
-        dest.writeInt(this.activityId);
-        dest.writeString(this.activityName);
-        dest.writeInt(this.goodsNum);
-        dest.writeInt(this.goodsId);
-        dest.writeString(this.goodsName);
-        dest.writeString(this.goods_specifition_name_value);
-        dest.writeString(this.goods_specifition_ids);
-        dest.writeInt(this.product_id);
-        dest.writeString(this.retail_price);
-        dest.writeString(this.market_price);
-    }
-
-    protected GoodsEntity(Parcel in) {
-        this.type = in.readInt();
-        this.isSet = in.readByte() != 0;
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.name = in.readString();
-        this.goods_sn = in.readString();
-        this.brand_id = in.readString();
-        this.keywords = in.readString();
-        this.goods_brief = in.readString();
-        this.goods_desc = in.readString();
-        this.category_id = in.readString();
-        this.list_pic_url = in.readString();
-        this.easy_id = in.readInt();
-        this.number = in.readInt();
-        this.price = in.readString();
-        this.is_hot = in.readInt();
-        this.activitySn = in.readString();
-        this.activityId = in.readInt();
-        this.activityName = in.readString();
-        this.goodsNum = in.readInt();
-        this.goodsId = in.readInt();
-        this.goodsName = in.readString();
-        this.goods_specifition_name_value = in.readString();
-        this.goods_specifition_ids = in.readString();
-        this.product_id = in.readInt();
-        this.retail_price = in.readString();
-        this.market_price = in.readString();
-    }
-
-    public static final Creator<GoodsEntity> CREATOR = new Creator<GoodsEntity>() {
-        @Override
-        public GoodsEntity createFromParcel(Parcel source) {
-            return new GoodsEntity(source);
-        }
-
-        @Override
-        public GoodsEntity[] newArray(int size) {
-            return new GoodsEntity[size];
-        }
-    };
-
-    @Override
     public String toString() {
         return "GoodsEntity{" +
                 "type=" + type +
@@ -391,4 +357,88 @@ public class GoodsEntity implements Parcelable {
                 ", market_price='" + market_price + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.type);
+        dest.writeByte(this.isSet ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.goods_sn);
+        dest.writeString(this.goodsSn);
+        dest.writeString(this.brand_id);
+        dest.writeString(this.keywords);
+        dest.writeString(this.goods_brief);
+        dest.writeString(this.goods_desc);
+        dest.writeString(this.category_id);
+        dest.writeString(this.list_pic_url);
+        dest.writeInt(this.easy_id);
+        dest.writeInt(this.number);
+        dest.writeString(this.price);
+        dest.writeInt(this.is_hot);
+        dest.writeString(this.activitySn);
+        dest.writeInt(this.activityId);
+        dest.writeString(this.activityName);
+        dest.writeInt(this.goodsNum);
+        dest.writeInt(this.goodsId);
+        dest.writeString(this.goodsName);
+        dest.writeInt(this.firstCategoryId);
+        dest.writeString(this.goods_specifition_name_value);
+        dest.writeString(this.goods_specifition_ids);
+        dest.writeInt(this.product_id);
+        dest.writeString(this.retail_price);
+        dest.writeString(this.market_price);
+        dest.writeInt(this.goods_id);
+        dest.writeString(this.goods_name);
+    }
+
+    protected GoodsEntity(Parcel in) {
+        this.type = in.readInt();
+        this.isSet = in.readByte() != 0;
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.name = in.readString();
+        this.goods_sn = in.readString();
+        this.goodsSn = in.readString();
+        this.brand_id = in.readString();
+        this.keywords = in.readString();
+        this.goods_brief = in.readString();
+        this.goods_desc = in.readString();
+        this.category_id = in.readString();
+        this.list_pic_url = in.readString();
+        this.easy_id = in.readInt();
+        this.number = in.readInt();
+        this.price = in.readString();
+        this.is_hot = in.readInt();
+        this.activitySn = in.readString();
+        this.activityId = in.readInt();
+        this.activityName = in.readString();
+        this.goodsNum = in.readInt();
+        this.goodsId = in.readInt();
+        this.goodsName = in.readString();
+        this.firstCategoryId = in.readInt();
+        this.goods_specifition_name_value = in.readString();
+        this.goods_specifition_ids = in.readString();
+        this.product_id = in.readInt();
+        this.retail_price = in.readString();
+        this.market_price = in.readString();
+        this.goods_id = in.readInt();
+        this.goods_name = in.readString();
+    }
+
+    public static final Creator<GoodsEntity> CREATOR = new Creator<GoodsEntity>() {
+        @Override
+        public GoodsEntity createFromParcel(Parcel source) {
+            return new GoodsEntity(source);
+        }
+
+        @Override
+        public GoodsEntity[] newArray(int size) {
+            return new GoodsEntity[size];
+        }
+    };
 }

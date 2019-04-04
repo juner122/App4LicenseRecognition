@@ -19,7 +19,7 @@ public class SetProjectAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHol
     @Override
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
-        helper.setText(R.id.tv1, item.getName());
+        helper.setText(R.id.tv1, item.getGoods_name());
     }
 
 

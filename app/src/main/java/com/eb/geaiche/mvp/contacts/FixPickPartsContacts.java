@@ -10,6 +10,7 @@ import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixPartsEntityList;
 import com.juner.mvp.bean.FixPartsList;
+import com.juner.mvp.bean.GoodsList;
 
 import java.util.List;
 
@@ -61,6 +62,8 @@ public class FixPickPartsContacts {
         void seekParts(int id, RxSubscribe<FixPartsEntityList> rxSubscribe);//查找配件 根据id
 
         void seekPartsforKey(int id, String key, RxSubscribe<FixPartsEntityList> rxSubscribe);//查找配件
+
+        void getGoodList(RxSubscribe<GoodsList> rxSubscribe, String goodsTitle, int page);
 
 
     }

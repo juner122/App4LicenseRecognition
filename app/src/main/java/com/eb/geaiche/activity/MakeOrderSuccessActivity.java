@@ -44,6 +44,8 @@ import com.juner.mvp.bean.Server;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -62,6 +64,8 @@ import static com.eb.geaiche.buletooth.BuletoothUtil.REQUEST_CODE_BLUETOOTH_ON;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.CENTER;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.LEFT;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.RIGHT;
+import static com.juner.mvp.Configure.Goods_TYPE_3;
+import static com.juner.mvp.Configure.Goods_TYPE_4;
 
 public class MakeOrderSuccessActivity extends BaseActivity {
 
@@ -362,7 +366,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
             esc.addSelectJustification(LEFT);
             esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(gu.getGoodsName());
+            esc.addText(gu.getGoods_name());
             esc.addPrintAndLineFeed();
             esc.addSelectJustification(LEFT);
 
@@ -502,9 +506,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         tv_address.append(null == info.getShop().getAddress() ? "-" : info.getShop().getAddress());
 
 
-        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(info.getOrderInfo().getGoodsList());
+        simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(getGood(info.getOrderInfo().getGoodsList()));
         simpleActivityInfo2Adpter = new SimpleActivityInfo2Adpter(info.getOrderInfo().getUserActivityList());
-        serverInfo2Adpter = new SimpleServerInfo2Adpter(info.getOrderInfo().getSkillList());
+        serverInfo2Adpter = new SimpleServerInfo2Adpter(getService(info.getOrderInfo().getGoodsList()));
 
 
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
@@ -725,6 +729,32 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         }
 
         return str;
+    }
+
+    //获取配件
+    private List<GoodsEntity> getGood(List<GoodsEntity> goodsEntities) {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = goodsEntities;
+        for (GoodsEntity c : list) {
+            if (c.getType() == Goods_TYPE_4)
+                carts.add(c);
+        }
+        return carts;
+
+
+    }
+
+    //获取工时服务
+    private List<GoodsEntity> getService(List<GoodsEntity> goodsEntities) {
+        List<GoodsEntity> carts = new ArrayList<>();
+        List<GoodsEntity> list = goodsEntities;
+        for (GoodsEntity c : list) {
+            if (c.getType() == Goods_TYPE_3)
+                carts.add(c);
+        }
+        return carts;
+
     }
 
 }

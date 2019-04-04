@@ -4,11 +4,16 @@ import android.content.Context;
 
 import com.eb.geaiche.mvp.contacts.FixPickServiceContacts;
 import com.eb.geaiche.util.HttpUtils;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxHelper;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.model.BaseModel;
 import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServieEntity;
+import com.juner.mvp.bean.GoodsList;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FixPickServiceMdl extends BaseModel implements FixPickServiceContacts.FixPickServiceMdl {
     Context context;
@@ -33,6 +38,17 @@ public class FixPickServiceMdl extends BaseModel implements FixPickServiceContac
         else
             sendRequest(HttpUtils.getFix().searchServer(getToken(context), id, key).compose(RxHelper.<FixServieEntity>observe()), rxSubscribe);
     }
+    @Override
+    public void getGoodList(RxSubscribe<GoodsList> rxSubscribe, String goodsTitle, int page) {
+        Map<String, Object> map = new HashMap<>();
+        if (null != goodsTitle)
+            map.put("goodsTitle", goodsTitle);
 
+        map.put("limit", 50);//页数
+        map.put("page", page);
+        map.put("type", Configure.Goods_TYPE_3);
+        map.put("X-Nideshop-Token", getToken(context));
+        sendRequest(HttpUtils.getApi().xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe()), rxSubscribe);
+    }
 
 }

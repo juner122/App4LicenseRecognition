@@ -10,38 +10,46 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 
+import com.eb.geaiche.util.MathUtil;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 
 
 import java.util.List;
 
-public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
+public class ProductListAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> {
 
     Fragment fragment;
     int isShow;
 
-    public ProductListAdapter(Fragment fragment, @Nullable List<GoodsEntity> data, int isShow) {
+    public ProductListAdapter(Fragment fragment, @Nullable List<Goods> data, int isShow) {
         super(R.layout.activity_product_list_fr_item, data);
         this.fragment = fragment;
         this.isShow = isShow;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, GoodsEntity item) {
+    protected void convert(BaseViewHolder helper, Goods item) {
+        Goods.GoodsStandard goodsStandard;
+        if (null == item.getGoodsStandard())
+            goodsStandard = item.getXgxGoodsStandardPojoList().get(0);//第一个规格
+        else {
+            goodsStandard = item.getGoodsStandard();
+        }
 
 
-        helper.setText(R.id.tv_product_name, item.getName())
-                .setText(R.id.tv_product_ts, item.getGoods_brief())
-                .setText(R.id.tv_number, String.valueOf(item.getNumber()))
-                .setText(R.id.tv_price, String.format("￥%s", item.getRetail_price()))
-                .setText(R.id.tv_product_value, item.getGoods_specifition_name_value())
+        helper.setText(R.id.tv_product_name, item.getGoodsTitle())
+                .setText(R.id.tv_product_ts, "")
+                .setText(R.id.tv_number, item.getNum() + "")
+                .setText(R.id.tv_price, String.format("￥%s", MathUtil.twoDecimal(goodsStandard.getGoodsStandardPrice())))
+                .setText(R.id.tv_product_value, goodsStandard.getGoodsStandardTitle())
                 .addOnClickListener(R.id.ib_plus)
                 .addOnClickListener(R.id.ib_reduce)
                 .addOnClickListener(R.id.tv_product_value);//选择规格
 
-        Glide.with(fragment)
-                .load(item.getPrimary_pic_url())
-                .into((ImageView) helper.getView(R.id.iv_pic));
+//        Glide.with(fragment)
+//                .load(item.getPrimary_pic_url())
+//                .into((ImageView) helper.getView(R.id.iv_pic));
 
         View ib_reduce = helper.getView(R.id.ib_reduce);
         View tv_number = helper.getView(R.id.tv_number);
@@ -63,7 +71,7 @@ public class ProductListAdapter extends BaseQuickAdapter<GoodsEntity, BaseViewHo
         }
 
 
-        if (item.getNumber() == 0) {
+        if (item.getNum() == 0) {
             ib_reduce.setVisibility(View.INVISIBLE);
             tv_number.setVisibility(View.INVISIBLE);
         } else {

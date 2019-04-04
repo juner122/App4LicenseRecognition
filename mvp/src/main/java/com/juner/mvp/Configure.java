@@ -5,6 +5,9 @@ public class Configure {
     public static final String BaseUrl = "http://222.111.88.142:8081/app/";
 //    public static final String BaseUrl = "https://business.xgxshop.com/app/";
 
+    public static final int Goods_TYPE_1 = 1;//商城商品
+    public static final int Goods_TYPE_3 = 3;//工时服务
+    public static final int Goods_TYPE_4 = 4;//配件
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
     public static final String carVinRecognition = "https://vin.market.alicloudapi.com/api/predict/ocr_vin";//OCR文字识别-车辆vin识别
@@ -62,7 +65,6 @@ public class Configure {
     public static final String isFixOrder = "isFixOrder";//是否是修改订单
     public static final String pick_servers = "pick_servers";//选择的服务列表
     public static final String Class = "Calss";//选择的服务列表的activity
-
 
 
 }

@@ -4,7 +4,7 @@ package com.juner.mvp.bean;
 import java.util.List;
 
 //商品
-public class Goods {
+public class Goods extends SelectedBean {
 
     int id;
     String goodsCode;
@@ -21,10 +21,36 @@ public class Goods {
     int hotStatus;
     int newStatus;
     int activityStatus;
+    int num;
+
+
+    int selected;
+
+    public boolean selectde() {
+
+        return selected != 0;
+    }
+
+    public int getSelected() {
+        return selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
+    }
 
     List<GoodsPic> goodsDetailsPojoList;//图片Banner
     List<GoodsStandard> xgxGoodsStandardPojoList;//规格
     List<GoodsInfoPic> goodsDetailsType2PojoList;//商品详情图片
+    GoodsStandard goodsStandard;
+
+    public GoodsStandard getGoodsStandard() {
+        return goodsStandard;
+    }
+
+    public void setGoodsStandard(GoodsStandard goodsStandard) {
+        this.goodsStandard = goodsStandard;
+    }
 
     public List<GoodsInfoPic> getGoodsInfoPicList() {
         return goodsDetailsType2PojoList;
@@ -32,6 +58,14 @@ public class Goods {
 
     public void setGoodsInfoPicList(List<GoodsInfoPic> goodsInfoPicList) {
         this.goodsDetailsType2PojoList = goodsInfoPicList;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public int getId() {
@@ -163,14 +197,26 @@ public class Goods {
     }
 
 
-    public class GoodsStandard {
+    public static class GoodsStandard extends SelectedBean {
 
+
+        public GoodsStandard() {
+        }
 
         int id;
         int goodsStandardId;
         String goodsStandardTitle;
         int goodsId;
         String goodsStandardPrice;//价钱
+        int num;
+
+        public int getNum() {
+            return num;
+        }
+
+        public void setNum(int num) {
+            this.num = num;
+        }
 
         public int getId() {
             return id;

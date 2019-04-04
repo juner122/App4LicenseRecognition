@@ -123,7 +123,6 @@ public class MakeOrderActivity extends BaseActivity {
 
 
     CartUtils cartUtils;
-    CartServerUtils cartServerUtils;
 
 
     @Override
@@ -132,7 +131,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true); //false 不显示加减按键
 
-        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartServerUtils.getServerList(), false);
+        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);
 
         sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 
@@ -249,7 +248,7 @@ public class MakeOrderActivity extends BaseActivity {
         public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
             ToastUtils.showToast("删除成功！");
 
-            cartServerUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
+            cartUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
 
             simpleServiceInfoAdpter.getData().remove(pos);
             simpleServiceInfoAdpter.notifyDataSetChanged();
@@ -267,7 +266,6 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void init() {
         cartUtils = MyApplication.cartUtils;
-        cartServerUtils = MyApplication.cartServerUtils;
 
         tv_title.setText("下单信息");
         setRTitle("套卡下单");
@@ -465,7 +463,7 @@ public class MakeOrderActivity extends BaseActivity {
     }
 
     private void onMakeOrder() {
-        if (cartUtils.isNull() && cartServerUtils.isNull()) {
+        if (cartUtils.isNull()) {
             ToastUtils.showToast("请最少选择一项商品或服务");
             return;
         }
@@ -477,8 +475,13 @@ public class MakeOrderActivity extends BaseActivity {
 
 
         infoEntity.setPostscript(et_postscript.getText().toString());
-        infoEntity.setGoodsList(cartUtils.getProductList());
-        infoEntity.setSkillList(cartServerUtils.getServerList());
+
+
+
+
+//        infoEntity.setGoodsList(cartUtils.getProductList());
+        infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有
+//        infoEntity.setSkillList(cartServerUtils.getServerList());
         infoEntity.setUserActivityList(cartUtils.getMealList());
         infoEntity.setSysUserList(technicians);
 
@@ -512,7 +515,7 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void carDestroy() {
         cartUtils.deleteAllData();
-        cartServerUtils.deleteAllData();
+
 
 
     }
@@ -521,7 +524,7 @@ public class MakeOrderActivity extends BaseActivity {
     private void setGoodsPric() {
 
         double goodsPrice = cartUtils.getProductPrice();
-        double serverPrice = String2Utils.getOrderServicePrice(cartServerUtils.getServerList());
+        double serverPrice = cartUtils.getServerPrice();
         double total = goodsPrice + serverPrice;
 
         tv_goods_price.setText("已选：￥" + MathUtil.twoDecimal(goodsPrice));
@@ -540,10 +543,10 @@ public class MakeOrderActivity extends BaseActivity {
             protected void _onNext(GoodsListEntity goodsListEntity) {
                 goods_top = goodsListEntity.getGoodsList();
                 try {
-                    tv_top4.setText(goods_top.get(3).getName());
-                    tv_top3.setText(goods_top.get(2).getName());
-                    tv_top2.setText(goods_top.get(1).getName());
-                    tv_top1.setText(goods_top.get(0).getName());
+                    tv_top4.setText(goods_top.get(3).getGoods_name());
+                    tv_top3.setText(goods_top.get(2).getGoods_name());
+                    tv_top2.setText(goods_top.get(1).getGoods_name());
+                    tv_top1.setText(goods_top.get(0).getGoods_name());
                 } catch (Exception e) {
 
                 }

@@ -254,12 +254,12 @@ public class FixInfoEntity {
         return orderProjectList;
     }
 
-    public void setOrderProjectList(List<FixServie> orderProjectList) {
-        this.orderProjectList = orderProjectList;
-        this.setServePrice(getServicePrice(orderProjectList).toString());
-
-
-    }
+//    public void setOrderProjectList(List<FixServie> orderProjectList) {
+//        this.orderProjectList = orderProjectList;
+//        this.setServePrice(getServicePrice(orderProjectList).toString());
+//
+//
+//    }
 
     public String getSignPic() {
         return signPic;

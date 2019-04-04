@@ -75,7 +75,7 @@ public class MallGoodsActivity extends BaseActivity {
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
-             int goodsId =   adapter.getData().get(position).getId();
+                int goodsId = adapter.getData().get(position).getId();
 //                addToShoppingCart(goodsId);
             }
         });
@@ -96,7 +96,7 @@ public class MallGoodsActivity extends BaseActivity {
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
+        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, MallActivity.type).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
             @Override
             protected void _onNext(GoodsList goods) {
 

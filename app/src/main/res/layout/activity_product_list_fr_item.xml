@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/iv_pic"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:background="#fff"
+            android:visibility="gone"
             tools:srcCompat="@tools:sample/avatars[6]" />
 
 
@@ -36,7 +37,7 @@
                 android:maxLines="1"
                 android:text="倍耐力P7防爆轮胎/……"
                 android:textColor="#ff010101"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_product_ts"

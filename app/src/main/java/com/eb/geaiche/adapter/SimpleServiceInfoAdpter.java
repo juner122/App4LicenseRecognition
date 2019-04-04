@@ -5,26 +5,27 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.Server;
 
 import java.util.List;
 
-public class SimpleServiceInfoAdpter extends BaseItemDraggableAdapter<Server, BaseViewHolder> {
+public class SimpleServiceInfoAdpter extends BaseItemDraggableAdapter<GoodsEntity, BaseViewHolder> {
 
 
     boolean isShowPlusAndReduce;
 
-    public SimpleServiceInfoAdpter(@Nullable List<Server> data, boolean is) {
+    public SimpleServiceInfoAdpter(@Nullable List<GoodsEntity> data, boolean is) {
         super(R.layout.activity_simple_good_list_item, data);
         isShowPlusAndReduce = is;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, Server item) {
+    protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
 
-        helper.setText(R.id.name, item.getName())
-                .setText(R.id.price, "￥" + item.getPrice())
+        helper.setText(R.id.name, item.getGoods_name())
+                .setText(R.id.price, "￥" + item.getRetail_price())
                 .setText(R.id.tv_number, "x"+item.getNumber());
 
 

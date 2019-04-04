@@ -22,6 +22,8 @@ import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServiceListEntity;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.FixServieEntity;
+import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsList;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,12 +46,12 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     int id = -1;//当前选择分类id
 
-    public FixPickServicePtr(@NonNull FixPickServiceContacts.FixPickServiceUI view,int layout) {
+    public FixPickServicePtr(@NonNull FixPickServiceContacts.FixPickServiceUI view, int layout) {
         super(view);
         mdl = new FixPickServiceMdl(view.getSelfActivity());
         pick_servieList = new HashSet<>();
         adapter_s2 = new FixPickService2ItemAdapter(null);
-        adapter_item = new FixInfoServiceItemAdapter(null,layout);
+        adapter_item = new FixInfoServiceItemAdapter(null, layout);
         adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -94,21 +96,23 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     @Override
     public void onGetData(final RadioGroup rg) {
-        rg.removeAllViews();
-        mdl.getServiceData(new RxSubscribe<FixServiceList>(getView().getSelfActivity(), true) {
-            @Override
-            protected void _onNext(FixServiceList list) {
+//        rg.removeAllViews();
+//        mdl.getServiceData(new RxSubscribe<FixServiceList>(getView().getSelfActivity(), true) {
+//            @Override
+//            protected void _onNext(FixServiceList list) {
+//
+//                init0Data(rg, list.getServiceList());//根据第一级类别数量 创建RadioButton
+//                set1Data(list.getServiceList().get(0).getSonList());//设置第二级类别
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//            }
+//        });
+        getGoodList(null);
 
-                init0Data(rg, list.getServiceList());//根据第一级类别数量 创建RadioButton
-                set1Data(list.getServiceList().get(0).getSonList());//设置第二级类别
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-            }
-        });
     }
 
     public void init0Data(RadioGroup rg, final List<FixServiceListEntity> list) {
@@ -181,22 +185,22 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
         }
 
 
-        mdl.searchServer(id, key, new RxSubscribe<FixServieEntity>(getView().getSelfActivity(), true) {
-            @Override
-            protected void _onNext(FixServieEntity fixServieEntity) {
+//        mdl.searchServer(id, key, new RxSubscribe<FixServieEntity>(getView().getSelfActivity(), true) {
+//            @Override
+//            protected void _onNext(FixServieEntity fixServieEntity) {
+//
+//                getView().showServiceList();
+//                set2Data(fixServieEntity.getProjectList());
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+//            }
+//        });
 
-                getView().showServiceList();
-                set2Data(fixServieEntity.getProjectList());
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
-            }
-        });
-
-
+        getGoodList(key);
     }
 
 
@@ -212,4 +216,36 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     }
 
+    private void getGoodList(String key) {
+        mdl.getGoodList(new RxSubscribe<GoodsList>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(GoodsList goodsList) {
+
+                adapter_item.setNewData(toFixParts(goodsList.getList()));
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        }, key, 1);
+    }
+
+    private List<FixServie> toFixParts(List<Goods> data) {
+        List<FixServie> parts = new ArrayList<>();
+
+        for (Goods goods : data) {
+            FixServie fp = new FixServie();
+            fp.setName(goods.getGoodsTitle());
+            fp.setPrice(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
+            fp.setServiceId(goods.getId());
+            fp.setNumber(1);//数量
+            fp.setSelected(0);//默认选择中
+            fp.setType(goods.getType());
+            fp.setGoods_sn(goods.getGoodsCode());
+            parts.add(fp);
+        }
+        return parts;
+
+    }
 }
