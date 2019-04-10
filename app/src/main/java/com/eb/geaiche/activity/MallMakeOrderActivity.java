@@ -76,7 +76,8 @@ public class MallMakeOrderActivity extends BaseActivity {
 
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
 
-        upDataPrice(cartItems);
+
+        all_price.setText("￥"+upDataPrice(cartItems));
     }
 
     @Override
@@ -149,8 +150,8 @@ public class MallMakeOrderActivity extends BaseActivity {
         pojo.setPayType(1);
         pojo.setShopId(shopId);
         pojo.setDiscountPrice(null);//优惠金额
-        pojo.setOrderPrice(null);//订单价格
-        pojo.setRealPrice(null);//实付金额
+        pojo.setOrderPrice(upDataPrice(cartItems));//订单价格
+        pojo.setRealPrice(upDataPrice(cartItems));//实付金额
         List<XgxPurchaseOrderGoodsPojo> goodsPojoLists = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             XgxPurchaseOrderGoodsPojo goodsPojo = new XgxPurchaseOrderGoodsPojo();
@@ -169,9 +170,9 @@ public class MallMakeOrderActivity extends BaseActivity {
 
 
     //计算价格
-    private void upDataPrice(List<CartItem> cartItems) {
+    private String upDataPrice(List<CartItem> cartItems) {
         if (cartItems.size() == 0)
-            all_price.setText("￥0.00");
+            return "0.00";
         else {
             BigDecimal allPrice = new BigDecimal(0);
 
@@ -181,7 +182,7 @@ public class MallMakeOrderActivity extends BaseActivity {
                 allPrice = allPrice.add(price.multiply(num));
 
             }
-            all_price.setText("￥" + MathUtil.twoDecimal(allPrice.doubleValue()));
+            return  MathUtil.twoDecimal(allPrice.doubleValue());
         }
     }
 }
