@@ -161,6 +161,8 @@ public class MallMakeOrderActivity extends BaseActivity {
             goodsPojoLists.add(goodsPojo);
 
         }
+
+        pojo.setXgxPurchaseOrderGoodsPojoList(goodsPojoLists);
         return pojo;
 
     }
