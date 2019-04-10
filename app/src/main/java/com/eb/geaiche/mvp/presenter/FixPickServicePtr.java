@@ -1,11 +1,15 @@
 package com.eb.geaiche.mvp.presenter;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.FixInfoServiceItemAdapter;
@@ -15,6 +19,7 @@ import com.eb.geaiche.mvp.model.FixPickServiceMdl;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.MyRadioButton;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixService2item;
@@ -23,6 +28,7 @@ import com.juner.mvp.bean.FixServiceListEntity;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsList;
 
 import java.util.ArrayList;
@@ -45,6 +51,9 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     Set<FixServie> pick_servieList;//点击过工时服务
 
     int id = -1;//当前选择分类id
+    int page = 1;//第一页
+    EasyRefreshLayout easylayout;
+    String categoryId;//当前选的大分类索引id
 
     public FixPickServicePtr(@NonNull FixPickServiceContacts.FixPickServiceUI view, int layout) {
         super(view);
@@ -96,37 +105,49 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     @Override
     public void onGetData(final RadioGroup rg) {
-//        rg.removeAllViews();
-//        mdl.getServiceData(new RxSubscribe<FixServiceList>(getView().getSelfActivity(), true) {
-//            @Override
-//            protected void _onNext(FixServiceList list) {
-//
-//                init0Data(rg, list.getServiceList());//根据第一级类别数量 创建RadioButton
-//                set1Data(list.getServiceList().get(0).getSonList());//设置第二级类别
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                ToastUtils.showToast(message);
-//            }
-//        });
-        getGoodList(null);
+        rg.removeAllViews();
+        mdl.getServiceData(new RxSubscribe<List<GoodsCategory>>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(List<GoodsCategory> list) {
+
+                if (null == list || list.size() == 0) {
+                    ToastUtils.showToast("暂无分类！");
+                    rg.setVisibility(View.GONE);
+                    return;
+                }
+
+
+                rg.setVisibility(View.VISIBLE);
+                init0Data(rg, list);//根据第一级类别数量 创建RadioButton
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+        getGoodList(null, page, "");
 
     }
 
-    public void init0Data(RadioGroup rg, final List<FixServiceListEntity> list) {
+    public void init0Data(RadioGroup rg, final List<GoodsCategory> list) {
         for (int i = 0; i < list.size(); i++) {
-            MyRadioButton radioButton = new MyRadioButton(getView().getSelfActivity(), list.get(i).getServiceName(), i);
+            MyRadioButton radioButton = new MyRadioButton(getView().getSelfActivity(), list.get(i).getName(), i);
+
 
             final int finalI = i;
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    set1Data(list.get(finalI).getSonList());
-                    getView().showService2List();
+//                    set1Data(list.get(finalI).getSonList());
+                    categoryId = list.get(finalI).getCategoryId();
+                    page = 1;
+                    getGoodList(null, page, categoryId);
+
                 }
             });
+
             rg.addView(radioButton);
         }
 
@@ -146,7 +167,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     }
 
     @Override
-    public void initRecyclerView(RecyclerView rv_2item, RecyclerView rv_service) {
+    public void initRecyclerView(RecyclerView rv_2item, RecyclerView rv_service, EasyRefreshLayout e) {
         rv_2item.setLayoutManager(new LinearLayoutManager(getView().getSelfActivity()));
         rv_service.setLayoutManager(new LinearLayoutManager(getView().getSelfActivity()));
 
@@ -154,6 +175,33 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
         rv_service.setAdapter(adapter_item);
         adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_service);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
+        easylayout = e;
+
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                loadMoreData();
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                getData();
+
+            }
+        });
+    }
+
+    public void loadMoreData() {
+        page++;
+        getGoodList(getView().getKey(), page, categoryId);
+    }
+
+    public void getData() {
+        page = 1;
+        getGoodList(getView().getKey(), page, categoryId);
+
     }
 
 
@@ -199,8 +247,8 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 //                ToastUtils.showToast(message);
 //            }
 //        });
-
-        getGoodList(key);
+        page = 1;
+        getGoodList(key, page, "");
     }
 
 
@@ -216,20 +264,38 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     }
 
-    private void getGoodList(String key) {
-        mdl.getGoodList(new RxSubscribe<GoodsList>(getView().getSelfActivity(), true) {
+
+    //查找所有数据
+    private void getGoodList(String key, final int page, String categoryId) {
+        mdl.getGoodList(new RxSubscribe<GoodsList>(getView().getSelfActivity(), page == 1) {
             @Override
             protected void _onNext(GoodsList goodsList) {
 
-                adapter_item.setNewData(toFixParts(goodsList.getList()));
+                if (page == 1) {//不等于1 显示更多
+                    easylayout.refreshComplete();
+                    adapter_item.setNewData(toFixParts(goodsList.getList()));
+                    if (goodsList.getList().size() < Configure.limit_page)
+                        easylayout.setLoadMoreModel(LoadModel.NONE);
+                } else {
+
+                    easylayout.loadMoreComplete();
+                    if (goodsList.getList().size() == 0) {
+                        ToastUtils.showToast("没有更多了！");
+                        easylayout.setLoadMoreModel(LoadModel.NONE);
+                        return;
+                    }
+
+                    adapter_item.addData(toFixParts(goodsList.getList()));
+                }
             }
 
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
             }
-        }, key, 1);
+        }, key, page, categoryId);
     }
+
 
     private List<FixServie> toFixParts(List<Goods> data) {
         List<FixServie> parts = new ArrayList<>();

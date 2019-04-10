@@ -133,5 +133,8 @@ public interface FixService {
     @FormUrlEncoded
     Observable<BaseBean<List<FixService2item>>> secondService(@Header("X-Nideshop-Token") String tokenct, @Field("parent_id") int id);
 
+    //添加自定义服务或商品
+    @POST("xgxshopgoods/save")
+    Observable<BaseBean<ShopProject>> save(@Header("X-Nideshop-Token") String token, @Body ShopProject shopProject);
 
 }

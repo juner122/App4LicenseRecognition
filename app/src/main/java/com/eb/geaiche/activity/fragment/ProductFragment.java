@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 
@@ -21,8 +22,11 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.Brandadapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.SoftInputUtil;
+import com.eb.geaiche.view.MyRadioButton;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Category;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
@@ -46,13 +50,9 @@ public class ProductFragment extends BaseFragment {
     EditText et_key;
 
     ProductListFragment fragment;
-    CommonPopupWindow popupWindow;
-    RecyclerView commonPopupRecyclerView;
-    Brandadapter brandadapter;
-    Integer checkedTag;
-    List<Category> categories;
+    String categoryId;//当前选的大分类索引id
+    int page = 1;//第一页
 
-    private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
 
 
     public static ProductFragment getInstance() {
@@ -74,85 +74,80 @@ public class ProductFragment extends BaseFragment {
 
         replaceFragment();
 
-
-        Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(getContext(), true) {
+        //获取分类
+        Api().queryShopcategoryAll(String.valueOf(Configure.Goods_TYPE_4)).subscribe(new RxSubscribe<List<GoodsCategory>>(getContext(), true) {
             @Override
-            protected void _onNext(CategoryBrandList o) {
-                listMap.put(o.getCategoryList().get(0).getId() + "", o.getGoodList());//保存初始List<GoodsEntity> key为种类id+品牌id
-
-                fragment.switchData(o.getCategoryList().get(0).getId(), "", o.getGoodList());
-                categories = o.getCategoryList();
-                checkedTag = 0;
-                for (int i = 0; i < categories.size(); i++) {
-                    RadioButton radioButton = new RadioButton(getContext());
-                    RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, 1, 0, 0);
-                    radioButton.setPadding(0, 36, 0, 36);
-                    radioButton.setText(categories.get(i).getName());
-                    radioButton.setBackground(getResources().getDrawable(R.drawable.radiobutton_background_a));
-                    radioButton.setButtonDrawable(android.R.color.transparent);//隐藏单选圆形按钮
-                    radioButton.setGravity(Gravity.CENTER);
-                    radioButton.setLayoutParams(layoutParams);
-                    radioButton.setTag(i);
-                    radioButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showPopupWindow(view);
-                        }
-                    });
-
-                    radioGroup.addView(radioButton);
+            protected void _onNext(List<GoodsCategory> list) {
+                if (null == list || list.size() == 0) {
+                    ToastUtils.showToast("暂无分类！");
+                    radioGroup.setVisibility(View.GONE);
+                    return;
                 }
+
+                radioGroup.setVisibility(View.VISIBLE);
+                init0Data(radioGroup, list);//根据第一级类别数量 创建RadioButton
             }
 
             @Override
             protected void _onError(String message) {
 
-                ToastUtils.showToast(message);
             }
         });
-
-        commonPopupRecyclerView = new RecyclerView(getContext());
-        commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        brandadapter = new Brandadapter(null);
-        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.v("BaseQuickAdapter", "第" + position + "项");
-
-                //根据商品类型，品牌，查询商品
-                popupWindow.dismiss();
-
-                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), et_key.getText().toString());
-
-            }
-
-        });
-        commonPopupRecyclerView.setAdapter(brandadapter);
-
-        popupWindow = new CommonPopupWindow.Builder(getContext())
-                .setView(commonPopupRecyclerView)
-                .create();
 
 
         //新接口
-        xgxshopgoodsList(null);
+        xgxshopgoodsList(null,null);
 
 
     }
+    public void init0Data(RadioGroup rg, final List<GoodsCategory> list) {
+        rg.removeAllViews();//清除所有
+        for (int i = 0; i < list.size(); i++) {
+            MyRadioButton radioButton = new MyRadioButton(getActivity(), list.get(i).getName(), i);
+            final int finalI = i;
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    categoryId = list.get(finalI).getCategoryId();//一级分类id
+
+                    xgxshopgoodsList(null, categoryId);
+                }
+            });
+
+            rg.addView(radioButton);
+        }
+
+
+    }
     /**
      * 新商品接口
      *
      * @param key 搜索关键字
      */
 
-    private void xgxshopgoodsList(String key) {
-        Api().xgxshopgoodsList(key, null, null, 1, type).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
+    private void xgxshopgoodsList(String key,String categoryId) {
+        Api().xgxshopgoodsList(key, null, categoryId, 1, type).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
             @Override
             protected void _onNext(GoodsList goods) {
                 fragment.switchData(goods.getList());
+
+//                if (page == 1) {//不等于1 显示更多
+//                    easylayout.refreshComplete();
+//                    adapter_item.setNewData(toFixParts(goodsList.getList()));
+//                    if (goodsList.getList().size() < Configure.limit_page)
+//                        easylayout.setLoadMoreModel(LoadModel.NONE);
+//                } else {
+//
+//                    easylayout.loadMoreComplete();
+//                    if (goodsList.getList().size() == 0) {
+//                        ToastUtils.showToast("没有更多了！");
+//                        easylayout.setLoadMoreModel(LoadModel.NONE);
+//                        return;
+//                    }
+//
+//                    adapter_item.addData(toFixParts(goodsList.getList()));
+//                }
             }
 
             @Override
@@ -162,71 +157,7 @@ public class ProductFragment extends BaseFragment {
         });
     }
 
-    private void showPopupWindow(View v) {
-        et_key.setText("");//清空搜索栏
 
-        if (v.getTag() == checkedTag) {//判断当前选择的View Tag是否为已选中的View
-            Log.d("radioGroup", "showPopupWindow+++当前选中的id为：" + v.getTag().toString());
-            List<SubCategoryEntity> list = categories.get(checkedTag).getSubCategoryList();
-            if (list.size() > 0) {
-                //PopupWindow在rb向右弹弹出
-                brandadapter.setNewData(list);
-                popupWindow.showAsDropDown(v, v.getWidth(), -v.getHeight());
-            }
-        } else {
-
-            checkedTag = (Integer) v.getTag();
-            onQueryAnyGoods(categories.get(checkedTag).getId(), "", "");
-        }
-    }
-
-    private void onQueryAnyGoods(final String category_id, final String brand_id, String name) {
-
-
-        if (null != listMap && null != listMap.get(category_id + brand_id)) {
-            fragment.switchData(category_id, brand_id, listMap.get(category_id + brand_id));
-
-
-        } else {
-            Api().queryAnyGoods(category_id, brand_id, name).subscribe(new RxSubscribe<GoodsListEntity>(getContext(), true) {
-                @Override
-                protected void _onNext(GoodsListEntity goodsListEntity) {
-
-                    List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
-
-                    listMap.put(category_id + brand_id, brand_all);
-                    fragment.switchData(category_id, brand_id, brand_all);
-                }
-
-                @Override
-                protected void _onError(String message) {
-                    Log.v("BaseQuickAdapter", message);
-                }
-            });
-        }
-
-    }
-
-    private void onQueryAnyGoods4Key(String name) {
-
-
-        Api().queryAnyGoods(name).subscribe(new RxSubscribe<GoodsListEntity>(getContext(), true) {
-            @Override
-            protected void _onNext(GoodsListEntity goodsListEntity) {
-
-                List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
-                fragment.switchData("", "", brand_all);
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Log.v("BaseQuickAdapter", message);
-            }
-        });
-
-
-    }
 
     @OnClick({R.id.iv_search})
     public void onClick(View v) {
@@ -237,7 +168,7 @@ public class ProductFragment extends BaseFragment {
 
                 if (!TextUtils.isEmpty(et_key.getText())) {
 //                    onQueryAnyGoods4Key(et_key.getText().toString());
-                    xgxshopgoodsList(et_key.getText().toString());
+                    xgxshopgoodsList(et_key.getText().toString(),null);
                     SoftInputUtil.hideSoftInput(getContext(), et_key);
                 } else
                     ToastUtils.showToast("请输入搜索关键字！");

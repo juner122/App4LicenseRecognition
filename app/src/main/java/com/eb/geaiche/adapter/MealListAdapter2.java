@@ -48,7 +48,7 @@ public class MealListAdapter2 extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum() + "次"));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getNumber() + "次"));
 
                 break;
 

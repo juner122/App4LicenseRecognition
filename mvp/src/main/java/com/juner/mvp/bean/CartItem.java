@@ -1,8 +1,11 @@
 package com.juner.mvp.bean;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 //购物车商品
-public class CartItem extends SelectedBean {
+public class CartItem extends SelectedBean implements Parcelable {
     Integer id;
     Integer user_id;
     Integer goods_id;
@@ -63,7 +66,7 @@ public class CartItem extends SelectedBean {
     }
 
     public String getRetail_product_price() {
-        return retail_product_price;
+        return null == retail_product_price ? "0.00" : retail_product_price;
     }
 
     public void setRetail_product_price(String retail_product_price) {
@@ -93,4 +96,51 @@ public class CartItem extends SelectedBean {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeValue(this.user_id);
+        dest.writeValue(this.goods_id);
+        dest.writeString(this.goods_sn);
+        dest.writeValue(this.product_id);
+        dest.writeString(this.goods_name);
+        dest.writeString(this.retail_product_price);
+        dest.writeValue(this.number);
+        dest.writeString(this.goodsStandardTitle);
+        dest.writeString(this.image);
+    }
+
+    public CartItem() {
+    }
+
+    protected CartItem(Parcel in) {
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.user_id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.goods_id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.goods_sn = in.readString();
+        this.product_id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.goods_name = in.readString();
+        this.retail_product_price = in.readString();
+        this.number = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.goodsStandardTitle = in.readString();
+        this.image = in.readString();
+    }
+
+    public static final Parcelable.Creator<CartItem> CREATOR = new Parcelable.Creator<CartItem>() {
+        @Override
+        public CartItem createFromParcel(Parcel source) {
+            return new CartItem(source);
+        }
+
+        @Override
+        public CartItem[] newArray(int size) {
+            return new CartItem[size];
+        }
+    };
 }

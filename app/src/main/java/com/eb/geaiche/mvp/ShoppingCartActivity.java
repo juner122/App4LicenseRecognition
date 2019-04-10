@@ -1,16 +1,17 @@
 package com.eb.geaiche.mvp;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
-import com.eb.geaiche.adapter.ShoppingCartListAdapter;
+import com.eb.geaiche.activity.MallGoodsActivity;
+import com.eb.geaiche.activity.MallGoodsInfoActivity;
+import com.eb.geaiche.activity.MallMakeOrderActivity;
 import com.eb.geaiche.mvp.contacts.ShoppingCartContacts;
 import com.eb.geaiche.mvp.presenter.ShoppingCartPtr;
-import com.juner.mvp.bean.CartList;
+import com.eb.geaiche.util.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,25 +19,41 @@ import butterknife.OnClick;
 //购物车
 public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.ShoppingCartPtr> implements ShoppingCartContacts.ShoppingCartUI {
 
-    ShoppingCartListAdapter adapter;
 
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.tv_price_all)
+    TextView tv_price_all;
 
-    boolean isAllPick = false;
+    @BindView(R.id.iv_pick_all)
+    ImageView iv_pick_all;
+
+    boolean isAllPick;
 
 
-    @OnClick({R.id.iv_pick_all})
+    @OnClick({R.id.iv_pick_all, R.id.tv_total})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pick_all:
                 if (isAllPick) {
                     isAllPick = false;
-                    ((ImageView) v).setImageResource(R.drawable.icon_unpick2);
+                    iv_pick_all.setImageResource(R.drawable.icon_unpick2);
+                    tv_price_all.setText("0.00");
+                    getPresenter().allPick(isAllPick);
                 } else {
                     isAllPick = true;
-                    ((ImageView) v).setImageResource(R.drawable.icon_pick2);
+                    iv_pick_all.setImageResource(R.drawable.icon_pick2);
+                    getPresenter().allPick(isAllPick);
                 }
+                break;
+
+            case R.id.tv_total://结算
+                if (getPresenter().getCartItemList().size() == 0) {
+                    ToastUtils.showToast("请最少选择一件商品！");
+                    return;
+                }
+                toActivity(MallMakeOrderActivity.class, getPresenter().getCartItemList(), "cart_goods");
+
                 break;
         }
     }
@@ -49,22 +66,12 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
     @Override
     protected void init() {
         tv_title.setText("购物车");
-        adapter = new ShoppingCartListAdapter(null, getSelfActivity());
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(adapter);
-
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.add_btn) {//增加数量
-
-                    
-                } else if (view.getId() == R.id.reduce_btn) {//减少数量
 
 
-                }
-            }
-        });
+        getPresenter().infoRecyclerView(rv);
+        //获取数据
+        getPresenter().getShoppingCartInfo();
+
 
     }
 
@@ -75,7 +82,24 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
 
 
     @Override
-    public void setShoppingCartInfo(CartList cartInfo) {
-        adapter.setNewData(cartInfo.getCartList());
+    public void upAllPrice(String allPrice) {
+        tv_price_all.setText(allPrice);
+    }
+
+    @Override
+    public void onChangeAllPick(boolean is) {
+
+        if (is) {
+            iv_pick_all.setImageResource(R.drawable.icon_pick2);
+        } else {
+            iv_pick_all.setImageResource(R.drawable.icon_unpick2);
+        }
+
+        isAllPick = is;
+    }
+
+    @Override
+    public void toGoodsInfoActivity(int goodsId) {
+        toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, goodsId);
     }
 }

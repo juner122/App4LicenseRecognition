@@ -39,7 +39,6 @@ public class ProductListFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     ProductListAdapter productListAdapter;
-//    List<GoodsEntity> list = new ArrayList<>();
 
     List<Goods> goodsList = new ArrayList<>();//新商品Goods
 
@@ -159,47 +158,7 @@ public class ProductListFragment extends BaseFragment {
 
     //获取规格列表
     private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
-//
-//        Api().sku(list.get(positions).getId()).subscribe(new RxSubscribe<ProductList>(getContext(), true) {
-//            @Override
-//            protected void _onNext(final ProductList p) {
-//
-//                final ProductListDialog confirmDialog = new ProductListDialog(getContext(), p.getProductList());
-//                confirmDialog.show();
-//                confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
-//                    @Override
-//                    public void doConfirm(ProductValue pick_value) {
-//                        confirmDialog.dismiss();
-//                        view.setText(pick_value.getValue());
-//                        list.get(positions).setProduct_id(pick_value.getId());
-//                        list.get(positions).setGoods_specifition_ids(pick_value.getGoods_specification_ids());
-//                        list.get(positions).setRetail_price(pick_value.getRetail_price());
-//                        list.get(positions).setMarket_price(pick_value.getMarket_price());
-//                        list.get(positions).setPrimary_pic_url(pick_value.getList_pic_url());
-//                        list.get(positions).setGoods_specifition_name_value(pick_value.getValue());
-//                        list.get(positions).setGoods_sn(pick_value.getGoods_sn());
-//                        list.get(positions).setNumber(pick_value.getNumber());
-////                        productListAdapter.setNewData(list);
-//                        //按确认才保存
-//                        MyApplication.cartUtils.commit();
-//                        sendMsg(MyApplication.cartUtils.getProductPrice());
-//
-//                    }
-//
-//                    @Override
-//                    public void doCancel() {
-//                        confirmDialog.dismiss();
-//                    }
-//                });
-//
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                ToastUtils.showToast(message);
-//            }
-//        });
+
 
         final ProductListDialog confirmDialog = new ProductListDialog(getContext(), goodsStandards, goods);
         confirmDialog.show();

@@ -112,10 +112,10 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     @Override
     public void confirm(final String dec, final String name, final String price, int number, int openStatus, final boolean isContinue) {
 
-        if (parent_id2 == -1) {
-            ToastUtils.showToast("请选择二级分类！");
-            return;
-        }
+//        if (parent_id2 == -1) {
+//            ToastUtils.showToast("请选择二级分类！");
+//            return;
+//        }
         if ("".equals(name)) {
             ToastUtils.showToast("请设置名称！");
             return;

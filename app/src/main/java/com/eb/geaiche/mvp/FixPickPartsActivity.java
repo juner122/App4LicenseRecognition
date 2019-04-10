@@ -9,9 +9,12 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickPartsContacts;
 import com.eb.geaiche.mvp.presenter.FixPickPartsPtr;
+import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.FixParts;
 
@@ -45,6 +48,9 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     @BindView(R.id.ll_bottom)
     View ll_bottom;//
 
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
+
     @OnClick({R.id.tv_confirm, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -54,12 +60,13 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
                 break;
             case R.id.iv_search:
                 //搜索
+                SoftInputUtil.hideSoftInput(this,view);
                 getPresenter().seekPartsforKey(et_key.getText().toString());
                 break;
             case R.id.tv_title_r:
                 //自定义配件
-                toActivity(CustomPartsActivity.class, "type", 1);
 
+                toActivity(CustomPartsActivity.class, "type", 1);
                 break;
 
 
@@ -73,12 +80,13 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         return R.layout.activity_fix_pick_service;
     }
 
+
     @Override
     protected void init() {
 
         tv_title.setText("配件库");
-        setRTitle("自定义配件");
-        getPresenter().initRecyclerView(rv0, rv1);
+//        setRTitle("自定义配件");
+        getPresenter().initRecyclerView(rv0, rv1,easylayout);
 
         if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
             ll_bottom.setVisibility(View.VISIBLE);
@@ -86,13 +94,11 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
             ll_bottom.setVisibility(View.GONE);
 
         }
+
+        getPresenter().onGetData(rg_type);
+
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getPresenter().onGetData(rg_type);
-    }
 
     @Override
     public void showPartsList() {
@@ -124,6 +130,11 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
         startActivity(intent);
 
 
+    }
+
+    @Override
+    public String getKey() {
+        return et_key.getText().toString();
     }
 
 

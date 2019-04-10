@@ -131,7 +131,7 @@ public class CarVinDISActivity extends BaseActivity {
             case R.id.tv_check://查询
                 if (TextUtils.isEmpty(et_vin.getText())) {
 
-                    ToastUtils.showToast("请输入架号");
+                    ToastUtils.showToast("请输入车架号");
                     return;
                 }
                 queryVinInfo(et_vin.getText().toString());
@@ -177,7 +177,7 @@ public class CarVinDISActivity extends BaseActivity {
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-        vin = "lbvtz4100ksp30049";
+//        vin = "lbvtz4100ksp30049";
         Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
@@ -222,6 +222,7 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setAllJson(carVinInfo.toString());
         carInfo.setVin(carVinInfo.getVin());
         carInfo.setOutputVolume(carVinInfo.getOutput_volume());
+        carInfo.setEngineSn(carVinInfo.getEngine_type());
     }
 
 

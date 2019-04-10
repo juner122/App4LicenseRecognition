@@ -72,13 +72,14 @@ public class MallGoodsActivity extends BaseActivity {
         });
 
         //添加购物车监听器
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter.setOnItemChildClickListener( new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
-                int goodsId = adapter.getData().get(position).getId();
-//                addToShoppingCart(goodsId);
+
+                addToShopCart(adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId());
             }
         });
+
 
     }
 
@@ -96,7 +97,7 @@ public class MallGoodsActivity extends BaseActivity {
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, MallActivity.type).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
+        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, Configure.Goods_TYPE_1).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
             @Override
             protected void _onNext(GoodsList goods) {
 
@@ -126,17 +127,25 @@ public class MallGoodsActivity extends BaseActivity {
     }
 
 
-    private void addToShoppingCart() {
-//        Api().addToShoppingCart().subscribe(new RxSubscribe<CartList>(this, true) {
-//            @Override
-//            protected void _onNext(CartList cartList) {
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//
-//            }
-//        });
+    //添加商品到购物车
+    private void addToShopCart(int goodsId, int productId) {
+
+        Api().addToShoppingCart(goodsId, productId).subscribe(new RxSubscribe<CartList>(this, true) {
+            @Override
+            protected void _onNext(CartList cartList) {
+                if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {
+                    ToastUtils.showToast("添加失败！");
+                } else
+                    ToastUtils.showToast("添加成功！");
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast("添加失败！" + message);
+
+            }
+        });
+
     }
 }

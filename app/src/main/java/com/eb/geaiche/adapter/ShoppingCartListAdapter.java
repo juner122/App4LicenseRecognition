@@ -29,11 +29,12 @@ public class ShoppingCartListAdapter extends BaseQuickAdapter<CartItem, BaseView
         helper.setText(R.id.tv_title, item.getGoods_name());
         helper.setText(R.id.tv_product, item.getGoodsStandardTitle());
         helper.setText(R.id.rv_price, String.format("￥%s", MathUtil.twoDecimal(item.getRetail_product_price())));
-        helper.setText(R.id.tv_num, item.getNumber());
+        helper.setText(R.id.tv_num, String.format("%s", item.getNumber()));
 
 
         helper.addOnClickListener(R.id.add_btn);
         helper.addOnClickListener(R.id.reduce_btn);
+        helper.addOnClickListener(R.id.tv_title);
 
         Glide.with(context)
                 .load(item.getImage())

@@ -63,6 +63,7 @@ import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
 import com.eb.geaiche.util.ToastUtils;
+import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -568,15 +569,6 @@ public class ApiLoader {
         return apiService.memberOrderList(map).compose(RxHelper.<MemberOrder>observe());
     }
 
-    /**
-     * 修改用户名
-     */
-    public Observable<NullDataEntity> remakeUserName(String user_name, int user_id) {
-
-        map.put("user_name", user_name);
-        map.put("user_id", user_id);
-        return apiService.remakeUserName(map).compose(RxHelper.<NullDataEntity>observe());
-    }
 
     /**
      * 门店信息
@@ -1068,6 +1060,17 @@ public class ApiLoader {
     }
 
     /**
+     * 更改客户信息2
+     */
+    public Observable<NullDataEntity> remakeName(int user_id, String user_name, String mobile) {
+
+        map.put("mobile", mobile);
+        map.put("user_id", user_id);
+        map.put("user_name", user_name);
+        return apiService.remakeName(map).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
      * 门店检修报告选项列表
      */
     public Observable<List<CheckOptions>> queryCheckOptions() {
@@ -1180,20 +1183,35 @@ public class ApiLoader {
         return apiService.xgxshopgoodsInfo(map).compose(RxHelper.<Goods>observe());
     }
 
+   /**
+    * 获取购物车信息
+     */
+    public Observable<CartList> getShoppingCart() {
+
+        return apiService.getShoppingCart(token).compose(RxHelper.<CartList>observe());
+    }
+
 
     /**
      * 添加购物车
      *
      * @param goodsId   商品id
      * @param productId 商品规格id
-     * @param number    数量
      */
-    public Observable<CartList> addToShoppingCart(int goodsId, int productId, int number) {
+    public Observable<CartList> addToShoppingCart(int goodsId, int productId) {
 
         map.put("goodsId", goodsId);
         map.put("productId", productId);
-        map.put("number", number);
+//        map.put("number", number);
         return apiService.addToShoppingCart(map).compose(RxHelper.<CartList>observe());
+    }
+
+  /**
+     * 购物车商品下单
+     */
+    public Observable<NullDataEntity> mallMakeOrder(XgxPurchaseOrderPojo purchaseOrderPojo) {
+
+        return apiService.mallMakeOrder(token,purchaseOrderPojo).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

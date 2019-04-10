@@ -61,6 +61,7 @@ import com.juner.mvp.bean.Video;
 import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
+import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 
 import java.util.List;
 import java.util.Map;
@@ -274,6 +275,11 @@ public interface ApiService {
     @POST("user/remakeUserName")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> remakeUserName(@FieldMap Map<String, Object> maps);
+
+    //修改用户名2 不用验证码
+    @POST("user/remakeName")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> remakeName(@FieldMap Map<String, Object> maps);
 
     //获取优惠券列表 [达到满减，未到期，未用过]
     @POST("coupon/list")
@@ -556,12 +562,12 @@ public interface ApiService {
     Observable<BaseBean<ShopCarBane>> shopCarList(@FieldMap Map<String, Object> maps);
 
     //获取商品分类
-    @POST("http://222.111.88.99:8080/app/shopcategory/queryAll")
+    @POST("shopcategory/queryAll")
     @FormUrlEncoded
     Observable<BaseBean<List<GoodsCategory>>> queryShopcategoryAll(@FieldMap Map<String, Object> maps);
 
     //根据商品分类查询品牌
-    @POST("http://222.111.88.99:8080/app/shopcategory/info")
+    @POST("shopcategory/info")
     @FormUrlEncoded
     Observable<BaseBean<List<GoodsBrand>>> shopcategoryInfo(@FieldMap Map<String, Object> maps);
 
@@ -571,18 +577,28 @@ public interface ApiService {
     Observable<BaseBean<GoodsList>> xgxshopgoodsList(@FieldMap Map<String, Object> maps);
 
     //查询商品详情
-    @POST("http://222.111.88.99:8080/app/xgxshopgoods/info")
+    @POST("xgxshopgoods/info")
     @FormUrlEncoded
     Observable<BaseBean<Goods>> xgxshopgoodsInfo(@FieldMap Map<String, Object> maps);
 
     //获取登录用户购物车数据
-    @POST("http://222.111.88.99:8080/app/cart/getCart")
+    @POST("cart/getCart")
     Observable<BaseBean<CartList>> getShoppingCart(@Header("X-Nideshop-Token") String token);
 
     //添加购物车
-    @POST("http://222.111.88.99:8080/app/cart/getCart")
+    @POST("cart/add")
     @FormUrlEncoded
     Observable<BaseBean<CartList>> addToShoppingCart(@FieldMap Map<String, Object> maps);
+
+
+    //更新商品购物车数据
+    @POST("cart/update")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> shoppingCartUpdate(@FieldMap Map<String, Object> maps);
+
+    //购物车商品下单
+    @POST("purchaseorder/save")
+    Observable<BaseBean<NullDataEntity>> mallMakeOrder(@Header("X-Nideshop-Token") String token, @Body XgxPurchaseOrderPojo purchaseOrderPojo);
 
 
 }

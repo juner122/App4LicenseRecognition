@@ -11,6 +11,7 @@
 
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -41,6 +42,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -89,6 +91,14 @@
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="*"
+            android:textColor="#FFE73323"
+            android:textSize="14sp" />
+
         <EditText
             android:id="@+id/et_name"
             android:layout_width="wrap_content"
@@ -107,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="（必填）"
-            android:textColor="#FFE73323"
             android:textSize="13sp" />
     </LinearLayout>
 
@@ -126,6 +135,14 @@
             android:layout_height="wrap_content"
             android:text="商品价格"
             android:textColor="#ff000000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="*"
+            android:textColor="#FFE73323"
             android:textSize="14sp" />
 
         <EditText
@@ -147,7 +164,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="（必填）"
-            android:textColor="#FFE73323"
             android:textSize="13sp" />
     </LinearLayout>
 

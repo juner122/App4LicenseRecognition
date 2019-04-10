@@ -16,8 +16,26 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
     int id;
     int activityId;
     String actName;
-
+    String createTime;
+    String price;
     List<MealEntity> goodsList;
+
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public int getActivityId() {
         return activityId;
@@ -51,41 +69,8 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
         this.goodsList = goodsList;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeInt(this.activityId);
-        dest.writeString(this.actName);
-        dest.writeList(this.goodsList);
-    }
-
     public Meal2() {
     }
-
-    protected Meal2(Parcel in) {
-        this.id = in.readInt();
-        this.activityId = in.readInt();
-        this.actName = in.readString();
-        this.goodsList = new ArrayList<MealEntity>();
-        in.readList(this.goodsList, MealEntity.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Meal2> CREATOR = new Parcelable.Creator<Meal2>() {
-        @Override
-        public Meal2 createFromParcel(Parcel source) {
-            return new Meal2(source);
-        }
-
-        @Override
-        public Meal2[] newArray(int size) {
-            return new Meal2[size];
-        }
-    };
 
     @Override
     public int getLevel() {
@@ -96,4 +81,40 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
     public int getItemType() {
         return 0;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.activityId);
+        dest.writeString(this.actName);
+        dest.writeString(this.createTime);
+        dest.writeString(this.price);
+        dest.writeTypedList(this.goodsList);
+    }
+
+    protected Meal2(Parcel in) {
+        this.id = in.readInt();
+        this.activityId = in.readInt();
+        this.actName = in.readString();
+        this.createTime = in.readString();
+        this.price = in.readString();
+        this.goodsList = in.createTypedArrayList(MealEntity.CREATOR);
+    }
+
+    public static final Creator<Meal2> CREATOR = new Creator<Meal2>() {
+        @Override
+        public Meal2 createFromParcel(Parcel source) {
+            return new Meal2(source);
+        }
+
+        @Override
+        public Meal2[] newArray(int size) {
+            return new Meal2[size];
+        }
+    };
 }

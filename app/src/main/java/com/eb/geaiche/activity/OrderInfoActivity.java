@@ -365,7 +365,8 @@ public class OrderInfoActivity extends BaseActivity {
         pay_status = info.getOrderInfo().getPay_status();
         order_status = info.getOrderInfo().getOrder_status();
 
-        productList = info.getOrderInfo().getGoodsList();
+        productList = getGoodsList(info.getOrderInfo().getGoodsList(),Configure.Goods_TYPE_4);//
+        server = getGoodsList(info.getOrderInfo().getGoodsList(),Configure.Goods_TYPE_3);//服务
 
         meal = info.getOrderInfo().getUserActivityList();
 
@@ -549,6 +550,23 @@ public class OrderInfoActivity extends BaseActivity {
                 ToastUtils.showToast("修改失败:" + message);
             }
         });
+
+    }
+
+
+    //获取商品或工时
+    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
+        if (null == goodsEntities || goodsEntities.size() == 0) {
+            return null;
+        }
+        List<GoodsEntity> list = new ArrayList<>();
+        for (GoodsEntity entity : goodsEntities) {
+            if (entity.getType() == Type) {
+                list.add(entity);
+            }
+        }
+        return list;
+
 
     }
 

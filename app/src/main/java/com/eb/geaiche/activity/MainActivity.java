@@ -225,6 +225,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
+    }
 
     public void registBroadcast() {
         //实例化广播对象

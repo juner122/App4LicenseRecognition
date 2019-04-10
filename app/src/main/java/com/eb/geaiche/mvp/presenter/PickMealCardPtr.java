@@ -13,6 +13,7 @@ import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.mvp.contacts.PickMealCardContacts;
 import com.eb.geaiche.mvp.model.PickMealCardMdl;
+import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 
@@ -38,7 +39,9 @@ public class PickMealCardPtr extends BasePresenter<PickMealCardContacts.PickMeal
             @Override
             protected void _onNext(List<Meal2> list) {
 
+
                 getView().setMealList(generateData(list));
+
             }
 
             @Override
@@ -166,18 +169,31 @@ public class PickMealCardPtr extends BasePresenter<PickMealCardContacts.PickMeal
 
     private List<MultiItemEntity> generateData(List<Meal2> list) {
 
-        List<MultiItemEntity> res = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            MealL0Entity lv0 = new MealL0Entity();
-            lv0.setId(list.get(i).getId());
-            lv0.setActivityId(list.get(i).getActivityId());
-            lv0.setActivityName(list.get(i).getActName());
 
-            for (MealEntity entity : list.get(i).getGoodsList()) {
-                entity.setMaxNum(entity.getNumber());//设置最大值
-                lv0.addSubItem(entity);
+        List<MultiItemEntity> res = new ArrayList<>();
+        if (null == list || list.size() == 0) {
+            return res;
+
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            if (null != list.get(i).getGoodsList() && list.get(i).getGoodsList().size() > 0) {
+                MealL0Entity lv0 = new MealL0Entity();
+                lv0.setId(list.get(i).getId());
+                lv0.setActivityId(list.get(i).getActivityId());
+                lv0.setActivityName(list.get(i).getActName());
+                for (MealEntity entity : list.get(i).getGoodsList()) {
+                    if (null != entity) {
+                        entity.setMaxNum(entity.getNumber());//设置最大值
+                        lv0.addSubItem(entity);
+                    }
+
+                }
+
+                if (null != lv0.getSubItems())
+                    res.add(lv0);
             }
-            res.add(lv0);
+
         }
         return res;
     }

@@ -18,6 +18,7 @@ import com.eb.geaiche.adapter.ServeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 
 
+import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
@@ -57,7 +58,6 @@ public class ServeListActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        ll_search.setVisibility(View.GONE);
 
 
         //计算总价
@@ -69,28 +69,6 @@ public class ServeListActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(serveListAdapter);
 
-
-//        Api().goodsServeList().subscribe(new RxSubscribe<ServerList>(this, true) {
-//            @Override
-//            protected void _onNext(ServerList o) {
-//
-//                servers = o.getList();
-//                for (Server ps : MyApplication.cartServerUtils.getServerList()) {
-//                    for (int i = 0; i < servers.size(); i++) {
-//                        if (ps.getId() == servers.get(i).getId()) {
-//                            servers.get(i).setSelected(true);
-//                        }
-//                    }
-//                }
-//
-//                serveListAdapter.setNewData(servers);
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                ToastUtils.showToast(message);
-//            }
-//        });
         serveListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -158,8 +136,10 @@ public class ServeListActivity extends BaseActivity {
                 break;
             case R.id.iv_search:
 
+                SoftInputUtil.hideSoftInput(this, v);
+
                 if (!TextUtils.isEmpty(et_key.getText()))
-                    onQueryAnyGoods("", et_key.getText().toString());
+                    xgxshopgoodsList(et_key.getText().toString());
                 else
 
                     ToastUtils.showToast("请输入搜索关键字！");
@@ -178,13 +158,6 @@ public class ServeListActivity extends BaseActivity {
     @Override
     protected void setUpView() {
     }
-
-
-    private void onQueryAnyGoods(final String category_id, String name) {
-
-
-    }
-
 
     @Override
     protected void setUpData() {

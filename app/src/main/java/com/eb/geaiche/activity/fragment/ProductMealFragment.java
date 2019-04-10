@@ -14,6 +14,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.bean.Meal;
 import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
+import com.eb.geaiche.util.ToastUtils;
 
 
 import java.util.ArrayList;
@@ -97,15 +98,20 @@ public class ProductMealFragment extends BaseFragment {
     private List<MultiItemEntity> generateData(Map<String, List<MealEntity>> map) {
 
         List<MultiItemEntity> res = new ArrayList<>();
-        if (null == map) {
+
+        if (null == map || map.size() == 0) {
+            ToastUtils.showToast("没有可用套卡");
             return res;
         }
+
 
         for (List<MealEntity> list : map.values()) {
 
             MealL0Entity lv0 = new MealL0Entity(list.get(0).getActivityName(), list.get(0).getActivitySn());
 
             for (MealEntity entity : list) {
+                lv0.setCarNo(entity.getCarNo());
+                lv0.setEndTime(Long.parseLong(entity.getEndTime()));
                 lv0.addSubItem(entity);
             }
             res.add(lv0);

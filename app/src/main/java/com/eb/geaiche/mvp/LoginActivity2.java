@@ -131,6 +131,13 @@ public class LoginActivity2 extends BaseActivity<LoginContacts.LoginPtr> impleme
 
     }
 
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+
+        unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
+    }
 
     public void registBroadcast() {
         //实例化广播对象

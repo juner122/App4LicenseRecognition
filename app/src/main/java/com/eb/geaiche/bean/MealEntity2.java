@@ -7,16 +7,10 @@ import android.os.Parcelable;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.juner.mvp.bean.SelectedBean;
 
-//套餐里的商品
-public class MealEntity extends SelectedBean implements MultiItemEntity, Parcelable {
+//开卡记录
+public class MealEntity2 extends SelectedBean implements MultiItemEntity, Parcelable {
 
     int id;
-    String goodsTitle;
-    Integer goodsNum = 0;
-    Integer type;
-    String goodsCode;
-    Integer maxNum = 0;
-    Integer wxType;
     String activityId;
     String goodsId;
     String shopName;
@@ -29,6 +23,7 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
     String endTime;
     String carNo;
     String dealUserName;
+    Integer goodsNum = 0;
     String activitySn;
 
     public int getId() {
@@ -151,63 +146,6 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.activitySn = activitySn;
     }
 
-    public Integer getWxType() {
-        return wxType;
-    }
-
-    public void setWxType(Integer wxType) {
-        this.wxType = wxType;
-    }
-
-    public Integer getMaxNum() {
-        return maxNum;
-    }
-
-    public void setMaxNum(Integer maxNum) {
-        this.maxNum = maxNum;
-    }
-
-    public String getGoods_sn() {
-        return goodsCode;
-    }
-
-    public void setGoods_sn(String goods_sn) {
-        this.goodsCode = goods_sn;
-    }
-
-
-    public String getName() {
-        return goodsTitle;
-    }
-
-    public void setName(String name) {
-        this.goodsTitle = name;
-    }
-
-    public Integer getNumber() {
-        return null == goodsNum ? 0 : goodsNum;
-    }
-
-    public void setNumber(Integer number) {
-        this.goodsNum = number;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    @Override
-    public int getItemType() {
-        return 1;
-    }
-
-    public MealEntity() {
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -216,12 +154,6 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeString(this.goodsTitle);
-        dest.writeValue(this.goodsNum);
-        dest.writeValue(this.type);
-        dest.writeString(this.goodsCode);
-        dest.writeValue(this.maxNum);
-        dest.writeValue(this.wxType);
         dest.writeString(this.activityId);
         dest.writeString(this.goodsId);
         dest.writeString(this.shopName);
@@ -234,17 +166,15 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         dest.writeString(this.endTime);
         dest.writeString(this.carNo);
         dest.writeString(this.dealUserName);
+        dest.writeValue(this.goodsNum);
         dest.writeString(this.activitySn);
     }
 
-    protected MealEntity(Parcel in) {
+    public MealEntity2() {
+    }
+
+    protected MealEntity2(Parcel in) {
         this.id = in.readInt();
-        this.goodsTitle = in.readString();
-        this.goodsNum = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.type = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.goodsCode = in.readString();
-        this.maxNum = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.wxType = (Integer) in.readValue(Integer.class.getClassLoader());
         this.activityId = in.readString();
         this.goodsId = in.readString();
         this.shopName = in.readString();
@@ -257,18 +187,24 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.endTime = in.readString();
         this.carNo = in.readString();
         this.dealUserName = in.readString();
+        this.goodsNum = (Integer) in.readValue(Integer.class.getClassLoader());
         this.activitySn = in.readString();
     }
 
-    public static final Creator<MealEntity> CREATOR = new Creator<MealEntity>() {
+    public static final Creator<MealEntity2> CREATOR = new Creator<MealEntity2>() {
         @Override
-        public MealEntity createFromParcel(Parcel source) {
-            return new MealEntity(source);
+        public MealEntity2 createFromParcel(Parcel source) {
+            return new MealEntity2(source);
         }
 
         @Override
-        public MealEntity[] newArray(int size) {
-            return new MealEntity[size];
+        public MealEntity2[] newArray(int size) {
+            return new MealEntity2[size];
         }
     };
+
+    @Override
+    public int getItemType() {
+        return 1;
+    }
 }

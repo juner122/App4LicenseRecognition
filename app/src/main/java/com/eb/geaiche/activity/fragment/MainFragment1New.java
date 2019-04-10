@@ -1,17 +1,13 @@
 package com.eb.geaiche.activity.fragment;
 
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.AppMenuAdapter;
-import com.eb.geaiche.adapter.MuneButAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
 import com.google.gson.Gson;

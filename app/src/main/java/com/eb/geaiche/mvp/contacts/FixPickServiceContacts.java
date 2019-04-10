@@ -4,12 +4,14 @@ package com.eb.geaiche.mvp.contacts;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RadioGroup;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.FixServieEntity;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsList;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public class FixPickServiceContacts {
 
         void onConfirm(List<FixServie> fixServies);//确认选择
 
+        String getKey();//获取搜索字
 
     }
 
@@ -43,7 +46,7 @@ public class FixPickServiceContacts {
 
         void onGetData(RadioGroup rg);//获取数据后 直接创建RadioGroup
 
-        void initRecyclerView(RecyclerView rv_2item, RecyclerView rv_service);//
+        void initRecyclerView(RecyclerView rv_2item, RecyclerView rv_service, EasyRefreshLayout easylayout);//
 
         void confirm();//确认选择
 
@@ -57,11 +60,11 @@ public class FixPickServiceContacts {
      */
     public interface FixPickServiceMdl {
 
-        void getServiceData(RxSubscribe<FixServiceList> rxSubscribe);//获取数据
+        void getServiceData(RxSubscribe<List<GoodsCategory>> rxSubscribe);//获取大分类数据
 
         void searchServer(int id, String key, RxSubscribe<FixServieEntity> rxSubscribe);//搜索
 
-        void getGoodList(RxSubscribe<GoodsList> rxSubscribe, String goodsTitle, int page);
+        void getGoodList(RxSubscribe<GoodsList> rxSubscribe, String goodsTitle, int page,String categoryId);
     }
 
 

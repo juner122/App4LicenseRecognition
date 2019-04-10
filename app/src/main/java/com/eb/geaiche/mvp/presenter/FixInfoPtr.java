@@ -317,14 +317,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                     confirmDialog.dismiss();
                     //默认将选择的项目变成已确认
                     setS();
-//                    for (FixServie fixServie : toServie(getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_3))) {
-//                        if (fixServie.getSelected() == 1)
-//                            fixServie.setSelected(2);
-//                    }
-//                    for (FixParts fixParts : getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_4)) {
-//                        if (fixParts.getSelected() == 1)
-//                            fixParts.setSelected(2);
-//                    }
 
 
                     mdl.replaceConfirm(createFixInfoEntityConfirm(), new RxSubscribe<NullDataEntity>(context, true) {
@@ -333,7 +325,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 //                            ToastUtils.showToast("检修单已确认");
                             getView().createOrderSuccess(2);//检修单已确认
 
-                            finish();
                         }
 
                         @Override

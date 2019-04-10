@@ -19,6 +19,7 @@ import java.util.List;
 
 import static com.juner.mvp.Configure.Goods_TYPE_3;
 import static com.juner.mvp.Configure.Goods_TYPE_4;
+import static com.juner.mvp.Configure.Goods_TYPE_5;
 import static com.juner.mvp.Configure.JSON_CART;
 
 public class CartUtils {
@@ -99,6 +100,7 @@ public class CartUtils {
         return carts;
     }
 
+
     public List<GoodsEntity> getAllGoods() {
 
         List<GoodsEntity> carts = new ArrayList<>();
@@ -108,30 +110,17 @@ public class CartUtils {
     }
 
 
-
-
     public List<GoodsEntity> getMealList() {
 
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = getDataFromLocal();
         for (GoodsEntity c : list) {
-            if (c.getType() == 1)
+            if (c.getType() == Goods_TYPE_5)
                 carts.add(c);
         }
         return carts;
     }
 
-
-    public void addServieData(GoodsEntity good) {
-
-
-        addData(good);
-    }
-
-    public void addServieData(Server server) {
-
-
-    }
 
     public void addProductData(GoodsEntity good) {
 
@@ -141,57 +130,29 @@ public class CartUtils {
     }
 
 
-    public void setPrductDatas(List<GoodsEntity> goods) {
-
-        for (GoodsEntity g : goods) {
-            addProductData(g);
-        }
-    }
-
-    public void setServieDatas(List<GoodsEntity> goods) {
-
-        for (GoodsEntity g : goods) {
-            addServieData(g);
-        }
-    }
-
-    public void setMealDatas(List<MealEntity> entity) {
-
-        for (MealEntity e : entity) {
-            addMeal(e);
-        }
-    }
-
-    public void setMealDatas2(List<GoodsEntity> entity) {
-
-        for (GoodsEntity e : entity) {
-            addMeal(e);
-        }
-    }
-
-
     //套餐商品
     public void addMeal(MealEntity entity) {
 
         GoodsEntity good = new GoodsEntity();
 
         good.setId(entity.getId());
-        good.setGoodsId(entity.getGoodsId());
+        good.setGoodsId(Integer.parseInt(entity.getGoodsId()));
+        good.setGoods_id(Integer.parseInt(entity.getGoodsId()));
         good.setName(entity.getGoodsName());
-        good.setGoodsNum(entity.getGoodsNum());
-        good.setActivityId(entity.getActivityId());
+        good.setGoodsNum(entity.getNumber());
+        good.setActivityId(Integer.parseInt(entity.getActivityId()));
         good.setActivitySn(entity.getActivitySn());
         good.setActivityName(entity.getActivityName());
         good.setGoodsName(entity.getGoodsName());
 
-        good.setType(3);
+        good.setType(Goods_TYPE_5);
         addData(good);
     }
 
     //套餐商品
     public void addMeal(GoodsEntity good) {
 
-        good.setType(3);
+        good.setType(Goods_TYPE_5);
         addData(good);
     }
 
@@ -199,10 +160,8 @@ public class CartUtils {
     public void reduceMeal(MealEntity entity) {
 
         GoodsEntity good = new GoodsEntity();
-
-
-        good.setId(entity.getGoodsId());
-        good.setType(3);
+        good.setId(entity.getId());
+        good.setType(5);
         reduceData(good);
     }
 

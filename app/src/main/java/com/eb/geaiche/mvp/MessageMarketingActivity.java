@@ -43,7 +43,12 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
     RecyclerView rv3;
     @BindView(R.id.tv_list_pick)
     TextView tv_list_pick;
+    @BindView(R.id.tv_total_price)
+    TextView tv_total_price;
     List<MemberEntity> memberEntity;
+
+
+
 
     @OnClick({R.id.ll_add})
     public void onClick(View view) {

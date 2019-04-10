@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -17,8 +18,10 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallMuneButAdapter;
 import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsList;
 
@@ -31,12 +34,14 @@ import butterknife.OnClick;
 public class MallActivity extends BaseActivity {
     public static final String categoryId = "categoryId";
     public static final String goodsTitle = "goodsTitle";
-    public static final int type = 1;
+
+    @BindView(R.id.number)
+    TextView number;//购物车商品数量
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_mall;
     }
-
 
 
     @BindView(R.id.rv1)
@@ -60,7 +65,7 @@ public class MallActivity extends BaseActivity {
     MallMuneButAdapter muneButAdapter;//分类
     MallTypeGoodsListAdapter mallTypeGoodsListAdapter;//推荐商品
 
-    @OnClick({R.id.tv_back2, R.id.iv_search, R.id.ll_more})
+    @OnClick({R.id.tv_back2, R.id.iv_search, R.id.ll_more, R.id.iv_cart})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_back2:
@@ -76,8 +81,12 @@ public class MallActivity extends BaseActivity {
                     return;
                 }
                 toActivity(MallGoodsActivity.class, goodsTitle, et_key.getText().toString());
+                break;
 
+            case R.id.iv_cart:
+                //查看见购物车
 
+                toActivity(ShoppingCartActivity.class);
                 break;
         }
     }
@@ -127,6 +136,15 @@ public class MallActivity extends BaseActivity {
             }
         });
 
+        mallTypeGoodsListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+                addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId());
+            }
+        });
+
+
         mallTypeGoodsListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
 
 
@@ -148,6 +166,7 @@ public class MallActivity extends BaseActivity {
             }
         });
         getGoodsList(0);
+        getShoppingCartInfo();
     }
 
     private void getGoodsList(final int stu) {
@@ -157,7 +176,7 @@ public class MallActivity extends BaseActivity {
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(null, null, null, page, type).subscribe(new RxSubscribe<GoodsList>(this, stu == 0) {
+        Api().xgxshopgoodsList(null, null, null, page, Configure.Goods_TYPE_1).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
 
@@ -170,6 +189,53 @@ public class MallActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast(message);
+            }
+        });
+    }
+
+    //添加商品到购物车
+    private void addToShopCart(int goodsId, int productId) {
+
+        Api().addToShoppingCart(goodsId, productId).subscribe(new RxSubscribe<CartList>(this, true) {
+            @Override
+            protected void _onNext(CartList cartList) {
+                if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {
+                    ToastUtils.showToast("添加失败！");
+                } else {
+                    ToastUtils.showToast("添加成功！");
+                    getShoppingCartInfo();
+                }
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast("添加失败！" + message);
+
+            }
+        });
+
+    }
+
+    /**
+     * 获取购物车信息
+     */
+    private void getShoppingCartInfo() {
+        Api().getShoppingCart().subscribe(new RxSubscribe<CartList>(this, true) {
+            @Override
+            protected void _onNext(CartList cartList) {
+
+                int num = 0;
+                if (null != cartList.getCartList() && cartList.getCartList().size() > 0) {
+                    num = cartList.getCartList().size();
+                }
+                number.setText(String.valueOf(num));
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("获取购物车信息失败！" + message);
             }
         });
     }

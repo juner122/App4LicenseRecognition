@@ -51,13 +51,13 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getGoodsNum() + "次"));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getNumber() + "次"));
 
                 ImageView iv = helper.getView(R.id.iv);
                 TextView tv_goodName = helper.getView(R.id.tv_name);
 
 
-                if (me.getGoodsNum() > 0) {//可用次数不为0
+                if (me.getNumber() > 0) {//可用次数不为0
                     helper.addOnClickListener(R.id.ll_item);
                     tv_goodName.getPaint().setFlags(0);
                     if (me.isSelected())

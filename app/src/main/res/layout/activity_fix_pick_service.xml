@@ -24,16 +24,16 @@
         android:orientation="horizontal">
 
         <ScrollView
-            android:scrollbars="none"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <RadioGroup
                 android:id="@+id/rg_type"
                 android:layout_width="110dp"
                 android:layout_height="1000dp"
-                android:visibility="gone"
-                android:background="#fff">
+                android:background="#fff"
+                android:visibility="visible">
 
             </RadioGroup>
 
@@ -48,24 +48,33 @@
             android:id="@+id/right_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="#fff">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv0"
 
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
+            <com.ajguan.library.EasyRefreshLayout
+                android:id="@+id/easylayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible" />
+            </com.ajguan.library.EasyRefreshLayout>
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#FFD9D9D9" />
         </FrameLayout>
     </LinearLayout>
 

@@ -57,7 +57,7 @@
         android:text="免费包邮"
         android:textColor="#ff4a9de3"
         android:textSize="12sp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
@@ -93,16 +93,12 @@
         android:background="#d9d9d9"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <ImageView
-        android:id="@+id/add_cart"
+    <TextView
+        android:id="@+id/tv_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:paddingRight="5dp"
-        android:paddingBottom="5dp"
-        android:src="@mipmap/icon_add_cart"
+        android:text="x3"
         app:layout_constraintBottom_toBottomOf="@+id/iv_src"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

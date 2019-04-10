@@ -24,4 +24,6 @@ public class PickMealCardMdl extends BaseModel implements PickMealCardContacts.P
 
         sendRequest(HttpUtils.getApi().queryAct(getToken(context)).compose(RxHelper.<List<Meal2>>observe()), rxSubscribe);
     }
+
+
 }

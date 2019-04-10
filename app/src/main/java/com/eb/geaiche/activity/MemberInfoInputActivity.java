@@ -25,6 +25,7 @@ import com.eb.geaiche.adapter.CarListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.eb.geaiche.util.ToastUtils;
 
@@ -58,6 +59,9 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     @BindView(R.id.ll)
     View ll;
+
+    @BindView(R.id.ll_name)
+    View ll_name;//用户名
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -111,7 +115,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         tv_title.setText("新增会员");
-        setRTitle("匿名注册");
+//        setRTitle("匿名注册");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carListAdapter);
     }
@@ -135,33 +139,22 @@ public class MemberInfoInputActivity extends BaseActivity {
 //                    ToastUtils.showToast("请输入车主姓名！");
 //                    return;
 //                }
-                toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
+                remakeUserName(1);
+
                 break;
 
             case R.id.tv_fix://新增检修单
-//
-//                if (TextUtils.isEmpty(name.getText())) {
-//                    ToastUtils.showToast("请输入车主姓名！");
-//                    return;
-//                }
 
-                Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
-                intent2.putExtra(Configure.car_no, car_number);
-                intent2.putExtra(Configure.car_id, car_id);
-                intent2.putExtra(Configure.user_name, name.getText().toString());
-                intent2.putExtra(Configure.moblie, mobile);
-                intent2.putExtra(Configure.user_id, user_id);
+                remakeUserName(0);
 
-                startActivity(intent2);
                 break;
             case R.id.tv_add_car:
 
-                new AppPreferences(this).put(Configure.user_id, user_id);
-                Intent intent3 = new Intent(this, CarInfoInputActivity.class);
+                new AppPreferences(MemberInfoInputActivity.this).put(Configure.user_id, user_id);
+                Intent intent3 = new Intent(MemberInfoInputActivity.this, CarInfoInputActivity.class);
                 intent3.putExtra(Configure.car_no, new_car_number);
                 intent3.putExtra("new_car_id", new_car_id);
                 startActivity(intent3);
-
 
                 break;
 
@@ -247,6 +240,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                         mobile = et_mobile.getText().toString();
                         tv_check.setVisibility(View.GONE);
                         ll_car_list.setVisibility(View.VISIBLE);
+                        ll_name.setVisibility(View.VISIBLE);
                         carListAdapter.setNewData(s.getCarList());
                         initAdapter();
 
@@ -362,5 +356,49 @@ public class MemberInfoInputActivity extends BaseActivity {
             }
         }
     };
+
+    //修改用户名
+    private void remakeUserName(final int way) {
+
+        //用户名为空直接跳转页面
+        if (TextUtils.isEmpty(name.getText())) {
+            toActivity(way);
+            return;
+        }
+
+
+        Api().remakeName(user_id, name.getText().toString(), et_mobile.getText().toString()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity entity) {
+
+                toActivity(way);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast(message + "：下单失败！");
+
+            }
+        });
+    }
+
+    private void toActivity(int way) {
+
+        if (way == 0) {//检修下单
+            Intent intent2 = new Intent(MemberInfoInputActivity.this, FixInfoDescribeActivity.class);
+            intent2.putExtra(Configure.car_no, car_number);
+            intent2.putExtra(Configure.car_id, car_id);
+            intent2.putExtra(Configure.user_name, name.getText().toString());
+            intent2.putExtra(Configure.moblie, mobile);
+            intent2.putExtra(Configure.user_id, user_id);
+            startActivity(intent2);
+        } else {
+
+            toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
+        }
+
+    }
 
 }

@@ -692,6 +692,8 @@ public class CarInfoInputActivity extends BaseActivity {
             parameters.setCarType(carInfo.getCarType());
             parameters.setSaleName(carInfo.getSaleName());
             parameters.setOutputVolume(carInfo.getOutputVolume());
+            parameters.setEngineSn(carInfo.getEngineSn());
+
         }
 
         Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());

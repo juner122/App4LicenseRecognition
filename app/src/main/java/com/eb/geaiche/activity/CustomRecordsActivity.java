@@ -14,6 +14,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.RecordMealListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.bean.MealEntity;
+import com.eb.geaiche.bean.MealEntity2;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.util.ToastUtils;
@@ -190,7 +191,7 @@ public class CustomRecordsActivity extends BaseActivity {
 
             MealL0Entity lv0 = new MealL0Entity(list.get(0).getActivityName(), list.get(0).getActivitySn());
             lv0.setMobile(list.get(0).getMobile());
-            lv0.setEndTime(list.get(0).getEndTime());
+            lv0.setEndTime(Long.parseLong(list.get(0).getEndTime()));
             lv0.setCarNo(list.get(0).getCarNo());
             for (MealEntity entity : list) {
                 lv0.addSubItem(entity);

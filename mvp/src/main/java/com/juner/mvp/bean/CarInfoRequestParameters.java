@@ -40,6 +40,17 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     //排量
     private String outputVolume;
 
+    //发动机号
+    private  String engineSn;
+
+    public String getEngineSn() {
+        return engineSn;
+    }
+
+    public void setEngineSn(String engineSn) {
+        this.engineSn = engineSn;
+    }
+
     public String getOutputVolume() {
         return outputVolume;
     }
@@ -245,6 +256,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         dest.writeSerializable(this.guidingPrice);
         dest.writeString(this.mileage);
         dest.writeString(this.outputVolume);
+        dest.writeString(this.engineSn);
         dest.writeList(this.imagesList);
     }
 
@@ -267,6 +279,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         this.guidingPrice = (BigDecimal) in.readSerializable();
         this.mileage = in.readString();
         this.outputVolume = in.readString();
+        this.engineSn = in.readString();
         this.imagesList = new ArrayList<UpDataPicEntity>();
         in.readList(this.imagesList, UpDataPicEntity.class.getClassLoader());
     }

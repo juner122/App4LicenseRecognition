@@ -103,7 +103,7 @@ public class MallTypeActivity extends BaseActivity {
 
     private void queryAll() {
 
-        Api().queryShopcategoryAll(null).subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
+        Api().queryShopcategoryAll("2").subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
             @Override
             protected void _onNext(List<GoodsCategory> goodsCategories) {
 

@@ -50,7 +50,7 @@ public class RecordMealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
             case MyMultipleItem.SECOND_TYPE:
                 final MealEntity me = (MealEntity) item;
                 helper.setText(R.id.tv1, me.getActivityName());
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_number, String.valueOf("x" + me.getGoodsNum()));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_number, String.valueOf("x" + me.getNumber()));
 
 
                 break;

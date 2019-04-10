@@ -75,7 +75,6 @@ public class CustomContacts {
 
         void secondService(int parent_id, RxSubscribe<List<FixService2item>> rxSubscribe);//自定义工时 二级分类下拉框
 
-
     }
 
 

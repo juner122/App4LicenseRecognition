@@ -337,7 +337,12 @@
         <activity android:name=".activity.MallTypeActivity" />
         <activity android:name=".activity.MallGoodsActivity" />
         <activity android:name=".activity.MallGoodsInfoActivity" />
-        <activity android:name=".mvp.ShoppingCartActivity"></activity>
+        <activity
+            android:name=".mvp.ShoppingCartActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.NewInventoryActivity" />
+        <activity android:name=".activity.MallMakeOrderActivity"></activity>
     </application>
 
 </manifest>

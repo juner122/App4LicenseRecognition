@@ -49,7 +49,6 @@ public class PickMealCardContacts {
     public interface PickMealCardMdl {
         void getMealList(RxSubscribe<List<Meal2>> rxSubscribe);
 
-
     }
 
 

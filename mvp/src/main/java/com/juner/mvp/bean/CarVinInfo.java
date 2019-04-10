@@ -26,6 +26,16 @@ public class CarVinInfo {
     //排量
     private String output_volume;
 
+    //发动机号
+    private String engine_type;
+
+    public String getEngine_type() {
+        return engine_type;
+    }
+
+    public void setEngine_type(String engine_type) {
+        this.engine_type = engine_type;
+    }
 
     public String getOutput_volume() {
         return output_volume;
