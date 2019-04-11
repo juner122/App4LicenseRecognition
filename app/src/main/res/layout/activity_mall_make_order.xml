@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:background="#fff"
                 android:padding="10dp">
 
@@ -63,8 +62,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/name" />
             </android.support.constraint.ConstraintLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
+
 
             <TextView
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
@@ -81,7 +86,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:gravity="center_vertical"
                 android:padding="10dp">
@@ -107,6 +111,11 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_pay_pick" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,6 +148,7 @@
             </LinearLayout>
 
             <TextView
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
@@ -197,7 +207,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:background="#fff"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -220,6 +229,13 @@
                     android:textColor="#ff666666"
                     android:textSize="13sp" />
             </LinearLayout>
+
+
+            <View
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
 
 
         </LinearLayout>

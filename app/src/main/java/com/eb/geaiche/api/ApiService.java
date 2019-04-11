@@ -583,7 +583,8 @@ public interface ApiService {
 
     //获取登录用户购物车数据
     @POST("cart/getCart")
-    Observable<BaseBean<CartList>> getShoppingCart(@Header("X-Nideshop-Token") String token);
+    @FormUrlEncoded
+    Observable<BaseBean<CartList>> getShoppingCart(@Header("X-Nideshop-Token") String token, @Field("status") String status, @Field("sessionId") String sessionId);
 
     //添加购物车
     @POST("cart/add")

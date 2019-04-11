@@ -1183,12 +1183,12 @@ public class ApiLoader {
         return apiService.xgxshopgoodsInfo(map).compose(RxHelper.<Goods>observe());
     }
 
-   /**
-    * 获取购物车信息
+    /**
+     * 获取购物车信息
      */
     public Observable<CartList> getShoppingCart() {
 
-        return apiService.getShoppingCart(token).compose(RxHelper.<CartList>observe());
+        return apiService.getShoppingCart(token, "1", "1").compose(RxHelper.<CartList>observe());
     }
 
 
@@ -1206,12 +1206,12 @@ public class ApiLoader {
         return apiService.addToShoppingCart(map).compose(RxHelper.<CartList>observe());
     }
 
-  /**
+    /**
      * 购物车商品下单
      */
     public Observable<NullDataEntity> mallMakeOrder(XgxPurchaseOrderPojo purchaseOrderPojo) {
 
-        return apiService.mallMakeOrder(token,purchaseOrderPojo).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.mallMakeOrder(token, purchaseOrderPojo).compose(RxHelper.<NullDataEntity>observe());
     }
 
 

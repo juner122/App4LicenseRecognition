@@ -342,7 +342,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NewInventoryActivity" />
-        <activity android:name=".activity.MallMakeOrderActivity"></activity>
+        <activity android:name=".activity.MallMakeOrderActivity" />
+        <activity android:name=".activity.MallMakeOrderInfoActivity"></activity>
     </application>
 
 </manifest>
