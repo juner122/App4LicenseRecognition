@@ -141,7 +141,7 @@ public class OrderDoneActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_done:
-                Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                Api().confirmFinish(infoEntity.getOrderInfo().getId()).subscribe(new RxSubscribe<NullDataEntity>(this, false) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
 

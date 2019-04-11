@@ -116,7 +116,6 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
                     return;
                 }
 
-
                 rg.setVisibility(View.VISIBLE);
                 init0Data(rg, list);//根据第一级类别数量 创建RadioButton
 
@@ -176,7 +175,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
         adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_service);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
         easylayout = e;
-
+        easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {

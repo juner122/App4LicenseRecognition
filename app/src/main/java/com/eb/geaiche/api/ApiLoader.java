@@ -1131,7 +1131,7 @@ public class ApiLoader {
 
 
     /**
-     * @param type 1 ：8个分类   2：所有
+     * @param type 1 ：8个分类   2：所有 3:服务  4:配件
      *             获取商品分类
      */
     public Observable<List<GoodsCategory>> queryShopcategoryAll(String type) {
@@ -1155,11 +1155,34 @@ public class ApiLoader {
         if (null != categoryId)
             map.put("categoryId", categoryId);
 
-        map.put("limit", 50);//页数
+        map.put("limit", Configure.limit_page);//页数
         map.put("page", page);
         map.put("type", type);
         return apiService.xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe());
     }
+
+
+    /**
+     * @param goodsTitle   商品名称
+     * @param goodsBrandId 商品品牌Id
+     * @param categoryId   商品分类Id
+     *                     查询商品（分页） 无参
+     * @param type         1是汽配商品,3是工时，4是配件
+     */
+    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId, int page, int type, int limit) {
+        if (null != goodsTitle)
+            map.put("goodsTitle", goodsTitle);
+        if (null != goodsBrandId)
+            map.put("goodsBrandId", goodsBrandId);
+        if (null != categoryId)
+            map.put("categoryId", categoryId);
+
+        map.put("limit", limit);//页数
+        map.put("page", page);
+        map.put("type", type);
+        return apiService.xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe());
+    }
+
 
     /**
      * @param id 商品分类id

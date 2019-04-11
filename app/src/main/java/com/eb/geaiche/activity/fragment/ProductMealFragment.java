@@ -100,7 +100,7 @@ public class ProductMealFragment extends BaseFragment {
         List<MultiItemEntity> res = new ArrayList<>();
 
         if (null == map || map.size() == 0) {
-            ToastUtils.showToast("没有可用套卡");
+//            ToastUtils.showToast("没有可用套卡");
             return res;
         }
 

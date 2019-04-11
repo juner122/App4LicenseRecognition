@@ -232,7 +232,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     public void createOrderSuccess(int i) {
 
-        finish();
+//        finish();
 
         if (i == 0) {
             toFixList(0);

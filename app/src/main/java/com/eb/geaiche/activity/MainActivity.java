@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity {
     public class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-//            //没接收到一次广播就执行一次方法
+//            //每接收到一次广播就执行一次方法
             needRead();
         }
     }

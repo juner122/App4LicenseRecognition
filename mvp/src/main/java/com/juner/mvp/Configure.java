@@ -2,9 +2,9 @@ package com.juner.mvp;
 
 public class Configure {
 
-//    public static final String BaseUrl = "http://222.111.88.110:8081/app/";///
+    public static final String BaseUrl = "http://222.111.88.110:8081/app/";//
 //    public static final String BaseUrl = "https://apps.xgxshop.com/app/";
-    public static final String BaseUrl = "http://222.111.88.169:8080/app/";//强
+//    public static final String BaseUrl = "http://222.111.88.169:8080/app/";//强
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务

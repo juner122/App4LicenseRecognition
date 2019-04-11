@@ -48,7 +48,7 @@ public class GeTuiIntentService extends GTIntentService {
 
         PushMessage pm = new Gson().fromJson(s, PushMessage.class);
 
-        getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
+//        getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
         showNotification(pm);
 
     }

@@ -10,9 +10,11 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.MainActivity;
 import com.eb.geaiche.activity.UserAuthorizeActivity;
 import com.eb.geaiche.adapter.FixInfoPartsItemAdapter;
 import com.eb.geaiche.adapter.FixInfoServiceItemAdapter;
+import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixPickPartsActivity;
 import com.eb.geaiche.mvp.FixPickServiceActivity;
 import com.eb.geaiche.mvp.contacts.FixInfoContacts;
@@ -24,6 +26,7 @@ import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.eb.geaiche.view.NoticeDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
+import com.juner.mvp.base.BaseXPresenter;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
@@ -308,6 +311,18 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         } else if (entity.getStatus() == 2) {
 //            ToastUtils.showToast("确认报价");
 
+
+            if (createFixInfoEntityConfirm().getOrderGoodsList().size() == 0 && null == createFixInfoEntityConfirm().getDescribe() || "".equals(createFixInfoEntityConfirm().getDescribe())) {
+                ToastUtils.showToast("未作任何修改，不能保存退出！");
+                return;
+            }
+            if (null == createFixInfoEntityConfirm().getReplaceSignPic() || "".equals(createFixInfoEntityConfirm().getReplaceSignPic())) {
+                ToastUtils.showToast("请上传凭证！");
+                return;
+            }
+
+
+            //确认报价
             //弹出对话框
             confirmDialog = new ConfirmDialogCanlce(getView().getSelfActivity(), "确认后将不可再修改，请确认该操作已经获得客户授权，是否继续?");
             confirmDialog.show();
@@ -315,18 +330,14 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 @Override
                 public void doConfirm() {
                     confirmDialog.dismiss();
-                    //默认将选择的项目变成已确认
-                    setS();
 
-
-                    mdl.replaceConfirm(createFixInfoEntityConfirm(), new RxSubscribe<NullDataEntity>(context, true) {
+                    mdl.replaceConfirm(setS(createFixInfoEntityConfirm()), new RxSubscribe<NullDataEntity>(context, false) {
                         @Override
                         protected void _onNext(NullDataEntity nullDataEntity) {
-//                            ToastUtils.showToast("检修单已确认");
-                            getView().createOrderSuccess(2);//检修单已确认
+                            ToastUtils.showToast("检修单已确认");
 
+//                            getView().createOrderSuccess(2);//检修单已确认
                         }
-
                         @Override
                         protected void _onError(String message) {
                             ToastUtils.showToast(message);
@@ -671,7 +682,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fp.setSelected(fs.getSelected());//默认选择中
             fp.setType(fs.getType());
             fp.setGoods_sn(fs.getGoods_sn());
-
+            fp.setId(fs.getId());
             fixParts.add(fp);
         }
         return fixParts;
@@ -714,13 +725,13 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
 
     //设置选中
-    private void setS() {
+    private FixInfoEntity setS(FixInfoEntity entity1) {
+        for (int i = 0; i < entity1.getOrderGoodsList().size(); i++) {
 
-
-        for (FixParts fixParts : entity.getOrderGoodsList()) {
-            if (fixParts.getSelected() == 1)
-                fixParts.setSelected(2);
+            if (entity1.getOrderGoodsList().get(i).getSelected() == 1)
+                entity1.getOrderGoodsList().get(i).setSelected(2);
         }
+        return entity1;
     }
 
 }

@@ -142,7 +142,7 @@ public class ProductListActivity extends BaseActivity {
      */
 
     private void xgxshopgoodsList(String key) {
-        Api().xgxshopgoodsList(key, null, null, 1, type).subscribe(new RxSubscribe<GoodsList>(this, true) {
+        Api().xgxshopgoodsList(key, null, null, 1, type,50).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
                 fragment.switchData(goods.getList());

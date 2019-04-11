@@ -127,7 +127,7 @@ public class ProductFragment extends BaseFragment {
      */
 
     private void xgxshopgoodsList(String key,String categoryId) {
-        Api().xgxshopgoodsList(key, null, categoryId, 1, type).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
+        Api().xgxshopgoodsList(key, null, categoryId, 1, type,50).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
             @Override
             protected void _onNext(GoodsList goods) {
                 fragment.switchData(goods.getList());
