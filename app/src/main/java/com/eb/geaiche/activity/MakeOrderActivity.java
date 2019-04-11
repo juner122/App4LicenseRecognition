@@ -477,8 +477,6 @@ public class MakeOrderActivity extends BaseActivity {
         infoEntity.setPostscript(et_postscript.getText().toString());
 
 
-
-
 //        infoEntity.setGoodsList(cartUtils.getProductList());
         infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有
 //        infoEntity.setSkillList(cartServerUtils.getServerList());
@@ -491,8 +489,20 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
                 ToastUtils.showToast("下单成功");
+
+
+                //todo 以下是根据app内部或对外使用而要更换的代码  功能:对外使用app直接跳过订单确认页面而进入订单详情页面
+
+                //以下代码内部APP使用
                 sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
                 finish();
+//
+//
+//                //以下代码为对外APP使用
+//                toMain(0);
+//                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
+
+
             }
 
             @Override
@@ -515,7 +525,6 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void carDestroy() {
         cartUtils.deleteAllData();
-
 
 
     }
@@ -567,4 +576,6 @@ public class MakeOrderActivity extends BaseActivity {
         simpleGoodInfoAdpter.setNewData(cartUtils.getProductList());
         setGoodsPric();
     }
+
+
 }
