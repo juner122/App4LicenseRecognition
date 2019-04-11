@@ -1,0 +1,34 @@
+package com.frank.new_line_seller.adapter;
+
+import android.support.annotation.Nullable;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.frank.new_line_seller.R;
+import com.frank.new_line_seller.bean.GoodsEntity;
+
+import java.util.List;
+
+public class SimpleMealInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseViewHolder> {
+
+
+    public SimpleMealInfoAdpter(@Nullable List<GoodsEntity> data) {
+        super(R.layout.activity_simple_good_list_item, data);
+    }
+
+    @Override
+    protected void convert(BaseViewHolder helper, GoodsEntity item) {
+
+
+        helper.setText(R.id.name, item.getGoodsName())
+                .setText(R.id.price, "套餐抵扣")
+                .setText(R.id.tv_number, String.valueOf("x1"));
+
+
+        helper.setVisible(R.id.ib_plus, false);
+        helper.setVisible(R.id.ib_reduce, false);
+
+    }
+
+
+}
