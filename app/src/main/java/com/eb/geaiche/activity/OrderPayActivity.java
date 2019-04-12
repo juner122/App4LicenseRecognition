@@ -119,6 +119,11 @@ public class OrderPayActivity extends BaseActivity {
             }
         });
 
+
+        tv_pick_pay_type.setText("现金");
+        pay_type = 24;//默认现金
+        olpt = new OffLinePayType("现金", 24);
+
     }
 
     private void setInfo() {
@@ -410,8 +415,6 @@ public class OrderPayActivity extends BaseActivity {
 
                 ToastUtils.showToast("收款成功");
                 if (infoEntity.getOrderInfo().getOrder_status() == 0) {
-
-
 
 
                     toOrderList(0);

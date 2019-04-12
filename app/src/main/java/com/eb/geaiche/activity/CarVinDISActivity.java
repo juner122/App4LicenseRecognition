@@ -67,6 +67,9 @@ public class CarVinDISActivity extends BaseActivity {
     @BindView(R.id.tv_output_volume)
     TextView tv_output_volume;
 
+    @BindView(R.id.tv_engineSn)
+    TextView tv_engineSn;
+
     String vin;
 
     CarInfoRequestParameters carInfo;//车况对象
@@ -208,6 +211,7 @@ public class CarVinDISActivity extends BaseActivity {
         tv_guiding_price.setText(String.format("%s万", carVinInfo.getGuiding_price()));
         tv_made_year.setText(carVinInfo.getYear());
         tv_output_volume.setText(carVinInfo.getOutput_volume());
+        tv_engineSn.setText(carVinInfo.getEngine_type());
     }
 
     private void toCarInfo(CarVinInfo carVinInfo) {
