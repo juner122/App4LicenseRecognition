@@ -83,6 +83,7 @@ public class ProductMealFragment extends BaseFragment {
             protected void _onNext(Meal mealList) {
                 list = generateData(mealList.getList());
                 mealListAdapter.setNewData(list);
+                mealListAdapter.expandAll();
 
             }
 
@@ -108,6 +109,7 @@ public class ProductMealFragment extends BaseFragment {
         for (List<MealEntity> list : map.values()) {
 
             MealL0Entity lv0 = new MealL0Entity(list.get(0).getActivityName(), list.get(0).getActivitySn());
+
 
             for (MealEntity entity : list) {
                 lv0.setCarNo(entity.getCarNo());

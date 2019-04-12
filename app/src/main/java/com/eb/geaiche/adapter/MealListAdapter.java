@@ -20,12 +20,11 @@ import java.util.List;
 public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
 
-
-
-    public MealListAdapter( @Nullable List<MultiItemEntity> data) {
+    public MealListAdapter(@Nullable List<MultiItemEntity> data) {
         super(data);
         addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item);
         addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_product_meal_list_item_item);
+
     }
 
     @Override

@@ -432,11 +432,12 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderList(String name) {
+    public Observable<BasePage<OrderInfoEntity>> orderList(String name,int page) {
         map.clear();
         map.put("X-Nideshop-Token", token);
         map.put("limit", Configure.limit_page);
         map.put("name", name);
+        map.put("page", page);
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
@@ -910,6 +911,8 @@ public class ApiLoader {
 
     /**
      * 报价单列表条件查询
+     *
+     * @param status 订单状态
      */
     public Observable<FixInfoList> quotationList(int status, int page) {
 
@@ -918,6 +921,17 @@ public class ApiLoader {
             return apiService.quotationList(token, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
         else
             return apiService.quotationList(token, status, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
+    }
+
+    /**
+     * 报价单列表条件查询
+     *
+     * @param name 关键字
+     */
+    public Observable<FixInfoList> quotationList(String name, int page) {
+
+
+        return apiService.quotationList(token, name, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
     }
 
     /**

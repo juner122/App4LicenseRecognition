@@ -2,7 +2,7 @@ package com.juner.mvp;
 
 public class Configure {
 
-    public static final String BaseUrl = "http://222.111.88.110:8081/app/";//
+    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//
 //    public static final String BaseUrl = "https://apps.xgxshop.com/app/";
 //    public static final String BaseUrl = "http://222.111.88.169:8080/app/";//强
 

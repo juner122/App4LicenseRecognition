@@ -2,15 +2,20 @@ package com.eb.geaiche.mvp;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
+import com.eb.geaiche.activity.OrderForFixActivity;
+import com.eb.geaiche.activity.OrderList4DayActivity;
+import com.eb.geaiche.activity.OrderSearch;
 import com.eb.geaiche.activity.fragment.FixInfoListFragment;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class FixInfoListActivity extends BaseActivity {
     private String[] title = {"全部", "待报价", "待确认", "已确认", "已出单"};
@@ -22,6 +27,16 @@ public class FixInfoListActivity extends BaseActivity {
 
     ArrayList<Fragment> fragments = new ArrayList<>();
 
+
+    @OnClick({R.id.tv_iv_r})
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.tv_iv_r://搜索
+                toActivity(OrderForFixActivity.class);
+                break;
+        }
+    }
 
     @Override
     protected void init() {
@@ -38,7 +53,7 @@ public class FixInfoListActivity extends BaseActivity {
 
 
         stl.setViewPager(vp, title, this, fragments);
-
+        showIVR();
     }
 
     @Override

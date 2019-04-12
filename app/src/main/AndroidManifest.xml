@@ -343,7 +343,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NewInventoryActivity" />
         <activity android:name=".activity.MallMakeOrderActivity" />
-        <activity android:name=".activity.MallMakeOrderInfoActivity"></activity>
+        <activity android:name=".activity.MallMakeOrderInfoActivity" />
+        <activity android:name=".activity.OrderForFixActivity"></activity>
     </application>
 
 </manifest>

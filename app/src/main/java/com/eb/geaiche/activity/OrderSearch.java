@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.OrderListAdapter;
@@ -30,6 +32,13 @@ public class OrderSearch extends BaseActivity {
     EditText et;
 
     OrderListAdapter ola;
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
+
+
+    int page = 1;
+
+    String name;//关键字
 
     @Override
     protected void init() {
@@ -74,6 +83,24 @@ public class OrderSearch extends BaseActivity {
                 }
             }
         });
+
+        easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                page++;
+                searchData();
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                page = 1;
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                searchData();
+
+            }
+        });
     }
 
     @Override
@@ -109,20 +136,40 @@ public class OrderSearch extends BaseActivity {
 
     private void searchData() {
         if (TextUtils.isEmpty(et.getText())) {
-
+            easylayout.refreshComplete();
+            easylayout.loadMoreComplete();
             ToastUtils.showToast("请输入搜索内容！");
             return;
         }
-
-
-        Api().orderList(et.getText().toString()).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
+        name = et.getText().toString();
+        Api().orderList(name, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
-                ola.setNewData(basePage.getList());
+                if (null == basePage.getList() || basePage.getList().size() == 0) {
+                    ToastUtils.showToast("没有记录！");
+                }
+
+
+                if (page == 1) {
+                    easylayout.refreshComplete();
+                    ola.setNewData(basePage.getList());
+                    if (basePage.getList().size() < Configure.limit_page)
+                        easylayout.setLoadMoreModel(LoadModel.NONE);
+                } else {
+                    easylayout.loadMoreComplete();
+                    if (basePage.getList().size() == 0) {
+                        ToastUtils.showToast("没有更多了！");
+                        easylayout.setLoadMoreModel(LoadModel.NONE);
+                        return;
+                    }
+                    ola.addData(basePage.getList());
+                }
             }
 
             @Override
             protected void _onError(String message) {
+
+                ToastUtils.showToast(message);
             }
         });
     }
