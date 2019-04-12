@@ -25,8 +25,6 @@ import java.util.List;
 
 
 public class StartActivity extends PermissionsActivity implements View.OnClickListener {
-
-
     String[] strings = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA};
 
@@ -36,8 +34,6 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
-
 
 
         if (!isHavePermissionsList(strings)) {

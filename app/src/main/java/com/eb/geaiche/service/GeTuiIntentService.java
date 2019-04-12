@@ -18,6 +18,7 @@ import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTNotificationMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.PushMessage;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -48,9 +49,8 @@ public class GeTuiIntentService extends GTIntentService {
 
         PushMessage pm = new Gson().fromJson(s, PushMessage.class);
 
-//        getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
+        getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
         showNotification(pm);
-
     }
 
     @Override

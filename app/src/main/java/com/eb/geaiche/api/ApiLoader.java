@@ -1246,9 +1246,18 @@ public class ApiLoader {
     /**
      * 购物车商品下单
      */
-    public Observable<NullDataEntity> mallMakeOrder(XgxPurchaseOrderPojo purchaseOrderPojo) {
+    public Observable<Integer> mallMakeOrder(XgxPurchaseOrderPojo purchaseOrderPojo) {
 
-        return apiService.mallMakeOrder(token, purchaseOrderPojo).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.mallMakeOrder(token, purchaseOrderPojo).compose(RxHelper.<Integer>observe());
+    }
+
+
+    /**
+     * 获取商城订单详情
+     */
+    public Observable<XgxPurchaseOrderPojo> mallOrderInfo(int id) {
+
+        return apiService.mallOrderInfo(token, id).compose(RxHelper.<XgxPurchaseOrderPojo>observe());
     }
 
 

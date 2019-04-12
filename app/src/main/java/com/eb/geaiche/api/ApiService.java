@@ -605,7 +605,13 @@ public interface ApiService {
 
     //购物车商品下单
     @POST("purchaseorder/save")
-    Observable<BaseBean<NullDataEntity>> mallMakeOrder(@Header("X-Nideshop-Token") String token, @Body XgxPurchaseOrderPojo purchaseOrderPojo);
+    Observable<BaseBean<Integer>> mallMakeOrder(@Header("X-Nideshop-Token") String token, @Body XgxPurchaseOrderPojo purchaseOrderPojo);
+
+
+    //购物车商品下单
+    @POST("purchaseorder/info")
+    @FormUrlEncoded
+    Observable<BaseBean<XgxPurchaseOrderPojo>> mallOrderInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
 
 }

@@ -30,7 +30,7 @@ public class MallOrderGoodsListAdapter extends BaseQuickAdapter<CartItem, BaseVi
     protected void convert(BaseViewHolder helper, CartItem item) {
         helper.setText(R.id.tv_name, item.getGoods_name());
         helper.setText(R.id.tv_number, String.format("x%s", item.getNumber()));
-        helper.setText(R.id.textView7, String.format("x%s", item.getGoodsStandardTitle()));
+        helper.setText(R.id.textView7, String.format("%s", item.getGoodsStandardTitle()));
         if (null == item.getProduct_id() || "".equals(item.getProduct_id()))
             helper.setText(R.id.tv_price, "暂无报价");
         else

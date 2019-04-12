@@ -8,8 +8,45 @@ public class XgxPurchaseOrderPojo {
     String orderPrice;//订单价格
     String discountPrice;//优惠金额
     String realPrice;//实付金额
+    Integer id;
+    String orderSn;
+    Integer userId;
+    String createTime;
 
     List<XgxPurchaseOrderGoodsPojo> xgxPurchaseOrderGoodsPojoList;//下单商品List
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getOrderSn() {
+        return orderSn;
+    }
+
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
 
     public int getPayType() {
         return payType;

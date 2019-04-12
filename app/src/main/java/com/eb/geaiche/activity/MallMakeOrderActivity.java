@@ -1,5 +1,8 @@
 package com.eb.geaiche.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +16,8 @@ import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 
+import com.google.gson.Gson;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartItem;
 
 import com.juner.mvp.bean.NullDataEntity;
@@ -51,7 +56,7 @@ public class MallMakeOrderActivity extends BaseActivity {
 
     List<CartItem> cartItems = new ArrayList<>();//购物车页面传来的商品列表
 
-    String shopId;
+    Shop shop;
 
     @OnClick({R.id.enter_pay})
     public void onClick(View v) {
@@ -77,7 +82,7 @@ public class MallMakeOrderActivity extends BaseActivity {
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
 
 
-        all_price.setText("￥"+upDataPrice(cartItems));
+        all_price.setText("￥" + upDataPrice(cartItems));
     }
 
     @Override
@@ -99,17 +104,19 @@ public class MallMakeOrderActivity extends BaseActivity {
     protected void setUpData() {
         getAddress();
 
+
     }
 
     //获取地址信息
     private void getAddress() {
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
             @Override
-            protected void _onNext(Shop shop) {
+            protected void _onNext(Shop s) {
+                shop = s;
                 name.setText(shop.getShop().getShopName());
                 phone.setText(shop.getShop().getPhone());
                 address.setText(shop.getShop().getAddress());
-                shopId = shop.getShop().getId();
+
 
             }
 
@@ -125,10 +132,23 @@ public class MallMakeOrderActivity extends BaseActivity {
 
     //生成订单
     private void makeOrder() {
-        Api().mallMakeOrder(getOrderPojo()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+        Api().mallMakeOrder(getOrderPojo()).subscribe(new RxSubscribe<Integer>(this, true) {
             @Override
-            protected void _onNext(NullDataEntity shop) {
+            protected void _onNext(Integer t) {
+
                 ToastUtils.showToast("订单生成成功！");
+
+                finish();
+
+                Intent intent = new Intent(MallMakeOrderActivity.this, MallMakeOrderInfoActivity.class);
+                intent.putExtra(Configure.ORDERINFOID, t);
+                intent.putExtra(Configure.shop_info, shop.getShop());
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("cart_goods", (ArrayList<? extends Parcelable>) cartItems);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
 
             }
 
@@ -146,12 +166,12 @@ public class MallMakeOrderActivity extends BaseActivity {
     //生成下单对象
     private XgxPurchaseOrderPojo getOrderPojo() {
         XgxPurchaseOrderPojo pojo = new XgxPurchaseOrderPojo();
-
+        String price = upDataPrice(cartItems);
         pojo.setPayType(1);
-        pojo.setShopId(shopId);
+        pojo.setShopId(shop.getShop().getId());
         pojo.setDiscountPrice(null);//优惠金额
-        pojo.setOrderPrice(upDataPrice(cartItems));//订单价格
-        pojo.setRealPrice(upDataPrice(cartItems));//实付金额
+        pojo.setOrderPrice(price);//订单价格
+        pojo.setRealPrice(price);//实付金额
         List<XgxPurchaseOrderGoodsPojo> goodsPojoLists = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             XgxPurchaseOrderGoodsPojo goodsPojo = new XgxPurchaseOrderGoodsPojo();
@@ -164,6 +184,8 @@ public class MallMakeOrderActivity extends BaseActivity {
         }
 
         pojo.setXgxPurchaseOrderGoodsPojoList(goodsPojoLists);
+
+
         return pojo;
 
     }
@@ -171,7 +193,7 @@ public class MallMakeOrderActivity extends BaseActivity {
 
     //计算价格
     private String upDataPrice(List<CartItem> cartItems) {
-        if (cartItems.size() == 0)
+        if (null == cartItems || cartItems.size() == 0)
             return "0.00";
         else {
             BigDecimal allPrice = new BigDecimal(0);
@@ -182,7 +204,7 @@ public class MallMakeOrderActivity extends BaseActivity {
                 allPrice = allPrice.add(price.multiply(num));
 
             }
-            return  MathUtil.twoDecimal(allPrice.doubleValue());
+            return MathUtil.twoDecimal(allPrice.doubleValue());
         }
     }
 }
