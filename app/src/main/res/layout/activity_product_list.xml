@@ -25,14 +25,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="horizontal">
 
 
             <ScrollView
-                android:visibility="gone"
-                android:scrollbars="none"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:visibility="visible">
 
                 <RadioGroup
                     android:id="@+id/rg_type"
@@ -43,11 +44,19 @@
                 </RadioGroup>
             </ScrollView>
 
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#FFD9D9D9" />
+
             <FrameLayout
                 android:id="@+id/right_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:background="#fff">
 
             </FrameLayout>
         </LinearLayout>

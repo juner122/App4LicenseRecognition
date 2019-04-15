@@ -119,6 +119,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
                 ToastUtils.showToast(message);
             }
         });
+
         getGoodList(null, page, "");
     }
 
@@ -140,8 +141,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
             rg.addView(radioButton);
         }
-
-
     }
 
     public void set1Data(List<FixParts2item> list) {

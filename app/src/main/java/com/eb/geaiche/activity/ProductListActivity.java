@@ -15,6 +15,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.util.SoftInputUtil;
+import com.eb.geaiche.view.MyRadioButton;
 import com.juner.mvp.Configure;
 
 import com.eb.geaiche.R;
@@ -23,6 +25,7 @@ import com.eb.geaiche.adapter.Brandadapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.Category;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
@@ -63,14 +66,14 @@ public class ProductListActivity extends BaseActivity {
     Integer checkedTag;
     List<Category> categories;
 
-    private double TotalPrice;//总价格
-
+    int page = 1;//第一页
 
     private Map<String, List<GoodsEntity>> listMap = new HashMap<>();//所有商品Map
 
     public static int isShow;//是否显示选择数量和价格 0不显示  1显示
 
     public static int setProject;
+    String categoryId;//当前选的大分类索引id
 
     @Override
     protected void init() {
@@ -86,48 +89,10 @@ public class ProductListActivity extends BaseActivity {
         }
 
         tv_title.setText("商品列表");
-        tv_totalPrice.append(String.valueOf(TotalPrice));
 
 
         replaceFragment();
-
-        //旧接口
-        Api().categoryBrandList().subscribe(new RxSubscribe<CategoryBrandList>(this, true) {
-            @Override
-            protected void _onNext(CategoryBrandList o) {
-                listMap.put(o.getCategoryList().get(0).getId() + "", o.getGoodList());//保存初始List<GoodsEntity> key为种类id+品牌id
-
-                fragment.switchData(o.getCategoryList().get(0).getId(), "", o.getGoodList());
-                categories = o.getCategoryList();
-                checkedTag = 0;
-                for (int i = 0; i < categories.size(); i++) {
-                    RadioButton radioButton = new RadioButton(ProductListActivity.this);
-                    RadioGroup.LayoutParams layoutParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                    layoutParams.setMargins(0, 1, 0, 0);
-                    radioButton.setPadding(0, 36, 0, 36);
-                    radioButton.setText(categories.get(i).getName());
-                    radioButton.setBackground(getResources().getDrawable(R.drawable.radiobutton_background_a));
-                    radioButton.setButtonDrawable(android.R.color.transparent);//隐藏单选圆形按钮
-                    radioButton.setGravity(Gravity.CENTER);
-                    radioButton.setLayoutParams(layoutParams);
-                    radioButton.setTag(i);
-                    radioButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            showPopupWindow(view);
-                        }
-                    });
-
-                    radioGroup.addView(radioButton);
-                }
-            }
-
-            @Override
-            protected void _onError(String message) {
-
-                ToastUtils.showToast(message);
-            }
-        });
+        getPartsData();
 
         //新接口
         xgxshopgoodsList(null);
@@ -142,7 +107,7 @@ public class ProductListActivity extends BaseActivity {
      */
 
     private void xgxshopgoodsList(String key) {
-        Api().xgxshopgoodsList(key, null, null, 1, type,50).subscribe(new RxSubscribe<GoodsList>(this, true) {
+        Api().xgxshopgoodsList(key, null, categoryId, 1, type, 50).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
                 fragment.switchData(goods.getList());
@@ -168,7 +133,7 @@ public class ProductListActivity extends BaseActivity {
             case R.id.iv_search:
 
                 if (!TextUtils.isEmpty(et_key.getText())) {
-//                    onQueryAnyGoods4Key(et_key.getText().toString());
+                    SoftInputUtil.hideSoftInput(ProductListActivity.this, v);
                     xgxshopgoodsList(et_key.getText().toString());
                 } else
                     ToastUtils.showToast("请输入搜索关键字！");
@@ -178,26 +143,6 @@ public class ProductListActivity extends BaseActivity {
         }
 
 
-    }
-
-    private void showPopupWindow(View v) {
-
-        et_key.setText("");//清空搜索栏
-
-
-        if (v.getTag() == checkedTag) {//判断当前选择的View Tag是否为已选中的View
-            Log.d("radioGroup", "showPopupWindow+++当前选中的id为：" + v.getTag().toString());
-            List<SubCategoryEntity> list = categories.get(checkedTag).getSubCategoryList();
-            if (list.size() > 0) {
-                //PopupWindow在rb向右弹弹出
-                brandadapter.setNewData(list);
-                popupWindow.showAsDropDown(v, v.getWidth(), -v.getHeight());
-            }
-        } else {
-
-            checkedTag = (Integer) v.getTag();
-            onQueryAnyGoods(categories.get(checkedTag).getId(), "", et_key.getText().toString());
-        }
     }
 
 
@@ -257,29 +202,6 @@ public class ProductListActivity extends BaseActivity {
 
     }
 
-    private void onQueryAnyGoods4Key(String name) {
-
-
-        Api().queryAnyGoods(name).subscribe(new RxSubscribe<GoodsListEntity>(this, true) {
-            @Override
-            protected void _onNext(GoodsListEntity goodsListEntity) {
-
-                List<GoodsEntity> brand_all = goodsListEntity.getGoodsList();//同brand品牌商品
-
-                fragment.switchData("", "", brand_all);
-
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Log.v("BaseQuickAdapter", message);
-            }
-        });
-
-
-    }
-
 
     @Override
     protected void setUpData() {
@@ -300,16 +222,47 @@ public class ProductListActivity extends BaseActivity {
     }
 
 
-    public void onPulsTotalPrice(double t) {
-        TotalPrice = TotalPrice + t;
-        tv_totalPrice.setText(String.format("合计：￥%s", TotalPrice));
+    //获取分类数据
+    private void getPartsData() {
+
+        Api().queryShopcategoryAll(String.valueOf(Configure.Goods_TYPE_4)).subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
+            @Override
+            protected void _onNext(List<GoodsCategory> categories) {
+                if (null == categories || categories.size() == 0) {
+                    ToastUtils.showToast("暂无分类！");
+                    radioGroup.setVisibility(View.GONE);
+                    return;
+                }
+
+                radioGroup.setVisibility(View.VISIBLE);
+                init0Data(categories);//根据第一级类别数量 创建RadioButton
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+            }
+        });
 
     }
 
-    public void setListMap(String category_id, String brand_id, List<GoodsEntity> list) {
-        this.listMap.put(category_id + brand_id, list);
+    public void init0Data(final List<GoodsCategory> list) {
+        radioGroup.removeAllViews();//清除所有
+        for (int i = 0; i < list.size(); i++) {
+            MyRadioButton radioButton = new MyRadioButton(ProductListActivity.this, list.get(i).getName(), i);
+            final int finalI = i;
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
+                    categoryId = list.get(finalI).getCategoryId();//一级分类id
+                    page = 1;
+                    xgxshopgoodsList(null);
+                }
+            });
+
+
+            radioGroup.addView(radioButton);
+        }
     }
-
-
 }

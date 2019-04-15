@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background_color"
     android:orientation="vertical">
 
@@ -20,6 +20,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tv_bluetooth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="8dp"
+                android:text="未连接打印机(点击连接)"
+                android:textSize="11sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -67,6 +75,38 @@
                 android:layout_height="wrap_content"
                 android:background="#fff"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="订单状态"
+                        android:textColor="#ff000000"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_order_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:background="@null"
+                        android:gravity="end|center_vertical"
+                        android:paddingTop="18dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="18dp"
+                        android:text="服务中"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -131,10 +171,10 @@
 
                         <TextView
                             android:id="@+id/tv_mobile"
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
+                            android:layout_weight="1"
                             android:background="@null"
                             android:gravity="end|center_vertical"
                             android:paddingTop="18dp"
@@ -146,14 +186,14 @@
 
                         <TextView
                             android:id="@+id/tv_notice"
-                            android:layout_marginRight="10dp"
-                            android:padding="8dp"
-                            android:textColor="#fff"
-                            android:background="@drawable/button_background_b"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text="通知客户" />
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/button_background_b"
+                            android:padding="8dp"
+                            android:text="通知客户"
+                            android:textColor="#fff"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
 
@@ -253,15 +293,15 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv1"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv3"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -316,9 +356,9 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv2"
-                    android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -549,11 +589,11 @@
                         android:textSize="14sp" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:src="@mipmap/icon_enter" />
+                        android:src="@mipmap/icon_enter"
+                        android:visibility="gone" />
                 </LinearLayout>
 
 
@@ -562,11 +602,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:padding="8dp"
                     android:background="#FAFAFA"
+                    android:padding="8dp"
                     tools:srcCompat="@tools:sample/backgrounds/scenic[9]" />
-
-
 
 
             </LinearLayout>

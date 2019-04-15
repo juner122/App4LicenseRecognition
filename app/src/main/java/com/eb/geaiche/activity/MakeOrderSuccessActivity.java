@@ -602,7 +602,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     @Override
                     public void doConfirm() {
                         confirmDialog.dismiss();
-                        toActivity(AutographActivity.class, "class", "MakeOrder");
+                        toActivity(AutographActivity.class, "class", "MakeOrderSuccess");
 
                     }
 
@@ -716,20 +716,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     }
 
-    private String getConnDeviceInfo() {
-        String str = "";
-        DeviceConnFactoryManager deviceConnFactoryManager = DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID];
-        if (deviceConnFactoryManager != null
-                && deviceConnFactoryManager.getConnState()) {
-            if ("BLUETOOTH".equals(deviceConnFactoryManager.getConnMethod().toString())) {
-                str += "MacAddress: " + deviceConnFactoryManager.getMacAddress();
-
-                return str;
-            }
-        }
-
-        return str;
-    }
 
     //获取配件
     private List<GoodsEntity> getGood(List<GoodsEntity> goodsEntities) {

@@ -2,11 +2,13 @@ package com.juner.mvp.api;
 
 
 import com.juner.mvp.bean.BaseBean;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.RemakeActCard;
 import com.juner.mvp.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.UserEntity;
 
 import java.util.List;
@@ -46,5 +48,9 @@ public interface ApiService {
     @POST("quotation/save")
     Observable<BaseBean<NullDataEntity>> quotationSave(@Header("X-Nideshop-Token") String token, @Body FixInfoEntity fixInfo);
 
+    //15.当前门店用户（技师）列表
+    @POST("sysuser/list")
+    @FormUrlEncoded
+    Observable<BaseBean<BasePage<Technician>>> sysuserList(@FieldMap Map<String, Object> maps);
 
 }

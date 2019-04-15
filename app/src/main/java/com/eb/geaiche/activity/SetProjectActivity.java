@@ -40,8 +40,8 @@ public class SetProjectActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(setProjectAdapter);
 
-
-        setProjectAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        setProjectAdapter.setOnItemClickListener(
+new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 

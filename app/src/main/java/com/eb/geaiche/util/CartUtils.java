@@ -48,19 +48,6 @@ public class CartUtils {
     }
 
 
-    public void listToSparse(List<GoodsEntity> carts) {
-
-        //放到sparseArry中
-        if (carts != null && carts.size() > 0) {
-            for (int i = 0; i < carts.size(); i++) {
-                GoodsEntity goodsBean = carts.get(i);
-                data.put(goodsBean.getId(), goodsBean);
-            }
-        }
-        commit();
-
-    }
-
 
     //本地获取json数据，并且通过Gson解析成list列表数据
     public List<GoodsEntity> getDataFromLocal() {
@@ -150,21 +137,27 @@ public class CartUtils {
     }
 
     //套餐商品
-    public void addMeal(GoodsEntity good) {
-
-        good.setType(Goods_TYPE_5);
-        addData(good);
-    }
-
-    //套餐商品
     public void reduceMeal(MealEntity entity) {
 
         GoodsEntity good = new GoodsEntity();
-        good.setId(entity.getId());
+        good.setGoods_id(entity.getId());
         good.setType(5);
         reduceData(good);
     }
+    public void addDataNoCommit(GoodsEntity good) {
 
+
+        //添加数据
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        if (tempCart != null) {
+            tempCart.setNumber(tempCart.getNumber() + 1);
+        } else {
+            tempCart = good;
+            tempCart.setNumber(1);
+        }
+        data.put(good.getGoods_id(), tempCart);
+
+    }
 
     public void addData(GoodsEntity good) {
 
@@ -185,32 +178,17 @@ public class CartUtils {
 
     }
 
-    public void addDataNoCommit(GoodsEntity good) {
-
-
-        //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
-        if (tempCart != null) {
-            tempCart.setNumber(tempCart.getNumber() + 1);
-        } else {
-            tempCart = good;
-            tempCart.setNumber(1);
-        }
-        data.put(good.getId(), tempCart);
-
-    }
-
     public void reduceData(GoodsEntity good) {
 
         //减数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
         if (tempCart != null) {
             tempCart.setNumber(tempCart.getNumber() - 1);
 
             if (tempCart.getNumber() == 0) {
-                data.remove(good.getId());
+                data.remove(good.getGoods_id());
             } else {
-                data.put(good.getId(), tempCart);
+                data.put(good.getGoods_id(), tempCart);
             }
             commit();
         }
@@ -219,13 +197,13 @@ public class CartUtils {
 
     public void reduceDataNoCommit(GoodsEntity good) {
         //减数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getId());
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
         if (tempCart != null) {
             tempCart.setNumber(tempCart.getNumber() - 1);
             if (tempCart.getNumber() == 0) {
-                data.remove(good.getId());
+                data.remove(good.getGoods_id());
             } else {
-                data.put(good.getId(), tempCart);
+                data.put(good.getGoods_id(), tempCart);
             }
 
         }

@@ -12,23 +12,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.eb.geaiche.activity.ChangeStoreActivity;
-import com.eb.geaiche.activity.CourseRecordActivity;
-import com.eb.geaiche.activity.MainActivity;
-import com.eb.geaiche.mvp.LoginActivity2;
-import com.eb.geaiche.view.ConfirmDialogCanlce;
-import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.AboutActivity;
 import com.eb.geaiche.activity.AuthenActivity;
+import com.eb.geaiche.activity.ChangeStoreActivity;
+import com.eb.geaiche.activity.CourseRecordActivity;
 import com.eb.geaiche.activity.MyBalanceActivity;
 import com.eb.geaiche.activity.SetProjectActivity;
 import com.eb.geaiche.activity.ShopInfoActivity;
 import com.eb.geaiche.activity.UserReportActivity;
 import com.eb.geaiche.api.RxSubscribe;
-import com.juner.mvp.bean.Shop;
+import com.eb.geaiche.mvp.LoginActivity2;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.juner.mvp.Configure;
+import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -44,7 +43,7 @@ import static com.juner.mvp.Configure.shop_user_name;
 /**
  * 主页页面：我的
  */
-public class MainFragment5 extends BaseFragment {
+public class MainFragment5New extends BaseFragment {
     @BindView(R.id.tv_name)
     TextView tv_name;
 

@@ -39,8 +39,7 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
         }
 
 
-        helper
-                .addOnClickListener(R.id.ib_plus)
+        helper.addOnClickListener(R.id.ib_plus)
                 .addOnClickListener(R.id.ib_reduce);
 
 

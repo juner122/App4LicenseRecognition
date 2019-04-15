@@ -115,7 +115,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         tv_title.setText("新增会员");
-//        setRTitle("匿名注册");
+        setRTitle("匿名注册");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(carListAdapter);
     }
@@ -196,8 +196,6 @@ public class MemberInfoInputActivity extends BaseActivity {
                     @Override
                     public void doConfirm() {
                         c2.dismiss();
-
-
                     }
 
                     @Override

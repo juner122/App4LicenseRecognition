@@ -32,6 +32,7 @@ import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Technician;
@@ -61,8 +62,8 @@ import static com.juner.mvp.Configure.shop_user_name;
 
 public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI> implements FixInfoDesContacts.FixInfoDesPtr {
 
-
-    List<Technician> technicians;//选择的技师
+    String phone;//当前登录员工
+    List<Technician> technicians = new ArrayList<>();//选择的技师
     FixInfoDesContacts.FixInfoDesMdl mdl;
     String carNo, userName, mobile;
     int carId, userId;
@@ -89,6 +90,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         super(view);
         mdl = new FixInfoDesMdl(view.getSelfActivity());
         pickMap = new HashMap<>();
+        phone = new AppPreferences(getView().getSelfActivity()).getString(Configure.moblie_s, "");
     }
 
     /**
@@ -140,6 +142,28 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         mobile = getView().getSelfActivity().getIntent().getStringExtra(Configure.moblie);
         getView().setCarNo(carNo);
 
+
+        mdl.sysuserList(new RxSubscribe<BasePage<Technician>>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(BasePage<Technician> t) {
+
+                for (Technician technician : t.getList()) {
+                    //查找当前登录员工的对象
+                    if (technician.getMobile().equals(phone)) {
+                        technicians.add(technician);
+                        getView().setTechnician(String2Utils.getString(technicians));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast(message);
+
+            }
+        });
 
     }
 

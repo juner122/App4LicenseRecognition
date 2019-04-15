@@ -8,8 +8,10 @@ import android.widget.TextView;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Technician;
 
 import java.util.List;
 
@@ -71,6 +73,8 @@ public class FixInfoDesContacts {
 
 
         void quotationSave(FixInfoEntity fixInfo, RxSubscribe<NullDataEntity> rxSubscribe);//保存退出
+
+        void sysuserList(RxSubscribe<BasePage<Technician>> rxSubscrib);//
     }
 
 }

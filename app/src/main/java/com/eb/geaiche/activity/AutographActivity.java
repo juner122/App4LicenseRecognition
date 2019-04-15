@@ -111,8 +111,13 @@ public class AutographActivity extends BaseActivity {
                                 toActivity(FixInfoDescribeActivity.class, Configure.Domain, Configure.Domain + key);
                             if (getIntent().getStringExtra("class").equals("UserAuthorize"))
                                 toActivity(UserAuthorizeActivity.class, Configure.Domain, Configure.Domain + key);
-                            if (getIntent().getStringExtra("class").equals("MakeOrder"))
+                            if (getIntent().getStringExtra("class").equals("MakeOrderSuccess"))
                                 toActivity(MakeOrderSuccessActivity.class, Configure.Domain, Configure.Domain + key);
+
+                            if (getIntent().getStringExtra("class").equals("MakeOrder"))
+                                toActivity(MakeOrderActivity.class, Configure.Domain, Configure.Domain + key);
+                            if (getIntent().getStringExtra("class").equals("OrderInfo"))
+                                toActivity(OrderInfoActivity.class, Configure.Domain, Configure.Domain + key);
 
 
                         } else {

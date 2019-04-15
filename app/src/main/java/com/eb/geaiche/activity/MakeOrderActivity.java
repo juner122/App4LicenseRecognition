@@ -3,6 +3,7 @@ package com.eb.geaiche.activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,15 +12,20 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
@@ -27,8 +33,10 @@ import com.eb.geaiche.adapter.SimpleGoodInfoAdpter;
 import com.eb.geaiche.adapter.SimpleMealInfoAdpter;
 import com.eb.geaiche.adapter.SimpleServiceInfoAdpter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.Technician;
@@ -41,6 +49,7 @@ import com.eb.geaiche.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +59,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.OnClick;
+
+import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
+import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 
 
 public class MakeOrderActivity extends BaseActivity {
@@ -64,7 +76,8 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.bto_top1)
     View view;
 
-
+    @BindView(R.id.iv_lpv)
+    ImageView iv_lpv;
     @BindView(R.id.rv_goods)
     RecyclerView rv_goods;
 
@@ -117,13 +130,16 @@ public class MakeOrderActivity extends BaseActivity {
     SimpleGoodInfoAdpter simpleGoodInfoAdpter;
     SimpleServiceInfoAdpter simpleServiceInfoAdpter;
     SimpleMealInfoAdpter sma;
-    List<Technician> technicians;
+
+
+    List<Technician> technicians = new ArrayList<>();//选择员工列表
 
     List<GoodsEntity> goods_top;
 
 
     CartUtils cartUtils;
 
+    String phone;//当前登录员工
 
     @Override
     protected void onResume() {
@@ -179,8 +195,8 @@ public class MakeOrderActivity extends BaseActivity {
                 try {
                     TextView tv_number = (TextView) adapter.getViewByPosition(rv_goods, position, R.id.tv_number);
                     View ib_reduce = adapter.getViewByPosition(rv_goods, position, R.id.ib_reduce);
-                    int number = goodsEntities.get(position).getNumber();//获取
 
+                    int number = goodsEntities.get(position).getNumber();//获取
 
                     switch (view.getId()) {
                         case R.id.ib_plus:
@@ -192,6 +208,7 @@ public class MakeOrderActivity extends BaseActivity {
                             }
                             number++;
                             tv_number.setText(String.valueOf(number));
+
                             cartUtils.addData(goodsEntities.get(position));
                             break;
 
@@ -199,6 +216,7 @@ public class MakeOrderActivity extends BaseActivity {
 
                             number--;
                             tv_number.setText(String.valueOf(number));
+
                             cartUtils.reduceData(goodsEntities.get(position));
 
 
@@ -290,6 +308,8 @@ public class MakeOrderActivity extends BaseActivity {
             pickMap.put(i, false);
         }
 
+        phone = new AppPreferences(this).getString(Configure.moblie_s, "");
+        sysuserList();
     }
 
     Map<Integer, Boolean> pickMap;
@@ -329,8 +349,25 @@ public class MakeOrderActivity extends BaseActivity {
 
     }
 
+    String iv_lpv_url = "";//签名图片 七牛云url
 
-    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_title_r})
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Glide.with(this)
+                .asDrawable()
+                .load(Uri.fromFile(new File(Configure.LinePathView_url)))
+                .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                .apply(skipMemoryCacheOf(true))
+                .into(iv_lpv);
+
+
+        iv_lpv_url = intent.getStringExtra(Configure.Domain);
+
+    }
+
+    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_title_r, R.id.ll_autograph})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
@@ -353,16 +390,6 @@ public class MakeOrderActivity extends BaseActivity {
 
                 break;
             case R.id.but_to_technician_list:
-
-//                startActivityForResult(new Intent(this, TechnicianListActivity.class), new ResultBack() {
-//                    @Override
-//                    public void resultOk(Intent data) {
-//                        //to do what you want when resultCode == RESULT_OK
-//                        but_to_technician_list.setText("");
-//                        technicians = data.getParcelableArrayListExtra("Technician");
-//                        but_to_technician_list.setText(String2Utils.getString(technicians));
-//                    }
-//                });
 
 
                 Intent intent4 = new Intent(this, TechnicianListActivity.class);
@@ -459,6 +486,26 @@ public class MakeOrderActivity extends BaseActivity {
 
                 break;
 
+            case R.id.ll_autograph://签名
+
+                //弹出对话框
+                final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(this, getResources().getString(R.string.agreement), getResources().getString(R.string.agreement_title));
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        confirmDialog.dismiss();
+                        toActivity(AutographActivity.class, "class", "MakeOrder");
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+                break;
+
         }
     }
 
@@ -475,8 +522,6 @@ public class MakeOrderActivity extends BaseActivity {
 
 
         infoEntity.setPostscript(et_postscript.getText().toString());
-
-
 
 
 //        infoEntity.setGoodsList(cartUtils.getProductList());
@@ -501,8 +546,8 @@ public class MakeOrderActivity extends BaseActivity {
 
 
                 //以下代码为对外APP使用
-                toMain(0);
-                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
+                //直接开始服务
+                beginServe(orderInfo.getOrderInfo());
 
 
             }
@@ -527,7 +572,6 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void carDestroy() {
         cartUtils.deleteAllData();
-
 
 
     }
@@ -578,5 +622,54 @@ public class MakeOrderActivity extends BaseActivity {
     private void refreshData() {
         simpleGoodInfoAdpter.setNewData(cartUtils.getProductList());
         setGoodsPric();
+    }
+
+
+    //获取员工列表
+    private void sysuserList() {
+        Api().sysuserList().subscribe(new RxSubscribe<BasePage<Technician>>(this, true) {
+            @Override
+            protected void _onNext(BasePage<Technician> t) {
+
+                for (Technician technician : t.getList()) {
+
+                    //查找当前登录员工的对象
+                    if (technician.getMobile().equals(phone)) {
+                        technicians.add(technician);
+                        but_to_technician_list.setText(String2Utils.getString(technicians));
+                        break;
+                    }
+
+
+                }
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast(message);
+
+            }
+        });
+    }
+
+
+    //开始服务
+    private void beginServe(final OrderInfoEntity infoEntity) {
+        Api().beginServe(infoEntity.getId(), infoEntity.getOrder_sn(), iv_lpv_url).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                toMain(0);
+                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, infoEntity.getId());
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+                ToastUtils.showToast(message);
+            }
+        });
     }
 }

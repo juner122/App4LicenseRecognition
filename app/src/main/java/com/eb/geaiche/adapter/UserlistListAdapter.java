@@ -21,8 +21,8 @@ public class UserlistListAdapter extends BaseQuickAdapter<UserEntity, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, UserEntity item) {
-        helper.setText(R.id.tv_name, item.getUsername());
-        helper.setText(R.id.tv_mobile, item.getMobile());
+        helper.setText(R.id.tv_name, null == item.getUsername() || "".equals(item.getUsername()) ? "匿名" : item.getUsername());
+        helper.setText(R.id.tv_mobile, null == item.getMobile() || "".equals(item.getMobile()) ? "-" : item.getMobile());
 
     }
 }

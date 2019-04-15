@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
@@ -102,6 +103,7 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("订单收款");
+        showRView("绑定套卡");
 //        et_car_code.setTransformationMethod(new A2bigA());
         olpy = PayTypeList.getList();
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
@@ -269,7 +271,7 @@ public class OrderPayActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_enter_pay, R.id.tv_pick_pay_type, R.id.tv_pick_coupon})
+    @OnClick({R.id.tv_enter_pay, R.id.tv_pick_pay_type, R.id.tv_pick_coupon, R.id.tv_title_r})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.tv_enter_pay:
@@ -350,6 +352,14 @@ public class OrderPayActivity extends BaseActivity {
                 i.putExtra("order_price", "1000");
                 i.putExtra(Configure.user_id, 1);
                 startActivity(i);
+                break;
+
+            case R.id.tv_title_r:
+                //会员开卡
+                Intent intent = new Intent(OrderPayActivity.this, ActivateCardActivity.class);
+                intent.putExtra(Configure.moblie, infoEntity.getOrderInfo().getMobile());
+                intent.putExtra(Configure.user_name, "");
+                startActivity(intent);
                 break;
         }
 

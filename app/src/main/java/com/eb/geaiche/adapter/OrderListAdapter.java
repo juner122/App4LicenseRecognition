@@ -53,7 +53,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
                 if (item.getPay_status() == 2) {
                     tv_order_state.setTextColor(Color.parseColor("#F23325"));
                     button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_x));
-                    button_action.setText("立即下单");
+                    button_action.setText("开始服务");
                     button_action.setTextColor(Color.parseColor("#ffffff"));
                 } else {
                     tv_order_state.setTextColor(Color.BLACK);
