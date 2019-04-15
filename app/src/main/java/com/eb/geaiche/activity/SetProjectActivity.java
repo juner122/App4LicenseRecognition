@@ -41,15 +41,15 @@ public class SetProjectActivity extends BaseActivity {
         rv.setAdapter(setProjectAdapter);
 
         setProjectAdapter.setOnItemClickListener(
-new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                new BaseQuickAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-                showSelectType(position);
+                        showSelectType(position);
 
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -119,9 +119,10 @@ new BaseQuickAdapter.OnItemClickListener() {
     public void showSelectType(int position) {
 
 
-        toActivity(ProductListActivity.class, Configure.setProject, position);
-
-
+        Intent intent = new Intent(this, ProductListActivity.class);
+        intent.putExtra(Configure.setProject, position);
+        intent.putExtra(Configure.Goods_TYPE, Configure.Goods_TYPE_3);
+        startActivity(intent);
     }
 
 
@@ -158,7 +159,7 @@ new BaseQuickAdapter.OnItemClickListener() {
             Api().shopeasyUpdate(g).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
                 protected void _onNext(Integer n) {
-                    if(n==-1){
+                    if (n == -1) {
                         ToastUtils.showToast("更新失败！");
                         return;
 

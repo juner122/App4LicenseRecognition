@@ -336,8 +336,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         protected void _onNext(NullDataEntity nullDataEntity) {
                             ToastUtils.showToast("检修单已确认");
 
-//                            getView().createOrderSuccess(2);//检修单已确认
+                            getView().createOrderSuccess(2);//检修单已确认
                         }
+
                         @Override
                         protected void _onError(String message) {
                             ToastUtils.showToast(message);

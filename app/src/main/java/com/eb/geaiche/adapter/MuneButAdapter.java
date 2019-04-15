@@ -102,7 +102,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 activity.startActivity(new Intent(activity, MessageMarketingActivity.class));
                 break;
             case "activity":
-                ToastUtils.showToast("开发中");
+                ToastUtils.showToast("无权限");
                 break;
             case "online":
 
@@ -110,7 +110,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 break;
             case "offline":
 
-                ToastUtils.showToast("开发中");
+                ToastUtils.showToast("无权限");
                 break;
             case "job":
                 activity.startActivity(new Intent(activity, RecruitActivity.class));
@@ -131,12 +131,17 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 break;
 
 
-
-
             default:
+                if (perms.equals("com.eb.geaiche.mvp.MessageMarketingActivity")) {
+                    ToastUtils.showToast("无权限");
+                    return;
+                }
+
                 try {
                     Class clazz = Class.forName(perms);
                     activity.startActivity(new Intent(activity, clazz));
+
+
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }

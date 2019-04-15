@@ -64,10 +64,9 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
         String token = new AppPreferences(this).getString(Configure.Token, "");
 
-
         if (token.equals("")) {
             init();
-        }else {
+        } else {
             toActivity();
         }
     }
@@ -129,7 +128,6 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
 
         String token = new AppPreferences(this).getString(Configure.Token, "");
         if (token.equals(""))
-//            startActivity(new Intent(this, LoginActivity.class));
             startActivity(new Intent(this, LoginActivity2.class));
         else
             startActivity(new Intent(this, MainActivity.class));

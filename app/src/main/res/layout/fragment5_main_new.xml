@@ -14,12 +14,14 @@
         android:text="我的"
         android:textColor="#000"
         android:textSize="16sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
         android:layout_gravity="center"
         android:background="#d9d9d9"
         android:paddingTop="20dp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -75,6 +77,90 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我的采购订单"
+                    android:textColor="#ff333333"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@mipmap/icon_enter"
+                    android:text="查看全部采购订单"
+                    android:textColor="#ff666666"
+                    android:textSize="13sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#d9d9d9" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/icon_my_cart"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="购物车"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/icon_my_collection"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="收藏夹"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/icon_my_youj"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="优惠券"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@mipmap/icon_my_rowse_record"
+                        android:drawablePadding="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="浏览记录"
+                        android:textColor="#ff666666"
+                        android:textSize="12sp" />
+
+
+                </LinearLayout>
+
+
+            </android.support.constraint.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/tv_my_balance"
@@ -82,18 +168,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/icon_my_balance"
-                android:text="我的余额" />
+                android:text="我的银行卡" />
 
-
-            <TextView
-                android:id="@+id/auth"
-                style="@style/my_list_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:drawableLeft="@mipmap/icon_renzheng"
-                android:text="我的认证" />
 
             <TextView
                 android:id="@+id/mystudy"
@@ -103,7 +179,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:drawableLeft="@mipmap/icon_study"
-                android:text="我的学习" />
+                android:text="我的学习记录" />
 
 
             <TextView
@@ -114,34 +190,6 @@
                 android:layout_marginBottom="10dp"
                 android:drawableLeft="@mipmap/icon_projcet"
                 android:text="设置主推项目" />
-
-            <TextView
-                android:id="@+id/about"
-                style="@style/my_list_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_about"
-                android:text="关于哥爱车" />
-
-
-            <TextView
-                android:id="@+id/updata"
-                style="@style/my_list_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
-                android:drawableLeft="@mipmap/icon_updata"
-                android:text="检查更新  version:" />
-
-
-            <TextView
-                android:id="@+id/tv_user_report"
-                style="@style/my_list_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_user_report"
-                android:text="用户反馈" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -161,11 +209,11 @@
                 <TextView
                     android:id="@+id/tv_change_store"
                     style="@style/my_list_item"
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:text="账号切换(门店检查)" />
 
             </LinearLayout>

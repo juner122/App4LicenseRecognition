@@ -44,7 +44,7 @@ import butterknife.OnClick;
 
 public class ProductListActivity extends BaseActivity {
 
-    public static final int type = 4;
+    public int type;
     @BindView(R.id.rg_type)
     RadioGroup radioGroup;
 
@@ -77,6 +77,12 @@ public class ProductListActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        type = getIntent().getIntExtra(Configure.Goods_TYPE, 0);
+        if (type == Configure.Goods_TYPE_3) {
+            tv_title.setText("服务列表");
+        } else if (type == Configure.Goods_TYPE_4) {
+            tv_title.setText("配件列表");
+        }
 
 
         isShow = getIntent().getIntExtra(Configure.isShow, 0);
@@ -87,8 +93,6 @@ public class ProductListActivity extends BaseActivity {
         } else {
             ll.setVisibility(View.VISIBLE);
         }
-
-        tv_title.setText("商品列表");
 
 
         replaceFragment();

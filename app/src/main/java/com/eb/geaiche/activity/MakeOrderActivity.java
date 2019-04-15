@@ -440,7 +440,7 @@ public class MakeOrderActivity extends BaseActivity {
 
                     refreshData();
                 } catch (Exception e) {
-                    ToastUtils.showToast("该商品不能选择");
+                    ToastUtils.showToast("该项不能选择");
                 }
                 break;
             case R.id.bto_top2:
@@ -449,7 +449,7 @@ public class MakeOrderActivity extends BaseActivity {
 
                     refreshData();
                 } catch (Exception e) {
-                    ToastUtils.showToast("该商品不能选择");
+                    ToastUtils.showToast("该项不能选择");
                 }
                 break;
             case R.id.bto_top3:
@@ -459,7 +459,7 @@ public class MakeOrderActivity extends BaseActivity {
 
                     refreshData();
                 } catch (Exception e) {
-                    ToastUtils.showToast("该商品不能选择");
+                    ToastUtils.showToast("该项不能选择");
                 }
 
                 break;
@@ -468,7 +468,7 @@ public class MakeOrderActivity extends BaseActivity {
                     cartUtils.addProductData(goods_top.get(3));
                     refreshData();
                 } catch (Exception e) {
-                    ToastUtils.showToast("该商品不能选择");
+                    ToastUtils.showToast("该项不能选择");
 
                 }
                 break;
@@ -621,6 +621,7 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void refreshData() {
         simpleGoodInfoAdpter.setNewData(cartUtils.getProductList());
+        simpleServiceInfoAdpter.setNewData(cartUtils.getServerList());
         setGoodsPric();
     }
 

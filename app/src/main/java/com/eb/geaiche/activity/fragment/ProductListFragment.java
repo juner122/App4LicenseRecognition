@@ -16,11 +16,8 @@ import com.eb.geaiche.activity.ProductListActivity;
 import com.eb.geaiche.activity.ProductMealListActivity;
 import com.eb.geaiche.activity.SetProjectActivity;
 import com.eb.geaiche.adapter.ProductListAdapter;
-import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
-import com.juner.mvp.bean.ProductList;
-import com.juner.mvp.bean.ProductValue;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.ProductListDialog;
 

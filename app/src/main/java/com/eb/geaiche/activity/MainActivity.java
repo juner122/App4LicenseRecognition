@@ -241,10 +241,6 @@ public class MainActivity extends BaseActivity {
         //注册广播
         this.registerReceiver(broadcastReceiver, filter);
 
-
-//        downLoadBroadcastReceiver = new DownLoadBroadcastReceiver();
-//        IntentFilter filter_down = new IntentFilter(action_down);
-//        this.registerReceiver(downLoadBroadcastReceiver, filter_down);
     }
 
     private void needRead() {
