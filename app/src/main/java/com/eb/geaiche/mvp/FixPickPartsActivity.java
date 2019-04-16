@@ -85,7 +85,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     protected void init() {
 
         tv_title.setText("配件库");
-//        setRTitle("自定义配件");
+        setRTitle("自定义配件");
         getPresenter().initRecyclerView(rv0, rv1, easylayout);
 
         if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
