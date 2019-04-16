@@ -85,7 +85,7 @@ public class ConfirmDialog3 extends Dialog {
                 case R.id.tv_confirm:
                     if (TextUtils.isEmpty(et_code.getText())) {
 
-                        Toast.makeText(context, "工时费不能为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "价格不能为空！", Toast.LENGTH_SHORT).show();
                         return;
                     }
 

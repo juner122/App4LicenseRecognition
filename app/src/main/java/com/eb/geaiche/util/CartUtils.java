@@ -48,7 +48,6 @@ public class CartUtils {
     }
 
 
-
     //本地获取json数据，并且通过Gson解析成list列表数据
     public List<GoodsEntity> getDataFromLocal() {
         List<GoodsEntity> carts = new ArrayList<>();
@@ -144,6 +143,7 @@ public class CartUtils {
         good.setType(5);
         reduceData(good);
     }
+
     public void addDataNoCommit(GoodsEntity good) {
 
 
@@ -175,8 +175,24 @@ public class CartUtils {
         data.put(good.getGoods_id(), tempCart);
 
         commit();
+    }
+
+
+    //修改价格
+    public void fixDataPrice(int goods_id, String price, int num) {
+
+        //添加数据
+        GoodsEntity tempCart = (GoodsEntity) data.get(goods_id);
+        if (tempCart != null) {
+            tempCart.setRetail_price(price);
+            tempCart.setNumber(num);
+            data.put(goods_id, tempCart);
+            commit();
+        }
+
 
     }
+
 
     public void reduceData(GoodsEntity good) {
 

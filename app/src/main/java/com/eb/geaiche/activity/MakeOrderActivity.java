@@ -25,6 +25,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.eb.geaiche.view.ConfirmDialog3;
+import com.eb.geaiche.view.ConfirmDialog4;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -34,6 +36,8 @@ import com.eb.geaiche.adapter.SimpleMealInfoAdpter;
 import com.eb.geaiche.adapter.SimpleServiceInfoAdpter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.FixParts;
+import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.juner.mvp.bean.NullDataEntity;
@@ -235,6 +239,58 @@ public class MakeOrderActivity extends BaseActivity {
             }
         });
 
+        //调整价格
+        simpleGoodInfoAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(final BaseQuickAdapter adapter, View view, final int position) {
+                String price = simpleGoodInfoAdpter.getData().get(position).getRetail_price();
+                int num = simpleGoodInfoAdpter.getData().get(position).getNumber();
+                final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, true);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String price, int num) {
+                        confirmDialog.dismiss();
+                        //修改价数量
+                        cartUtils.fixDataPrice(simpleGoodInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                        refreshData();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        confirmDialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        //调整价格
+        simpleServiceInfoAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(final BaseQuickAdapter adapter, View view, final int position) {
+                String price = simpleServiceInfoAdpter.getData().get(position).getRetail_price();
+                int num = simpleServiceInfoAdpter.getData().get(position).getNumber();
+                final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, false);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String price, int num) {
+                        confirmDialog.dismiss();
+                        //修改价数量
+                        cartUtils.fixDataPrice(simpleServiceInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                        refreshData();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        confirmDialog.dismiss();
+                    }
+                });
+            }
+        });
+
 
         ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(simpleServiceInfoAdpter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
@@ -245,8 +301,9 @@ public class MakeOrderActivity extends BaseActivity {
         simpleServiceInfoAdpter.enableSwipeItem();
         simpleServiceInfoAdpter.setOnItemSwipeListener(onItemSwipeListener);
 
-
         refreshData();
+
+
     }
 
     OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {

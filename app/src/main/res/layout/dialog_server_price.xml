@@ -14,7 +14,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="参考价调整"
+        android:text="价格调整"
         android:textColor="#fff23325"
         android:textSize="14sp" />
 
@@ -30,11 +30,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background_f"
-        android:hint="工时费（￥）"
+        android:hint="单价（￥）"
         android:inputType="number"
         android:padding="5dp"
         android:textSize="13sp" />
-
 
 
     <LinearLayout
