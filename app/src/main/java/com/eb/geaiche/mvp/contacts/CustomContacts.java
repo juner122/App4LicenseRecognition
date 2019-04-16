@@ -9,6 +9,8 @@ import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.Component;
 import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixService2item;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Project;
 import com.juner.mvp.bean.ShopProject;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public class CustomContacts {
 
         void changeView();//变更页面，配件或工时
 
-        void confirm(String dec, String name, String price, int number, int openStatus, boolean isContinue);//确认  isContinue 是否继续添加  openStatus 是否推广小程序
+        void confirm(String name, String price, boolean isContinue);//确认  isContinue 是否继续添加  openStatus 是否推广小程序
 
 
         void numberUp(int num);//加数量
@@ -75,6 +77,7 @@ public class CustomContacts {
 
         void secondService(int parent_id, RxSubscribe<List<FixService2item>> rxSubscribe);//自定义工时 二级分类下拉框
 
+        void xgxshopgoodsSave(Project project, RxSubscribe<String> rxSubscribe);
     }
 
 

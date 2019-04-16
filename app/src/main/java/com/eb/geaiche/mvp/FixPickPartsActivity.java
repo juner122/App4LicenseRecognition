@@ -60,13 +60,13 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
                 break;
             case R.id.iv_search:
                 //搜索
-                SoftInputUtil.hideSoftInput(this,view);
+                SoftInputUtil.hideSoftInput(this, view);
                 getPresenter().seekPartsforKey(et_key.getText().toString());
                 break;
             case R.id.tv_title_r:
                 //自定义配件
 
-                toActivity(CustomPartsActivity.class, "type", 1);
+                toActivity(CustomPartsActivity.class, "type", Configure.Goods_TYPE_4);
                 break;
 
 
@@ -86,7 +86,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
         tv_title.setText("配件库");
 //        setRTitle("自定义配件");
-        getPresenter().initRecyclerView(rv0, rv1,easylayout);
+        getPresenter().initRecyclerView(rv0, rv1, easylayout);
 
         if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
             ll_bottom.setVisibility(View.VISIBLE);

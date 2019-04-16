@@ -208,6 +208,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -240,6 +241,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
@@ -296,6 +298,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="2"
+            android:visibility="gone"
             android:background="@drawable/button_background_e"
             android:gravity="center"
             android:text="继续添加"

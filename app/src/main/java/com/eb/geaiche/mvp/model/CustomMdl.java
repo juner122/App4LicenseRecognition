@@ -10,9 +10,13 @@ import com.juner.mvp.base.model.BaseModel;
 import com.juner.mvp.bean.Component;
 import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixService2item;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Project;
 import com.juner.mvp.bean.ShopProject;
 
 import java.util.List;
+
+import retrofit2.http.Field;
 
 public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
     Context context;
@@ -50,6 +54,14 @@ public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
 
     }
 
+    //添加自定服务或配件 3服务4零件
+    @Override
+    public void xgxshopgoodsSave(Project project, RxSubscribe<String> rxSubscribe) {
+
+        sendRequest(HttpUtils.getFix().xgxshopgoodsSave(getToken(context),project).compose(RxHelper.<String>observe()), rxSubscribe);
+
+    }
+
     @Override
     public void firstService(RxSubscribe<List<FixService2item>> rxSubscribe) {
         sendRequest(HttpUtils.getFix().firstService(getToken(context)).compose(RxHelper.<List<FixService2item>>observe()), rxSubscribe);
@@ -59,6 +71,7 @@ public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
     public void secondService(int parent_id, RxSubscribe<List<FixService2item>> rxSubscribe) {
         sendRequest(HttpUtils.getFix().secondService(getToken(context), parent_id).compose(RxHelper.<List<FixService2item>>observe()), rxSubscribe);
     }
+
 
 
 

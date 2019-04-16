@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.CustomContacts;
 import com.eb.geaiche.mvp.presenter.CustomPtr;
+import com.juner.mvp.Configure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,10 +59,10 @@ public class CustomPartsActivity extends BaseActivity<CustomContacts.CustomPtr> 
         switch (v.getId()) {
             case R.id.tv_confirm://确认添加
 
-                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(), et_price.getText().toString(), Integer.parseInt(tv_num.getText().toString()), aSwitch.isChecked() ? 1 : 0, false);//提交
+                getPresenter().confirm(et_name.getText().toString(), et_price.getText().toString(),false);//提交
                 break;
             case R.id.tv_continue://继续添加
-                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(), et_price.getText().toString(), Integer.parseInt(tv_num.getText().toString()), aSwitch.isChecked() ? 1 : 0, true);//提交
+                getPresenter().confirm(et.getText().toString(), et_name.getText().toString(),true);//提交
                 break;
 
             case R.id.tv_type1:
@@ -104,7 +105,7 @@ public class CustomPartsActivity extends BaseActivity<CustomContacts.CustomPtr> 
     @Override
     public void onChangeView(int type) {
 
-        if (type == 0) {
+        if (type == Configure.Goods_TYPE_3) {
             tv_title.setText("自定义工时");
             tv1.setText("工时名称");
             tv2.setText("工时价格");

@@ -67,7 +67,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
             case R.id.tv_title_r:
                 //自定义服务
 
-                toActivity(CustomPartsActivity.class, "type", 0);
+                toActivity(CustomPartsActivity.class, "type", Configure.Goods_TYPE_3);
                 break;
 
         }
@@ -83,6 +83,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
     @Override
     protected void init() {
         tv_title.setText("工时库");
+//        setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1, easylayout);
 
         if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {

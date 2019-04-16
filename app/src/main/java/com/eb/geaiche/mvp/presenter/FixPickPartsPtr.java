@@ -316,9 +316,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
         //遍历选选择了的商品
         for (FixParts parts1 : pick_partsList) {
-
             for (int i = 0; i < parts.size(); i++) {
-
                 if (parts1.getGoods_id() == parts.get(i).getGoods_id() && parts1.getSelected() == 1)
                     parts.get(i).setSelected(1);
             }

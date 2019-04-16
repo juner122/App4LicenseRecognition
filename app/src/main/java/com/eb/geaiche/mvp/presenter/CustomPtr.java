@@ -12,6 +12,7 @@ import com.eb.geaiche.mvp.contacts.CustomContacts;
 import com.eb.geaiche.mvp.model.CustomMdl;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.CommonPopupWindow;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.Component;
@@ -19,6 +20,8 @@ import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixService2item;
 import com.juner.mvp.bean.FixServie;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Project;
 import com.juner.mvp.bean.ShopProject;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ import java.util.List;
 public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements CustomContacts.CustomPtr {
 
     CustomContacts.CustomMdl mdl;
-    int type;//判断自定义工时0   ， 自定义配件 1
+    int type;//判断自定义工时3   ， 自定义配件 4
 
     int pickType;//判断选择一级分类1   ， 二级分类2
 
@@ -52,7 +55,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
         parentRecyclerView = new RecyclerView(getView().getSelfActivity());
         parentRecyclerView.setLayoutManager(new LinearLayoutManager(getView().getSelfActivity()));
 
-        if (type == 0) {
+        if (type == Configure.Goods_TYPE_3) {
 
             adapterService = new FixPickService2ItemAdapter(null);
             parentRecyclerView.setAdapter(adapterService);
@@ -110,12 +113,9 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
 
     @Override
-    public void confirm(final String dec, final String name, final String price, int number, int openStatus, final boolean isContinue) {
+    public void confirm(final String name, final String price, final boolean isContinue) {
 
-//        if (parent_id2 == -1) {
-//            ToastUtils.showToast("请选择二级分类！");
-//            return;
-//        }
+
         if ("".equals(name)) {
             ToastUtils.showToast("请设置名称！");
             return;
@@ -125,48 +125,25 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
             return;
         }
 
-        if (type == 0) {
-            mdl.addShopService(getShopProject(dec, name, price, openStatus), new RxSubscribe<ShopProject>(getView().getSelfActivity(), true) {
-                @Override
-                protected void _onNext(ShopProject shopProject) {
-                    ToastUtils.showToast("添加成功！");
 
-                    servieList.add(getFixServie(shopProject));
-                    if (!isContinue) {//确认添加返回详情页面
-                        finish();
-//                        getView().confirm(servieList, type);
-                    } else {
-                        onContinue();
-                    }
+        mdl.xgxshopgoodsSave(getProject(name, price), new RxSubscribe<String>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(String s) {
+                ToastUtils.showToast("添加成功！");
+
+                if (!isContinue) {//确认添加返回详情页面
+                    finish();
+                } else {
+                    onContinue();
                 }
+            }
 
-                @Override
-                protected void _onError(String message) {
-                    ToastUtils.showToast("添加失败！" + message);
-                }
-            });
-        } else {
-            mdl.componentSave(getComponent(dec, name, price, openStatus), new RxSubscribe<Component>(getView().getSelfActivity(), true) {
-                @Override
-                protected void _onNext(Component component) {
-                    ToastUtils.showToast("添加成功！");
-                    fixParts.add(getFixParts(component));
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("添加失败！" + message);
+            }
+        });
 
-                    if (!isContinue) {//确认添加返回详情页面
-                        finish();
-//                        getView().confirm(fixParts, type);
-                    } else {
-                        onContinue();
-                    }
-                }
-
-                @Override
-                protected void _onError(String message) {
-                    ToastUtils.showToast("添加失败！" + message);
-                }
-            });
-
-        }
     }
 
 
@@ -195,7 +172,7 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
     public void pickType1(final View view) {
 
         pickType = 1;
-        if (type == 0) {
+        if (type == Configure.Goods_TYPE_3) {
             mdl.firstService(new RxSubscribe<List<FixService2item>>(getView().getSelfActivity(), true) {
                 @Override
                 protected void _onNext(List<FixService2item> listEntities) {
@@ -281,6 +258,15 @@ public class CustomPtr extends BasePresenter<CustomContacts.CustomUI> implements
 
         }
 
+    }
+
+    private Project getProject(String name, String price) {
+        Project p = new Project();
+
+        p.setGoodsTitle(name);
+        p.setPrice(price);
+        p.setType(type);
+        return p;
     }
 
     private ShopProject getShopProject(String dec, String name, String price, int openStatus) {

@@ -13,6 +13,7 @@ import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
+import com.juner.mvp.bean.Project;
 import com.juner.mvp.bean.ShopProject;
 
 import java.util.List;
@@ -67,7 +68,6 @@ public interface FixService {
     Observable<BaseBean<NullDataEntity>> remakeSave(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
 
 
-
     //店长跨客户回撤 （不需要凭证图片，报价单status=3状态下才可调用，将由status3->2）
     @POST("quotation/replaceReback")
     Observable<BaseBean<NullDataEntity>> replaceReback(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
@@ -76,7 +76,6 @@ public interface FixService {
     //店长跨客户确认（需要凭证图片才能提。报价单status=2状态下才可调用，将由status2->3）
     @POST("quotation/replaceConfirm")
     Observable<BaseBean<NullDataEntity>> replaceConfirm(@Header("X-Nideshop-Token") String token, @Body() FixInfoEntity infoEntity);
-
 
 
     //报价单去生成订单
@@ -92,6 +91,7 @@ public interface FixService {
     @POST("component/searchComponent")
     @FormUrlEncoded
     Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("category_id") int id, @Field("name") String key);    //搜索配件接口
+
     @POST("component/searchComponent")
     @FormUrlEncoded
     Observable<BaseBean<FixPartsEntityList>> seekParts(@Header("X-Nideshop-Token") String token, @Field("name") String key);
@@ -100,6 +100,7 @@ public interface FixService {
     @POST("goods/searchServer")
     @FormUrlEncoded
     Observable<BaseBean<FixServieEntity>> searchServer(@Header("X-Nideshop-Token") String token, @Field("service_id") int id, @Field("name") String key);
+
     //搜索服务接口
     @POST("goods/searchServer")
     @FormUrlEncoded
@@ -122,6 +123,10 @@ public interface FixService {
     //添加自定义服务
     @POST("goods/addShopService")
     Observable<BaseBean<ShopProject>> addShopService(@Header("X-Nideshop-Token") String token, @Body ShopProject shopProject);
+
+    //添加自定服务或配件 3服务4零件
+    @POST("xgxshopgoods/save")
+    Observable<BaseBean<String>> xgxshopgoodsSave(@Header("X-Nideshop-Token") String token, @Body Project project);
 
     //自定义服务 服务分类第一级下拉框
     @POST("goods/firstService")
