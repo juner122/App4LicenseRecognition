@@ -49,7 +49,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
     FixInfoPartsItemAdapter adapter_item;//配件
 
 
-    Set<FixParts> pick_partsList;//点击配件
+    HashSet<FixParts> pick_partsList;//点击配件
 
     int id;//当前选择分类id
     int page = 1;//第一页
@@ -88,6 +88,8 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
                 adapter.notifyDataSetChanged();
 
                 pick_partsList.add((FixParts) (adapter.getData().get(position)));
+
+
                 countPrice(); //计算选择的总价格
             }
         });
@@ -143,11 +145,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         }
     }
 
-    public void set1Data(List<FixParts2item> list) {
-
-        adapter_s2.setNewData(list);
-    }
-
     public void set2Data(List<FixParts> list) {
 
 
@@ -164,6 +161,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_Parts);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
         easylayout = e;
+        // 普通加载
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -188,7 +186,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             if (fx.selectde())
                 fixPartsList.add(fx);
         }
-
 
         if (fixPartsList.size() == 0) {
             ToastUtils.showToast("请最少选择一个项目！");
@@ -225,19 +222,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             return;
         }
 
-//        mdl.seekPartsforKey(-1, key, new RxSubscribe<FixPartsEntityList>(getView().getSelfActivity(), true) {
-//            @Override
-//            protected void _onNext(FixPartsEntityList fixPartsEntityList) {
-//                getView().showPartsList();
-//                set2Data(toFixPartsList(fixPartsEntityList.getProjectList()));
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                ToastUtils.showToast(message);
-//
-//            }
-//        });
         page = 1;
         getGoodList(key, page, null);
     }
@@ -290,21 +274,18 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         mdl.getGoodList(new RxSubscribe<GoodsList>(getView().getSelfActivity(), page == 1) {
             @Override
             protected void _onNext(GoodsList goodsList) {
-
                 if (page == 1) {//不等于1 显示更多
                     easylayout.refreshComplete();
                     adapter_item.setNewData(toFixParts(goodsList.getList()));
                     if (goodsList.getList().size() < Configure.limit_page)
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                 } else {
-
                     easylayout.loadMoreComplete();
                     if (goodsList.getList().size() == 0) {
                         ToastUtils.showToast("没有更多了！");
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                         return;
                     }
-
                     adapter_item.addData(toFixParts(goodsList.getList()));
                 }
             }
@@ -325,12 +306,26 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             fp.setRetail_price(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
             fp.setGoods_id(goods.getId());
             fp.setNumber(1);//数量
-            fp.setSelected(0);//默认选择中
+
             fp.setType(goods.getType());
             fp.setGoods_sn(goods.getGoodsCode());
 
+
             parts.add(fp);
         }
+
+        //遍历选选择了的商品
+        for (FixParts parts1 : pick_partsList) {
+
+            for (int i = 0; i < parts.size(); i++) {
+
+                if (parts1.getGoods_id() == parts.get(i).getGoods_id() && parts1.getSelected() == 1)
+                    parts.get(i).setSelected(1);
+            }
+
+
+        }
+
         return parts;
 
     }

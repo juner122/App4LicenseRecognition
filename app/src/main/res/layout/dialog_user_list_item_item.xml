@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="0.2dp"
-    android:background="#fff"
+    android:background="#F2F2F2"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="10dp">
@@ -14,12 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text=""
-        android:textSize="17sp" />
+        android:textColor="#ff666666"
+        android:textSize="14sp" />
+
 
     <TextView
         android:id="@+id/tv_mobile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="13412513007" />
-
+        android:text="13566669999"
+        android:textColor="#ff666666"
+        android:textSize="13sp" />
 </LinearLayout>

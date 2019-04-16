@@ -242,7 +242,7 @@ public class CartUtils {
         List<GoodsEntity> carts = getServerList();
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
-            totalPrice = g.getPriceTodouble() + totalPrice;
+            totalPrice = g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
     }

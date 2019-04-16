@@ -377,7 +377,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     private OrderInfoEntity createOrderObj(FixInfoEntity entity) {
 
         OrderInfoEntity infoEntity = new OrderInfoEntity();
-
         infoEntity.setQuotation_id(entity.getId());
         infoEntity.setUser_id(entity.getUserId());
         infoEntity.setCar_id(entity.getCarId());

@@ -11,6 +11,23 @@ public class GoodsEntity implements Parcelable {
     Integer id;
     String name;
     String goods_sn;
+
+    public String getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(String retailPrice) {
+        this.retailPrice = retailPrice;
+    }
+
+    public String getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(String marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+
     String goodsSn;//新的
     String brand_id;
 
@@ -60,6 +77,8 @@ public class GoodsEntity implements Parcelable {
     int product_id;
     String retail_price;
     String market_price;
+    String retailPrice;
+    String marketPrice;
 
 
     int goods_id;
@@ -393,6 +412,8 @@ public class GoodsEntity implements Parcelable {
         dest.writeInt(this.product_id);
         dest.writeString(this.retail_price);
         dest.writeString(this.market_price);
+        dest.writeString(this.retailPrice);
+        dest.writeString(this.marketPrice);
         dest.writeInt(this.goods_id);
         dest.writeString(this.goods_name);
     }
@@ -426,6 +447,8 @@ public class GoodsEntity implements Parcelable {
         this.product_id = in.readInt();
         this.retail_price = in.readString();
         this.market_price = in.readString();
+        this.retailPrice = in.readString();
+        this.marketPrice = in.readString();
         this.goods_id = in.readInt();
         this.goods_name = in.readString();
     }

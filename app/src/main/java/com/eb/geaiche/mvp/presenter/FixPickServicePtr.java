@@ -22,6 +22,7 @@ import com.eb.geaiche.view.MyRadioButton;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
+import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixService2item;
 import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServiceListEntity;
@@ -305,10 +306,19 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
             fp.setPrice(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
             fp.setServiceId(goods.getId());
             fp.setNumber(1);//数量
-            fp.setSelected(0);//默认选择中
             fp.setType(goods.getType());
             fp.setGoods_sn(goods.getGoodsCode());
             parts.add(fp);
+        }
+        //遍历选选择了的商品
+        for (FixServie parts1 : pick_servieList) {
+            for (int i = 0; i < parts.size(); i++) {
+
+                if (parts1.getServiceId() == parts.get(i).getServiceId() && parts1.getSelected() == 1)
+                    parts.get(i).setSelected(1);
+            }
+
+
         }
         return parts;
 

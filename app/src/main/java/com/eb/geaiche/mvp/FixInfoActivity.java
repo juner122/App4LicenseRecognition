@@ -93,8 +93,6 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     RecyclerView rv2;//服务
 
 
-
-
     String car_no;
     int car_id;
 
@@ -160,7 +158,6 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             case R.id.ll_to_car_check:
 
 
-
                 //车况检修记录列表
                 Intent intent = new Intent(this, CarCheckResultListActivity.class);
                 intent.putExtra(Configure.car_no, car_no);
@@ -203,7 +200,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
         tv_dec.setText(fixInfo.getDescribe());
         tv_mobile.setText(fixInfo.getMobile());
-        tv_consignee.setText(fixInfo.getUserName());
+        tv_consignee.setText(null == fixInfo.getUserName() || fixInfo.getUserName().equals("") ? "匿名" : fixInfo.getUserName());
 
 
         int status = fixInfo.getStatus();
@@ -240,7 +237,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         } else if (i == 1) {
             toOrderList(0);
             ToastUtils.showToast("订单已生成！");
-        }else if (i == 2) {
+        } else if (i == 2) {
             toFixList(0);
             ToastUtils.showToast("检修单已确认！");
         }

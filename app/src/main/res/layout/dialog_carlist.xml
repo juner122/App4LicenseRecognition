@@ -48,12 +48,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="#fff"
+                android:background="@color/appColor"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="新增会员"
-                android:textColor="#333"
+                android:textColor="#fff"
                 android:textSize="14sp" />
 
         </LinearLayout>

@@ -225,6 +225,8 @@ public class ProductListFragment extends BaseFragment {
         goodsEntity.setNumber(goods.getNum());
         goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setMarketPrice(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetailPrice(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
         goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
         return goodsEntity;
@@ -248,9 +250,12 @@ public class ProductListFragment extends BaseFragment {
         goodsEntity.setGoodsSn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(goodsStandard.getId());
+//        goodsEntity.setPrimary_pic_url(goods.getpic);//图片
 //        goodsEntity.setNumber(goods.getNum());
         goodsEntity.setMarket_price(goodsStandard.getGoodsStandardPrice());
         goodsEntity.setRetail_price(goodsStandard.getGoodsStandardPrice());
+        goodsEntity.setMarketPrice(goodsStandard.getGoodsStandardPrice());
+        goodsEntity.setRetailPrice(goodsStandard.getGoodsStandardPrice());
 //        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
         goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
         return goodsEntity;

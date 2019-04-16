@@ -520,13 +520,8 @@ public class MakeOrderActivity extends BaseActivity {
             return;
         }
 
-
         infoEntity.setPostscript(et_postscript.getText().toString());
-
-
-//        infoEntity.setGoodsList(cartUtils.getProductList());
         infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有
-//        infoEntity.setSkillList(cartServerUtils.getServerList());
         infoEntity.setUserActivityList(cartUtils.getMealList());
         infoEntity.setSysUserList(technicians);
 

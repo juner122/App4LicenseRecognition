@@ -250,20 +250,7 @@ public class FixInfoEntity {
         return sysUserList;
     }
 
-    public List<FixServie> getOrderProjectList() {
-        return orderProjectList;
-    }
 
-//    public void setOrderProjectList(List<FixServie> orderProjectList) {
-//        this.orderProjectList = orderProjectList;
-//        this.setServePrice(getServicePrice(orderProjectList).toString());
-//
-//
-//    }
-
-    public String getSignPic() {
-        return signPic;
-    }
 
     public void setSignPic(String signPic) {
         this.signPic = signPic;
