@@ -79,7 +79,7 @@ public class ServeListActivity extends BaseActivity {
         count();
 
         tv_title.setText("服务工时列表");
-//        setRTitle("自定义工时");
+        setRTitle("自定义工时");
         serveListAdapter = new ServeListAdapter(servers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(serveListAdapter);

@@ -592,14 +592,14 @@ public class MakeOrderActivity extends BaseActivity {
 
                 //todo 以下是根据app内部或对外使用而要更换的代码  功能:对外使用app直接跳过订单确认页面而进入订单详情页面
 
-//                //以下代码内部APP使用
-//                sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
-//                finish();
+                //以下代码内部APP使用
+                sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
+                finish();
 
-
-                //以下代码为对外APP使用
-                //直接开始服务
-                beginServe(orderInfo.getOrderInfo());
+//
+//                //以下代码为对外APP使用
+//                //直接开始服务
+//                beginServe(orderInfo.getOrderInfo());
 
 
             }
