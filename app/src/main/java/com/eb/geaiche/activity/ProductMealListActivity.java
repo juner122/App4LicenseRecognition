@@ -52,7 +52,7 @@ public class ProductMealListActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("商品套餐列表");
-        setRTitle("自定义配件");
+//        setRTitle("自定义配件");
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
         car_no = getIntent().getStringExtra(Configure.car_no);
 
