@@ -75,6 +75,13 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().onGetData(rg_type);
+    }
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_fix_pick_service;
@@ -90,7 +97,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
             ll_bottom.setVisibility(View.VISIBLE);
         } else
             ll_bottom.setVisibility(View.GONE);
-        getPresenter().onGetData(rg_type);
+
     }
 
 
