@@ -34,6 +34,7 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.geaiche.activity.fragment.MainFragmentPlate;
 import com.eb.geaiche.util.ToastUtils;
+import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.PushMessage;
 import com.juner.mvp.bean.Shop;
@@ -210,6 +211,9 @@ public class MainActivity extends BaseActivity {
         }
         if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toFix")) {
             toActivity(FixInfoListActivity.class);
+        }
+        if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toFixInfo")) {
+            toActivity(FixInfoActivity.class, "id", getIntent().getIntExtra("id", 0));
         }
 
 

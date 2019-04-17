@@ -90,9 +90,15 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
             ll_bottom.setVisibility(View.VISIBLE);
         } else
             ll_bottom.setVisibility(View.GONE);
-        getPresenter().onGetData(rg_type);
+
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().onGetData(rg_type);
+    }
 
     @Override
     public FixPickServiceContacts.FixPickServicePtr onBindPresenter() {

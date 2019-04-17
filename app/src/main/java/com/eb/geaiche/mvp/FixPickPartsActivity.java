@@ -94,10 +94,15 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
 
         }
 
-        getPresenter().onGetData(rg_type);
+
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().onGetData(rg_type);
+    }
 
     @Override
     public void showPartsList() {

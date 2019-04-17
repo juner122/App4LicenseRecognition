@@ -140,6 +140,15 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         startActivity(intent);
 
     }
+    protected void toFixList(int fragment_p,int id) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        intent.putExtra("type", "toFixInfo");
+        intent.putExtra("id", id);
+        startActivity(intent);
+
+    }
     protected void toOrderList(int fragment_p) {
 
         Intent intent = new Intent(this, MainActivity.class);
