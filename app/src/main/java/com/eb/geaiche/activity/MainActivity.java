@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.activity.fragment.MainFragment1New;
+import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;

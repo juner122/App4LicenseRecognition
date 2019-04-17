@@ -432,7 +432,7 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderList(String name,int page) {
+    public Observable<BasePage<OrderInfoEntity>> orderList(String name, int page) {
         map.clear();
         map.put("X-Nideshop-Token", token);
         map.put("limit", Configure.limit_page);
@@ -1258,6 +1258,49 @@ public class ApiLoader {
     public Observable<XgxPurchaseOrderPojo> mallOrderInfo(int id) {
 
         return apiService.mallOrderInfo(token, id).compose(RxHelper.<XgxPurchaseOrderPojo>observe());
+    }
+
+    /**
+     * 调用微信支付
+     */
+    public Observable<NullDataEntity> prepay(int orderId) {
+
+        return apiService.prepay(token, orderId).compose(RxHelper.<NullDataEntity>observe());
+    }
+
+    /**
+     * 获取商城订单详情
+     * shipStatus    发货状态  1为未发货 2为已发货  订单生成后默认未发货
+     * payStatus  支付状态  1为未付款 2为已付款 订单生成默认未付款
+     *
+     * @param status 1 未付款 2待发货 3待收货 4已收货 0 全部
+     */
+    public Observable<BasePage<XgxPurchaseOrderPojo>> purchaseorderList(int page, int status) {
+        map.put("limit", Configure.limit_page);//页数
+        map.put("page", page);
+
+
+        switch (status) {
+
+            case 1:
+                map.put("payStatus", 1);
+                map.put("shipStatus", 1);
+                break;
+            case 2:
+                map.put("payStatus", 2);
+                map.put("shipStatus", 1);
+
+                break;
+            case 3:
+                map.put("shipStatus", 2);
+                break;
+            case 4:
+                map.put("shipStatus", 3);
+                break;
+        }
+
+
+        return apiService.purchaseorderList(map).compose(RxHelper.<BasePage<XgxPurchaseOrderPojo>>observe());
     }
 
 

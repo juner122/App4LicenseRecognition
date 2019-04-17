@@ -21,6 +21,7 @@ import com.eb.geaiche.adapter.ServeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 
 
+import com.eb.geaiche.mvp.CustomPartsActivity;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.view.MyRadioButton;
 import com.juner.mvp.Configure;
@@ -78,7 +79,7 @@ public class ServeListActivity extends BaseActivity {
         count();
 
         tv_title.setText("服务工时列表");
-
+//        setRTitle("自定义工时");
         serveListAdapter = new ServeListAdapter(servers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(serveListAdapter);
@@ -121,13 +122,18 @@ public class ServeListActivity extends BaseActivity {
             }
         });
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         //获取商品类别
         queryShopcategoryAll();
 
         //获取商品不分类
         xgxshopgoodsList(null);
     }
-
 
     //获取服务
     private void xgxshopgoodsList(String key) {
@@ -192,7 +198,7 @@ public class ServeListActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.but_enter_order, R.id.iv_search})
+    @OnClick({R.id.but_enter_order, R.id.iv_search, R.id.tv_title_r})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -216,6 +222,12 @@ public class ServeListActivity extends BaseActivity {
 
                     ToastUtils.showToast("请输入搜索关键字！");
 
+                break;
+
+            case R.id.tv_title_r:
+                //自定义服务
+
+                toActivity(CustomPartsActivity.class, "type", Configure.Goods_TYPE_3);
                 break;
         }
 

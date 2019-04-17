@@ -611,9 +611,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         fixPartsList.addAll(toPartsS2(adapter_service.getData()));
 
         entity.setOrderGoodsList(fixPartsList);
-
-
-//        entity.setOrderProjectList(adapter_service.getData());
         entity.setDescribe(getView().getDec());
         entity.setReplaceSignPic(iv_lpv_url); //客户签名
         entity.setReplaceOterPic("");
@@ -657,7 +654,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fp.setRetail_price(fs.getPrice());
             fp.setGoods_id(fs.getServiceId());
             fp.setNumber(fs.getNumber());//数量
-            fp.setSelected(2);//默认选择中
+            fp.setSelected(fs.getSelected());//默认选择中
             fp.setType(fs.getType());
             fp.setGoods_sn(fs.getGoods_sn());
             fp.setId(fs.getId());

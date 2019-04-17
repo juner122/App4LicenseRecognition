@@ -63,15 +63,8 @@ public class ProductFragment extends BaseFragment {
 
 
     @Override
-    public int setLayoutResourceID() {
-        return R.layout.fragment_product_list_fr;
-    }
-
-
-    @Override
-    protected void setUpView() {
-
-
+    protected void onVisible() {
+        super.onVisible();
         replaceFragment();
 
         //获取分类
@@ -97,6 +90,19 @@ public class ProductFragment extends BaseFragment {
 
         //新接口
         xgxshopgoodsList(null,null);
+    }
+
+    @Override
+    public int setLayoutResourceID() {
+        return R.layout.fragment_product_list_fr;
+    }
+
+
+    @Override
+    protected void setUpView() {
+
+
+
 
 
     }
@@ -131,23 +137,6 @@ public class ProductFragment extends BaseFragment {
             @Override
             protected void _onNext(GoodsList goods) {
                 fragment.switchData(goods.getList());
-
-//                if (page == 1) {//不等于1 显示更多
-//                    easylayout.refreshComplete();
-//                    adapter_item.setNewData(toFixParts(goodsList.getList()));
-//                    if (goodsList.getList().size() < Configure.limit_page)
-//                        easylayout.setLoadMoreModel(LoadModel.NONE);
-//                } else {
-//
-//                    easylayout.loadMoreComplete();
-//                    if (goodsList.getList().size() == 0) {
-//                        ToastUtils.showToast("没有更多了！");
-//                        easylayout.setLoadMoreModel(LoadModel.NONE);
-//                        return;
-//                    }
-//
-//                    adapter_item.addData(toFixParts(goodsList.getList()));
-//                }
             }
 
             @Override

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -37,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/button_check_selector"
                 android:gravity="center_vertical"
@@ -77,81 +77,176 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/my_cart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_my_cart"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="购物车"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/my_collection"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_my_collection"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="收藏夹"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/my_youj"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_my_youj"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="优惠券"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/my_rowse_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_my_rowse_record"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="浏览记录"
+                    android:textColor="#ff666666"
+                    android:textSize="12sp" />
+
+
+            </LinearLayout>
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#fff">
 
                 <TextView
+                    android:id="@+id/tv_tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
                     android:text="我的采购订单"
                     android:textColor="#ff333333"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/v_date1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_all_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="8dp"
                     android:drawableRight="@mipmap/icon_enter"
+                    android:drawablePadding="5dp"
+                    android:padding="5dp"
                     android:text="查看全部采购订单"
                     android:textColor="#ff666666"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toTopOf="@+id/v_date1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <View
+                    android:id="@+id/v_date1"
                     android:layout_width="match_parent"
                     android:layout_height="0.1dp"
-                    android:background="#d9d9d9" />
+                    android:layout_marginBottom="8dp"
+                    android:background="#d9d9d9"
+                    app:layout_constraintBottom_toTopOf="@+id/ll2" />
+
 
                 <LinearLayout
+                    android:id="@+id/ll2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="8dp"
+                    android:background="#fff"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <TextView
+                        android:id="@+id/stay_pay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_my_cart"
+                        android:drawableTop="@mipmap/icon_stay_pay"
                         android:drawablePadding="10dp"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="购物车"
+                        android:text="待付款"
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/stay_send"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_my_collection"
+                        android:drawableTop="@mipmap/icon_stay_send"
                         android:drawablePadding="10dp"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="收藏夹"
+                        android:text="待发货"
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/stay_collect"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_my_youj"
+                        android:drawableTop="@mipmap/icon_stay_collect"
                         android:drawablePadding="10dp"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="优惠券"
+                        android:text="待收货"
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/after_sale"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableTop="@mipmap/icon_my_rowse_record"
+                        android:drawableTop="@mipmap/icon_after_sale"
                         android:drawablePadding="10dp"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="浏览记录"
+                        android:text="退货/售后"
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 

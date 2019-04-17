@@ -486,6 +486,11 @@ public class OrderInfoActivity extends BaseActivity {
 
         tv_pay_type.setText(String.valueOf("支付方式：" + info.getOrderInfo().getPay_name()));
 
+
+        if (null != info.getOrderInfo().getPay_type() && info.getOrderInfo().getPay_type() == 21) {//套卡核销加卡号
+            tv_pay_type.append(String.valueOf(":" + info.getOrderInfo().getProvince()));
+        }
+
         tv_pay_status.setText(String.valueOf("支付状态：" + info.getOrderInfo().getPay_status_text()));
 
         switch (order_status) {

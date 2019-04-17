@@ -614,4 +614,15 @@ public interface ApiService {
     Observable<BaseBean<XgxPurchaseOrderPojo>> mallOrderInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
 
+    //调用微信支付
+    @POST("purchaseorder/info")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> prepay(@Header("X-Nideshop-Token") String token, @Field("orderId") int orderId);
+
+    //查看采购订单列表（根据登录用户查询）
+    @POST("purchaseorder/list")
+    @FormUrlEncoded
+    Observable<BaseBean<BasePage<XgxPurchaseOrderPojo>>> purchaseorderList(@FieldMap Map<String, Object> maps);
+
+
 }

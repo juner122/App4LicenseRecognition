@@ -66,7 +66,7 @@ public class MainFragment1 extends BaseFragment {
     @Override
     protected void setUpView() {
         Glide.with(this)
-                .load(getResources().getDrawable(R.mipmap.banner2))
+                .load(getResources().getDrawable(R.mipmap.banner3))
                 .into(iv);
         new AppPreferences(getContext()).put(Configure.car_no, "");
     }

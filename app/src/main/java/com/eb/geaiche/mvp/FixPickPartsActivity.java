@@ -65,7 +65,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
                 break;
             case R.id.tv_title_r:
                 //自定义配件
-
                 toActivity(CustomPartsActivity.class, "type", Configure.Goods_TYPE_4);
                 break;
 

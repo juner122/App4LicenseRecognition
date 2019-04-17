@@ -65,6 +65,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -300,7 +301,6 @@
             android:exported="true"
             android:label="PushService"
             android:process=":pushservice" />
-
         <service android:name=".service.GeTuiIntentService" />
 
         <activity android:name=".activity.ProductMealActivity" />
@@ -344,7 +344,8 @@
         <activity android:name=".activity.NewInventoryActivity" />
         <activity android:name=".activity.MallMakeOrderActivity" />
         <activity android:name=".activity.MallMakeOrderInfoActivity" />
-        <activity android:name=".activity.OrderForFixActivity"></activity>
+        <activity android:name=".activity.OrderForFixActivity" />
+        <activity android:name=".activity.MallOrderAllListActivity"></activity>
     </application>
 
 </manifest>

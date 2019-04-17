@@ -93,6 +93,13 @@ public class ConfirmDialog4 extends Dialog implements View.OnClickListener {
         et1.addTextChangedListener(new DecimalInputTextWatcher(et1, 7, 2));//限制输入位数：整数3位，小数点后两位
 
 
+        View ll_num = view.findViewById(R.id.ll_num);
+        //隐藏 数量加减
+        if (isChange)
+            ll_num.setVisibility(View.VISIBLE);
+        else
+            ll_num.setVisibility(View.GONE);
+
         iv_reduce = view.findViewById(R.id.iv_reduce);
         iv_plus = view.findViewById(R.id.iv_plus);
         iv_reduce.setOnClickListener(this);

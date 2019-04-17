@@ -11,29 +11,29 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 import com.juner.mvp.bean.CartItem;
-import com.juner.mvp.bean.Goods;
+import com.juner.mvp.bean.XgxPurchaseOrderGoodsPojo;
 
 import java.util.List;
 
-public class MallOrderGoodsListAdapter extends BaseQuickAdapter<CartItem, BaseViewHolder> {
+public class MallOrderGoodsListAdapter2 extends BaseQuickAdapter<XgxPurchaseOrderGoodsPojo, BaseViewHolder> {
 
     Context context;
 
 
-    public MallOrderGoodsListAdapter(@Nullable List<CartItem> data, Context c) {
+    public MallOrderGoodsListAdapter2(@Nullable List<XgxPurchaseOrderGoodsPojo> data, Context c) {
         super(R.layout.activity_mall_order_goods_item, data);
         this.context = c;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CartItem item) {
-        helper.setText(R.id.tv_name, item.getGoods_name());
+    protected void convert(BaseViewHolder helper, XgxPurchaseOrderGoodsPojo item) {
+        helper.setText(R.id.tv_name, item.getGoodsTitle());
         helper.setText(R.id.tv_number, String.format("x%s", item.getNumber()));
         helper.setText(R.id.textView7, String.format("%s", item.getGoodsStandardTitle()));
-        if (null == item.getProduct_id() || "".equals(item.getProduct_id()))
+        if (null == item.getGoodsStandardId() || "".equals(item.getGoodsStandardId()))
             helper.setText(R.id.tv_price, "暂无报价");
         else
-            helper.setText(R.id.tv_price, String.format("￥%s", item.getRetail_product_price()));
+            helper.setText(R.id.tv_price, String.format("￥%s", item.getGoodsStandardPrice()));
 
 
         TextView price = helper.getView(R.id.price2);

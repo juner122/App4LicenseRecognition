@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.eb.geaiche.mvp.CustomPartsActivity;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -51,6 +52,7 @@ public class ProductMealListActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("商品套餐列表");
+        setRTitle("自定义配件");
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
         car_no = getIntent().getStringExtra(Configure.car_no);
 
@@ -95,7 +97,7 @@ public class ProductMealListActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.but_enter_order})
+    @OnClick({R.id.but_enter_order,R.id.tv_title_r})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -105,7 +107,10 @@ public class ProductMealListActivity extends BaseActivity {
 
                 finish();
                 break;
-
+            case R.id.tv_title_r:
+                //自定义配件
+                toActivity(CustomPartsActivity.class, "type", Configure.Goods_TYPE_4);
+                break;
         }
 
 

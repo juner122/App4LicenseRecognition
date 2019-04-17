@@ -12,9 +12,26 @@ public class XgxPurchaseOrderPojo {
     String orderSn;
     Integer userId;
     String createTime;
+    String shipStatus;//发货状态    发货状态  1为未发货 2为已发货  3为已收货订单生成后默认未发货
+    String payStatus;//付款状态    支付状态  1为未付款 2为已付款 订单生成默认未付款
 
     List<XgxPurchaseOrderGoodsPojo> xgxPurchaseOrderGoodsPojoList;//下单商品List
 
+    public String getShipStatus() {
+        return shipStatus;
+    }
+
+    public void setShipStatus(String shipStatus) {
+        this.shipStatus = shipStatus;
+    }
+
+    public String getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(String payStatus) {
+        this.payStatus = payStatus;
+    }
 
     public Integer getId() {
         return id;
