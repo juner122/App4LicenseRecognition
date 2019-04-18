@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="#fff"
@@ -15,7 +14,7 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="选择会员"
-        android:textColor="#ff000000"
+        android:textColor="#333"
         android:textSize="14sp" />
 
     <View
@@ -48,12 +47,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:background="@color/appColor"
+                android:background="#fff"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="新增会员"
-                android:textColor="#fff"
+                android:textColor="#333"
                 android:textSize="14sp" />
 
         </LinearLayout>

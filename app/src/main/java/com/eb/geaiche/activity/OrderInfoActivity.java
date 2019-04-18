@@ -328,7 +328,7 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
 
             case R.id.ll_autograph://签名
-//
+
 //                //弹出对话框
 //                final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(this, getResources().getString(R.string.agreement), getResources().getString(R.string.agreement_title));
 //                confirmDialog.show();

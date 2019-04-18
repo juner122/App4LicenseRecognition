@@ -475,8 +475,8 @@ public class MakeOrderActivity extends BaseActivity {
                         infoEntity.setPlanfinishi_time(date.getTime());
                     }
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
-                        .setSubmitColor(Color.BLACK)//确定按钮文字颜色
-                        .setCancelColor(Color.BLACK)//取消按钮文字颜色
+                        .setSubmitColor(Color.WHITE)//确定按钮文字颜色
+                        .setCancelColor(Color.WHITE)//取消按钮文字颜色
                         .setRangDate(DateUtil.getStartDate(), DateUtil.getEndDate())//起始终止年月日设定
                         .setTitleBgColor(getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
                         .build();
