@@ -2,21 +2,28 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
+import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.view.CarListDialog;
+import com.eb.geaiche.view.ScanCarConfirmDialog;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.ToastUtils;
 
+import com.juner.mvp.bean.SaveUserAndCarEntity;
 import com.juner.mvp.bean.UserEntity;
 import com.parkingwang.keyboard.KeyboardInputController;
 import com.parkingwang.keyboard.OnInputChangedListener;
@@ -132,9 +139,13 @@ public class PreviewActivity2 extends BaseActivity {
             protected void _onNext(final QueryByCarEntity entity) {
                 new AppPreferences(PreviewActivity2.this).put(Configure.car_no, mInputView.getNumber());
 
+
                 if (null == entity.getUsers() || entity.getUsers().size() == 0) {
-                    toActivity(MemberInfoInputActivity.class);
-                    finish();
+
+                    //弹出下单方式对话框
+                    showDialog();
+
+
                 } else {
                     final CarListDialog nd = new CarListDialog(PreviewActivity2.this, entity.getUsers());
                     nd.show();
@@ -273,4 +284,71 @@ public class PreviewActivity2 extends BaseActivity {
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    //弹出下单方式对话框
+    private void showDialog() {
+
+        ScanCarConfirmDialog confirmDialog = new ScanCarConfirmDialog(this);
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ScanCarConfirmDialog.ClickListenerInterface() {
+            @Override
+            public void doConfirm() {
+
+                //普通接单
+                toActivity(MemberInfoInputActivity.class);
+                finish();
+            }
+
+
+            @Override
+            public void doCancel() {
+                //快速接单
+
+                ToastUtils.showToast("快速接单");
+                getAddUser(mInputView.getNumber());
+
+            }
+        });
+    }
+
+
+    //快速接单 用“车牌号+车主”当用户名去生成用户id
+    private void getAddUser(final String car_no) {
+        Api().addUser("", car_no + "车主").subscribe(new RxSubscribe<SaveUserAndCarEntity>(this, true) {
+            @Override
+            protected void _onNext(final SaveUserAndCarEntity s) {
+
+
+                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<Integer>(PreviewActivity2.this, true) {
+                    @Override
+                    protected void _onNext(Integer Integer) {
+
+                        toMakeOrder(s.getUser_id(), Integer, "", s.getUser_name(), car_no);
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast(message);
+
+                    }
+                });
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Toast.makeText(PreviewActivity2.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private CarInfoRequestParameters makeParameters(String car_no, int id) {
+        CarInfoRequestParameters parameters = new CarInfoRequestParameters();
+
+        parameters.setUserId(String.valueOf(id));
+        parameters.setCarNo(car_no);
+
+        Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
+        return parameters;
+    }
 }

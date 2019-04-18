@@ -41,7 +41,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     private String outputVolume;
 
     //发动机号
-    private  String engineSn;
+    private String engineSn;
 
     public String getEngineSn() {
         return engineSn;
@@ -225,6 +225,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     public CarInfoRequestParameters(int id, String carNo) {
         this.id = id;
         this.carNo = carNo;
+        this.setSelected(true);
     }
 
     public CarInfoRequestParameters() {

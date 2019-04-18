@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 
+import com.eb.geaiche.util.ImageUtils;
 import com.eb.geaiche.util.MathUtil;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
@@ -47,9 +48,11 @@ public class ProductListAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> 
                 .addOnClickListener(R.id.ib_reduce)
                 .addOnClickListener(R.id.tv_product_value);//选择规格
 
-//        Glide.with(fragment)
-//                .load(item.getPrimary_pic_url())
-//                .into((ImageView) helper.getView(R.id.iv_pic));
+        String url = "";
+        if (null != item.getGoodsInfoPicList() && item.getGoodsInfoPicList().size() > 0)
+            url = item.getGoodsDetailsPojoList().get(0).getImage();
+        ImageUtils.load(fragment.getContext(), url, (ImageView) helper.getView(R.id.iv_pic));
+
 
         View ib_reduce = helper.getView(R.id.ib_reduce);
         View tv_number = helper.getView(R.id.tv_number);

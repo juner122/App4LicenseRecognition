@@ -18,7 +18,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:background="#fff"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:srcCompat="@tools:sample/avatars[6]" />
 
 

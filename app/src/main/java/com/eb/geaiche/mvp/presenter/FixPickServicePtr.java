@@ -154,11 +154,6 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     }
 
-    public void set1Data(List<FixService2item> list) {
-        adapter_s2.setNewData(list);
-
-
-    }
 
     public void set2Data(List<FixServie> list) {
 
@@ -231,22 +226,6 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
             ToastUtils.showToast("请输入内容！");
             return;
         }
-
-
-//        mdl.searchServer(id, key, new RxSubscribe<FixServieEntity>(getView().getSelfActivity(), true) {
-//            @Override
-//            protected void _onNext(FixServieEntity fixServieEntity) {
-//
-//                getView().showServiceList();
-//                set2Data(fixServieEntity.getProjectList());
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                ToastUtils.showToast(message);
-//            }
-//        });
         page = 1;
         getGoodList(key, page, "");
     }

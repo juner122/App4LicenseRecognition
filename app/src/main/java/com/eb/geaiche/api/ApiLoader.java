@@ -188,9 +188,9 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<NullDataEntity> addCarInfo(CarInfoRequestParameters parameters) {
+    public Observable<Integer> addCarInfo(CarInfoRequestParameters parameters) {
 
-        return apiService.addCarInfo(token, parameters).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.addCarInfo(token, parameters).compose(RxHelper.<Integer>observe());
     }
 
 

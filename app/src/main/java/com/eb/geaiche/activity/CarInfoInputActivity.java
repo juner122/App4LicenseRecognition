@@ -617,40 +617,66 @@ public class CarInfoInputActivity extends BaseActivity {
 
     private void onAddCarInfoOfFixCarInfo() {
 
-        Observable<NullDataEntity> observable;
         if (type_action == 1) {
-            observable = Api().addCarInfo(makeParameters());
-        } else {
-            observable = Api().fixCarInfo(makeParameters());
-        }
+            Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
+                @Override
+                protected void _onNext(Integer nullDataEntity) {
 
-        observable.subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-            @Override
-            protected void _onNext(NullDataEntity nullDataEntity) {
+                    new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
+                    ToastUtils.showToast("操作成功");
+                    int result_code = getIntent().getIntExtra("result_code", 0);
 
-                new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
-                ToastUtils.showToast("操作成功");
-                int result_code = getIntent().getIntExtra("result_code", 0);
+                    if (result_code == 1) {//用户信息页面传过来
+                        setResult(RESULT_OK);
+                        finish();
+                    } else if (result_code == 2) {
 
-                if (result_code == 1) {//用户信息页面传过来
-                    setResult(RESULT_OK);
-                    finish();
-                } else if (result_code == 2) {
-
-                    toActivity(ActivateCardActivity.class, Configure.act_tag, 101);
-                } else if (result_code == 999) {//检修单详情页面
-                    finish();
-                } else {
-                    toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
+                        toActivity(ActivateCardActivity.class, Configure.act_tag, 101);
+                    } else if (result_code == 999) {//检修单详情页面
+                        finish();
+                    } else {
+                        toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
+                    }
                 }
-            }
 
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast(message);
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast(message);
 
-            }
-        });
+                }
+            });
+
+        } else {
+            Api().fixCarInfo(makeParameters()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                @Override
+                protected void _onNext(NullDataEntity nullDataEntity) {
+
+                    new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
+                    ToastUtils.showToast("操作成功");
+                    int result_code = getIntent().getIntExtra("result_code", 0);
+
+                    if (result_code == 1) {//用户信息页面传过来
+                        setResult(RESULT_OK);
+                        finish();
+                    } else if (result_code == 2) {
+
+                        toActivity(ActivateCardActivity.class, Configure.act_tag, 101);
+                    } else if (result_code == 999) {//检修单详情页面
+                        finish();
+                    } else {
+                        toActivity(MemberInfoInputActivity.class, Configure.car_no, tv_car_no.getText().toString());
+                    }
+                }
+
+                @Override
+                protected void _onError(String message) {
+                    ToastUtils.showToast(message);
+
+                }
+            });
+
+
+        }
 
 
     }

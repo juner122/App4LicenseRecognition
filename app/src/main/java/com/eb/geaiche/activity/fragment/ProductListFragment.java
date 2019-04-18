@@ -151,6 +151,9 @@ public class ProductListFragment extends BaseFragment {
         }
 
 
+
+
+
     }
 
     //获取规格列表

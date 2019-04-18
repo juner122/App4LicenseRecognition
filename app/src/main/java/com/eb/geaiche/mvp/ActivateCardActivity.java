@@ -300,6 +300,8 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     public void setCarList(List<CarInfoRequestParameters> carList) {
         carList.add(0, new CarInfoRequestParameters(-1, ""));//设置空项
+
+
         carListAdapter.setNewData(carList);
     }
 
