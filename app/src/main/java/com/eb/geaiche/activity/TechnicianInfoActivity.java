@@ -1,8 +1,10 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -58,7 +60,7 @@ public class TechnicianInfoActivity extends BaseActivity {
     Technician sysUser;
     int id;
 
-    @OnClick({R.id.iv_edit, R.id.ll_record, R.id.tv_title_r})
+    @OnClick({R.id.iv_edit, R.id.ll_record, R.id.tv_title_r, R.id.phone})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -76,9 +78,26 @@ public class TechnicianInfoActivity extends BaseActivity {
             case R.id.tv_title_r:
                 toActivity(WorkOrderListActivity.class, "id", id);
                 break;
+
+            case R.id.phone:
+                if (TextUtils.isEmpty(phone.getText()))
+                    return;
+                callPhone(phone.getText().toString());
+                break;
         }
     }
 
+    /**
+     * 拨打电话（直接拨打电话）
+     *
+     * @param phoneNum 电话号码
+     */
+    public void callPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        startActivity(intent);
+    }
 
     @Override
     protected void init() {
