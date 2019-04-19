@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
+import com.eb.geaiche.adapter.Brandadapter2;
+import com.eb.geaiche.adapter.QuickTechnicianAdpter;
+import com.eb.geaiche.view.CommonPopupWindow;
 import com.eb.geaiche.view.ConfirmDialog3;
 import com.eb.geaiche.view.ConfirmDialog4;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
@@ -144,6 +148,11 @@ public class MakeOrderActivity extends BaseActivity {
     CartUtils cartUtils;
 
     String phone;//当前登录员工
+
+
+    CommonPopupWindow popupWindow;
+    QuickTechnicianAdpter quickTechnicianAdpter;
+    RecyclerView commonPopupRecyclerView;
 
     @Override
     protected void onResume() {
@@ -367,6 +376,42 @@ public class MakeOrderActivity extends BaseActivity {
 
         phone = new AppPreferences(this).getString(Configure.moblie_s, "");
         sysuserList();
+
+
+        quickTechnicianAdpter = new QuickTechnicianAdpter(null);
+        quickTechnicianAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
+
+                if (quickTechnicianAdpter.getData().get(position).isSelected()) {
+                    quickTechnicianAdpter.getData().get(position).setSelected(false);
+                    technicians.remove(quickTechnicianAdpter.getData().get(position));
+                } else {
+                    quickTechnicianAdpter.getData().get(position).setSelected(true);
+                    technicians.add(quickTechnicianAdpter.getData().get(position));
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+        });
+
+        commonPopupRecyclerView = new RecyclerView(this);
+        commonPopupRecyclerView.setAdapter(quickTechnicianAdpter);
+        commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        popupWindow = new CommonPopupWindow.Builder(this)
+                .setView(commonPopupRecyclerView)
+                .create();
+
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //window消失时
+                but_to_technician_list.setText(String2Utils.getStringfor(quickTechnicianAdpter.getData()));
+
+            }
+        });
     }
 
     Map<Integer, Boolean> pickMap;
@@ -447,21 +492,23 @@ public class MakeOrderActivity extends BaseActivity {
 
                 break;
             case R.id.but_to_technician_list:
+                //选择员工
+                popupWindow.showAsDropDown(view, 0, 0);
 
 
-                Intent intent4 = new Intent(this, TechnicianListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
-                intent4.putExtras(bundle);
-                startActivityForResult(intent4, new ResultBack() {
-                    @Override
-                    public void resultOk(Intent data) {
-                        but_to_technician_list.setText("");
-                        technicians = data.getParcelableArrayListExtra("Technician");
-                        but_to_technician_list.setText(String2Utils.getString(technicians));
-
-                    }
-                });
+//                Intent intent4 = new Intent(this, TechnicianListActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
+//                intent4.putExtras(bundle);
+//                startActivityForResult(intent4, new ResultBack() {
+//                    @Override
+//                    public void resultOk(Intent data) {
+//                        but_to_technician_list.setText("");
+//                        technicians = data.getParcelableArrayListExtra("Technician");
+//                        but_to_technician_list.setText(String2Utils.getString(technicians));
+//
+//                    }
+//                });
 
                 break;
 
@@ -684,17 +731,19 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onNext(BasePage<Technician> t) {
 
-                for (Technician technician : t.getList()) {
-
+                for (int i = 0; i < t.getList().size(); i++) {
                     //查找当前登录员工的对象
-                    if (technician.getMobile().equals(phone)) {
-                        technicians.add(technician);
+                    if (t.getList().get(i).getMobile().equals(phone)) {
+                        t.getList().get(i).setSelected(true);
+                        technicians.add(t.getList().get(i));
                         but_to_technician_list.setText(String2Utils.getString(technicians));
                         break;
                     }
-
-
                 }
+
+
+                quickTechnicianAdpter.setNewData(t.getList());
+
             }
 
             @Override

@@ -17,9 +17,12 @@ import com.juner.mvp.Configure;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderNews;
 
+import net.grandcentrix.tray.AppPreferences;
+
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class OrderNewsListActivity extends BaseActivity {
     OrderNewsListAdapter adapter;
@@ -36,6 +39,27 @@ public class OrderNewsListActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("消息");
+        showRView("全部已读");
+    }
+
+    @OnClick({R.id.tv_title_r})
+    public void onClick(View v) {
+
+
+        //标记全部已读
+        Api().updateRead(0).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nulld) {
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
     }
 
     @Override
@@ -141,7 +165,6 @@ public class OrderNewsListActivity extends BaseActivity {
                 } else {
                     toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderNews.getValueId());
                 }
-
             }
 
             @Override

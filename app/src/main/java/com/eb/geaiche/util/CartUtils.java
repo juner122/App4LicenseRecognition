@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.SparseArray;
 
 
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.GoodsEntity;
 import com.eb.geaiche.bean.MealEntity;
 import com.juner.mvp.bean.Server;
@@ -164,7 +165,7 @@ public class CartUtils {
         //添加数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
         if (tempCart != null) {
-            if (good.getType() == 4)
+            if (good.getType() == Configure.Goods_TYPE_4 || good.getType() == Configure.Goods_TYPE_3)
                 tempCart.setNumber(tempCart.getNumber() + 1);
             else
                 tempCart.setRetail_price(good.getRetail_price());
@@ -258,7 +259,7 @@ public class CartUtils {
         List<GoodsEntity> carts = getServerList();
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
-            totalPrice = g.getRetail_priceTodouble() + totalPrice;
+            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
     }

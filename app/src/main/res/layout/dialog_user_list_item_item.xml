@@ -10,9 +10,10 @@
 
     <TextView
         android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:gravity="center"
         android:text=""
         android:textColor="#ff666666"
         android:textSize="14sp" />
@@ -20,8 +21,10 @@
 
     <TextView
         android:id="@+id/tv_mobile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
         android:text="13566669999"
         android:textColor="#ff666666"
         android:textSize="13sp" />

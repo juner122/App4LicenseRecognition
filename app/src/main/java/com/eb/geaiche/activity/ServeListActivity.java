@@ -24,6 +24,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.CustomPartsActivity;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.view.MyRadioButton;
+import com.eb.geaiche.view.ProductListDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
@@ -123,6 +124,46 @@ public class ServeListActivity extends BaseActivity {
         });
 
 
+        serveListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
+
+                getProductValue(view_value, serveListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, serveListAdapter.getData().get(position));
+            }
+        });
+    }
+
+
+    //获取规格列表
+    private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
+
+
+        final ProductListDialog confirmDialog = new ProductListDialog(this, goodsStandards, goods);
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
+            @Override
+            public void doConfirm(Goods.GoodsStandard pick_value) {
+                confirmDialog.dismiss();
+                view.setText(String.format("%sx%s", pick_value.getGoodsStandardTitle(), pick_value.getNum()));
+
+                servers.get(positions).setGoodsStandard(pick_value);
+                servers.get(positions).setNum(pick_value.getNum());
+                serveListAdapter.setNewData(servers);
+
+
+                MyApplication.cartUtils.addData(toGoodsEntity(serveListAdapter.getData().get(positions)));
+
+                //计算总价
+                count();
+
+            }
+
+            @Override
+            public void doCancel() {
+                confirmDialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -147,6 +188,7 @@ public class ServeListActivity extends BaseActivity {
                     for (int i = 0; i < servers.size(); i++) {
                         if (ps.getGoods_id() == servers.get(i).getId()) {
                             servers.get(i).setSelected(true);
+                            servers.get(i).setNum(ps.getNumber());
                         }
                     }
                 }
@@ -235,7 +277,7 @@ public class ServeListActivity extends BaseActivity {
 
 
     private void count() {
-        tv_totalPrice.setText(String.format("合计：￥%s", MathUtil.twoDecimal(MyApplication.cartServerUtils.getServerPrice())));    //计算总价格
+        tv_totalPrice.setText(String.format("合计：￥%s", MathUtil.twoDecimal(MyApplication.cartUtils.getServerPrice())));    //计算总价格
 
     }
 

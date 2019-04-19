@@ -37,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
+                android:visibility="invisible"
                 android:src="@mipmap/icon_unpick" />
 
 
@@ -47,9 +48,9 @@
             android:id="@+id/tv_product_ts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:layout_marginBottom="5dp"
             android:text="根据车辆情况报价"
             android:textColor="#ff666666"
             android:textSize="11sp" />
@@ -58,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -68,20 +69,33 @@
                 android:layout_gravity="bottom"
                 android:maxLines="1"
                 android:text="商场价：¥ 500.00"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_price"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
-                android:gravity="end"
+                android:layout_weight="1"
+                android:gravity="start"
                 android:maxLines="1"
                 android:text="现价¥：500.00"
                 android:textColor="#fff23325"
                 android:textSize="13sp" />
 
+            <TextView
+                android:id="@+id/tv_product_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_b"
+                android:paddingLeft="8dp"
+                android:paddingTop="5dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="5dp"
+                android:text="选取规格"
+                android:textColor="#fff"
+                android:textSize="11sp" />
 
         </LinearLayout>
 

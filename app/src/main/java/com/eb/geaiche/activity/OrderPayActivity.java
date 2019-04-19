@@ -146,8 +146,6 @@ public class OrderPayActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 popupWindow.dismiss();
                 ll_card_num.setVisibility(View.VISIBLE);
-
-
                 cb_weixin.setChecked(false);
                 olpt = olpy.get(position);
                 tv_pick_pay_type.setText(olpy.get(position).getType_string());

@@ -250,7 +250,12 @@ public class MainActivity extends BaseActivity {
             @Override
             protected void _onNext(Integer integer) {
                 if (integer > 0) {
-                    number.setText(String.valueOf(integer));
+
+                    if (integer > 9)
+                        number.setText("...");
+                    else
+                        number.setText(String.valueOf(integer));
+
                     number.setVisibility(View.VISIBLE);
                 } else {
                     number.setVisibility(View.GONE);

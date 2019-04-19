@@ -464,16 +464,20 @@ public class OrderInfoActivity extends BaseActivity {
 
         meal = info.getOrderInfo().getUserActivityList();
 
-        if (null == info.getOrderInfo().getMobile() || "".equals(info.getOrderInfo().getMobile()))
-            tv_notice.setVisibility(View.INVISIBLE);
-
-
         tv_order_state.setText(info.getOrderInfo().getOrder_status_text());
 
         tv_order_sn.setText(String.valueOf("订单号:" + info.getOrderInfo().getOrder_sn()));
         tv_car_no.setText(info.getOrderInfo().getCar_no());
-        tv_mobile.setText(info.getOrderInfo().getMobile());
+
+        if (null == info.getOrderInfo().getMobile() || info.getOrderInfo().getMobile().equals("")) {
+            tv_notice.setVisibility(View.GONE);
+            tv_mobile.setText("暂无手机号");
+        } else
+            tv_mobile.setText(info.getOrderInfo().getMobile());
+
+
         tv_consignee.setText(info.getOrderInfo().getConsignee());
+
         et_info.setText(info.getOrderInfo().getPostscript());
 
         tv_technician.setText(String2Utils.getString(info.getOrderInfo().getSysUserList()));

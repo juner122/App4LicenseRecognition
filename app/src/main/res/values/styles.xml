@@ -54,5 +54,6 @@
         <item name="android:textColor">#ff000000</item>
     </style>
 
-
+    <style name="NightAppTheme.popMenuStyle" parent="@style/Widget.AppCompat.Light.ListPopupWindow">
+    </style>
 </resources>

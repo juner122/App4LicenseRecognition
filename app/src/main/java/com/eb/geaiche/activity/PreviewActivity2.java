@@ -2,6 +2,8 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +12,10 @@ import android.widget.Toast;
 
 import com.camerakit.CameraKit;
 import com.camerakit.CameraKitView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.adapter.UserlistListAdapter;
 import com.eb.geaiche.mvp.ActivateCardActivity;
+import com.eb.geaiche.view.AnimationUtil;
 import com.eb.geaiche.view.CarListDialog;
 import com.eb.geaiche.view.ScanCarConfirmDialog;
 import com.juner.mvp.Configure;
@@ -58,6 +63,12 @@ public class PreviewActivity2 extends BaseActivity {
     @BindView(R.id.iv_Flash)
     ImageView iv_Flash;//闪光灯
 
+    @BindView(R.id.ll_car_list)
+    View ll_car_list;
+    @BindView(R.id.ll)
+    View ll_button;
+
+
     @BindView(R.id.camera)
     CameraKitView cameraKitView;
 
@@ -66,7 +77,7 @@ public class PreviewActivity2 extends BaseActivity {
 
     boolean isFlash;//是否打开闪光灯
 
-    @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash})
+    @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash, R.id.but_quick})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -107,14 +118,25 @@ public class PreviewActivity2 extends BaseActivity {
                 });
                 break;
 
-            case R.id.but_next:
+            case R.id.but_next://普通接单
 
 
                 if (!mInputView.isCompleted())
                     ToastUtils.showToast("请输入正确车牌号码！");
                 else
-                    onQueryByCar();
+                    onQueryByCar(0);
                 break;
+
+            case R.id.but_quick://快速接单
+
+
+                if (!mInputView.isCompleted())
+                    ToastUtils.showToast("请输入正确车牌号码！");
+                else
+                    onQueryByCar(1);
+                break;
+
+
             case R.id.iv_Flash:
 
                 if (!isFlash) {
@@ -131,8 +153,10 @@ public class PreviewActivity2 extends BaseActivity {
 
     }
 
-
-    private void onQueryByCar() {
+    /**
+     * @param type 0普通下单 1快速下单
+     */
+    private void onQueryByCar(final int type) {
 
         Api().queryByCar(mInputView.getNumber()).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
@@ -142,36 +166,80 @@ public class PreviewActivity2 extends BaseActivity {
 
                 if (null == entity.getUsers() || entity.getUsers().size() == 0) {
 
-                    //弹出下单方式对话框
-                    showDialog();
+                    if (type == 1) {
+
+                        ToastUtils.showToast("快速接单");
+                        getAddUser(mInputView.getNumber());
+
+                    } else {
+
+                        //普通接单
+                        toActivity(MemberInfoInputActivity.class);
+                        finish();
+
+                    }
 
 
                 } else {
-                    final CarListDialog nd = new CarListDialog(PreviewActivity2.this, entity.getUsers());
-                    nd.show();
-                    nd.setClicklistener(new CarListDialog.ClickListenerInterface() {
 
+
+                    ll_button.setVisibility(View.GONE);
+                    ll_car_list.setVisibility(View.VISIBLE);
+                    ll_car_list.setAnimation(AnimationUtil.moveToViewLocation());
+
+                    final UserlistListAdapter userlistListAdapter = new UserlistListAdapter(entity.getUsers(), PreviewActivity2.this);
+                    RecyclerView rv = ll_car_list.findViewById(R.id.rv);
+                    View tv_cancel = ll_car_list.findViewById(R.id.tv_cancel);//新增会员
+                    rv.setLayoutManager(new LinearLayoutManager(PreviewActivity2.this));
+                    rv.setAdapter(userlistListAdapter);
+
+
+                    userlistListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
                         @Override
-                        public void doSelectUser(UserEntity user) {
-                            nd.cancel();
-//                            toActivity(MemberManagementInfoActivity.class, Configure.user_id, user.getUserId());
+                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+
                             Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
-                            intent.putExtra(Configure.user_id, user.getUserId());
+                            intent.putExtra(Configure.user_id, userlistListAdapter.getData().get(position).getUserId());
                             intent.putExtra(Configure.car_no, mInputView.getNumber());
                             startActivity(intent);
-
                             finish();
                         }
+                    });
 
+                    tv_cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void doAddUser() {
-                            nd.cancel();//旧车 新用户
+                        public void onClick(View view) {
                             int new_car_id = entity.getCarinfo().getId();
                             toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
                             finish();
                         }
-
                     });
+
+
+//                    final CarListDialog nd = new CarListDialog(PreviewActivity2.this, entity.getUsers());
+//                    nd.show();
+//                    nd.setClicklistener(new CarListDialog.ClickListenerInterface() {
+//
+//                        @Override
+//                        public void doSelectUser(UserEntity user) {
+//                            nd.cancel();
+//                            Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
+//                            intent.putExtra(Configure.user_id, user.getUserId());
+//                            intent.putExtra(Configure.car_no, mInputView.getNumber());
+//                            startActivity(intent);
+//
+//                            finish();
+//                        }
+//
+//                        @Override
+//                        public void doAddUser() {
+//                            nd.cancel();//旧车 新用户
+//                            int new_car_id = entity.getCarinfo().getId();
+//                            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
+//                            finish();
+//                        }
+//
+//                    });
                 }
 
             }

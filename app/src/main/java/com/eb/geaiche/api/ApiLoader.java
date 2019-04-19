@@ -610,7 +610,8 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> updateRead(int id) {
         map.put("X-Nideshop-Token", new AppPreferences(MyApplication.getInstance()).getString(Configure.Token, ""));
-        map.put("id", id);
+        if (id != 0)
+            map.put("id", id);
         return apiService.updateRead(map).compose(RxHelper.<NullDataEntity>observe());
     }
 

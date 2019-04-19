@@ -34,18 +34,24 @@ public class ServeListAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> {
 
         helper.setText(R.id.tv_product_name, item.getGoodsTitle())
                 .setText(R.id.tv_product_ts, item.getFirstCategoryTitle())
-                .setText(R.id.tv_price, String.format("现价：￥%s", goodsStandard.getGoodsStandardPrice()));
+                .setText(R.id.tv_price, String.format("现价：￥%s", goodsStandard.getGoodsStandardPrice()))
+                .addOnClickListener(R.id.tv_product_value);//选择规格
+
+        if (item.getNum() > 0) {
+            helper.setText(R.id.tv_product_value, String.format("%sx%s", goodsStandard.getGoodsStandardTitle(), item.getNum()));
+        }
+
         TextView tv_market_price = helper.getView(R.id.tv_market_price);
         //添加删除线
         tv_market_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         tv_market_price.setText(String.format("市场价：￥%s", goodsStandard.getGoodsStandardPrice()));
 
-        ImageView iv = helper.getView(R.id.iv);
-
-        if (item.isSelected())
-            iv.setImageResource(R.drawable.icon_pick2);
-        else
-            iv.setImageResource(R.drawable.icon_unpick2);
+//        ImageView iv = helper.getView(R.id.iv);
+//
+//        if (item.isSelected())
+//            iv.setImageResource(R.drawable.icon_pick2);
+//        else
+//            iv.setImageResource(R.drawable.icon_unpick2);
 
     }
 }

@@ -29,7 +29,7 @@ public class AnimationUtil {
         TranslateAnimation mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
                 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
-        mHiddenAction.setDuration(500);
+        mHiddenAction.setDuration(300);
         return mHiddenAction;
     }
 }

@@ -86,7 +86,7 @@ public class MainFragment1New extends BaseFragment {
             protected void _onNext(List<Banner> banners) {
                 if (null != banners && banners.size() > 0) {
                     Glide.with(getActivity())
-                            .load(banners.get(0).getLink())
+                            .load(banners.get(0).getImage_url())
                             .into(iv);
                 }
             }

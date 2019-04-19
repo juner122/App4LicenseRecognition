@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color"
@@ -48,8 +47,8 @@
                 android:id="@+id/iv_Flash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginBottom="40dp"
                 android:clickable="true"
                 android:padding="5dp"
@@ -78,12 +77,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:background="@drawable/button_background_b"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:stateListAnimator="@null"
                 android:text="新能源"
                 android:textColor="#fff"
-                android:paddingLeft="5dp"
                 android:textSize="12sp"
-                android:paddingRight="5dp"
                 android:visibility="visible" />
         </LinearLayout>
 
@@ -116,31 +115,48 @@
 
     </LinearLayout>
 
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="#fff"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="*请核对信息，如有错漏请手动修改"
-            android:textColor="#ff999999"
-            android:textSize="10sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="#d9d9d9" />
 
-        <Button
-            android:id="@+id/but_next"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/button_background_c"
-            android:gravity="center"
-            android:text="下一步"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/but_quick"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#A7D4FA"
+                android:gravity="center"
+                android:text="快速接单"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/but_next"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background_c"
+                android:gravity="center"
+                android:text="普通接单"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/ll_car_list"
+            layout="@layout/dialog_carlist"
+            android:visibility="gone" />
+    </FrameLayout>
+
 
 </LinearLayout>

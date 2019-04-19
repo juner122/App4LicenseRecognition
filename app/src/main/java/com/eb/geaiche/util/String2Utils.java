@@ -25,7 +25,24 @@ public class String2Utils {
         return s.substring(1);
 
 
-    } public static String getString2(List<MemberEntity> list) {
+    }
+
+    public static String getStringfor(List<Technician> list) {
+
+        if (null == list || list.size() == 0) return "请选择技师";
+
+        String s = "";
+        for (Technician t : list) {
+            if (t.isSelected())
+                s = String.format("%s,\t%s", s, t.getUsername());
+        }
+
+        return s.substring(1);
+
+
+    }
+
+    public static String getString2(List<MemberEntity> list) {
 
         if (null == list || list.size() == 0) return "请选择技师";
 
