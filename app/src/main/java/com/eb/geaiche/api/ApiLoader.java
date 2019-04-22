@@ -24,6 +24,7 @@ import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
@@ -970,6 +971,14 @@ public class ApiLoader {
             return apiService.courseList2(token, 1000).compose(RxHelper.<List<Courses>>observe());
         else
             return apiService.courseList2(token, name, course_type, 1000).compose(RxHelper.<List<Courses>>observe());
+    }
+
+    /**
+     * 课程分类
+     */
+    public Observable<List<CategoryType>> queryCategory() {
+
+        return apiService.queryCategory(token).compose(RxHelper.<List<CategoryType>>observe());
     }
 
     /**

@@ -13,6 +13,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.GlideImageLoader;
+import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.Goods;
 import com.youth.banner.Banner;
@@ -68,6 +69,9 @@ public class MallGoodsInfoActivity extends BaseActivity {
                 break;
 
             case R.id.tv_buy://购买
+//                List<CartItem> cartItems = new ArrayList<>();
+//
+//                toActivity(MallGoodsInfoActivity.class, cartItems, "cart_goods");
 
                 break;
 

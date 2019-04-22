@@ -19,6 +19,7 @@ import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
+import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
 import com.juner.mvp.bean.Course;
@@ -473,6 +474,11 @@ public interface ApiService {
     @POST("course/list")
     @FormUrlEncoded
     Observable<BaseBean<List<Courses>>> courseList2(@Header("X-Nideshop-Token") String token, @Field("limit") int limit);
+
+    //课程分类
+    @POST("course/queryCategory")
+    @FormUrlEncoded
+    Observable<BaseBean<List<CategoryType>>> queryCategory(@Header("X-Nideshop-Token") String token);
 
     //课程详情
     @POST("course/info")

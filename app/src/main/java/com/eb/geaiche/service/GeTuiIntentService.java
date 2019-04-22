@@ -147,7 +147,7 @@ public class GeTuiIntentService extends GTIntentService {
         // 点击清除按钮或点击通知后会自动消失
 
         notification.flags = Notification.FLAG_AUTO_CANCEL;
-        notification.flags = Notification.FLAG_SHOW_LIGHTS;//三色灯提醒，在使用三色灯提醒时候必须加该标志符
+//        notification.flags = Notification.FLAG_SHOW_LIGHTS;//三色灯提醒，在使用三色灯提醒时候必须加该标志符
 //        notification.flags = Notification.FLAG_INSISTENT;//让声音、振动无限循环，直到用户响应 （取消或者打开）
         notification.flags = Notification.FLAG_ONLY_ALERT_ONCE; //发起Notification后，铃声和震动均只执行一次
         //开始显示消息

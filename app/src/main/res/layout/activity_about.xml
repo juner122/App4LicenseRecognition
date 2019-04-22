@@ -1,30 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2"
+    android:background="#fff"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
 
     <include layout="@layout/head_view" />
 
-
     <ImageView
-        android:id="@+id/iv"
-        android:src="@mipmap/icon_about2"
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_height="180dp" />
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/icon_login" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="哥爱车"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打造线上车主信任的养车平台"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#d9d9d9" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="【平台背景】"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="“哥爱车”是广州市车浩养网络有限责任公司旗下平台，创立于2015年，致力于互联网在汽车后市场领域的应用，是专门为汽车后市场中小企业量身定做一款移动应用软件。“哥爱车”通过打造汽修“数字智慧门店”，对接线上线下资源，同时为车主提供更多便捷的汽车服务点。"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:background="#d9d9d9" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="#fff"
-        android:padding="10dp"
-        android:text="\t哥爱车是车浩养公司打造的一个汽车服务平台，已经与广州汽车后市场服务行业的广州新干线养车e站开展深度合作，依托着线下庞大的汽车服务门店资源以及自身多年的网络运营成功经验，致力于打造e站养车生活服务圈。\n\t车浩养公司在2015年推出哥爱车，以汽车后市场线上商城+线下直营门店为经营模式，以车主汽车生活为核心，通过在线平台和汽车服务店提供汽车养护、汽车维修、汽车美容、汽车钣喷、24小时汽车急救、尾气超标治理、车险理赔、汽车用品销售等多方面的服务，实现一站式养车。同时，哥爱车还为线下服务商家提供一站式O2O精准营销解决方案，包括在门店结构规划与设计，接待与施工，项目定价与销售及配件采购和配送等完整的门店经营解决方案。"
+        android:text="【平台介绍】"
+        android:textColor="#ff333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="哥爱车平台从车主的需求出发，通过整合多方资源，营造一个更加透明化、合理化、便捷化、高效化、安全化的O2O+S2B2C模式，将线下服务与互联网结合，为车主提供一站式的专业养车服务。为全国乃至世界车主提供全方位的资讯、优质汽车美容保养等专业养车服务，力争成为车主专业可靠放心的养车顾问。"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#d9d9d9" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="更多关于我们"
+        android:textColor="#ff333333"
+        android:textSize="13sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="网  址：http://www.xgx1994.com
+电  话：4009-00-6033
+地  址：广州市 越秀区 明月一路 明月阁1606室"
         android:textColor="#ff666666"
         android:textSize="12sp" />
+
 </LinearLayout>

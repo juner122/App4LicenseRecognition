@@ -50,7 +50,7 @@ public class OrderNewsListActivity extends BaseActivity {
         Api().updateRead(0).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nulld) {
-
+                pushlogList(0);
 
             }
 

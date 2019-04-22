@@ -19,6 +19,7 @@ import com.eb.geaiche.api.ApiLoader;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -162,6 +163,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
         startActivity(new Intent(this, MakeOrderActivity.class));
+
+    }
+    protected void toActivity(Class c, List p, String key) {
+
+
+        Intent intent = new Intent(this, c);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(key, (ArrayList<? extends Parcelable>) p);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
     }
 

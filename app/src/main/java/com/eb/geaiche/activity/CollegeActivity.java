@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
@@ -11,6 +12,7 @@ import com.eb.geaiche.adapter.CollegeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.CourseInfoActivity;
 import com.eb.geaiche.util.ToastUtils;
+import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.Courses;
 
 import java.util.List;
@@ -24,6 +26,13 @@ public class CollegeActivity extends BaseActivity {
     RecyclerView recyclerView;
 
     CollegeListAdapter collegeListAdapter;
+
+    @BindView(R.id.but_top1)
+    Button but1;
+    @BindView(R.id.but_top2)
+    Button but2;
+    @BindView(R.id.but_top3)
+    Button but3;
 
 
     @OnClick({R.id.but_top1, R.id.but_top2, R.id.but_top3, R.id.but_top4, R.id.tv_iv_r})
@@ -73,10 +82,28 @@ public class CollegeActivity extends BaseActivity {
         });
     }
 
+
     @Override
     protected void init() {
         tv_title.setText("哥爱车学院");
         showIVR();
+
+//        //获取课程分类
+//        Api().queryCategory().subscribe(new RxSubscribe<List<CategoryType>>(this, true) {
+//            @Override
+//            protected void _onNext(List<CategoryType> l) {
+//                but1.setText(l.get(0).getCode());
+//
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//
+//            }
+//        });
+//
+
     }
 
     @Override
