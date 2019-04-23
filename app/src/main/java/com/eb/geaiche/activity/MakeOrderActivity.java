@@ -626,10 +626,13 @@ public class MakeOrderActivity extends BaseActivity {
 
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有
-        infoEntity.setUserActivityList(cartUtils.getMealList());
+
         infoEntity.setSysUserList(technicians);
 
-
+        if (null != cartUtils.getMealList() && cartUtils.getMealList().size() > 0) {//是否使用套卡
+            infoEntity.setUserActivityList(cartUtils.getMealList());
+            infoEntity.setProvince(cartUtils.getMealList().get(0).getActivitySn());//获取第一个卡号
+        }
         Log.e(TAG, "下单信息：" + infoEntity.toString());
         Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override

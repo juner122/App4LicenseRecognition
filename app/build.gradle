@@ -54,7 +54,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                outputFileName = "哥爱车汽修(外部)" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
+                outputFileName = "哥爱车汽修(联盟版)" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
             }
         }
     }
@@ -118,7 +118,7 @@ dependencies {
     implementation 'com.parkingwang:keyboard:0.7.1'
 
     //一个基于谷歌CameraView library的相机处理程序，让安卓中最复杂的Camera api更简单。
-    implementation 'com.camerakit:camerakit:1.0.0-beta3.10'
+    implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
     implementation 'com.camerakit:jpegkit:0.1.0'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'

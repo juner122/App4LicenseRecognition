@@ -158,7 +158,9 @@ public class OrderPayActivity extends BaseActivity {
                 else
                     pay_code_edit.setText("卡号：");
 
-
+                if (pay_type == 21) {//套卡核销
+                    et_car_code.setText(infoEntity.getOrderInfo().getProvince());
+                }
             }
 
         });

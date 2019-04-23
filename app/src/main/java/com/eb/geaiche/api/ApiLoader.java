@@ -157,20 +157,6 @@ public class ApiLoader {
 
     }
 
-
-    /**
-     * 会员录入
-     *
-     * @return
-     */
-    public Observable<SaveUserAndCarEntity> saveUserAndCar(String car_no, String mobile, String username) {
-
-        map.put("car_no", car_no);
-        map.put("mobile", mobile);
-        map.put("username", username);
-        return apiService.saveUserAndCar(map).compose(RxHelper.<SaveUserAndCarEntity>observe());
-    }
-
     /**
      * 2.会员快捷录入
      *
