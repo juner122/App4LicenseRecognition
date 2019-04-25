@@ -2,8 +2,10 @@ package com.eb.geaiche.activity;
 
 import android.Manifest;
 import android.content.Intent;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -475,14 +477,7 @@ public class CarInfoInputActivity extends BaseActivity {
     };
 
 
-    private GridImageAdapter.OnItemDeleteListener onItemDeleteListener = new GridImageAdapter.OnItemDeleteListener() {
-        @Override
-        public void onItemDelete(int id) {
-
-            delete(id);
-
-        }
-    };
+    private GridImageAdapter.OnItemDeleteListener onItemDeleteListener = id -> delete(id);
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -617,9 +612,14 @@ public class CarInfoInputActivity extends BaseActivity {
     private void onAddCarInfoOfFixCarInfo() {
 
         if (type_action == 1) {
-            Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
+            if (!Configure.APP_ALLIANCE && null == carInfo.getVin() || carInfo.getVin().equals("")) {//新干线版必须填车架号
+                ToastUtils.showToast("请填写车架号！");
+                return;
+            }
+
+            Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                 @Override
-                protected void _onNext(Integer nullDataEntity) {
+                protected void _onNext(NullDataEntity nullDataEntity) {
 
                     new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
                     ToastUtils.showToast("操作成功");

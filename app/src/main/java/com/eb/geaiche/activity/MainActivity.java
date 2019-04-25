@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+
 import androidx.fragment.app.Fragment;
 import androidx.core.content.FileProvider;
 
@@ -55,6 +56,9 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.number)
     TextView number;
+
+    @BindView(R.id.tv_is_new_order)
+    TextView tv_is_new_order;
     @BindView(R.id.cl)
     View cl;
 
@@ -92,6 +96,10 @@ public class MainActivity extends BaseActivity {
         //注册广播
         registBroadcast();
         checkVersionUpDate();
+
+
+        if (Configure.APP_ALLIANCE)
+            tv_is_new_order.setVisibility(View.GONE);
     }
 
 

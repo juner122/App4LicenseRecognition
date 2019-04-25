@@ -8,6 +8,7 @@ import android.net.Uri;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -631,18 +632,17 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
                 ToastUtils.showToast("下单成功");
-
-
                 //todo 以下是根据app内部或对外使用而要更换的代码  功能:对外使用app直接跳过订单确认页面而进入订单详情页面
 
-//                //以下代码内部APP使用
-//                sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
-//                finish();
-
-
-                //以下代码为对外APP使用
-                //直接开始服务
-                beginServe(orderInfo.getOrderInfo());
+                if (Configure.APP_ALLIANCE) {
+                    //联盟版
+                    //直接开始服务
+                    beginServe(orderInfo.getOrderInfo());
+                } else {//新干线
+                    //以下代码新干线使用
+                    sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
+                    finish();
+                }
 
 
             }

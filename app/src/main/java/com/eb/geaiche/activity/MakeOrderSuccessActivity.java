@@ -13,8 +13,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -299,10 +301,19 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // 设置打印左对齐
         esc.addSelectJustification(EscCommand.JUSTIFICATION.LEFT);
 
+
         // 手机号码
         esc.addText("手机号码：" + MathUtil.hidePhone(info.getOrderInfo().getMobile()) + "\n");
-        // 会员姓名
-        esc.addText("会员姓名：" + new AppPreferences(this).getString(Configure.user_name, "null_user_name").substring(0, 1) + "**" + "\n");
+
+
+        if (info.getOrderInfo().getConsignee().equals("匿名")) {
+            // 会员姓名
+            esc.addText("会员姓名：" + "匿名" + "\n");
+        } else {
+            // 会员姓名
+            esc.addText("会员姓名：" + new AppPreferences(this).getString(Configure.user_name, "匿名").substring(0, 1) + "**" + "\n");
+
+        }
 
 
         // 打印文字
@@ -319,12 +330,12 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         esc.addSelectJustification(LEFT);
         esc.addText("服务工时\t小计:" + String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList()) + "\n");
+        for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
 
-        for (Server sv : info.getOrderInfo().getSkillList()) {
 
             esc.addSelectJustification(LEFT);
             esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(sv.getName());
+            esc.addText(ge.getGoods_name());
             esc.addPrintAndLineFeed();
             esc.addSelectJustification(LEFT);
 
@@ -335,7 +346,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addSetAbsolutePrintPosition((short) 12);
 
             esc.addSelectJustification(RIGHT);
-            esc.addText("" + sv.getPrice());
+            esc.addText("" + ge.getRetail_price());
             esc.addPrintAndLineFeed();
             esc.addPrintAndLineFeed();
         }
@@ -349,7 +360,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             esc.addSelectJustification(LEFT);
             esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(ge.getName());
+            esc.addText(ge.getGoods_name());
             esc.addPrintAndLineFeed();
             esc.addSelectJustification(LEFT);
 
@@ -429,6 +440,22 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
     }
 
+
+    //获取商品或工时
+    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
+        if (null == goodsEntities || goodsEntities.size() == 0) {
+            return null;
+        }
+        List<GoodsEntity> list = new ArrayList<>();
+        for (GoodsEntity entity : goodsEntities) {
+            if (entity.getType() == Type) {
+                list.add(entity);
+            }
+        }
+        return list;
+
+
+    }
 
     private Handler mHandler = new Handler() {
         @Override

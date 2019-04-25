@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -484,15 +485,9 @@ public class OrderInfoActivity extends BaseActivity {
         tv_pay_type.setText(String.valueOf("支付方式：" + info.getOrderInfo().getPay_name()));
 
 
-
-
         if (null != info.getOrderInfo().getPay_type() && info.getOrderInfo().getPay_type() == 21) {//套卡核销加卡号
             tv_pay_type.append(String.valueOf(":" + info.getOrderInfo().getProvince()));
         }
-
-
-
-
 
 
         tv_pay_status.setText(String.valueOf("支付状态：" + info.getOrderInfo().getPay_status_text()));
@@ -776,9 +771,15 @@ public class OrderInfoActivity extends BaseActivity {
 
         // 手机号码
         esc.addText("手机号码：" + MathUtil.hidePhone(info.getOrderInfo().getMobile()) + "\n");
-        // 会员姓名
-        esc.addText("会员姓名：" + new AppPreferences(this).getString(Configure.user_name, "null_user_name").substring(0, 1) + "**" + "\n");
 
+
+        if (info.getOrderInfo().getConsignee().equals("匿名")) {
+            // 会员姓名
+            esc.addText("会员姓名：" + "匿名" + "\n");
+        } else {
+            // 会员姓名
+            esc.addText("会员姓名：" + info.getOrderInfo().getConsignee().substring(0, 1) + "**" + "\n");
+        }
 
         // 打印文字
         esc.addText(tv_order_sn.getText().toString() + "\n");//打印订单号

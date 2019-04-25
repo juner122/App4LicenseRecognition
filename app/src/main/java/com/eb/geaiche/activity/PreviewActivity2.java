@@ -28,6 +28,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.geaiche.util.ToastUtils;
 
@@ -380,11 +381,11 @@ public class PreviewActivity2 extends BaseActivity {
             @Override
             protected void _onNext(final SaveUserAndCarEntity s) {
 
-                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<Integer>(PreviewActivity2.this, false) {
+                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<NullDataEntity>(PreviewActivity2.this, false) {
                     @Override
-                    protected void _onNext(Integer Integer) {
+                    protected void _onNext(NullDataEntity Integer) {
 
-                        toMakeOrder(s.getUser_id(), Integer, "", s.getUser_name(), car_no);
+                        toMakeOrder(s.getUser_id(), Integer.getId(), "", s.getUser_name(), car_no);
 
                     }
 

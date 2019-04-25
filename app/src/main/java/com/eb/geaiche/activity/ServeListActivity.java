@@ -2,6 +2,7 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -78,7 +79,8 @@ public class ServeListActivity extends BaseActivity {
         count();
 
         tv_title.setText("服务工时列表");
-//        setRTitle("自定义工时");
+        if (!Configure.APP_ALLIANCE)
+            setRTitle("自定义工时");
         serveListAdapter = new ServeListAdapter(servers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(serveListAdapter);

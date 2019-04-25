@@ -32,7 +32,8 @@ public class MathUtil {
 
     //用****替换手机号码中间4位
     public static String hidePhone(String s) {
-
+        if (null == s || s.equals(""))
+            return "-";
 
         return s.substring(0, 3) + "****" + s.substring(7, s.length());
     }

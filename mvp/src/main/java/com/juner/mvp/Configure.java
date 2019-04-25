@@ -1,11 +1,21 @@
 package com.juner.mvp;
 
 public class Configure {
+    public static final String ALLIANCE_URL = "https://apps.xgxshop.com/app/";//联盟版
+    public static final String NEW_ORDER_URL = "https://business.xgxshop.com/app/";// 新干线版
 
-    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//
-//    public static final String BaseUrl = "https://apps.xgxshop.com/app/";//外部
-//    public static final String BaseUrl = "https://business.xgxshop.com/app/";//内部
-//    public static final String BaseUrl = "http://222.111.88.139:8089/app/";//强
+
+
+
+    public static final boolean APP_ALLIANCE = true;//  联盟版
+//    public static final boolean APP_ALLIANCE = false;//  新干线版
+
+
+//    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//线下
+    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
+
+
+
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务

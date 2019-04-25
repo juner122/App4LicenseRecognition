@@ -3,7 +3,9 @@ package com.eb.geaiche.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -83,7 +85,10 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     protected void init() {
 
         tv_title.setText("配件库");
-//        setRTitle("自定义配件");
+
+        if (!Configure.APP_ALLIANCE)
+            setRTitle("自定义配件");
+
         getPresenter().initRecyclerView(rv0, rv1, easylayout);
 
         if (getIntent().getIntExtra(Configure.isShow, 0) == 1) {
@@ -92,7 +97,6 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
             ll_bottom.setVisibility(View.GONE);
 
         }
-
 
 
     }
