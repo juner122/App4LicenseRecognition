@@ -10,14 +10,13 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -28,10 +27,8 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.buletooth.PrinterCommand;
-import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.eb.geaiche.view.NoticeDialog;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -44,7 +41,6 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.OrderInfo;
 
-import com.juner.mvp.bean.Server;
 import com.juner.mvp.bean.Technician;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MathUtil;
@@ -53,7 +49,6 @@ import com.eb.geaiche.util.ToastUtils;
 
 import net.grandcentrix.tray.AppPreferences;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,8 +59,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-import static com.bumptech.glide.request.RequestOptions.diskCacheStrategyOf;
-import static com.bumptech.glide.request.RequestOptions.skipMemoryCacheOf;
 import static com.eb.geaiche.buletooth.BuletoothUtil.BLUETOOTH_DISCOVERABLE_DURATION;
 import static com.eb.geaiche.buletooth.BuletoothUtil.CONN_PRINTER;
 import static com.eb.geaiche.buletooth.BuletoothUtil.CONN_STATE_DISCONN;
@@ -483,7 +476,7 @@ public class OrderInfoActivity extends BaseActivity {
         tv_technician.setText(String2Utils.getString(info.getOrderInfo().getSysUserList()));
         technicians = info.getOrderInfo().getSysUserList();
 
-        tv_jdy.setText(null == info.getReceptionist() || null == info.getReceptionist().getUsername() ? "-" : info.getReceptionist().getUsername());
+        tv_jdy.setText(null == info.getReceptionist() || null == info.getReceptionist().getNickName() ? "-" : info.getReceptionist().getNickName());
 
         tv_price4_s.setText(info.getOrderInfo().getPay_status() == 2 ? "实收金额" : "应收金额");
 

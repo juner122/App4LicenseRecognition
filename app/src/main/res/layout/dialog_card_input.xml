@@ -25,7 +25,7 @@
         android:layout_marginBottom="15dp"
         android:background="#FFD9D9D9" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

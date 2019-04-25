@@ -123,9 +123,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-
                         android:id="@+id/tv_car_model"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -279,7 +277,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -328,7 +326,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -375,7 +373,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

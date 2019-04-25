@@ -12,7 +12,7 @@ public final class R {
     public static final class bool {
         private bool() {}
 
-        public static int alihacore_test = 0x7f050006;
-        public static int alihaprotocol_test = 0x7f050007;
+        public static int alihacore_test = 0x7f050004;
+        public static int alihaprotocol_test = 0x7f050005;
     }
 }

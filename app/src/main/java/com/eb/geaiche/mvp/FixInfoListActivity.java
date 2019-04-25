@@ -1,14 +1,12 @@
 package com.eb.geaiche.mvp;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.activity.OrderForFixActivity;
-import com.eb.geaiche.activity.OrderList4DayActivity;
-import com.eb.geaiche.activity.OrderSearch;
 import com.eb.geaiche.activity.fragment.FixInfoListFragment;
 import com.flyco.tablayout.SlidingTabLayout;
 

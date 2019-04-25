@@ -1,7 +1,7 @@
 package com.juner.mvp.base.presenter;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.juner.mvp.base.BaseXPresenter;
 import com.juner.mvp.base.view.IBaseView;

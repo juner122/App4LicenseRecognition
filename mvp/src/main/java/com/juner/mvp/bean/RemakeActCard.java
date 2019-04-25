@@ -16,6 +16,18 @@ public class RemakeActCard {
     //此商品剩余次数
     private Integer goodsNum;
 
+
+    //商品名
+    private String goodsName;
+    //开始时间
+    private Long addTime;
+    //结束时间
+    private Long endTime;
+    //套餐id  对应套餐列表里对象的主键id
+    private Integer detailsId;
+    //车牌
+    private String carNo;
+
     public Long getAddTime() {
         return addTime;
     }
@@ -31,18 +43,6 @@ public class RemakeActCard {
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
     }
-
-    //商品名
-    private String goodsName;
-    //开始时间
-    private Long addTime;
-    //结束时间
-    private Long endTime;
-    //套餐id  对应套餐列表里对象的主键id
-    private Integer detailsId;
-    //车牌
-    private String carNo;
-
 
     public String getActivitySn() {
         return activitySn;

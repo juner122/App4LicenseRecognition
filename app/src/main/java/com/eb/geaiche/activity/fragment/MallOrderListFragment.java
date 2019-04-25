@@ -1,9 +1,9 @@
 package com.eb.geaiche.activity.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -11,21 +11,14 @@ import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.MallMakeOrderInfoActivity;
-import com.eb.geaiche.adapter.FixInfoListAdapter;
 import com.eb.geaiche.adapter.MallOrderListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
-import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.util.ToastUtils;
-import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfoEntity;
-import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.XgxPurchaseOrderPojo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 

@@ -2,7 +2,7 @@ package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;

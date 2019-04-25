@@ -1,15 +1,10 @@
 package com.eb.geaiche;
 
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.adapter.OrderList2Adapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.MemberOrder;
-
-import butterknife.BindView;
 
 public class TestActivity extends BaseActivity {
 

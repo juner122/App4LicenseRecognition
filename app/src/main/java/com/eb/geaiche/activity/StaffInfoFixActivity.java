@@ -1,12 +1,11 @@
 package com.eb.geaiche.activity;
 
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -62,7 +61,7 @@ public class StaffInfoFixActivity extends BaseActivity {
 
             sysUser = getIntent().getParcelableExtra("sysUser");
             tv_phone.setText(sysUser.getMobile());
-            tv_name.setText(sysUser.getUsername());
+            tv_name.setText(sysUser.getNickName());
             tv_number.setText(sysUser.getUserSn());
             roleList = sysUser.getRoleList();
         } else {
@@ -180,8 +179,9 @@ public class StaffInfoFixActivity extends BaseActivity {
 //            return;
 //        }
 
-        sysUser.setUsername(tv_name.getText().toString());
+        sysUser.setNickName(tv_name.getText().toString());
         sysUser.setMobile(tv_phone.getText().toString());
+        sysUser.setUsername(tv_phone.getText().toString());
         sysUser.setUserSn(tv_number.getText().toString());
         sysUser.setRoleList(roleList);
 

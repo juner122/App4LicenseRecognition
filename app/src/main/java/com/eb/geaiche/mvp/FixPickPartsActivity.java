@@ -3,14 +3,13 @@ package com.eb.geaiche.mvp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
-import com.ajguan.library.LoadModel;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickPartsContacts;
 import com.eb.geaiche.mvp.presenter.FixPickPartsPtr;

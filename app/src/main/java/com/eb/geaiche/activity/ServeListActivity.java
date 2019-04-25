@@ -1,7 +1,7 @@
 package com.eb.geaiche.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -30,8 +30,6 @@ import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
-import com.juner.mvp.bean.Server;
-import com.juner.mvp.bean.ServerList;
 
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.ToastUtils;

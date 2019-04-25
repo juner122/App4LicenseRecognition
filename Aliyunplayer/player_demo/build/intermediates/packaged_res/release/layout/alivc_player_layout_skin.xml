@@ -111,7 +111,7 @@
         android:orientation="vertical"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/video_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -119,7 +119,7 @@
             >
 
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
         <TextView
             android:id="@+id/tv_start_player"
             android:layout_width="match_parent"

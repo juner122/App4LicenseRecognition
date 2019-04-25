@@ -2,8 +2,8 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -142,11 +142,11 @@ public class TechnicianInfoActivity extends BaseActivity {
 
 
                 tv_price.setText(MathUtil.twoDecimal(t.getMoney()) + "元");
-                tv_name.setText(t.getSysUser().getUsername());
+                tv_name.setText(t.getSysUser().getNickName());
                 phone.setText(t.getSysUser().getMobile());
                 tv_shopName.setText(t.getShop().getShopName());
                 tv_address.setText(t.getShop().getAddress());
-                tv_name_s.setText(t.getSysUser().getUsername().substring(0, 1));
+                tv_name_s.setText(t.getSysUser().getNickName().substring(0, 1));
                 tv_type.setText(t.getSysUser().getRoleName());
 
                 List<OrderInfoEntity> data = new ArrayList<>();

@@ -1,7 +1,7 @@
 package com.eb.geaiche.mvp.contacts;
 
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliyun.vodplayerview.widget.AliyunVodPlayerView;
 import com.juner.mvp.api.http.RxSubscribe;

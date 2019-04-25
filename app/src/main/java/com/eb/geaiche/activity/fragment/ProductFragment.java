@@ -1,42 +1,27 @@
 package com.eb.geaiche.activity.fragment;
 
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 
-import com.ajguan.library.LoadModel;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 
 
-import com.eb.geaiche.adapter.Brandadapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.view.MyRadioButton;
 import com.juner.mvp.Configure;
-import com.juner.mvp.bean.Category;
-import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.GoodsCategory;
-import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
-import com.juner.mvp.bean.GoodsListEntity;
-import com.juner.mvp.bean.SubCategoryEntity;
 import com.eb.geaiche.util.ToastUtils;
-import com.eb.geaiche.view.CommonPopupWindow;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;

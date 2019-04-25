@@ -2,36 +2,23 @@ package com.eb.geaiche.activity;
 
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.eb.geaiche.adapter.FixInfoListAdapter;
 import com.eb.geaiche.mvp.ActivateCardActivity;
-import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.util.ToastUtils;
-import com.eb.geaiche.view.CommonPopupWindow;
-import com.eb.geaiche.view.ConfirmDialogReMakeName;
 import com.eb.geaiche.view.FixNameDialog;
-import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.listener.CustomTabEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
-import com.eb.geaiche.adapter.OrderList2Adapter;
 import com.eb.geaiche.adapter.SimpleCarInfoAdpter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
-import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.MemberOrder;
-import com.juner.mvp.bean.NullDataEntity;
-import com.juner.mvp.bean.OrderInfoEntity;
 
 import net.grandcentrix.tray.AppPreferences;
 

@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+
 import java.io.ByteArrayOutputStream;
 
 public class BitmapUtil {
@@ -50,6 +51,34 @@ public class BitmapUtil {
         Matrix matrix = new Matrix();
 
         matrix.postScale(scaleWidth, scaleHeight);
+
+        // 得到新的图片
+
+        Bitmap newBitMap = Bitmap.createBitmap(bitMap, 0, 0, width, height, matrix, true);
+
+        if (needRecycle)
+
+            bitMap.recycle();
+
+        return newBitMap;
+
+    }
+
+    /**
+     * @param magnification 缩放倍率
+     */
+    public static Bitmap createBitmapThumbnail(Bitmap bitMap, boolean needRecycle, float magnification) {
+
+        int width = bitMap.getWidth();
+
+        int height = bitMap.getHeight();
+
+
+        // 取得想要缩放的matrix参数
+
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(magnification, magnification);
 
         // 得到新的图片
 

@@ -2,7 +2,7 @@ package com.juner.mvp.base;
 
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * View层的基类实现

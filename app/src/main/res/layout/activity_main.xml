@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -61,7 +61,7 @@
                 tl:layout_constraintLeft_toLeftOf="@id/iv1"
                 tl:layout_constraintTop_toTopOf="@id/iv1" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:layout_width="match_parent"

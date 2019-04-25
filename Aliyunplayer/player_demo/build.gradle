@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -35,11 +35,11 @@ dependencies {
     compile project(':Aliyunplayer:AlivcReporter')
     compile project(':Aliyunplayer:AlivcVodPlayer')
     implementation project(':AliyunVideoCommon')
-    implementation externalAndroidSupportV4
-    implementation externalAndroidAppCompatV7
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation externalOKHTTP
     implementation externalLeakcanary
-    implementation externalAndroidRecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
     implementation externalGSON
     implementation externalAliyunOSS
 }

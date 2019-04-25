@@ -2,8 +2,8 @@ package com.eb.geaiche.activity;
 
 
 import android.graphics.Paint;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +13,6 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.GlideImageLoader;
-import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.Goods;
 import com.youth.banner.Banner;

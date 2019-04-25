@@ -1,7 +1,7 @@
 package com.eb.geaiche.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -16,8 +16,6 @@ import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderNews;
-
-import net.grandcentrix.tray.AppPreferences;
 
 import java.util.List;
 

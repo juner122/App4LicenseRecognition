@@ -2,34 +2,43 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.camerakit.CameraKit;
-import com.camerakit.CameraKitView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.adapter.UserlistListAdapter;
-import com.eb.geaiche.mvp.ActivateCardActivity;
+
+import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.view.AnimationUtil;
-import com.eb.geaiche.view.CarListDialog;
+
 import com.eb.geaiche.view.ScanCarConfirmDialog;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
+
 import com.juner.mvp.bean.CarNumberRecogResult;
-import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.QueryByCarEntity;
-import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.ToastUtils;
 
 import com.juner.mvp.bean.SaveUserAndCarEntity;
-import com.juner.mvp.bean.UserEntity;
+import com.otaliastudios.cameraview.CameraException;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.Flash;
+import com.otaliastudios.cameraview.Gesture;
+import com.otaliastudios.cameraview.GestureAction;
+import com.otaliastudios.cameraview.Mode;
+import com.otaliastudios.cameraview.PictureResult;
 import com.parkingwang.keyboard.KeyboardInputController;
 import com.parkingwang.keyboard.OnInputChangedListener;
 import com.parkingwang.keyboard.PopupKeyboard;
@@ -37,19 +46,23 @@ import com.parkingwang.keyboard.view.InputView;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import com.otaliastudios.cameraview.CameraView;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 import static android.graphics.Bitmap.Config.RGB_565;
 
-
 public class PreviewActivity2 extends BaseActivity {
+
     @BindView(R.id.input_view)
     InputView mInputView;
 
@@ -68,54 +81,26 @@ public class PreviewActivity2 extends BaseActivity {
     @BindView(R.id.ll)
     View ll_button;
 
+    @BindView(R.id.seekBar)
+    SeekBar seekBar;
+
 
     @BindView(R.id.camera)
-    CameraKitView cameraKitView;
+    CameraView cameraKitView;
 
 
     private PopupKeyboard mPopupKeyboard;
 
     boolean isFlash;//是否打开闪光灯
 
-    @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash, R.id.but_quick})
+
+    @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash, R.id.but_quick, R.id.tv_title_r})
     public void onClick(View v) {
 
         switch (v.getId()) {
             case R.id.photo:
-                cameraKitView.captureImage(new CameraKitView.ImageCallback() {
-                    @Override
-                    public void onImage(CameraKitView cameraKitView, byte[] bytes) {
-
-                        Observable.just(bytes).subscribeOn(Schedulers.io()).flatMap(new Function<byte[], ObservableSource<CarNumberRecogResult>>() {
-                            @Override
-                            public ObservableSource<CarNumberRecogResult> apply(byte[] bytes) throws Exception {
-                                //转为Base64
-
-                                BitmapFactory.Options options = new BitmapFactory.Options();
-                                options.inPreferredConfig = RGB_565;
-
-
-                                return Api().carLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 530, 300)));
-//                                return Api().carLicense(carNumberRecognition_dome);
-                            }
-                        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
-                            @Override
-                            protected void _onNext(CarNumberRecogResult c) {
-
-                                mPopupKeyboard.getController().updateNumber(c.getNumber());
-                                mPopupKeyboard.dismiss(PreviewActivity2.this);
-                            }
-
-                            @Override
-                            protected void _onError(String message) {
-                                ToastUtils.showToast(message);
-                            }
-                        });
-
-                    }
-
-
-                });
+                //拍照
+                capturePicture();
                 break;
 
             case R.id.but_next://普通接单
@@ -140,17 +125,31 @@ public class PreviewActivity2 extends BaseActivity {
             case R.id.iv_Flash:
 
                 if (!isFlash) {
-                    cameraKitView.setFlash(CameraKit.FLASH_ON);
+                    cameraKitView.setFlash(Flash.ON);
                     isFlash = true;
                     iv_Flash.setImageResource(R.drawable.icon_flash_on);
                 } else {
-                    cameraKitView.setFlash(CameraKit.FLASH_OFF);
+                    cameraKitView.setFlash(Flash.OFF);
                     isFlash = false;
                     iv_Flash.setImageResource(R.drawable.icon_flash_off);
                 }
                 break;
+
+            case R.id.tv_title_r:
+                //高级扫描
+                toActivity(PreviewZoomActivity.class,Configure.act_tag,"CARCODE");
+                break;
+
         }
 
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        mInputView.updateNumber(intent.getStringExtra(Configure.car_no));
     }
 
     /**
@@ -216,30 +215,6 @@ public class PreviewActivity2 extends BaseActivity {
                     });
 
 
-//                    final CarListDialog nd = new CarListDialog(PreviewActivity2.this, entity.getUsers());
-//                    nd.show();
-//                    nd.setClicklistener(new CarListDialog.ClickListenerInterface() {
-//
-//                        @Override
-//                        public void doSelectUser(UserEntity user) {
-//                            nd.cancel();
-//                            Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
-//                            intent.putExtra(Configure.user_id, user.getUserId());
-//                            intent.putExtra(Configure.car_no, mInputView.getNumber());
-//                            startActivity(intent);
-//
-//                            finish();
-//                        }
-//
-//                        @Override
-//                        public void doAddUser() {
-//                            nd.cancel();//旧车 新用户
-//                            int new_car_id = entity.getCarinfo().getId();
-//                            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
-//                            finish();
-//                        }
-//
-//                    });
                 }
 
             }
@@ -255,7 +230,7 @@ public class PreviewActivity2 extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("车牌扫描");
-
+        setRTitle("高级扫描");
         // 创建弹出键盘
         mPopupKeyboard = new PopupKeyboard(this);
         mPopupKeyboard.getKeyboardView().setCNTextSize(14);
@@ -300,6 +275,33 @@ public class PreviewActivity2 extends BaseActivity {
         } else {
             mPopupKeyboard.show(PreviewActivity2.this);
         }
+
+        initCamera();
+
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+
+                BigDecimal b1 = new BigDecimal(Integer.toString(i));
+                BigDecimal b2 = new BigDecimal(Integer.toString(100));//根据控件设定的最大值来除
+                float f = b1.divide(b2, 4, BigDecimal.ROUND_HALF_UP).floatValue();
+
+                cameraKitView.setZoom(f);
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -323,34 +325,27 @@ public class PreviewActivity2 extends BaseActivity {
         super.onResume();
         // 默认选中第一个车牌号码输入框
         mInputView.performFirstFieldView();
-        cameraKitView.onResume();
+        if (mPopupKeyboard.isShown())
+            mPopupKeyboard.dismiss(this);
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        cameraKitView.onStart();
     }
 
 
     @Override
     protected void onPause() {
-        cameraKitView.onPause();
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        cameraKitView.onStop();
         super.onStop();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
     //弹出下单方式对话框
     private void showDialog() {
@@ -371,7 +366,7 @@ public class PreviewActivity2 extends BaseActivity {
             public void doCancel() {
                 //快速接单
 
-                ToastUtils.showToast("快速接单");
+//                ToastUtils.showToast("快速接单");
                 getAddUser(mInputView.getNumber());
 
             }
@@ -381,12 +376,11 @@ public class PreviewActivity2 extends BaseActivity {
 
     //快速接单 用“车牌号+车主”当用户名去生成用户id
     private void getAddUser(final String car_no) {
-        Api().addUser("", car_no + "车主").subscribe(new RxSubscribe<SaveUserAndCarEntity>(this, true) {
+        Api().addUser("", car_no + "车主").subscribe(new RxSubscribe<SaveUserAndCarEntity>(this, false) {
             @Override
             protected void _onNext(final SaveUserAndCarEntity s) {
 
-
-                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<Integer>(PreviewActivity2.this, true) {
+                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<Integer>(PreviewActivity2.this, false) {
                     @Override
                     protected void _onNext(Integer Integer) {
 
@@ -419,4 +413,59 @@ public class PreviewActivity2 extends BaseActivity {
         Log.d("CarInfoInputActivity", "请求参数:CarInfoRequestParameters==" + parameters.toString());
         return parameters;
     }
+
+
+    //拍照
+    private void capturePicture() {
+        if (cameraKitView.getMode() == Mode.VIDEO) {
+            ToastUtils.showToast("Can't take HQ pictures while in VIDEO mode.");
+            return;
+        }
+        if (cameraKitView.isTakingPicture()) return;
+//        mCaptureTime = System.currentTimeMillis();
+//        ToastUtils.showToast("Capturing picture...");
+        cameraKitView.takePicture();
+
+    }
+
+
+    //初始化Camera
+    private void initCamera() {
+        cameraKitView.setLifecycleOwner(this);
+        cameraKitView.mapGesture(Gesture.PINCH, GestureAction.ZOOM); // 双指缩放!
+        cameraKitView.mapGesture(Gesture.TAP, GestureAction.ZOOM); // 点击缩放!
+        cameraKitView.addCameraListener(new CameraListener() {
+            @Override
+            public void onCameraError(@NonNull CameraException exception) {
+                super.onCameraError(exception);
+                Log.e("Camera", "Got CameraException #" + exception.getReason());
+            }
+
+
+            @Override
+            public void onPictureTaken(PictureResult pictureResult) {
+                super.onPictureTaken(pictureResult);
+
+                Observable.just(pictureResult.getData()).subscribeOn(Schedulers.io()).flatMap((Function<byte[], ObservableSource<CarNumberRecogResult>>) bytes -> {
+                    //转为Base64
+                    return Api().carLicense(bytes);
+                }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
+                    @Override
+                    protected void _onNext(CarNumberRecogResult c) {
+                        mPopupKeyboard.getController().updateNumber(c.getNumber());
+                        mPopupKeyboard.dismiss(PreviewActivity2.this);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast(message);
+                    }
+                });
+
+            }
+
+        });
+
+    }
+
 }

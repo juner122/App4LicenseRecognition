@@ -16,13 +16,25 @@ public class Technician extends SelectedBean implements Parcelable {
     int status;
     int deptId;
     int createUserId;
-    String username;
+    String username;//赋值mobile的同时把同样值给此字段
+    String nickName;//代替了以前的姓名
+
+
     String password;
     String email;
     String mobile;
     String roleName;
     List<Integer> roleList;
     String userSn;
+
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public List<Integer> getRoleList() {
         return roleList;

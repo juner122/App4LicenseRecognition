@@ -1,7 +1,7 @@
 package com.eb.geaiche.mvp;
 
 import android.content.res.Configuration;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;

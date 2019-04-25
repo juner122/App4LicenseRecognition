@@ -1,8 +1,8 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,7 +12,6 @@ import com.eb.geaiche.adapter.CollegeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.CourseInfoActivity;
 import com.eb.geaiche.util.ToastUtils;
-import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.Courses;
 
 import java.util.List;

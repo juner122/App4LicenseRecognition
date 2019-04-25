@@ -10,7 +10,7 @@
 
     <include layout="@layout/head_view" />
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -158,7 +158,7 @@
             android:background="#d9d9d9"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"

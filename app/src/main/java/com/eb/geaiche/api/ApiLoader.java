@@ -1,11 +1,13 @@
 package com.eb.geaiche.api;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.bean.RecordMeal;
+import com.eb.geaiche.util.BitmapUtil;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
 import com.juner.mvp.api.http.RxHelper;
@@ -82,6 +84,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.graphics.Bitmap.Config.RGB_565;
 
 public class ApiLoader {
 
@@ -874,16 +878,28 @@ public class ApiLoader {
     /**
      * 车牌识别
      */
-    public Observable<CarNumberRecogResult> carLicense(String pic) {
+    public Observable<CarNumberRecogResult> carLicense(byte[] bytes) {
 
-        return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.<CarNumberRecogResult>observe2());
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = RGB_565;
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.05f));
+
+
+        return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.observe2());
     }
 
 
     /**
      * 车辆vin识别
      */
-    public Observable<CarNumberRecogResult> carVinLicense(String pic) {
+    public Observable<CarNumberRecogResult> carVinLicense(byte[] bytes) {
+
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = RGB_565;
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.1f));
+
+
 
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
     }

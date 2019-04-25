@@ -1,8 +1,8 @@
 package com.eb.geaiche.mvp.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,7 +20,6 @@ import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixService2item;
 import com.juner.mvp.bean.FixServie;
-import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Project;
 import com.juner.mvp.bean.ShopProject;
 

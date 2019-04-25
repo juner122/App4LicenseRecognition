@@ -1,12 +1,11 @@
 package com.eb.geaiche.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 import com.juner.mvp.bean.GoodsEntity;
-import com.juner.mvp.bean.Server;
 import com.eb.geaiche.util.MathUtil;
 
 import java.util.List;

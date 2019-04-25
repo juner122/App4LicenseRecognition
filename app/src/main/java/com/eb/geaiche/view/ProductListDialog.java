@@ -4,8 +4,8 @@ package com.eb.geaiche.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +20,6 @@ import com.eb.geaiche.adapter.ProductListAdpter;
 
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
-import com.juner.mvp.bean.ProductValue;
 import com.eb.geaiche.util.ToastUtils;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,7 +13,6 @@ import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.mvp.contacts.PickMealCardContacts;
 import com.eb.geaiche.mvp.model.PickMealCardMdl;
-import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 

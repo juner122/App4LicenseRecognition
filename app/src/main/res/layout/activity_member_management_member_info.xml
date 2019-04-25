@@ -14,13 +14,13 @@
 
 
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:background="#EFF5FD"
         android:layout_weight="1"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#EFF5FD"
@@ -187,7 +187,7 @@
                     android:layout_marginRight="15dp"
                     android:background="#FFD9D9D9" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -214,9 +214,9 @@
                 tl:tl_underline_color="#000"
                 tl:tl_underline_height="0dp" />
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -228,7 +228,7 @@
                 android:orientation="vertical">
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv2"
                     android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
@@ -236,7 +236,7 @@
                     android:layout_weight="1"
                     android:visibility="visible" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv3"
                     android:nestedScrollingEnabled="false"
                     android:layout_width="match_parent"
@@ -245,9 +245,9 @@
                     android:visibility="gone" />
 
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
     <LinearLayout

@@ -2,11 +2,10 @@ package com.aliyun.vodplayerview.view.download;
 
 import java.lang.ref.WeakReference;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.view.animation.TranslateAnimation;
 
 import com.aliyun.vodplayer.R;
 import com.aliyun.vodplayerview.utils.ScreenUtils;
-import com.aliyun.vodplayerview.view.choice.AlivcActionListDialog;
 import com.aliyun.vodplayerview.widget.AliyunScreenMode;
 
 /**

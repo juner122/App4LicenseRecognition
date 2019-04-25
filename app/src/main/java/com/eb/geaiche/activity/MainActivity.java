@@ -9,23 +9,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.FileProvider;
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.activity.fragment.MainFragment1New;
-import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
-import com.eb.geaiche.service.GeTuiIntentService;
-import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.igexin.sdk.PushManager;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 
@@ -39,7 +35,6 @@ import com.juner.mvp.bean.PushMessage;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;

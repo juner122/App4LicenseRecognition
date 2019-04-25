@@ -1,8 +1,8 @@
 package com.eb.geaiche.mvp.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -26,8 +26,6 @@ import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixParts2item;
 import com.juner.mvp.bean.FixPartsEntityList;
-import com.juner.mvp.bean.FixPartsList;
-import com.juner.mvp.bean.FixPartsListEntity;
 import com.juner.mvp.bean.FixPartsSeek;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
@@ -36,7 +34,6 @@ import com.juner.mvp.bean.GoodsList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickPartsUI> implements FixPickPartsContacts.FixPickPartsPtr {

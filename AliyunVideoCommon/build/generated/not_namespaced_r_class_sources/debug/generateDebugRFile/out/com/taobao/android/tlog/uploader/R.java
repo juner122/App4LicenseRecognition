@@ -12,11 +12,11 @@ public final class R {
     public static final class bool {
         private bool() {}
 
-        public static int alihaprotocol_test = 0x7f050007;
+        public static int alihaprotocol_test = 0x7f050005;
     }
     public static final class string {
         private string() {}
 
-        public static int app_name = 0x7f150020;
+        public static int app_name = 0x7f15001c;
     }
 }

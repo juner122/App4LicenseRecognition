@@ -194,7 +194,10 @@
         <activity
             android:name=".activity.AutographActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity android:name=".activity.PreviewActivity2" />
+        <activity
+            android:name=".activity.PreviewActivity2"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ActivateCardActivity"
             android:launchMode="singleTask" />
@@ -235,7 +238,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activity.CourseRecordActivity" />
-        <activity android:name=".activity.CarVinDISActivity" />
+        <activity
+            android:name=".activity.CarVinDISActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />
@@ -345,7 +350,8 @@
         <activity android:name=".activity.MallMakeOrderActivity" />
         <activity android:name=".activity.MallMakeOrderInfoActivity" />
         <activity android:name=".activity.OrderForFixActivity" />
-        <activity android:name=".activity.MallOrderAllListActivity"></activity>
+        <activity android:name=".activity.MallOrderAllListActivity" />
+        <activity android:name=".activity.PreviewZoomActivity"></activity>
     </application>
 
 </manifest>

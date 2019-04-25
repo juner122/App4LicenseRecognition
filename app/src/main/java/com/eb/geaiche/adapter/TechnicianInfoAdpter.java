@@ -1,6 +1,6 @@
 package com.eb.geaiche.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -18,9 +18,16 @@ public class TechnicianInfoAdpter extends BaseQuickAdapter<Technician, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, Technician item) {
-        helper.setText(R.id.name, item.getUsername());
+
         helper.setText(R.id.phone, item.getMobile());
         helper.setText(R.id.lv, item.getRoleName());
-        helper.setText(R.id.tv1, item.getUsername().substring(0,1));
+
+        if (null == item.getNickName() || item.getNickName().equals("")) {
+            helper.setText(R.id.name, "匿名");
+            helper.setText(R.id.tv1, "匿");
+        }else {
+            helper.setText(R.id.name, item.getNickName());
+            helper.setText(R.id.tv1, item.getNickName().substring(0, 1));
+        }
     }
 }

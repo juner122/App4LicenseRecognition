@@ -1,11 +1,9 @@
 package com.eb.geaiche.mvp.presenter;
 
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -22,12 +20,8 @@ import com.eb.geaiche.view.MyRadioButton;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
-import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixService2item;
-import com.juner.mvp.bean.FixServiceList;
-import com.juner.mvp.bean.FixServiceListEntity;
 import com.juner.mvp.bean.FixServie;
-import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
 import com.juner.mvp.bean.GoodsList;

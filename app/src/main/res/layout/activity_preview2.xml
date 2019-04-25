@@ -20,11 +20,12 @@
             android:layout_height="190dp">
 
 
-            <com.camerakit.CameraKitView
+            <com.otaliastudios.cameraview.CameraView
                 android:id="@+id/camera"
                 android:layout_width="match_parent"
                 android:layout_height="190dp"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:keepScreenOn="true" />
 
 
             <View
@@ -41,7 +42,8 @@
                 android:paddingBottom="5dp"
                 android:text="请将车牌号置于扫描区域内"
                 android:textColor="#fff"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/iv_Flash"
@@ -53,6 +55,22 @@
                 android:clickable="true"
                 android:padding="5dp"
                 android:src="@drawable/icon_flash_off" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="50dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="10dp"
+                android:max="100"
+                android:visibility="gone"
+                android:progress="0" />
+
 
         </RelativeLayout>
 

@@ -1,8 +1,8 @@
 package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.eb.geaiche.adapter.MessageModleAdapter;
 import com.eb.geaiche.adapter.MessageRecordAdapter;

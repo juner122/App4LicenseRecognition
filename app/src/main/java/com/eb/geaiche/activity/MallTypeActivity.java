@@ -1,11 +1,10 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
@@ -16,7 +15,6 @@ import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.GoodsBrand;
 import com.juner.mvp.bean.GoodsCategory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

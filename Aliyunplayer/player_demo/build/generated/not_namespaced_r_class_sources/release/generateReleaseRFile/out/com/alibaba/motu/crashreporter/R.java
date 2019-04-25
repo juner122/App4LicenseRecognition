@@ -12,8 +12,8 @@ public final class R {
     public static final class bool {
         private bool() {}
 
-        public static int alihacore_test = 0x7f050006;
-        public static int crashreport_test = 0x7f050009;
-        public static int tbrest_test = 0x7f05000a;
+        public static int alihacore_test = 0x7f050004;
+        public static int crashreport_test = 0x7f050007;
+        public static int tbrest_test = 0x7f050008;
     }
 }

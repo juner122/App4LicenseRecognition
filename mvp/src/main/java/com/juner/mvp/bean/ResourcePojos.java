@@ -1,6 +1,6 @@
 package com.juner.mvp.bean;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class ResourcePojos implements Comparable<ResourcePojos> {
 

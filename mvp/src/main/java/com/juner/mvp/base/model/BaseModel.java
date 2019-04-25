@@ -2,7 +2,7 @@ package com.juner.mvp.base.model;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;

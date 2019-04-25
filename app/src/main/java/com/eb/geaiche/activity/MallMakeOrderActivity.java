@@ -3,8 +3,8 @@ package com.eb.geaiche.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,11 +16,9 @@ import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 
-import com.google.gson.Gson;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartItem;
 
-import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.XgxPurchaseOrderGoodsPojo;
 

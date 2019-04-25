@@ -2,7 +2,7 @@ package com.eb.geaiche.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
-import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.XgxPurchaseOrderGoodsPojo;
 
 import java.util.List;

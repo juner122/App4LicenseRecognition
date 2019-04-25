@@ -1,7 +1,7 @@
 package com.eb.geaiche.activity;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -14,7 +14,6 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.RecordMealListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.bean.MealEntity;
-import com.eb.geaiche.bean.MealEntity2;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.util.ToastUtils;

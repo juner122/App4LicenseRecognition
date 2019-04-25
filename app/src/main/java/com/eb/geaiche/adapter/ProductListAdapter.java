@@ -1,11 +1,10 @@
 package com.eb.geaiche.adapter;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
@@ -13,7 +12,6 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.util.ImageUtils;
 import com.eb.geaiche.util.MathUtil;
 import com.juner.mvp.bean.Goods;
-import com.juner.mvp.bean.GoodsEntity;
 
 
 import java.util.List;

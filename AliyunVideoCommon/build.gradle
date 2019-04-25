@@ -21,6 +21,6 @@ dependencies {
     implementation (externalGlide){
         exclude group: "com.android.support"
     }
-    implementation externalAndroidSupportV4
-    implementation externalAndroidAppCompatV7
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
 }

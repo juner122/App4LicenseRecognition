@@ -1,7 +1,7 @@
 package com.frank.new_line_seller.adapter;
 
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.ImageView;
 import android.widget.TextView;
 

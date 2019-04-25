@@ -19,7 +19,7 @@ public class String2Utils {
 
         String s = "";
         for (Technician t : list) {
-            s = String.format("%s,\t%s", s, t.getUsername());
+            s = String.format("%s,\t%s", s, t.getNickName());
         }
 
         return s.substring(1);
@@ -34,7 +34,7 @@ public class String2Utils {
         String s = "";
         for (Technician t : list) {
             if (t.isSelected())
-                s = String.format("%s,\t%s", s, t.getUsername());
+                s = String.format("%s,\t%s", s, t.getNickName());
         }
 
         return s.substring(1);

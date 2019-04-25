@@ -1,14 +1,13 @@
 package com.eb.geaiche.mvp.contacts;
 
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.RadioGroup;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
-import com.juner.mvp.bean.FixServiceList;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.FixServieEntity;
 import com.juner.mvp.bean.GoodsCategory;

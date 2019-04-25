@@ -1,22 +1,16 @@
 package com.eb.geaiche.adapter;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
-import com.juner.mvp.bean.ActivityEntityItem;
 import com.juner.mvp.bean.AppMenu;
 
 import java.util.List;
-
-import static android.widget.LinearLayout.HORIZONTAL;
 
 public class AppMenuAdapter extends BaseQuickAdapter<AppMenu, BaseViewHolder> {
 

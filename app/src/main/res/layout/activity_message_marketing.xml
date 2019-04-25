@@ -30,13 +30,13 @@
 
     <include layout="@layout/activity_message_marketing_include1" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv2"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv3"
         android:visibility="gone"
         android:layout_width="match_parent"

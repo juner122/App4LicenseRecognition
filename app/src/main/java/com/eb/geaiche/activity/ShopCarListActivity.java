@@ -2,8 +2,8 @@ package com.eb.geaiche.activity;
 
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +16,6 @@ import com.eb.geaiche.adapter.ShopCarListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
-import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.ShopCarBane;
 
 import butterknife.BindView;

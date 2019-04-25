@@ -12,6 +12,6 @@ public final class R {
     public static final class bool {
         private bool() {}
 
-        public static int alihaprotocol_test = 0x7f050007;
+        public static int alihaprotocol_test = 0x7f050005;
     }
 }

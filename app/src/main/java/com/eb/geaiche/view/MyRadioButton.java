@@ -2,14 +2,14 @@ package com.eb.geaiche.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.Gravity;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 
 import com.eb.geaiche.R;
 
-public class MyRadioButton extends android.support.v7.widget.AppCompatRadioButton implements  CompoundButton.OnCheckedChangeListener {
+public class MyRadioButton extends androidx.appcompat.widget.AppCompatRadioButton implements  CompoundButton.OnCheckedChangeListener {
 
     Context context;
 

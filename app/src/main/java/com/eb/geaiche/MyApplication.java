@@ -2,7 +2,7 @@ package com.eb.geaiche;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
 import com.eb.geaiche.service.GeTuiIntentService;
@@ -12,8 +12,6 @@ import com.eb.geaiche.util.CartUtils;
 import com.igexin.sdk.PushManager;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
-
-import net.grandcentrix.tray.AppPreferences;
 
 
 public class MyApplication extends Application {

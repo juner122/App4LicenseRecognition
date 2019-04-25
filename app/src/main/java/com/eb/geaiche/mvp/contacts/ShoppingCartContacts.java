@@ -1,13 +1,12 @@
 package com.eb.geaiche.mvp.contacts;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
-import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
 
 import java.util.List;

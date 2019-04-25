@@ -10,7 +10,7 @@
 
     <include layout="@layout/head_view" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
@@ -51,7 +51,7 @@
                 android:layout_height="0.1dp"
                 android:background="#d9d9d9" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
@@ -90,14 +90,14 @@
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/name"
                     app:layout_constraintTop_toBottomOf="@+id/name" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="#d9d9d9" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                 android:layout_marginTop="10dp"
                 android:background="#fff" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -207,7 +207,7 @@
                     android:layout_marginTop="16dp"
                     android:background="#d9d9d9"
                     app:layout_constraintTop_toBottomOf="@+id/reduce_price" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -215,7 +215,7 @@
                 android:background="#d9d9d9" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:layout_width="match_parent"

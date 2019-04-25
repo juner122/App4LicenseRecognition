@@ -1,6 +1,8 @@
 package com.eb.geaiche.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,20 +12,28 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.camerakit.CameraKitView;
+
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.AnimationUtil;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.CarVinInfo;
+import com.otaliastudios.cameraview.CameraListener;
+import com.otaliastudios.cameraview.CameraView;
+import com.otaliastudios.cameraview.Gesture;
+import com.otaliastudios.cameraview.GestureAction;
+import com.otaliastudios.cameraview.Mode;
+import com.otaliastudios.cameraview.PictureResult;
 
 import java.math.BigDecimal;
 
+import androidx.annotation.NonNull;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -36,7 +46,7 @@ import static android.graphics.Bitmap.Config.RGB_565;
 
 public class CarVinDISActivity extends BaseActivity {
     @BindView(R.id.camera)
-    CameraKitView cameraKitView;
+    CameraView cameraKitView;
 
 
     @BindView(R.id.ll1)
@@ -77,12 +87,41 @@ public class CarVinDISActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("扫描车架号");
+//        setRTitle("高级扫描");
         et_vin.setTransformationMethod(new A2bigA());
     }
 
     @Override
     protected void setUpView() {
+        cameraKitView.setLifecycleOwner(this);
+        cameraKitView.mapGesture(Gesture.PINCH, GestureAction.ZOOM); // 双指缩放!
 
+        cameraKitView.addCameraListener(new CameraListener() {
+            @Override
+            public void onPictureTaken(PictureResult pictureResult) {
+                super.onPictureTaken(pictureResult);
+
+                Observable.just(pictureResult.getData()).subscribeOn(Schedulers.io()).flatMap((Function<byte[], ObservableSource<CarNumberRecogResult>>) bytes -> {
+                    //转为Base64
+
+                    return Api().carVinLicense(bytes);
+                }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
+                    @Override
+                    protected void _onNext(CarNumberRecogResult c) {
+                        ll_tv_check.setVisibility(View.VISIBLE);
+                        et_vin.setText(c.getVin());
+                        vin = c.getVin();
+                        queryVinInfo(vin);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast("识别失败,请重新扫描！");
+                    }
+                });
+            }
+
+        });
     }
 
     @Override
@@ -90,12 +129,34 @@ public class CarVinDISActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        manualInput();
+        et_vin.setText(intent.getStringExtra(Configure.car_no));
+    }
+
+    //拍照
+    private void capturePicture() {
+        if (cameraKitView.getMode() == Mode.VIDEO) {
+            ToastUtils.showToast("Can't take HQ pictures while in VIDEO mode.");
+            return;
+        }
+        if (cameraKitView.isTakingPicture()) return;
+//        mCaptureTime = System.currentTimeMillis();
+//        ToastUtils.showToast("Capturing picture...");
+        cameraKitView.takePicture();
+
+    }
+
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_car_vin_dis;
     }
 
-    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter})
+    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter, R.id.tv_title_r})
     public void onClick(View v) {
 
 
@@ -105,15 +166,7 @@ public class CarVinDISActivity extends BaseActivity {
                 break;
             case R.id.input://手动输入
 
-                ll_tv_check.setVisibility(View.VISIBLE);
-                et_vin.setFocusable(true);
-                et_vin.setFocusableInTouchMode(true);
-                et_vin.requestFocus();
-
-                InputMethodManager imm = (InputMethodManager) CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                et_vin.setText("");
-
+                manualInput();
                 break;
 
             case R.id.re_photo://重扫
@@ -139,48 +192,37 @@ public class CarVinDISActivity extends BaseActivity {
                 }
                 queryVinInfo(et_vin.getText().toString());
                 break;
+
+            case R.id.tv_title_r:
+                //高级扫描
+                toActivity(PreviewZoomActivity.class, Configure.act_tag, "VIN");
+                break;
         }
     }
 
+    //手动输入
+    private void manualInput() {
+
+        ll_tv_check.setVisibility(View.VISIBLE);
+        et_vin.setFocusable(true);
+        et_vin.setFocusableInTouchMode(true);
+        et_vin.requestFocus();
+
+        InputMethodManager imm = (InputMethodManager) CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        et_vin.setText("");
+
+    }
+
+
     //识别vin
     private void carVinLicense() {
-        cameraKitView.captureImage(new CameraKitView.ImageCallback() {
-            @Override
-            public void onImage(CameraKitView cameraKitView, byte[] bytes) {
-
-
-                Observable.just(bytes).subscribeOn(Schedulers.io()).flatMap(new Function<byte[], ObservableSource<CarNumberRecogResult>>() {
-                    @Override
-                    public ObservableSource<CarNumberRecogResult> apply(byte[] bytes) throws Exception {
-                        //转为Base64
-
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inPreferredConfig = RGB_565;
-                        return Api().carVinLicense(BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 530, 300)));
-
-                    }
-                }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
-                    @Override
-                    protected void _onNext(CarNumberRecogResult c) {
-                        ll_tv_check.setVisibility(View.VISIBLE);
-                        et_vin.setText(c.getVin());
-                        vin = c.getVin();
-                        queryVinInfo(vin);
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtils.showToast("识别失败,请重新扫描！");
-                    }
-                });
-            }
-        });
+        capturePicture();
     }
 
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-//        vin = "lbvtz4100ksp30049";
         Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
@@ -228,38 +270,16 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setOutputVolume(carVinInfo.getOutput_volume());
         carInfo.setEngineSn(carVinInfo.getEngine_type());
     }
-
-
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        cameraKitView.onResume();
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        cameraKitView.onStart();
-    }
-
-
-    @Override
-    protected void onPause() {
-        cameraKitView.onPause();
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        cameraKitView.onStop();
-        super.onStop();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean valid = true;
+        for (int grantResult : grantResults) {
+            valid = valid && grantResult == PackageManager.PERMISSION_GRANTED;
+        }
+        if (valid && !cameraKitView.isOpened()) {
+            cameraKitView.open();
+        }
     }
+
 }

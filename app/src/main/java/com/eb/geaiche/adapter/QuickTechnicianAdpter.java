@@ -1,6 +1,6 @@
 package com.eb.geaiche.adapter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,7 +20,7 @@ public class QuickTechnicianAdpter extends BaseQuickAdapter<Technician, BaseView
 
     @Override
     protected void convert(BaseViewHolder helper, Technician item) {
-        helper.setText(R.id.tv_name, item.getUsername());
+        helper.setText(R.id.tv_name, item.getNickName());
         helper.setText(R.id.phone, item.getMobile());
         helper.setText(R.id.lv, item.getRoleName());
 

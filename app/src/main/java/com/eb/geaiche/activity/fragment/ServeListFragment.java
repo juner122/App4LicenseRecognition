@@ -1,6 +1,6 @@
 package com.eb.geaiche.activity.fragment;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import com.eb.geaiche.R;
 
 import com.eb.geaiche.adapter.ServeListAdapter;

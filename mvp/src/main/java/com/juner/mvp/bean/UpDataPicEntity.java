@@ -1,6 +1,6 @@
 package com.juner.mvp.bean;
 
-import android.support.v4.math.MathUtils;
+import androidx.core.math.MathUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

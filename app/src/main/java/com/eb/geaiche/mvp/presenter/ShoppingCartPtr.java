@@ -1,11 +1,10 @@
 package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
@@ -14,12 +13,10 @@ import com.eb.geaiche.mvp.contacts.ShoppingCartContacts;
 import com.eb.geaiche.mvp.model.ShoppingCartMdl;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.ToastUtils;
-import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
-import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
 
 import java.math.BigDecimal;
