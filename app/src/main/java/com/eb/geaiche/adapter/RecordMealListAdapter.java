@@ -34,7 +34,7 @@ public class RecordMealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEn
                 helper.setText(R.id.tv_date, "有效期：" + MathUtil.toDate4Day(m.getEndTime()));
                 helper.setText(R.id.tv_phone, "手机号码：" + m.getMobile());
 
-                if ("".equals(m.getCarNo()))
+                if (null == m.getCarNo() || "".equals(m.getCarNo()))
                     helper.setText(R.id.tv_car_no, "不限车牌");
                 else
                     helper.setText(R.id.tv_car_no, "限车牌：" + m.getCarNo());

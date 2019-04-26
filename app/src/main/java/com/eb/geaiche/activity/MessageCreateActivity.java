@@ -31,4 +31,10 @@ public class MessageCreateActivity extends BaseActivity {
     protected void setUpData() {
 
     }
+
+    //创建短信模板
+    private void createMod(){
+
+
+    }
 }

@@ -102,6 +102,7 @@ public class BillListActivity extends BaseActivity {
                 getList(1);
             }
 
+
             @Override
             public void onRefreshing() {
 

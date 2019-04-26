@@ -29,7 +29,7 @@ public class Technician extends SelectedBean implements Parcelable {
 
 
     public String getNickName() {
-        return nickName;
+        return null == nickName || nickName.equals("") ? "匿名" : nickName;
     }
 
     public void setNickName(String nickName) {

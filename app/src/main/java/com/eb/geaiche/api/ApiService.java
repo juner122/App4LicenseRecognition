@@ -454,7 +454,9 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> quotationCancle(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
-    //纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+    /**
+     * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+     */
     @POST("activity/queryConnectAct")
     @FormUrlEncoded
     Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name);
@@ -629,6 +631,12 @@ public interface ApiService {
     @POST("purchaseorder/list")
     @FormUrlEncoded
     Observable<BaseBean<BasePage<XgxPurchaseOrderPojo>>> purchaseorderList(@FieldMap Map<String, Object> maps);
+
+
+    //营销短信模板
+    @POST("sms/smsTemplates")
+    @FormUrlEncoded
+    Observable<BaseBean<BasePage<XgxPurchaseOrderPojo>>> smsTemplates(@FieldMap Map<String, Object> maps);
 
 
 }

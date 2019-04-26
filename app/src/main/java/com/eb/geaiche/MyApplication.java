@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
+import com.eb.geaiche.service.CrashHandler;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartServerUtils;
@@ -54,6 +55,10 @@ public class MyApplication extends Application {
         // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
 
+
+        //全局异常处理
+        CrashHandler handler = CrashHandler.getInstance(this);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
     @Override
