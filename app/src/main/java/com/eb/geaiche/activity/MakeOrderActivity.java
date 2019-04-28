@@ -194,104 +194,95 @@ public class MakeOrderActivity extends BaseActivity {
         rv_meal.setAdapter(sma);
 
 
-        simpleGoodInfoAdpter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        simpleGoodInfoAdpter.setOnItemChildClickListener((adapter, view, position) -> {
 
-                List<GoodsEntity> goodsEntities = cartUtils.getDataFromLocal();
-                try {
-                    TextView tv_number = (TextView) adapter.getViewByPosition(rv_goods, position, R.id.tv_number);
-                    View ib_reduce = adapter.getViewByPosition(rv_goods, position, R.id.ib_reduce);
+            List<GoodsEntity> goodsEntities = cartUtils.getDataFromLocal();
+            try {
+                TextView tv_number = (TextView) adapter.getViewByPosition(rv_goods, position, R.id.tv_number);
+                View ib_reduce = adapter.getViewByPosition(rv_goods, position, R.id.ib_reduce);
 
-                    int number = goodsEntities.get(position).getNumber();//获取
+                int number = goodsEntities.get(position).getNumber();//获取
 
-                    switch (view.getId()) {
-                        case R.id.ib_plus:
-                            if (number == 0) {
-                                assert tv_number != null;
-                                tv_number.setVisibility(View.VISIBLE);
-                                assert ib_reduce != null;
-                                ib_reduce.setVisibility(View.VISIBLE);
-                            }
-                            number++;
-                            tv_number.setText(String.valueOf(number));
+                switch (view.getId()) {
+                    case R.id.ib_plus:
+                        if (number == 0) {
+                            assert tv_number != null;
+                            tv_number.setVisibility(View.VISIBLE);
+                            assert ib_reduce != null;
+                            ib_reduce.setVisibility(View.VISIBLE);
+                        }
+                        number++;
+                        tv_number.setText(String.valueOf(number));
 
-                            cartUtils.addData(goodsEntities.get(position));
-                            break;
+                        cartUtils.addData(goodsEntities.get(position));
+                        break;
 
-                        case R.id.ib_reduce:
+                    case R.id.ib_reduce:
 
-                            number--;
-                            tv_number.setText(String.valueOf(number));
+                        number--;
+                        tv_number.setText(String.valueOf(number));
 
-                            cartUtils.reduceData(goodsEntities.get(position));
+                        cartUtils.reduceData(goodsEntities.get(position));
 
 
-                            if (number == 0) {
-                                view.setVisibility(View.INVISIBLE);//隐藏减号
-                                tv_number.setVisibility(View.INVISIBLE);
-                            }
-                            break;
+                        if (number == 0) {
+                            view.setVisibility(View.INVISIBLE);//隐藏减号
+                            tv_number.setVisibility(View.INVISIBLE);
+                        }
+                        break;
 
 
-                    }
-                    refreshData();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
+                refreshData();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
         //调整价格
-        simpleGoodInfoAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseQuickAdapter adapter, View view, final int position) {
-                String price = simpleGoodInfoAdpter.getData().get(position).getRetail_price();
-                int num = simpleGoodInfoAdpter.getData().get(position).getNumber();
-                final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, true);
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm(String price, int num) {
-                        confirmDialog.dismiss();
-                        //修改价数量
-                        cartUtils.fixDataPrice(simpleGoodInfoAdpter.getData().get(position).getGoods_id(), price, num);
-                        refreshData();
-                    }
+        simpleGoodInfoAdpter.setOnItemClickListener((adapter, view, position) -> {
+            String price = simpleGoodInfoAdpter.getData().get(position).getRetail_price();
+            int num = simpleGoodInfoAdpter.getData().get(position).getNumber();
+            final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, true);
+            confirmDialog.show();
+            confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+                @Override
+                public void doConfirm(String price, int num) {
+                    confirmDialog.dismiss();
+                    //修改价数量
+                    cartUtils.fixDataPrice(simpleGoodInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                    refreshData();
+                }
 
-                    @Override
-                    public void doCancel() {
-                        // TODO Auto-generated method stub
-                        confirmDialog.dismiss();
-                    }
-                });
-            }
+                @Override
+                public void doCancel() {
+                    // TODO Auto-generated method stub
+                    confirmDialog.dismiss();
+                }
+            });
         });
 
         //调整价格
-        simpleServiceInfoAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(final BaseQuickAdapter adapter, View view, final int position) {
-                String price = simpleServiceInfoAdpter.getData().get(position).getRetail_price();
-                int num = simpleServiceInfoAdpter.getData().get(position).getNumber();
-                final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, false);
-                confirmDialog.show();
-                confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
-                    @Override
-                    public void doConfirm(String price, int num) {
-                        confirmDialog.dismiss();
-                        //修改价数量
-                        cartUtils.fixDataPrice(simpleServiceInfoAdpter.getData().get(position).getGoods_id(), price, num);
-                        refreshData();
-                    }
+        simpleServiceInfoAdpter.setOnItemClickListener((adapter, view, position) -> {
+            String price = simpleServiceInfoAdpter.getData().get(position).getRetail_price();
+            int num = simpleServiceInfoAdpter.getData().get(position).getNumber();
+            final ConfirmDialog4 confirmDialog = new ConfirmDialog4(MakeOrderActivity.this, price, num, false);
+            confirmDialog.show();
+            confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+                @Override
+                public void doConfirm(String price, int num) {
+                    confirmDialog.dismiss();
+                    //修改价数量
+                    cartUtils.fixDataPrice(simpleServiceInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                    refreshData();
+                }
 
-                    @Override
-                    public void doCancel() {
-                        // TODO Auto-generated method stub
-                        confirmDialog.dismiss();
-                    }
-                });
-            }
+                @Override
+                public void doCancel() {
+                    // TODO Auto-generated method stub
+                    confirmDialog.dismiss();
+                }
+            });
         });
 
 
@@ -300,45 +291,43 @@ public class MakeOrderActivity extends BaseActivity {
         itemTouchHelper.attachToRecyclerView(rv_servers);
 
 
-        // 开启滑动删除
-        simpleServiceInfoAdpter.enableSwipeItem();
-        simpleServiceInfoAdpter.setOnItemSwipeListener(onItemSwipeListener);
+//        // 开启滑动删除
+//        simpleServiceInfoAdpter.enableSwipeItem();
+//        simpleServiceInfoAdpter.setOnItemSwipeListener(new OnItemSwipeListener() {
+//            @Override
+//            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+//
+//
+//            }
+//
+//            @Override
+//            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+//
+//
+//            }
+//
+//            @Override
+//            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+//                ToastUtils.showToast("删除成功！");
+//
+//                cartUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
+//
+//                simpleServiceInfoAdpter.getData().remove(pos);
+//                simpleServiceInfoAdpter.notifyDataSetChanged();
+//
+//                setGoodsPric();
+//            }
+//
+//            @Override
+//            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+//
+//            }
+//        });
 
         refreshData();
 
 
     }
-
-    OnItemSwipeListener onItemSwipeListener = new OnItemSwipeListener() {
-        @Override
-        public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-
-
-        }
-
-        @Override
-        public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-
-
-        }
-
-        @Override
-        public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-            ToastUtils.showToast("删除成功！");
-
-            cartUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
-
-            simpleServiceInfoAdpter.getData().remove(pos);
-            simpleServiceInfoAdpter.notifyDataSetChanged();
-
-            setGoodsPric();
-        }
-
-        @Override
-        public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-
-        }
-    };
 
 
     @Override
@@ -373,21 +362,17 @@ public class MakeOrderActivity extends BaseActivity {
 
 
         quickTechnicianAdpter = new QuickTechnicianAdpter(null);
-        quickTechnicianAdpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        quickTechnicianAdpter.setOnItemClickListener((adapter, view, position) -> {
 
 
-                if (quickTechnicianAdpter.getData().get(position).isSelected()) {
-                    quickTechnicianAdpter.getData().get(position).setSelected(false);
-                    technicians.remove(quickTechnicianAdpter.getData().get(position));
-                } else {
-                    quickTechnicianAdpter.getData().get(position).setSelected(true);
-                    technicians.add(quickTechnicianAdpter.getData().get(position));
-                }
-                adapter.notifyDataSetChanged();
+            if (quickTechnicianAdpter.getData().get(position).isSelected()) {
+                quickTechnicianAdpter.getData().get(position).setSelected(false);
+                technicians.remove(quickTechnicianAdpter.getData().get(position));
+            } else {
+                quickTechnicianAdpter.getData().get(position).setSelected(true);
+                technicians.add(quickTechnicianAdpter.getData().get(position));
             }
-
+            adapter.notifyDataSetChanged();
         });
 
         commonPopupRecyclerView = new RecyclerView(this);
@@ -398,13 +383,10 @@ public class MakeOrderActivity extends BaseActivity {
                 .create();
 
 
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //window消失时
-                but_to_technician_list.setText(String2Utils.getStringfor(quickTechnicianAdpter.getData()));
+        popupWindow.setOnDismissListener(() -> {
+            //window消失时
+            but_to_technician_list.setText(String2Utils.getStringfor(quickTechnicianAdpter.getData()));
 
-            }
         });
     }
 
@@ -534,7 +516,7 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.bto_top1:
 
                 try {
-                    cartUtils.addProductData(goods_top.get(0));
+                    cartUtils.addDataOnly(goods_top.get(0));
 
                     refreshData();
                 } catch (Exception e) {
@@ -543,7 +525,7 @@ public class MakeOrderActivity extends BaseActivity {
                 break;
             case R.id.bto_top2:
                 try {
-                    cartUtils.addProductData(goods_top.get(1));
+                    cartUtils.addDataOnly(goods_top.get(1));
 
                     refreshData();
                 } catch (Exception e) {
@@ -553,7 +535,7 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.bto_top3:
 
                 try {
-                    cartUtils.addProductData(goods_top.get(2));
+                    cartUtils.addDataOnly(goods_top.get(2));
 
                     refreshData();
                 } catch (Exception e) {
@@ -563,7 +545,7 @@ public class MakeOrderActivity extends BaseActivity {
                 break;
             case R.id.bto_top4:
                 try {
-                    cartUtils.addProductData(goods_top.get(3));
+                    cartUtils.addDataOnly(goods_top.get(3));
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该项不能选择");

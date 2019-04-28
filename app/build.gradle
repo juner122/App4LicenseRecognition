@@ -102,7 +102,7 @@ dependencies {
 
     //    //下面两个是RxJava 和 RxAndroid   转移到mvp Module
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //转换器，请求结果转换成Model
@@ -140,7 +140,7 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
 
     //解决Glide找不到Android声明库问题
-    annotationProcessor 'androidx.annotation:annotation:1.0.0'
+    annotationProcessor 'androidx.annotation:annotation:1.0.2'
 
     compile project(path: ':mvp')
 

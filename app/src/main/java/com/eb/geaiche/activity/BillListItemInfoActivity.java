@@ -2,19 +2,27 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.eb.geaiche.adapter.SimpleServiceInfoAdpter;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.SimpleGoodInfoAdpter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.String2Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
+
+import static com.juner.mvp.Configure.Goods_TYPE_4;
 
 public class BillListItemInfoActivity extends BaseActivity {
 
@@ -41,17 +49,23 @@ public class BillListItemInfoActivity extends BaseActivity {
 
     @BindView(R.id.rv1)
     RecyclerView rv1;
+    @BindView(R.id.rv2)
+    RecyclerView rv2;
 
 
     private SimpleGoodInfoAdpter adpter1;
-
+    private SimpleGoodInfoAdpter adpter2;
 
     @Override
     protected void init() {
         tv_title.setText("账单详情");
         adpter1 = new SimpleGoodInfoAdpter(null, false);
+        adpter2 = new SimpleGoodInfoAdpter(null, false);
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adpter1);
+
+        rv2.setLayoutManager(new LinearLayoutManager(this));
+        rv2.setAdapter(adpter2);
 
     }
 
@@ -63,7 +77,9 @@ public class BillListItemInfoActivity extends BaseActivity {
             @Override
             protected void _onNext(OrderInfo o) {
 
-                adpter1.setNewData(o.getOrderInfo().getGoodsList());
+                adpter1.setNewData(getProductList(o.getOrderInfo().getGoodsList(),Configure.Goods_TYPE_4));
+                adpter2.setNewData(getProductList(o.getOrderInfo().getGoodsList(),Configure.Goods_TYPE_3));
+
                 tv_order_sn.append(o.getOrderInfo().getOrder_sn());
                 tv2.append(o.getOrderInfo().getAdd_time());
 
@@ -77,7 +93,7 @@ public class BillListItemInfoActivity extends BaseActivity {
 
                 tv_price1.append(MathUtil.twoDecimal(goodsPrice));
                 tv_price2.append(MathUtil.twoDecimal(goodsPrice2));
-                tv_price3.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
+                tv_price3.append(MathUtil.twoDecimal(o.getOrderInfo().getActual_price()));
 
                 if (o.getOrderInfo().getPay_type() == 11) {
                     tv_price4.append(MathUtil.twoDecimal(o.getOrderInfo().getOrder_price()));
@@ -107,4 +123,16 @@ public class BillListItemInfoActivity extends BaseActivity {
     public int setLayoutResourceID() {
         return R.layout.activity_bill_info;
     }
+
+
+    public List<GoodsEntity> getProductList(List<GoodsEntity> list,int type) {
+
+        List<GoodsEntity> carts = new ArrayList<>();
+        for (GoodsEntity c : list) {
+            if (c.getType() == type)
+                carts.add(c);
+        }
+        return carts;
+    }
+
 }

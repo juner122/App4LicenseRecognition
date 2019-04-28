@@ -96,14 +96,11 @@ public class CarInfoActivity extends BaseActivity {
                 if (localMedia1.size() != 0) {
                     adapter.setList(localMedia1);
                     adapter.setSelectMax(localMedia1.size());
-                    adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-                            if (localMedia1.size() > 0) {
-                                // 预览图片 可自定长按保存路径
-                                pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia1);
+                    adapter.setOnItemClickListener((position, v) -> {
+                        if (localMedia1.size() > 0) {
+                            // 预览图片 可自定长按保存路径
+                            pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia1);
 
-                            }
                         }
                     });
                 } else {
@@ -113,14 +110,11 @@ public class CarInfoActivity extends BaseActivity {
 
                     adapter2.setList(localMedia2);
                     adapter2.setSelectMax(localMedia2.size());
-                    adapter2.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-                            if (localMedia2.size() > 0) {
-                                // 预览图片 可自定长按保存路径
-                                pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia2);
+                    adapter2.setOnItemClickListener((position, v) -> {
+                        if (localMedia2.size() > 0) {
+                            // 预览图片 可自定长按保存路径
+                            pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia2);
 
-                            }
                         }
                     });
                 } else {
@@ -132,14 +126,11 @@ public class CarInfoActivity extends BaseActivity {
 
                     adapter3.setList(localMedia3);
                     adapter3.setSelectMax(localMedia3.size());
-                    adapter3.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-                            if (localMedia3.size() > 0) {
-                                // 预览图片 可自定长按保存路径
-                                pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia3);
+                    adapter3.setOnItemClickListener((position, v) -> {
+                        if (localMedia3.size() > 0) {
+                            // 预览图片 可自定长按保存路径
+                            pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, localMedia3);
 
-                            }
                         }
                     });
                 } else {

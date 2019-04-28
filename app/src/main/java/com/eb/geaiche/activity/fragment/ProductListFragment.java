@@ -101,7 +101,7 @@ public class ProductListFragment extends BaseFragment {
                                 tv_number.setVisibility(View.VISIBLE);
                             }
 
-                            MyApplication.cartUtils.addProductData(toGoodsEntity(goodsList.get(position)));
+                            MyApplication.cartUtils.addData(toGoodsEntity(goodsList.get(position)));
                             tv_number.setText(String.valueOf(number));
 
 

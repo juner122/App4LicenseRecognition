@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.CollegeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
@@ -63,15 +62,11 @@ public class CourseListActivity extends BaseActivity {
 
         collegeListAdapter.setEmptyView(R.layout.list_empty_search, recyclerView);
 
-        collegeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                toActivity(CourseInfoActivity.class, "id", ((Courses) adapter.getData().get(position)).getId());
-                Intent intent = new Intent(CourseListActivity.this, CourseInfoActivity.class);
-                intent.putExtra("id", ((Courses) adapter.getData().get(position)).getId());
-                intent.putExtra("courseName", ((Courses) adapter.getData().get(position)).getCourseName());
-                startActivity(intent);
-            }
+        collegeListAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(CourseListActivity.this, CourseInfoActivity.class);
+            intent.putExtra("id", ((Courses) adapter.getData().get(position)).getId());
+            intent.putExtra("courseName", ((Courses) adapter.getData().get(position)).getCourseName());
+            startActivity(intent);
         });
     }
 

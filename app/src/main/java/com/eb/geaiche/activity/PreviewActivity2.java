@@ -22,6 +22,7 @@ import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.view.AnimationUtil;
 
 import com.eb.geaiche.view.ScanCarConfirmDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
@@ -33,6 +34,7 @@ import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.geaiche.util.ToastUtils;
 
 import com.juner.mvp.bean.SaveUserAndCarEntity;
+import com.juner.mvp.bean.UserEntity;
 import com.otaliastudios.cameraview.CameraException;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.Flash;
@@ -50,6 +52,7 @@ import net.grandcentrix.tray.AppPreferences;
 import com.otaliastudios.cameraview.CameraView;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -168,7 +171,6 @@ public class PreviewActivity2 extends BaseActivity {
 
                     if (type == 1) {
 
-                        ToastUtils.showToast("快速接单");
                         getAddUser(mInputView.getNumber());
 
                     } else {
@@ -183,37 +185,10 @@ public class PreviewActivity2 extends BaseActivity {
                 } else {
 
 
-                    ll_button.setVisibility(View.GONE);
-                    ll_car_list.setVisibility(View.VISIBLE);
-                    ll_car_list.setAnimation(AnimationUtil.moveToViewLocation());
-
-                    final UserlistListAdapter userlistListAdapter = new UserlistListAdapter(entity.getUsers(), PreviewActivity2.this);
-                    RecyclerView rv = ll_car_list.findViewById(R.id.rv);
-                    View tv_cancel = ll_car_list.findViewById(R.id.tv_cancel);//新增会员
-                    rv.setLayoutManager(new LinearLayoutManager(PreviewActivity2.this));
-                    rv.setAdapter(userlistListAdapter);
+                    //弹出用户列表
+                    showUserList(entity);
 
 
-                    userlistListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                            Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
-                            intent.putExtra(Configure.user_id, userlistListAdapter.getData().get(position).getUserId());
-                            intent.putExtra(Configure.car_no, mInputView.getNumber());
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-
-                    tv_cancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            int new_car_id = entity.getCarinfo().getId();
-                            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
-                            finish();
-                        }
-                    });
 
 
                 }
@@ -381,11 +356,11 @@ public class PreviewActivity2 extends BaseActivity {
             @Override
             protected void _onNext(final SaveUserAndCarEntity s) {
 
-                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<NullDataEntity>(PreviewActivity2.this, false) {
+                Api().addCarInfo(makeParameters(car_no, s.getUser_id())).subscribe(new RxSubscribe<Integer>(PreviewActivity2.this, false) {
                     @Override
-                    protected void _onNext(NullDataEntity Integer) {
+                    protected void _onNext(Integer integer) {
 
-                        toMakeOrder(s.getUser_id(), Integer.getId(), "", s.getUser_name(), car_no);
+                        toMakeOrder(s.getUser_id(), integer, "", s.getUser_name(), car_no);
 
                     }
 
@@ -469,4 +444,42 @@ public class PreviewActivity2 extends BaseActivity {
 
     }
 
+
+    /**
+     * 弹出用户列表
+     * */
+
+    private void showUserList(QueryByCarEntity entity){
+
+
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.dialog_carlist);
+
+
+        final UserlistListAdapter userlistListAdapter = new UserlistListAdapter(entity.getUsers(), PreviewActivity2.this);
+        RecyclerView rv = bottomSheetDialog.findViewById(R.id.rv);
+        View tv_cancel = bottomSheetDialog.findViewById(R.id.tv_cancel);//新增会员
+        rv.setLayoutManager(new LinearLayoutManager(PreviewActivity2.this));
+        rv.setAdapter(userlistListAdapter);
+
+
+
+
+
+        userlistListAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+            Intent intent = new Intent(PreviewActivity2.this, MemberManagementInfoActivity.class);
+            intent.putExtra(Configure.user_id, userlistListAdapter.getData().get(position).getUserId());
+            intent.putExtra(Configure.car_no, mInputView.getNumber());
+            startActivity(intent);
+            finish();
+        });
+
+        tv_cancel.setOnClickListener(view -> {
+            int new_car_id = entity.getCarinfo().getId();
+            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
+            finish();
+        });
+        bottomSheetDialog.show();
+    }
 }

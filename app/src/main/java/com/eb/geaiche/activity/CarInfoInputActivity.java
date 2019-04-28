@@ -376,14 +376,14 @@ public class CarInfoInputActivity extends BaseActivity {
         adapter.setList(showlist);
         adapter.setSelectMax(maxSelectNum);
         recyclerView1.setAdapter(adapter);
-        adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                if (showlist.size() > 0) {
-                    // 预览图片 可自定长按保存路径
-                    //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
+        adapter.setOnItemClickListener((position, v) -> {
+            if (showlist.size() > 0) {
+                // 预览图片 可自定长按保存路径
+                //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
+                try {
                     pictureSelector.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist);
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -408,15 +408,12 @@ public class CarInfoInputActivity extends BaseActivity {
         adapter3.setSelectMax(maxSelectNum);
         recyclerView3.setAdapter(adapter3);
 
-        adapter3.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                if (showlist3.size() > 0) {
-                    // 预览图片 可自定长按保存路径
-                    //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                    pictureSelector3.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist3);
+        adapter3.setOnItemClickListener((position, v) -> {
+            if (showlist3.size() > 0) {
+                // 预览图片 可自定长按保存路径
+                //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
+                pictureSelector3.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist3);
 
-                }
             }
         });
 
@@ -612,14 +609,15 @@ public class CarInfoInputActivity extends BaseActivity {
     private void onAddCarInfoOfFixCarInfo() {
 
         if (type_action == 1) {
-            if (!Configure.APP_ALLIANCE && null == carInfo.getVin() || carInfo.getVin().equals("")) {//新干线版必须填车架号
-                ToastUtils.showToast("请填写车架号！");
+            if (!Configure.APP_ALLIANCE) {//新干线版必须填车架号
+                if (null == carInfo || null == carInfo.getVin() || carInfo.getVin().equals(""))
+                    ToastUtils.showToast("请填写车架号！");
                 return;
             }
 
-            Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
-                protected void _onNext(NullDataEntity nullDataEntity) {
+                protected void _onNext(Integer integer) {
 
                     new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
                     ToastUtils.showToast("操作成功");

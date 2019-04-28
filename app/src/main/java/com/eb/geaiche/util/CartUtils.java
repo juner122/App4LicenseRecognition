@@ -109,13 +109,6 @@ public class CartUtils {
     }
 
 
-    public void addProductData(GoodsEntity good) {
-
-
-        addData(good);
-
-    }
-
 
     //套餐商品
     public void addMeal(MealEntity entity) {
@@ -164,8 +157,8 @@ public class CartUtils {
 
         //添加数据
         GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
-        if (tempCart != null) {
-            if (good.getType() == Configure.Goods_TYPE_4 || good.getType() == Configure.Goods_TYPE_3)
+        if (tempCart != null) {//不等于空
+            if (good.getType() == Configure.Goods_TYPE_4)
                 tempCart.setNumber(tempCart.getNumber() + 1);
             else
                 tempCart.setRetail_price(good.getRetail_price());
@@ -174,6 +167,23 @@ public class CartUtils {
             tempCart.setNumber(1);
         }
         data.put(good.getGoods_id(), tempCart);
+
+        commit();
+    }
+
+    public void addDataOnly(GoodsEntity good) {
+
+        //添加数据
+        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        if (tempCart != null) {//不等于空
+
+            data.remove(good.getGoods_id());
+        } else {
+            tempCart = good;
+            tempCart.setNumber(1);
+            data.put(good.getGoods_id(), tempCart);
+        }
+
 
         commit();
     }

@@ -135,7 +135,7 @@ public interface ApiService {
 
     //新增车况
     @POST("usercarcondition/save")
-    Observable<BaseBean<NullDataEntity>> addCarInfo(@Header("X-Nideshop-Token") String token, @Body CarInfoRequestParameters event);
+    Observable<BaseBean<Integer>> addCarInfo(@Header("X-Nideshop-Token") String token, @Body CarInfoRequestParameters event);
 
     //修改车况
     @POST("usercarcondition/update")
