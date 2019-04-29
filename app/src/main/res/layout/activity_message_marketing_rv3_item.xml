@@ -3,8 +3,8 @@
     android:id="@+id/ll1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
     android:layout_marginBottom="10dp"
+    android:background="#fff"
     android:orientation="vertical">
 
 
@@ -14,20 +14,21 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-
             android:text="售后短信回执和销售电……"
             android:textColor="#ff333333"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="2018-12-12 16:20:37"
             android:textColor="#ff333333"
             android:textSize="14sp" />
@@ -40,6 +41,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/users_string"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,10 +52,11 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="等21位车主"
+            android:text="21位车主"
             android:textColor="#ff333333"
             android:textSize="14sp" />
 
@@ -65,6 +68,7 @@
         android:background="#D9D9D9" />
 
     <TextView
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -83,6 +87,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/suc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,6 +96,8 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/fail"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发送失败：0条"

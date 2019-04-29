@@ -9,10 +9,6 @@
     <color name="alivc_text_confirm">#00C1DE</color>
     <color name="alivc_white">#e7e7e7</color>
     <color name="colorPrimary_alpha_five">#1affffff</color>
-    <declare-styleable name="LoadingView">
-        <attr format="dimension" name="loading_view_size"/>
-        <!--<attr name="android:color"/>-->
-    </declare-styleable>
     <dimen name="alert_dialog_h">178dp</dimen>
     <dimen name="alert_dialog_w">300dp</dimen>
     <string name="app_name">AliyunVideoCommon</string>
@@ -45,4 +41,8 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+    <declare-styleable name="LoadingView">
+        <attr format="dimension" name="loading_view_size"/>
+        <!--<attr name="android:color"/>-->
+    </declare-styleable>
 </resources>

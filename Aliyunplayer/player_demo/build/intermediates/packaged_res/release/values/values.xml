@@ -33,10 +33,6 @@
     <color name="colorPrimary_alpha_five">#1affffff</color>
     <color name="colorPrimary_alpha_ten">#0cffffff</color>
     <color name="delete_download_info_background">#373d41</color>
-    <declare-styleable name="LoadingView">
-        <attr format="dimension" name="loading_view_size"/>
-        <attr name="android:color"/>
-    </declare-styleable>
     <dimen name="alivc_dialog_err_height">120dp</dimen>
     <dimen name="alivc_dialog_err_width">220dp</dimen>
     <dimen name="alivc_dialog_loading_height">200dp</dimen>
@@ -265,4 +261,8 @@
         <item name="android:minHeight">2dp</item>
         <item name="android:indeterminateOnly">false</item>
     </style>
+    <declare-styleable name="LoadingView">
+        <attr format="dimension" name="loading_view_size"/>
+        <attr name="android:color"/>
+    </declare-styleable>
 </resources>

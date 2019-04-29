@@ -2,12 +2,15 @@ package com.eb.geaiche.api;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.util.BitmapUtil;
+import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
 import com.juner.mvp.api.http.RxHelper;
@@ -70,6 +73,7 @@ import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -550,6 +554,16 @@ public class ApiLoader {
         return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 
+  /**
+     * 会员管理页面数据
+     */
+    public Observable<Member> memberList(int page, int limit) {
+
+        map.put("page", page);
+        map.put("limit", limit);
+        return apiService.memberList(map).compose(RxHelper.<Member>observe());
+    }
+
 
     /**
      * 查看会员信息及订单记录
@@ -615,7 +629,7 @@ public class ApiLoader {
         map.put("order_price", order_price);
         map.put("user_id", user_id);
 
-        return apiService.couponList(map).compose(RxHelper.<List<Coupon>>observe());
+        return apiService.couponList(map).compose(RxHelper.observe());
     }
 
 
@@ -633,7 +647,7 @@ public class ApiLoader {
     public Observable<List<Course>> courseList(int course_type) {
         // course_type	1为线下 2为线上
         map.put("course_type", course_type);
-        return apiService.courseList(map).compose(RxHelper.<List<Course>>observe());
+        return apiService.courseList(map).compose(RxHelper.observe());
     }
 
     /**
@@ -831,14 +845,14 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> shopeasySave(GoodsEntity setProject) {
         setProject.setType(1);
-        return apiService.shopeasySave(token, setProject).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.shopeasySave(token, setProject).compose(RxHelper.observe());
     }
 
     /**
      * 修改快捷主推项目
      */
     public Observable<Integer> shopeasyUpdate(GoodsEntity setProject) {
-        return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.<Integer>observe());
+        return apiService.shopeasyUpdate(token, setProject).compose(RxHelper.observe());
     }
 
     /**
@@ -898,7 +912,6 @@ public class ApiLoader {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = RGB_565;
         String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.1f));
-
 
 
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
@@ -1315,5 +1328,15 @@ public class ApiLoader {
         return apiService.purchaseorderList(map).compose(RxHelper.<BasePage<XgxPurchaseOrderPojo>>observe());
     }
 
+    /**
+     * app运行异常记录
+     */
+    public Observable<NullDataEntity> saveError(String error) {
+
+        map.put("error", error);
+
+
+        return apiService.saveError(map).compose(RxHelper.observe());
+    }
 
 }

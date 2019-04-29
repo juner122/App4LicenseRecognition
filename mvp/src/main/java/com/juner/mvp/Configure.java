@@ -7,12 +7,12 @@ public class Configure {
 
 
 
-    public static final boolean APP_ALLIANCE = true;//  联盟版
-//    public static final boolean APP_ALLIANCE = false;//  新干线版
+//    public static final boolean APP_ALLIANCE = true;//  联盟版
+    public static final boolean APP_ALLIANCE = false;//  新干线版
 
 
-    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//线下
-//    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
+//    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//线下
+    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
 
 
 

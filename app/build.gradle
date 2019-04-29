@@ -39,9 +39,7 @@ android {
             signingConfig signingConfigs.release
         }
 
-
         debug {
-
             signingConfig signingConfigs.release
 
         }
@@ -54,7 +52,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                outputFileName = "哥爱车汽修(联盟版)" + "-v" + defaultConfig.versionCode + "-" + defaultConfig.versionName + "-" + output.baseName + ".apk"
+                outputFileName = "哥爱车汽修(联盟版)" + "-v" + variant.versionCode + "-" + variant.versionName + "-" + output.baseName + ".apk"
             }
         }
     }
@@ -68,16 +66,15 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     testImplementation 'junit:junit:4.12'
 
     //github.com/H07000223/FlycoTabLayout
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     //注解
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
-
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
@@ -118,7 +115,7 @@ dependencies {
     implementation 'com.bigkoo:ConvenientBanner:2.1.4'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'cn.yipianfengye.android:zxing-library:2.2'
-    compile project(path: ':picture_library')
+    implementation project(path: ':picture_library')
 
     //车牌号码输入组件
     implementation 'com.parkingwang:keyboard:0.7.1'
@@ -142,7 +139,7 @@ dependencies {
     //解决Glide找不到Android声明库问题
     annotationProcessor 'androidx.annotation:annotation:1.0.2'
 
-    compile project(path: ':mvp')
+    implementation project(path: ':mvp')
 
     //LiteCommon是一系列通用类、辅助类、工具类的集合
 
@@ -160,11 +157,11 @@ dependencies {
 
     //阿里播放器
 
-    //    compile(name: 'AlivcReporter-1.2', ext: 'aar')
+    //    implementation(name: 'AlivcReporter-1.2', ext: 'aar')
 
-    //    compile(name: 'AlivcPlayer-3.4.9', ext: 'aar')
-    compile project(':AliyunVideoCommon')
-    compile project(':Aliyunplayer:player_demo')
+    //    implementation(name: 'AlivcPlayer-3.4.9', ext: 'aar')
+    implementation project(':AliyunVideoCommon')
+    implementation project(':Aliyunplayer:player_demo')
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'

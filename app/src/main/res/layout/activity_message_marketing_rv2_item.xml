@@ -16,6 +16,7 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,9 +46,13 @@
         android:background="#D9D9D9" />
 
     <TextView
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:maxLines="3"
+        android:minLines="3"
+        android:ellipsize="end"
         android:text="【安安养车】感谢您对[新干线养车-五羊店]的支持，对于本店服务您有有任何意见和建议，请您随时联系并告知我们，我将竭诚为您服务！联系电话：010-8888 6666"
         android:textColor="#ff666666"
         android:textSize="13sp" />

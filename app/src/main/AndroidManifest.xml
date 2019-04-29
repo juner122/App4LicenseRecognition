@@ -6,7 +6,8 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- 4.2以上的手机需要的权限 -->
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        tools:ignore="ProtectedPermissions" />
     <!-- 访问INTERNET的权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,7 +18,8 @@
     <!-- ************************************* -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 在SD卡中创建文件与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 传感器 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 摄像头权限 -->
@@ -134,7 +136,6 @@
         <activity
             android:name=".activity.AutoBrandActivity"
             android:screenOrientation="portrait" />
-        //车牌扫描测试
         <activity
             android:name=".activity.MemberManagementInfoActivity"
             android:launchMode="singleTop"
@@ -243,13 +244,12 @@
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />
         <activity android:name=".activity.PickCarOwnerActivity" />
-        //微信
+        <!--微信 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        //新浪
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -270,14 +270,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        //钉钉
         <activity
             android:name=".ddshare.DDShareActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        //QQ
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -349,7 +347,7 @@
         <activity android:name=".activity.MallMakeOrderInfoActivity" />
         <activity android:name=".activity.OrderForFixActivity" />
         <activity android:name=".activity.MallOrderAllListActivity" />
-        <activity android:name=".activity.PreviewZoomActivity"></activity>
+        <activity android:name=".activity.PreviewZoomActivity"/>
     </application>
 
 </manifest>

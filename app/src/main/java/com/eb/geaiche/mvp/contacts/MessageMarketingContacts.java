@@ -1,9 +1,20 @@
 package com.eb.geaiche.mvp.contacts;
 
+import android.view.View;
+
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eb.geaiche.adapter.Brandadapter2;
+import com.eb.geaiche.adapter.MessageModleAdapter2;
+import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
+import com.juner.mvp.bean.MemberEntity;
+import com.juner.mvp.bean.MessageRecordEntity;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.SmsTemplates;
+
+import java.util.List;
 
 /**
  * 登录页面契约类Contacts
@@ -16,16 +27,26 @@ public class MessageMarketingContacts {
      */
     public interface MessageMarketingUI extends IBaseView {
 
+        void setTitle(String title);
 
+        void setContent(String content);
+
+        List<MemberEntity> getMemberList();
+
+        void setSendNum(int num);
     }
 
     /**
      * presenter 层接口
      */
     public interface MessageMarketingPtr extends IBasePresenter {
-        void getRecordInfo( RecyclerView rv2);//
+        void getRecordInfo(RecyclerView rv2);//
 
-        void getModleInfo( RecyclerView rv3);//
+        void getModleInfo(RecyclerView rv3);//
+
+        void showPopUp(View view);
+
+        void sendSms();
     }
 
     /**
@@ -33,7 +54,14 @@ public class MessageMarketingContacts {
      */
     public interface MessageMarketingMdl {
 
+        //获取短信模板列表
+        void getSmsTemplates(RxSubscribe<List<SmsTemplates>> rxSubscribe);
 
+        //获取短信推送记录列表
+        void getSmsMarketLogs(RxSubscribe<List<MessageRecordEntity>> rxSubscribe);
+
+        //发送短信
+        void onSendSms(RxSubscribe<NullDataEntity> rxSubscribe, SmsTemplates smsTemplates);
     }
 
 }

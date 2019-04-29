@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="该短信将发送给20位车主"
+            android:text=""
             android:textColor="#333"
             android:textSize="14sp" />
 

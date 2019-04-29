@@ -131,10 +131,10 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
 
             default:
-                if (perms.equals("com.eb.geaiche.mvp.MessageMarketingActivity")) {
-                    ToastUtils.showToast("无权限");
-                    return;
-                }
+//                if (perms.equals("com.eb.geaiche.mvp.MessageMarketingActivity")) {
+//                    ToastUtils.showToast("无权限");
+//                    return;
+//                }
 
                 try {
                     Class clazz = Class.forName(perms);

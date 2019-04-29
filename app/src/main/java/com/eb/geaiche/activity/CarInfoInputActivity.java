@@ -606,13 +606,16 @@ public class CarInfoInputActivity extends BaseActivity {
         return R.layout.activity_car_status_entry;
     }
 
+
+    //接口提交
     private void onAddCarInfoOfFixCarInfo() {
 
         if (type_action == 1) {
             if (!Configure.APP_ALLIANCE) {//新干线版必须填车架号
-                if (null == carInfo || null == carInfo.getVin() || carInfo.getVin().equals(""))
+                if (null == carInfo || null == carInfo.getVin() || carInfo.getVin().equals("")) {
                     ToastUtils.showToast("请填写车架号！");
-                return;
+                    return;
+                }
             }
 
             Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {

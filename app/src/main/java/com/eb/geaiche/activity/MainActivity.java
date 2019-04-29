@@ -143,6 +143,7 @@ public class MainActivity extends BaseActivity {
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
             @Override
             protected void _onNext(Shop shop) {
+//                tv_shopName = null;
                 tv_shopName.setText(shop.getShop().getShopName());
             }
 

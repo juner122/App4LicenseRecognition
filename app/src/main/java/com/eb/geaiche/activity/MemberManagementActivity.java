@@ -88,12 +88,9 @@ public class MemberManagementActivity extends BaseActivity {
             }
         });
 
-        adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                MemberEntity m = (MemberEntity) adapter.getData().get(position);
-                toActivity(MemberManagementInfoActivity.class, Configure.user_id, m.getUserId());
-            }
+        adpter.setOnItemClickListener((adapter, view, position) -> {
+            MemberEntity m = (MemberEntity) adapter.getData().get(position);
+            toActivity(MemberManagementInfoActivity.class, Configure.user_id, m.getUserId());
         });
     }
 

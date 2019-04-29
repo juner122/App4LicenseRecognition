@@ -37,6 +37,7 @@ import com.eb.geaiche.bean.Meal;
 
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.MessageRecordEntity;
 import com.juner.mvp.bean.MyBalanceEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.NumberBean;
@@ -52,6 +53,7 @@ import com.juner.mvp.bean.Shop;
 
 import com.juner.mvp.bean.ShopCar;
 import com.juner.mvp.bean.ShopCarBane;
+import com.juner.mvp.bean.SmsTemplates;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
@@ -635,8 +637,20 @@ public interface ApiService {
 
     //营销短信模板
     @POST("sms/smsTemplates")
+    Observable<BaseBean<List<SmsTemplates>>> smsTemplates(@Header("X-Nideshop-Token") String token);
+
+    //发送营销短信
+    @POST("sms/sendAdSms")
+    Observable<BaseBean<NullDataEntity>> sendAdSms(@Header("X-Nideshop-Token") String token, @Body SmsTemplates smsTemplates);
+
+    //短信推送记录列表
+    @POST("sms/marketLogs")
+    Observable<BaseBean<List<MessageRecordEntity>>> marketLogs(@Header("X-Nideshop-Token") String token);
+
+    //app运行异常记录
+    @POST("work/saveError")
     @FormUrlEncoded
-    Observable<BaseBean<BasePage<XgxPurchaseOrderPojo>>> smsTemplates(@FieldMap Map<String, Object> maps);
+    Observable<BaseBean<NullDataEntity>> saveError(@FieldMap Map<String, Object> maps);
 
 
 }

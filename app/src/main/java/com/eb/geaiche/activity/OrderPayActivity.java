@@ -3,8 +3,10 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -141,28 +143,24 @@ public class OrderPayActivity extends BaseActivity {
 
 
         brandadapter = new Brandadapter2(olpy);
-        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                popupWindow.dismiss();
-                ll_card_num.setVisibility(View.VISIBLE);
-                cb_weixin.setChecked(false);
-                olpt = olpy.get(position);
-                tv_pick_pay_type.setText(olpy.get(position).getType_string());
-                pay_type = olpy.get(position).getPay_type();
-                ToastUtils.showToast("支付方式:" + olpy.get(position).getType_string());
+        brandadapter.setOnItemClickListener((adapter, view, position) -> {
+            popupWindow.dismiss();
+            ll_card_num.setVisibility(View.VISIBLE);
+            cb_weixin.setChecked(false);
+            olpt = olpy.get(position);
+            tv_pick_pay_type.setText(olpy.get(position).getType_string());
+            pay_type = olpy.get(position).getPay_type();
+            ToastUtils.showToast("支付方式:" + olpy.get(position).getType_string());
 
 
-                if (pay_type == 23)
-                    pay_code_edit.setText("公司名称：");
-                else
-                    pay_code_edit.setText("卡号：");
+            if (pay_type == 23)
+                pay_code_edit.setText("公司名称：");
+            else
+                pay_code_edit.setText("卡号：");
 
-                if (pay_type == 21) {//套卡核销
-                    et_car_code.setText(infoEntity.getOrderInfo().getProvince());
-                }
+            if (pay_type == 21) {//套卡核销
+                et_car_code.setText(infoEntity.getOrderInfo().getProvince());
             }
-
         });
         commonPopupRecyclerView = new RecyclerView(this);
         commonPopupRecyclerView.setAdapter(brandadapter);

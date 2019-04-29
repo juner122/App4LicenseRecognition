@@ -1,9 +1,12 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +34,8 @@ public class PickCarOwnerActivity extends BaseActivity {
 
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
+    @BindView(R.id.tv_all)
+    TextView tv_all;
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -39,16 +44,50 @@ public class PickCarOwnerActivity extends BaseActivity {
     List<MemberEntity> list = new ArrayList<>();
     List<MemberEntity> pick_list;
 
+    boolean isAllpick = false;
+    Drawable drawableLeft;
 
-    @OnClick({R.id.but_enter_order})
+    @OnClick({R.id.but_enter_order, R.id.tv_all})
     public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.but_enter_order:
 
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("MemberEntity", (ArrayList) pick_list);
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
-        finish();
+                if (null == pick_list || pick_list.size() == 0) {
+
+                    ToastUtils.showToast("收信人不能为空！");
+                    return;
+                }
+
+
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("MemberEntity", (ArrayList) pick_list);
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+
+            case R.id.tv_all:
+
+
+                if (!isAllpick) {
+                    pickALl();
+                    drawableLeft = getResources().getDrawable(
+                            R.drawable.icon_pick2);
+
+                } else {
+                    unpickALl();
+                    drawableLeft = getResources().getDrawable(
+                            R.drawable.icon_unpick2);
+                }
+
+
+                tv_all.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                        null, null, null);
+                tv_all.setCompoundDrawablePadding(5);
+
+                break;
+        }
     }
 
 
@@ -73,25 +112,29 @@ public class PickCarOwnerActivity extends BaseActivity {
         getList();
 
 
-        adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (null == pick_list) {
-                    pick_list = new ArrayList<>();
-                }
-                if (list.get(position).isSelected()) {
-                    list.get(position).setSelected(false);
-                    pick_list.remove(list.get(position));
-                } else {
-                    list.get(position).setSelected(true);
-                    pick_list.add(list.get(position));
-                }
-                adapter.notifyDataSetChanged();
+        adpter.setOnItemClickListener((adapter, view, position) -> {
 
-
-                setCarNum(pick_list.size());
-
+            if (null == list.get(position).getMobile() || list.get(position).getMobile().equals("")) {
+                ToastUtils.showToast("禁止选择没有手机号码的用户！");
+                return;
             }
+
+
+            if (null == pick_list) {
+                pick_list = new ArrayList<>();
+            }
+            if (list.get(position).isSelected()) {
+                list.get(position).setSelected(false);
+                pick_list.remove(list.get(position));
+            } else {
+                list.get(position).setSelected(true);
+                pick_list.add(list.get(position));
+            }
+            adapter.notifyDataSetChanged();
+
+
+            setCarNum(pick_list.size());
+
         });
     }
 
@@ -107,7 +150,7 @@ public class PickCarOwnerActivity extends BaseActivity {
     private void getList() {
 
 
-        Api().memberList(1, "").subscribe(new RxSubscribe<Member>(this, true) {
+        Api().memberList(1, 100).subscribe(new RxSubscribe<Member>(this, true) {
             @Override
             protected void _onNext(Member member) {
                 list = member.getMemberList();
@@ -140,7 +183,45 @@ public class PickCarOwnerActivity extends BaseActivity {
 
             }
         }
+        if (null != pick_list && pick_list.size() == list.size()) {
+            isAllpick = true;
+            drawableLeft = getResources().getDrawable(
+                    R.drawable.icon_pick2);
+            tv_all.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                    null, null, null);
+            tv_all.setCompoundDrawablePadding(5);
+        }
 
+
+    }
+
+    private void pickALl() {
+        if (null == pick_list) {
+            pick_list = new ArrayList<>();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setSelected(true);
+            pick_list.add(list.get(i));
+        }
+
+        adpter.setNewData(list);
+
+        setCarNum(pick_list.size());
+        isAllpick = true;
+
+
+    }
+
+    private void unpickALl() {
+
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setSelected(false);
+        }
+
+        pick_list.clear();
+        adpter.setNewData(list);
+        isAllpick = false;
+        setCarNum(0);
 
     }
 
