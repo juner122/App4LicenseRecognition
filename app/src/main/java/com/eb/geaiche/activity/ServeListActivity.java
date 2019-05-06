@@ -72,10 +72,6 @@ public class ServeListActivity extends BaseActivity {
     String categoryId;//当前选的大分类索引id
 
 
-
-
-
-
     @Override
     protected void init() {
 
