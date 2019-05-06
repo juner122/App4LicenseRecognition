@@ -85,6 +85,13 @@ public class PreviewActivity2 extends BaseActivity {
     @BindView(R.id.ll)
     View ll_button;
 
+    @BindView(R.id.but_quick)
+    View but_quick;//快速接单
+
+    @BindView(R.id.but_next)
+    View but_next;//正常接单
+
+
     @BindView(R.id.seekBar)
     SeekBar seekBar;
 
@@ -141,7 +148,7 @@ public class PreviewActivity2 extends BaseActivity {
 
             case R.id.tv_title_r:
                 //高级扫描
-                toActivity(PreviewZoomActivity.class,Configure.act_tag,"CARCODE");
+                toActivity(PreviewZoomActivity.class, Configure.act_tag, "CARCODE");
                 break;
 
         }
@@ -187,8 +194,6 @@ public class PreviewActivity2 extends BaseActivity {
 
                     //弹出用户列表
                     showUserList(entity);
-
-
 
 
                 }
@@ -283,6 +288,11 @@ public class PreviewActivity2 extends BaseActivity {
     @Override
     protected void setUpView() {
 
+        if(Configure.APP_ALLIANCE){
+            but_quick.setVisibility(View.VISIBLE);
+        }else {
+            but_quick.setVisibility(View.GONE);
+        }
 
     }
 
@@ -447,9 +457,9 @@ public class PreviewActivity2 extends BaseActivity {
 
     /**
      * 弹出用户列表
-     * */
+     */
 
-    private void showUserList(QueryByCarEntity entity){
+    private void showUserList(QueryByCarEntity entity) {
 
 
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -461,9 +471,6 @@ public class PreviewActivity2 extends BaseActivity {
         View tv_cancel = bottomSheetDialog.findViewById(R.id.tv_cancel);//新增会员
         rv.setLayoutManager(new LinearLayoutManager(PreviewActivity2.this));
         rv.setAdapter(userlistListAdapter);
-
-
-
 
 
         userlistListAdapter.setOnItemClickListener((adapter, view, position) -> {

@@ -1,7 +1,10 @@
 package com.eb.geaiche.adapter;
 
 import androidx.annotation.Nullable;
+
+import android.graphics.Color;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -23,14 +26,15 @@ public class ProductListAdpter extends BaseQuickAdapter<Goods.GoodsStandard, Bas
 
 
         helper.setText(R.id.tv1, item.getGoodsStandardTitle());
-        View v = helper.getView(R.id.tv1);
+        TextView v = helper.getView(R.id.tv1);
 
         if (item.isSelected()) {
             v.setBackgroundResource(R.drawable.button_background_b);
-        } else
+            v.setTextColor(Color.parseColor("#ffffff"));
+        } else {
             v.setBackgroundResource(R.drawable.button_background_z);
-
-
+            v.setTextColor(Color.parseColor("#333333"));
+        }
     }
 
 }

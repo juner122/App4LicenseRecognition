@@ -3,13 +3,16 @@ package com.eb.geaiche.mvp.presenter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.AutographActivity;
 import com.eb.geaiche.activity.UserAuthorizeActivity;
 import com.eb.geaiche.adapter.FixInfoPartsItemAdapter;
 import com.eb.geaiche.adapter.FixInfoServiceItemAdapter;
@@ -328,7 +331,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 public void doConfirm() {
                     confirmDialog.dismiss();
 
-                    mdl.replaceConfirm(setS(createFixInfoEntityConfirm()), new RxSubscribe<NullDataEntity>(context, false) {
+                    mdl.replaceConfirm(setS(createFixInfoEntityConfirm()), new RxSubscribe<NullDataEntity>(context, true) {
                         @Override
                         protected void _onNext(NullDataEntity nullDataEntity) {
                             ToastUtils.showToast("检修单已确认");
@@ -434,7 +437,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 fixParts.get(i).setSelected(1);
             }
         }
-        mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, false) {
+        mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 ToastUtils.showToast("追加项目成功");
@@ -542,8 +545,10 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     @Override
     public void toAuthorizeActivity() {
 
-        Intent intent = new Intent(getView().getSelfActivity(), UserAuthorizeActivity.class);
+        Intent intent = new Intent(getView().getSelfActivity(), AutographActivity.class);
+
         Bundle bundle = new Bundle();
+        bundle.putString("class", "UserAuthorize");
         switch (entity.getStatus()) {
             case 2://待确认
 
@@ -560,6 +565,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 break;
         }
         intent.putExtras(bundle);
+
+
         getView().getSelfActivity().startActivity(intent);
 
 

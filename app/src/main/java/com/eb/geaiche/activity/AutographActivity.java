@@ -2,12 +2,14 @@ package com.eb.geaiche.activity;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
+import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
@@ -89,7 +91,7 @@ public class AutographActivity extends BaseActivity {
                         if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
                         {
 //                            ToastUtils.showToast("签名上传成功");
-                            if (dialog != null)
+                            if (null != dialog)
                                 dialog.dismiss();
                         }
                     }
@@ -103,14 +105,18 @@ public class AutographActivity extends BaseActivity {
                         // 上传成功后将key值上传到自己的服务器
                         if (info.isOK()) {
                             Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key);
-                            if (dialog != null)
+                            if (null != dialog)
                                 dialog.dismiss();
 
 
                             if (getIntent().getStringExtra("class").equals("FixInfoDescribe"))
                                 toActivity(FixInfoDescribeActivity.class, Configure.Domain, Configure.Domain + key);
-                            if (getIntent().getStringExtra("class").equals("UserAuthorize"))
-                                toActivity(UserAuthorizeActivity.class, Configure.Domain, Configure.Domain + key);
+                            if (getIntent().getStringExtra("class").equals("UserAuthorize")) {
+                                Intent intent = new Intent(AutographActivity.this, FixInfoActivity.class);
+                                intent.putExtra(Configure.Domain, Configure.Domain + key);
+                                intent.putExtra("from", 101);
+                                startActivity(intent);
+                            }
                             if (getIntent().getStringExtra("class").equals("MakeOrderSuccess"))
                                 toActivity(MakeOrderSuccessActivity.class, Configure.Domain, Configure.Domain + key);
 
@@ -156,7 +162,7 @@ public class AutographActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (dialog != null)
+        if (null != dialog)
             dialog.dismiss();
     }
 

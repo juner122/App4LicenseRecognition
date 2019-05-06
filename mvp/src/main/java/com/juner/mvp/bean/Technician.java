@@ -27,6 +27,24 @@ public class Technician extends SelectedBean implements Parcelable {
     List<Integer> roleList;
     String userSn;
 
+    @Override
+    public String toString() {
+        return "Technician{" +
+                "userId=" + userId +
+                ", paremId=" + paremId +
+                ", status=" + status +
+                ", deptId=" + deptId +
+                ", createUserId=" + createUserId +
+                ", username='" + username + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", roleList=" + roleList +
+                ", userSn='" + userSn + '\'' +
+                '}';
+    }
 
     public String getNickName() {
         return null == nickName || nickName.equals("") ? "匿名" : nickName;
@@ -130,21 +148,6 @@ public class Technician extends SelectedBean implements Parcelable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    @Override
-    public String toString() {
-        return "Technician{" +
-                "userId=" + userId +
-                ", paremId=" + paremId +
-                ", status=" + status +
-                ", deptId=" + deptId +
-                ", createUserId=" + createUserId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                '}';
     }
 
     public Technician() {

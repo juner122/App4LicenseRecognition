@@ -171,9 +171,11 @@ public class ProductListFragment extends BaseFragment {
                 goodsList.get(positions).setGoodsStandard(pick_value);
                 goodsList.get(positions).setNum(pick_value.getNum());
                 productListAdapter.setNewData(goodsList);
+
+                sendMsg(MyApplication.cartUtils.getProductPrice());
                 //按确认才保存
                 MyApplication.cartUtils.commit();
-                sendMsg(MyApplication.cartUtils.getProductPrice());
+
 
             }
 

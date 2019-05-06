@@ -53,6 +53,9 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
 
+    @BindView(R.id.ll_button)
+    View ll_button;
+
     @BindView(R.id.title)
     TextView title;
 
@@ -145,17 +148,20 @@ public class MessageMarketingActivity extends BaseActivity<MessageMarketingConta
                 ll1.setVisibility(View.VISIBLE);
                 rv2.setVisibility(View.GONE);
                 rv3.setVisibility(View.GONE);
+                ll_button.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 ll1.setVisibility(View.GONE);
                 rv2.setVisibility(View.VISIBLE);
                 rv3.setVisibility(View.GONE);
+                ll_button.setVisibility(View.GONE);
                 break;
 
             case 2:
                 ll1.setVisibility(View.GONE);
                 rv2.setVisibility(View.GONE);
                 rv3.setVisibility(View.VISIBLE);
+                ll_button.setVisibility(View.GONE);
                 break;
         }
     }

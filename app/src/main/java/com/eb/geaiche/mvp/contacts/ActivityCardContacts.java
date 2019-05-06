@@ -45,7 +45,9 @@ public class ActivityCardContacts {
 
         void setCarName(String userName);//设置车主姓名
 
-        void etsetFocusable(boolean b);//
+        void etsetFocusable(boolean b);
+        void etnamesetFocusable(boolean b);////是否可以输入更改车主姓名
+
     }
 
     /**

@@ -7,11 +7,11 @@ public class Configure {
 
 
 
-//    public static final boolean APP_ALLIANCE = true;//  联盟版
-    public static final boolean APP_ALLIANCE = false;//  新干线版
+    public static final boolean APP_ALLIANCE = true;//  联盟版
+//    public static final boolean APP_ALLIANCE = false;//  新干线版
 
 
-//    public static final String BaseUrl = "http://222.111.88.172:8081/app/";//线下
+//    public static final String BaseUrl = "http://222.111.88.115:8082/app/";//线下
     public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
 
 
@@ -34,7 +34,7 @@ public class Configure {
     public static final String accessKey = "3iizTx8hScpHRaaNDNwDMbLAIr8X6-sKT1SxaLV7";
     public static final String secretKey = "NFD6KB9rTLY4xecjUOELsyQZweK50GyGsVvv1C82";
     public static final String Domain = "http://qiniu.xgxshop.com/";//域名 图片上传
-    public static final String bucket = "aayc";//图片上传空间名
+    public static final String bucket = "aayc";//图片上传 空间名
 
     public static final String Token = "Token";//Token
     public static final String Balance = "Balance";

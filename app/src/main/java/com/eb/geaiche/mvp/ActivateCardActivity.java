@@ -2,8 +2,10 @@ package com.eb.geaiche.mvp;
 
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -205,7 +207,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         String moblie = getIntent().getStringExtra(Configure.moblie);
         String name = getIntent().getStringExtra(Configure.user_name);
 
-        if (null != moblie && null != name) {
+        if (null != moblie && !moblie.equals("")) {
             getPresenter().checkMember(moblie, name);
             et_mobile.setText(moblie);
         }
@@ -347,8 +349,18 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @Override
     public void etsetFocusable(boolean b) {
-//        et_name.setFocusable(b);
+
+
+        et_mobile.setEnabled(b);
         et_mobile.setFocusable(b);
+    }
+
+    @Override
+    public void etnamesetFocusable(boolean b) {
+
+
+        et_name.setEnabled(b);
+        et_name.setFocusable(b);
     }
 
 

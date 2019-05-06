@@ -151,7 +151,7 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        getTopData();
         simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true); //false 不显示加减按键
 
         simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);
@@ -336,7 +336,7 @@ public class MakeOrderActivity extends BaseActivity {
 
         tv_title.setText("下单信息");
         setRTitle("套卡下单");
-        getTopData();
+
         car_number = new AppPreferences(this).getString(Configure.car_no, "null_car_no");
         user_id = new AppPreferences(this).getInt(Configure.user_id, 0);
         moblie = new AppPreferences(this).getString(Configure.moblie, "null_moblie");
@@ -432,10 +432,10 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-
+//
         Glide.with(this)
                 .asDrawable()
-                .load(Uri.fromFile(new File(Configure.LinePathView_url)))
+                .load(intent.getStringExtra(Configure.Domain))
                 .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(skipMemoryCacheOf(true))
                 .into(iv_lpv);
@@ -520,7 +520,9 @@ public class MakeOrderActivity extends BaseActivity {
 
                     refreshData();
                 } catch (Exception e) {
+
                     ToastUtils.showToast("该项不能选择");
+                    showSelectType(0);
                 }
                 break;
             case R.id.bto_top2:
@@ -530,6 +532,7 @@ public class MakeOrderActivity extends BaseActivity {
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该项不能选择");
+                    showSelectType(1);
                 }
                 break;
             case R.id.bto_top3:
@@ -540,6 +543,7 @@ public class MakeOrderActivity extends BaseActivity {
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该项不能选择");
+                    showSelectType(2);
                 }
 
                 break;
@@ -549,6 +553,7 @@ public class MakeOrderActivity extends BaseActivity {
                     refreshData();
                 } catch (Exception e) {
                     ToastUtils.showToast("该项不能选择");
+                    showSelectType(3);
 
                 }
                 break;
@@ -751,5 +756,15 @@ public class MakeOrderActivity extends BaseActivity {
                 ToastUtils.showToast(message);
             }
         });
+    }
+
+    public void showSelectType(int position) {
+
+//
+//        Intent intent = new Intent(this, ProductListActivity.class);
+//        intent.putExtra(Configure.setProject, position);
+//        intent.putExtra(Configure.Goods_TYPE, Configure.Goods_TYPE_3);
+//        startActivity(intent);
+        toActivity(SetProjectActivity.class);
     }
 }

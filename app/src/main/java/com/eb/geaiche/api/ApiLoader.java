@@ -436,6 +436,20 @@ public class ApiLoader {
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
+    /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderList(int page, String user_id) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+        map.put("limit", Configure.limit_page);
+        map.put("page", page);
+        map.put("user_id", user_id);
+        return apiService.orderList(map).compose(RxHelper.observe());
+    }
+
 
     /**
      * 任意条件订单列表 不同订单查询看备注
@@ -554,7 +568,7 @@ public class ApiLoader {
         return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 
-  /**
+    /**
      * 会员管理页面数据
      */
     public Observable<Member> memberList(int page, int limit) {
@@ -911,7 +925,7 @@ public class ApiLoader {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = RGB_565;
-        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.1f));
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.2f));
 
 
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
@@ -949,6 +963,19 @@ public class ApiLoader {
 
 
         return apiService.quotationList(token, name, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
+    }
+
+    /**
+     * 报价单列表条件查询
+     *
+     */
+    public Observable<FixInfoList> quotationList(int page, String user_id) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+        map.put("limit", Configure.limit_page);
+        map.put("page", page);
+        map.put("user_id", user_id);
+        return apiService.quotationList(map).compose(RxHelper.observe());
     }
 
     /**
@@ -1042,7 +1069,7 @@ public class ApiLoader {
     }
 
     /**
-     * 修改员工
+     * 添加员工
      */
     public Observable<NullDataEntity> sysuserSave(Technician technicianInfo) {
         return apiService.sysuserSave(token, technicianInfo).compose(RxHelper.<NullDataEntity>observe());

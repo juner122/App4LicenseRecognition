@@ -4,8 +4,10 @@ package com.eb.geaiche.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +55,7 @@ public class ProductListDialog extends Dialog {
         super(context, R.style.my_dialog);
         this.context = context;
         this.valueList = list;
-        this.goods= goods;
+        this.goods = goods;
     }
 
     @Override
@@ -104,7 +106,6 @@ public class ProductListDialog extends Dialog {
 
         cont = Integer.parseInt(tv_number.getText().toString());
         setSelect(0);//选中第一项且添加一件商品
-        MyApplication.cartUtils.addDataNoCommit(toGood(pick_value));//添加不提交
     }
 
     private void setSelect(int position) {
@@ -137,9 +138,11 @@ public class ProductListDialog extends Dialog {
             }
             switch (id) {
                 case R.id.tv_confirm:
-                    if (cont > 0)
+                    if (cont > 0) {
                         clickListenerInterface.doConfirm(pick_value);
-                    else ToastUtils.showToast("请选择数量！");
+                        MyApplication.cartUtils.addDataNoCommit(toGood(pick_value));//添加不提交
+
+                    } else ToastUtils.showToast("请选择数量！");
 
                     break;
                 case R.id.ib_reduce://减

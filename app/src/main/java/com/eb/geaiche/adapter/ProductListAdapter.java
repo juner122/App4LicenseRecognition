@@ -2,6 +2,7 @@ package com.eb.geaiche.adapter;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.view.View;
 import android.widget.ImageView;
 
@@ -47,9 +48,11 @@ public class ProductListAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> 
                 .addOnClickListener(R.id.tv_product_value);//选择规格
 
         String url = "";
-        if (null != item.getGoodsInfoPicList() && item.getGoodsInfoPicList().size() > 0)
+        if (null != item.getGoodsDetailsPojoList() && item.getGoodsDetailsPojoList().size() > 0)
             url = item.getGoodsDetailsPojoList().get(0).getImage();
-        ImageUtils.load(fragment.getContext(), url, (ImageView) helper.getView(R.id.iv_pic));
+
+
+        ImageUtils.load(fragment.getContext(), url, helper.getView(R.id.iv_pic));
 
 
         View ib_reduce = helper.getView(R.id.ib_reduce);

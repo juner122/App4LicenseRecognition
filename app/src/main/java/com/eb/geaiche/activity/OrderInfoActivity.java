@@ -1,5 +1,6 @@
 package com.eb.geaiche.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -58,6 +59,13 @@ import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 
 import static com.eb.geaiche.buletooth.BuletoothUtil.BLUETOOTH_DISCOVERABLE_DURATION;
@@ -928,15 +936,14 @@ public class OrderInfoActivity extends BaseActivity {
                 REQUEST_CODE_BLUETOOTH_ON);
     }
 
+//    Disposable disposable;//连接蓝牙线程
+
     protected void getDeviceList() {
 
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
-
-                tv_bluetooth.setText("打印机已连接(" + device.getName() + "\t" + device.getAddress() + ")");
-                //初始化话DeviceConnFactoryManager
                 new DeviceConnFactoryManager.Build()
                         .setId(ID)
                         //设置连接方式
@@ -947,13 +954,13 @@ public class OrderInfoActivity extends BaseActivity {
                 //打开端口
                 DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
 
-
                 break;
             }
         } else {
             mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -970,6 +977,9 @@ public class OrderInfoActivity extends BaseActivity {
             dialog.dismiss();
         unregisterReceiver(receiver);
 
+//        if (null != disposable) {
+//            disposable.dispose();
+//        }
     }
 
     @Override
@@ -1008,11 +1018,11 @@ public class OrderInfoActivity extends BaseActivity {
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
-
+                            tv_bluetooth.setText("打印机连接中");
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
-
+                            tv_bluetooth.setText("打印机已连接");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getString(R.string.str_conn_fail));

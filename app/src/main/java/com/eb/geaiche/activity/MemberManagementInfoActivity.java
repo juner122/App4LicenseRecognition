@@ -2,8 +2,10 @@ package com.eb.geaiche.activity;
 
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -210,7 +212,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
             case R.id.ll_change_name://修改用户名
 
                 //弹出对话框
-                final FixNameDialog fixNameDialog = new FixNameDialog(this, user_id,phone.getText().toString(),user_name);
+                final FixNameDialog fixNameDialog = new FixNameDialog(this, user_id, phone.getText().toString(), user_name);
                 fixNameDialog.show();
 
 
@@ -240,7 +242,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 break;
             case R.id.but_3:
                 //消费记录
-                toActivity(MemberRecordActivity.class);
+                toActivity(MemberRecordActivity.class, Configure.user_id, user_id + "");
 
                 break;
 

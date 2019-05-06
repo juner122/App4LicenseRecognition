@@ -128,7 +128,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     boolean isrvShow1, isrvShow2, isrvShow3;
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.tv_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
+    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.iv_scan, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
     public void onclick(View v) {
         switch (v.getId()) {
 
@@ -168,7 +168,7 @@ public class CarInfoInputActivity extends BaseActivity {
                     isrvShow3 = true;
                 }
                 break;
-            case R.id.tv_car_vin:
+            case R.id.iv_scan:
 
                 toActivity(CarVinDISActivity.class);
                 break;
@@ -609,6 +609,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     //接口提交
     private void onAddCarInfoOfFixCarInfo() {
+
 
         if (type_action == 1) {
             if (!Configure.APP_ALLIANCE) {//新干线版必须填车架号

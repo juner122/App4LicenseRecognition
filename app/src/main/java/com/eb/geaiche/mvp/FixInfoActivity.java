@@ -3,7 +3,9 @@ package com.eb.geaiche.mvp;
 
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -320,7 +322,8 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         if (from == 1)//从添加工时，配件页面返回
             getPresenter().handleCallback(intent);
         if (from == 101)//从授权凭证页面返回
-            getPresenter().setlpvUrl(intent.getStringExtra("lpv_url"));
+            getPresenter().setlpvUrl(intent.getStringExtra(Configure.Domain));
+
 
     }
 }

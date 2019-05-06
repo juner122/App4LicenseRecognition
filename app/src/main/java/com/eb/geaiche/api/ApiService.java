@@ -450,6 +450,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<FixInfoList>> quotationList(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("page") int page, @Field("limit") int limit);
 
+    //检修单列表条件查询
+    @POST("quotation/list")
+    @FormUrlEncoded
+    Observable<BaseBean<FixInfoList>> quotationList(@FieldMap Map<String, Object> maps);
+
 
     //报价单取消
     @POST("quotation/cancle")

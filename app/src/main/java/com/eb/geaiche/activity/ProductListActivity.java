@@ -225,7 +225,7 @@ public class ProductListActivity extends BaseActivity {
     //获取分类数据
     private void getPartsData() {
 
-        Api().queryShopcategoryAll(String.valueOf(Configure.Goods_TYPE_4)).subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
+        Api().queryShopcategoryAll(String.valueOf(type)).subscribe(new RxSubscribe<List<GoodsCategory>>(this, true) {
             @Override
             protected void _onNext(List<GoodsCategory> categories) {
                 if (null == categories || categories.size() == 0) {

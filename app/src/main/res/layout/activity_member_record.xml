@@ -26,13 +26,15 @@
         tl:tl_textsize="14sp"
         tl:tl_underline_color="#000"
         tl:tl_underline_height="0dp" />
+
     <View
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:background="#d9d9d9"
         android:paddingTop="20dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,22 +42,34 @@
         android:background="#EFF5FD"
         android:orientation="vertical">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv1"
+        <com.ajguan.library.EasyRefreshLayout
+            android:id="@+id/easylayout1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:nestedScrollingEnabled="false"
-            android:visibility="visible" />
+            android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv2"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                android:visibility="visible" />
+        </com.ajguan.library.EasyRefreshLayout>
+
+
+        <com.ajguan.library.EasyRefreshLayout
+            android:id="@+id/easylayout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:nestedScrollingEnabled="false"
-            android:visibility="gone" />
+            android:layout_height="match_parent">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
+        </com.ajguan.library.EasyRefreshLayout>
     </LinearLayout>
 </LinearLayout>

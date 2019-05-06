@@ -2,7 +2,9 @@ package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -88,6 +90,13 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
                     getView().showView();
                     getView().hideCheckView();
                     getView().setCarName(s.getUser_name());
+
+
+                    if (null == s.getUser_name() || s.getUser_name().equals("")) {
+                        getView().etnamesetFocusable(true);
+                    } else
+                        getView().etnamesetFocusable(false);
+
                     if (null != s.getCarList()) {//新车 老会员
                         getView().setCarList(s.getCarList());//车辆列表
                     }

@@ -62,33 +62,26 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         adapter_item = new FixInfoPartsItemAdapter(null, layout);
 
 
-        adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //查找配件 根据id
-                id = ((FixParts2item) (adapter.getData().get(position))).getId();
-                seekParts();
+        adapter_s2.setOnItemClickListener((adapter, view1, position) -> {
+            //查找配件 根据id
+            id = ((FixParts2item) (adapter.getData().get(position))).getId();
+            seekParts();
 
-                getView().showPartsList();
-            }
+            getView().showPartsList();
         });
 
-        adapter_item.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        adapter_item.setOnItemChildClickListener((adapter, view12, position) -> {
 
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            if (((FixParts) (adapter.getData().get(position))).selectde())//是否已选择
+                ((FixParts) (adapter.getData().get(position))).setSelected(0);
+            else
+                ((FixParts) (adapter.getData().get(position))).setSelected(1);
+            adapter.notifyDataSetChanged();
 
-                if (((FixParts) (adapter.getData().get(position))).selectde())//是否已选择
-                    ((FixParts) (adapter.getData().get(position))).setSelected(0);
-                else
-                    ((FixParts) (adapter.getData().get(position))).setSelected(1);
-                adapter.notifyDataSetChanged();
-
-                pick_partsList.add((FixParts) (adapter.getData().get(position)));
+            pick_partsList.add((FixParts) (adapter.getData().get(position)));
 
 
-                countPrice(); //计算选择的总价格
-            }
+            countPrice(); //计算选择的总价格
         });
 
 
