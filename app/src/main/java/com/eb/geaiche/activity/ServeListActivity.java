@@ -71,6 +71,11 @@ public class ServeListActivity extends BaseActivity {
 
     String categoryId;//当前选的大分类索引id
 
+
+
+
+
+
     @Override
     protected void init() {
 
@@ -104,33 +109,27 @@ public class ServeListActivity extends BaseActivity {
         });
 
 
-        serveListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        serveListAdapter.setOnItemClickListener((adapter, view, position) -> {
 
 
-                if (servers.get(position).isSelected()) {
-                    servers.get(position).setSelected(false);
-                    MyApplication.cartUtils.reduceData(toGoodsEntity(servers.get(position)));
-                } else {
-                    servers.get(position).setSelected(true);
-                    MyApplication.cartUtils.addData(toGoodsEntity(servers.get(position)));
-                }
-
-                //计算总价
-                count();
-                adapter.notifyDataSetChanged();
+            if (servers.get(position).isSelected()) {
+                servers.get(position).setSelected(false);
+                MyApplication.cartUtils.reduceData(toGoodsEntity(servers.get(position)));
+            } else {
+                servers.get(position).setSelected(true);
+                MyApplication.cartUtils.addData(toGoodsEntity(servers.get(position)));
             }
+
+            //计算总价
+            count();
+            adapter.notifyDataSetChanged();
         });
 
 
-        serveListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
+        serveListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
 
-                getProductValue(view_value, serveListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, serveListAdapter.getData().get(position));
-            }
+            getProductValue(view_value, serveListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, serveListAdapter.getData().get(position));
         });
     }
 
@@ -180,7 +179,7 @@ public class ServeListActivity extends BaseActivity {
     private void xgxshopgoodsList(String key) {
 
 
-        Api().xgxshopgoodsList(key, null, categoryId, page, 3).subscribe(new RxSubscribe<GoodsList>(this, true) {
+        Api().xgxshopgoodsList(key, null, categoryId, page, Configure.Goods_TYPE_3).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goodsList) {
                 servers = goodsList.getList();
