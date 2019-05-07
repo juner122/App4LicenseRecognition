@@ -25,6 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * 自定义的异常处理类，实现UncaughtExceptionHandler接口
  */
@@ -72,50 +75,27 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * @param e
      */
     private void exportExceptionToSDCard(@NonNull Throwable e) {
-        //判断SD卡是否存在
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            return;
-        }
 
-        String time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        File file = new File(PATH + File.separator + time + FILE_NAME_SUFFIX);
-
-        try {
-            //往文件中写入数据
-            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            pw.println(time);
-            pw.println(appendPhoneInfo());
-            e.printStackTrace(pw);
-            pw.close();
+        Log.i("APP_ERROR", "全局异常捕捉Err:" + e.getLocalizedMessage());
+//        e.printStackTrace();
+//        ToastUtils.showToast("操作失败，请联系开发人员！", mContext);
 
 
-            Writer result = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(result);
-            printWriter.println(appendPhoneInfo());
-            e.printStackTrace(printWriter);
+//        //app运行异常记录
+//        new ApiLoader(mContext).saveError(e.getLocalizedMessage())
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<NullDataEntity>(mContext, false) {
+//            @Override
+//            protected void _onNext(NullDataEntity nullDataEntity) {
+//
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                Log.i("APP_ERROR", "保存app运行异常记录请求失败" + message);
+//            }
+//        });
 
-
-            //app运行异常记录
-            new ApiLoader(mContext).saveError(result.toString()).subscribe(new RxSubscribe<NullDataEntity>(mContext, false) {
-                @Override
-                protected void _onNext(NullDataEntity nullDataEntity) {
-                    ToastUtils.showToast("操作失败，请联系开发人员！", mContext);
-                    printWriter.close();
-                }
-
-                @Override
-                protected void _onError(String message) {
-                    Log.i("APP_ERROR", "保存app运行异常记录请求失败" + message);
-                    printWriter.close();
-                }
-            });
-
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        } catch (PackageManager.NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
     }
 
     /**

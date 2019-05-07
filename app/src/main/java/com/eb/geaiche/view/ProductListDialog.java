@@ -24,6 +24,7 @@ import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 import com.eb.geaiche.util.ToastUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -56,6 +57,7 @@ public class ProductListDialog extends Dialog {
         this.context = context;
         this.valueList = list;
         this.goods = goods;
+        this.cont = goods.getNum();
     }
 
     @Override
@@ -91,35 +93,33 @@ public class ProductListDialog extends Dialog {
         recyclerView.setAdapter(c);
 
 
-        c.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                setSelect(position);
-            }
-        });
+        c.setOnItemClickListener((adapter, view1, position) -> setSelect(position));
 
 
         tv_confirm.setOnClickListener(new clickListener());
         ib_plus.setOnClickListener(new clickListener());
         ib_reduce.setOnClickListener(new clickListener());
 
-        cont = Integer.parseInt(tv_number.getText().toString());
-        setSelect(0);//选中第一项且添加一件商品
+        if (null != goods.getGoodsStandard()) {
+            pick_value = goods.getGoodsStandard();
+            for (int i = 0; i < valueList.size(); i++) {
+                if (valueList.get(i).getGoodsStandardId() == pick_value.getGoodsStandardId()) {
+                    setSelect(i);
+                }
+            }
+        } else {
+            setSelect(0);//选中第一项且添加一件商品
+        }
     }
 
     private void setSelect(int position) {
         pick_value = valueList.get(position);
-        tv_value.setText(pick_value.getGoodsStandardTitle());
         for (Goods.GoodsStandard c : valueList) {
             c.setSelected(false);
         }
         valueList.get(position).setSelected(true);
         c.notifyDataSetChanged();
-
         setCont();
-
-
     }
 
 
@@ -139,9 +139,8 @@ public class ProductListDialog extends Dialog {
             switch (id) {
                 case R.id.tv_confirm:
                     if (cont > 0) {
+                        MyApplication.cartUtils.setData(toGood());//一次性添加多个数量
                         clickListenerInterface.doConfirm(pick_value);
-                        MyApplication.cartUtils.addDataNoCommit(toGood(pick_value));//添加不提交
-
                     } else ToastUtils.showToast("请选择数量！");
 
                     break;
@@ -149,23 +148,19 @@ public class ProductListDialog extends Dialog {
                     if (cont <= 0) return;
                     cont--;
                     setCont();
-                    MyApplication.cartUtils.reduceDataNoCommit(toGood(pick_value));//添加不提交
-
-
                     break;
 
                 case R.id.ib_plus://加
 
                     cont++;
                     setCont();
-                    MyApplication.cartUtils.addDataNoCommit(toGood(pick_value));//添加不提交
                     break;
             }
         }
     }
 
     private void setCont() {
-
+        tv_value.setText(pick_value.getGoodsStandardTitle());
         tv_number.setText(String.valueOf(cont));
         pick_value.setNum(cont);
         setPrice();
@@ -174,9 +169,10 @@ public class ProductListDialog extends Dialog {
 
     private void setPrice() {
 
-        double parseDouble = Double.parseDouble(pick_value.getGoodsStandardPrice());
-        parseDouble = parseDouble * cont;
-        tv_price.setText("￥" + String.valueOf(parseDouble));
+
+        BigDecimal b = new BigDecimal(pick_value.getGoodsStandardPrice());
+        b = b.multiply(new BigDecimal(cont));
+        tv_price.setText("￥" + b.toString());
 
     }
 
@@ -190,35 +186,22 @@ public class ProductListDialog extends Dialog {
     }
 
 
-    private GoodsEntity toGood(Goods.GoodsStandard pv) {
+    private GoodsEntity toGood() {
 
         GoodsEntity goodsEntity = new GoodsEntity();
-
-//        goodsEntity.setId(pv.getGoodsId());
-//        goodsEntity.setProduct_id(pv.getId());
-//        goodsEntity.setGoods_specifition_ids("");
-//        goodsEntity.setRetail_price("0");
-//        goodsEntity.setMarket_price("0");
-//        goodsEntity.setPrimary_pic_url("");
-//        goodsEntity.setGoods_specifition_name_value(pv.getGoodsStandardPrice());
-//        goodsEntity.setGoods_sn("");
-//        goodsEntity.setGoodsName(pv.getGoodsStandardTitle());
-//        goodsEntity.setName(pv.getGoodsStandardTitle());
-//        goodsEntity.setNumber(pv.getNum());
-
-
-        goodsEntity.setGoods_id(pv.getGoodsId());
-        goodsEntity.setId(pv.getGoodsId());
+        goodsEntity.setGoods_id(pick_value.getGoodsId());
+        goodsEntity.setId(pick_value.getGoodsId());
         goodsEntity.setName(goods.getGoodsTitle());
         goodsEntity.setGoods_name(goods.getGoodsTitle());
         goodsEntity.setGoodsName(goods.getGoodsTitle());
         goodsEntity.setGoods_sn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
-        goodsEntity.setProduct_id(pv.getId());
-        goodsEntity.setNumber(pv.getNum());
-        goodsEntity.setMarket_price(pv.getGoodsStandardPrice());
-        goodsEntity.setRetail_price(pv.getGoodsStandardPrice());
-        goodsEntity.setGoods_specifition_name_value(pv.getGoodsStandardTitle());
+        goodsEntity.setProduct_id(pick_value.getId());
+        goodsEntity.setNumber(pick_value.getNum());
+        goodsEntity.setMarket_price(pick_value.getGoodsStandardPrice());
+        goodsEntity.setRetail_price(pick_value.getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(pick_value.getGoodsStandardTitle());
+        goodsEntity.setGoodsStandard(pick_value);
 
         return goodsEntity;
     }

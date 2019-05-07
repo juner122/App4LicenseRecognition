@@ -80,9 +80,8 @@ public class GoodsEntity implements Parcelable {
     String retailPrice;
     String marketPrice;
 
-
+    Goods.GoodsStandard goodsStandard;
     int goods_id;
-
 
     public int getGoods_id() {
         return goods_id;
@@ -94,6 +93,14 @@ public class GoodsEntity implements Parcelable {
 
     //以下是新商品接口
     String goods_name;//新商品接口
+
+    public Goods.GoodsStandard getGoodsStandard() {
+        return goodsStandard;
+    }
+
+    public void setGoodsStandard(Goods.GoodsStandard goodsStandard) {
+        this.goodsStandard = goodsStandard;
+    }
 
     public String getGoods_name() {
         return goods_name;
@@ -178,9 +185,6 @@ public class GoodsEntity implements Parcelable {
         this.goodsName = goodsName;
     }
 
-    public int getGoodsNum() {
-        return goodsNum;
-    }
 
     public void setGoodsNum(int goodsNum) {
         this.goodsNum = goodsNum;
@@ -414,6 +418,7 @@ public class GoodsEntity implements Parcelable {
         dest.writeString(this.market_price);
         dest.writeString(this.retailPrice);
         dest.writeString(this.marketPrice);
+        dest.writeParcelable(this.goodsStandard, flags);
         dest.writeInt(this.goods_id);
         dest.writeString(this.goods_name);
     }
@@ -449,6 +454,7 @@ public class GoodsEntity implements Parcelable {
         this.market_price = in.readString();
         this.retailPrice = in.readString();
         this.marketPrice = in.readString();
+        this.goodsStandard = in.readParcelable(Goods.GoodsStandard.class.getClassLoader());
         this.goods_id = in.readInt();
         this.goods_name = in.readString();
     }

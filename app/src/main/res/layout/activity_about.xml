@@ -95,7 +95,8 @@
         android:paddingRight="10dp"
         android:text="更多关于我们"
         android:textColor="#ff333333"
-        android:textSize="13sp" />
+        android:textSize="13sp"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="match_parent"
@@ -106,6 +107,18 @@
 电  话：4009-00-6033
 地  址：广州市 越秀区 明月一路 明月阁1606室"
         android:textColor="#ff666666"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="Copyright@2018-2019\n广州新干线实业有限公司 版权所有"
+        android:textAlignment="center"
+        android:textColor="#ff666666"
+        android:textSize="11sp"
+        android:visibility="visible" />
 
 </LinearLayout>

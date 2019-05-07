@@ -1,6 +1,7 @@
 package com.eb.geaiche.adapter;
 
 import androidx.annotation.Nullable;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -23,10 +24,14 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
     @Override
     protected void convert(BaseViewHolder helper, GoodsEntity item) {
 
+        if (null == item.getGoodsStandard())
+            helper.setText(R.id.name, item.getGoods_name());
+        else {
+            helper.setText(R.id.name, item.getGoods_name() + "(" + item.getGoodsStandard().getGoodsStandardTitle() + ")");
+        }
 
-        helper.setText(R.id.name, item.getGoods_name())
-                .setText(R.id.price, null != item.getRetail_price() ? "￥" + item.getRetail_price() : "免费")
-                .setText(R.id.tv_number, String.valueOf("x"+item.getNumberString()));
+        helper.setText(R.id.price, null != item.getRetail_price() ? "￥" + item.getRetail_price() : "免费")
+                .setText(R.id.tv_number, String.valueOf("x" + item.getNumberString()));
 
 
         if (!isShowPlusAndReduce) {
@@ -54,12 +59,6 @@ public class SimpleGoodInfoAdpter extends BaseQuickAdapter<GoodsEntity, BaseView
             ib_reduce.setVisibility(View.VISIBLE);
             tv_number.setVisibility(View.VISIBLE);
         }
-
-
-
-
-
-
 
 
     }

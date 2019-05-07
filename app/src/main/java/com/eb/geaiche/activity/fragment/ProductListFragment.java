@@ -79,72 +79,66 @@ public class ProductListFragment extends BaseFragment {
 
 
         if (isShow == 1) {
-            productListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-                @Override
-                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            productListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
 
-                    TextView tv_number = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_number);
-                    TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
-                    View ib_reduce = adapter.getViewByPosition(recyclerView, position, R.id.ib_reduce);//减号
+                TextView tv_number = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_number);
+                TextView view_value = (TextView) adapter.getViewByPosition(recyclerView, position, R.id.tv_product_value);
+                View ib_reduce = adapter.getViewByPosition(recyclerView, position, R.id.ib_reduce);//减号
 
 
-                    int number = goodsList.get(position).getNum();//获取
-                    switch (view.getId()) {
-                        case R.id.ib_plus:
-                            if (null == goodsList.get(position).getGoodsStandard() || goodsList.get(position).getGoodsStandard().getId() == 0) {
-                                ToastUtils.showToast("请选择规格");
-                                return;
-                            }
-                            number++;
-                            if (number > 0) {
-                                ib_reduce.setVisibility(View.VISIBLE);//显示减号
-                                tv_number.setVisibility(View.VISIBLE);
-                            }
+                int number = goodsList.get(position).getNum();//获取
+                switch (view.getId()) {
+                    case R.id.ib_plus:
+                        if (null == goodsList.get(position).getGoodsStandard() || goodsList.get(position).getGoodsStandard().getId() == 0) {
+                            ToastUtils.showToast("请选择规格");
+                            return;
+                        }
+                        number++;
+                        if (number > 0) {
+                            ib_reduce.setVisibility(View.VISIBLE);//显示减号
+                            tv_number.setVisibility(View.VISIBLE);
+                        }
 
-                            MyApplication.cartUtils.addData(toGoodsEntity(goodsList.get(position)));
-                            tv_number.setText(String.valueOf(number));
-
-
-                            goodsList.get(position).setNum(number);//设置
-                            sendMsg(MyApplication.cartUtils.getProductPrice());
+                        MyApplication.cartUtils.addData(toGoodsEntity(goodsList.get(position)));
+                        tv_number.setText(String.valueOf(number));
 
 
-                            break;
-
-                        case R.id.ib_reduce:
-                            number--;
-                            if (number == 0) {
-                                ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
-                                tv_number.setVisibility(View.INVISIBLE);
-                            }
-
-                            MyApplication.cartUtils.reduceData(toGoodsEntity(goodsList.get(position)));
-                            tv_number.setText(String.valueOf(number));
+                        goodsList.get(position).setNum(number);//设置
+                        sendMsg(MyApplication.cartUtils.getProductPrice());
 
 
-                            goodsList.get(position).setNum(number);//设置
-                            sendMsg(MyApplication.cartUtils.getProductPrice());
+                        break;
+
+                    case R.id.ib_reduce:
+                        number--;
+                        if (number == 0) {
+                            ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
+                            tv_number.setVisibility(View.INVISIBLE);
+                        }
+
+                        MyApplication.cartUtils.reduceData(toGoodsEntity(goodsList.get(position)));
+                        tv_number.setText(String.valueOf(number));
 
 
-                            break;
+                        goodsList.get(position).setNum(number);//设置
+                        sendMsg(MyApplication.cartUtils.getProductPrice());
 
-                        case R.id.tv_product_value:
 
-                            getProductValue(view_value, productListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, productListAdapter.getData().get(position));
-                            break;
-                    }
+                        break;
+
+                    case R.id.tv_product_value:
+
+                        getProductValue(view_value, productListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, productListAdapter.getData().get(position));
+                        break;
                 }
             });
         } else if (ProductListActivity.setProject != -1) {
-            productListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    Goods g = (Goods) adapter.getData().get(position);
-                    Intent intent = new Intent(getContext(), SetProjectActivity.class);
-                    intent.putExtra(ORDERINFO, toGoodsEasyEntity(g));
-                    intent.putExtra(setProject, ProductListActivity.setProject);
-                    startActivity(intent);
-                }
+            productListAdapter.setOnItemClickListener((adapter, view, position) -> {
+                Goods g = (Goods) adapter.getData().get(position);
+                Intent intent = new Intent(getContext(), SetProjectActivity.class);
+                intent.putExtra(ORDERINFO, toGoodsEasyEntity(g));
+                intent.putExtra(setProject, ProductListActivity.setProject);
+                startActivity(intent);
             });
 
 

@@ -104,22 +104,22 @@ public class ServeListActivity extends BaseActivity {
             }
         });
 
-
-        serveListAdapter.setOnItemClickListener((adapter, view, position) -> {
-
-
-            if (servers.get(position).isSelected()) {
-                servers.get(position).setSelected(false);
-                MyApplication.cartUtils.reduceData(toGoodsEntity(servers.get(position)));
-            } else {
-                servers.get(position).setSelected(true);
-                MyApplication.cartUtils.addData(toGoodsEntity(servers.get(position)));
-            }
-
-            //计算总价
-            count();
-            adapter.notifyDataSetChanged();
-        });
+//
+//        serveListAdapter.setOnItemClickListener((adapter, view, position) -> {
+//
+//
+//            if (servers.get(position).isSelected()) {
+//                servers.get(position).setSelected(false);
+//                MyApplication.cartUtils.reduceData(toGoodsEntity(servers.get(position)));
+//            } else {
+//                servers.get(position).setSelected(true);
+//                MyApplication.cartUtils.addData(toGoodsEntity(servers.get(position)));
+//            }
+//
+//            //计算总价
+//            count();
+//            adapter.notifyDataSetChanged();
+//        });
 
 
         serveListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
@@ -129,12 +129,13 @@ public class ServeListActivity extends BaseActivity {
         });
     }
 
+    ProductListDialog confirmDialog;
 
     //获取规格列表
     private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
 
 
-        final ProductListDialog confirmDialog = new ProductListDialog(this, goodsStandards, goods);
+        confirmDialog = new ProductListDialog(this, goodsStandards, goods);
         confirmDialog.show();
         confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
             @Override
@@ -142,12 +143,12 @@ public class ServeListActivity extends BaseActivity {
                 confirmDialog.dismiss();
                 view.setText(String.format("%sx%s", pick_value.getGoodsStandardTitle(), pick_value.getNum()));
 
-                servers.get(positions).setGoodsStandard(pick_value);
-                servers.get(positions).setNum(pick_value.getNum());
-                serveListAdapter.setNewData(servers);
+                serveListAdapter.getData().get(positions).setGoodsStandard(pick_value);
+                serveListAdapter.getData().get(positions).setNum(pick_value.getNum());
+                serveListAdapter.notifyDataSetChanged();
 
+                MyApplication.cartUtils.commit();//点确认才保存
 
-                MyApplication.cartUtils.addData(toGoodsEntity(serveListAdapter.getData().get(positions)));
 
                 //计算总价
                 count();
@@ -184,6 +185,8 @@ public class ServeListActivity extends BaseActivity {
                         if (ps.getGoods_id() == servers.get(i).getId()) {
                             servers.get(i).setSelected(true);
                             servers.get(i).setNum(ps.getNumber());
+                            servers.get(i).setGoodsStandard(ps.getGoodsStandard());//设置规格
+
                         }
                     }
                 }
@@ -319,14 +322,11 @@ public class ServeListActivity extends BaseActivity {
 
 
             final int finalI = i;
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    categoryId = list.get(finalI).getCategoryId();
-                    page = 1;
-                    xgxshopgoodsList(null);
+            radioButton.setOnClickListener(view -> {
+                categoryId = list.get(finalI).getCategoryId();
+                page = 1;
+                xgxshopgoodsList(null);
 
-                }
             });
 
             rg_type.addView(radioButton);

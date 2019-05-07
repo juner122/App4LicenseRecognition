@@ -323,7 +323,5 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             getPresenter().handleCallback(intent);
         if (from == 101)//从授权凭证页面返回
             getPresenter().setlpvUrl(intent.getStringExtra(Configure.Domain));
-
-
     }
 }

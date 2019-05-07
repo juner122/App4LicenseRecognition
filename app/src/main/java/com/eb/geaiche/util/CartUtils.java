@@ -109,7 +109,6 @@ public class CartUtils {
     }
 
 
-
     //套餐商品
     public void addMeal(MealEntity entity) {
 
@@ -138,27 +137,35 @@ public class CartUtils {
         reduceData(good);
     }
 
-    public void addDataNoCommit(GoodsEntity good) {
 
+    //一次性添加多个数量
+    public void setData(GoodsEntity good) {
 
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
+        int num = good.getNumber();
         //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
-        if (tempCart != null) {
-            tempCart.setNumber(tempCart.getNumber() + 1);
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
+        if (tempCart != null) {//不等于空
+            if (good.getType() == Configure.Goods_TYPE_4 || good.getType() == Configure.Goods_TYPE_3)
+                tempCart.setNumber(tempCart.getNumber() + num);
+
         } else {
             tempCart = good;
-            tempCart.setNumber(1);
+            tempCart.setNumber(num);
         }
-        data.put(good.getGoods_id(), tempCart);
-
+        data.put(cart_id, tempCart);
     }
 
-    public void addData(GoodsEntity good) {
+
+    //每次加一个数量
+    public void addDataNoCommit(GoodsEntity good) {
+
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
 
         //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
         if (tempCart != null) {//不等于空
-            if (good.getType() == Configure.Goods_TYPE_4)
+            if (good.getType() == Configure.Goods_TYPE_4 || good.getType() == Configure.Goods_TYPE_3)
                 tempCart.setNumber(tempCart.getNumber() + 1);
             else
                 tempCart.setRetail_price(good.getRetail_price());
@@ -166,38 +173,46 @@ public class CartUtils {
             tempCart = good;
             tempCart.setNumber(1);
         }
-        data.put(good.getGoods_id(), tempCart);
+        data.put(cart_id, tempCart);
+    }
 
+
+    //每次加一个数量
+    public void addData(GoodsEntity good) {
+
+        addDataNoCommit(good);
         commit();
     }
 
+
+    //主推项目商品   暂时没有规格
     public void addDataOnly(GoodsEntity good) {
 
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
         //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
         if (tempCart != null) {//不等于空
-
-            data.remove(good.getGoods_id());
+            data.remove(cart_id);
         } else {
             tempCart = good;
             tempCart.setNumber(1);
-            data.put(good.getGoods_id(), tempCart);
+            data.put(cart_id, tempCart);
         }
-
 
         commit();
     }
 
 
     //修改价格
-    public void fixDataPrice(int goods_id, String price, int num) {
+    public void fixDataPrice(GoodsEntity good, String price, int num) {
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
 
         //添加数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(goods_id);
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
         if (tempCart != null) {
             tempCart.setRetail_price(price);
             tempCart.setNumber(num);
-            data.put(goods_id, tempCart);
+            data.put(cart_id, tempCart);
             commit();
         }
 
@@ -206,16 +221,17 @@ public class CartUtils {
 
 
     public void reduceData(GoodsEntity good) {
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
 
         //减数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
         if (tempCart != null) {
             tempCart.setNumber(tempCart.getNumber() - 1);
 
             if (tempCart.getNumber() == 0) {
-                data.remove(good.getGoods_id());
+                data.remove(cart_id);
             } else {
-                data.put(good.getGoods_id(), tempCart);
+                data.put(cart_id, tempCart);
             }
             commit();
         }
@@ -223,14 +239,18 @@ public class CartUtils {
 
 
     public void reduceDataNoCommit(GoodsEntity good) {
+
+        int cart_id = getCartId(good);//购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
+
+
         //减数据
-        GoodsEntity tempCart = (GoodsEntity) data.get(good.getGoods_id());
+        GoodsEntity tempCart = (GoodsEntity) data.get(cart_id);
         if (tempCart != null) {
             tempCart.setNumber(tempCart.getNumber() - 1);
             if (tempCart.getNumber() == 0) {
-                data.remove(good.getGoods_id());
+                data.remove(cart_id);
             } else {
-                data.put(good.getGoods_id(), tempCart);
+                data.put(cart_id, tempCart);
             }
 
         }
@@ -243,7 +263,7 @@ public class CartUtils {
         //把parseArray转换成list
         List<GoodsEntity> carts = sparsesToList();
 
-        Log.d("购物车：", "商品总数:" + getTotalGoodsNumber() + "商品种型数为：" + carts.size() + "商品总价格:" + getProductPrice() + getServerPrice());
+        Log.d("购物车：", "商品总个数:" + getTotalGoodsNumber() + "商品种型数为：" + carts.size() + "商品总价格:" + getProductPrice() + getServerPrice());
 
 
         //把转换成String
@@ -313,6 +333,15 @@ public class CartUtils {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private int getCartId(GoodsEntity good) {
+        //购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
+        if (null == good.getGoodsStandard())
+            return good.getGoods_id();
+        else {
+            return good.getGoodsStandard().getGoodsStandardId();
         }
     }
 }

@@ -76,7 +76,7 @@ public class MakeOrderActivity extends BaseActivity {
 
     public static final String TAG = "MakeOrderActivity";
     @BindView(R.id.bto_top1)
-    View view;
+    View view_re;
 
     @BindView(R.id.iv_lpv)
     ImageView iv_lpv;
@@ -154,7 +154,7 @@ public class MakeOrderActivity extends BaseActivity {
         getTopData();
         simpleGoodInfoAdpter = new SimpleGoodInfoAdpter(cartUtils.getProductList(), true); //false 不显示加减按键
 
-        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), false);
+        simpleServiceInfoAdpter = new SimpleServiceInfoAdpter(cartUtils.getServerList(), true);
 
         sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 
@@ -194,50 +194,8 @@ public class MakeOrderActivity extends BaseActivity {
         rv_meal.setAdapter(sma);
 
 
-        simpleGoodInfoAdpter.setOnItemChildClickListener((adapter, view, position) -> {
-
-            List<GoodsEntity> goodsEntities = cartUtils.getDataFromLocal();
-            try {
-                TextView tv_number = (TextView) adapter.getViewByPosition(rv_goods, position, R.id.tv_number);
-                View ib_reduce = adapter.getViewByPosition(rv_goods, position, R.id.ib_reduce);
-
-                int number = goodsEntities.get(position).getNumber();//获取
-
-                switch (view.getId()) {
-                    case R.id.ib_plus:
-                        if (number == 0) {
-                            assert tv_number != null;
-                            tv_number.setVisibility(View.VISIBLE);
-                            assert ib_reduce != null;
-                            ib_reduce.setVisibility(View.VISIBLE);
-                        }
-                        number++;
-                        tv_number.setText(String.valueOf(number));
-
-                        cartUtils.addData(goodsEntities.get(position));
-                        break;
-
-                    case R.id.ib_reduce:
-
-                        number--;
-                        tv_number.setText(String.valueOf(number));
-
-                        cartUtils.reduceData(goodsEntities.get(position));
-
-
-                        if (number == 0) {
-                            view.setVisibility(View.INVISIBLE);//隐藏减号
-                            tv_number.setVisibility(View.INVISIBLE);
-                        }
-                        break;
-
-
-                }
-                refreshData();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        simpleGoodInfoAdpter.setOnItemChildClickListener((adapter, view, position) -> chagenNub(rv_goods, position, simpleGoodInfoAdpter.getData().get(position), adapter, view));
+        simpleServiceInfoAdpter.setOnItemChildClickListener((adapter, view, position) -> chagenNub(rv_servers, position, simpleServiceInfoAdpter.getData().get(position), adapter, view));
 
         //调整价格
         simpleGoodInfoAdpter.setOnItemClickListener((adapter, view, position) -> {
@@ -250,7 +208,7 @@ public class MakeOrderActivity extends BaseActivity {
                 public void doConfirm(String price, int num) {
                     confirmDialog.dismiss();
                     //修改价数量
-                    cartUtils.fixDataPrice(simpleGoodInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                    cartUtils.fixDataPrice(simpleGoodInfoAdpter.getData().get(position), price, num);
                     refreshData();
                 }
 
@@ -273,7 +231,7 @@ public class MakeOrderActivity extends BaseActivity {
                 public void doConfirm(String price, int num) {
                     confirmDialog.dismiss();
                     //修改价数量
-                    cartUtils.fixDataPrice(simpleServiceInfoAdpter.getData().get(position).getGoods_id(), price, num);
+                    cartUtils.fixDataPrice(simpleServiceInfoAdpter.getData().get(position), price, num);
                     refreshData();
                 }
 
@@ -291,38 +249,38 @@ public class MakeOrderActivity extends BaseActivity {
         itemTouchHelper.attachToRecyclerView(rv_servers);
 
 
-//        // 开启滑动删除
-//        simpleServiceInfoAdpter.enableSwipeItem();
-//        simpleServiceInfoAdpter.setOnItemSwipeListener(new OnItemSwipeListener() {
-//            @Override
-//            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
-//
-//
-//            }
-//
-//            @Override
-//            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
-//
-//
-//            }
-//
-//            @Override
-//            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
-//                ToastUtils.showToast("删除成功！");
-//
-//                cartUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
-//
-//                simpleServiceInfoAdpter.getData().remove(pos);
-//                simpleServiceInfoAdpter.notifyDataSetChanged();
-//
-//                setGoodsPric();
-//            }
-//
-//            @Override
-//            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
-//
-//            }
-//        });
+        // 开启滑动删除
+        simpleServiceInfoAdpter.enableSwipeItem();
+        simpleServiceInfoAdpter.setOnItemSwipeListener(new OnItemSwipeListener() {
+            @Override
+            public void onItemSwipeStart(RecyclerView.ViewHolder viewHolder, int pos) {
+
+
+            }
+
+            @Override
+            public void clearView(RecyclerView.ViewHolder viewHolder, int pos) {
+
+
+            }
+
+            @Override
+            public void onItemSwiped(RecyclerView.ViewHolder viewHolder, int pos) {
+                ToastUtils.showToast("删除成功！");
+
+                cartUtils.reduceData(simpleServiceInfoAdpter.getData().get(pos));
+
+                simpleServiceInfoAdpter.getData().remove(pos);
+                simpleServiceInfoAdpter.notifyDataSetChanged();
+
+                setGoodsPric();
+            }
+
+            @Override
+            public void onItemSwipeMoving(Canvas canvas, RecyclerView.ViewHolder viewHolder, float dX, float dY, boolean isCurrentlyActive) {
+
+            }
+        });
 
         refreshData();
 
@@ -515,47 +473,18 @@ public class MakeOrderActivity extends BaseActivity {
 
             case R.id.bto_top1:
 
-                try {
-                    cartUtils.addDataOnly(goods_top.get(0));
-
-                    refreshData();
-                } catch (Exception e) {
-
-                    ToastUtils.showToast("该项不能选择");
-                    showSelectType(0);
-                }
+                pickTopGoods(0);
                 break;
             case R.id.bto_top2:
-                try {
-                    cartUtils.addDataOnly(goods_top.get(1));
-
-                    refreshData();
-                } catch (Exception e) {
-                    ToastUtils.showToast("该项不能选择");
-                    showSelectType(1);
-                }
+                pickTopGoods(1);
                 break;
             case R.id.bto_top3:
 
-                try {
-                    cartUtils.addDataOnly(goods_top.get(2));
-
-                    refreshData();
-                } catch (Exception e) {
-                    ToastUtils.showToast("该项不能选择");
-                    showSelectType(2);
-                }
+                pickTopGoods(2);
 
                 break;
             case R.id.bto_top4:
-                try {
-                    cartUtils.addDataOnly(goods_top.get(3));
-                    refreshData();
-                } catch (Exception e) {
-                    ToastUtils.showToast("该项不能选择");
-                    showSelectType(3);
-
-                }
+                pickTopGoods(3);
                 break;
 
             case R.id.tv_title_r:
@@ -758,7 +687,7 @@ public class MakeOrderActivity extends BaseActivity {
         });
     }
 
-    public void showSelectType(int position) {
+    public void showSelectType() {
 
 //
 //        Intent intent = new Intent(this, ProductListActivity.class);
@@ -767,4 +696,69 @@ public class MakeOrderActivity extends BaseActivity {
 //        startActivity(intent);
         toActivity(SetProjectActivity.class);
     }
+
+    //工时列表 和服务列表的子项加减点击逻辑
+    private void chagenNub(RecyclerView rv, int position, GoodsEntity goods, BaseQuickAdapter adapter, View v) {
+
+
+        try {
+            TextView tv_number = (TextView) adapter.getViewByPosition(rv, position, R.id.tv_number);
+            View ib_reduce = adapter.getViewByPosition(rv, position, R.id.ib_reduce);
+            int number = goods.getNumber();//获取
+
+            switch (v.getId()) {
+                case R.id.ib_plus:
+                    if (number == 0) {
+                        assert tv_number != null;
+                        tv_number.setVisibility(View.VISIBLE);
+                        assert ib_reduce != null;
+                        ib_reduce.setVisibility(View.VISIBLE);
+                    }
+                    number++;
+                    tv_number.setText(String.valueOf(number));
+
+                    cartUtils.addData(goods);
+                    break;
+
+                case R.id.ib_reduce:
+
+                    number--;
+                    tv_number.setText(String.valueOf(number));
+
+                    cartUtils.reduceData(goods);
+
+
+                    if (number == 0) {
+                        v.setVisibility(View.INVISIBLE);//隐藏减号
+                        tv_number.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+
+
+            }
+            refreshData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //点击主推项目
+    private void pickTopGoods(int p) {
+        try {
+            int type = goods_top.get(p).getType();
+            if (type == Configure.Goods_TYPE_3 || type == Configure.Goods_TYPE_4) {
+                cartUtils.addDataOnly(goods_top.get(p));
+                refreshData();
+            } else {
+                ToastUtils.showToast("商品类型不匹配，请重新设置主推项目！");
+                showSelectType();
+            }
+        } catch (Exception e) {
+            ToastUtils.showToast("请设置主推项目！");
+            showSelectType();
+        }
+    }
+
 }

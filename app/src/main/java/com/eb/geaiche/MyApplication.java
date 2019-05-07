@@ -2,10 +2,12 @@ package com.eb.geaiche;
 
 import android.app.Application;
 import android.content.Context;
+
 import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
 import com.eb.geaiche.service.CrashHandler;
+import com.eb.geaiche.service.CrashHandler2;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartServerUtils;
@@ -56,9 +58,11 @@ public class MyApplication extends Application {
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
 
 
-        //全局异常处理
-        CrashHandler handler = CrashHandler.getInstance(this);
-        Thread.setDefaultUncaughtExceptionHandler(handler);
+//        //全局异常处理
+//        CrashHandler handler = CrashHandler.getInstance(this);
+//        Thread.setDefaultUncaughtExceptionHandler(handler);
+
+        CrashHandler2.getInstance().init(this);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.eb.geaiche.mvp.CustomPartsActivity;
+import com.eb.geaiche.util.MathUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -16,6 +17,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.fragment.ProductFragment;
 import com.eb.geaiche.activity.fragment.ProductMealFragment;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -64,7 +66,7 @@ public class ProductMealListActivity extends BaseActivity {
             MyApplication.cartUtils.deleteAllData();
 
 
-        fragments.add(new ProductFragment());
+        fragments.add(ProductFragment.getInstance(1));
         fragments.add(ProductMealFragment.getInstance(user_id, car_no));
         onPulsTotalPrice(MyApplication.cartUtils.getProductPrice());
 
@@ -92,9 +94,10 @@ public class ProductMealListActivity extends BaseActivity {
     }
 
 
-    public void onPulsTotalPrice(double t) {
+    public void onPulsTotalPrice(Double t) {
 
-        tv_totalPrice.setText(String.format("合计：￥%s", t));
+        BigDecimal bigDecimal = new BigDecimal(MathUtil.twoDecimal(t));
+        tv_totalPrice.setText(String.format("合计：￥%s", bigDecimal.toString()));
 
     }
 

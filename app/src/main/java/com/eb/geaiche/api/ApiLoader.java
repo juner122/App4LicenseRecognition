@@ -925,7 +925,7 @@ public class ApiLoader {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = RGB_565;
-        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.2f));
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.3f));
 
 
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
@@ -967,7 +967,6 @@ public class ApiLoader {
 
     /**
      * 报价单列表条件查询
-     *
      */
     public Observable<FixInfoList> quotationList(int page, String user_id) {
         map.clear();

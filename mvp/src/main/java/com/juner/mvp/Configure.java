@@ -11,7 +11,7 @@ public class Configure {
 //    public static final boolean APP_ALLIANCE = false;//  新干线版
 
 
-//    public static final String BaseUrl = "http://222.111.88.115:8082/app/";//线下
+//    public static final String BaseUrl = "http://222.111.88.115:8081/app/";//线下
     public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
 
 
