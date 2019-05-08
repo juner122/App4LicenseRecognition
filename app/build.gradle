@@ -52,7 +52,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                outputFileName = "哥爱车汽修(联盟版)" + "-v" + variant.versionCode + "-" + variant.versionName + "-" + output.baseName + ".apk"
+                outputFileName = "哥爱车汽修(联合版)" + "-v" + variant.versionCode + "-" + variant.versionName + "-" + output.baseName + ".apk"
             }
         }
     }

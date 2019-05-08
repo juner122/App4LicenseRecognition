@@ -57,7 +57,8 @@ public class ProductListDialog extends Dialog {
         this.context = context;
         this.valueList = list;
         this.goods = goods;
-        this.cont = goods.getNum();
+
+        this.cont = goods.getNum() == 0 ? 1 : goods.getNum();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class ProductListDialog extends Dialog {
         if (null != goods.getGoodsStandard()) {
             pick_value = goods.getGoodsStandard();
             for (int i = 0; i < valueList.size(); i++) {
-                if (valueList.get(i).getGoodsStandardId() == pick_value.getGoodsStandardId()) {
+                if (valueList.get(i).getId() == pick_value.getId()) {
                     setSelect(i);
                 }
             }

@@ -72,13 +72,7 @@ public class MallGoodsActivity extends BaseActivity {
         });
 
         //添加购物车监听器
-        adapter.setOnItemChildClickListener( new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
-
-                addToShopCart(adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId());
-            }
-        });
+        adapter.setOnItemChildClickListener((a, view, position) -> addToShopCart(adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getId()));
 
 
     }

@@ -208,7 +208,7 @@ public class Goods extends SelectedBean implements Parcelable {
         }
 
         int id;
-        int goodsStandardId;
+        Integer goodsStandardId;
         String goodsStandardTitle;
         int goodsId;
         String goodsStandardPrice;//价钱
@@ -231,7 +231,7 @@ public class Goods extends SelectedBean implements Parcelable {
         }
 
         public int getGoodsStandardId() {
-            return goodsStandardId;
+            return null == goodsStandardId ? id : goodsStandardId;// 自定义商品goodsStandardId为null
         }
 
         public void setGoodsStandardId(int goodsStandardId) {

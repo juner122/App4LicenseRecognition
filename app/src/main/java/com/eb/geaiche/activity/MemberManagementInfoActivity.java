@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.FixNameDialog;
 import com.juner.mvp.Configure;
@@ -45,7 +47,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
     SimpleCarInfoAdpter adpter1;
 
 
-    String car_number = "", new_car_number, moblie, user_name;
+    String car_number = "", new_car_number, moblie, user_name, car_vin;
 
     int user_id, car_id, new_car_id;
 
@@ -72,36 +74,31 @@ public class MemberManagementInfoActivity extends BaseActivity {
         rv1.setAdapter(adpter1);
 
 
-        adpter1.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        adpter1.setOnItemClickListener((adapter, view, position) -> {
 
-                car_number = cars.get(position).getCarNo();
-                car_id = cars.get(position).getId();
+            car_number = cars.get(position).getCarNo();
+            car_id = cars.get(position).getId();
+            car_vin = cars.get(position).getVin();
 
-                for (CarInfoRequestParameters c : cars) {
-                    c.setSelected(false);
-                }
-
-                cars.get(position).setSelected(true);
-                adapter.notifyDataSetChanged();
-
-
+            for (CarInfoRequestParameters c : cars) {
+                c.setSelected(false);
             }
+
+            cars.get(position).setSelected(true);
+            adapter.notifyDataSetChanged();
+
+
         });
 
-        adpter1.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        adpter1.setOnItemChildClickListener((adapter, view, position) -> {
 
-                //查看更新车况
-                Intent intent = new Intent(MemberManagementInfoActivity.this, CarInfoInputActivity.class);
-                intent.putExtra("result_code", 1);
-                intent.putExtra(Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
-                reCarListInfo(intent);
+            //查看更新车况
+            Intent intent = new Intent(MemberManagementInfoActivity.this, CarInfoInputActivity.class);
+            intent.putExtra("result_code", 1);
+            intent.putExtra(Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
+            reCarListInfo(intent);
 
 
-            }
         });
 
 
@@ -186,20 +183,17 @@ public class MemberManagementInfoActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.tv_new_order:
-                if (car_id == 0) {
-                    ToastUtils.showToast("请选择一辆车！");
+                if (!isPerfect())
                     return;
-                }
                 toMakeOrder(user_id, car_id, moblie, user_name, car_number);
 
                 break;
 
             case R.id.tv_fix_order:
 
-                if (car_id == 0) {
-                    ToastUtils.showToast("请选择一辆车！");
+                if (!isPerfect())
                     return;
-                }
+
                 Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
                 intent2.putExtra(Configure.car_no, car_number);
                 intent2.putExtra(Configure.car_id, car_id);
@@ -260,6 +254,21 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
             }
         });
+
+    }
+
+
+    private boolean isPerfect() {
+        if (car_id == 0) {
+            ToastUtils.showToast("请选择一辆车！");
+            return false;
+        }
+        if (!MyAppPreferences.getShopType() && null == car_vin || null == user_name || user_name.equals("") || null == moblie || moblie.equals("")) {
+            ToastUtils.showToast("请完善用户和车辆信息！");
+            return false;
+        }
+
+        return true;
 
     }
 }

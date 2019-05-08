@@ -79,6 +79,10 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     TextView tv_check;//
 
 
+    @BindView(R.id.tv_enter_order)//
+            View tv_enter_order;//
+
+
     @BindView(R.id.tv_manager)
     TextView tv_manager;//录卡人
     @BindView(R.id.rv_car)
@@ -100,6 +104,15 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     protected void init() {
         tv_title.setText("会员开卡");
         setRTitle("开卡记录");
+
+
+        String moblie = getIntent().getStringExtra(Configure.moblie);
+        String name = getIntent().getStringExtra(Configure.user_name);
+
+        if (null != moblie && !moblie.equals("")) {
+            getPresenter().checkMember(moblie, name);
+            et_mobile.setText(moblie);
+        }
 
 
         carListAdapter = new CarListAdapter(null);
@@ -150,18 +163,13 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
             }
         });
 
-
         et_mobile.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
 
@@ -170,14 +178,11 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 }
             }
         });
-
         et_mobile.setOnFocusChangeListener(mOnFocusChangeListener);
         et_name.setOnFocusChangeListener(mOnFocusChangeListener);
 
-
         //获取登陆用户的信息，设置录卡人
         getPresenter().getInfo();
-
 
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i]));
@@ -186,32 +191,17 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         commonTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-
-
                 if (position == 0) {
                     view_ll_num.setVisibility(View.GONE);
                 } else {
                     view_ll_num.setVisibility(View.VISIBLE);
                 }
-
-
                 p = position;
             }
-
             @Override
             public void onTabReselect(int position) {
-
             }
         });
-
-        String moblie = getIntent().getStringExtra(Configure.moblie);
-        String name = getIntent().getStringExtra(Configure.user_name);
-
-        if (null != moblie && !moblie.equals("")) {
-            getPresenter().checkMember(moblie, name);
-            et_mobile.setText(moblie);
-        }
-
 
     }
 
@@ -319,6 +309,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
     @Override
     public void showView() {
         ll_view.setVisibility(View.VISIBLE);
+        tv_enter_order.setVisibility(View.VISIBLE);
     }
 
     @Override

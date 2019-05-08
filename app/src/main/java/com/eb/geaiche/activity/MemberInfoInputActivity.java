@@ -77,6 +77,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     String new_car_number;
 
     int user_id, car_id, new_car_id;
+    String car_vin;//下单要判断为空;
 
     @SuppressLint("CheckResult")
     @Override
@@ -286,32 +287,26 @@ public class MemberInfoInputActivity extends BaseActivity {
     }
 
     private void initAdapter() {
-        carListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        carListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
 
-                //查看更新车况
+            //查看更新车况
 //                toActivity(CarInfoInputActivity.class, ((CarInfoRequestParameters) adapter.getData().get(position)).getId(), Configure.CARINFO);
-                toActivity(CarInfoInputActivity.class, Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
+            toActivity(CarInfoInputActivity.class, Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
 
-            }
         });
-        carListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        carListAdapter.setOnItemClickListener((adapter, view, position) -> {
 
 
-                setCarInfo(carListAdapter.getData().get(position).getCarNo(), carListAdapter.getData().get(position).getId());
+            setCarInfo(carListAdapter.getData().get(position).getCarNo(), carListAdapter.getData().get(position).getId(), carListAdapter.getData().get(position).getVin());
 
-                for (CarInfoRequestParameters c : cars) {
-                    c.setSelected(false);
-                }
-
-                cars.get(position).setSelected(true);
-                adapter.notifyDataSetChanged();
-
-
+            for (CarInfoRequestParameters c : cars) {
+                c.setSelected(false);
             }
+
+            cars.get(position).setSelected(true);
+            adapter.notifyDataSetChanged();
+
+
         });
 
     }
@@ -325,11 +320,11 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     }
 
-    private void setCarInfo(String number, int id) {
+    private void setCarInfo(String number, int id, String vin) {
         ll.setVisibility(View.VISIBLE);
         car_number = number;
         car_id = id;
-
+        car_vin = vin;
     }
 
     private void memberOrderList(int user_id) {
@@ -341,7 +336,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                 cars = entity.getCarList();
                 cars.get(0).setSelected(true);
-                setCarInfo(cars.get(0).getCarNo(), cars.get(0).getId());
+                setCarInfo(cars.get(0).getCarNo(), cars.get(0).getId(), cars.get(0).getVin());
 
                 carListAdapter.setNewData(cars);
             }
@@ -406,6 +401,11 @@ public class MemberInfoInputActivity extends BaseActivity {
     }
 
     private void toActivity(int way) {
+        if (!MyAppPreferences.getShopType() && null == car_vin || TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(et_mobile.getText().toString())) {
+            ToastUtils.showToast("请完善用户和车辆信息！");
+            return;
+        }
+
 
         if (way == 0) {//检修下单
             Intent intent2 = new Intent(MemberInfoInputActivity.this, FixInfoDescribeActivity.class);

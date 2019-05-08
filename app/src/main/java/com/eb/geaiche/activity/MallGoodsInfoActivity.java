@@ -143,9 +143,7 @@ public class MallGoodsInfoActivity extends BaseActivity {
                         ToastUtils.showToast("暂无商品图片！");
 
                     }
-
-
-                    productId = goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardId();
+                    productId = goods.getXgxGoodsStandardPojoList().get(0).getId();
                 } catch (Exception e) {
                     ToastUtils.showToast("获取商品数据失败,请重试！");
                     finish();

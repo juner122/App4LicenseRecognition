@@ -294,6 +294,15 @@ public class CartUtils {
         return totalPrice;
     }
 
+    private double getPrice(List<GoodsEntity> carts) {
+
+        double totalPrice = 0d;
+        for (GoodsEntity g : carts) {
+            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+        }
+        return totalPrice;
+    }
+
 
     //商品总数
     private int getTotalGoodsNumber() {
@@ -341,7 +350,7 @@ public class CartUtils {
         if (null == good.getGoodsStandard())
             return good.getGoods_id();
         else {
-            return good.getGoodsStandard().getGoodsStandardId();
+            return good.getGoodsStandard().getId();
         }
     }
 }

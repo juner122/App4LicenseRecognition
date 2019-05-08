@@ -2,11 +2,11 @@ package com.juner.mvp;
 
 public class Configure {
     public static final String ALLIANCE_URL = "https://apps.xgxshop.com/app/";//联盟版+
-    public static final String NEW_ORDER_URL = "https://business.xgxshop.com/app/";// 新干线版
+    public static final String NEW_ORDER_URL = "https://business.xgxshop.com/app/";
 
 
     public static final String BaseUrl = "http://222.111.88.115:8081/app/";//线下
-//    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
+//    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
 
 
     //    public static final boolean APP_ALLIANCE = true;//  联盟版

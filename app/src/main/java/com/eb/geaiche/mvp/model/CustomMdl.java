@@ -58,7 +58,7 @@ public class CustomMdl extends BaseModel implements CustomContacts.CustomMdl {
     @Override
     public void xgxshopgoodsSave(Project project, RxSubscribe<String> rxSubscribe) {
 
-        sendRequest(HttpUtils.getFix().xgxshopgoodsSave(getToken(context),project).compose(RxHelper.<String>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getFix().xgxshopgoodsSave(getToken(context),project).compose(RxHelper.observe()), rxSubscribe);
 
     }
 

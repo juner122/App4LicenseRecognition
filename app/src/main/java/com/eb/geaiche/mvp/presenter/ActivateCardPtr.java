@@ -74,24 +74,22 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             getView().showToast("手机号码不能为空");
             return;
         }
+        if (null == name || name.equals(""))//如果用户名为空，手机后4位加车主
+            name = "手机尾号" + phone.substring(phone.length() - 4) + "车主";
 
         mdl.checkMember(phone, name, new RxSubscribe<SaveUserAndCarEntity>(context, true) {
             @Override
             protected void _onNext(SaveUserAndCarEntity s) {
                 user_id = s.getUser_id();
                 new AppPreferences(context).put(Configure.user_id, user_id);//保存检测到的用户id
-
                 if (s.getUser_id() == 0) {//录入不成功
                     Toast.makeText(context, "会员尚未注册，请完善注册信息", Toast.LENGTH_SHORT).show();
                     getView().showCheckView();
-
                 } else {
                     getView().etsetFocusable(false);
                     getView().showView();
                     getView().hideCheckView();
                     getView().setCarName(s.getUser_name());
-
-
                     if (null == s.getUser_name() || s.getUser_name().equals("")) {
                         getView().etnamesetFocusable(true);
                     } else
@@ -100,10 +98,7 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
                     if (null != s.getCarList()) {//新车 老会员
                         getView().setCarList(s.getCarList());//车辆列表
                     }
-
                 }
-
-
             }
 
             @Override
