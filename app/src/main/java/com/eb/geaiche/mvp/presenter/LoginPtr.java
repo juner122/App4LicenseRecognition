@@ -3,6 +3,8 @@ package com.eb.geaiche.mvp.presenter;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.eb.geaiche.MyApplication;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.NullDataEntity;
@@ -10,6 +12,8 @@ import com.juner.mvp.bean.Token;
 import com.eb.geaiche.mvp.contacts.LoginContacts;
 import com.eb.geaiche.mvp.model.LoginMdl;
 import com.juner.mvp.utils.ToastUtils;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +24,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.juner.mvp.Configure.JSON_CART;
+import static com.juner.mvp.Configure.SHOP_TYPE;
 
 public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements LoginContacts.LoginPtr {
     private LoginContacts.LoginMdl mLoginMdl;
@@ -51,13 +58,18 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
 
         }
 
-        mLoginMdl.login(mobile, authCode, cid,new RxSubscribe<Token>(context, true) {
+        mLoginMdl.login(mobile, authCode, cid, new RxSubscribe<Token>(context, true) {
             @Override
             protected void _onNext(Token token) {
                 //保存token
                 mLoginMdl.saveToken(token, context);
                 mLoginMdl.savePhone(mobile, context);
                 getView().loginSuccess(token.getAppMenuList());
+
+
+                //保存门店类型
+                MyAppPreferences.putShopType(token.getShop_type() == 1);
+
             }
 
             @Override

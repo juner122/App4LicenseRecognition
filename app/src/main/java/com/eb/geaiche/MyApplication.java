@@ -6,11 +6,9 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
-import com.eb.geaiche.service.CrashHandler;
 import com.eb.geaiche.service.CrashHandler2;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
-import com.eb.geaiche.util.CartServerUtils;
 import com.eb.geaiche.util.CartUtils;
 import com.igexin.sdk.PushManager;
 import com.umeng.commonsdk.UMConfigure;
@@ -19,10 +17,10 @@ import com.umeng.socialize.PlatformConfig;
 
 public class MyApplication extends Application {
     private static MyApplication app;
-
-
     public static CartUtils cartUtils;
-    public static CartServerUtils cartServerUtils;
+
+
+
 
     public static MyApplication getInstance() {
         return app;
@@ -33,10 +31,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-
-
         cartUtils = CartUtils.getInstance(this);
-        cartServerUtils = CartServerUtils.getInstance(this);
 
 
         //初始化播放器（只需调用一次即可，建议在application中初始化）  阿里播放器
@@ -62,7 +57,9 @@ public class MyApplication extends Application {
 //        CrashHandler handler = CrashHandler.getInstance(this);
 //        Thread.setDefaultUncaughtExceptionHandler(handler);
 
-        CrashHandler2.getInstance().init(this);
+//        CrashHandler2.getInstance().init(this);
+
+
     }
 
     @Override
@@ -70,4 +67,8 @@ public class MyApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);//5.0以下要添加
     }
+
+
+
+
 }

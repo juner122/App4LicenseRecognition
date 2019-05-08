@@ -16,6 +16,7 @@ import com.eb.geaiche.activity.ChangeStoreActivity;
 import com.eb.geaiche.activity.CourseRecordActivity;
 import com.eb.geaiche.activity.MainActivity;
 import com.eb.geaiche.mvp.LoginActivity2;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
@@ -36,6 +37,8 @@ import net.grandcentrix.tray.AppPreferences;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.juner.mvp.Configure.JSON_CART;
+import static com.juner.mvp.Configure.SHOP_TYPE;
 import static com.juner.mvp.Configure.shop_address;
 import static com.juner.mvp.Configure.shop_name;
 import static com.juner.mvp.Configure.shop_phone;
@@ -157,7 +160,8 @@ public class MainFragment5 extends BaseFragment {
                 break;
 
             case R.id.tv_out:
-                new AppPreferences(getContext()).remove(Configure.Token);
+                new AppPreferences(getContext()).remove(Configure.Token);//用户token
+                MyAppPreferences.removeShopType();
                 toActivity(LoginActivity2.class);
                 getActivity().finish();
                 break;

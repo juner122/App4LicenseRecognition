@@ -23,6 +23,7 @@ import com.eb.geaiche.api.RxSubscribe;
 
 
 import com.eb.geaiche.mvp.CustomPartsActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.view.MyRadioButton;
 import com.eb.geaiche.view.ProductListDialog;
@@ -80,7 +81,7 @@ public class ServeListActivity extends BaseActivity {
         count();
 
         tv_title.setText("服务工时列表");
-        if (!Configure.APP_ALLIANCE)
+        if (!MyAppPreferences.getShopType())
             setRTitle("自定义工时");
         serveListAdapter = new ServeListAdapter(servers);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -244,8 +245,6 @@ public class ServeListActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.but_enter_order:
-
-                Log.i("TAG", "选择的服务有" + MyApplication.cartServerUtils.getServerList().size() + "个  " + MyApplication.cartServerUtils.getServerList().toString());
 
                 finish();
 

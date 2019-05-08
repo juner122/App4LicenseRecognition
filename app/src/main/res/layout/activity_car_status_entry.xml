@@ -70,6 +70,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_car_vin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center">
@@ -81,19 +82,19 @@
                         android:textColor="#ff666666"
                         android:textSize="12sp" />
 
-                    <TextView
-
+                    <EditText
                         android:id="@+id/tv_car_vin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:gravity="end"
+                        android:hint="扫描识别车架号"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:hint="扫描识别车架号"
                         android:textColor="#333"
-                        android:textColorHint="#666"
                         android:textSize="12sp" />
 
 
@@ -122,6 +123,8 @@
 
 
                 <LinearLayout
+                    android:id="@+id/ll_car_model"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -137,14 +140,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:drawableRight="@mipmap/icon_enter"
                         android:drawablePadding="10dp"
                         android:gravity="end"
+                        android:hint="请选择车型"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:text="请选择车型"
                         android:textColor="#666"
                         android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tv_car_model_v"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/icon_enter"
+                        android:drawablePadding="10dp"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp" />
 
 
                 </LinearLayout>
@@ -188,7 +200,6 @@
                         android:paddingTop="17dp"
                         android:paddingBottom="17dp"
                         android:textColor="#333"
-                        android:textColorHint="#666"
                         android:textSize="12sp" />
 
                     <TextView

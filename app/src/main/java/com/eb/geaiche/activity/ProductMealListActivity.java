@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.eb.geaiche.mvp.CustomPartsActivity;
 import com.eb.geaiche.util.MathUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -55,7 +56,7 @@ public class ProductMealListActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("商品套餐列表");
 
-        if (!Configure.APP_ALLIANCE)
+        if (!MyAppPreferences.getShopType())
             setRTitle("自定义配件");
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
         car_no = getIntent().getStringExtra(Configure.car_no);

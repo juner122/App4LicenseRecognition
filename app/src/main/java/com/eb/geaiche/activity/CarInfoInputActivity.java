@@ -13,7 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.mvp.ActivateCardActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.GridImageAdapter;
@@ -41,6 +43,7 @@ import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
+import com.umeng.commonsdk.debug.I;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -92,7 +95,7 @@ public class CarInfoInputActivity extends BaseActivity {
     TextView tv_car_model;
 
     @BindView(R.id.tv_car_vin)
-    TextView tv_car_vin;
+    EditText tv_car_vin;
 
     @BindView(R.id.et_remarks)
     EditText et_remarks;
@@ -101,6 +104,12 @@ public class CarInfoInputActivity extends BaseActivity {
 
     @BindView(R.id.ll_check)
     View ll_check;
+
+    @BindView(R.id.tv_car_model_v)
+    View tv_car_model_v;//选择车型按钮
+
+    @BindView(R.id.iv_scan)
+    View iv_scan;//扫描vin按钮
 
 
     @BindView(R.id.recycler1)
@@ -128,11 +137,14 @@ public class CarInfoInputActivity extends BaseActivity {
 
     boolean isrvShow1, isrvShow2, isrvShow3;
 
-    @OnClick({R.id.tv_enter_order, R.id.tv_car_model, R.id.iv_scan, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
+    @OnClick({R.id.tv_enter_order, R.id.ll_car_model, R.id.ll_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
     public void onclick(View v) {
         switch (v.getId()) {
 
-            case R.id.tv_car_model:
+            case R.id.ll_car_model:
+
+                if (type_action == 2 && !TextUtils.isEmpty(tv_car_model.getText()))//不能修改车型
+                    return;
 
                 toActivity(AutoBrandActivity.class);
 
@@ -168,8 +180,10 @@ public class CarInfoInputActivity extends BaseActivity {
                     isrvShow3 = true;
                 }
                 break;
-            case R.id.iv_scan:
+            case R.id.ll_car_vin:
 
+                if (type_action == 2 && !TextUtils.isEmpty(tv_car_vin.getText()))//不能修改车架号
+                    return;
                 toActivity(CarVinDISActivity.class);
                 break;
 
@@ -258,7 +272,16 @@ public class CarInfoInputActivity extends BaseActivity {
             protected void _onNext(CarInfoRequestParameters o) {
                 carEntity = o;
                 tv_car_no.setText(carEntity.getCarNo());
-                tv_car_model.setText(o.getBrand() + "\t" + o.getName());
+
+                if (null != o.getBrand() && !o.getBrand().equals("")) {
+                    tv_car_model.setText(o.getBrand());
+                    tv_car_model_v.setVisibility(View.GONE);
+                }
+                if (null != o.getBrand() && !o.getBrand().equals("") && null != o.getName() && !o.getName().equals("")) {
+                    tv_car_model.setText(o.getBrand() + "\t" + o.getName());
+                    tv_car_model_v.setVisibility(View.GONE);
+                }
+
                 if ("".equals(o.getPostscript()))
                     et_remarks.setHint("暂无备注");
                 else
@@ -267,10 +290,16 @@ public class CarInfoInputActivity extends BaseActivity {
                 selectAutoBrand = new AutoBrand(o.getBrandId(), o.getBrand());
                 autoModel = new AutoModel(o.getNameId(), o.getName());
 
-                tv_car_vin.setText(null != carEntity.getVin() || !TextUtils.isEmpty(carEntity.getVin()) ? carEntity.getVin() : "扫描识别车架号");
+
+                if (null != carEntity.getVin()) {
+                    tv_car_vin.setText(carEntity.getVin());
+                    //隐藏图标
+                    iv_scan.setVisibility(View.GONE);
+                }
 
 
-                tv_car_mileage.setText(null == carEntity.getMileage() ? "0" : carEntity.getMileage());
+                if (null != carEntity.getMileage())
+                    tv_car_mileage.setText(carEntity.getMileage());
 
                 for (UpDataPicEntity picEntity : o.getImagesList()) {
 
@@ -392,14 +421,11 @@ public class CarInfoInputActivity extends BaseActivity {
         adapter2.setList(showlist2);
         adapter2.setSelectMax(maxSelectNum);
         recyclerView2.setAdapter(adapter2);
-        adapter2.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                if (showlist2.size() > 0) {
-                    // 预览图片 可自定长按保存路径
-                    //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
-                    pictureSelector2.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist2);
-                }
+        adapter2.setOnItemClickListener((position, v) -> {
+            if (showlist2.size() > 0) {
+                // 预览图片 可自定长按保存路径
+                //PictureSelector.create(MainActivity.this).themeStyle(themeId).externalPicturePreview(position, "/custom_file", selectList);
+                pictureSelector2.themeStyle(R.style.picture_default_style).openExternalPreview(position, showlist2);
             }
         });
 
@@ -478,7 +504,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case requestCode1:
@@ -539,13 +565,11 @@ public class CarInfoInputActivity extends BaseActivity {
         shwoProgressBar();
         UploadManager uploadManager = new UploadManager();
         UploadOptions uploadOptions = new UploadOptions(null, null, false,
-                new UpProgressHandler() {
-                    public void progress(String key, double percent) {
-                        Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
-                        if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
-                        {
-                            sendMsg(upList.size(), tag);
-                        }
+                (key, percent) -> {
+                    Log.i(TAG, key + ": " + "上传进度:" + percent);//上传进度
+                    if (percent == 1.0)//上传进度等于1.0说明上传完成,通知 完成任务+1
+                    {
+                        sendMsg(upList.size(), tag);
                     }
                 }, null);
 
@@ -556,21 +580,18 @@ public class CarInfoInputActivity extends BaseActivity {
             final int finalI = i;
 
 
-            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), new UpCompletionHandler() {
-                        @Override
-                        public void complete(String key, ResponseInfo info, JSONObject res) {
-                            // info.error中包含了错误信息，可打印调试
-                            // 上传成功后将key值上传到自己的服务器
-                            if (info.isOK()) {
-                                Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key);
-                                UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
-                                upDataPicEntity.setType(type);
-                                upDataPicEntity.setImageUrl(Configure.Domain + key);
-                                upDataPicEntity.setSort(finalI);
-                                upDataPicEntities.add(upDataPicEntity);
-                            } else {
-                                Log.i(TAG, "info:error====> " + info.error);
-                            }
+            uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), (key1, info, res) -> {
+                        // info.error中包含了错误信息，可打印调试
+                        // 上传成功后将key值上传到自己的服务器
+                        if (info.isOK()) {
+                            Log.i(TAG, "upList      ResponseInfo: " + info + "\nkey::" + key1);
+                            UpDataPicEntity upDataPicEntity = new UpDataPicEntity();
+                            upDataPicEntity.setType(type);
+                            upDataPicEntity.setImageUrl(Configure.Domain + key1);
+                            upDataPicEntity.setSort(finalI);
+                            upDataPicEntities.add(upDataPicEntity);
+                        } else {
+                            Log.i(TAG, "info:error====> " + info.error);
                         }
                     }, uploadOptions
             );
@@ -612,7 +633,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
         if (type_action == 1) {
-            if (!Configure.APP_ALLIANCE) {//新干线版必须填车架号
+            if (!MyAppPreferences.getShopType()) {//新干线版必须填车架号
                 if (null == carInfo || null == carInfo.getVin() || carInfo.getVin().equals("")) {
                     ToastUtils.showToast("请填写车架号！");
                     return;
@@ -642,7 +663,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
                 @Override
                 protected void _onError(String message) {
-                    ToastUtils.showToast(message);
+                    ToastUtils.showToast("操作失败：" + message);
 
                 }
             });
@@ -720,6 +741,17 @@ public class CarInfoInputActivity extends BaseActivity {
             parameters.setSaleName(carInfo.getSaleName());
             parameters.setOutputVolume(carInfo.getOutputVolume());
             parameters.setEngineSn(carInfo.getEngineSn());
+        } else if (null != carEntity && null != carEntity.getVin() && !carEntity.getVin().equals("")) {
+
+            parameters.setVin(carEntity.getVin());
+            parameters.setAllJson(carEntity.getAllJson());
+            parameters.setYear(carEntity.getYear());
+            parameters.setGuidingPrice(carEntity.getGuidingPrice());
+            parameters.setEffluentStandard(carEntity.getEffluentStandard());
+            parameters.setCarType(carEntity.getCarType());
+            parameters.setSaleName(carEntity.getSaleName());
+            parameters.setOutputVolume(carEntity.getOutputVolume());
+            parameters.setEngineSn(carEntity.getEngineSn());
 
         }
 

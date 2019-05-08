@@ -9,9 +9,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickServiceContacts;
 import com.eb.geaiche.mvp.presenter.FixPickServicePtr;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.FixServie;
@@ -90,7 +92,7 @@ public class FixPickServiceActivity extends BaseActivity<FixPickServiceContacts.
     protected void init() {
         tv_title.setText("工时库");
 
-        if (!Configure.APP_ALLIANCE)
+        if (!MyAppPreferences.getShopType())
             setRTitle("自定义工时");
         getPresenter().initRecyclerView(rv0, rv1, easylayout);
 

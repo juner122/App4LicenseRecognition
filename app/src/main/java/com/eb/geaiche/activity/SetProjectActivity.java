@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -154,7 +155,6 @@ public class SetProjectActivity extends BaseActivity {
                     if (n == -1) {
                         ToastUtils.showToast("更新失败！");
                         return;
-
                     }
                     ToastUtils.showToast("更新成功！");
 

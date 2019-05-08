@@ -190,20 +190,17 @@ public class CourseInfoPtr extends BasePresenter<CourseInfoContacts.CourseInfoUI
         alivcVideoInfos = new ArrayList<>();
         alivcPlayListAdapter = new AlivcPlayListAdapter(context, alivcVideoInfos);
         recyclerView.setAdapter(alivcPlayListAdapter);
-        alivcPlayListAdapter.setOnVideoListItemClick(new AlivcPlayListAdapter.OnVideoListItemClick() {
-            @Override
-            public void onItemClick(int position) {
-                long currentClickTime = System.currentTimeMillis();
-                // 防止快速点击
-                if (currentClickTime - oldTime <= 2000) {
-                    return;
-                }
-                PlayParameter.PLAY_PARAM_TYPE = "localSource";
-                // 点击视频列表, 切换播放的视频
-                onChangePlaySource(alivcVideoInfos.get(position).getVideoId(), 0);
-                oldTime = currentClickTime;
-
+        alivcPlayListAdapter.setOnVideoListItemClick(position -> {
+            long currentClickTime = System.currentTimeMillis();
+            // 防止快速点击
+            if (currentClickTime - oldTime <= 2000) {
+                return;
             }
+            PlayParameter.PLAY_PARAM_TYPE = "localSource";
+            // 点击视频列表, 切换播放的视频
+            onChangePlaySource(alivcVideoInfos.get(position).getVideoId(), 0);
+            oldTime = currentClickTime;
+
         });
 
 

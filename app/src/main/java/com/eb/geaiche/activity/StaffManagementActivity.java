@@ -78,12 +78,7 @@ public class StaffManagementActivity extends BaseActivity {
             }
         });
 
-        adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(TechnicianInfoActivity.class, "id", list.get(position).getUserId());
-            }
-        });
+        adpter.setOnItemClickListener((adapter, view, position) -> toActivity(TechnicianInfoActivity.class, "id", list.get(position).getUserId()));
     }
 
     @Override

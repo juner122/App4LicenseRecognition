@@ -175,7 +175,7 @@ public class ApiLoader {
         map.put("mobile", mobile);
         map.put("username", username);
 
-        return apiService.addUser(map).compose(RxHelper.<SaveUserAndCarEntity>observe());
+        return apiService.addUser(map).compose(RxHelper.observe());
     }
 
     /**
@@ -196,7 +196,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> fixCarInfo(CarInfoRequestParameters parameters) {
 
-        return apiService.fixCarInfo(token, parameters).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.fixCarInfo(token, parameters).compose(RxHelper.observe());
     }
 
 

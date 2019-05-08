@@ -5,16 +5,12 @@ public class Configure {
     public static final String NEW_ORDER_URL = "https://business.xgxshop.com/app/";// 新干线版
 
 
+    public static final String BaseUrl = "http://222.111.88.115:8081/app/";//线下
+//    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
 
 
-    public static final boolean APP_ALLIANCE = true;//  联盟版
-//    public static final boolean APP_ALLIANCE = false;//  新干线版
-
-
-//    public static final String BaseUrl = "http://222.111.88.115:8081/app/";//线下
-    public static final String BaseUrl = APP_ALLIANCE ? ALLIANCE_URL : NEW_ORDER_URL;//线上
-
-
+    //    public static final boolean APP_ALLIANCE = true;//  联盟版
+    public static boolean APP_ALLIANCE = false;//  新干线版
 
 
     public static final int Goods_TYPE_1 = 1;//商城商品
@@ -63,6 +59,7 @@ public class Configure {
 
     public static final String show_fragment = "fragment";//
     public static final String JSON_CART = "JSON_CART";//
+    public static final String SHOP_TYPE = "shop_type";////0直营1是加盟  默认为1
     public static final String JSON_ServerCART = "JSON_ServerCART";//
     public static final String CARID = "carid";//
     public static final String CARINFO = "carinfo";//

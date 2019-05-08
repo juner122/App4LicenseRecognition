@@ -16,9 +16,11 @@ import android.widget.Toast;
 
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.adapter.UserlistListAdapter;
 
 import com.eb.geaiche.util.BitmapUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.AnimationUtil;
 
 import com.eb.geaiche.view.ScanCarConfirmDialog;
@@ -211,7 +213,11 @@ public class PreviewActivity2 extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("车牌扫描");
-        setRTitle("高级扫描");
+
+        if (MyAppPreferences.getShopType())//联盟版才有的功能
+            setRTitle("高级扫描");
+
+
         // 创建弹出键盘
         mPopupKeyboard = new PopupKeyboard(this);
         mPopupKeyboard.getKeyboardView().setCNTextSize(14);
@@ -288,9 +294,9 @@ public class PreviewActivity2 extends BaseActivity {
     @Override
     protected void setUpView() {
 
-        if(Configure.APP_ALLIANCE){
+        if (MyAppPreferences.getShopType()) {
             but_quick.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             but_quick.setVisibility(View.GONE);
         }
 

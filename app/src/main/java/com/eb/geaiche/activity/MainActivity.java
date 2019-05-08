@@ -16,10 +16,12 @@ import androidx.core.content.FileProvider;
 import android.view.View;
 import android.widget.TextView;
 
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.activity.fragment.MainFragment1New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -98,7 +100,7 @@ public class MainActivity extends BaseActivity {
         checkVersionUpDate();
 
 
-        if (Configure.APP_ALLIANCE)
+        if (MyAppPreferences.getShopType())
             tv_is_new_order.setVisibility(View.GONE);
     }
 

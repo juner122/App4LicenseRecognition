@@ -26,6 +26,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
 import com.chad.library.adapter.base.listener.OnItemSwipeListener;
 import com.eb.geaiche.adapter.QuickTechnicianAdpter;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.CommonPopupWindow;
 import com.eb.geaiche.view.ConfirmDialog4;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
@@ -121,6 +122,8 @@ public class MakeOrderActivity extends BaseActivity {
 
     @BindView(R.id.tv_top4)
     TextView tv_top4;
+    @BindView(R.id.ll_autograph)
+    View ll_autograph;//签名控件
 
     @BindViews({R.id.tv_re1, R.id.tv_re2, R.id.tv_re3})
     public List<TextView> textViews;
@@ -291,6 +294,11 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void init() {
         cartUtils = MyApplication.cartUtils;
+
+        if (MyAppPreferences.getShopType())
+            ll_autograph.setVisibility(View.VISIBLE);
+        else
+            ll_autograph.setVisibility(View.GONE);
 
         tv_title.setText("下单信息");
         setRTitle("套卡下单");
@@ -550,7 +558,7 @@ public class MakeOrderActivity extends BaseActivity {
                 ToastUtils.showToast("下单成功");
                 //todo 以下是根据app内部或对外使用而要更换的代码  功能:对外使用app直接跳过订单确认页面而进入订单详情页面
 
-                if (Configure.APP_ALLIANCE) {
+                if (MyAppPreferences.getShopType()) {
                     //联盟版
                     //直接开始服务
                     beginServe(orderInfo.getOrderInfo());

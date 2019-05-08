@@ -1,7 +1,7 @@
 package com.juner.mvp.bean;
 
 public class NullDataEntity {
-    int id;
+    Integer id;
 
     public int getId() {
         return id;

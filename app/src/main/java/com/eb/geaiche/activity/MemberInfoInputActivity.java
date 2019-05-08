@@ -3,8 +3,10 @@ package com.eb.geaiche.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,7 +18,9 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialog;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
@@ -77,11 +81,19 @@ public class MemberInfoInputActivity extends BaseActivity {
     @SuppressLint("CheckResult")
     @Override
     protected void init() {
+
+//        if (MyAppPreferences.getShopType()) {
+//            ll_name.setVisibility(View.GONE);//用户名输入框
+//            tv_check.setVisibility(View.GONE);//注册用户按钮
+//        } else
+//            ll_name.setVisibility(View.VISIBLE);
+
+
         new_car_id = getIntent().getIntExtra("new_car_id", 0);
         new_car_number = new AppPreferences(this).getString(Configure.car_no, "");
         tv_new_car_numb.setText(new_car_number);
 
-        tv_check.setVisibility(View.GONE);
+
         ll_car_list.setVisibility(View.GONE);
         //测试
 
@@ -100,6 +112,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
 
                 if (editable.length() >= 11) {
                     getAddUser();
@@ -139,13 +152,15 @@ public class MemberInfoInputActivity extends BaseActivity {
 //                    ToastUtils.showToast("请输入车主姓名！");
 //                    return;
 //                }
-                remakeUserName(1);
+
+                toActivity(1);
+//                remakeUserName(1);
 
                 break;
 
             case R.id.tv_fix://新增检修单
-
-                remakeUserName(0);
+                toActivity(0);
+//                remakeUserName(0);
 
                 break;
             case R.id.tv_add_car:
@@ -211,7 +226,15 @@ public class MemberInfoInputActivity extends BaseActivity {
     }
 
     private void getAddUser() {
-        Api().addUser(et_mobile.getText().toString(), name.getText().toString()).subscribe(new RxSubscribe<SaveUserAndCarEntity>(MemberInfoInputActivity.this, true) {
+        String userName;
+        if (TextUtils.isEmpty(name.getText())) {//快速用车牌号码+车主作为用户名云注册用户
+            userName = new_car_number + "车主";
+        } else {
+            userName = name.getText().toString();
+        }
+
+
+        Api().addUser(et_mobile.getText().toString(), userName).subscribe(new RxSubscribe<SaveUserAndCarEntity>(MemberInfoInputActivity.this, true) {
             @Override
             protected void _onNext(SaveUserAndCarEntity s) {
 
@@ -393,7 +416,6 @@ public class MemberInfoInputActivity extends BaseActivity {
             intent2.putExtra(Configure.user_id, user_id);
             startActivity(intent2);
         } else {
-
             toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
         }
 

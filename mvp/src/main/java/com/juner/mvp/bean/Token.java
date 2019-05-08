@@ -7,15 +7,12 @@ public class Token {
 
     TokenEntity token;
     List<AppMenu> appMenuList;
-
+    Integer shop_type;   //0直营1是加盟  默认为1
 
     public List<AppMenu> getAppMenuList() {
         return appMenuList;
     }
 
-    public void setAppMenuList(List<AppMenu> appMenuList) {
-        this.appMenuList = appMenuList;
-    }
 
     public TokenEntity getToken() {
         return token;
@@ -24,6 +21,12 @@ public class Token {
     public void setToken(TokenEntity token) {
         this.token = token;
     }
+
+    public int getShop_type() {
+        return null == shop_type ? 1 : shop_type;
+    }
+
+
 
     public class TokenEntity {
 
@@ -38,12 +41,6 @@ public class Token {
             this.token = token;
         }
 
-        public String getExpire() {
-            return expire;
-        }
 
-        public void setExpire(String expire) {
-            this.expire = expire;
-        }
     }
 }
