@@ -34,6 +34,7 @@ import com.otaliastudios.cameraview.PictureResult;
 import java.math.BigDecimal;
 
 import androidx.annotation.NonNull;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -84,11 +85,19 @@ public class CarVinDISActivity extends BaseActivity {
 
     CarInfoRequestParameters carInfo;//车况对象
 
+    boolean isCheckAction;//是否是查看车架号
+
     @Override
     protected void init() {
         tv_title.setText("扫描车架号");
-//        setRTitle("高级扫描");
         et_vin.setTransformationMethod(new A2bigA());
+
+        isCheckAction = getIntent().getBooleanExtra("isca", false);
+
+        if (isCheckAction) {
+            showInfo();//查看车架号
+            queryVinInfo(getIntent().getStringExtra(Configure.CAR_VIN));
+        }
     }
 
     @Override
@@ -226,12 +235,14 @@ public class CarVinDISActivity extends BaseActivity {
         Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
-                sv_info.setVisibility(View.VISIBLE);
-                sv_info.setAnimation(AnimationUtil.moveToViewLocation());
-                ll1.setVisibility(View.GONE);
-                CarVinInfo carVinInfo = carVin.getShowapi_res_body();
-                setCarInfo(carVinInfo);
-                toCarInfo(carVinInfo);
+
+
+                showInfo();
+
+                setCarInfo(carVin.getShowapi_res_body());
+
+                if (!isCheckAction)//录入车况信息 查看动作不用执行
+                    toCarInfo(carVin.getShowapi_res_body());
 
             }
 
@@ -241,6 +252,14 @@ public class CarVinDISActivity extends BaseActivity {
                 ToastUtils.showToast("查询失败,请重新查询！");
             }
         });
+
+    }
+
+    private void showInfo() {
+
+        sv_info.setVisibility(View.VISIBLE);
+        sv_info.setAnimation(AnimationUtil.moveToViewLocation());
+        ll1.setVisibility(View.GONE);
 
     }
 
@@ -270,6 +289,7 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setOutputVolume(carVinInfo.getOutput_volume());
         carInfo.setEngineSn(carVinInfo.getEngine_type());
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -212,7 +212,7 @@ public class MainFragment5 extends BaseFragment {
                         @Override
                         public void doCancel() {
                             confirmDialog.dismiss();
-                            getActivity().finish();
+
                         }
                     });
 

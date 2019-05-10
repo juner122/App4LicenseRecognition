@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.juner.mvp.Configure;
@@ -38,16 +37,10 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.permissions.RxPermissions;
 import com.luck.picture.lib.tools.PictureFileUtils;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
-import com.qiniu.android.storage.UpProgressHandler;
 import com.qiniu.android.storage.UploadManager;
 import com.qiniu.android.storage.UploadOptions;
-import com.umeng.commonsdk.debug.I;
 
 import net.grandcentrix.tray.AppPreferences;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +53,11 @@ import io.reactivex.disposables.Disposable;
 
 
 public class CarInfoInputActivity extends BaseActivity {
+
+    @Override
+    public int setLayoutResourceID() {
+        return R.layout.activity_car_status_entry;
+    }
 
     private static final String TAG = "CarInfoInputActivity";
     private final static int requestCode1 = 1;
@@ -181,10 +179,18 @@ public class CarInfoInputActivity extends BaseActivity {
                 }
                 break;
             case R.id.ll_car_vin:
+                Intent intent2 = new Intent(CarInfoInputActivity.this, CarVinDISActivity.class);
 
-                if (type_action == 2 && !TextUtils.isEmpty(tv_car_vin.getText()))//不能修改车架号
-                    return;
-                toActivity(CarVinDISActivity.class);
+
+                if (!TextUtils.isEmpty(tv_car_vin.getText())) {
+                    intent2.putExtra("isca", true);
+                    intent2.putExtra("CAR_VIN", tv_car_vin.getText());
+                } else {
+                    intent2.putExtra("isca", false);
+                }
+
+
+                startActivity(intent2);
                 break;
 
             case R.id.tv_enter_order:
@@ -620,11 +626,6 @@ public class CarInfoInputActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
-    }
-
-    @Override
-    public int setLayoutResourceID() {
-        return R.layout.activity_car_status_entry;
     }
 
 

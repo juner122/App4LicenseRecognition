@@ -49,6 +49,12 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     ArrayList<Server> skillList;
 
+    Integer os_type;//0=销售单 1=服务单
+
+
+
+
+
     public String getPay_name() {
         if (pay_type == 11)
             return "微信";
@@ -347,18 +353,29 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     public OrderInfoEntity() {
     }
 
+    public Integer getOs_type() {
+        return os_type;
+    }
+
+    public void setOs_type(Integer os_type) {
+        this.os_type = os_type;
+    }
+
     @Override
     public String toString() {
         return "OrderInfoEntity{" +
                 "id=" + id +
+                ", quotation_id=" + quotation_id +
                 ", order_sn='" + order_sn + '\'' +
                 ", user_id=" + user_id +
                 ", order_status=" + order_status +
                 ", shipping_status='" + shipping_status + '\'' +
                 ", pay_status=" + pay_status +
+                ", pay_name='" + pay_name + '\'' +
                 ", pay_status_text='" + pay_status_text + '\'' +
                 ", actual_price=" + actual_price +
                 ", coupon_price=" + coupon_price +
+                ", coupon_id=" + coupon_id +
                 ", consignee='" + consignee + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", car_id=" + car_id +
@@ -374,10 +391,13 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
                 ", discount_price='" + discount_price + '\'' +
                 ", custom_cut_price='" + custom_cut_price + '\'' +
                 ", goods_unit='" + goods_unit + '\'' +
+                ", province='" + province + '\'' +
+                ", district='" + district + '\'' +
                 ", goodsList=" + goodsList +
                 ", sysUserList=" + sysUserList +
                 ", userActivityList=" + userActivityList +
                 ", skillList=" + skillList +
+                ", os_type=" + os_type +
                 '}';
     }
 
@@ -421,6 +441,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeTypedList(this.sysUserList);
         dest.writeTypedList(this.userActivityList);
         dest.writeTypedList(this.skillList);
+        dest.writeValue(this.os_type);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -457,6 +478,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
         this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.skillList = in.createTypedArrayList(Server.CREATOR);
+        this.os_type = (Integer) in.readValue(Integer.class.getClassLoader());
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

@@ -130,7 +130,6 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
         tv_info1.setVisibility(View.INVISIBLE);
 
 
-
         ((MemberManagementInfoActivity) context).Api().updateUserSms(phone.getText().toString()).subscribe(new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
@@ -141,31 +140,17 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
                         .interval(0, 1, TimeUnit.SECONDS)
                         .take(con)//次数
                         .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-                            @Override
-                            public void accept(Long aLong) {
-                                Long l = con - aLong;
-                                tv_get_code.setText(l + "s");
-                            }
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) {
-                                tv_get_code.setClickable(true);
-                                throwable.printStackTrace();
-                            }
-                        }, new Action() {
-                            @Override
-                            public void run() {
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+                            Long l = con - aLong;
+                            tv_get_code.setText(l + "s");
+                        }, throwable -> {
+                            tv_get_code.setClickable(true);
+                            throwable.printStackTrace();
+                        }, () -> {
 
-                                tv_get_code.setText("获取手机验证码");
-                                tv_get_code.setClickable(true);
-                            }
-                        }, new Consumer<Disposable>() {
-                            @Override
-                            public void accept(Disposable disposable) {
-                                tv_get_code.setClickable(false);
-                            }
-                        });
+                            tv_get_code.setText("获取手机验证码");
+                            tv_get_code.setClickable(true);
+                        }, disposable -> tv_get_code.setClickable(false));
 
 
             }
@@ -210,7 +195,7 @@ public class FixNameDialog extends Dialog implements View.OnClickListener {
             @Override
             protected void _onError(String message) {
                 dismiss();
-                ToastUtils.showToast(message + "：修改失败！");
+                ToastUtils.showToast(message);
 
             }
         });

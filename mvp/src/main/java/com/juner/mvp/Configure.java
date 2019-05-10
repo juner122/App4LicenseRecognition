@@ -5,13 +5,8 @@ public class Configure {
     public static final String NEW_ORDER_URL = "https://business.xgxshop.com/app/";
 
 
-    public static final String BaseUrl = "http://222.111.88.115:8081/app/";//线下
+    public static final String BaseUrl = "http://222.111.88.184:8081/app/";//线下
 //    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
-
-
-    //    public static final boolean APP_ALLIANCE = true;//  联盟版
-    public static boolean APP_ALLIANCE = false;//  新干线版
-
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务
@@ -78,6 +73,7 @@ public class Configure {
     public static final String isFixOrder = "isFixOrder";//是否是修改订单
     public static final String pick_servers = "pick_servers";//选择的服务列表
     public static final String Class = "Calss";//选择的服务列表的activity
+    public static final String CAR_VIN = "car_vin";//选择的服务列表的activity
 
 
 }

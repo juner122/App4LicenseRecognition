@@ -205,7 +205,7 @@ public class ServeListActivity extends BaseActivity {
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                         return;
                     }
-                    serveListAdapter.setNewData(servers);
+                    serveListAdapter.addData(servers);
                 }
 
 

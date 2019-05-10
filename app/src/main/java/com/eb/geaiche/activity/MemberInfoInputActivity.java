@@ -155,13 +155,11 @@ public class MemberInfoInputActivity extends BaseActivity {
 //                }
 
                 toActivity(1);
-//                remakeUserName(1);
 
                 break;
 
             case R.id.tv_fix://新增检修单
                 toActivity(0);
-//                remakeUserName(0);
 
                 break;
             case R.id.tv_add_car:
@@ -373,39 +371,22 @@ public class MemberInfoInputActivity extends BaseActivity {
         }
     };
 
-    //修改用户名
-    private void remakeUserName(final int way) {
-
-        //用户名为空直接跳转页面
-        if (TextUtils.isEmpty(name.getText())) {
-            toActivity(way);
-            return;
-        }
-
-
-        Api().remakeName(user_id, name.getText().toString(), et_mobile.getText().toString()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-            @Override
-            protected void _onNext(NullDataEntity entity) {
-
-                toActivity(way);
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-
-                ToastUtils.showToast(message + "：下单失败！");
-
-            }
-        });
-    }
 
     private void toActivity(int way) {
-        if (!MyAppPreferences.getShopType() && null == car_vin || TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(et_mobile.getText().toString())) {
-            ToastUtils.showToast("请完善用户和车辆信息！");
+        if (car_id == 0) {
+            ToastUtils.showToast("请选择一辆车！");
             return;
         }
-
+        if (!MyAppPreferences.getShopType()) {//直营版
+            if (TextUtils.isEmpty(name.getText()) || TextUtils.isEmpty(et_mobile.getText().toString())) {
+                ToastUtils.showToast("请完善用户信息！");
+                return;
+            }
+            if (null == car_vin) {
+                ToastUtils.showToast("请完善车辆信息,缺少车架号！");
+                return;
+            }
+        }
 
         if (way == 0) {//检修下单
             Intent intent2 = new Intent(MemberInfoInputActivity.this, FixInfoDescribeActivity.class);

@@ -2,8 +2,10 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -108,14 +110,7 @@ public class TechnicianInfoActivity extends BaseActivity {
         adapter.setEmptyView(R.layout.order_list_empty_view, recyclerView);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
-
-                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter.getData().get(position).getId());
-
-            }
-        });
+        adapter.setOnItemClickListener((a, view, position) -> toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter.getData().get(position).getId()));
 
     }
 
@@ -150,7 +145,16 @@ public class TechnicianInfoActivity extends BaseActivity {
                 tv_type.setText(t.getSysUser().getRoleName());
 
                 List<OrderInfoEntity> data = new ArrayList<>();
+
+                for (int i = 0; i < t.getOrderList().size(); i++) {
+                    t.getOrderList().get(i).setOs_type(1);
+                }
                 data.addAll(t.getOrderList());
+
+
+                for (int i = 0; i < t.getSaleList().size(); i++) {
+                    t.getSaleList().get(i).setOs_type(0);
+                }
                 data.addAll(t.getSaleList());
 
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
-import com.eb.geaiche.service.CrashHandler2;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartUtils;

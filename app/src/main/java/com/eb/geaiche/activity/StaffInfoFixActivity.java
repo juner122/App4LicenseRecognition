@@ -112,18 +112,14 @@ public class StaffInfoFixActivity extends BaseActivity {
         rv.setAdapter(adapter);
 
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
-                roleList.clear();
-                tv1.setText(adapter.getData().get(position).getRoleName());
-                int roleId = adapter.getData().get(position).getRoleId();
+        adapter.setOnItemClickListener((a, view, position) -> {
+            roleList.clear();
+            tv1.setText(adapter.getData().get(position).getRoleName());
+            int roleId = adapter.getData().get(position).getRoleId();
 
-                roleList.add(roleId);
+            roleList.add(roleId);
 
-                popupWindow.dismiss();
-            }
-
+            popupWindow.dismiss();
         });
 
         popupWindow = new CommonPopupWindow.Builder(this)

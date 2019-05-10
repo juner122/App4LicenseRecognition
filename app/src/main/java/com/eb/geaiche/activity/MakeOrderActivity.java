@@ -574,7 +574,7 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.e(TAG, message);
-                ToastUtils.showToast("下单失败");
+                ToastUtils.showToast("下单失 败!" + message);
                 finish();
             }
         });

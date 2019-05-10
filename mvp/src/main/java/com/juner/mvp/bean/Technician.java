@@ -166,6 +166,7 @@ public class Technician extends SelectedBean implements Parcelable {
         dest.writeInt(this.deptId);
         dest.writeInt(this.createUserId);
         dest.writeString(this.username);
+        dest.writeString(this.nickName);
         dest.writeString(this.password);
         dest.writeString(this.email);
         dest.writeString(this.mobile);
@@ -181,12 +182,13 @@ public class Technician extends SelectedBean implements Parcelable {
         this.deptId = in.readInt();
         this.createUserId = in.readInt();
         this.username = in.readString();
+        this.nickName = in.readString();
         this.password = in.readString();
         this.email = in.readString();
         this.mobile = in.readString();
         this.roleName = in.readString();
         this.roleList = new ArrayList<Integer>();
-        in.readList(this.roleList, Long.class.getClassLoader());
+        in.readList(this.roleList, Integer.class.getClassLoader());
         this.userSn = in.readString();
     }
 

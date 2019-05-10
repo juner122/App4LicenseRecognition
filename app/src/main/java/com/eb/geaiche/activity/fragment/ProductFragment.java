@@ -250,7 +250,7 @@ public class ProductFragment extends BaseFragment {
      */
 
     private void xgxshopgoodsList(String key, String categoryId) {
-        Api().xgxshopgoodsList(key, null, categoryId, 1, type, 50).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
+        Api().xgxshopgoodsList(key, null, categoryId, 1, type, Configure.limit_page).subscribe(new RxSubscribe<GoodsList>(getContext(), true) {
             @Override
             protected void _onNext(GoodsList goods) {
 
@@ -281,7 +281,7 @@ public class ProductFragment extends BaseFragment {
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                         return;
                     }
-                    productListAdapter.setNewData(goods.getList());
+                    productListAdapter.addData(goods.getList());
                 }
 
             }

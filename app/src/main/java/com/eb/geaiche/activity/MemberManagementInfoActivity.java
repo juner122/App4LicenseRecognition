@@ -263,9 +263,15 @@ public class MemberManagementInfoActivity extends BaseActivity {
             ToastUtils.showToast("请选择一辆车！");
             return false;
         }
-        if (!MyAppPreferences.getShopType() && null == car_vin || null == user_name || user_name.equals("") || null == moblie || moblie.equals("")) {
-            ToastUtils.showToast("请完善用户和车辆信息！");
-            return false;
+        if (!MyAppPreferences.getShopType()) {//直营版
+            if (null == user_name || user_name.equals("") || null == moblie || moblie.equals("")) {
+                ToastUtils.showToast("请完善用户信息！");
+                return false;
+            }
+            if (null == car_vin) {
+                ToastUtils.showToast("请完善车辆信息,缺少车架号！");
+                return false;
+            }
         }
 
         return true;

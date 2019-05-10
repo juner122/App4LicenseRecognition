@@ -83,23 +83,9 @@ public class WorkOrderListActivity extends BaseActivity {
             }
         });
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
+        adapter.setOnItemClickListener((a, view, position) -> toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter.getData().get(position).getId()));
 
-                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter.getData().get(position).getId());
-
-            }
-        });
-
-        adapter2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
-
-                toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter2.getData().get(position).getId());
-
-            }
-        });
+        adapter2.setOnItemClickListener((a, view, position) -> toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, adapter2.getData().get(position).getId()));
 
 
 

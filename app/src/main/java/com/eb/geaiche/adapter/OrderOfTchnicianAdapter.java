@@ -25,8 +25,12 @@ public class OrderOfTchnicianAdapter extends BaseQuickAdapter<OrderInfoEntity, B
         helper.setText(R.id.tv_car_no, item.getCar_no());
         helper.setText(R.id.tv_price, String.format("%s元", MathUtil.twoDecimal(item.getActual_price())));
         helper.setText(R.id.tv_data, item.getConfirm_time());
-//        helper.setText(R.id.tv_performance, item.getOrder_status_text());
 
+        if (null != item.getOs_type()) {
+            helper.setText(R.id.tv_os_type, item.getOs_type() == 0 ? "销售订单" : "服务订单");
+            helper.setGone(R.id.tv_os_type, true);
+        } else
+            helper.setGone(R.id.tv_os_type, false);
     }
 
 
