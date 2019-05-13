@@ -267,17 +267,14 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
             case R.id.ib_pick_date://选择预计完成时间
 
-                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(Date date, View v) {
-                        tv_pick_date.setText(DateUtil.getFormatedDateTime2(date));
-                        info.getOrderInfo().setPlanfinishi_time(date.getTime());
+                TimePickerView pvTime = new TimePickerBuilder(this, (date, v1) -> {
+                    tv_pick_date.setText(DateUtil.getFormatedDateTime2(date));
+                    info.getOrderInfo().setPlanfinishi_time(date.getTime());
 
-                        remake();
-                    }
+                    remake();
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
-                        .setSubmitColor(Color.BLACK)//确定按钮文字颜色
-                        .setCancelColor(Color.BLACK)//取消按钮文字颜色
+                        .setSubmitColor(Color.WHITE)//确定按钮文字颜色
+                        .setCancelColor(Color.WHITE)//取消按钮文字颜色
                         .setRangDate(DateUtil.getStartDate(), DateUtil.getEndDate())//起始终止年月日设定
                         .setTitleBgColor(getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
                         .build();

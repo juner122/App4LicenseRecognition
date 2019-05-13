@@ -2,6 +2,7 @@ package com.eb.geaiche.mvp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.geaiche.R;
@@ -16,6 +19,7 @@ import com.eb.geaiche.activity.AutographActivity;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.presenter.FixInfoDesPtr;
+import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 
@@ -54,9 +58,9 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     @BindViews({R.id.tv_re7, R.id.tv_re8, R.id.tv_re9, R.id.tv_re10, R.id.tv_re11, R.id.tv_re12, R.id.tv_re13, R.id.tv_re14, R.id.tv_re15})
     public List<TextView> textViews;
 
-    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph,R.id.but_set_date})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.but_to_technician_list:
                 getPresenter().toTechnicianListActivity();
                 break;
@@ -103,10 +107,14 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
                         confirmDialog.dismiss();
                     }
                 });
-
-
                 break;
 
+            case R.id.but_set_date:
+
+                //选择时间
+                getPresenter().pickdoneTime();
+
+                break;
         }
     }
 

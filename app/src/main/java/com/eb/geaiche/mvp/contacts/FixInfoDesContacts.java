@@ -65,7 +65,7 @@ public class FixInfoDesContacts {
         void showConfirmDialog(boolean isFinish);//弹出确认框
 
         void setEtText(EditText et);//故障描述输入框
-
+        void pickdoneTime();//选择时间
 
     }
 

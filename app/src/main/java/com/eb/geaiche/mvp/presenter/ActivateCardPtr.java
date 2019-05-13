@@ -231,24 +231,18 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
     @Override
     public void setStartData(View v) {
 
-        pvTimeStart.init(Calendar.getInstance(), new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                ((TextView) v).setText(getFormatedDateTime(date));
-                dataStart = date.getTime();
-            }
+        pvTimeStart.init(Calendar.getInstance(), (date, v1) -> {
+            ((TextView) v1).setText(getFormatedDateTime(date));
+            dataStart = date.getTime();
         });
         pvTimeStart.show(v);
     }
 
     @Override
     public void setEndData(View v) {
-        pvTimeEnd.init(Calendar.getInstance(), new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {
-                ((TextView) v).setText(getFormatedDateTime(date));
-                dataEnd = date.getTime();
-            }
+        pvTimeEnd.init(Calendar.getInstance(), (date, v1) -> {
+            ((TextView) v1).setText(getFormatedDateTime(date));
+            dataEnd = date.getTime();
         });
         pvTimeEnd.show(v);
     }

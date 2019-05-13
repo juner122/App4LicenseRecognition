@@ -33,6 +33,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String car_no;//
     String confirm_time;//确认时间
     Long planfinishi_time;//预计完成时间
+    Long planInformTime;//检修单预计完成时间
     double order_price;//
     int pay_type;// 1嗨卡 11微信 21 掌贝 22 现金
     String discount_price;//自定义折扣
@@ -60,6 +61,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
             return "微信";
         else
             return null == pay_name || pay_name.equals("") ? "-" : pay_name;
+    }
+
+    public Long getPlanInformTime() {
+        return planInformTime;
+    }
+
+    public void setPlanInformTime(Long planInformTime) {
+        this.planInformTime = planInformTime;
     }
 
     public Integer getQuotation_id() {
@@ -430,6 +439,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeString(this.car_no);
         dest.writeString(this.confirm_time);
         dest.writeValue(this.planfinishi_time);
+        dest.writeValue(this.planInformTime);
         dest.writeDouble(this.order_price);
         dest.writeInt(this.pay_type);
         dest.writeString(this.discount_price);
@@ -467,6 +477,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.car_no = in.readString();
         this.confirm_time = in.readString();
         this.planfinishi_time = (Long) in.readValue(Long.class.getClassLoader());
+        this.planInformTime = (Long) in.readValue(Long.class.getClassLoader());
         this.order_price = in.readDouble();
         this.pay_type = in.readInt();
         this.discount_price = in.readString();

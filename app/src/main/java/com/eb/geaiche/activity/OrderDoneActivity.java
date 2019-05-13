@@ -152,6 +152,7 @@ public class OrderDoneActivity extends BaseActivity {
                     protected void _onError(String message) {
                         Log.d(TAG, message);
                         Toast.makeText(OrderDoneActivity.this, message, Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
                 break;

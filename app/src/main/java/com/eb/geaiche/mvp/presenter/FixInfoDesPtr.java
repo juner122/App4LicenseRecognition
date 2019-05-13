@@ -12,11 +12,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.view.TimePickerView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.ResultBack;
 import com.eb.geaiche.activity.TechnicianListActivity;
@@ -25,7 +29,9 @@ import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.model.FixInfoDesMdl;
+import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MathUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.String2Utils;
 import com.eb.geaiche.util.ToastUtils;
 import com.gprinter.command.EscCommand;
@@ -75,7 +81,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
 
     String iv_lpv_url = "";//签名图片 七牛云url
-
+    Long planInformTime;//预计完成时间
 
     Map<Integer, Boolean> pickMap;
 
@@ -218,6 +224,21 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     @Override
     public void setEtText(EditText et) {
 
+    }
+
+    @Override
+    public void pickdoneTime() {
+
+        TimePickerView pvTime = new TimePickerBuilder(getView().getSelfActivity(), (date, v) -> {
+            getView().setDate(DateUtil.getFormatedDateTime2(date));
+            planInformTime = date.getTime();
+        }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
+                .setSubmitColor(Color.WHITE)//确定按钮文字颜色
+                .setCancelColor(Color.WHITE)//取消按钮文字颜色
+                .setRangDate(DateUtil.getStartDate(), DateUtil.getEndDate())//起始终止年月日设定
+                .setTitleBgColor(getView().getSelfActivity().getResources().getColor(R.color.appColor))//标题背景颜色 Night mode
+                .build();
+        pvTime.show();
     }
 
 
@@ -372,6 +393,11 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
             return;
         }
 
+        if (!MyAppPreferences.getShopType() && null == planInformTime) {
+            ToastUtils.showToast("请设置预计完成时间！");
+            return;
+        }
+
 
         fixInfo = new FixInfoEntity();
         fixInfo.setCarId(carId);
@@ -382,6 +408,8 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         fixInfo.setUserName(userName);
         fixInfo.setSysUserList(technicians);
         fixInfo.setSignPic(iv_lpv_url);
+
+        fixInfo.setPlanInformTime(String.valueOf(planInformTime));
 
         mdl.quotationSave(fixInfo, new RxSubscribe<NullDataEntity>(getView().getSelfActivity(), true) {
             @Override

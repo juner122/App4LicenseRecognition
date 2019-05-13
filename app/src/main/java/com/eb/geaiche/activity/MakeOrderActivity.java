@@ -539,7 +539,7 @@ public class MakeOrderActivity extends BaseActivity {
             return;
         }
 
-        if (!MyAppPreferences.getShopType() && null == infoEntity.getPlanfinishi_time() || infoEntity.getPlanfinishi_time() == 0) {
+        if (!MyAppPreferences.getShopType() && null == infoEntity.getPlanfinishi_time()) {
             ToastUtils.showToast("请设置预计完成时间！");
             return;
         }
