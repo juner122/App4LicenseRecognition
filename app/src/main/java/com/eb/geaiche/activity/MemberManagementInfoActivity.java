@@ -142,6 +142,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
                     return;
                 }
 
+                car_vin = cars.get(0).getVin();//设置车架号
+
 
                 if (!"".equals(new_car_number)) {
                     for (int i = 0; i < cars.size(); i++) {
@@ -157,6 +159,8 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 }
 
                 adpter1.setNewData(cars);
+
+
             }
 
             @Override

@@ -457,12 +457,9 @@ public class MakeOrderActivity extends BaseActivity {
             case R.id.but_set_date:
 
 
-                TimePickerView pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-                    @Override
-                    public void onTimeSelect(Date date, View v) {
-                        but_set_date.setText(DateUtil.getFormatedDateTime2(date));
-                        infoEntity.setPlanfinishi_time(date.getTime());
-                    }
+                TimePickerView pvTime = new TimePickerBuilder(this, (date, v) -> {
+                    but_set_date.setText(DateUtil.getFormatedDateTime2(date));
+                    infoEntity.setPlanfinishi_time(date.getTime());
                 }).setType(new boolean[]{true, true, true, true, true, false})// 默认全部显示
                         .setSubmitColor(Color.WHITE)//确定按钮文字颜色
                         .setCancelColor(Color.WHITE)//取消按钮文字颜色
@@ -533,12 +530,17 @@ public class MakeOrderActivity extends BaseActivity {
 
     private void onMakeOrder() {
         if (cartUtils.isNull()) {
-            ToastUtils.showToast("请最少选择一项商品或服务");
+            ToastUtils.showToast("请最少选择一项商品或服务！");
             return;
         }
 
         if (null == technicians || technicians.size() == 0) {
-            ToastUtils.showToast("请最少选择一个技师");
+            ToastUtils.showToast("请最少选择一个技师！");
+            return;
+        }
+
+        if (!MyAppPreferences.getShopType() && null == infoEntity.getPlanfinishi_time() || infoEntity.getPlanfinishi_time() == 0) {
+            ToastUtils.showToast("请设置预计完成时间！");
             return;
         }
 
@@ -551,7 +553,7 @@ public class MakeOrderActivity extends BaseActivity {
             infoEntity.setUserActivityList(cartUtils.getMealList());
             infoEntity.setProvince(cartUtils.getMealList().get(0).getActivitySn());//获取第一个卡号
         }
-        Log.e(TAG, "下单信息：" + infoEntity.toString());
+
         Api().submit(infoEntity).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo orderInfo) {
@@ -574,7 +576,7 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.e(TAG, message);
-                ToastUtils.showToast("下单失 败!" + message);
+                ToastUtils.showToast("下单失败!" + message);
                 finish();
             }
         });

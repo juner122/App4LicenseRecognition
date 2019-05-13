@@ -355,19 +355,16 @@ public class MemberInfoInputActivity extends BaseActivity {
         new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
     }
 
-    private View.OnFocusChangeListener mOnFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            EditText textView = (EditText) v;
-            String hint;
-            if (hasFocus) {
-                hint = textView.getHint().toString();
-                textView.setTag(hint);
-                textView.setHint("");
-            } else {
-                hint = textView.getTag().toString();
-                textView.setHint(hint);
-            }
+    private View.OnFocusChangeListener mOnFocusChangeListener = (v, hasFocus) -> {
+        EditText textView = (EditText) v;
+        String hint;
+        if (hasFocus) {
+            hint = textView.getHint().toString();
+            textView.setTag(hint);
+            textView.setHint("");
+        } else {
+            hint = textView.getTag().toString();
+            textView.setHint(hint);
         }
     };
 
