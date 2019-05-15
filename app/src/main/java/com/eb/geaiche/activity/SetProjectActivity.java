@@ -147,7 +147,7 @@ public class SetProjectActivity extends BaseActivity {
                 }
             });
         } else {
-            g.setId(setProjects.get(position).getEasy_id());
+            g.setId(String.valueOf(setProjects.get(position).getEasy_id()));
             //更新
             Api().shopeasyUpdate(g).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override

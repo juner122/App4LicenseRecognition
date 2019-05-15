@@ -292,28 +292,7 @@ public class ServeListActivity extends BaseActivity {
         return R.layout.activity_server_list;
     }
 
-    private GoodsEntity toGoodsEntity(Goods goods) {
-        GoodsEntity goodsEntity = new GoodsEntity();
 
-        //暂时用第一个规格
-        goods.setGoodsStandard(goods.getXgxGoodsStandardPojoList().get(0));
-
-        goodsEntity.setGoodsId(goods.getId());
-        goodsEntity.setGoods_id(goods.getId());
-        goodsEntity.setId(goods.getId());
-        goodsEntity.setName(goods.getGoodsTitle());
-        goodsEntity.setGoods_name(goods.getGoodsTitle());
-        goodsEntity.setGoodsName(goods.getGoodsTitle());
-        goodsEntity.setGoods_sn(goods.getGoodsCode());
-        goodsEntity.setType(goods.getType());
-        goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
-        goodsEntity.setNumber(goods.getNum());
-        goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
-        goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
-        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
-        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
-        return goodsEntity;
-    }
 
     public void initRadioGroup(final List<GoodsCategory> list) {
         for (int i = 0; i < list.size(); i++) {

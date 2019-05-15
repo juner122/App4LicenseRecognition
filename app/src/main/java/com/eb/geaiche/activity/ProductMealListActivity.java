@@ -110,7 +110,7 @@ public class ProductMealListActivity extends BaseActivity {
 
             case R.id.but_enter_order:
                 Log.e("购物车+++", MyApplication.cartUtils.getDataFromLocal().toString());
-
+                MyApplication.cartUtils.commit();//确认商品
                 finish();
                 break;
             case R.id.tv_title_r:

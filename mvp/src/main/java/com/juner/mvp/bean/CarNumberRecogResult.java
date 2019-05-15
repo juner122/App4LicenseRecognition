@@ -7,8 +7,6 @@ public class CarNumberRecogResult {
     String color;
     String vin;
 
-
-
     public String getVin() {
         return vin;
     }

@@ -213,7 +213,7 @@ public class ProductListFragment extends BaseFragment {
         GoodsEntity goodsEntity = new GoodsEntity();
 
         goodsEntity.setGoodsId(goods.getId());
-        goodsEntity.setId(goods.getId());
+
         goodsEntity.setName(goods.getGoodsTitle());
         goodsEntity.setGoods_name(goods.getGoodsTitle());
         goodsEntity.setGoodsName(goods.getGoodsTitle());
@@ -241,7 +241,6 @@ public class ProductListFragment extends BaseFragment {
 
         goodsEntity.setGoodsId(goods.getId());
         goodsEntity.setGoods_id(goods.getId());
-        goodsEntity.setId(goods.getId());
         goodsEntity.setName(goods.getGoodsTitle());
         goodsEntity.setGoods_name(goods.getGoodsTitle());
         goodsEntity.setGoodsName(goods.getGoodsTitle());

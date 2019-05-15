@@ -36,21 +36,18 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 helper.setText(R.id.tv_name, m.getActivityName());
 
                 //set view content
-                helper.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = helper.getAdapterPosition();
-                        if (m.isExpanded()) {
-                            collapse(pos);
-                        } else {
-                            expand(pos);
-                        }
+                helper.itemView.setOnClickListener(v -> {
+                    int pos = helper.getAdapterPosition();
+                    if (m.isExpanded()) {
+                        collapse(pos);
+                    } else {
+                        expand(pos);
                     }
                 });
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getNumber() + "次"));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, me.getNumber() + "次");
 
                 ImageView iv = helper.getView(R.id.iv);
                 TextView tv_goodName = helper.getView(R.id.tv_name);

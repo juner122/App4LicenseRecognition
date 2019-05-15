@@ -191,7 +191,6 @@ public class ProductListDialog extends Dialog {
 
         GoodsEntity goodsEntity = new GoodsEntity();
         goodsEntity.setGoods_id(pick_value.getGoodsId());
-        goodsEntity.setId(pick_value.getGoodsId());
         goodsEntity.setName(goods.getGoodsTitle());
         goodsEntity.setGoods_name(goods.getGoodsTitle());
         goodsEntity.setGoodsName(goods.getGoodsTitle());

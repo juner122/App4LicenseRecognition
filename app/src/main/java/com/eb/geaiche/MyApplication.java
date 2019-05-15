@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.alivc.player.AliVcMediaPlayer;
+import com.eb.geaiche.service.CrashHandler2;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartUtils;
@@ -17,8 +18,6 @@ import com.umeng.socialize.PlatformConfig;
 public class MyApplication extends Application {
     private static MyApplication app;
     public static CartUtils cartUtils;
-
-
 
 
     public static MyApplication getInstance() {
@@ -52,11 +51,11 @@ public class MyApplication extends Application {
         PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), GeTuiIntentService.class);
 
 
-//        //全局异常处理
+        //全局异常处理
 //        CrashHandler handler = CrashHandler.getInstance(this);
 //        Thread.setDefaultUncaughtExceptionHandler(handler);
-
-//        CrashHandler2.getInstance().init(this);
+//
+        CrashHandler2.getInstance().init(this);
 
 
     }
@@ -66,8 +65,6 @@ public class MyApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);//5.0以下要添加
     }
-
-
 
 
 }

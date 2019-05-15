@@ -114,10 +114,8 @@ public class CartUtils {
 
         GoodsEntity good = new GoodsEntity();
 
-        good.setId(entity.getId());
-        good.setGoodsId(Integer.parseInt(entity.getGoodsId()));
+        good.setId(String.valueOf(entity.getId()));//同商品 区分在不同套餐
         good.setGoods_id(Integer.parseInt(entity.getGoodsId()));
-        good.setName(entity.getGoodsName());
         good.setGoodsNum(entity.getNumber());
         good.setActivityId(Integer.parseInt(entity.getActivityId()));
         good.setActivitySn(entity.getActivitySn());
@@ -125,7 +123,8 @@ public class CartUtils {
         good.setGoodsName(entity.getGoodsName());
 
         good.setType(Goods_TYPE_5);
-        addData(good);
+//        addData(good);
+        addDataNoCommit(good);//操作不保存
     }
 
     //套餐商品
@@ -133,8 +132,10 @@ public class CartUtils {
 
         GoodsEntity good = new GoodsEntity();
         good.setGoods_id(entity.getId());
-        good.setType(5);
-        reduceData(good);
+        good.setType(Goods_TYPE_5);
+//        reduceData(good);
+        reduceDataNoCommit(good);//操作不保存
+
     }
 
 
@@ -252,9 +253,7 @@ public class CartUtils {
             } else {
                 data.put(cart_id, tempCart);
             }
-
         }
-
     }
 
     public void commit() {
@@ -347,6 +346,9 @@ public class CartUtils {
 
     private int getCartId(GoodsEntity good) {
         //购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
+        if (null != good.getId() && !good.getId().equals("")) {
+            return Integer.valueOf(good.getId());
+        }
         if (null == good.getGoodsStandard())
             return good.getGoods_id();
         else {

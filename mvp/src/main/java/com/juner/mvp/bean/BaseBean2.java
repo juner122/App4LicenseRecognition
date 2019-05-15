@@ -5,6 +5,15 @@ public class BaseBean2<T> {
 
     String ret;
     String msg;
+    String log_id;
+
+    public String getLog_id() {
+        return log_id;
+    }
+
+    public void setLog_id(String log_id) {
+        this.log_id = log_id;
+    }
 
     T data;
 

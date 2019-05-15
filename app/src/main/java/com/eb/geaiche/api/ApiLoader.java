@@ -910,9 +910,9 @@ public class ApiLoader {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = RGB_565;
-        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.05f));
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.1f));
 
-
+        Log.d("扫描识别", "车牌图片\n" + pic);
         return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.observe2());
     }
 
@@ -927,7 +927,7 @@ public class ApiLoader {
         options.inPreferredConfig = RGB_565;
         String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.3f));
 
-
+        Log.d("扫描识别", "车辆vin图片\n" + pic);
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
     }
 

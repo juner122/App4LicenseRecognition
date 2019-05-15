@@ -329,68 +329,71 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         esc.addSelectJustification(LEFT);
-        esc.addText("服务工时\t小计:" + String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList()) + "\n");
-        for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
 
 
+        if (null != info.getOrderInfo().getGoodsList()) {
+            esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
+                esc.addSelectJustification(LEFT);
+                esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+                esc.addText(ge.getGoods_name());
+                esc.addPrintAndLineFeed();
+                esc.addSelectJustification(LEFT);
+                esc.addSetAbsolutePrintPosition((short) 7);
+                esc.addText("x1");
+                esc.addSetAbsolutePrintPosition((short) 12);
+                esc.addSelectJustification(RIGHT);
+                esc.addText("" + ge.getRetail_price());
+                esc.addPrintAndLineFeed();
+                esc.addPrintAndLineFeed();
+            }
+            esc.addText("--------------------------------\n");//打印完成时间
             esc.addSelectJustification(LEFT);
-            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(ge.getGoods_name());
-            esc.addPrintAndLineFeed();
-            esc.addSelectJustification(LEFT);
-
-
-            esc.addSetAbsolutePrintPosition((short) 7);
-            esc.addText("x1");
-
-            esc.addSetAbsolutePrintPosition((short) 12);
-
-            esc.addSelectJustification(RIGHT);
-            esc.addText("" + ge.getRetail_price());
-            esc.addPrintAndLineFeed();
-            esc.addPrintAndLineFeed();
         }
-        esc.addText("--------------------------------\n");//打印完成时间
 
+        if (null != info.getOrderInfo().getGoodsList()) {
 
-        esc.addSelectJustification(LEFT);
-        esc.addText("商品配件\t小计:" + String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList()) + "\n");
+            esc.addText("商品配件\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
 
-        for (GoodsEntity ge : info.getOrderInfo().getGoodsList()) {
+                esc.addSelectJustification(LEFT);
+                esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+                esc.addText(ge.getGoods_name());
+                esc.addPrintAndLineFeed();
+                esc.addSelectJustification(LEFT);
 
-            esc.addSelectJustification(LEFT);
-            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(ge.getGoods_name());
-            esc.addPrintAndLineFeed();
-            esc.addSelectJustification(LEFT);
+                esc.addSetAbsolutePrintPosition((short) 7);
+                esc.addText(ge.getNumberStringX());
 
-            esc.addSetAbsolutePrintPosition((short) 7);
-            esc.addText(ge.getNumberStringX());
+                esc.addSetAbsolutePrintPosition((short) 12);
 
-            esc.addSetAbsolutePrintPosition((short) 12);
-
-            esc.addSelectJustification(RIGHT);
-            esc.addText(String.valueOf(Double.parseDouble(ge.getRetail_price()) * ge.getNumber()));
-            esc.addPrintAndLineFeed();
-            esc.addPrintAndLineFeed();
+                esc.addSelectJustification(RIGHT);
+                esc.addText(String.valueOf(Double.parseDouble(ge.getRetail_price()) * ge.getNumber()));
+                esc.addPrintAndLineFeed();
+                esc.addPrintAndLineFeed();
+            }
         }
-        for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
-            esc.addSelectJustification(LEFT);
-            esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
-            esc.addText(gu.getGoods_name());
-            esc.addPrintAndLineFeed();
-            esc.addSelectJustification(LEFT);
 
-            esc.addSetAbsolutePrintPosition((short) 7);
-            esc.addText("x1");
+        if (null != info.getOrderInfo().getUserActivityList()) {
+            for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
+                esc.addSelectJustification(LEFT);
+                esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
+                esc.addText(gu.getGoodsName());
+                esc.addPrintAndLineFeed();
+                esc.addSelectJustification(LEFT);
 
-            esc.addSetAbsolutePrintPosition((short) 12);
+                esc.addSetAbsolutePrintPosition((short) 7);
+                esc.addText("x1");
 
-            esc.addSelectJustification(RIGHT);
-            esc.addText("抵扣");
-            esc.addPrintAndLineFeed();
-            esc.addPrintAndLineFeed();
+                esc.addSetAbsolutePrintPosition((short) 12);
+
+                esc.addSelectJustification(RIGHT);
+                esc.addText("抵扣");
+                esc.addPrintAndLineFeed();
+                esc.addPrintAndLineFeed();
+            }
         }
+
 
         esc.addSelectJustification(RIGHT);
         esc.addText(all_price.getText().toString());
@@ -443,7 +446,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     //获取商品或工时
     private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
-        if (null == goodsEntities || goodsEntities.size() == 0) {
+        if (null == goodsEntities) {
             return null;
         }
         List<GoodsEntity> list = new ArrayList<>();

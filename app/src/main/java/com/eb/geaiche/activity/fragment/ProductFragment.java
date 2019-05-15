@@ -325,7 +325,7 @@ public class ProductFragment extends BaseFragment {
         GoodsEntity goodsEntity = new GoodsEntity();
 
         goodsEntity.setGoodsId(goods.getId());
-        goodsEntity.setId(goods.getId());
+
         goodsEntity.setGoods_id(goods.getId());
 
         goodsEntity.setName(goods.getGoodsTitle());

@@ -8,9 +8,18 @@ public class GoodsEntity implements Parcelable {
     int type;//服务商品类型  1 商品，2工时服务
     boolean isSet = true;
 
-    Integer id;
+
+    String id;
     String name;
     String goods_sn;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getRetailPrice() {
         return retailPrice;
@@ -280,13 +289,6 @@ public class GoodsEntity implements Parcelable {
         this.list_pic_url = primary_pic_url;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -390,7 +392,7 @@ public class GoodsEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.type);
         dest.writeByte(this.isSet ? (byte) 1 : (byte) 0);
-        dest.writeValue(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.goods_sn);
         dest.writeString(this.goodsSn);
@@ -426,7 +428,7 @@ public class GoodsEntity implements Parcelable {
     protected GoodsEntity(Parcel in) {
         this.type = in.readInt();
         this.isSet = in.readByte() != 0;
-        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.id = in.readString();
         this.name = in.readString();
         this.goods_sn = in.readString();
         this.goodsSn = in.readString();

@@ -3,6 +3,7 @@ package com.eb.geaiche.activity.fragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +15,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.bean.Meal;
 import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
+import com.juner.mvp.bean.GoodsEntity;
 
 
 import java.util.ArrayList;
@@ -53,20 +55,26 @@ public class ProductMealFragment extends BaseFragment {
         rv.setAdapter(mealListAdapter);
         mealListAdapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
 
-        mealListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        mealListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            try {
                 MealEntity m = (MealEntity) adapter.getData().get(position);
-
+                if (m.getNumber() == 0) {
+                    return;
+                }
                 if (m.isSelected()) {
                     m.setSelected(false);
+
                     MyApplication.cartUtils.reduceMeal(m);
                 } else {
                     m.setSelected(true);
                     MyApplication.cartUtils.addMeal(m);
                 }
                 adapter.notifyDataSetChanged();
+            } catch (ClassCastException E) {
+                E.printStackTrace();
             }
+
+
         });
 
 
@@ -83,6 +91,7 @@ public class ProductMealFragment extends BaseFragment {
                 list = generateData(mealList.getList());
                 mealListAdapter.setNewData(list);
                 mealListAdapter.expandAll();
+
 
             }
 
@@ -113,6 +122,11 @@ public class ProductMealFragment extends BaseFragment {
             for (MealEntity entity : list) {
                 lv0.setCarNo(entity.getCarNo());
                 lv0.setEndTime(Long.parseLong(entity.getEndTime()));
+                for (GoodsEntity ge : MyApplication.cartUtils.getMealList()) {
+                    if (ge.getId().equals(String.valueOf(entity.getId()))) {
+                        entity.setSelected(true);
+                    }
+                }
                 lv0.addSubItem(entity);
             }
             res.add(lv0);

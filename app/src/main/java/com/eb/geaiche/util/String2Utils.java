@@ -37,7 +37,7 @@ public class String2Utils {
                 s = String.format("%s,\t%s", s, t.getNickName());
         }
 
-        return s.substring(1);
+        return s.length() != 0 ? s.substring(1) : "";
 
 
     }
@@ -51,7 +51,7 @@ public class String2Utils {
             s = String.format("%s,\t%s", s, t.getUsername());
         }
 
-        return s.substring(1);
+        return s.length() != 0 ? s.substring(1) : "";
 
 
     }
