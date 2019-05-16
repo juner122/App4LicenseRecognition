@@ -775,7 +775,7 @@ public class OrderInfoActivity extends BaseActivity {
         esc.addSelectJustification(EscCommand.JUSTIFICATION.LEFT);
 
         // 手机号码
-        esc.addText("手机号码：" + MathUtil.hidePhone(info.getOrderInfo().getMobile()) + "\n");
+        esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
 
 
         if (info.getOrderInfo().getConsignee().equals("匿名")) {

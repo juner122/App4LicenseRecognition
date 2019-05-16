@@ -268,7 +268,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
 
         // 打印文字
-        esc.addText("手机号码：" + MathUtil.hidePhone(mobile) + "\n");//打印下单时间
+        esc.addText("手机号码：" + mobile + "\n");//打印下单时间
         esc.addText("车主姓名：" + userName.substring(0, 1) + "**" + "\n");//打印下单时间
         esc.addText("接单时间：" + MathUtil.toNowDate() + "\n");//打印完成时间
 
