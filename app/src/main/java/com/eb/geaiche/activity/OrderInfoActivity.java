@@ -1,6 +1,7 @@
 package com.eb.geaiche.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcelable;
 
@@ -31,6 +33,9 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.buletooth.PrinterCommand;
+import com.eb.geaiche.util.ButtonUtils;
+import com.eb.geaiche.util.CameraThreadPool;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.NoticeDialog;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -194,6 +199,10 @@ public class OrderInfoActivity extends BaseActivity {
     @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice, R.id.tv_back, R.id.tv_title_r, R.id.tv_bluetooth})
     public void onClick(View v) {
 
+        if (ButtonUtils.isFastDoubleClick(v.getId())) {//防止按钮多次重复点击
+            return;
+        }
+
         switch (v.getId()) {
             case R.id.tv_fix_order:
                 if (!isFixOrder)
@@ -316,7 +325,11 @@ public class OrderInfoActivity extends BaseActivity {
 
             case R.id.tv_bluetooth://连接蓝牙
 
-                initBluetooth();//连接蓝牙
+                if (isConnectable) {
+                    ToastUtils.showToast("蓝牙已连接,请打印！");
+
+                } else
+                    initBluetooth();//连接蓝牙
 
 
                 break;
@@ -370,11 +383,6 @@ public class OrderInfoActivity extends BaseActivity {
 
         getOrderInfoData();
 
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("连接蓝牙中");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(true);
-
 
     }
 
@@ -403,7 +411,12 @@ public class OrderInfoActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         tv_title.setText("订单详情");
-        setRTitle("凭证打印");
+
+
+        if (MyAppPreferences.getShopType()) {//加盟店才能在订单详情打印凭证
+            setRTitle("凭证打印");
+            tv_bluetooth.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -673,13 +686,12 @@ public class OrderInfoActivity extends BaseActivity {
 
     }
 
-    private ProgressDialog dialog;
 
     private BluetoothAdapter mBluetoothAdapter;//蓝牙
 
     private void initBluetooth() {
 
-        dialog.show();
+
         // Get the local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -688,8 +700,8 @@ public class OrderInfoActivity extends BaseActivity {
         } else {
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
-            if (!mBluetoothAdapter.isEnabled()) {
-                dialog.dismiss();
+            if (!mBluetoothAdapter.isEnabled()) {//未开蓝牙
+
                 turnOnBluetooth();
 
             } else {
@@ -930,23 +942,27 @@ public class OrderInfoActivity extends BaseActivity {
                 REQUEST_CODE_BLUETOOTH_ON);
     }
 
-//    Disposable disposable;//连接蓝牙线程
 
     protected void getDeviceList() {
-
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
-                new DeviceConnFactoryManager.Build()
-                        .setId(ID)
-                        //设置连接方式
-                        .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                        //设置连接的蓝牙mac地址
-                        .setMacAddress(device.getAddress())
-                        .build();
-                //打开端口
-                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+
+                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+                    Looper.prepare();
+
+                    new DeviceConnFactoryManager.Build()
+                            .setId(ID)
+                            //设置连接方式
+                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+                            //设置连接的蓝牙mac地址
+                            .setMacAddress(device.getAddress())
+                            .build();
+                    //打开端口
+                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+                    Looper.loop();// 进入loop中的循环，查看消息队列
+                });
 
                 break;
             }
@@ -967,13 +983,9 @@ public class OrderInfoActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (dialog != null)
-            dialog.dismiss();
         unregisterReceiver(receiver);
 
-//        if (null != disposable) {
-//            disposable.dispose();
-//        }
+
     }
 
     @Override
@@ -985,12 +997,13 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
 
+    boolean isConnectable;//是否可打印
+
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (dialog != null)
-                dialog.dismiss();
 
             String action = intent.getAction();
             switch (action) {
@@ -1007,21 +1020,23 @@ public class OrderInfoActivity extends BaseActivity {
                         case DeviceConnFactoryManager.CONN_STATE_DISCONNECT:
                             if (ID == deviceId) {
                                 tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
-
                             }
+                            isConnectable = false;
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
-                            tv_bluetooth.setText("打印机连接中");
+                            tv_bluetooth.setText("打印机连接中...");
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
                             tv_bluetooth.setText("打印机已连接");
+                            isConnectable = true;
+                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getString(R.string.str_conn_fail));
                             tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
-
+                            isConnectable = false;
                             break;
                         default:
                             break;
@@ -1032,4 +1047,31 @@ public class OrderInfoActivity extends BaseActivity {
             }
         }
     };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // requestCode 与请求开启 Bluetooth 传入的 requestCode 相对应
+        if (requestCode == REQUEST_CODE_BLUETOOTH_ON) {
+            switch (resultCode) {
+                // 点击确认按钮
+                case Activity.RESULT_OK: {
+                    // TODO 用户选择开启 Bluetooth，Bluetooth 会被开启
+
+                    getDeviceList();
+
+                }
+                break;
+
+                // 点击取消按钮或点击返回键
+                case Activity.RESULT_CANCELED: {
+                    // TODO 用户拒绝打开 Bluetooth, Bluetooth 不会被开启
+//                    finish();
+                }
+                break;
+                default:
+                    break;
+            }
+        }
+    }
 }

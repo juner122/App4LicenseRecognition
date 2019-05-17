@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,6 +27,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.buletooth.PrinterCommand;
+import com.eb.geaiche.util.ButtonUtils;
+import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -121,7 +124,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     private BluetoothAdapter mBluetoothAdapter;//蓝牙
 
 
-    private ProgressDialog dialog;
     /**
      * 判断打印机所使用指令是否是ESC指令
      */
@@ -149,12 +151,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             }
         });
-//        initBluetooth();
-
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("连接蓝牙中");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(true);
 
 
     }
@@ -162,7 +158,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     private void initBluetooth() {
 
-        dialog.show();
+
         // Get the local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -172,7 +168,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
             if (!mBluetoothAdapter.isEnabled()) {
-                dialog.dismiss();
+
                 turnOnBluetooth();
 
             } else {
@@ -233,23 +229,26 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     protected void getDeviceList() {
 
+
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
 
-                tv_bluetooth.setText("打印机已连接(" + device.getName() + "\t" + device.getAddress() + ")");
-                //初始化话DeviceConnFactoryManager
-                new DeviceConnFactoryManager.Build()
-                        .setId(ID)
-                        //设置连接方式
-                        .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                        //设置连接的蓝牙mac地址
-                        .setMacAddress(device.getAddress())
-                        .build();
-                //打开端口
-                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+                    Looper.prepare();
 
+                    new DeviceConnFactoryManager.Build()
+                            .setId(ID)
+                            //设置连接方式
+                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+                            //设置连接的蓝牙mac地址
+                            .setMacAddress(device.getAddress())
+                            .build();
+                    //打开端口
+                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+                    Looper.loop();// 进入loop中的循环，查看消息队列
+                });
 
                 break;
             }
@@ -594,6 +593,11 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph, R.id.tv_title_r, R.id.tv_bluetooth})
     public void onClick(View view) {
+
+        if (ButtonUtils.isFastDoubleClick(view.getId())) {//防止按钮多次重复点击
+            return;
+        }
+        
         switch (view.getId()) {
             case R.id.tv_now_pay:
 
@@ -647,13 +651,19 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             case R.id.tv_bluetooth://连接蓝牙
 
-                initBluetooth();//连接蓝牙
+
+                if (isConnectable) {
+                    ToastUtils.showToast("蓝牙已连接,请打印！");
+
+                } else
+                    initBluetooth();//连接蓝牙
 
 
                 break;
             case R.id.tv_title_r://蓝牙打印
 
                 btnReceiptPrint();//蓝牙打印
+
 
                 break;
 
@@ -680,13 +690,12 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     }
 
+    boolean isConnectable;//是否可打印
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (dialog != null)
-                dialog.dismiss();
 
             String action = intent.getAction();
             switch (action) {
@@ -705,19 +714,22 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                                 tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
 
                             }
+                            isConnectable = false;
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
-
+                            tv_bluetooth.setText("打印机连接中...");
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
-
+                            tv_bluetooth.setText("打印机已连接");
+                            isConnectable = true;
+                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getString(R.string.str_conn_fail));
                             tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
-
+                            isConnectable = false;
                             break;
                         default:
                             break;
@@ -740,8 +752,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (dialog != null)
-            dialog.dismiss();
         unregisterReceiver(receiver);
 
     }

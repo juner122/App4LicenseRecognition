@@ -21,6 +21,7 @@ import com.otaliastudios.cameraview.PictureResult;
 import java.math.BigDecimal;
 
 import androidx.annotation.NonNull;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
@@ -85,8 +86,10 @@ public class PreviewZoomActivity extends BaseActivity {
                 BigDecimal b1 = new BigDecimal(Integer.toString(i));
                 BigDecimal b2 = new BigDecimal(Integer.toString(100));//根据控件设定的最大值来除
                 float f = b1.divide(b2, 4, BigDecimal.ROUND_HALF_UP).floatValue();
-                Log.i("缩放级别zoom", "i=" + i + ",Zoom=" + f);
+                Log.i("缩放级别zoom", "Zoom:f" + f);
+                ToastUtils.showToast("缩放级别zoom" + "Zoom:f" + f);
                 cameraKitView.setZoom(f);
+
 
             }
 

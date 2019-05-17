@@ -21,6 +21,6 @@ public class SimpleServerInfo2Adpter extends BaseQuickAdapter<GoodsEntity, BaseV
 
 
         helper.setText(R.id.name, item.getGoods_name());
-        helper.setText(R.id.price, "￥" + MathUtil.twoDecimal(item.getPrice())).setText(R.id.tv_number, "x" + item.getNumber());
+        helper.setText(R.id.price, "￥" + MathUtil.twoDecimal(item.getRetail_price())).setText(R.id.tv_number, "x" + item.getNumber());
     }
 }

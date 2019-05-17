@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcelable;
 
@@ -29,6 +30,7 @@ import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.model.FixInfoDesMdl;
+import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.MyAppPreferences;
@@ -76,7 +78,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
     FixInfoEntity fixInfo;//请求对象
 
-    private ProgressDialog dialog;
+
     private BluetoothAdapter mBluetoothAdapter;//蓝牙
 
 
@@ -135,11 +137,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     @Override
     public void getInfo() {
 
-        dialog = new ProgressDialog(getView().getSelfActivity());
-        dialog.setMessage("连接蓝牙中");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(true);
-
 
         carNo = getView().getSelfActivity().getIntent().getStringExtra(Configure.car_no);
         carId = getView().getSelfActivity().getIntent().getIntExtra(Configure.car_id, 0);
@@ -176,8 +173,11 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
     @Override
     public void initBluetooth() {
+        if (isConnectable) {
+            ToastUtils.showToast("蓝牙已连接,请打印！");
+            return;
+        }
 
-        dialog.show();
         // Get the local Bluetooth adapter
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         // If the adapter is null, then Bluetooth is not supported
@@ -187,7 +187,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
             // If BT is not on, request that it be enabled.
             // setupChat() will then be called during onActivityResult
             if (!mBluetoothAdapter.isEnabled()) {
-                dialog.dismiss();
+
                 turnOnBluetooth();
 
             } else {
@@ -341,18 +341,20 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
 
-                getView().setBluetoothText("打印机已连接(" + device.getName() + "\t" + device.getAddress() + ")");
-                //初始化话DeviceConnFactoryManager
-                new DeviceConnFactoryManager.Build()
-                        .setId(ID)
-                        //设置连接方式
-                        .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                        //设置连接的蓝牙mac地址
-                        .setMacAddress(device.getAddress())
-                        .build();
-                //打开端口
-                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+                    Looper.prepare();
 
+                    new DeviceConnFactoryManager.Build()
+                            .setId(ID)
+                            //设置连接方式
+                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+                            //设置连接的蓝牙mac地址
+                            .setMacAddress(device.getAddress())
+                            .build();
+                    //打开端口
+                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+                    Looper.loop();// 进入loop中的循环，查看消息队列
+                });
 
                 break;
             }
@@ -443,8 +445,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
     @Override
     public void onStop() {
-        if (dialog != null)
-            dialog.dismiss();
         getView().getSelfActivity().unregisterReceiver(receiver);
     }
 
@@ -453,13 +453,12 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         iv_lpv_url = url;
     }
 
+    boolean isConnectable;//是否可打印
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (dialog != null)
-                dialog.dismiss();
 
             String action = intent.getAction();
             switch (action) {
@@ -478,19 +477,22 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
                                 getView().setBluetoothText(getView().getSelfActivity().getString(R.string.str_conn_state_disconnect));
 
                             }
+                            isConnectable = false;
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
-
+                            getView().setBluetoothText("打印机连接中...");
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTED:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
-
+                            getView().setBluetoothText("打印机已连接");
+                            isConnectable = true;
+                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getView().getSelfActivity().getString(R.string.str_conn_fail));
                             getView().setBluetoothText(getView().getSelfActivity().getString(R.string.str_conn_state_disconnect));
-
+                            isConnectable = false;
                             break;
                         default:
                             break;
@@ -513,16 +515,13 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
                     }
                     break;
                 case PRINTER_COMMAND_ERROR:
-
                     ToastUtils.showToast(getView().getSelfActivity().getString(R.string.str_choice_printer_command));
                     break;
                 case CONN_PRINTER:
-
                     ToastUtils.showToast(getView().getSelfActivity().getString(R.string.str_cann_printer));
                     break;
 
                 case NO_DERVER:
-
                     ToastUtils.showToast(getView().getSelfActivity().getString(R.string.no_dervier));
                     break;
                 default:

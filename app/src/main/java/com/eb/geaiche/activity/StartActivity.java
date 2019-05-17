@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baidu.ocr.ui.camera.CameraActivity;
 
 public class StartActivity extends PermissionsActivity implements View.OnClickListener {
     String[] strings = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -129,8 +132,11 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
         String token = new AppPreferences(this).getString(Configure.Token, "");
         if (token.equals(""))
             startActivity(new Intent(this, LoginActivity2.class));
-        else
+        else {
             startActivity(new Intent(this, MainActivity.class));
+//            startActivity(new Intent(this, CameraActivity.class));
+
+        }
         finish();
 
     }

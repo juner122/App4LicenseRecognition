@@ -19,6 +19,7 @@ import com.eb.geaiche.activity.AutographActivity;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.presenter.FixInfoDesPtr;
+import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
@@ -60,6 +61,11 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph,R.id.but_set_date})
     public void onClick(View view) {
+
+        if (ButtonUtils.isFastDoubleClick(view.getId())) {//防止按钮多次重复点击
+            return;
+        }
+
         switch (view.getId()) {
             case R.id.but_to_technician_list:
                 getPresenter().toTechnicianListActivity();

@@ -3,8 +3,8 @@ package com.juner.mvp;
 public class Configure {
 
 
-            public static final String BaseUrl = "http://222.111.88.102:8081/app/";//线下
-//    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
+//            public static final String BaseUrl = "http://222.111.88.102:8081/app/";//线下
+    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务
@@ -15,7 +15,7 @@ public class Configure {
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
     public static final String carVinRecognition = "https://vin.market.alicloudapi.com/api/predict/ocr_vin";//OCR文字识别-车辆vin识别
-    public static final String carVinInfo = "https://ali-vin.showapi.com/vin";//OCR文字识别-车辆vin识别
+    public static final String carVinInfo = "https://ali-vin.showapi.com/vin";//OCR文字识别-车辆vin查询
     public static final String LinePathView_url = "/sdcard/qm.png";//用户签名图片
     public static final int limit_page = 20;//分页数量
 

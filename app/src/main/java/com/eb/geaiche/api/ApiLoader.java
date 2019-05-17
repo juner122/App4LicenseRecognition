@@ -931,6 +931,16 @@ public class ApiLoader {
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
     }
 
+
+    /**
+     * 车辆vin识别
+     */
+    public Observable<CarNumberRecogResult> carVinLicense(String pic) {
+
+        Log.d("扫描识别", "车辆vin图片\n" + pic);
+        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.observeVin());
+    }
+
     /**
      * 车辆vin信息查询
      */
