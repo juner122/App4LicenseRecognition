@@ -53,6 +53,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 import com.otaliastudios.cameraview.CameraView;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -105,7 +106,9 @@ public class PreviewActivity2 extends BaseActivity {
     private PopupKeyboard mPopupKeyboard;
 
     boolean isFlash;//是否打开闪光灯
-
+    @BindView(R.id.v_preview)
+    View v_preview;//拍照截取的位置视图
+    int vh;
 
     @OnClick({R.id.photo, R.id.but_next, R.id.iv_Flash, R.id.but_quick, R.id.tv_title_r})
     public void onClick(View v) {
@@ -289,6 +292,8 @@ public class PreviewActivity2 extends BaseActivity {
 
             }
         });
+
+
     }
 
     @Override
@@ -300,6 +305,11 @@ public class PreviewActivity2 extends BaseActivity {
             but_quick.setVisibility(View.GONE);
         }
 
+
+        //图片截取框大小
+        v_preview.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            vh = v_preview.getHeight();
+        });
     }
 
     @Override
@@ -427,33 +437,27 @@ public class PreviewActivity2 extends BaseActivity {
         cameraKitView.mapGesture(Gesture.PINCH, GestureAction.ZOOM); // 双指缩放!
         cameraKitView.mapGesture(Gesture.TAP, GestureAction.ZOOM); // 点击缩放!
         cameraKitView.addCameraListener(new CameraListener() {
-            @Override
-            public void onCameraError(@NonNull CameraException exception) {
-                super.onCameraError(exception);
-                Log.e("Camera", "Got CameraException #" + exception.getReason());
-            }
-
 
             @Override
             public void onPictureTaken(PictureResult pictureResult) {
                 super.onPictureTaken(pictureResult);
 
-                Observable.just(pictureResult.getData()).subscribeOn(Schedulers.io()).flatMap((Function<byte[], ObservableSource<CarNumberRecogResult>>) bytes -> {
-                    //转为Base64
-                    return Api().carLicense(bytes);
-                }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
-                    @Override
-                    protected void _onNext(CarNumberRecogResult c) {
-                        mPopupKeyboard.getController().updateNumber(c.getNumber());
-                        mPopupKeyboard.dismiss(PreviewActivity2.this);
-                    }
+                try {
+                    Api().carLicense(pictureResult.getData(), vh).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
+                        @Override
+                        protected void _onNext(CarNumberRecogResult c) {
+                            mPopupKeyboard.getController().updateNumber(c.getNumber());
+                            mPopupKeyboard.dismiss(PreviewActivity2.this);
+                        }
 
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtils.showToast(message);
-                    }
-                });
-
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtils.showToast(message);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
         });

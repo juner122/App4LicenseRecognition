@@ -1,8 +1,10 @@
 package com.eb.geaiche.api;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -73,6 +76,8 @@ import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,6 +87,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import id.zelory.compressor.Compressor;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -97,9 +103,10 @@ public class ApiLoader {
 
     Map<String, Object> map = new HashMap<>();
     String token;
+    Context context;
 
     public ApiLoader(Context context) {
-
+        this.context = context;
         token = new AppPreferences(context).getString(Configure.Token, "");
         Log.i("apiService", "X-Nideshop-Token:  " + token);
         apiService = RetrofitServiceManager.getInstance().create(ApiService.class);
@@ -916,19 +923,42 @@ public class ApiLoader {
         return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.observe2());
     }
 
+    /**
+     * 车牌识别
+     */
+    public Observable<CarNumberRecogResult> carLicense(byte[] bytes, int vh) throws IOException {
+
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.png";//存入到DOWNLOADS
+        File file = FileUtil.getFileFromBytes(bytes, outputFile);
+
+        Bitmap bitmap = new Compressor(context)
+                .setQuality(100)
+                .setCompressFormat(Bitmap.CompressFormat.PNG)
+                .compressToBitmap(file);
+
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
+
+        Log.d("扫描识别", "车牌图片\n" + pic);
+        return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.observe2());
+    }
+
 
     /**
      * 车辆vin识别
      */
-    public Observable<CarNumberRecogResult> carVinLicense(byte[] bytes) {
+    public Observable<CarNumberRecogResult> carVinLicense(byte[] bytes, int vh) throws IOException {
 
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "vin.png";//存入到DOWNLOADS
+        File file = FileUtil.getFileFromBytes(bytes, outputFile);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = RGB_565;
-        String pic = BitmapUtil.bitmapToString(BitmapUtil.createBitmapThumbnail(BitmapFactory.decodeByteArray(bytes, 0, bytes.length, options), true, 0.3f));
+        Bitmap bitmap = new Compressor(context)
+                .setQuality(100)
+                .setCompressFormat(Bitmap.CompressFormat.PNG)
+                .compressToBitmap(file);
 
-        Log.d("扫描识别", "车辆vin图片\n" + pic);
-        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.<CarNumberRecogResult>observeVin());
+        String svin = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
+
+        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(svin)).compose(RxHelper.<CarNumberRecogResult>observeVin());
     }
 
 
@@ -937,7 +967,7 @@ public class ApiLoader {
      */
     public Observable<CarNumberRecogResult> carVinLicense(String pic) {
 
-        Log.d("扫描识别", "车辆vin图片\n" + pic);
+
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.observeVin());
     }
 

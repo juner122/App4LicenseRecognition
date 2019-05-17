@@ -180,4 +180,25 @@ public class BitmapUtil {
     }
 
 
+    /**
+     * 裁剪中间部分
+     *
+     * @param bitmap 原图
+     * @param v      高度
+     * @return 裁剪后的图像
+     */
+    public static Bitmap cropBitmap(Bitmap bitmap, int v) {
+        int w = bitmap.getWidth(); // 得到图片的宽，高
+        int h = bitmap.getHeight();
+
+        int x = 0;
+        int y = h / 2 - v / 2;
+        int width = w;
+        int height = v;
+
+
+        return Bitmap.createBitmap(bitmap, x, y, width, height, null, false);
+    }
+
+
 }

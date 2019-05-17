@@ -9,6 +9,7 @@ import android.graphics.BitmapRegionDecoder;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
+import com.eb.geaiche.util.Base64;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.FileUtil;
@@ -52,6 +54,7 @@ import androidx.annotation.NonNull;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import id.zelory.compressor.Compressor;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -96,7 +99,7 @@ public class CarVinDISActivity extends BaseActivity {
 
     @BindView(R.id.v_preview)
     View v_preview;//拍照截取的位置视图
-
+    int vh;
     @BindView(R.id.tv_engineSn)
     TextView tv_engineSn;
 
@@ -108,8 +111,12 @@ public class CarVinDISActivity extends BaseActivity {
 
     private File file;
 
+    Context context;
+
+
     @Override
     protected void init() {
+        context = this;
         tv_title.setText("扫描车架号");
         et_vin.setTransformationMethod(new A2bigA());
 
@@ -121,28 +128,11 @@ public class CarVinDISActivity extends BaseActivity {
         }
 
 
-//        //图片截取框大小
-//        v_preview.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-//
-//            frameRect.left = left;
-//            frameRect.top = top;
-//            frameRect.right = v_preview.getWidth();
-//            frameRect.bottom = v_preview.getHeight();
-//        });
-//        //监督拍摄框大小
-//        cameraKitView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-//
-//            previewFrame.left = left;
-//            previewFrame.top = top;
-//            previewFrame.right = right;
-//            previewFrame.bottom = bottom;
-//        });
-//
-//
-//        String outputPath = FileUtil.getSaveFile(getApplication()).getAbsolutePath();//拍摄图片保存位置
-//        if (outputPath != null) {
-//            file = new File(outputPath);
-//        }
+        //图片截取框大小
+        v_preview.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            vh = v_preview.getHeight();
+        });
+
     }
 
 
@@ -159,46 +149,25 @@ public class CarVinDISActivity extends BaseActivity {
             public void onPictureTaken(PictureResult pictureResult) {
                 super.onPictureTaken(pictureResult);
 
+                try {
+                    Api().carVinLicense(pictureResult.getData(), vh).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
+                        @Override
+                        protected void _onNext(CarNumberRecogResult c) {
+                            ll_tv_check.setVisibility(View.VISIBLE);
+                            et_vin.setText(c.getVin());
+                            vin = c.getVin();
+                            queryVinInfo(vin);
+                        }
 
-//                byte[] data = pictureResult.getData();
-//                final int rotation = ImageUtil.getOrientation(data);
-//                Bitmap bitmap = crop(file, data, rotation);
-//                Api().carVinLicense(BitmapUtil.bitmapToString(bitmap)).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
-//                    @Override
-//                    protected void _onNext(CarNumberRecogResult c) {
-//                        ll_tv_check.setVisibility(View.VISIBLE);
-//                        et_vin.setText(c.getVin());
-//                        vin = c.getVin();
-//                        queryVinInfo(vin);
-//                    }
-//
-//                    @Override
-//                    protected void _onError(String message) {
-//                        ToastUtils.showToast("识别失败,请重新扫描！");
-//                    }
-//                });
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtils.showToast("识别失败,请重新扫描！");
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-
-
-
-                Observable.just(pictureResult.getData()).subscribeOn(Schedulers.io()).flatMap((Function<byte[], ObservableSource<CarNumberRecogResult>>) bytes -> {
-                    //转为Base64
-
-                    return Api().carVinLicense(bytes);
-                }).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
-                    @Override
-                    protected void _onNext(CarNumberRecogResult c) {
-                        ll_tv_check.setVisibility(View.VISIBLE);
-                        et_vin.setText(c.getVin());
-                        vin = c.getVin();
-                        queryVinInfo(vin);
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtils.showToast("识别失败,请重新扫描！");
-                    }
-                });
             }
 
         });

@@ -1,11 +1,15 @@
 package com.eb.geaiche.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +46,7 @@ import com.qiniu.android.storage.UploadOptions;
 
 import net.grandcentrix.tray.AppPreferences;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -585,7 +590,6 @@ public class CarInfoInputActivity extends BaseActivity {
             Log.i(TAG, "picPath: " + path);
             final int finalI = i;
 
-
             uploadManager.put(path, key, Auth.create(Configure.accessKey, Configure.secretKey).uploadToken(Configure.bucket), (key1, info, res) -> {
                         // info.error中包含了错误信息，可打印调试
                         // 上传成功后将key值上传到自己的服务器
@@ -776,6 +780,67 @@ public class CarInfoInputActivity extends BaseActivity {
                 ToastUtils.showToast("删除失败");
             }
         });
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        //删掉上传成功的图片
+
+        for (LocalMedia localMedia : selectList) {
+            deletePic(localMedia.getPath());
+            updateMediaStore(this, localMedia.getPath());
+        }
+        for (LocalMedia localMedia : selectList2) {
+            deletePic(localMedia.getPath());
+            updateMediaStore(this, localMedia.getPath());
+        }
+        for (LocalMedia localMedia : selectList3) {
+            deletePic(localMedia.getPath());
+            updateMediaStore(this, localMedia.getPath());
+        }
+
+    }
+
+    private void deletePic(String path) {
+
+        if (path != null && path.length() > 0) {
+            File file = new File(path);
+            deleteFile(file);
+        }
+
+    }
+
+    public void deleteFile(File file) {
+        if (file.exists()) { // 判断文件是否存在
+            if (file.isFile()) { // 判断是否是文件
+                file.delete(); // delete()方法 你应该知道 是删除的意思;
+            } else if (file.isDirectory()) { // 否则如果它是一个目录
+                File files[] = file.listFiles(); // 声明目录下所有的文件 files[];
+                for (int i = 0; i < files.length; i++) { // 遍历目录下所有的文件
+                    deleteFile(files[i]); // 把每个文件 用这个方法进行迭代
+                }
+            }
+            file.delete();
+        }
+    }
+
+    public  void updateMediaStore(final Context context, final String path) {//更新相册
+        //版本号的判断  4.4为分水岭，发送广播更新媒体库
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            MediaScannerConnection.scanFile(context, new String[]{path}, null, (path1, uri) -> {
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                mediaScanIntent.setData(uri);
+                context.sendBroadcast(mediaScanIntent);
+            });
+        } else {
+            File file = new File(path);
+            String relationDir = file.getParent();
+            File file1 = new File(relationDir);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.fromFile(file1.getAbsoluteFile())));
+        }
     }
 
 

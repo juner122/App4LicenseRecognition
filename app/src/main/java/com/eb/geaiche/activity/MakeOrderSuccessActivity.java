@@ -294,6 +294,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         esc.addPrintAndLineFeed();
 
+
+
+
         /* 打印文字 */
         // 取消倍高倍宽
         esc.addSelectPrintModes(EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF);
@@ -597,7 +600,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         if (ButtonUtils.isFastDoubleClick(view.getId())) {//防止按钮多次重复点击
             return;
         }
-        
+
         switch (view.getId()) {
             case R.id.tv_now_pay:
 
