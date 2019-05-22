@@ -47,7 +47,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
     SimpleCarInfoAdpter adpter1;
 
 
-    String car_number = "", new_car_number, moblie, user_name, car_vin;
+    String car_number = "", new_car_number, moblie, user_name, car_vin, mileage;
 
     int user_id, car_id, new_car_id;
 
@@ -59,6 +59,9 @@ public class MemberManagementInfoActivity extends BaseActivity {
     protected void init() {
 
         user_id = getIntent().getIntExtra(Configure.user_id, 0);
+
+        MyAppPreferences.putString(Configure.user_id, String.valueOf(user_id));
+
         new_car_id = getIntent().getIntExtra("new_car_id", 0);
         new_car_number = getIntent().getStringExtra(Configure.car_no);
 
@@ -79,6 +82,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
             car_number = cars.get(position).getCarNo();
             car_id = cars.get(position).getId();
             car_vin = cars.get(position).getVin();
+            mileage = cars.get(position).getMileage();//里程数
 
             for (CarInfoRequestParameters c : cars) {
                 c.setSelected(false);
@@ -143,6 +147,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 }
 
                 car_vin = cars.get(0).getVin();//设置车架号
+                mileage = cars.get(0).getMileage();//设置里程数
 
 
                 if (!"".equals(new_car_number)) {
@@ -276,8 +281,14 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 ToastUtils.showToast("请完善车辆信息,缺少车架号！");
                 return false;
             }
-        }
+            if (null == mileage || "".equals(mileage)) {
+                ToastUtils.showToast("请完善车辆里程数信息！");
+                return false;
 
+            }
+
+        }
+        MyAppPreferences.putString(Configure.CAR_MILEAGE, mileage);
         return true;
 
     }

@@ -3,7 +3,7 @@ package com.juner.mvp;
 public class Configure {
 
 
-//            public static final String BaseUrl = "http://222.111.88.102:8081/app/";//线下
+//            public static final String BaseUrl = "http://222.111.88.108:8081/app/";//线下
     public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
 
     public static final int Goods_TYPE_1 = 1;//商城商品
@@ -31,7 +31,7 @@ public class Configure {
 
     public static final String car_no = "car_no";//车牌号
     public static final String user_id = "user_id";//
-    public static final String moblie = "moblie";//
+    public static final String moblie = "moblie";//y
     public static final String moblie_s = "moblie_s";//
     public static final String car_id = "car_id";//
     public static final String user_name = "user_name";//
@@ -72,6 +72,11 @@ public class Configure {
     public static final String pick_servers = "pick_servers";//选择的服务列表
     public static final String Class = "Calss";//选择的服务列表的activity
     public static final String CAR_VIN = "car_vin";//选择的服务列表的activity
+    public static final String CAR_ = "car_vin";//选择的服务列表的activity
+    public static final String CAR_MILEAGE = "mileage";//里程数
+
+
+    public static final String UPDATAREMARK = "这次我们做了一个非常重大的决定，您只需要点击确定在线升级之后就能体验哦。";//里程数
 
 
 }

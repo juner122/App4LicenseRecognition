@@ -1,11 +1,14 @@
 package com.juner.mvp.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * 维修单
  */
-public class FixInfoEntity {
+public class FixInfoEntity implements Parcelable {
 
 
     /**
@@ -60,7 +63,24 @@ public class FixInfoEntity {
     private String replaceSignPic;
     //其他凭证图片
     private String replaceOterPic;
+    String deputy;
+    String deputy_mobile;
 
+    public String getDeputy() {
+        return deputy;
+    }
+
+    public void setDeputy(String deputy) {
+        this.deputy = deputy;
+    }
+
+    public String getDeputy_mobile() {
+        return deputy_mobile;
+    }
+
+    public void setDeputy_mobile(String deputy_mobile) {
+        this.deputy_mobile = deputy_mobile;
+    }
     public String getReplaceSignPic() {
         return replaceSignPic;
     }
@@ -297,4 +317,82 @@ public class FixInfoEntity {
 
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeInt(this.carId);
+        dest.writeString(this.carNo);
+        dest.writeInt(this.userId);
+        dest.writeInt(this.sysuserId);
+        dest.writeString(this.userName);
+        dest.writeString(this.mobile);
+        dest.writeString(this.describe);
+        dest.writeInt(this.status);
+        dest.writeString(this.servePrice);
+        dest.writeString(this.goodsPrice);
+        dest.writeString(this.actualPrice);
+        dest.writeString(this.addTime);
+        dest.writeString(this.planInformTime);
+        dest.writeString(this.informTime);
+        dest.writeString(this.quotationSn);
+        dest.writeString(this.confirmTime);
+        dest.writeString(this.submitTime);
+        dest.writeString(this.signPic);
+        dest.writeTypedList(this.sysUserList);
+        dest.writeTypedList(this.orderProjectList);
+        dest.writeTypedList(this.orderGoodsList);
+        dest.writeString(this.replaceSignPic);
+        dest.writeString(this.replaceOterPic);
+        dest.writeString(this.deputy);
+        dest.writeString(this.deputy_mobile);
+    }
+
+    public FixInfoEntity() {
+    }
+
+    protected FixInfoEntity(Parcel in) {
+        this.id = in.readInt();
+        this.carId = in.readInt();
+        this.carNo = in.readString();
+        this.userId = in.readInt();
+        this.sysuserId = in.readInt();
+        this.userName = in.readString();
+        this.mobile = in.readString();
+        this.describe = in.readString();
+        this.status = in.readInt();
+        this.servePrice = in.readString();
+        this.goodsPrice = in.readString();
+        this.actualPrice = in.readString();
+        this.addTime = in.readString();
+        this.planInformTime = in.readString();
+        this.informTime = in.readString();
+        this.quotationSn = in.readString();
+        this.confirmTime = in.readString();
+        this.submitTime = in.readString();
+        this.signPic = in.readString();
+        this.sysUserList = in.createTypedArrayList(Technician.CREATOR);
+        this.orderProjectList = in.createTypedArrayList(FixServie.CREATOR);
+        this.orderGoodsList = in.createTypedArrayList(FixParts.CREATOR);
+        this.replaceSignPic = in.readString();
+        this.replaceOterPic = in.readString();
+        this.deputy = in.readString();
+        this.deputy_mobile = in.readString();
+    }
+
+    public static final Parcelable.Creator<FixInfoEntity> CREATOR = new Parcelable.Creator<FixInfoEntity>() {
+        @Override
+        public FixInfoEntity createFromParcel(Parcel source) {
+            return new FixInfoEntity(source);
+        }
+
+        @Override
+        public FixInfoEntity[] newArray(int size) {
+            return new FixInfoEntity[size];
+        }
+    };
 }

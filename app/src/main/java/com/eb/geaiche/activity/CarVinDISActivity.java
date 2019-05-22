@@ -95,6 +95,11 @@ public class CarVinDISActivity extends BaseActivity {
     TextView tv_made_year;
     @BindView(R.id.tv_output_volume)
     TextView tv_output_volume;
+    @BindView(R.id.tv_mandatory_entry)
+    TextView tv_mandatory_entry;//强制录入
+
+    @BindView(R.id.tv_check)
+    TextView tv_check;//查询
 
 
     @BindView(R.id.v_preview)
@@ -161,7 +166,7 @@ public class CarVinDISActivity extends BaseActivity {
 
                         @Override
                         protected void _onError(String message) {
-                            ToastUtils.showToast("识别失败,请重新扫描！");
+                            ToastUtils.showToast("识别失败,请重新扫描！" + message);
                         }
                     });
                 } catch (IOException e) {
@@ -208,7 +213,7 @@ public class CarVinDISActivity extends BaseActivity {
         return R.layout.activity_car_vin_dis;
     }
 
-    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter, R.id.tv_title_r})
+    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter, R.id.tv_title_r, R.id.tv_mandatory_entry})
     public void onClick(View v) {
 
 
@@ -217,7 +222,8 @@ public class CarVinDISActivity extends BaseActivity {
                 carVinLicense();
                 break;
             case R.id.input://手动输入
-
+                tv_mandatory_entry.setVisibility(View.GONE);
+                tv_check.setVisibility(View.VISIBLE);
                 manualInput();
                 break;
 
@@ -227,7 +233,8 @@ public class CarVinDISActivity extends BaseActivity {
                 sv_info.setVisibility(View.GONE);
                 ll1.setVisibility(View.VISIBLE);
 
-
+                tv_mandatory_entry.setVisibility(View.GONE);
+                tv_check.setVisibility(View.VISIBLE);
                 break;
             case R.id.enter://确定
 
@@ -237,6 +244,10 @@ public class CarVinDISActivity extends BaseActivity {
 
                 break;
             case R.id.tv_check://查询
+
+                tv_mandatory_entry.setVisibility(View.GONE);
+                tv_check.setVisibility(View.VISIBLE);
+
                 if (TextUtils.isEmpty(et_vin.getText())) {
 
                     ToastUtils.showToast("请输入车架号");
@@ -248,6 +259,20 @@ public class CarVinDISActivity extends BaseActivity {
             case R.id.tv_title_r:
                 //高级扫描
                 toActivity(PreviewZoomActivity.class, Configure.act_tag, "VIN");
+                break;
+
+
+            case R.id.tv_mandatory_entry://强制录入
+                if (et_vin.getText().toString().equals("")) {
+                    ToastUtils.showToast("请填写车架号！");
+                }
+
+
+                carInfo = new CarInfoRequestParameters();
+                carInfo.setVin(et_vin.getText().toString());
+                toActivity(CarInfoInputActivity.class, carInfo, "vinInfo");
+                finish();
+
                 break;
         }
     }
@@ -272,6 +297,8 @@ public class CarVinDISActivity extends BaseActivity {
         capturePicture();
     }
 
+    int query_i = 0;//查询失败次数
+
     //查询vin信息
     private void queryVinInfo(String vin) {
 
@@ -293,6 +320,16 @@ public class CarVinDISActivity extends BaseActivity {
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);
                 ToastUtils.showToast("查询失败,请重新查询！");
+                query_i++;
+                if (query_i == 2) {
+                    query_i = 0;
+                    tv_mandatory_entry.setVisibility(View.VISIBLE);
+                    tv_check.setVisibility(View.GONE);
+
+
+                }
+
+
             }
         });
 

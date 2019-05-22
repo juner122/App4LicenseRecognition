@@ -17,8 +17,8 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 26
-        versionName "1.4.9"
+        versionCode 28
+        versionName "1.4.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -189,5 +189,4 @@ dependencies {
     implementation 'com.getui:sdk:2.13.0.0'
 
     implementation 'com.youth.banner:banner:1.4.10'
-    compile project(path: ':ocr_ui')  //最新版本
 }

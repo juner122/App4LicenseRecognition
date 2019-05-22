@@ -1,8 +1,6 @@
 package com.eb.geaiche.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -23,12 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
@@ -54,24 +53,14 @@ import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.String2Utils;
 import com.eb.geaiche.util.ToastUtils;
 
-import net.grandcentrix.tray.AppPreferences;
-
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-
 
 import static com.eb.geaiche.buletooth.BuletoothUtil.BLUETOOTH_DISCOVERABLE_DURATION;
 import static com.eb.geaiche.buletooth.BuletoothUtil.CONN_PRINTER;
@@ -190,6 +179,20 @@ public class OrderInfoActivity extends BaseActivity {
     RecyclerView rv2;
     @BindView(R.id.rv3)
     RecyclerView rv3;
+
+
+    @BindView(R.id.et_deputy)
+    TextView et_deputy;//送修人
+
+    @BindView(R.id.et_deputy_mobile)
+    TextView et_deputy_mobile;//送修人电话
+
+    @BindView(R.id.ll_deputy)
+    View ll_deputy;//送修人
+
+    @BindView(R.id.ll_deputy_m)
+    View ll_deputy_m;//送修人电话
+
 
     SimpleMealInfoAdpter sma;
 
@@ -384,6 +387,11 @@ public class OrderInfoActivity extends BaseActivity {
         getOrderInfoData();
 
 
+        if (MyAppPreferences.getShopType()) {
+            ll_deputy.setVisibility(View.GONE);
+            ll_deputy_m.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -466,6 +474,12 @@ public class OrderInfoActivity extends BaseActivity {
 //    }
 
     private void setInfo() {
+
+
+
+
+        et_deputy.setText(info.getOrderInfo().getDeputy());
+        et_deputy_mobile.setText(info.getOrderInfo().getDeputy_mobile());
 
 
         pay_status = info.getOrderInfo().getPay_status();
@@ -777,8 +791,8 @@ public class OrderInfoActivity extends BaseActivity {
 
 //        esc.addText("Sample\n");
         esc.addText(info.getOrderInfo().getCar_no() + "\n");//打印车牌
-
         esc.addPrintAndLineFeed();
+
 
         /* 打印文字 */
         // 取消倍高倍宽
@@ -788,6 +802,8 @@ public class OrderInfoActivity extends BaseActivity {
 
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
+
+        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
 
 
         if (info.getOrderInfo().getConsignee().equals("匿名")) {

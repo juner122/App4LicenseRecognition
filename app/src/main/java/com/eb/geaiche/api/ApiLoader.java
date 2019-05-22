@@ -13,6 +13,7 @@ import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.FileUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
@@ -928,12 +929,12 @@ public class ApiLoader {
      */
     public Observable<CarNumberRecogResult> carLicense(byte[] bytes, int vh) throws IOException {
 
-        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.png";//存入到DOWNLOADS
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.webp";//存入到DOWNLOADS
         File file = FileUtil.getFileFromBytes(bytes, outputFile);
 
         Bitmap bitmap = new Compressor(context)
-                .setQuality(100)
-                .setCompressFormat(Bitmap.CompressFormat.PNG)
+                .setQuality(70)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .compressToBitmap(file);
 
         String pic = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
@@ -948,17 +949,20 @@ public class ApiLoader {
      */
     public Observable<CarNumberRecogResult> carVinLicense(byte[] bytes, int vh) throws IOException {
 
-        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "vin.png";//存入到DOWNLOADS
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "vin.webp";//存入到DOWNLOADS
         File file = FileUtil.getFileFromBytes(bytes, outputFile);
 
         Bitmap bitmap = new Compressor(context)
-                .setQuality(100)
-                .setCompressFormat(Bitmap.CompressFormat.PNG)
+                .setQuality(50)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
                 .compressToBitmap(file);
 
         String svin = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
 
-        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(svin)).compose(RxHelper.<CarNumberRecogResult>observeVin());
+
+//        Log.d("VIN", "车架号图片长度：" + "文件大小:" + file.length() + "压缩后裁剪：" + svin.length() + "，压缩不剪：" + svin2.length());
+        Log.d("VIN", "车架号图片长度：" + "文件大小:" + file.length() + "压缩后裁剪：" + svin.length() + "，压缩不剪：");
+        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(svin)).compose(RxHelper.observeVin());
     }
 
 
@@ -1030,7 +1034,11 @@ public class ApiLoader {
      * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
      */
     public Observable<RecordMeal> queryConnectAct(String name) {
-        return apiService.queryConnectAct(token, name).compose(RxHelper.<RecordMeal>observe());
+        String user_id = MyAppPreferences.getString(Configure.user_id);
+        if (!"".equals(user_id))
+            return apiService.queryConnectAct(token, name, user_id).compose(RxHelper.observe());
+
+        return apiService.queryConnectAct(token, name).compose(RxHelper.observe());
 
     }
 

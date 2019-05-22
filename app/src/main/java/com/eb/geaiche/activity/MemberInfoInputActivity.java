@@ -77,7 +77,7 @@ public class MemberInfoInputActivity extends BaseActivity {
     String new_car_number;
 
     int user_id, car_id, new_car_id;
-    String car_vin;//下单要判断为空;
+    String car_vin, mileage;//下单要判断为空;
 
     @SuppressLint("CheckResult")
     @Override
@@ -295,7 +295,7 @@ public class MemberInfoInputActivity extends BaseActivity {
         carListAdapter.setOnItemClickListener((adapter, view, position) -> {
 
 
-            setCarInfo(carListAdapter.getData().get(position).getCarNo(), carListAdapter.getData().get(position).getId(), carListAdapter.getData().get(position).getVin());
+            setCarInfo(carListAdapter.getData().get(position).getCarNo(), carListAdapter.getData().get(position).getId(), carListAdapter.getData().get(position).getVin(), carListAdapter.getData().get(position).getMileage());
 
             for (CarInfoRequestParameters c : cars) {
                 c.setSelected(false);
@@ -318,11 +318,12 @@ public class MemberInfoInputActivity extends BaseActivity {
 
     }
 
-    private void setCarInfo(String number, int id, String vin) {
+    private void setCarInfo(String number, int id, String vin, String mileage) {
         ll.setVisibility(View.VISIBLE);
         car_number = number;
         car_id = id;
         car_vin = vin;
+        this.mileage = mileage;
     }
 
     private void memberOrderList(int user_id) {
@@ -334,7 +335,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
                 cars = entity.getCarList();
                 cars.get(0).setSelected(true);
-                setCarInfo(cars.get(0).getCarNo(), cars.get(0).getId(), cars.get(0).getVin());
+                setCarInfo(cars.get(0).getCarNo(), cars.get(0).getId(), cars.get(0).getVin(), cars.get(0).getMileage());
 
                 carListAdapter.setNewData(cars);
             }
@@ -384,6 +385,8 @@ public class MemberInfoInputActivity extends BaseActivity {
                 return;
             }
         }
+        MyAppPreferences.putString(Configure.CAR_MILEAGE, mileage);
+
 
         if (way == 0) {//检修下单
             Intent intent2 = new Intent(MemberInfoInputActivity.this, FixInfoDescribeActivity.class);

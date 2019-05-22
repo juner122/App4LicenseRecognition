@@ -23,6 +23,7 @@ import com.eb.geaiche.adapter.MealInfoListAdapter;
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.util.A2bigA;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialog;
 import com.eb.geaiche.view.TabEntity;
 import com.flyco.tablayout.CommonTabLayout;
@@ -105,6 +106,8 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         tv_title.setText("会员开卡");
         setRTitle("开卡记录");
 
+        MyAppPreferences.putString(Configure.user_id, "");//设置用户id为空
+
 
         String moblie = getIntent().getStringExtra(Configure.moblie);
         String name = getIntent().getStringExtra(Configure.user_name);
@@ -167,9 +170,11 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
 
@@ -198,6 +203,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 }
                 p = position;
             }
+
             @Override
             public void onTabReselect(int position) {
             }

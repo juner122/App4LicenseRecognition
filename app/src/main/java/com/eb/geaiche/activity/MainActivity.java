@@ -330,8 +330,9 @@ public class MainActivity extends BaseActivity {
 
                 if (versionInfo.getLast() > SystemUtil.packaGetCode()) {
 
+
                     //弹出对话框
-                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(MainActivity.this, String.format("这次我们做了一个非常重大的决定，您只需要点击确定在线升级之后就能体验哦。"), "重要更新通知！");
+                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(MainActivity.this, null == versionInfo.getRemark() || "".equals(versionInfo.getRemark()) ? Configure.UPDATAREMARK : versionInfo.getRemark(), "重要更新通知！");
                     confirmDialog.show();
                     confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
                         @Override

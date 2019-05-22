@@ -29,6 +29,7 @@ import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -295,8 +296,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addPrintAndLineFeed();
 
 
-
-
         /* 打印文字 */
         // 取消倍高倍宽
         esc.addSelectPrintModes(EscCommand.FONT.FONTA, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF, EscCommand.ENABLE.OFF);
@@ -306,6 +305,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
+
+        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
 
 
         if (info.getOrderInfo().getConsignee().equals("匿名")) {

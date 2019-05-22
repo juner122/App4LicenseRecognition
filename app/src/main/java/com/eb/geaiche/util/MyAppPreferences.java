@@ -28,5 +28,12 @@ public class MyAppPreferences {
 
     }
 
+    public static void putString(String key, String vlues) {
+        new AppPreferences(MyApplication.getInstance()).put(key, vlues);
+    }
+
+    public static String getString(String key) {
+        return new AppPreferences(MyApplication.getInstance()).getString(key, "");
+    }
 
 }

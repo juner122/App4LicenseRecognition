@@ -4,6 +4,7 @@ package com.eb.geaiche.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,7 +75,7 @@ public class ConfirmDialogCanlce extends Dialog {
         TextView tv_text = view.findViewById(R.id.tv_text);
         TextView tv_title = view.findViewById(R.id.title);
 
-        tv_text.setText(string);
+        tv_text.setText(Html.fromHtml(string));
 
         if (title.equals(""))
             tv_title.setText("提示信息");

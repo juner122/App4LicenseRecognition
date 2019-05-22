@@ -45,7 +45,6 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".ocr.VinOcrActivity"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -21,6 +21,7 @@ import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.presenter.FixInfoDesPtr;
 import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 
@@ -54,12 +55,23 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
     @BindView(R.id.iv_lpv)
     ImageView iv_lpv;
+    @BindView(R.id.et_deputy)
+    EditText et_deputy;//送修人
+
+
+    @BindView(R.id.ll_deputy)
+    View ll_deputy;//送修人
+
+    @BindView(R.id.ll_deputy_m)
+    View ll_deputy_m;//送修人电话
+    @BindView(R.id.et_deputy_mobile)
+    EditText et_deputy_mobile;//送修人电话
 
 
     @BindViews({R.id.tv_re7, R.id.tv_re8, R.id.tv_re9, R.id.tv_re10, R.id.tv_re11, R.id.tv_re12, R.id.tv_re13, R.id.tv_re14, R.id.tv_re15})
     public List<TextView> textViews;
 
-    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph,R.id.but_set_date})
+    @OnClick({R.id.but_to_technician_list, R.id.tv_fix_order, R.id.tv_enter_order, R.id.tv_title_r, R.id.tv_bluetooth, R.id.ll_autograph, R.id.but_set_date})
     public void onClick(View view) {
 
         if (ButtonUtils.isFastDoubleClick(view.getId())) {//防止按钮多次重复点击
@@ -137,7 +149,10 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
         getPresenter().setTipClickListener(textViews);
         getPresenter().setEtText(et);
 
-
+        if (MyAppPreferences.getShopType()) {
+            ll_deputy.setVisibility(View.GONE);
+            ll_deputy_m.setVisibility(View.GONE);
+        }
     }
 
 
@@ -186,6 +201,16 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
     @Override
     public String getDescribe() {
         return et.getText().toString();
+    }
+
+    @Override
+    public String getDeputy() {
+        return et_deputy.getText().toString();
+    }
+
+    @Override
+    public String getDeputyMobile() {
+        return et_deputy_mobile.getText().toString();
     }
 
     @Override

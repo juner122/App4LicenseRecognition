@@ -37,6 +37,8 @@ public class FixInfoDesContacts {
         void setBluetoothText(String str);//设置蓝牙状态文字
 
         String getDescribe();//描述
+        String getDeputy();//送修人
+        String getDeputyMobile();//送修人电话
 
         Bitmap getDrawableBitmap();//获取签名图片DrawableBitmap
 

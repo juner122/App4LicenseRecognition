@@ -3,6 +3,7 @@ package com.eb.geaiche.mvp.presenter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -70,18 +71,21 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
             getView().showPartsList();
         });
 
-        adapter_item.setOnItemChildClickListener((adapter, view12, position) -> {
+        adapter_item.setOnItemChildClickListener((adapter, view1, position) -> {
 
             if (((FixParts) (adapter.getData().get(position))).selectde())//是否已选择
                 ((FixParts) (adapter.getData().get(position))).setSelected(0);
             else
                 ((FixParts) (adapter.getData().get(position))).setSelected(1);
-            adapter.notifyDataSetChanged();
 
+
+
+            adapter.notifyDataSetChanged();
             pick_partsList.add((FixParts) (adapter.getData().get(position)));
 
-
             countPrice(); //计算选择的总价格
+
+
         });
 
 
@@ -120,14 +124,11 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         for (int i = 0; i < list.size(); i++) {
             MyRadioButton radioButton = new MyRadioButton(getView().getSelfActivity(), list.get(i).getName(), i);
             final int finalI = i;
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            radioButton.setOnClickListener(view -> {
 
-                    categoryId = list.get(finalI).getCategoryId();//一级分类id
-                    page = 1;
-                    getGoodList(null, page, categoryId);
-                }
+                categoryId = list.get(finalI).getCategoryId();//一级分类id
+                page = 1;
+                getGoodList(null, page, categoryId);
             });
 
 

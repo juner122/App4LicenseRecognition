@@ -1,6 +1,5 @@
 package com.eb.geaiche.mvp.presenter;
 
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -269,6 +268,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
         // 打印文字
         esc.addText("手机号码：" + mobile + "\n");//打印下单时间
+        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
         esc.addText("车主姓名：" + userName.substring(0, 1) + "**" + "\n");//打印下单时间
         esc.addText("接单时间：" + MathUtil.toNowDate() + "\n");//打印完成时间
 
@@ -410,6 +410,8 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         fixInfo.setUserName(userName);
         fixInfo.setSysUserList(technicians);
         fixInfo.setSignPic(iv_lpv_url);
+        fixInfo.setDeputy(getView().getDeputy());
+        fixInfo.setDeputy_mobile(getView().getDeputyMobile());
 
         fixInfo.setPlanInformTime(String.valueOf(planInformTime));
 

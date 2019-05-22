@@ -468,6 +468,13 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name);
 
+    /**
+     * 纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
+     */
+    @POST("activity/queryConnectAct")
+    @FormUrlEncoded
+    Observable<BaseBean<RecordMeal>> queryConnectAct(@Header("X-Nideshop-Token") String token, @Field("name") String name, @Field("user_id") String user_id);
+
 
     //纸卡录入历史记录（与用户可用套餐查询返回的格式相仿）
     @POST("activity/queryConnectAct")

@@ -475,9 +475,11 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         getView().getSelfActivity().startActivity(intent);
                         break;
                     case 2:
+
                         Intent intent2 = new Intent(context, FixPickPartsActivity.class);
                         intent2.putExtra(Configure.isShow, 1);
                         getView().getSelfActivity().startActivity(intent2);
+
                         break;
 
                 }

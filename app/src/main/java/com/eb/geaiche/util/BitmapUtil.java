@@ -192,10 +192,15 @@ public class BitmapUtil {
         int h = bitmap.getHeight();
 
         int x = 0;
+        v = v * 11 / 10;
+
+
+        v = 230;
+
+
         int y = h / 2 - v / 2;
         int width = w;
         int height = v;
-
 
         return Bitmap.createBitmap(bitmap, x, y, width, height, null, false);
     }

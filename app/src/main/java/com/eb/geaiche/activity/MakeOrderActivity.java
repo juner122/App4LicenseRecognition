@@ -97,6 +97,22 @@ public class MakeOrderActivity extends BaseActivity {
     @BindView(R.id.et_postscript)
     EditText et_postscript;
 
+
+    @BindView(R.id.et_deputy)
+    EditText et_deputy;//送修人
+
+
+    @BindView(R.id.et_deputy_mobile)
+    EditText et_deputy_mobile;//送修人电话
+
+
+    @BindView(R.id.ll_deputy)
+    View ll_deputy;//送修人
+
+    @BindView(R.id.ll_deputy_m)
+    View ll_deputy_m;//送修人电话
+
+
     @BindView(R.id.but_set_date)
     TextView but_set_date;
     @BindView(R.id.but_to_technician_list)
@@ -386,6 +402,11 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void setUpView() {
 
+        if (MyAppPreferences.getShopType()) {
+            ll_deputy.setVisibility(View.GONE);
+            ll_deputy_m.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -543,6 +564,13 @@ public class MakeOrderActivity extends BaseActivity {
             ToastUtils.showToast("请设置预计完成时间！");
             return;
         }
+
+
+        if (!MyAppPreferences.getShopType()) {
+            infoEntity.setDeputy(et_deputy.getText().toString());
+            infoEntity.setDeputy_mobile(et_deputy_mobile.getText().toString());
+        }
+
 
         infoEntity.setPostscript(et_postscript.getText().toString());
         infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有

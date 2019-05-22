@@ -25,8 +25,6 @@ import net.grandcentrix.tray.AppPreferences;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baidu.ocr.ui.camera.CameraActivity;
-
 public class StartActivity extends PermissionsActivity implements View.OnClickListener {
     String[] strings = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA};
@@ -134,7 +132,6 @@ public class StartActivity extends PermissionsActivity implements View.OnClickLi
             startActivity(new Intent(this, LoginActivity2.class));
         else {
             startActivity(new Intent(this, MainActivity.class));
-//            startActivity(new Intent(this, CameraActivity.class));
 
         }
         finish();

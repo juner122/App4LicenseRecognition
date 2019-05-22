@@ -205,11 +205,6 @@ public class CarInfoInputActivity extends BaseActivity {
                     return;
                 }
 
-//                if (null == autoModel || autoModel.getName().equals("")) {
-//                    ToastUtils.showToast("请选择车型！");
-//                    return;
-//                }
-
                 if (isUpdata)
                     onAddCarInfoOfFixCarInfo();//接口提交
                 else
@@ -636,6 +631,10 @@ public class CarInfoInputActivity extends BaseActivity {
     //接口提交
     private void onAddCarInfoOfFixCarInfo() {
 
+        if (TextUtils.isEmpty(tv_car_mileage.getText())) {
+            ToastUtils.showToast("里程数不能为空!");
+            return;
+        }
 
         if (type_action == 1) {
             if (!MyAppPreferences.getShopType()) {//新干线版必须填车架号
@@ -644,6 +643,7 @@ public class CarInfoInputActivity extends BaseActivity {
                     return;
                 }
             }
+
 
             Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
@@ -827,7 +827,7 @@ public class CarInfoInputActivity extends BaseActivity {
         }
     }
 
-    public  void updateMediaStore(final Context context, final String path) {//更新相册
+    public void updateMediaStore(final Context context, final String path) {//更新相册
         //版本号的判断  4.4为分水岭，发送广播更新媒体库
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             MediaScannerConnection.scanFile(context, new String[]{path}, null, (path1, uri) -> {

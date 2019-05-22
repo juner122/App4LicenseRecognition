@@ -52,9 +52,24 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     Integer os_type;//0=销售单 1=服务单
 
+    String deputy;
+    String deputy_mobile;
 
+    public String getDeputy() {
+        return deputy;
+    }
 
+    public void setDeputy(String deputy) {
+        this.deputy = deputy;
+    }
 
+    public String getDeputy_mobile() {
+        return deputy_mobile;
+    }
+
+    public void setDeputy_mobile(String deputy_mobile) {
+        this.deputy_mobile = deputy_mobile;
+    }
 
     public String getPay_name() {
         if (pay_type == 11)
@@ -452,6 +467,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeTypedList(this.userActivityList);
         dest.writeTypedList(this.skillList);
         dest.writeValue(this.os_type);
+        dest.writeString(this.deputy);
+        dest.writeString(this.deputy_mobile);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -490,6 +507,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.userActivityList = in.createTypedArrayList(GoodsEntity.CREATOR);
         this.skillList = in.createTypedArrayList(Server.CREATOR);
         this.os_type = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.deputy = in.readString();
+        this.deputy_mobile = in.readString();
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {
