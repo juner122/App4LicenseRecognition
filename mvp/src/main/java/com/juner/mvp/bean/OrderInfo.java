@@ -13,6 +13,16 @@ public class OrderInfo implements Parcelable {
     Technician receptionist;
 
 
+    CarInfoRequestParameters userCarCondition;
+
+
+    public CarInfoRequestParameters getUserCarCondition() {
+        return userCarCondition;
+    }
+
+    public void setUserCarCondition(CarInfoRequestParameters userCarCondition) {
+        this.userCarCondition = userCarCondition;
+    }
 
     public Technician getReceptionist() {
         return receptionist;
@@ -59,12 +69,14 @@ public class OrderInfo implements Parcelable {
         dest.writeParcelable(this.shop, flags);
         dest.writeParcelable(this.orderInfo, flags);
         dest.writeParcelable(this.receptionist, flags);
+        dest.writeParcelable(this.userCarCondition, flags);
     }
 
     protected OrderInfo(Parcel in) {
         this.shop = in.readParcelable(ShopEntity.class.getClassLoader());
         this.orderInfo = in.readParcelable(OrderInfoEntity.class.getClassLoader());
         this.receptionist = in.readParcelable(Technician.class.getClassLoader());
+        this.userCarCondition = in.readParcelable(CarInfoRequestParameters.class.getClassLoader());
     }
 
     public static final Creator<OrderInfo> CREATOR = new Creator<OrderInfo>() {
