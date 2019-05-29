@@ -227,8 +227,8 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 confirmDialog.show();
                 confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
                     @Override
-                    public void doConfirm() {
-                        getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
+                    public void doConfirm(String new_namem) {
+                        getPresenter().remakeName(new_namem, et_mobile.getText().toString());
                         confirmDialog.cancel();
                     }
 
@@ -397,19 +397,16 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
         startActivity(intent);
     }
 
-    private View.OnFocusChangeListener mOnFocusChangeListener = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View v, boolean hasFocus) {
-            EditText textView = (EditText) v;
-            String hint;
-            if (hasFocus) {
-                hint = textView.getHint().toString();
-                textView.setTag(hint);
-                textView.setHint("");
-            } else {
-                hint = textView.getTag().toString();
-                textView.setHint(hint);
-            }
+    private View.OnFocusChangeListener mOnFocusChangeListener = (v, hasFocus) -> {
+        EditText textView = (EditText) v;
+        String hint;
+        if (hasFocus) {
+            hint = textView.getHint().toString();
+            textView.setTag(hint);
+            textView.setHint("");
+        } else {
+            hint = textView.getTag().toString();
+            textView.setHint(hint);
         }
     };
 }

@@ -73,6 +73,7 @@ public class ActivityCardContacts {
 
         void getInfo();//获取当前登录用户
 
+        void remakeName(String user_name, String mobile);//修改用户名
     }
 
     /**
@@ -87,6 +88,10 @@ public class ActivityCardContacts {
         void confirmAdd(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe);//新增套卡
 
         void getInfo(RxSubscribe<UserEntity> rxSubscribe);//获取当前登录用户
+
+
+
+        void remakeName(String user_id, String user_name, String mobile,RxSubscribe<NullDataEntity> rxSubscribe);//修改用户名
 
     }
 

@@ -14,7 +14,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="确认会员信息"
+        android:text="修复用户名信息"
         android:textColor="#fff23325"
         android:textSize="14sp" />
 
@@ -28,22 +28,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tv_1"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="手 机:"
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="姓 名:"
+            android:text=""
+            android:hint="请输入新的用户名"
             android:textColor="#ff000000"
             android:textSize="14sp" />
     </LinearLayout>

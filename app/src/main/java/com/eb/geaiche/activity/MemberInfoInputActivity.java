@@ -189,9 +189,11 @@ public class MemberInfoInputActivity extends BaseActivity {
                 confirmDialog.show();
                 confirmDialog.setClicklistener(new ConfirmDialog.ClickListenerInterface() {
                     @Override
-                    public void doConfirm() {
-                        getAddUser();
+                    public void doConfirm(String new_name) {
+                        remakeName(new_name, mobile_s);
                         confirmDialog.cancel();
+
+
                     }
 
                     @Override
@@ -258,7 +260,7 @@ public class MemberInfoInputActivity extends BaseActivity {
                         user_id = s.getUser_id();
                         name.setText(s.getUser_name());
                         mobile = et_mobile.getText().toString();
-                        tv_check.setVisibility(View.GONE);
+                        tv_check.setVisibility(View.VISIBLE);
                         ll_car_list.setVisibility(View.VISIBLE);
                         ll_name.setVisibility(View.VISIBLE);
                         carListAdapter.setNewData(s.getCarList());
@@ -283,6 +285,32 @@ public class MemberInfoInputActivity extends BaseActivity {
             }
         });
     }
+
+
+    //修改用户名
+    public void remakeName(String name_s, String mobile) {
+
+        Api().remakeName(user_id, name_s, mobile).subscribe(new RxSubscribe<NullDataEntity>(MemberInfoInputActivity.this, true) {
+
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                ToastUtils.showToast("修改成功！");
+
+                name.setText(name_s);
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+
+                ToastUtils.showToast(message);
+
+            }
+        });
+
+    }
+
 
     private void initAdapter() {
         carListAdapter.setOnItemChildClickListener((adapter, view, position) -> {

@@ -13,6 +13,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.eb.geaiche.activity.CustomRecordsActivity;
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.MealEntity;
+import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.CardInputConfirmDialog;
 import com.eb.geaiche.view.MyTimePickerView;
 import com.juner.mvp.Configure;
@@ -99,6 +100,8 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
                         getView().setCarList(s.getCarList());//车辆列表
                     }
                 }
+                getView().showCheckView();
+
             }
 
             @Override
@@ -283,6 +286,29 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
 
                 getView().showToast("录卡人获取失败:" + message);
 
+            }
+        });
+    }
+
+    @Override
+    public void remakeName(String name, String mobile) {
+
+
+        if (null == name || name.equals(""))//如果用户名为空，手机后4位加车主
+        {
+            ToastUtils.showToast("用户名不能为空!");
+        }
+
+        mdl.remakeName(String.valueOf(user_id), name, mobile, new RxSubscribe<NullDataEntity>(context, true) {
+            @Override
+            protected void _onNext(NullDataEntity s) {
+                ToastUtils.showToast("修改成功！");
+                getView().setUserName(name);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                getView().showToast(message);
             }
         });
     }

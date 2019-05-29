@@ -29,6 +29,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<SaveUserAndCarEntity>> addUser(@FieldMap Map<String, Object> maps);
 
+    //修改用户名2 不用验证码
+    @POST("user/remakeName")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> remakeName(@FieldMap Map<String, Object> maps);
+
 
     //纸质卡补录
     @POST("activity/remakeActCard")

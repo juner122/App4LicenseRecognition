@@ -46,6 +46,17 @@ public class ActivateCardMdl extends BaseModel implements ActivityCardContacts.A
         sendRequest(HttpUtils.getApi().getInfo(getToken(context)).compose(RxHelper.<UserEntity>observe()), rxSubscribe);
     }
 
+    @Override
+    public void remakeName(String user_id, String user_name, String mobile,RxSubscribe<NullDataEntity> rxSubscribe) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("X-Nideshop-Token", getToken(context));
+        map.put("mobile", mobile);
+        map.put("user_id", user_id);
+        map.put("user_name", user_name);
+        sendRequest(HttpUtils.getApi().remakeName(map).compose(RxHelper.observe()), rxSubscribe);
+
+    }
+
 
     /**
      * 录入卡

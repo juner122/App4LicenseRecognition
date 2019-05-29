@@ -4,14 +4,17 @@ package com.eb.geaiche.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eb.geaiche.R;
+import com.eb.geaiche.util.ToastUtils;
 
 
 public class ConfirmDialog extends Dialog {
@@ -20,16 +23,17 @@ public class ConfirmDialog extends Dialog {
     private String name;
     private String mobile;
     private ClickListenerInterface clickListenerInterface;
+    EditText tv_name;
 
     public interface ClickListenerInterface {
 
-        public void doConfirm();
+        public void doConfirm(String new_name);
 
         public void doCancel();
     }
 
     public ConfirmDialog(Context context, String name, String mobile) {
-        super(context,R.style.my_dialog);
+        super(context, R.style.my_dialog);
         this.context = context;
         this.name = name;
         this.mobile = mobile;
@@ -48,10 +52,10 @@ public class ConfirmDialog extends Dialog {
         View view = inflater.inflate(R.layout.dialog_check_user_name, null);
         setContentView(view);
 
-        TextView tv_name = (TextView) view.findViewById(R.id.tv_2);
+        tv_name = (EditText) view.findViewById(R.id.tv_2);
         TextView tv_mobile = (TextView) view.findViewById(R.id.tv_1);
 
-        tv_name.append(name);
+        tv_name.setText(name);
         tv_mobile.append(mobile);
 
 
@@ -80,7 +84,11 @@ public class ConfirmDialog extends Dialog {
             int id = v.getId();
             switch (id) {
                 case R.id.tv_confirm:
-                    clickListenerInterface.doConfirm();
+                    if (TextUtils.isEmpty(tv_name.getText())) {
+                        ToastUtils.showToast("用户名不能为空");
+                        return;
+                    }
+                    clickListenerInterface.doConfirm(tv_name.getText().toString());
                     break;
                 case R.id.tv_cancel:
                     clickListenerInterface.doCancel();
