@@ -288,7 +288,7 @@ public class MemberInfoInputActivity extends BaseActivity {
         carListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
 
             //查看更新车况
-//                toActivity(CarInfoInputActivity.class, ((CarInfoRequestParameters) adapter.getData().get(position)).getId(), Configure.CARINFO);
+
             toActivity(CarInfoInputActivity.class, Configure.CARID, ((CarInfoRequestParameters) adapter.getData().get(position)).getId());
 
         });
@@ -383,6 +383,11 @@ public class MemberInfoInputActivity extends BaseActivity {
             if (null == car_vin) {
                 ToastUtils.showToast("请完善车辆信息,缺少车架号！");
                 return;
+            }
+            if (null == mileage || "".equals(mileage)) {
+                ToastUtils.showToast("请完善车辆里程数信息！");
+                return;
+
             }
         }
         MyAppPreferences.putString(Configure.CAR_MILEAGE, mileage);

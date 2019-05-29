@@ -631,10 +631,6 @@ public class CarInfoInputActivity extends BaseActivity {
     //接口提交
     private void onAddCarInfoOfFixCarInfo() {
 
-        if (TextUtils.isEmpty(tv_car_mileage.getText())) {
-            ToastUtils.showToast("里程数不能为空!");
-            return;
-        }
 
         if (type_action == 1) {
             if (!MyAppPreferences.getShopType()) {//新干线版必须填车架号
@@ -642,8 +638,11 @@ public class CarInfoInputActivity extends BaseActivity {
                     ToastUtils.showToast("请填写车架号！");
                     return;
                 }
+                if (TextUtils.isEmpty(tv_car_mileage.getText())) {
+                    ToastUtils.showToast("里程数不能为空!");
+                    return;
+                }
             }
-
 
             Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override

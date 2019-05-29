@@ -20,6 +20,7 @@ import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.presenter.FixInfoDesPtr;
 import com.eb.geaiche.util.ButtonUtils;
+import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
@@ -245,7 +246,8 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
         super.onDestroy();
 
         DeviceConnFactoryManager.closeAllPort();
-
+        //蓝牙 中止线程池中全部的线程的执行
+        CameraThreadPool.shutdownNow();
     }
 
 

@@ -35,6 +35,7 @@ import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.MyAppPreferences;
+import com.eb.geaiche.view.BtConfirmDialog;
 import com.eb.geaiche.view.NoticeDialog;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -247,10 +248,7 @@ public class OrderInfoActivity extends BaseActivity {
 
                 Intent intent = new Intent(this, ProductMealListActivity.class);
                 intent.putExtra(Configure.user_id, info.getOrderInfo().getUser_id());
-
                 intent.putExtra(Configure.car_no, info.getOrderInfo().getCar_no());
-
-
                 intent.putExtra(Configure.isFixOrder, true);
 
                 startActivity(intent);
@@ -310,12 +308,9 @@ public class OrderInfoActivity extends BaseActivity {
 
                 final NoticeDialog nd = new NoticeDialog(this, info.getOrderInfo().getMobile());
                 nd.show();
-                nd.setClicklistener(new NoticeDialog.ClickListenerInterface() {
-                    @Override
-                    public void doCancel() {
-                        // TODO Auto-generated method stub
-                        nd.dismiss();
-                    }
+                nd.setClicklistener(() -> {
+                    // TODO Auto-generated method stub
+                    nd.dismiss();
                 });
                 break;
             case R.id.tv_back:
@@ -421,10 +416,10 @@ public class OrderInfoActivity extends BaseActivity {
         tv_title.setText("订单详情");
 
 
-        if (MyAppPreferences.getShopType()) {//加盟店才能在订单详情打印凭证
-            setRTitle("凭证打印");
-            tv_bluetooth.setVisibility(View.VISIBLE);
-        }
+//        if (MyAppPreferences.getShopType()) {//加盟店才能在订单详情打印凭证
+        setRTitle("凭证打印");
+        tv_bluetooth.setVisibility(View.VISIBLE);
+//        }
 
     }
 
@@ -476,8 +471,6 @@ public class OrderInfoActivity extends BaseActivity {
     private void setInfo() {
 
 
-
-
         et_deputy.setText(info.getOrderInfo().getDeputy());
         et_deputy_mobile.setText(info.getOrderInfo().getDeputy_mobile());
 
@@ -492,7 +485,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         tv_order_state.setText(info.getOrderInfo().getOrder_status_text());
 
-        tv_order_sn.setText(String.valueOf("订单号:" + info.getOrderInfo().getOrder_sn()));
+        tv_order_sn.setText("订单号:" + info.getOrderInfo().getOrder_sn());
         tv_car_no.setText(info.getOrderInfo().getCar_no());
 
         if (null == info.getOrderInfo().getMobile() || info.getOrderInfo().getMobile().equals("")) {
@@ -565,13 +558,7 @@ public class OrderInfoActivity extends BaseActivity {
 
                 tv_pick_technician.setVisibility(View.VISIBLE);
 
-                tv_fix_order.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        ToastUtils.showToast("短信已发送！");
-
-                    }
-                });
+                tv_fix_order.setOnClickListener(view -> ToastUtils.showToast("短信已发送！"));
 
                 break;
             case 2://完成
@@ -803,7 +790,10 @@ public class OrderInfoActivity extends BaseActivity {
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
 
-        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
+        if (null == info.getUserCarCondition() || null == info.getUserCarCondition().getMileage() || "".equals(info.getUserCarCondition().getMileage()))
+            esc.addText("里程数：" + "未填写" + "\n");//打印里程数
+        else
+            esc.addText("里程数：" + info.getUserCarCondition().getMileage() + "km" + "\n");//打印里程数
 
 
         if (info.getOrderInfo().getConsignee().equals("匿名")) {
@@ -963,25 +953,27 @@ public class OrderInfoActivity extends BaseActivity {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
+//            for (BluetoothDevice device : pairedDevices) {
+//
+//                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+//                    Looper.prepare();
+//
+//                    new DeviceConnFactoryManager.Build()
+//                            .setId(ID)
+//                            //设置连接方式
+//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+//                            //设置连接的蓝牙mac地址
+//                            .setMacAddress(device.getAddress())
+//                            .build();
+//                    //打开端口
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+//                    Looper.loop();// 进入loop中的循环，查看消息队列
+//                });
+//
+//                break;
+//            }
 
-                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-                    Looper.prepare();
-
-                    new DeviceConnFactoryManager.Build()
-                            .setId(ID)
-                            //设置连接方式
-                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                            //设置连接的蓝牙mac地址
-                            .setMacAddress(device.getAddress())
-                            .build();
-                    //打开端口
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-                    Looper.loop();// 进入loop中的循环，查看消息队列
-                });
-
-                break;
-            }
+            new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
         } else {
             mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }
@@ -1009,7 +1001,7 @@ public class OrderInfoActivity extends BaseActivity {
         super.onDestroy();
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
-
+        CameraThreadPool.shutdownNow();
     }
 
 

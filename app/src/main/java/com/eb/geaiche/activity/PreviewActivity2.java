@@ -186,20 +186,13 @@ public class PreviewActivity2 extends BaseActivity {
                         getAddUser(mInputView.getNumber());
 
                     } else {
-
                         //普通接单
                         toActivity(MemberInfoInputActivity.class);
                         finish();
-
                     }
-
-
                 } else {
-
-
                     //弹出用户列表
                     showUserList(entity);
-
 
                 }
 
@@ -446,6 +439,7 @@ public class PreviewActivity2 extends BaseActivity {
                     Api().carLicense(pictureResult.getData(), vh).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
                         @Override
                         protected void _onNext(CarNumberRecogResult c) {
+
                             mPopupKeyboard.getController().updateNumber(c.getNumber());
                             mPopupKeyboard.dismiss(PreviewActivity2.this);
                         }
@@ -492,11 +486,18 @@ public class PreviewActivity2 extends BaseActivity {
             finish();
         });
 
-        tv_cancel.setOnClickListener(view -> {
-            int new_car_id = entity.getCarinfo().getId();
-            toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
-            finish();
-        });
+        if (null == entity.getCarinfo()) {//没有车况信息
+            tv_cancel.setVisibility(View.GONE);
+        } else {
+            tv_cancel.setVisibility(View.VISIBLE);
+            tv_cancel.setOnClickListener(view -> {
+                int new_car_id = entity.getCarinfo().getId();
+                toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);
+                finish();
+            });
+        }
+
+
         bottomSheetDialog.show();
     }
 }

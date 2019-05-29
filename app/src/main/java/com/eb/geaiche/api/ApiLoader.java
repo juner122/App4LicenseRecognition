@@ -980,7 +980,7 @@ public class ApiLoader {
      */
     public Observable<CarVin> carVinInfoQuery(String vin) {
 
-        return apiService.carVinInfoQuery(Configure.carVinInfo, vin).compose(RxHelper.<CarVin>observeVin());
+        return apiService.carVinInfoQuery(Configure.carVinInfo, vin).compose(RxHelper.observeVin());
     }
 
 

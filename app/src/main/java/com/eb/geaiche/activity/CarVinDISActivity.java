@@ -319,16 +319,14 @@ public class CarVinDISActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);
-                ToastUtils.showToast("查询失败,请重新查询！");
+
                 query_i++;
                 if (query_i == 2) {
                     query_i = 0;
                     tv_mandatory_entry.setVisibility(View.VISIBLE);
-                    tv_check.setVisibility(View.GONE);
-
 
                 }
-
+                ToastUtils.showToast("查询失败,请重新查询！");
 
             }
         });
@@ -362,7 +360,7 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setSaleName(carVinInfo.getSale_name());
         carInfo.setCarType(carVinInfo.getCar_type());
         carInfo.setEffluentStandard(carVinInfo.getEffluent_standard());
-        carInfo.setGuidingPrice(new BigDecimal(carVinInfo.getGuiding_price()));
+        carInfo.setGuidingPrice(carVinInfo.getGuiding_price());
         carInfo.setYear(carVinInfo.getYear());
         carInfo.setAllJson(carVinInfo.toString());
         carInfo.setVin(carVinInfo.getVin());

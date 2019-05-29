@@ -44,11 +44,8 @@ public class GeTuiIntentService extends GTIntentService {
     public void onReceiveMessageData(Context context, GTTransmitMessage msg) {
         // 透传消息的处理，详看SDK demo
         Log.e(TAG, "onReceiveClientId -> " + "透传消息 = " + msg);
-
         String s = new String(msg.getPayload());
-
         PushMessage pm = new Gson().fromJson(s, PushMessage.class);
-
         getApplicationContext().sendBroadcast(new Intent(MainActivity.action));
         showNotification(pm);
     }

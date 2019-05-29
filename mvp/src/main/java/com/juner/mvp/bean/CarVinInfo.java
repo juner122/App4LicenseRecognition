@@ -1,6 +1,5 @@
 package com.juner.mvp.bean;
 
-import java.math.BigDecimal;
 
 public class CarVinInfo {
 

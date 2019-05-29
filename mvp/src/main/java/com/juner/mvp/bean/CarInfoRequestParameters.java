@@ -33,7 +33,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
     //车型
     private String allJson;
     //指导价
-    private BigDecimal guidingPrice;
+    private String guidingPrice;
     //里程数
     private String mileage;
 
@@ -107,11 +107,11 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         this.allJson = allJson;
     }
 
-    public BigDecimal getGuidingPrice() {
+    public String getGuidingPrice() {
         return guidingPrice;
     }
 
-    public void setGuidingPrice(BigDecimal guidingPrice) {
+    public void setGuidingPrice(String guidingPrice) {
         this.guidingPrice = guidingPrice;
     }
 
@@ -277,7 +277,7 @@ public class CarInfoRequestParameters extends SelectedBean implements Parcelable
         this.vin = in.readString();
         this.year = in.readString();
         this.allJson = in.readString();
-        this.guidingPrice = (BigDecimal) in.readSerializable();
+        this.guidingPrice = (String) in.readSerializable();
         this.mileage = in.readString();
         this.outputVolume = in.readString();
         this.engineSn = in.readString();

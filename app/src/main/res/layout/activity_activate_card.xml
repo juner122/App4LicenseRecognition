@@ -145,7 +145,7 @@
                         android:paddingTop="3dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="3dp"
-                        android:text="注册"
+                        android:text="修改"
                         android:textColor="#fff"
                         android:textSize="12sp"
                         android:visibility="gone" />

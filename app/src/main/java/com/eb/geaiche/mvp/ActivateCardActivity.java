@@ -76,8 +76,10 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
 
     @BindView(R.id.tv_meal_name)
     TextView tv_meal_name;//选择的套卡名
+
+
     @BindView(R.id.tv_check)
-    TextView tv_check;//
+    TextView tv_check;//修改用户名
 
 
     @BindView(R.id.tv_enter_order)//

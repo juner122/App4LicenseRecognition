@@ -8,12 +8,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.AutographActivity;
-import com.eb.geaiche.activity.UserAuthorizeActivity;
+
+import com.eb.geaiche.activity.ProductMealListActivity;
 import com.eb.geaiche.adapter.FixInfoPartsItemAdapter;
 import com.eb.geaiche.adapter.FixInfoServiceItemAdapter;
 import com.eb.geaiche.mvp.FixPickPartsActivity;
@@ -61,80 +60,77 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         adapter_parts = new FixInfoPartsItemAdapter(null, R.layout.activity_fix_info_item);
     }
 
-    BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = new BaseQuickAdapter.OnItemChildClickListener() {
-        @Override
-        public void onItemChildClick(final BaseQuickAdapter adapter, View view, final int position) {
-            boolean item_selected = ((FixInfoItem) (adapter.getData().get(position))).selectde();//获取当前
+    BaseQuickAdapter.OnItemChildClickListener infoItemAdapter = (adapter, view, position) -> {
+        boolean item_selected = ((FixInfoItem) (adapter.getData().get(position))).selectde();//获取当前
 
-            switch (view.getId()) {
-                case R.id.iv://选择
+        switch (view.getId()) {
+            case R.id.iv://选择
 
-                    if (item_selected)
-                        ((FixInfoItem) (adapter.getData().get(position))).setSelected(0);
-                    else
-                        ((FixInfoItem) (adapter.getData().get(position))).setSelected(1);
-                    adapter.notifyDataSetChanged();
-                    //更新金额
-                    if (adapter.getData().get(position) instanceof FixParts) {
-                        getView().setPartsPrice(upDataPartsPrice().toString());
-                    } else {
-                        getView().setServicePrice(upDataServicePrice().toString());
-                    }
-                    getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
+                if (item_selected)
+                    ((FixInfoItem) (adapter.getData().get(position))).setSelected(0);
+                else
+                    ((FixInfoItem) (adapter.getData().get(position))).setSelected(1);
+                adapter.notifyDataSetChanged();
+                //更新金额
+                if (adapter.getData().get(position) instanceof FixParts) {
+                    getView().setPartsPrice(upDataPartsPrice().toString());
+                } else {
+                    getView().setServicePrice(upDataServicePrice().toString());
+                }
+                getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
 
-                    break;
+                break;
 
-                case R.id.ll://改变价格
-                    String price = "";//原价
-                    int num;//原价
-                    boolean isChenge;
-                    if (adapter.getData().get(position) instanceof FixParts) {
-                        price = ((FixParts) adapter.getData().get(position)).getRetail_price();
-                        num = ((FixParts) adapter.getData().get(position)).getNumber();
-                        isChenge = true;
-                    } else {
-                        price = ((FixServie) adapter.getData().get(position)).getPrice();
-                        num = ((FixServie) adapter.getData().get(position)).getNumber();
-                        isChenge = true;
-                    }
+            case R.id.ll://改变价格
+                String price = "";//原价
+                int num;//原价
+                boolean isChenge;
+                if (adapter.getData().get(position) instanceof FixParts) {
+                    price = ((FixParts) adapter.getData().get(position)).getRetail_price();
+                    num = ((FixParts) adapter.getData().get(position)).getNumber();
+                    isChenge = true;
+                } else {
+                    price = ((FixServie) adapter.getData().get(position)).getPrice();
+                    num = ((FixServie) adapter.getData().get(position)).getNumber();
+                    isChenge = true;
+                }
 
 
-                    final ConfirmDialog4 confirmDialog = new ConfirmDialog4(getView().getSelfActivity(), price, num, isChenge);
-                    confirmDialog.show();
-                    confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
+                final ConfirmDialog4 confirmDialog = new ConfirmDialog4(getView().getSelfActivity(), price, num, isChenge);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialog4.ClickListenerInterface() {
 
-                        @Override
-                        public void doConfirm(String price, int num) {
-                            confirmDialog.dismiss();
-                            if (adapter.getData().get(position) instanceof FixParts) {
+                    @Override
+                    public void doConfirm(String price, int num) {
+                        confirmDialog.dismiss();
+                        if (adapter.getData().get(position) instanceof FixParts) {
 
-                                ((FixParts) adapter.getData().get(position)).setRetail_price(price);
-                                ((FixParts) adapter.getData().get(position)).setNumber(num);
-                            } else {
-                                ((FixServie) adapter.getData().get(position)).setPrice(price);
-                                ((FixServie) adapter.getData().get(position)).setNumber(num);
-                            }
-
-                            adapter.notifyDataSetChanged();
-
-                            //更新金额
-                            if (adapter.getData().get(position) instanceof FixParts) {
-                                getView().setPartsPrice(upDataPartsPrice().toString());
-                            } else {
-                                getView().setServicePrice(upDataServicePrice().toString());
-                            }
-                            getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
-
+                            ((FixParts) adapter.getData().get(position)).setRetail_price(price);
+                            ((FixParts) adapter.getData().get(position)).setNumber(num);
+                        } else {
+                            ((FixServie) adapter.getData().get(position)).setPrice(price);
+                            ((FixServie) adapter.getData().get(position)).setNumber(num);
                         }
 
-                        @Override
-                        public void doCancel() {
-                            // TODO Auto-generated method stub
-                            confirmDialog.dismiss();
+                        adapter.notifyDataSetChanged();
+
+                        //更新金额
+                        if (adapter.getData().get(position) instanceof FixParts) {
+                            getView().setPartsPrice(upDataPartsPrice().toString());
+                        } else {
+                            getView().setServicePrice(upDataServicePrice().toString());
                         }
-                    });
-                    break;
-            }
+                        getView().setAllPrice(String.valueOf(upDataPartsPrice() + upDataServicePrice()));
+
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        confirmDialog.dismiss();
+                    }
+                });
+                break;
         }
     };
 
@@ -480,6 +476,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         intent2.putExtra(Configure.isShow, 1);
                         getView().getSelfActivity().startActivity(intent2);
 
+
                         break;
 
                 }
@@ -579,12 +576,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
         final NoticeDialog nd = new NoticeDialog(getView().getSelfActivity(), entity.getMobile());
         nd.show();
-        nd.setClicklistener(new NoticeDialog.ClickListenerInterface() {
-            @Override
-            public void doCancel() {
-                // TODO Auto-generated method stub
-                nd.dismiss();
-            }
+        nd.setClicklistener(() -> {
+            // TODO Auto-generated method stub
+            nd.dismiss();
         });
 
 
@@ -636,7 +630,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
         entity.setOrderGoodsList(fixPartsList);
 
-//        entity.setOrderProjectList(fixServies);
         countAllPrice();
         return entity;
     }

@@ -4,13 +4,18 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PushMessage implements Parcelable {
-    int type;
-    String text;
 
-    String title;
 
+    int type;//1 美容单   其他为检修单
+    String text;//内容
+    String title;// 标题
     int pushId;//消息id
     int valueId;//订单id
+
+
+
+
+
     public int getType() {
         return type;
     }

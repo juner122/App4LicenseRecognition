@@ -54,7 +54,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:padding="3dp"
+                android:padding="5dp"
                 android:src="@mipmap/icon_new"
                 tl:layout_constraintBottom_toBottomOf="parent"
                 tl:layout_constraintEnd_toEndOf="parent"

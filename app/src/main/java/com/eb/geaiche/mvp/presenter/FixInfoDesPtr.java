@@ -35,6 +35,7 @@ import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.String2Utils;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.BtConfirmDialog;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
@@ -256,7 +257,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
 //        esc.addText("Sample\n");
         esc.addText(carNo + "\n");//打印车牌
-
         esc.addPrintAndLineFeed();
 
         /* 打印文字 */
@@ -268,7 +268,12 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
         // 打印文字
         esc.addText("手机号码：" + mobile + "\n");//打印下单时间
-        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
+
+        if (null == MyAppPreferences.getString(Configure.CAR_MILEAGE) || "".equals(MyAppPreferences.getString(Configure.CAR_MILEAGE)))
+            esc.addText("里程数：" + "未填写" + "\n");//打印里程数
+        else
+            esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
+
         esc.addText("车主姓名：" + userName.substring(0, 1) + "**" + "\n");//打印下单时间
         esc.addText("接单时间：" + MathUtil.toNowDate() + "\n");//打印完成时间
 
@@ -339,25 +344,28 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
+//            for (BluetoothDevice device : pairedDevices) {
+//
+//                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+//                    Looper.prepare();
+//
+//                    new DeviceConnFactoryManager.Build()
+//                            .setId(ID)
+//                            //设置连接方式
+//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+//                            //设置连接的蓝牙mac地址
+//                            .setMacAddress(device.getAddress())
+//                            .build();
+//                    //打开端口
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+//                    Looper.loop();// 进入loop中的循环，查看消息队列
+//                });
+//
+//                break;
+//            }
 
-                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-                    Looper.prepare();
 
-                    new DeviceConnFactoryManager.Build()
-                            .setId(ID)
-                            //设置连接方式
-                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                            //设置连接的蓝牙mac地址
-                            .setMacAddress(device.getAddress())
-                            .build();
-                    //打开端口
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-                    Looper.loop();// 进入loop中的循环，查看消息队列
-                });
-
-                break;
-            }
+            new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, getView().getSelfActivity()).show();
         } else {
             mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }

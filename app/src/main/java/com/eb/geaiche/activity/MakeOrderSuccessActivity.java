@@ -30,6 +30,7 @@ import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.MyAppPreferences;
+import com.eb.geaiche.view.BtConfirmDialog;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
@@ -51,6 +52,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -234,25 +236,27 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
+//            for (BluetoothDevice device : pairedDevices) {
+//
+//                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+//                    Looper.prepare();
+//
+//                    new DeviceConnFactoryManager.Build()
+//                            .setId(ID)
+//                            //设置连接方式
+//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+//                            //设置连接的蓝牙mac地址
+//                            .setMacAddress(device.getAddress())
+//                            .build();
+//                    //打开端口
+//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+//                    Looper.loop();// 进入loop中的循环，查看消息队列
+//                });
+//
+//                break;
+//            }
+            new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
 
-                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-                    Looper.prepare();
-
-                    new DeviceConnFactoryManager.Build()
-                            .setId(ID)
-                            //设置连接方式
-                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                            //设置连接的蓝牙mac地址
-                            .setMacAddress(device.getAddress())
-                            .build();
-                    //打开端口
-                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-                    Looper.loop();// 进入loop中的循环，查看消息队列
-                });
-
-                break;
-            }
         } else {
             mHandler.obtainMessage(NO_DERVER).sendToTarget();
         }
@@ -306,7 +310,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
 
-        esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
+        if (null == MyAppPreferences.getString(Configure.CAR_MILEAGE) || "".equals(MyAppPreferences.getString(Configure.CAR_MILEAGE)))
+            esc.addText("里程数：" + "未填写" + "\n");//打印里程数
+        else
+            esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
 
 
         if (info.getOrderInfo().getConsignee().equals("匿名")) {
@@ -314,8 +321,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addText("会员姓名：" + "匿名" + "\n");
         } else {
             // 会员姓名
-            esc.addText("会员姓名：" + new AppPreferences(this).getString(Configure.user_name, "匿名").substring(0, 1) + "**" + "\n");
-
+            esc.addText("会员姓名：" + info.getOrderInfo().getConsignee().substring(0, 1) + "**" + "\n");
         }
 
 
@@ -691,7 +697,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         super.onDestroy();
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
-
+        CameraThreadPool.shutdownNow();
     }
 
     boolean isConnectable;//是否可打印

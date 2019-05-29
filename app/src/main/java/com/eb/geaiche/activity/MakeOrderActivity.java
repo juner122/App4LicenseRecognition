@@ -601,6 +601,7 @@ public class MakeOrderActivity extends BaseActivity {
 
             }
 
+
             @Override
             protected void _onError(String message) {
                 Log.e(TAG, message);
@@ -613,6 +614,7 @@ public class MakeOrderActivity extends BaseActivity {
 
 
     @Override
+
     protected void onDestroy() {
         super.onDestroy();
         carDestroy();
@@ -690,8 +692,6 @@ public class MakeOrderActivity extends BaseActivity {
                         break;
                     }
                 }
-
-
                 quickTechnicianAdpter.setNewData(t.getList());
 
             }

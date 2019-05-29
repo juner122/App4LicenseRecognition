@@ -2,8 +2,10 @@ package com.eb.geaiche.activity;
 
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -70,18 +72,21 @@ public class ShopCarListActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(listAdapter);
 
-        listAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (pick == 1) {//返回生成车辆生成检查页面
+        listAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if (pick == 1) {//返回生成车辆生成检查页面
 
-                    Intent intent = new Intent(ShopCarListActivity.this, CarCheckResultActivity.class);
-                    intent.putExtra(Configure.car_id, listAdapter.getData().get(position).getCar_id());
-                    intent.putExtra(Configure.car_no, listAdapter.getData().get(position).getCar_no());
-                    startActivity(intent);
-                } else {//进入车况页面
-                    toActivity(CarInfoInputActivity.class, Configure.CARID, listAdapter.getData().get(position).getCar_id());
-                }
+                Intent intent = new Intent(ShopCarListActivity.this, CarCheckResultActivity.class);
+                intent.putExtra(Configure.car_id, listAdapter.getData().get(position).getCar_id());
+                intent.putExtra(Configure.car_no, listAdapter.getData().get(position).getCar_no());
+                startActivity(intent);
+            } else {//进入车况页面
+//                    toActivity(CarInfoInputActivity.class, Configure.CARID, listAdapter.getData().get(position).getCar_id());
+
+
+                Intent intent = new Intent(ShopCarListActivity.this, CarInfoInputActivity.class);
+                intent.putExtra(Configure.CARID, listAdapter.getData().get(position).getCar_id());
+                intent.putExtra("result_code", 999);
+                startActivity(intent);
             }
         });
 
