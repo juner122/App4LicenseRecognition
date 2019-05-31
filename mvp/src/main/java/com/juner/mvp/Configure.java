@@ -3,14 +3,18 @@ package com.juner.mvp;
 public class Configure {
 
 
-//    public static final String BaseUrl = "http://222.111.88.112:8081/app/";//线下
+//    public static final String BaseUrl = "http://222.111.88.128:8081/app/";//线下
     public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
+//    public static final String BaseUrl = "http://222.111.88.220:8089/app/";//线下 强哥
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务
     public static final int Goods_TYPE_4 = 4;//配件
     public static final int Goods_TYPE_5 = 5;//套卡
     public static final String Goods_TYPE = "Goods_TYPE";//套卡
+
+
+    public static final String APP_ID = "wx6208849918d52d41";//微信支付APPID
 
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别

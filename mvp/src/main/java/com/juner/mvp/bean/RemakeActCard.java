@@ -27,6 +27,25 @@ public class RemakeActCard {
     private Integer detailsId;
     //车牌
     private String carNo;
+    //5.30新加字段规格id和名字
+    private String standardId;
+    private String goodsStandardTitle;
+
+    public String getStandarId() {
+        return standardId;
+    }
+
+    public void setStandarId(String standarId) {
+        this.standardId = standarId;
+    }
+
+    public String getGoodsStandardTitle() {
+        return goodsStandardTitle;
+    }
+
+    public void setGoodsStandardTitle(String goodsStandardTitle) {
+        this.goodsStandardTitle = goodsStandardTitle;
+    }
 
     public Long getAddTime() {
         return addTime;

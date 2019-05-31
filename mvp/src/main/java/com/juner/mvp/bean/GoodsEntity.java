@@ -62,6 +62,26 @@ public class GoodsEntity implements Parcelable {
     String goodsName;//套餐商品名
 
 
+    //5.30新加字段
+    String standardId;//套餐商品名
+    String goodsStandardTitle;//套餐商品名
+
+    public String getStandarId() {
+        return standardId;
+    }
+
+    public void setStandarId(String standarId) {
+        this.standardId = standarId;
+    }
+
+    public String getGoodsStandardTitle() {
+        return goodsStandardTitle;
+    }
+
+    public void setGoodsStandardTitle(String goodsStandardTitle) {
+        this.goodsStandardTitle = goodsStandardTitle;
+    }
+
     int firstCategoryId;
 
     public int getFirstCategoryId() {
@@ -412,6 +432,8 @@ public class GoodsEntity implements Parcelable {
         dest.writeInt(this.goodsNum);
         dest.writeInt(this.goodsId);
         dest.writeString(this.goodsName);
+        dest.writeString(this.standardId);
+        dest.writeString(this.goodsStandardTitle);
         dest.writeInt(this.firstCategoryId);
         dest.writeString(this.goods_specifition_name_value);
         dest.writeString(this.goods_specifition_ids);
@@ -448,6 +470,8 @@ public class GoodsEntity implements Parcelable {
         this.goodsNum = in.readInt();
         this.goodsId = in.readInt();
         this.goodsName = in.readString();
+        this.standardId = in.readString();
+        this.goodsStandardTitle = in.readString();
         this.firstCategoryId = in.readInt();
         this.goods_specifition_name_value = in.readString();
         this.goods_specifition_ids = in.readString();

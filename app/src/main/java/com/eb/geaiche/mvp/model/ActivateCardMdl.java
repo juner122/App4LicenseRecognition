@@ -64,7 +64,7 @@ public class ActivateCardMdl extends BaseModel implements ActivityCardContacts.A
     @Override
     public void confirmInput(List<RemakeActCard> list, RxSubscribe<NullDataEntity> rxSubscribe) {
 
-        sendRequest(HttpUtils.getApi().remakeActCard(getToken(context), list).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getApi().remakeActCard(getToken(context), list).compose(RxHelper.observe()), rxSubscribe);
     }
 
     @Override

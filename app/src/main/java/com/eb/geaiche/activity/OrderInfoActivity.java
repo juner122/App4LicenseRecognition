@@ -674,7 +674,7 @@ public class OrderInfoActivity extends BaseActivity {
     //获取商品或工时
     private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
         if (null == goodsEntities || goodsEntities.size() == 0) {
-            return null;
+            return new ArrayList<>();
         }
         List<GoodsEntity> list = new ArrayList<>();
         for (GoodsEntity entity : goodsEntities) {
@@ -815,7 +815,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         esc.addText("================================\n");//打印完成时间
 
-        if (null != info.getOrderInfo().getGoodsList()) {
+        if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
             esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
                 esc.addSelectJustification(LEFT);
@@ -835,9 +835,9 @@ public class OrderInfoActivity extends BaseActivity {
             esc.addSelectJustification(LEFT);
         }
 
-        if (null != info.getOrderInfo().getGoodsList()) {
+        if (null != info.getOrderInfo().getGoodsList()|| info.getOrderInfo().getGoodsList().size() > 0) {
 
-            esc.addText("商品配件\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
+            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
 
                 esc.addSelectJustification(LEFT);

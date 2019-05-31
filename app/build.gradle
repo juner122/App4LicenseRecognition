@@ -17,8 +17,8 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 30
-        versionName "1.4.13"
+        versionCode 31
+        versionName "1.4.14"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -189,4 +189,8 @@ dependencies {
     implementation 'com.getui:sdk:2.13.0.0'
 
     implementation 'com.youth.banner:banner:1.4.10'
+
+
+    //微信支付
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

@@ -637,7 +637,7 @@ public interface ApiService {
 
 
     //调用微信支付
-    @POST("purchaseorder/info")
+    @POST("purchasePay/prepay")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> prepay(@Header("X-Nideshop-Token") String token, @Field("orderId") int orderId);
 

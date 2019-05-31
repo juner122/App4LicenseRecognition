@@ -340,7 +340,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addSelectJustification(LEFT);
 
 
-        if (null != info.getOrderInfo().getGoodsList()) {
+        if (null != info.getOrderInfo().getGoodsList()|| info.getOrderInfo().getGoodsList().size() > 0) {
             esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
                 esc.addSelectJustification(LEFT);
@@ -360,9 +360,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addSelectJustification(LEFT);
         }
 
-        if (null != info.getOrderInfo().getGoodsList()) {
+        if (null != info.getOrderInfo().getGoodsList()|| info.getOrderInfo().getGoodsList().size() > 0) {
 
-            esc.addText("商品配件\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
+            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
 
                 esc.addSelectJustification(LEFT);
@@ -383,7 +383,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         }
 
-        if (null != info.getOrderInfo().getUserActivityList()) {
+        if (null != info.getOrderInfo().getUserActivityList()|| info.getOrderInfo().getUserActivityList().size() > 0) {
             for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);

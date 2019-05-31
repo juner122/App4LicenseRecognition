@@ -55,7 +55,7 @@ public class MyApplication extends Application {
 //        CrashHandler handler = CrashHandler.getInstance(this);
 //        Thread.setDefaultUncaughtExceptionHandler(handler);
 //
-        CrashHandler2.getInstance().init(this);
+//        CrashHandler2.getInstance().init(this);
 
 
     }

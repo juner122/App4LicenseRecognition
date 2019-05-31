@@ -19,7 +19,25 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
     String createTime;
     String price;
     List<MealEntity> goodsList;
+    //5.30号新增字段
+    String standardId;
+    String goodsStandardTitle;
 
+    public String getStandardId() {
+        return standardId;
+    }
+
+    public void setStandardId(String standardId) {
+        this.standardId = standardId;
+    }
+
+    public String getGoodsStandardTitle() {
+        return goodsStandardTitle;
+    }
+
+    public void setGoodsStandardTitle(String goodsStandardTitle) {
+        this.goodsStandardTitle = goodsStandardTitle;
+    }
 
     public String getCreateTime() {
         return createTime;
@@ -95,6 +113,8 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
         dest.writeString(this.createTime);
         dest.writeString(this.price);
         dest.writeTypedList(this.goodsList);
+        dest.writeString(this.standardId);
+        dest.writeString(this.goodsStandardTitle);
     }
 
     protected Meal2(Parcel in) {
@@ -104,6 +124,8 @@ public class Meal2 extends AbstractExpandableItem<MealEntity> implements Parcela
         this.createTime = in.readString();
         this.price = in.readString();
         this.goodsList = in.createTypedArrayList(MealEntity.CREATOR);
+        this.standardId = in.readString();
+        this.goodsStandardTitle = in.readString();
     }
 
     public static final Creator<Meal2> CREATOR = new Creator<Meal2>() {

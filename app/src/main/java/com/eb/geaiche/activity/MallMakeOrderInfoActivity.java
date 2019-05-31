@@ -2,7 +2,10 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallOrderGoodsListAdapter;
@@ -11,13 +14,18 @@ import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartItem;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.ShopEntity;
 import com.juner.mvp.bean.XgxPurchaseOrderPojo;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MallMakeOrderInfoActivity extends BaseActivity {
 
@@ -53,6 +61,20 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
     int id;
     MallOrderGoodsListAdapter adapter;
 
+
+    @OnClick({R.id.order_pay})
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.order_pay://支付
+
+                tuneUpWXPay2();
+                break;
+        }
+    }
+
+    private IWXAPI api;
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_mall_make_order_info;
@@ -62,6 +84,9 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     @Override
     protected void init() {
+
+        api = WXAPIFactory.createWXAPI(this, Configure.APP_ID);
+
 
         tv_title.setText("订单详情");
         tv_title_r.setText("待支付");
@@ -105,9 +130,9 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
         Api().mallOrderInfo(id).subscribe(new RxSubscribe<XgxPurchaseOrderPojo>(this, true) {
             @Override
             protected void _onNext(XgxPurchaseOrderPojo x) {
-                pay_price.setText(String.valueOf("-￥" + x.getRealPrice()));
-                order_price.setText(String.valueOf("-￥" + x.getOrderPrice()));
-                reduce_price.setText(null == x.getDiscountPrice() ? "-￥0.00" : String.valueOf("-￥" + x.getDiscountPrice()));
+                pay_price.setText("-￥" + x.getRealPrice());
+                order_price.setText("-￥" + x.getOrderPrice());
+                reduce_price.setText(null == x.getDiscountPrice() ? "-￥0.00" : "-￥" + x.getDiscountPrice());
 
                 order_sn.setText(x.getOrderSn());
                 order_time.setText(DateUtil.getFormatedDateTime(x.getCreateTime()));
@@ -135,4 +160,43 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * 调起微信支付
+     */
+    private void tuneUpWXPay() {
+        Api().prepay(id).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity n) {
+                //支付成功
+//                ToastUtils.showToast("支付成功");
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+    }
+
+    private void tuneUpWXPay2() {
+
+        PayReq req = new PayReq();
+        req.appId = Configure.APP_ID;
+        req.partnerId = "1408952102";//商户号
+        req.prepayId = "WX1217752501201407033233368018";//预支付交易会话ID
+        req.nonceStr = "5K8264ILTKCH16CQ2502SI8ZNMTM67VS";//随机字符串
+        req.timeStamp = "1412000000";
+        req.packageValue = "Sign=WXPay";
+        req.sign = "C380BEC2BFD727A4B6845133519F3AD6";//签名
+        req.extData = "app data"; // optional
+
+        ToastUtils.showToast("正常调起支付");
+        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+        api.sendReq(req);
+    }
 }
+

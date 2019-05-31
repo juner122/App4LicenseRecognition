@@ -1364,7 +1364,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> prepay(int orderId) {
 
-        return apiService.prepay(token, orderId).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.prepay(token, orderId).compose(RxHelper.observe());
     }
 
     /**

@@ -172,6 +172,11 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             rac.setGoodsId(m.getId());
             rac.setGoodsName(m.getName());
             rac.setGoodsNum(m.getNumber());
+
+            //5.30新加字段规格id和名字
+            rac.setGoodsStandardTitle(m.getGoodsStandardTitle());
+            rac.setStandarId(m.getStandarId());
+
             list.add(rac);
         }
 
@@ -303,7 +308,7 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             @Override
             protected void _onNext(NullDataEntity s) {
                 ToastUtils.showToast("修改成功！");
-                getView().setUserName(name);
+                getView().setCarName(name);
             }
 
             @Override

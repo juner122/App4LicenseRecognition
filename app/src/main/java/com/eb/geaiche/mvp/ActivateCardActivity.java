@@ -284,7 +284,7 @@ public class ActivateCardActivity extends BaseActivity<ActivityCardContacts.Acti
                 getPresenter().checkMember(et_mobile.getText().toString(), et_name.getText().toString());
                 break;
             default:
-                getPresenter().setMealList((Meal2) intent.getParcelableExtra("Meal2"));
+                getPresenter().setMealList(intent.getParcelableExtra("Meal2"));
                 break;
         }
 

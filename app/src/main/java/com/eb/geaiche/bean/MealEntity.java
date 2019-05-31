@@ -31,6 +31,29 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
     String dealUserName;
     String activitySn;
 
+
+    //5.30号新增字段
+    String standardId;
+    String goodsStandardTitle;
+
+
+
+    public String getStandarId() {
+        return standardId;
+    }
+
+    public void setStandarId(String standarId) {
+        this.standardId = standarId;
+    }
+
+    public String getGoodsStandardTitle() {
+        return goodsStandardTitle;
+    }
+
+    public void setGoodsStandardTitle(String goodsStandardTitle) {
+        this.goodsStandardTitle = goodsStandardTitle;
+    }
+
     public int getId() {
         return id;
     }
@@ -235,6 +258,8 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         dest.writeString(this.carNo);
         dest.writeString(this.dealUserName);
         dest.writeString(this.activitySn);
+        dest.writeString(this.standardId);
+        dest.writeString(this.goodsStandardTitle);
     }
 
     protected MealEntity(Parcel in) {
@@ -258,6 +283,8 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.carNo = in.readString();
         this.dealUserName = in.readString();
         this.activitySn = in.readString();
+        this.standardId = in.readString();
+        this.goodsStandardTitle = in.readString();
     }
 
     public static final Creator<MealEntity> CREATOR = new Creator<MealEntity>() {
