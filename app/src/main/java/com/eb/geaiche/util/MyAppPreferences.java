@@ -36,4 +36,12 @@ public class MyAppPreferences {
         return new AppPreferences(MyApplication.getInstance()).getString(key, "");
     }
 
+    public static void putInt(String key, int vlues) {
+        new AppPreferences(MyApplication.getInstance()).put(key, vlues);
+    }
+
+    public static Integer getInt(String key) {
+        return new AppPreferences(MyApplication.getInstance()).getInt(key, 0);
+    }
+
 }

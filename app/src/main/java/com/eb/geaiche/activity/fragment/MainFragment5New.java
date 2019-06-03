@@ -1,7 +1,6 @@
 package com.eb.geaiche.activity.fragment;
 
 
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +11,7 @@ import com.eb.geaiche.activity.AboutActivity;
 
 import com.eb.geaiche.activity.ChangeStoreActivity;
 import com.eb.geaiche.activity.CourseRecordActivity;
+import com.eb.geaiche.activity.MainActivity;
 import com.eb.geaiche.activity.MallOrderAllListActivity;
 import com.eb.geaiche.activity.MyBalanceActivity;
 import com.eb.geaiche.activity.SetProjectActivity;
@@ -21,8 +21,10 @@ import com.eb.geaiche.mvp.LoginActivity2;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.VersionInfo;
 
 import net.grandcentrix.tray.AppPreferences;
 
@@ -52,7 +54,8 @@ public class MainFragment5New extends BaseFragment {
     TextView tv_change_store;//
     String phone;
 
-
+    @BindView(R.id.updata)
+    TextView updata;//版本号
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment5_main_new;
@@ -60,7 +63,7 @@ public class MainFragment5New extends BaseFragment {
 
     @Override
     protected void setUpView() {
-
+        updata.append(SystemUtil.packaGetName());
     }
 
     @Override
@@ -103,7 +106,7 @@ public class MainFragment5New extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_my_balance, R.id.rl_to_info, R.id.project, R.id.tv_out, R.id.tv_change_store, R.id.mystudy, R.id.my_cart, R.id.my_collection, R.id.my_youj, R.id.my_rowse_record, R.id.stay_pay, R.id.stay_send, R.id.stay_collect, R.id.after_sale, R.id.tv_all_order})
+    @OnClick({R.id.tv_my_balance,R.id.about, R.id.updata,R.id.rl_to_info, R.id.project, R.id.tv_out, R.id.tv_change_store, R.id.mystudy, R.id.my_cart, R.id.my_collection, R.id.my_youj, R.id.my_rowse_record, R.id.stay_pay, R.id.stay_send, R.id.stay_collect, R.id.after_sale, R.id.tv_all_order})
     public void onclick(View v) {
 
         switch (v.getId()) {
@@ -123,6 +126,12 @@ public class MainFragment5New extends BaseFragment {
             case R.id.project:
 
                 toActivity(SetProjectActivity.class);
+
+                break;
+            case R.id.updata:
+
+
+                checkVersionUpDate();
 
                 break;
             case R.id.about:
@@ -146,10 +155,28 @@ public class MainFragment5New extends BaseFragment {
 
                 break;
 
+            case R.id.stay_pay:
+                toActivity(MallOrderAllListActivity.class, "potint", 1);
+                break;
+
+            case R.id.stay_send:
+                toActivity(MallOrderAllListActivity.class, "potint", 2);
+                break;
+
+            case R.id.stay_collect:
+                toActivity(MallOrderAllListActivity.class, "potint", 3);
+                break;
+
+            case R.id.after_sale:
+                toActivity(MallOrderAllListActivity.class, "potint", 4);
+
+                break;
+
             case R.id.tv_all_order:
                 toActivity(MallOrderAllListActivity.class);
 
                 break;
+
 
             case R.id.my_cart:
                 toActivity(ShoppingCartActivity.class);
@@ -169,5 +196,45 @@ public class MainFragment5New extends BaseFragment {
         return TAG;
     }
 
+    //检查版本更新
+    private void checkVersionUpDate() {
+        Api().checkVersionUpDate().subscribe(new RxSubscribe<VersionInfo>(getActivity(), true) {
+            @Override
+            protected void _onNext(final VersionInfo versionInfo) {
 
+                if (versionInfo.getVersionCode() > SystemUtil.packaGetCode()) {
+
+                    //弹出对话框
+                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getActivity(), String.format("检测到新版本:v%s 是否更新？", versionInfo.getVersionName()), "系统消息");
+                    confirmDialog.show();
+                    confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                        @Override
+                        public void doConfirm() {
+                            confirmDialog.dismiss();
+
+                            ((MainActivity) getActivity()).starDownload(versionInfo);
+                            ToastUtils.showToast("下载中...");
+
+                        }
+
+                        @Override
+                        public void doCancel() {
+                            confirmDialog.dismiss();
+
+                        }
+                    });
+
+                } else {
+                    ToastUtils.showToast("当前已是最新版本");
+                }
+
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+    }
 }

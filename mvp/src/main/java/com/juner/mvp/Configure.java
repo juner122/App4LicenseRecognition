@@ -82,5 +82,10 @@ public class Configure {
 
     public static final String UPDATAREMARK = "这次我们做了一个非常重大的决定，您只需要点击确定在线升级之后就能体验哦。";//里程数
 
+    public static final String WXPay_PRICE = "WXPay_Price";//微信支付金额
+    public static final String WXPay_SN = "WXPay_SN";//微信支付交易流水号
+    public static final String WXPay_TIME = "WXPay_TIME";//微信支付交易时间
+
+
 
 }

@@ -44,6 +44,7 @@ import com.juner.mvp.bean.NumberBean;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.OrderNews;
+import com.juner.mvp.bean.PayInfo;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.Roles;
@@ -639,7 +640,7 @@ public interface ApiService {
     //调用微信支付
     @POST("purchasePay/prepay")
     @FormUrlEncoded
-    Observable<BaseBean<NullDataEntity>> prepay(@Header("X-Nideshop-Token") String token, @Field("orderId") int orderId);
+    Observable<BaseBean<PayInfo>> prepay(@Header("X-Nideshop-Token") String token, @Field("orderId") int orderId);
 
     //查看采购订单列表（根据登录用户查询）
     @POST("purchaseorder/list")

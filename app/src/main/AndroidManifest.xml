@@ -258,11 +258,12 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
 
-
-
-
-
+        </activity>
 
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
@@ -358,7 +359,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.NewInventoryActivity" />
         <activity android:name=".activity.MallMakeOrderActivity" />
-        <activity android:name=".activity.MallMakeOrderInfoActivity" />
+        <activity
+            android:name=".activity.MallMakeOrderInfoActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+
         <activity android:name=".activity.OrderForFixActivity" />
         <activity android:name=".activity.MallOrderAllListActivity" />
         <activity android:name=".activity.PreviewZoomActivity" />

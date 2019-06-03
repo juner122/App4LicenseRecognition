@@ -83,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:background="#fff"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -144,7 +145,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="#fff">
 
@@ -286,6 +286,24 @@
                 android:drawableLeft="@mipmap/icon_projcet"
                 android:text="设置主推项目" />
 
+            <TextView
+                android:id="@+id/about"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_about"
+                android:text="关于哥爱车" />
+
+
+            <TextView
+                android:id="@+id/updata"
+                style="@style/my_list_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:drawableLeft="@mipmap/icon_updata"
+                android:text="检查更新  version:" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

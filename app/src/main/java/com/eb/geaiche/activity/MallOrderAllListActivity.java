@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.fragment.MallOrderListFragment;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.juner.mvp.Configure;
 
 import java.util.ArrayList;
 
@@ -21,11 +22,14 @@ public class MallOrderAllListActivity extends BaseActivity {
 
     ArrayList<Fragment> fragments = new ArrayList<>();
 
+    int potint = 0;//位置
+
     @Override
     protected void init() {
 
         tv_title.setText("采购订单管理");
 
+        potint = getIntent().getIntExtra("potint",0);
     }
 
     @Override
@@ -35,13 +39,16 @@ public class MallOrderAllListActivity extends BaseActivity {
         fragments.add(MallOrderListFragment.newInstance(2));
         fragments.add(MallOrderListFragment.newInstance(3));
         fragments.add(MallOrderListFragment.newInstance(4));
-
-
         stl.setViewPager(vp, title, this, fragments);
+
+
     }
 
     @Override
     protected void setUpData() {
+
+        vp.setCurrentItem(potint);
+
 
     }
 

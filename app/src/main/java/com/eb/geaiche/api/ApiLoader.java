@@ -56,6 +56,7 @@ import com.juner.mvp.bean.NumberBean;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.OrderNews;
+import com.juner.mvp.bean.PayInfo;
 import com.juner.mvp.bean.ProductList;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.juner.mvp.bean.Roles;
@@ -1362,7 +1363,7 @@ public class ApiLoader {
     /**
      * 调用微信支付
      */
-    public Observable<NullDataEntity> prepay(int orderId) {
+    public Observable<PayInfo> prepay(int orderId) {
 
         return apiService.prepay(token, orderId).compose(RxHelper.observe());
     }

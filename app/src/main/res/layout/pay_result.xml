@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <include layout="@layout/head_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/icon_pay_suess" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="¥ 240.00"
+            android:textColor="#ff333333"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/pay_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付成功"
+            android:textColor="#ff666666"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="#d9d9d9" />
+
+        <TextView
+            android:id="@+id/prepayid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="交易流水号：  XGX100010"
+            android:textColor="#ff666666"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="支付时间：  2018-12-13 14：00"
+            android:textColor="#ff666666"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/back_home"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/button_background_cccc"
         android:gravity="center"
-        android:text="支付回调"
-        android:textColor="#ff000000"
-        android:textSize="20dp" />
-
+        android:text="返回订单"
+        android:textColor="#ffffffff"
+        android:textSize="14sp" />
 </LinearLayout>

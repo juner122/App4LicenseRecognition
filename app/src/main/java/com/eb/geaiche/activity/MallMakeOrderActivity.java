@@ -3,8 +3,10 @@ package com.eb.geaiche.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,6 +58,8 @@ public class MallMakeOrderActivity extends BaseActivity {
 
     Shop shop;
 
+    int buyType;//购买类型(1是通过购物车购买需清空购物车  2是直接购买 无需清购物车)
+
     @OnClick({R.id.enter_pay})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -78,8 +82,7 @@ public class MallMakeOrderActivity extends BaseActivity {
         tv_title.setText("确认订单");
 
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
-
-
+        buyType = getIntent().getIntExtra("buyType", 1);
         all_price.setText("￥" + upDataPrice(cartItems));
     }
 
@@ -140,13 +143,14 @@ public class MallMakeOrderActivity extends BaseActivity {
 
                 Intent intent = new Intent(MallMakeOrderActivity.this, MallMakeOrderInfoActivity.class);
                 intent.putExtra(Configure.ORDERINFOID, t);
-                intent.putExtra(Configure.shop_info, shop.getShop());
+
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("cart_goods", (ArrayList<? extends Parcelable>) cartItems);
                 intent.putExtras(bundle);
 
                 startActivity(intent);
 
+                finish();
 
             }
 
@@ -182,7 +186,7 @@ public class MallMakeOrderActivity extends BaseActivity {
         }
 
         pojo.setXgxPurchaseOrderGoodsPojoList(goodsPojoLists);
-
+        pojo.setBuyType(buyType);
 
         return pojo;
 

@@ -99,10 +99,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="#fff" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -219,16 +219,35 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/order_pay"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/button_background_cccc"
-        android:gravity="center"
-        android:text="立即支付"
-        android:textColor="#ffffffff"
-        android:textSize="14sp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/order_pay_info"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#fff"
+            android:visibility="gone"
+            android:text="订单已付款，等待发货中……"
+            android:textColor="#ff999999"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/order_pay"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@color/appColor"
+            android:gravity="center"
+            android:text="立即支付"
+            android:textColor="#ffffffff"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+
 </LinearLayout>

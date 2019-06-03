@@ -3,6 +3,7 @@ package com.eb.geaiche.activity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,10 +12,15 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallOrderGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.MyAppPreferences;
+import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.wxapi.WXPayHelper;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.PayInfo;
+import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.ShopEntity;
 import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -57,6 +63,12 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
     @BindView(R.id.order_time)
     TextView order_time;//下单时间
 
+    @BindView(R.id.order_pay_info)
+    TextView order_pay_info;//订单支付信息
+
+    @BindView(R.id.order_pay)
+    TextView order_pay;//按钮
+
     ShopEntity shop;
     int id;
     MallOrderGoodsListAdapter adapter;
@@ -67,13 +79,13 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.order_pay://支付
-
-                tuneUpWXPay2();
+                if (payStatus == 1)
+                    tuneUpWXPay();
                 break;
         }
     }
 
-    private IWXAPI api;
+    int payStatus;
 
     @Override
     public int setLayoutResourceID() {
@@ -84,19 +96,13 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     @Override
     protected void init() {
-
-        api = WXAPIFactory.createWXAPI(this, Configure.APP_ID);
-
-
         tv_title.setText("订单详情");
         tv_title_r.setText("待支付");
 
-        shop = getIntent().getParcelableExtra(Configure.shop_info);
         id = getIntent().getIntExtra(Configure.ORDERINFOID, 0);
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
-
-
     }
+
 
     @Override
     protected void setUpView() {
@@ -116,13 +122,14 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getOrderInfo();
-
-        name.setText(shop.getShopName());
-        phone.setText(shop.getPhone());
-        address.setText(shop.getAddress());
-
-
+        getAddress();
     }
 
     //获取订单信息
@@ -137,7 +144,8 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
                 order_sn.setText(x.getOrderSn());
                 order_time.setText(DateUtil.getFormatedDateTime(x.getCreateTime()));
 
-                switch (x.getPayType()) {
+                payStatus = x.getPayStatus();
+                switch (payStatus) {
                     case 1:
                         tv_title_r.setText("待支付");
                         pay_status.setText("待支付");
@@ -145,8 +153,9 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
                     case 2:
                         tv_title_r.setText("已支付");
                         pay_status.setText("已支付");
-                        break;
+                        showPayedView();
 
+                        break;
                 }
 
             }
@@ -160,16 +169,30 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     }
 
+    //显示已支付页面
+    private void showPayedView() {
+        order_pay_info.setVisibility(View.VISIBLE);
+        order_pay.setText("等待发货");
+        order_pay.setBackgroundColor(Color.parseColor("#A7D4FA"));
+
+    }
 
     /**
      * 调起微信支付
      */
     private void tuneUpWXPay() {
-        Api().prepay(id).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+
+        Api().prepay(id).subscribe(new RxSubscribe<PayInfo>(this, true) {
             @Override
-            protected void _onNext(NullDataEntity n) {
+            protected void _onNext(PayInfo payInfo) {
                 //支付成功
-//                ToastUtils.showToast("支付成功");
+//
+                new WXPayHelper(MallMakeOrderInfoActivity.this).pay(payInfo);//发
+
+                MyAppPreferences.putString(Configure.WXPay_PRICE, payInfo.getPayInfo().getTotalFee());//价格 为分
+                MyAppPreferences.putString(Configure.WXPay_SN, payInfo.getPayInfo().getOrderSn());
+                MyAppPreferences.putString(Configure.WXPay_TIME, DateUtil.getFormatedDateTime(payInfo.getPayInfo().getTimestamp() * 1000));
+                MyAppPreferences.putInt(Configure.ORDERINFOID, id);
 
 
             }
@@ -182,21 +205,26 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     }
 
-    private void tuneUpWXPay2() {
+    //获取地址信息
+    private void getAddress() {
+        Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
+            @Override
+            protected void _onNext(Shop s) {
 
-        PayReq req = new PayReq();
-        req.appId = Configure.APP_ID;
-        req.partnerId = "1408952102";//商户号
-        req.prepayId = "WX1217752501201407033233368018";//预支付交易会话ID
-        req.nonceStr = "5K8264ILTKCH16CQ2502SI8ZNMTM67VS";//随机字符串
-        req.timeStamp = "1412000000";
-        req.packageValue = "Sign=WXPay";
-        req.sign = "C380BEC2BFD727A4B6845133519F3AD6";//签名
-        req.extData = "app data"; // optional
+                shop = s.getShop();
+                name.setText(shop.getShopName());
+                phone.setText(shop.getPhone());
+                address.setText(shop.getAddress());
+            }
 
-        ToastUtils.showToast("正常调起支付");
-        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-        api.sendReq(req);
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+                //判断是否是401 token失效
+                SystemUtil.isReLogin(message, MallMakeOrderInfoActivity.this);
+            }
+        });
+
     }
 }
 

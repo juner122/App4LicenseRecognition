@@ -1,9 +1,11 @@
 package com.eb.geaiche.activity.fragment;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -13,11 +15,15 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.MallMakeOrderInfoActivity;
 import com.eb.geaiche.adapter.MallOrderListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.wxapi.WXPayHelper;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.PayInfo;
 import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 
 import butterknife.BindView;
@@ -78,13 +84,10 @@ public class MallOrderListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         adapter.setEmptyView(R.layout.order_list_empty_view, recyclerView);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        adapter.setOnItemClickListener((adapter, view, position) -> toActivity(MallMakeOrderInfoActivity.class, Configure.ORDERINFOID, ((XgxPurchaseOrderPojo) adapter.getData().get(position)).getId()));
+        adapter.setOnItemChildClickListener((adapter, view, position) -> MallOrderListFragment.this.prepay(((XgxPurchaseOrderPojo) adapter.getData().get(position)).getId()));
 
-                toActivity(MallMakeOrderInfoActivity.class, "id", ((FixInfoEntity) adapter.getData().get(position)).getId());
-            }
-        });
+
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
@@ -104,19 +107,15 @@ public class MallOrderListFragment extends BaseFragment {
 
 
         //子项按钮
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
+        adapter.setOnItemChildClickListener((a, view, position) -> {
 
-                if (adapter.getData().get(position).getPayStatus().equals("1")) {//在线支付
-                    prepay(adapter.getData().get(position).getId());
-                } else if (adapter.getData().get(position).getShipStatus().equals("2")) {//确认收货
-
-
-                }
-
+            if (adapter.getData().get(position).getPayStatus() == 1) {//在线支付
+                prepay(adapter.getData().get(position).getId());
+            } else if (adapter.getData().get(position).getShipStatus().equals("2")) {//确认收货
 
             }
+
+
         });
 
     }
@@ -156,11 +155,18 @@ public class MallOrderListFragment extends BaseFragment {
 
     //prepay
     private void prepay(int orderId) {
-        Api().prepay(orderId).subscribe(new RxSubscribe<NullDataEntity>(mContext, true) {
+        Api().prepay(orderId).subscribe(new RxSubscribe<PayInfo>(mContext, true) {
             @Override
-            protected void _onNext(NullDataEntity n) {
+            protected void _onNext(PayInfo payInfo) {
                 //支付成功
-                ToastUtils.showToast("支付成功");
+
+
+                new WXPayHelper(getActivity()).pay(payInfo);//发
+
+                MyAppPreferences.putString(Configure.WXPay_PRICE, payInfo.getPayInfo().getTotalFee());//价格 为分
+                MyAppPreferences.putString(Configure.WXPay_SN, payInfo.getPayInfo().getOrderSn());
+                MyAppPreferences.putString(Configure.WXPay_TIME, DateUtil.getFormatedDateTime(payInfo.getPayInfo().getTimestamp() * 1000));
+                MyAppPreferences.putInt(Configure.ORDERINFOID, orderId);
             }
 
             @Override

@@ -1,6 +1,10 @@
 package com.eb.geaiche.mvp;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +16,8 @@ import com.eb.geaiche.activity.MallMakeOrderActivity;
 import com.eb.geaiche.mvp.contacts.ShoppingCartContacts;
 import com.eb.geaiche.mvp.presenter.ShoppingCartPtr;
 import com.eb.geaiche.util.ToastUtils;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,8 +58,13 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
                     ToastUtils.showToast("请最少选择一件商品！");
                     return;
                 }
-                toActivity(MallMakeOrderActivity.class, getPresenter().getCartItemList(), "cart_goods");
-
+//                toActivity(MallMakeOrderActivity.class, getPresenter().getCartItemList(), "cart_goods");
+                Intent intent = new Intent(this, MallMakeOrderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("cart_goods", (ArrayList<? extends Parcelable>) getPresenter().getCartItemList());
+                bundle.putInt("buyType", 1);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }

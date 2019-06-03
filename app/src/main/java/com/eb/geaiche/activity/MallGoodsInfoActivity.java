@@ -1,9 +1,14 @@
 package com.eb.geaiche.activity;
 
 
+import android.content.Intent;
 import android.graphics.Paint;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +18,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.GlideImageLoader;
+import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.Goods;
 import com.youth.banner.Banner;
@@ -46,6 +52,8 @@ public class MallGoodsInfoActivity extends BaseActivity {
     RecyclerView rv;
 
     int productId;//默认第一个规格id
+    String price;
+    String pic;
 
     @Override
     public int setLayoutResourceID() {
@@ -68,9 +76,9 @@ public class MallGoodsInfoActivity extends BaseActivity {
                 break;
 
             case R.id.tv_buy://购买
-//                List<CartItem> cartItems = new ArrayList<>();
-//
-//                toActivity(MallGoodsInfoActivity.class, cartItems, "cart_goods");
+
+
+                shopNow();
 
                 break;
 
@@ -108,13 +116,14 @@ public class MallGoodsInfoActivity extends BaseActivity {
         getShoppingCartInfo();
     }
 
+    Goods g;
 
     private void getGoodsInfo() {
         //查询商品
         Api().xgxshopgoodsInfo(getIntent().getIntExtra(MallGoodsActivity.goodsId, -1)).subscribe(new RxSubscribe<Goods>(this, true) {
             @Override
             protected void _onNext(Goods goods) {
-
+                g = goods;
                 try {
                     List<String> pic_url = new ArrayList<>();
                     List<String> pic_url_info = new ArrayList<>();
@@ -122,6 +131,8 @@ public class MallGoodsInfoActivity extends BaseActivity {
                     for (Goods.GoodsPic goodsPic : goods.getGoodsDetailsPojoList()) {
                         pic_url.add(goodsPic.getImage());
                     }
+
+                    pic = goods.getGoodsDetailsPojoList().get(0).getImage();
 
                     for (Goods.GoodsInfoPic goodsInfoPic : goods.getGoodsInfoPicList()) {
                         pic_url_info.add(goodsInfoPic.getImage());
@@ -144,6 +155,7 @@ public class MallGoodsInfoActivity extends BaseActivity {
 
                     }
                     productId = goods.getXgxGoodsStandardPojoList().get(0).getId();
+                    price = goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice();
                 } catch (Exception e) {
                     ToastUtils.showToast("获取商品数据失败,请重试！");
                     finish();
@@ -181,9 +193,15 @@ public class MallGoodsInfoActivity extends BaseActivity {
             protected void _onNext(CartList cartList) {
                 if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {
                     ToastUtils.showToast("添加失败！");
+
+
                 } else {
-                    ToastUtils.showToast("添加成功！");
+
                     getShoppingCartInfo();
+
+                    ToastUtils.showToast("添加成功！");
+
+
                 }
             }
 
@@ -195,6 +213,33 @@ public class MallGoodsInfoActivity extends BaseActivity {
             }
         });
     }
+
+    //现在购买
+    private void shopNow() {
+
+
+        List<CartItem> cartItems = new ArrayList<>();
+        CartItem cartItem = new CartItem();
+        cartItem.setGoods_id(getIntent().getIntExtra(MallGoodsActivity.goodsId, -1));
+        cartItem.setProduct_id(productId);
+        cartItem.setNumber(1);
+        cartItem.setRetail_product_price(price);
+        cartItem.setGoodsStandardTitle(g.getXgxGoodsStandardPojoList().get(0).getGoodsStandardTitle());
+        cartItem.setGoods_name(g.getGoodsTitle());
+        cartItem.setImage(pic);
+
+        cartItems.add(cartItem);
+
+//        toActivity(MallMakeOrderActivity.class, cartItems, "cart_goods");
+        Intent intent = new Intent(this, MallMakeOrderActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("cart_goods", (ArrayList<? extends Parcelable>) cartItems);
+        bundle.putInt("buyType", 2);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
 
     /**
      * 获取购物车信息

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.activity.fragment.MainFragment1New;
+import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
@@ -120,7 +121,8 @@ public class MainActivity extends BaseActivity {
 //        mFragments.add(new MainFragment3());
         mFragments.add(new MainFragmentPlate());
 //        mFragments.add(new MainFragment4());
-        mFragments.add(new MainFragment5());
+//        mFragments.add(new MainFragment5());
+        mFragments.add(new MainFragment5New());
         commonTabLayout.setTabData(mTabEntities, this, R.id.fragment, mFragments);
         setCurrentTab(0);
 

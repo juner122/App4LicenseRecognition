@@ -526,11 +526,11 @@ public class OrderInfoActivity extends BaseActivity {
                     tv_fix_order.setText("修改订单");
                     tv_fix_order.setVisibility(View.GONE);
                     ll_price3.setVisibility(View.GONE);
-                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
+                    tv_price4.setText(("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
                 } else {
                     tv_fix_order.setVisibility(View.GONE);
                     ll_price3.setVisibility(View.VISIBLE);
-                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
+                    tv_price4.setText(("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
                 }
 
                 ll_pick_date.setVisibility(View.VISIBLE);
@@ -545,12 +545,12 @@ public class OrderInfoActivity extends BaseActivity {
                 tv_fix_order.setVisibility(View.GONE);
                 if (pay_status == 0) {
                     tv_enter_order.setText("完成去结算");
-                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price())));
+                    tv_price4.setText("￥" + MathUtil.twoDecimal(info.getOrderInfo().getOrder_price()));
                     ll_price3.setVisibility(View.GONE);
                 } else {
                     tv_enter_order.setText("确认完成");
                     tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
-                    tv_price4.setText(String.valueOf("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price())));
+                    tv_price4.setText("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price()));
                     ll_price3.setVisibility(View.VISIBLE);
                 }
                 ll_pick_date.setVisibility(View.VISIBLE);
