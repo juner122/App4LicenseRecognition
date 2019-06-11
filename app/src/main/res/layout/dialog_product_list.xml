@@ -50,6 +50,12 @@
             tools:listitem="@layout/recycler_view_item"
             tools:spanCount="5" />
 
+
+        <LinearLayout
+            android:id="@+id/ll_num"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,6 +98,9 @@
                 android:src="@mipmap/icon_plus" />
 
         </LinearLayout>
+
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

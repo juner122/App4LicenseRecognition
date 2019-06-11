@@ -24,6 +24,7 @@ import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
+import com.eb.geaiche.stockControl.activity.StockControlActivity;
 import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity {
             R.mipmap.icon_bottom_button1_select,
             R.color.fff, R.mipmap.icon_bottom_button5_select};
 
-    @OnClick({R.id.ll, R.id.ll2, R.id.iv1})
+    @OnClick({R.id.ll, R.id.ll2, R.id.iv1, R.id.tv_shopName})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll:
@@ -88,6 +89,10 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.iv1:
                 toActivity(OrderNewsListActivity.class);//新消息
+                break;
+
+            case R.id.tv_shopName:
+//                toActivity(StockControlActivity.class);//新消息
                 break;
 
         }
@@ -148,10 +153,21 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setUpData() {
+
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        needRead();
+
+
+        //获取门店信息
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
             @Override
             protected void _onNext(Shop shop) {
-//                tv_shopName = null;
                 tv_shopName.setText(shop.getShop().getShopName());
             }
 
@@ -163,13 +179,6 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        needRead();
     }
 
     @Override

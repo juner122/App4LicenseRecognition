@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.AutographActivity;
 import com.eb.geaiche.activity.MallGoodsActivity;
 import com.eb.geaiche.activity.MallGoodsInfoActivity;
 import com.eb.geaiche.activity.MallMakeOrderActivity;
 import com.eb.geaiche.mvp.contacts.ShoppingCartContacts;
 import com.eb.geaiche.mvp.presenter.ShoppingCartPtr;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
     boolean isAllPick;
 
 
-    @OnClick({R.id.iv_pick_all, R.id.tv_total})
+    @OnClick({R.id.iv_pick_all, R.id.tv_total, R.id.tv_title_r})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_pick_all:
@@ -54,17 +56,38 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
                 break;
 
             case R.id.tv_total://结算
-                if (getPresenter().getCartItemList().size() == 0) {
+                if (getPresenter().getCartItemNum() <= 0) {
                     ToastUtils.showToast("请最少选择一件商品！");
                     return;
                 }
-//                toActivity(MallMakeOrderActivity.class, getPresenter().getCartItemList(), "cart_goods");
                 Intent intent = new Intent(this, MallMakeOrderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("cart_goods", (ArrayList<? extends Parcelable>) getPresenter().getCartItemList());
                 bundle.putInt("buyType", 1);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+
+            case R.id.tv_title_r:
+                //删除购物车商品
+
+                //弹出对话框
+                final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(this, "是否要删除选中的商品？", "提示");
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm() {
+                        confirmDialog.dismiss();
+                        getPresenter().delete();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+
                 break;
         }
     }
@@ -77,6 +100,7 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartContacts.Shop
     @Override
     protected void init() {
         tv_title.setText("购物车");
+        setRTitle("删除");
 
 
         getPresenter().infoRecyclerView(rv);

@@ -2,9 +2,11 @@ package com.eb.geaiche.activity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -134,18 +136,37 @@ public class ProductListFragment extends BaseFragment {
             });
         } else if (ProductListActivity.setProject != -1) {
             productListAdapter.setOnItemClickListener((adapter, view, position) -> {
+
                 Goods g = (Goods) adapter.getData().get(position);
-                Intent intent = new Intent(getContext(), SetProjectActivity.class);
-                intent.putExtra(ORDERINFO, toGoodsEasyEntity(g));
-                intent.putExtra(setProject, ProductListActivity.setProject);
-                startActivity(intent);
+                if (null == g.getXgxGoodsStandardPojoList() || g.getXgxGoodsStandardPojoList().size() == 0) {
+                    ToastUtils.showToast("该商品无规格，暂时无法选择，请联系管理员！");
+                    return;
+                }
+
+
+                final ProductListDialog confirmDialog = new ProductListDialog(getContext(), g.getXgxGoodsStandardPojoList(), g, true);
+                confirmDialog.show();
+                confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(Goods.GoodsStandard pick_value) {
+                        confirmDialog.dismiss();
+                        Intent intent = new Intent(getContext(), SetProjectActivity.class);
+                        intent.putExtra(ORDERINFO, toGoodsEasyEntity(g, pick_value));
+                        intent.putExtra(setProject, ProductListActivity.setProject);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        confirmDialog.dismiss();
+                    }
+                });
+
+
             });
 
 
         }
-
-
-
 
 
     }
@@ -221,22 +242,23 @@ public class ProductListFragment extends BaseFragment {
         goodsEntity.setGoodsSn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setGoods_specifition_ids(goods.getGoodsStandard().getId());
+        goodsEntity.setGoodsSpecifitionIds(goods.getGoodsStandard().getId());
         goodsEntity.setNumber(goods.getNum());
         goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setMarketPrice(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setRetailPrice(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setGoodsSpecifitionNameValue(goods.getGoodsStandard().getGoodsStandardTitle());
         goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
         return goodsEntity;
     }
 
 
     //设置快捷商品
-    private GoodsEntity toGoodsEasyEntity(Goods goods) {
+    private GoodsEntity toGoodsEasyEntity(Goods goods, Goods.GoodsStandard goodsStandard) {
         GoodsEntity goodsEntity = new GoodsEntity();
-
-        Goods.GoodsStandard goodsStandard = goods.getXgxGoodsStandardPojoList().get(0);
 
 
         goodsEntity.setGoodsId(goods.getId());
@@ -248,13 +270,14 @@ public class ProductListFragment extends BaseFragment {
         goodsEntity.setGoodsSn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(goodsStandard.getId());
-//        goodsEntity.setPrimary_pic_url(goods.getpic);//图片
-//        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setGoods_specifition_ids(goodsStandard.getId());
+        goodsEntity.setGoodsSpecifitionIds(goodsStandard.getId());
+        goodsEntity.setGoodsSpecifitionNameValue(goodsStandard.getGoodsStandardTitle());
+
         goodsEntity.setMarket_price(goodsStandard.getGoodsStandardPrice());
         goodsEntity.setRetail_price(goodsStandard.getGoodsStandardPrice());
         goodsEntity.setMarketPrice(goodsStandard.getGoodsStandardPrice());
         goodsEntity.setRetailPrice(goodsStandard.getGoodsStandardPrice());
-//        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
         goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
         return goodsEntity;
     }

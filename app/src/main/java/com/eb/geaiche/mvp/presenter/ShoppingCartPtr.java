@@ -1,9 +1,11 @@
 package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -79,66 +81,60 @@ public class ShoppingCartPtr extends BasePresenter<ShoppingCartContacts.Shopping
         rv.setLayoutManager(new LinearLayoutManager(context));
         rv.setAdapter(adapter);
 
-        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter a, View view, int position) {
+        adapter.setOnItemChildClickListener((a, view, position) -> {
 
 
-                if (view.getId() == R.id.tv_title) {//查看商品详情
+            if (view.getId() == R.id.tv_title) {//查看商品详情
 
-                    getView().toGoodsInfoActivity(adapter.getData().get(position).getGoods_id());
+                getView().toGoodsInfoActivity(adapter.getData().get(position).getGoods_id());
 
-                } else {
-                    int num = adapter.getData().get(position).getNumber();//当前数量
-                    if (view.getId() == R.id.add_btn) {//增加数量
-                        num++;
-                    } else if (view.getId() == R.id.reduce_btn) {//减少数量
-                        if (num != 0) {
-                            num--;
-                        } else
-                            ToastUtils.showToast("数量不能少于0！");
+            } else {
+                int num = adapter.getData().get(position).getNumber();//当前数量
+                if (view.getId() == R.id.add_btn) {//增加数量
+                    num++;
+                } else if (view.getId() == R.id.reduce_btn) {//减少数量
+                    if (num != 1) {
+                        num--;
+                    } else
+                        ToastUtils.showToast("数量不能少于0！");
 
-                    }
-                    adapter.getData().get(position).setNumber(num);
-                    adapter.notifyDataSetChanged();
-                    upDataPrice();
-
-                    onUpDateCart(adapter.getData().get(position).getGoods_id(), adapter.getData().get(position).getProduct_id(), num);
                 }
+                adapter.getData().get(position).setNumber(num);
+                adapter.notifyDataSetChanged();
+                upDataPrice();
+
+                onUpDateCart(adapter.getData().get(position).getGoods_id(), adapter.getData().get(position).getProduct_id(), num);
             }
         });
 
 
         //用于计算总价格
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
+        adapter.setOnItemClickListener((a, view, position) -> {
 
-                List<CartItem> cartItems = new ArrayList<>();//用于计算总价格
+            List<CartItem> cartItems = new ArrayList<>();//用于计算总价格
 
-                if (adapter.getData().get(position).isSelected()) {
-                    adapter.getData().get(position).setSelected(false);
-                    cartItems.remove(adapter.getData().get(position));
-                } else {
-                    adapter.getData().get(position).setSelected(true);
-                    cartItems.add(adapter.getData().get(position));
-                }
-                adapter.notifyDataSetChanged();
-                upDataPrice();
-
-
-                boolean isAllPick = true;
-                //判断是否取消全选
-                for (CartItem cartItem : adapter.getData()) {
-
-                    if (!cartItem.isSelected()) {
-                        isAllPick = false;
-                        break;
-                    }
-                }
-                getView().onChangeAllPick(isAllPick);
-
+            if (adapter.getData().get(position).isSelected()) {
+                adapter.getData().get(position).setSelected(false);
+                cartItems.remove(adapter.getData().get(position));
+            } else {
+                adapter.getData().get(position).setSelected(true);
+                cartItems.add(adapter.getData().get(position));
             }
+            adapter.notifyDataSetChanged();
+            upDataPrice();
+
+
+            boolean isAllPick = true;
+            //判断是否取消全选
+            for (CartItem cartItem : adapter.getData()) {
+
+                if (!cartItem.isSelected()) {
+                    isAllPick = false;
+                    break;
+                }
+            }
+            getView().onChangeAllPick(isAllPick);
+
         });
     }
 
@@ -185,5 +181,48 @@ public class ShoppingCartPtr extends BasePresenter<ShoppingCartContacts.Shopping
         return cartItems;
     }
 
+    @Override
+    public int getCartItemNum() {
+        int num = 0;
+        for (CartItem cartItem : getCartItemList()) {
+            num = num + cartItem.getNumber();
+        }
+        return num;
+    }
+
+
+    //获取商品id数组
+    private int[] getCartIds() {
+
+        int ids[] = new int[getCartItemList().size()];
+        for (int i = 0; i < getCartItemList().size(); i++) {
+            ids[i] = getCartItemList().get(i).getId();
+        }
+        return ids;
+    }
+
+
+    @Override
+    public void delete() {
+        if (getCartItemList().size() == 0) {
+            ToastUtils.showToast("请选择要删除的商品！");
+            return;
+        }
+
+
+        mdl.delete(new RxSubscribe<NullDataEntity>(getView().getSelfActivity(), true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("删除成功！");
+                getShoppingCartInfo();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("删除失败：" + message);
+            }
+        }, getCartIds());
+    }
 
 }

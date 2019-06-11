@@ -3,15 +3,19 @@ package com.juner.mvp;
 public class Configure {
 
 
-//    public static final String BaseUrl = "http://222.111.88.128:8081/app/";//线下
+//            public static final String BaseUrl = "http://192.168.1.107:8081/app/";//线下
     public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
-//    public static final String BaseUrl = "http://222.111.88.220:8089/app/";//线下 强哥
+//    public static final String BaseUrl = "http://192.168.1.105:8089/app/";//线下 强哥
 
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务
     public static final int Goods_TYPE_4 = 4;//配件
     public static final int Goods_TYPE_5 = 5;//套卡
     public static final String Goods_TYPE = "Goods_TYPE";//套卡
+
+
+    public static final int STOCK_IN = 1;//入库
+    public static final int STOCK_OUT = 2;//出库
 
 
     public static final String APP_ID = "wx6208849918d52d41";//微信支付APPID
@@ -85,7 +89,6 @@ public class Configure {
     public static final String WXPay_PRICE = "WXPay_Price";//微信支付金额
     public static final String WXPay_SN = "WXPay_SN";//微信支付交易流水号
     public static final String WXPay_TIME = "WXPay_TIME";//微信支付交易时间
-
 
 
 }

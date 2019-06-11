@@ -2,6 +2,7 @@ package com.eb.geaiche.api;
 
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.RecordMeal;
+import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.geaiche.bean.AutoBrand;
@@ -595,7 +596,7 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<List<GoodsCategory>>> queryShopcategoryAll(@FieldMap Map<String, Object> maps);
 
-    //根据商品分类查询品牌
+    //根据商品信息
     @POST("shopcategory/info")
     @FormUrlEncoded
     Observable<BaseBean<List<GoodsBrand>>> shopcategoryInfo(@FieldMap Map<String, Object> maps);
@@ -614,6 +615,11 @@ public interface ApiService {
     @POST("cart/getCart")
     @FormUrlEncoded
     Observable<BaseBean<CartList>> getShoppingCart(@Header("X-Nideshop-Token") String token, @Field("status") String status, @Field("sessionId") String sessionId);
+
+    //删除购物车商品
+    @POST("cart/delete")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> delete(@Header("X-Nideshop-Token") String token, @Field("cartIds") int cartIds[]);
 
     //添加购物车
     @POST("cart/add")
@@ -664,6 +670,16 @@ public interface ApiService {
     @POST("work/saveError")
     @FormUrlEncoded
     Observable<BaseBean<NullDataEntity>> saveError(@FieldMap Map<String, Object> maps);
+
+
+    //出入库操作
+    @POST("xgxshopstocklog/inOrOut")
+    Observable<BaseBean<NullDataEntity>> inOrOut(@Header("X-Nideshop-Token") String token, @Body StockInOrOut stock);
+
+   //出入库记录详情
+    @POST("xgxshopstocklog/info")
+    @FormUrlEncoded
+    Observable<BaseBean<StockInOrOut>> info(@FieldMap Map<String, Object> maps);
 
 
 }

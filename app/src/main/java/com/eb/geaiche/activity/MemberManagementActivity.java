@@ -48,6 +48,8 @@ public class MemberManagementActivity extends BaseActivity {
     EditText et;
 
 
+
+
     @OnClick({R.id.iv_search})
     public void onClick(View v) {
 
@@ -66,7 +68,7 @@ public class MemberManagementActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("会员管理");
-
+        et.setHint("请输入要查询的会员");
         adpter = new MemberListAdpter(list);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adpter.setEmptyView(R.layout.member_list_empty_view, rv);

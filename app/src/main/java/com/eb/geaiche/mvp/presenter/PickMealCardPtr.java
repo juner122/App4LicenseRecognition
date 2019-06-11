@@ -1,7 +1,9 @@
 package com.eb.geaiche.mvp.presenter;
 
 import android.app.Activity;
+
 import androidx.annotation.NonNull;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -172,9 +174,7 @@ public class PickMealCardPtr extends BasePresenter<PickMealCardContacts.PickMeal
         List<MultiItemEntity> res = new ArrayList<>();
         if (null == list || list.size() == 0) {
             return res;
-
         }
-
         for (int i = 0; i < list.size(); i++) {
             if (null != list.get(i).getGoodsList() && list.get(i).getGoodsList().size() > 0) {
                 MealL0Entity lv0 = new MealL0Entity();
@@ -188,7 +188,6 @@ public class PickMealCardPtr extends BasePresenter<PickMealCardContacts.PickMeal
                     }
 
                 }
-
                 if (null != lv0.getSubItems())
                     res.add(lv0);
             }

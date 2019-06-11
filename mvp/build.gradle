@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -39,5 +39,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     //Gson 库
     implementation 'net.grandcentrix.tray:tray:0.12.0'
-
+    //Adapter封装
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 }

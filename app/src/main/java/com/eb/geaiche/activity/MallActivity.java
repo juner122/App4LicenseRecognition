@@ -3,6 +3,7 @@ package com.eb.geaiche.activity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -55,8 +56,7 @@ public class MallActivity extends BaseActivity {
     @BindView(R.id.iv_banner)
     ImageView iv_banner;
 
-    //    @BindView(R.id.easylayout)
-//    EasyRefreshLayout easylayout;
+
     int page = 1;
 
 
@@ -101,18 +101,19 @@ public class MallActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getShoppingCartInfo();
+    }
+
+    @Override
     protected void setUpView() {
 
         muneButAdapter = new MallMuneButAdapter(null, this);
         rv1.setLayoutManager(new GridLayoutManager(this, 4));
         rv1.setAdapter(muneButAdapter);
 
-        muneButAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(MallGoodsActivity.class, categoryId, muneButAdapter.getData().get(position).getCategoryId());
-            }
-        });
+        muneButAdapter.setOnItemClickListener((adapter, view, position) -> toActivity(MallGoodsActivity.class, categoryId, muneButAdapter.getData().get(position).getCategoryId()));
 
 
         mallTypeGoodsListAdapter = new MallTypeGoodsListAdapter(null, this, R.layout.activity_mall_goods_item2);
@@ -127,12 +128,7 @@ public class MallActivity extends BaseActivity {
         });
         rv2.setAdapter(mallTypeGoodsListAdapter);
 
-        mallTypeGoodsListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, mallTypeGoodsListAdapter.getData().get(position).getId());
-            }
-        });
+        mallTypeGoodsListAdapter.setOnItemClickListener((adapter, view, position) -> toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, mallTypeGoodsListAdapter.getData().get(position).getId()));
 
         mallTypeGoodsListAdapter.setOnItemChildClickListener((adapter, view, position) -> addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getId()));
 
@@ -158,7 +154,7 @@ public class MallActivity extends BaseActivity {
             }
         });
         getGoodsList(0);
-        getShoppingCartInfo();
+
     }
 
     private void getGoodsList(final int stu) {

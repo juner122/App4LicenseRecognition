@@ -107,6 +107,7 @@
         android:layout_height="wrap_content"
         android:background="@color/fff"
         android:orientation="horizontal">
+
         <include layout="@layout/search_bar" />
 
     </LinearLayout>

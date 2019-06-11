@@ -63,8 +63,8 @@ public class GoodsEntity implements Parcelable {
 
 
     //5.30新加字段
-    String standardId;//套餐商品名
-    String goodsStandardTitle;//套餐商品名
+    String standardId;//
+    String goodsStandardTitle;//
 
     public String getStandarId() {
         return standardId;
@@ -101,8 +101,17 @@ public class GoodsEntity implements Parcelable {
     }
 
 
+
+    //商品对象
     String goods_specifition_name_value;
-    String goods_specifition_ids;
+    int goods_specifition_ids;
+
+
+
+    //主推项目对象
+    String goodsSpecifitionNameValue;
+    int goodsSpecifitionIds;
+
     int product_id;
     String retail_price;
     String market_price;
@@ -168,12 +177,28 @@ public class GoodsEntity implements Parcelable {
         this.goods_specifition_name_value = goods_specifition_name_value;
     }
 
-    public String getGoods_specifition_ids() {
+    public int getGoods_specifition_ids() {
         return goods_specifition_ids;
     }
 
-    public void setGoods_specifition_ids(String goods_specifition_ids) {
+    public void setGoods_specifition_ids(int goods_specifition_ids) {
         this.goods_specifition_ids = goods_specifition_ids;
+    }
+
+    public String getGoodsSpecifitionNameValue() {
+        return goodsSpecifitionNameValue;
+    }
+
+    public void setGoodsSpecifitionNameValue(String goodsSpecifitionNameValue) {
+        this.goodsSpecifitionNameValue = goodsSpecifitionNameValue;
+    }
+
+    public int getGoodsSpecifitionIds() {
+        return goodsSpecifitionIds;
+    }
+
+    public void setGoodsSpecifitionIds(int goodsSpecifitionIds) {
+        this.goodsSpecifitionIds = goodsSpecifitionIds;
     }
 
     public String getMarket_price() {
@@ -436,7 +461,9 @@ public class GoodsEntity implements Parcelable {
         dest.writeString(this.goodsStandardTitle);
         dest.writeInt(this.firstCategoryId);
         dest.writeString(this.goods_specifition_name_value);
-        dest.writeString(this.goods_specifition_ids);
+        dest.writeInt(this.goods_specifition_ids);
+        dest.writeString(this.goodsSpecifitionNameValue);
+        dest.writeInt(this.goodsSpecifitionIds);
         dest.writeInt(this.product_id);
         dest.writeString(this.retail_price);
         dest.writeString(this.market_price);
@@ -474,7 +501,9 @@ public class GoodsEntity implements Parcelable {
         this.goodsStandardTitle = in.readString();
         this.firstCategoryId = in.readInt();
         this.goods_specifition_name_value = in.readString();
-        this.goods_specifition_ids = in.readString();
+        this.goods_specifition_ids = in.readInt();
+        this.goodsSpecifitionNameValue = in.readString();
+        this.goodsSpecifitionIds = in.readInt();
         this.product_id = in.readInt();
         this.retail_price = in.readString();
         this.market_price = in.readString();

@@ -45,6 +45,8 @@ public class ProductListDialog extends Dialog {
     View ib_reduce;
     ProductListAdpter c;
 
+    boolean hide = false;
+
     public interface ClickListenerInterface {
 
         void doConfirm(Goods.GoodsStandard productValue);
@@ -57,8 +59,16 @@ public class ProductListDialog extends Dialog {
         this.context = context;
         this.valueList = list;
         this.goods = goods;
-
         this.cont = goods.getNum() == 0 ? 1 : goods.getNum();
+    }
+
+    public ProductListDialog(Context context, List<Goods.GoodsStandard> list, Goods goods, boolean hide) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        this.valueList = list;
+        this.goods = goods;
+        this.hide = hide;
+        this.cont = 1;
     }
 
     @Override
@@ -78,16 +88,24 @@ public class ProductListDialog extends Dialog {
         View view = inflater.inflate(R.layout.dialog_product_list, null);
         setContentView(view);
 
+        View ll_num = view.findViewById(R.id.ll_num);
 
-        RecyclerView recyclerView = view.findViewById(R.id.rv);
+        if (hide)//是否隐藏数量
+            ll_num.setVisibility(View.GONE);
+        else
+            ll_num.setVisibility(View.VISIBLE);
+
 
         ib_reduce = view.findViewById(R.id.ib_reduce);//减号
         ib_plus = view.findViewById(R.id.ib_plus);//加号
         tv_number = view.findViewById(R.id.tv_number);//数量
         tv_value = view.findViewById(R.id.tv_value);//规格值
         tv_price = view.findViewById(R.id.tv_price);//
-
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.rv);
+
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
 
         c = new ProductListAdpter(valueList);
@@ -139,11 +157,15 @@ public class ProductListDialog extends Dialog {
             }
             switch (id) {
                 case R.id.tv_confirm:
-                    if (cont > 0) {
-                        MyApplication.cartUtils.setData(toGood());//一次性添加多个数量
-                        clickListenerInterface.doConfirm(pick_value);
-                    } else ToastUtils.showToast("请选择数量！");
 
+                    if (hide) {
+                        clickListenerInterface.doConfirm(pick_value);
+                    } else {
+                        if (cont > 0) {
+                            MyApplication.cartUtils.setData(toGood());//一次性添加多个数量
+                            clickListenerInterface.doConfirm(pick_value);
+                        } else ToastUtils.showToast("请选择数量！");
+                    }
                     break;
                 case R.id.ib_reduce://减
                     if (cont <= 0) return;
@@ -197,10 +219,13 @@ public class ProductListDialog extends Dialog {
         goodsEntity.setGoods_sn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(pick_value.getId());
+        goodsEntity.setGoods_specifition_ids(pick_value.getId());
+        goodsEntity.setGoodsSpecifitionIds(pick_value.getId());
         goodsEntity.setNumber(pick_value.getNum());
         goodsEntity.setMarket_price(pick_value.getGoodsStandardPrice());
         goodsEntity.setRetail_price(pick_value.getGoodsStandardPrice());
         goodsEntity.setGoods_specifition_name_value(pick_value.getGoodsStandardTitle());
+        goodsEntity.setGoodsSpecifitionNameValue(pick_value.getGoodsStandardTitle());
         goodsEntity.setGoodsStandard(pick_value);
 
         return goodsEntity;

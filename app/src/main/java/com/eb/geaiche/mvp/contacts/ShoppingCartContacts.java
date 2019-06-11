@@ -45,7 +45,9 @@ public class ShoppingCartContacts {
 
         List<CartItem> getCartItemList();//根据购物车商品对象转换成商品对象
 
+        int getCartItemNum();
 
+        void delete();
     }
 
     /**
@@ -57,6 +59,8 @@ public class ShoppingCartContacts {
         void getShoppingCartInfo(RxSubscribe<CartList> rxSubscribe);
 
         void shoppingCartUpdate(RxSubscribe<NullDataEntity> rxSubscribe, Integer goodsId, Integer productId, int number);
+
+        void delete(RxSubscribe<NullDataEntity> rxSubscribe, int[] cartIds);
     }
 
 }

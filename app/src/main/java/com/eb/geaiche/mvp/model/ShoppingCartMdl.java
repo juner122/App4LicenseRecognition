@@ -28,7 +28,7 @@ public class ShoppingCartMdl extends BaseModel implements ShoppingCartContacts.S
     //获取购物车信息
     @Override
     public void getShoppingCartInfo(RxSubscribe<CartList> rxSubscribe) {
-        sendRequest(HttpUtils.getApi().getShoppingCart(getToken(context),"1","1").compose(RxHelper.<CartList>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getApi().getShoppingCart(getToken(context), "1", "1").compose(RxHelper.<CartList>observe()), rxSubscribe);
     }
 
     //更新商品购物车数据
@@ -45,6 +45,12 @@ public class ShoppingCartMdl extends BaseModel implements ShoppingCartContacts.S
         map.put("number", number);
 
         sendRequest(HttpUtils.getApi().shoppingCartUpdate(map).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+    }
+
+    @Override
+    public void delete(RxSubscribe<NullDataEntity> rxSubscribe, int[] cartIds) {
+        sendRequest(HttpUtils.getApi().delete(getToken(context), cartIds).compose(RxHelper.observe()), rxSubscribe);
+
     }
 
 

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.bean.RecordMeal;
+import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.FileUtil;
@@ -1412,6 +1413,23 @@ public class ApiLoader {
 
 
         return apiService.saveError(map).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 出入库操作
+     */
+    public Observable<NullDataEntity> inOrOut(StockInOrOut stockInOrOut) {
+        return apiService.inOrOut(token, stockInOrOut).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 出入库记录详情
+     */
+    public Observable<StockInOrOut> stockInfo(int id) {
+        map.put("id", id);
+        return apiService.info(map).compose(RxHelper.observe());
     }
 
 }

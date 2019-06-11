@@ -152,17 +152,13 @@ public class ProductListActivity extends BaseActivity {
         commonPopupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         brandadapter = new Brandadapter(null);
-        brandadapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.v("BaseQuickAdapter", "第" + position + "项");
+        brandadapter.setOnItemClickListener((adapter, view, position) -> {
+            Log.v("BaseQuickAdapter", "第" + position + "项");
 
-                //根据商品类型，品牌，查询商品
-                popupWindow.dismiss();
+            //根据商品类型，品牌，查询商品
+            popupWindow.dismiss();
 
-                onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), et_key.getText().toString());
-
-            }
+            onQueryAnyGoods(categories.get(checkedTag).getId(), categories.get(checkedTag).getSubCategoryList().get(position).getId(), et_key.getText().toString());
 
         });
         commonPopupRecyclerView.setAdapter(brandadapter);
@@ -251,14 +247,11 @@ public class ProductListActivity extends BaseActivity {
         for (int i = 0; i < list.size(); i++) {
             MyRadioButton radioButton = new MyRadioButton(ProductListActivity.this, list.get(i).getName(), i);
             final int finalI = i;
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            radioButton.setOnClickListener(view -> {
 
-                    categoryId = list.get(finalI).getCategoryId();//一级分类id
-                    page = 1;
-                    xgxshopgoodsList(null);
-                }
+                categoryId = list.get(finalI).getCategoryId();//一级分类id
+                page = 1;
+                xgxshopgoodsList(null);
             });
 
 

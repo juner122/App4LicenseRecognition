@@ -487,9 +487,9 @@ public class PreviewActivity2 extends BaseActivity {
         });
 
         if (null == entity.getCarinfo()) {//没有车况信息
-            tv_cancel.setVisibility(View.GONE);
+            tv_cancel.setVisibility(View.INVISIBLE);
         } else {
-            tv_cancel.setVisibility(View.VISIBLE);
+            tv_cancel.setVisibility(View.INVISIBLE);
             tv_cancel.setOnClickListener(view -> {
                 int new_car_id = entity.getCarinfo().getId();
                 toActivity(MemberInfoInputActivity.class, "new_car_id", new_car_id);

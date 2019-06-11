@@ -4,11 +4,14 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.chad.library.adapter.base.entity.AbstractExpandableItem;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 //商品
-public class Goods extends SelectedBean implements Parcelable {
+public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implements MultiItemEntity, Parcelable {
 
     int id;
     String goodsCode;
@@ -200,8 +203,29 @@ public class Goods extends SelectedBean implements Parcelable {
         this.goodsDetailsPojoList = goodsDetailsPojoList;
     }
 
+    private boolean isSelected;
 
-    public static class GoodsStandard extends SelectedBean implements Parcelable {
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+
+    @Override
+    public int getItemType() {
+        return 0;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+
+    public static class GoodsStandard extends SelectedBean implements MultiItemEntity, Parcelable {
 
 
         public GoodsStandard() {
@@ -297,6 +321,11 @@ public class Goods extends SelectedBean implements Parcelable {
                 return new GoodsStandard[size];
             }
         };
+
+        @Override
+        public int getItemType() {
+            return 1;
+        }
     }
 
 

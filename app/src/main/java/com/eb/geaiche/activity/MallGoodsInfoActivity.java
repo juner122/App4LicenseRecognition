@@ -82,7 +82,6 @@ public class MallGoodsInfoActivity extends BaseActivity {
 
                 break;
 
-
         }
 
     }
@@ -128,14 +127,17 @@ public class MallGoodsInfoActivity extends BaseActivity {
                     List<String> pic_url = new ArrayList<>();
                     List<String> pic_url_info = new ArrayList<>();
 
-                    for (Goods.GoodsPic goodsPic : goods.getGoodsDetailsPojoList()) {
-                        pic_url.add(goodsPic.getImage());
+                    if (null != goods.getGoodsDetailsPojoList() || goods.getGoodsDetailsPojoList().size() > 0) {
+                        for (Goods.GoodsPic goodsPic : goods.getGoodsDetailsPojoList()) {
+                            pic_url.add(goodsPic.getImage());
+                        }
+                        pic = goods.getGoodsDetailsPojoList().get(0).getImage();
                     }
 
-                    pic = goods.getGoodsDetailsPojoList().get(0).getImage();
-
-                    for (Goods.GoodsInfoPic goodsInfoPic : goods.getGoodsInfoPicList()) {
-                        pic_url_info.add(goodsInfoPic.getImage());
+                    if (null != goods.getGoodsInfoPicList() || goods.getGoodsInfoPicList().size() > 0) {
+                        for (Goods.GoodsInfoPic goodsInfoPic : goods.getGoodsInfoPicList()) {
+                            pic_url_info.add(goodsInfoPic.getImage());
+                        }
                     }
                     title.setText(goods.getGoodsTitle());
 
@@ -154,10 +156,10 @@ public class MallGoodsInfoActivity extends BaseActivity {
                         ToastUtils.showToast("暂无商品图片！");
 
                     }
-                    productId = goods.getXgxGoodsStandardPojoList().get(0).getId();
+                    productId = goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardId();
                     price = goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice();
                 } catch (Exception e) {
-                    ToastUtils.showToast("获取商品数据失败,请重试！");
+                    ToastUtils.showToast("获取的商品数据不全,请联系管理员！");
                     finish();
                 }
 

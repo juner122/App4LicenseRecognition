@@ -335,12 +335,15 @@ public class ProductFragment extends BaseFragment {
         goodsEntity.setGoodsSn(goods.getGoodsCode());
         goodsEntity.setType(goods.getType());
         goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setGoods_specifition_ids(goods.getGoodsStandard().getId());
+        goodsEntity.setGoodsSpecifitionIds(goods.getGoodsStandard().getId());
         goodsEntity.setNumber(goods.getNum());
         goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setMarketPrice(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setRetailPrice(goods.getGoodsStandard().getGoodsStandardPrice());
         goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setGoodsSpecifitionNameValue(goods.getGoodsStandard().getGoodsStandardTitle());
         goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
         return goodsEntity;
     }
