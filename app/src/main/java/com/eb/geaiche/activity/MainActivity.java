@@ -29,6 +29,7 @@ import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.view.DownLodingDialog;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
@@ -92,7 +93,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tv_shopName:
-//                toActivity(StockControlActivity.class);//新消息
+                toActivity(StockControlActivity.class);//出入库
                 break;
 
         }
@@ -263,14 +264,6 @@ public class MainActivity extends BaseActivity {
         //注册广播
         this.registerReceiver(broadcastReceiver, filter);
 
-
-        downLoadBroadcastReceiver = new DownLoadBroadcastReceiver();//下载完成广播招收器
-        //实例化广播过滤器，只拦截指定的广播
-        IntentFilter filter_dowd = new IntentFilter(action_down);
-        //注册广播
-        this.registerReceiver(downLoadBroadcastReceiver, filter_dowd);
-
-
     }
 
     private void needRead() {
@@ -341,26 +334,14 @@ public class MainActivity extends BaseActivity {
 
                 if (versionInfo.getLast() > SystemUtil.packaGetCode()) {
 
-
-                    //弹出对话框
-                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(MainActivity.this, null == versionInfo.getRemark() || "".equals(versionInfo.getRemark()) ? Configure.UPDATAREMARK : versionInfo.getRemark(), "重要更新通知！");
-                    confirmDialog.show();
-                    confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
-                        @Override
-                        public void doConfirm() {
-                            confirmDialog.dismiss();
-
-                            starDownload(versionInfo);
-                            ToastUtils.showToast("下载中...");
-                            finish();
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            confirmDialog.dismiss();
-                            finish();
-                        }
+                    DownLodingDialog dialog = new DownLodingDialog(MainActivity.this, null == versionInfo.getRemark() || "".equals(versionInfo.getRemark()) ? Configure.UPDATAREMARK : versionInfo.getRemark(), versionInfo.getUrl(), versionInfo.getVersionName());
+                    dialog.setClicklistener(() -> {
+                        dialog.dismiss();
+                        finish();
                     });
+                    dialog.show();
+
+
                 }
 
 
@@ -374,98 +355,30 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public static String apkPath;
+    /**
+     * 安装apk
+     */
+    private static void openAPK(Context context, String apkPath) {
 
-    public void starDownload(VersionInfo versionInfo) {
-        try {
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(versionInfo.getUrl()));
-            request.setDescription("下载中");
-            request.setTitle("软件更新");
-            request.setMimeType("application/vnd.android.package-archive");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-            }
-            request.allowScanningByMediaScanner();//设置可以被扫描到
-            request.setVisibleInDownloadsUi(true);// 设置下载可见
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);//下载完成后通知栏任然可见
-
-
-            String filePath;
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//外部存储卡
-                filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
-            } else {
-                Log.i("Main", "没有SD卡");
-                return;
-            }
-
-            apkPath = filePath + File.separator + "geaiche" + "-v" + versionInfo.getVersionName() + ".apk";
-            if (FileUtil.isExistence(apkPath)) {//是否已存在
-                ToastUtils.showToast("安装包已存在,直接安装");
-                installApk();//直接安装
-            } else {
-                Uri fileUri = Uri.fromFile(new File(apkPath));
-                request.setDestinationUri(fileUri);
-                DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-                manager.enqueue(request);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    DownLoadBroadcastReceiver downLoadBroadcastReceiver;
-
-    public static class DownLoadBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent i) {
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            //版本在7.0以上是不能直接通过uri访问的
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
-
-                File file = (new File(apkPath));
-                // 由于没有在Activity环境下启动Activity,设置下面的标签
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //参数1:上下文, 参数2:Provider主机地址 和配置文件中保持一致,参数3:共享的文件
-                Uri apkUri = FileProvider.getUriForFile(context, "com.eb.geaiche.fileprovider", file);
-                //添加这一句表示对目标应用临时授权该Uri所代表的文件
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                context.startActivity(intent);
-
-            } else {
-                ToastUtils.showToast("新版本下载完成，请点击安装");
-
-            }
-        }
-    }
-
-    private void installApk() {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        //版本在7.0以上是不能直接通过uri访问的
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {
+        File file = (new File(apkPath));
+        // 由于没有在Activity环境下启动Activity,设置下面的标签
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //参数1:上下文, 参数2:Provider主机地址 和配置文件中保持一致,参数3:共享的文件
+        Uri apkUri;
 
-            File file = (new File(apkPath));
-            // 由于没有在Activity环境下启动Activity,设置下面的标签
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //参数1:上下文, 参数2:Provider主机地址 和配置文件中保持一致,参数3:共享的文件
-            Uri apkUri = FileProvider.getUriForFile(this, "com.eb.geaiche.fileprovider", file);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {//版本在7.0以上是不能直接通过uri访问的
+            apkUri = FileProvider.getUriForFile(context, "com.eb.geaiche.fileprovider", file);
             //添加这一句表示对目标应用临时授权该Uri所代表的文件
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-            startActivity(intent);
-
         } else {
-            ToastUtils.showToast("新版本下载完成，请点击安装");
-
+            apkUri = Uri.fromFile(file);
         }
-
-
+        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        context.startActivity(intent);
     }
+
 
 }

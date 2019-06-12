@@ -22,6 +22,7 @@ import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.view.DownLodingDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
@@ -204,25 +205,9 @@ public class MainFragment5New extends BaseFragment {
 
                 if (versionInfo.getVersionCode() > SystemUtil.packaGetCode()) {
 
-                    //弹出对话框
-                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getActivity(), String.format("检测到新版本:v%s 是否更新？", versionInfo.getVersionName()), "系统消息");
-                    confirmDialog.show();
-                    confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
-                        @Override
-                        public void doConfirm() {
-                            confirmDialog.dismiss();
-
-                            ((MainActivity) getActivity()).starDownload(versionInfo);
-                            ToastUtils.showToast("下载中...");
-
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            confirmDialog.dismiss();
-
-                        }
-                    });
+                    DownLodingDialog dialog = new DownLodingDialog(getActivity(), null == versionInfo.getRemark() || "".equals(versionInfo.getRemark()) ? Configure.UPDATAREMARK : versionInfo.getRemark(), versionInfo.getUrl(), versionInfo.getVersionName());
+                    dialog.setClicklistener(() -> dialog.dismiss());
+                    dialog.show();
 
                 } else {
                     ToastUtils.showToast("当前已是最新版本");

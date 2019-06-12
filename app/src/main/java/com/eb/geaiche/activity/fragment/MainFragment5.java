@@ -1,13 +1,6 @@
 package com.eb.geaiche.activity.fragment;
 
 
-import android.app.DownloadManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +12,7 @@ import com.eb.geaiche.activity.MainActivity;
 import com.eb.geaiche.mvp.LoginActivity2;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.view.DownLodingDialog;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.AboutActivity;
@@ -35,14 +29,8 @@ import com.juner.mvp.bean.VersionInfo;
 
 import net.grandcentrix.tray.AppPreferences;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.eb.geaiche.activity.MainActivity.apkPath;
-import static com.juner.mvp.Configure.JSON_CART;
-import static com.juner.mvp.Configure.SHOP_TYPE;
 import static com.juner.mvp.Configure.shop_address;
 import static com.juner.mvp.Configure.shop_name;
 import static com.juner.mvp.Configure.shop_phone;
@@ -200,25 +188,9 @@ public class MainFragment5 extends BaseFragment {
 
                 if (versionInfo.getVersionCode() > SystemUtil.packaGetCode()) {
 
-                    //弹出对话框
-                    final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getActivity(), String.format("检测到新版本:v%s 是否更新？", versionInfo.getVersionName()), "系统消息");
-                    confirmDialog.show();
-                    confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
-                        @Override
-                        public void doConfirm() {
-                            confirmDialog.dismiss();
-
-                            ((MainActivity) getActivity()).starDownload(versionInfo);
-                            ToastUtils.showToast("下载中...");
-
-                        }
-
-                        @Override
-                        public void doCancel() {
-                            confirmDialog.dismiss();
-
-                        }
-                    });
+                    DownLodingDialog dialog = new DownLodingDialog(getActivity(), null == versionInfo.getRemark() || "".equals(versionInfo.getRemark()) ? Configure.UPDATAREMARK : versionInfo.getRemark(), versionInfo.getUrl(), versionInfo.getVersionName());
+                    dialog.setClicklistener(() -> dialog.dismiss());
+                    dialog.show();
 
                 } else {
                     ToastUtils.showToast("当前已是最新版本");

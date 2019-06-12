@@ -1432,4 +1432,13 @@ public class ApiLoader {
         return apiService.info(map).compose(RxHelper.observe());
     }
 
+
+    /**
+     * 添加库存商品的规格
+     */
+    public Observable<NullDataEntity> addStandard(Goods.GoodsStandard goodsStandard) {
+
+        return apiService.addStandard(token, goodsStandard).compose(RxHelper.observe());
+    }
+
 }

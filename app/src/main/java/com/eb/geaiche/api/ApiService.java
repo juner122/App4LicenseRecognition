@@ -676,10 +676,14 @@ public interface ApiService {
     @POST("xgxshopstocklog/inOrOut")
     Observable<BaseBean<NullDataEntity>> inOrOut(@Header("X-Nideshop-Token") String token, @Body StockInOrOut stock);
 
-   //出入库记录详情
+    //出入库记录详情
     @POST("xgxshopstocklog/info")
     @FormUrlEncoded
     Observable<BaseBean<StockInOrOut>> info(@FieldMap Map<String, Object> maps);
 
+
+    //添加库存商品的规格
+    @POST("xgxshopgoods/addStandard")
+    Observable<BaseBean<NullDataEntity>> addStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
 
 }

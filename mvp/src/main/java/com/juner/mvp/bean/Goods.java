@@ -238,6 +238,49 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         String goodsStandardPrice;//价钱
         int num;
 
+        String stockPrice;//成本入库价
+
+        //供应商
+        private  String supplierId;
+
+        //库存数量
+        private  String stock;
+
+        //供应商名
+        private String supplierName;
+
+        public String getStockPrice() {
+            return stockPrice;
+        }
+
+        public void setStockPrice(String stockPrice) {
+            this.stockPrice = stockPrice;
+        }
+
+        public String getSupplierId() {
+            return supplierId;
+        }
+
+        public void setSupplierId(String supplierId) {
+            this.supplierId = supplierId;
+        }
+
+        public String getStock() {
+            return stock;
+        }
+
+        public void setStock(String stock) {
+            this.stock = stock;
+        }
+
+        public String getSupplierName() {
+            return supplierName;
+        }
+
+        public void setSupplierName(String supplierName) {
+            this.supplierName = supplierName;
+        }
+
         public int getNum() {
             return num;
         }

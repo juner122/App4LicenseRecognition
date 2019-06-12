@@ -22,7 +22,7 @@ public class PickMealCardMdl extends BaseModel implements PickMealCardContacts.P
     @Override
     public void getMealList(RxSubscribe<List<Meal2>> rxSubscribe) {
 
-        sendRequest(HttpUtils.getApi().queryAct(getToken(context)).compose(RxHelper.<List<Meal2>>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getApi().queryAct(getToken(context)).compose(RxHelper.observe()), rxSubscribe);
     }
 
 

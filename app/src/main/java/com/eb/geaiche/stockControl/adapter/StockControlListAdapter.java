@@ -1,9 +1,11 @@
 package com.eb.geaiche.stockControl.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +21,9 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.bean.MyMultipleItem;
+import com.eb.geaiche.stockControl.activity.StockAddStandardsActivity;
 import com.eb.geaiche.util.ImageUtils;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
 
 import java.util.List;
@@ -46,7 +50,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 final Goods goods = (Goods) item;
 
                 helper.setText(R.id.tv_name, goods.getGoodsTitle());
-
+                View v_add = helper.getView(R.id.tv_add);//新增规格按钮
 
                 if (goods.getXgxGoodsStandardPojoList().size() == 0)
                     helper.setText(R.id.tv_price, "暂无报价");
@@ -64,7 +68,6 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 ImageUtils.load(context, pic, helper.getView(R.id.iv_src));
 
 
-
                 helper.itemView.setOnClickListener(v -> {
                     int pos = helper.getAdapterPosition();
                     if (goods.isExpanded()) {
@@ -73,6 +76,26 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                         expand(pos);
                     }
                 });
+
+
+                if (goods.isExpanded())
+                    v_add.setVisibility(View.VISIBLE);
+                else
+                    v_add.setVisibility(View.GONE);
+
+
+                v_add.setOnClickListener(v -> {
+
+                    //新增规格
+
+                    Intent intent = new Intent(context, StockAddStandardsActivity.class);
+                    intent.putExtra("goodsId", goods.getId());
+                    intent.putExtra("goodsTitle", goods.getGoodsTitle());
+
+                    context.startActivity(intent);
+
+                });
+
 
                 break;
             case MyMultipleItem.SECOND_TYPE:
