@@ -417,6 +417,20 @@ public interface ApiService {
     Observable<CarNumberRecogResult> carVinLicense(@Url String url, @Body VinImageBody vinImageBody);
 
 
+   /**
+     * 百度 车辆vin识别
+     *
+     * @param url          https://aip.baidubce.com/rest/2.0/ocr/v1/vin_code
+     * @param vinImageBody 车辆vin图像Base64字符串
+     */
+    @Headers({
+            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
+            "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
+    })
+    @POST()
+    Observable<CarNumberRecogResult> carVinLicenseBAIDU(@Url String url, @Body VinImageBody vinImageBody);
+
+
     /**
      * 车辆vin信息查询
      *
@@ -538,6 +552,12 @@ public interface ApiService {
     //添加员工
     @POST("sysuser/save")
     Observable<BaseBean<NullDataEntity>> sysuserSave(@Header("X-Nideshop-Token") String token, @Body Technician technicianInfo);
+
+
+    //删除员工
+    @POST("sysuser/delete")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> sysuserDelete(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
     //供选择的角色列表
     @POST("sysuser/queryRoles")

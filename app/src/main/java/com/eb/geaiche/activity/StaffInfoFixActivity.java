@@ -3,6 +3,7 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import com.eb.geaiche.adapter.RolesAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.CommonPopupWindow;
+import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Roles;
 import com.juner.mvp.bean.Technician;
@@ -80,7 +82,8 @@ public class StaffInfoFixActivity extends BaseActivity {
 
                 break;
             case R.id.tv_cancel:
-                finish();
+                deleteTechnician();
+
                 break;
 
             case R.id.tv_enter:
@@ -224,4 +227,40 @@ public class StaffInfoFixActivity extends BaseActivity {
     }
 
 
+    //删除员工
+    private void deleteTechnician() {
+        //弹出对话框
+        final ConfirmDialogCanlce dialogCanlce = new ConfirmDialogCanlce(StaffInfoFixActivity.this, "是否要删除该员工!");
+        dialogCanlce.show();
+        dialogCanlce.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+            @Override
+            public void doConfirm() {
+                dialogCanlce.dismiss();
+
+                Api().sysuserDelete(sysUser.getUserId()).subscribe(new RxSubscribe<NullDataEntity>(StaffInfoFixActivity.this, true) {
+                    @Override
+                    protected void _onNext(NullDataEntity nullDataEntity) {
+                        ToastUtils.showToast("删除成功!");
+                        finish();
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+
+                        ToastUtils.showToast("删除失败!" + message);
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void doCancel() {
+                dialogCanlce.dismiss();
+            }
+        });
+
+    }
 }

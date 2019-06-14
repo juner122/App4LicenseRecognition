@@ -13,29 +13,7 @@ public class GoodsEntity implements Parcelable {
     String name;
     String goods_sn;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getRetailPrice() {
-        return retailPrice;
-    }
-
-    public void setRetailPrice(String retailPrice) {
-        this.retailPrice = retailPrice;
-    }
-
-    public String getMarketPrice() {
-        return marketPrice;
-    }
-
-    public void setMarketPrice(String marketPrice) {
-        this.marketPrice = marketPrice;
-    }
 
     String goodsSn;//新的
     String brand_id;
@@ -61,11 +39,52 @@ public class GoodsEntity implements Parcelable {
     int goodsId;//套餐商品id
     String goodsName;//套餐商品名
 
+    //商品对象
+    String goods_specifition_name_value;
+    int goods_specifition_ids;
+
+
+
+    //主推项目对象
+    String goodsSpecifitionNameValue;
+    int goodsSpecifitionIds;
+
+    int product_id;
+    String retail_price;
+    String market_price;
+    String retailPrice;
+    String marketPrice;
+
+    Goods.GoodsStandard goodsStandard;
+    int goods_id;
 
     //5.30新加字段
     String standardId;//
     String goodsStandardTitle;//
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(String retailPrice) {
+        this.retailPrice = retailPrice;
+    }
+
+    public String getMarketPrice() {
+        return marketPrice;
+    }
+
+    public void setMarketPrice(String marketPrice) {
+        this.marketPrice = marketPrice;
+    }
     public String getStandarId() {
         return standardId;
     }
@@ -102,24 +121,6 @@ public class GoodsEntity implements Parcelable {
 
 
 
-    //商品对象
-    String goods_specifition_name_value;
-    int goods_specifition_ids;
-
-
-
-    //主推项目对象
-    String goodsSpecifitionNameValue;
-    int goodsSpecifitionIds;
-
-    int product_id;
-    String retail_price;
-    String market_price;
-    String retailPrice;
-    String marketPrice;
-
-    Goods.GoodsStandard goodsStandard;
-    int goods_id;
 
     public int getGoods_id() {
         return goods_id;

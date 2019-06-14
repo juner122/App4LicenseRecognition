@@ -30,6 +30,10 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     int activityStatus;
     int num;
 
+    List<GoodsPic> goodsDetailsPojoList;//图片Banner
+    List<GoodsStandard> xgxGoodsStandardPojoList;//规格
+    List<GoodsInfoPic> goodsDetailsType2PojoList;//商品详情图片
+    GoodsStandard goodsStandard;
 
     int selected;
 
@@ -46,10 +50,6 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.selected = selected;
     }
 
-    List<GoodsPic> goodsDetailsPojoList;//图片Banner
-    List<GoodsStandard> xgxGoodsStandardPojoList;//规格
-    List<GoodsInfoPic> goodsDetailsType2PojoList;//商品详情图片
-    GoodsStandard goodsStandard;
 
     public GoodsStandard getGoodsStandard() {
         return goodsStandard;

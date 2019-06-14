@@ -179,7 +179,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="12dp"
-            android:text="取消"
+            android:text="删除"
             android:textColor="#ff333333"
             android:textSize="14sp" />
 

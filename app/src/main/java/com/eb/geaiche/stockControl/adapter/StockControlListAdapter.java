@@ -45,9 +45,10 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
+        Goods goods;
         switch (helper.getItemViewType()) {
             case MyMultipleItem.FIRST_TYPE:
-                final Goods goods = (Goods) item;
+                goods = (Goods) item;
 
                 helper.setText(R.id.tv_name, goods.getGoodsTitle());
                 View v_add = helper.getView(R.id.tv_add);//新增规格按钮
@@ -85,7 +86,6 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
 
                 v_add.setOnClickListener(v -> {
-
                     //新增规格
 
                     Intent intent = new Intent(context, StockAddStandardsActivity.class);
@@ -103,6 +103,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
                 helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum()));
                 helper.addOnClickListener(R.id.button);//按钮
+
 
 
                 break;

@@ -9,6 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.OcrRequestParams;
+import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.BitmapUtil;
@@ -946,6 +951,7 @@ public class ApiLoader {
     }
 
 
+
     /**
      * 车辆vin识别
      */
@@ -962,20 +968,10 @@ public class ApiLoader {
         String svin = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
 
 
-//        Log.d("VIN", "车架号图片长度：" + "文件大小:" + file.length() + "压缩后裁剪：" + svin.length() + "，压缩不剪：" + svin2.length());
         Log.d("VIN", "车架号图片长度：" + "文件大小:" + file.length() + "压缩后裁剪：" + svin.length() + "，压缩不剪：");
         return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(svin)).compose(RxHelper.observeVin());
     }
 
-
-    /**
-     * 车辆vin识别
-     */
-    public Observable<CarNumberRecogResult> carVinLicense(String pic) {
-
-
-        return apiService.carVinLicense(Configure.carVinRecognition, new VinImageBody(pic)).compose(RxHelper.observeVin());
-    }
 
     /**
      * 车辆vin信息查询
@@ -1114,6 +1110,15 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> sysuserUpdate(Technician technicianInfo) {
         return apiService.sysuserUpdate(token, technicianInfo).compose(RxHelper.<NullDataEntity>observe());
+
+    }
+
+
+    /**
+     * 删除员工
+     */
+    public Observable<NullDataEntity> sysuserDelete(int id) {
+        return apiService.sysuserDelete(token, id).compose(RxHelper.observe());
 
     }
 

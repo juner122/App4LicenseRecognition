@@ -60,6 +60,7 @@ public class Configure {
 
     public static final String show_fragment = "fragment";//
     public static final String JSON_CART = "JSON_CART";//
+    public static final String JSON_STOCK_CART = "JSON_STOCK_CART";//
     public static final String SHOP_TYPE = "shop_type";////0直营1是加盟  默认为1
     public static final String JSON_ServerCART = "JSON_ServerCART";//
     public static final String CARID = "carid";//

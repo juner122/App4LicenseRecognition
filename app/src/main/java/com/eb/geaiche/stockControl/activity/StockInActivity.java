@@ -1,6 +1,5 @@
 package com.eb.geaiche.stockControl.activity;
 
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,7 +10,6 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
-import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.NullDataEntity;
