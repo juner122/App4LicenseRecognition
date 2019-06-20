@@ -13,14 +13,14 @@ import com.juner.mvp.bean.Goods;
 
 import java.util.List;
 
-public class    StockControlInfoGoodAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> {
+public class StockOutListAdapter extends BaseQuickAdapter<Goods, BaseViewHolder> {
 
     Context context;
 
 
 
-    public StockControlInfoGoodAdapter(@Nullable List<Goods> data, Context c) {
-        super(R.layout.activity_stock_info_good_item, data);
+    public StockOutListAdapter(@Nullable List<Goods> data, Context c) {
+        super(R.layout.activity_stock_out_item, data);
         this.context = c;
     }
 

@@ -4,18 +4,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.stockControl.adapter.StockInListAdapter;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.eb.geaiche.stockControl.activity.StockControlActivity.stockCartUtils;
 
 public class StockInActivity extends BaseActivity {
 
@@ -35,6 +44,7 @@ public class StockInActivity extends BaseActivity {
     @BindView(R.id.enter)
     TextView enter;
 
+    StockInListAdapter adapter;
 
     @OnClick({R.id.enter})
     public void onClick(View v) {
@@ -45,9 +55,7 @@ public class StockInActivity extends BaseActivity {
                 stockInEnter();
 
                 break;
-
         }
-
 
     }
 
@@ -60,6 +68,11 @@ public class StockInActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        adapter = new StockInListAdapter(null, this);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
+
+        adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
 
 
     }
@@ -93,7 +106,35 @@ public class StockInActivity extends BaseActivity {
     private StockInOrOut getStock() {
         StockInOrOut stock = new StockInOrOut();
 
+        stock.setType("2");////1出库2入库
+
+
         return stock;
     }
 
+
+    private List<MultiItemEntity> generateData(List<Goods> list) {
+
+
+        List<MultiItemEntity> res = new ArrayList<>();
+        if (null == list || list.size() == 0) {
+            return res;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            Goods lv0 = list.get(i);
+
+            if (null != list.get(i).getXgxGoodsStandardPojoList() && list.get(i).getXgxGoodsStandardPojoList().size() > 0) {
+                for (Goods.GoodsStandard gs : list.get(i).getXgxGoodsStandardPojoList()) {
+                    if (null != gs) {
+                        gs.setGoodsTitle(list.get(i).getGoodsTitle());
+                        lv0.addSubItem(gs);
+
+                    }
+                }
+            }
+            res.add(lv0);
+        }
+        return res;
+    }
 }

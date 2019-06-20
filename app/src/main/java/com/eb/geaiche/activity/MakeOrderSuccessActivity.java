@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
 import com.eb.geaiche.buletooth.PrinterCommand;
+import com.eb.geaiche.util.BluetoothUtils;
 import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.MyAppPreferences;
@@ -155,30 +156,15 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         });
 
-
-    }
-
-
-    private void initBluetooth() {
-
-
-        // Get the local Bluetooth adapter
+        // //初始化蓝牙
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
-            ToastUtils.showToast("设备不支持Bluetooth");
-        } else {
-            // If BT is not on, request that it be enabled.
-            // setupChat() will then be called during onActivityResult
-            if (!mBluetoothAdapter.isEnabled()) {
+        //自动连接蓝牙
+        connectBluetooth(true);
 
-                turnOnBluetooth();
 
-            } else {
-                getDeviceList();
-            }
-        }
     }
+
+
 
 
     /**
@@ -212,7 +198,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 case Activity.RESULT_OK: {
                     // TODO 用户选择开启 Bluetooth，Bluetooth 会被开启
 
-                    getDeviceList();
+                    getDeviceList(false);
 
                 }
                 break;
@@ -228,39 +214,24 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         }
     }
-
-
-    protected void getDeviceList() {
-
-
+    /**
+     * 连接蓝牙
+     *
+     * @param isAuto 是否自动连接
+     */
+    protected void getDeviceList(boolean isAuto) {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-//            for (BluetoothDevice device : pairedDevices) {
-//
-//                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-//                    Looper.prepare();
-//
-//                    new DeviceConnFactoryManager.Build()
-//                            .setId(ID)
-//                            //设置连接方式
-//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-//                            //设置连接的蓝牙mac地址
-//                            .setMacAddress(device.getAddress())
-//                            .build();
-//                    //打开端口
-//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-//                    Looper.loop();// 进入loop中的循环，查看消息队列
-//                });
-//
-//                break;
-//            }
-            new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
+            if (!isAuto)
+                new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
+            else
+                BluetoothUtils.openPort(new ArrayList<>(pairedDevices).get(0).getAddress(), ID);
 
-        } else {
-            mHandler.obtainMessage(NO_DERVER).sendToTarget();
-        }
+        } else
+            mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
     }
+
 
 
     //票据打印
@@ -321,7 +292,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addText("会员姓名：" + "匿名" + "\n");
         } else {
             // 会员姓名
-            esc.addText("会员姓名：" + info.getOrderInfo().getConsignee().substring(0, 1) + "**" + "\n");
+            esc.addText("会员姓名：" + info.getOrderInfo().getConsignee() + "\n");
         }
 
 
@@ -340,7 +311,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         esc.addSelectJustification(LEFT);
 
 
-        if (null != info.getOrderInfo().getGoodsList()|| info.getOrderInfo().getGoodsList().size() > 0) {
+        if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
             esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
                 esc.addSelectJustification(LEFT);
@@ -360,7 +331,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             esc.addSelectJustification(LEFT);
         }
 
-        if (null != info.getOrderInfo().getGoodsList()|| info.getOrderInfo().getGoodsList().size() > 0) {
+        if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
 
             esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
             for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
@@ -383,7 +354,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         }
 
-        if (null != info.getOrderInfo().getUserActivityList()|| info.getOrderInfo().getUserActivityList().size() > 0) {
+        if (null != info.getOrderInfo().getUserActivityList() || info.getOrderInfo().getUserActivityList().size() > 0) {
             for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
@@ -664,9 +635,9 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
                 if (isConnectable) {
                     ToastUtils.showToast("蓝牙已连接,请打印！");
-
                 } else
-                    initBluetooth();//连接蓝牙
+                    connectBluetooth(false);//连接蓝牙
+
 
 
                 break;
@@ -681,7 +652,21 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
     }
 
+    /**
+     * 连接蓝牙 ，分自动和手动连接
+     *
+     * @param isAuto 是否自动连接
+     */
+    private void connectBluetooth(boolean isAuto) {
 
+        if (null != mBluetoothAdapter) {
+            if (mBluetoothAdapter.isEnabled())//蓝牙已打开
+                getDeviceList(isAuto);
+            else turnOnBluetooth();//未开蓝牙 打开系统设置
+
+        } else ToastUtils.showToast("设备不支持Bluetooth");
+
+    }
     @Override
     public void onBackPressed() {
         // super.onBackPressed();//注释掉这行,back键不退出activity

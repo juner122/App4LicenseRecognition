@@ -37,7 +37,9 @@ public class FixInfoDesContacts {
         void setBluetoothText(String str);//设置蓝牙状态文字
 
         String getDescribe();//描述
+
         String getDeputy();//送修人
+
         String getDeputyMobile();//送修人电话
 
         Bitmap getDrawableBitmap();//获取签名图片DrawableBitmap
@@ -53,20 +55,21 @@ public class FixInfoDesContacts {
 
         void toTechnicianListActivity();//前往技师选择页面
 
-
         void onStart();
 
         void onStop();
 
         void setPicUrl(String url);//设置签名图片
 
-        void initBluetooth();
+        void connectBluetooth(boolean isAuto);
+
 
         void btnReceiptPrint();//连接蓝牙然后打印
 
         void showConfirmDialog(boolean isFinish);//弹出确认框
 
         void setEtText(EditText et);//故障描述输入框
+
         void pickdoneTime();//选择时间
 
     }

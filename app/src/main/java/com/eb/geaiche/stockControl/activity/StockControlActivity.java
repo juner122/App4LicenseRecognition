@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
@@ -17,6 +18,7 @@ import com.eb.geaiche.bean.MealEntity;
 import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.stockControl.adapter.StockControlListAdapter;
 import com.eb.geaiche.util.SoftInputUtil;
+import com.eb.geaiche.util.StockCartUtils;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
@@ -42,6 +44,8 @@ public class StockControlActivity extends BaseActivity {
     int view_type = 1;//当前Activity显示类型 1 库存管理，2 采购入库
 
     StockControlListAdapter adapter;
+
+    public static StockCartUtils stockCartUtils;
 
     @OnClick({R.id.stock_in, R.id.stock_out, R.id.iv_search, R.id.tv_back})
     public void onClick(View v) {
@@ -104,7 +108,7 @@ public class StockControlActivity extends BaseActivity {
 
 
         et_key.setHint("请输入你要查询的商品");
-
+        stockCartUtils = StockCartUtils.getInstance(this);
     }
 
     @Override
@@ -119,6 +123,7 @@ public class StockControlActivity extends BaseActivity {
         adapter = new StockControlListAdapter(null, this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+
 
 
     }
@@ -169,6 +174,7 @@ public class StockControlActivity extends BaseActivity {
                 for (Goods.GoodsStandard gs : list.get(i).getXgxGoodsStandardPojoList()) {
                     if (null != gs) {
                         lv0.addSubItem(gs);
+
                     }
                 }
             }

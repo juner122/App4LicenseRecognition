@@ -128,7 +128,7 @@ public class CarVinDISActivity extends BaseActivity {
         isCheckAction = getIntent().getBooleanExtra("isca", false);
 
         if (isCheckAction) {
-            showInfo();//查看车架号
+//            showInfo();//查看车架号
             queryVinInfo(getIntent().getStringExtra(Configure.CAR_VIN));
         }
 
@@ -222,7 +222,7 @@ public class CarVinDISActivity extends BaseActivity {
                 carVinLicense();
                 break;
             case R.id.input://手动输入
-                tv_mandatory_entry.setVisibility(View.GONE);
+//                tv_mandatory_entry.setVisibility(View.GONE);
                 tv_check.setVisibility(View.VISIBLE);
                 manualInput();
                 break;
@@ -233,7 +233,7 @@ public class CarVinDISActivity extends BaseActivity {
                 sv_info.setVisibility(View.GONE);
                 ll1.setVisibility(View.VISIBLE);
 
-                tv_mandatory_entry.setVisibility(View.GONE);
+//                tv_mandatory_entry.setVisibility(View.GONE);
                 tv_check.setVisibility(View.VISIBLE);
                 break;
             case R.id.enter://确定
@@ -245,7 +245,7 @@ public class CarVinDISActivity extends BaseActivity {
                 break;
             case R.id.tv_check://查询
 
-                tv_mandatory_entry.setVisibility(View.GONE);
+//                tv_mandatory_entry.setVisibility(View.GONE);
                 tv_check.setVisibility(View.VISIBLE);
 
                 if (TextUtils.isEmpty(et_vin.getText())) {
@@ -265,6 +265,7 @@ public class CarVinDISActivity extends BaseActivity {
             case R.id.tv_mandatory_entry://强制录入
                 if (et_vin.getText().toString().equals("")) {
                     ToastUtils.showToast("请填写车架号！");
+                    return;
                 }
 
 
@@ -306,13 +307,18 @@ public class CarVinDISActivity extends BaseActivity {
             @Override
             protected void _onNext(CarVin carVin) {
 
+                if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
+                    ToastUtils.showToast("查询失败,请重新查询！");
+                    return;
+
+                }
+
 
                 showInfo();
-
                 setCarInfo(carVin.getShowapi_res_body());
 
-                if (!isCheckAction)//录入车况信息 查看动作不用执行
-                    toCarInfo(carVin.getShowapi_res_body());
+//                if (!isCheckAction)//录入车况信息 查看动作不用执行
+                toCarInfo(carVin.getShowapi_res_body());
 
             }
 
@@ -320,12 +326,12 @@ public class CarVinDISActivity extends BaseActivity {
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);
 
-                query_i++;
-                if (query_i == 2) {
-                    query_i = 0;
-                    tv_mandatory_entry.setVisibility(View.VISIBLE);
-
-                }
+//                query_i++;
+//                if (query_i == 2) {
+//                    query_i = 0;
+//                    tv_mandatory_entry.setVisibility(View.VISIBLE);
+//
+//                }
                 ToastUtils.showToast("查询失败,请重新查询！");
 
             }

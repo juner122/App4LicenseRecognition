@@ -16,6 +16,7 @@ import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
+import com.eb.geaiche.stockControl.bean.Supplier;
 import com.eb.geaiche.util.BitmapUtil;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.FileUtil;
@@ -951,7 +952,6 @@ public class ApiLoader {
     }
 
 
-
     /**
      * 车辆vin识别
      */
@@ -1444,6 +1444,24 @@ public class ApiLoader {
     public Observable<NullDataEntity> addStandard(Goods.GoodsStandard goodsStandard) {
 
         return apiService.addStandard(token, goodsStandard).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 添加供应商
+     */
+    public Observable<NullDataEntity> addSupplier(Supplier supplier) {
+
+        return apiService.addSupplier(token, supplier).compose(RxHelper.observe());
+    }
+
+    /**
+     *
+     * 供应商列表
+     */
+    public Observable<List<Supplier>> listSupplier() {
+
+        return apiService.listSupplier(token).compose(RxHelper.observe());
     }
 
 }

@@ -23,6 +23,7 @@ import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MyAppPreferences;
+import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.juner.mvp.Configure;
 
@@ -97,7 +98,8 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
             case R.id.tv_bluetooth://连接蓝牙
 
-                getPresenter().initBluetooth();//连接蓝牙
+
+                getPresenter().connectBluetooth(false);//连接蓝牙
 
 
                 break;
@@ -154,6 +156,11 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
             ll_deputy.setVisibility(View.GONE);
             ll_deputy_m.setVisibility(View.GONE);
         }
+
+
+        //自动连接
+        getPresenter().connectBluetooth(true);
+
     }
 
 

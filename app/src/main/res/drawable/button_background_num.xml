@@ -4,14 +4,17 @@
     <!-- rectangle表示为矩形 -->
 
     <!-- 填充的颜色 -->
-    <solid android:color="#fff" />
+    <solid android:color="#F2F2F2" />
 
     <!-- 边框的颜色和粗细 -->
     <stroke
         android:width="0dp"
-        android:color="#fff" />
+        android:color="#111"
+        />
 
     <!-- android:radius 圆角的半径 -->
-    <corners android:radius="4dp" />
+    <corners
+        android:radius="4dp"
+        />
 
 </shape>

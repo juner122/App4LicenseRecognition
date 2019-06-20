@@ -235,6 +235,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         Integer goodsStandardId;
         String goodsStandardTitle;
         int goodsId;
+        String goodsTitle;
         String goodsStandardPrice;//价钱
         int num;
 
@@ -248,6 +249,15 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
 
         //供应商名
         private String supplierName;
+
+
+        public String getGoodsTitle() {
+            return goodsTitle;
+        }
+
+        public void setGoodsTitle(String goodsTitle) {
+            this.goodsTitle = goodsTitle;
+        }
 
         public String getStockPrice() {
             return stockPrice;
@@ -330,6 +340,11 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         }
 
         @Override
+        public int getItemType() {
+            return 1;
+        }
+
+        @Override
         public int describeContents() {
             return 0;
         }
@@ -337,20 +352,30 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeInt(this.id);
-            dest.writeInt(this.goodsStandardId);
+            dest.writeValue(this.goodsStandardId);
             dest.writeString(this.goodsStandardTitle);
             dest.writeInt(this.goodsId);
+            dest.writeString(this.goodsTitle);
             dest.writeString(this.goodsStandardPrice);
             dest.writeInt(this.num);
+            dest.writeString(this.stockPrice);
+            dest.writeString(this.supplierId);
+            dest.writeString(this.stock);
+            dest.writeString(this.supplierName);
         }
 
         protected GoodsStandard(Parcel in) {
             this.id = in.readInt();
-            this.goodsStandardId = in.readInt();
+            this.goodsStandardId = (Integer) in.readValue(Integer.class.getClassLoader());
             this.goodsStandardTitle = in.readString();
             this.goodsId = in.readInt();
+            this.goodsTitle = in.readString();
             this.goodsStandardPrice = in.readString();
             this.num = in.readInt();
+            this.stockPrice = in.readString();
+            this.supplierId = in.readString();
+            this.stock = in.readString();
+            this.supplierName = in.readString();
         }
 
         public static final Creator<GoodsStandard> CREATOR = new Creator<GoodsStandard>() {
@@ -364,11 +389,6 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
                 return new GoodsStandard[size];
             }
         };
-
-        @Override
-        public int getItemType() {
-            return 1;
-        }
     }
 
 

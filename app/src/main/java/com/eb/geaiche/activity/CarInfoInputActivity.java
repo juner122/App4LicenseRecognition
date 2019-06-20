@@ -244,20 +244,16 @@ public class CarInfoInputActivity extends BaseActivity {
 
         if (null != intent.getParcelableExtra("vinInfo")) {
             carInfo = intent.getParcelableExtra("vinInfo");//车况对象
-            if (null == selectAutoBrand) {
-                selectAutoBrand = new AutoBrand();
-            } else {
-                selectAutoBrand.setId(0);
-            }
+
+            selectAutoBrand = new AutoBrand();
             selectAutoBrand.setName(carInfo.getBrand());
 
-            if (null == autoModel) {
-                autoModel = new AutoModel();
-            } else {
-                autoModel.setId(0);
-                autoModel.setBrandId(0);
-            }
+            autoModel = new AutoModel();
+            autoModel.setId(0);
+            autoModel.setBrandId(0);
             autoModel.setName(carInfo.getName());
+
+
             tv_car_vin.setText(carInfo.getVin());
         } else {
 
@@ -266,7 +262,11 @@ public class CarInfoInputActivity extends BaseActivity {
 
         }
 
-        tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
+        if (null != autoModel)
+            tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
+        else if (null != selectAutoBrand && null == autoModel) {
+            tv_car_model.setText(selectAutoBrand.getName());
+        }
 
     }
 
@@ -640,6 +640,12 @@ public class CarInfoInputActivity extends BaseActivity {
                 }
                 if (TextUtils.isEmpty(tv_car_mileage.getText())) {
                     ToastUtils.showToast("里程数不能为空!");
+                    return;
+                }
+
+
+                if (TextUtils.isEmpty(tv_car_model.getText()) || tv_car_model.getText().toString().equals("null")) {
+                    ToastUtils.showToast("请选择车型!");
                     return;
                 }
             }

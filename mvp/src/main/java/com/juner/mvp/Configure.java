@@ -3,7 +3,7 @@ package com.juner.mvp;
 public class Configure {
 
 
-//            public static final String BaseUrl = "http://192.168.1.107:8081/app/";//线下
+//    public static final String BaseUrl = "http://222.111.88.128:8081/app/";//线下
     public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
 //    public static final String BaseUrl = "http://192.168.1.105:8089/app/";//线下 强哥
 

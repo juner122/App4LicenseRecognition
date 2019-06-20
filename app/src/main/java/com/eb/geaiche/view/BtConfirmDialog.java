@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.BhAdapter;
 import com.eb.geaiche.buletooth.DeviceConnFactoryManager;
+import com.eb.geaiche.util.BluetoothUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -67,21 +69,21 @@ public class BtConfirmDialog extends Dialog {
         bhAdapter.setOnItemClickListener((adapter, view1, position) -> {
             dismiss();
 
-            CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-                Looper.prepare();
-
-                new DeviceConnFactoryManager.Build()
-                        .setId(ID)
-                        //设置连接方式
-                        .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-                        //设置连接的蓝牙mac地址
-                        .setMacAddress(bhAdapter.getData().get(position).getAddress())
-                        .build();
-                //打开端口
-                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-                Looper.loop();// 进入loop中的循环，查看消息队列
-            });
-
+//            CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
+//                Looper.prepare();
+//
+//                new DeviceConnFactoryManager.Build()
+//                        .setId(ID)
+//                        //设置连接方式
+//                        .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
+//                        //设置连接的蓝牙mac地址
+//                        .setMacAddress(bhAdapter.getData().get(position).getAddress())
+//                        .build();
+//                //打开端口
+//                DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
+//                Looper.loop();// 进入loop中的循环，查看消息队列
+//            });
+            BluetoothUtils.openPort(bhAdapter.getData().get(position).getAddress(), ID);
         });
 
 

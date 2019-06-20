@@ -14,7 +14,7 @@
         android:background="#fff"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="15dp"
+        android:paddingLeft="10dp"
         android:paddingTop="1dp"
         android:paddingBottom="3dp">
 
@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
             android:orientation="vertical">
 
             <LinearLayout
@@ -101,8 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textSize="12sp"
-                android:text="已确认" />
+                android:text="已确认"
+                android:textSize="12sp" />
 
         </FrameLayout>
     </LinearLayout>

@@ -9,6 +9,7 @@ import com.eb.geaiche.bean.MealEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsEntity;
 
 import net.grandcentrix.tray.AppPreferences;
@@ -43,29 +44,93 @@ public class StockCartUtils {
     public StockCartUtils(Context context) {
 
         data = new SparseArray<>(100);
-        new AppPreferences(context).remove(JSON_CART);
+        new AppPreferences(context).remove(JSON_STOCK_CART);
         this.context = context;
     }
 
 
     //本地获取json数据，并且通过Gson解析成list列表数据
-    public List<GoodsEntity> getDataFromLocal() {
-        List<GoodsEntity> carts = new ArrayList<>();
+    public List<Goods> getDataFromLocal() {
+        List<Goods> carts = new ArrayList<>();
         //从本地获取缓存数据
         String savaJson = new AppPreferences(context).getString(JSON_STOCK_CART, "");
         if (!TextUtils.isEmpty(savaJson)) {
             //把数据转换成列表
-            carts = new Gson().fromJson(savaJson, new TypeToken<List<GoodsEntity>>() {
+            carts = new Gson().fromJson(savaJson, new TypeToken<List<Goods>>() {
             }.getType());
         }
         return carts;
 
     }
 
+    /**
+     * 添加一个商品规格
+     *
+     * @param good 要添加规格的商品
+     * @param gs   要添加的规格
+     */
+    public void addDataNoCommit(Goods good, Goods.GoodsStandard gs) {
+
+        int cart_id = good.getId();
 
 
+        //添加数据
+        Goods tempCart = (Goods) data.get(cart_id);
+        if (tempCart != null) {//不等于空
+
+            List<Goods.GoodsStandard> gsl = tempCart.getXgxGoodsStandardPojoList();
+
+            gsl.add(gs);
+            tempCart.setXgxGoodsStandardPojoList(gsl);
+        } else {
+            List<Goods.GoodsStandard> gsl = new ArrayList<>();
+            gsl.add(gs);
+            good.setXgxGoodsStandardPojoList(gsl);
+
+            tempCart = good;
 
 
+        }
+        data.put(cart_id, tempCart);
+    }
+
+
+    /**
+     * 设置商品规格数量
+     *
+     * @param gs     要设置规格
+     * @param num    设置数量
+     * @param goodId 要设置的商品
+     */
+    public void setNum(int goodId, Goods.GoodsStandard gs, int num) {
+
+        if (num <= 0) {
+
+            ToastUtils.showToast("数量不能为0！");
+            return;
+        }
+
+
+        //添加数据
+        Goods tempCart = (Goods) data.get(goodId);
+        if (tempCart != null) {//不等于空
+
+            List<Goods.GoodsStandard> gsl = tempCart.getXgxGoodsStandardPojoList();
+
+
+            for (int i = 0; i < gsl.size(); i++) {
+                if (gsl.get(i).getId() == gs.getId()) {
+                    tempCart.getXgxGoodsStandardPojoList().get(i).setNum(num);
+                    break;
+                }
+            }
+
+
+            data.put(goodId, tempCart);
+        }
+
+
+    }
 
 
     public void commit() {
@@ -75,7 +140,6 @@ public class StockCartUtils {
         List<GoodsEntity> carts = sparsesToList();
 
 
-
         //把转换成String
         String json = new Gson().toJson(carts);
         // 保存
@@ -83,7 +147,6 @@ public class StockCartUtils {
 
 
     }
-
 
 
     //商品总数
@@ -127,15 +190,5 @@ public class StockCartUtils {
         }
     }
 
-    private int getCartId(GoodsEntity good) {
-        //购物车商品id 有两种情况 一，只有商品没规格 cart_id =  good_id;   二，有规格   cart_id = goodsStandardId;
-        if (null != good.getId() && !good.getId().equals("")) {
-            return Integer.valueOf(good.getId());
-        }
-        if (null == good.getGoodsStandard())
-            return good.getGoods_id();
-        else {
-            return good.getGoodsStandard().getId();
-        }
-    }
+
 }

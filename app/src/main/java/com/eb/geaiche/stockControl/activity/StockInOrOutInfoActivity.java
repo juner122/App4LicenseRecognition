@@ -1,7 +1,6 @@
 package com.eb.geaiche.stockControl.activity;
 
 
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.eb.geaiche.R;

@@ -2,31 +2,24 @@ package com.eb.geaiche.stockControl.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.graphics.Color;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
-import com.eb.geaiche.bean.MealEntity;
-import com.eb.geaiche.bean.MealL0Entity;
 import com.eb.geaiche.bean.MyMultipleItem;
 import com.eb.geaiche.stockControl.activity.StockAddStandardsActivity;
 import com.eb.geaiche.util.ImageUtils;
-import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
 
 import java.util.List;
+
+import static com.eb.geaiche.stockControl.activity.StockControlActivity.stockCartUtils;
 
 public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
@@ -45,10 +38,14 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
-        Goods goods;
+        Goods goods = null;
         switch (helper.getItemViewType()) {
             case MyMultipleItem.FIRST_TYPE:
                 goods = (Goods) item;
+                int goodsId = goods.getId();
+                String goodsTitle = goods.getGoodsTitle();
+                boolean isExpanded = goods.isExpanded();
+
 
                 helper.setText(R.id.tv_name, goods.getGoodsTitle());
                 View v_add = helper.getView(R.id.tv_add);//新增规格按钮
@@ -71,7 +68,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
                 helper.itemView.setOnClickListener(v -> {
                     int pos = helper.getAdapterPosition();
-                    if (goods.isExpanded()) {
+                    if (isExpanded) {
                         collapse(pos);
                     } else {
                         expand(pos);
@@ -79,7 +76,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 });
 
 
-                if (goods.isExpanded())
+                if (isExpanded)
                     v_add.setVisibility(View.VISIBLE);
                 else
                     v_add.setVisibility(View.GONE);
@@ -89,8 +86,8 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                     //新增规格
 
                     Intent intent = new Intent(context, StockAddStandardsActivity.class);
-                    intent.putExtra("goodsId", goods.getId());
-                    intent.putExtra("goodsTitle", goods.getGoodsTitle());
+                    intent.putExtra("goodsId", goodsId);
+                    intent.putExtra("goodsTitle", goodsTitle);
 
                     context.startActivity(intent);
 
@@ -101,9 +98,26 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
             case MyMultipleItem.SECOND_TYPE:
                 final Goods.GoodsStandard gs = (Goods.GoodsStandard) item;
 
+                TextView tv_button_name = helper.getView(R.id.button);
+                View ll_button = helper.getView(R.id.ll_button);
                 helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum()));
-                helper.addOnClickListener(R.id.button);//按钮
 
+                //规格添加入库按钮
+                ll_button.setOnClickListener(v -> {
+                    if (gs.isSelected()) {
+                        gs.setSelected(false);
+                        tv_button_name.setText("已入库");
+                        tv_button_name.setBackgroundResource(R.drawable.button_background_ccc);
+                        tv_button_name.setTextColor(Color.parseColor("#999999"));
+
+                    } else {
+                        gs.setSelected(true);
+                        tv_button_name.setText("添加入库");
+                        tv_button_name.setBackgroundResource(R.drawable.button_background_bbb);
+                        tv_button_name.setTextColor(Color.parseColor("#ff4a9de3"));
+//                        stockCartUtils.addDataNoCommit(goods, gs);
+                    }
+                });
 
 
                 break;

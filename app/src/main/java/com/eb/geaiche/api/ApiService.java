@@ -3,6 +3,7 @@ package com.eb.geaiche.api;
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
+import com.eb.geaiche.stockControl.bean.Supplier;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.geaiche.bean.AutoBrand;
@@ -417,7 +418,7 @@ public interface ApiService {
     Observable<CarNumberRecogResult> carVinLicense(@Url String url, @Body VinImageBody vinImageBody);
 
 
-   /**
+    /**
      * 百度 车辆vin识别
      *
      * @param url          https://aip.baidubce.com/rest/2.0/ocr/v1/vin_code
@@ -705,5 +706,14 @@ public interface ApiService {
     //添加库存商品的规格
     @POST("xgxshopgoods/addStandard")
     Observable<BaseBean<NullDataEntity>> addStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
+
+    //添加供应商
+    @POST("xgxshopsupplier/save")
+    Observable<BaseBean<NullDataEntity>> addSupplier(@Header("X-Nideshop-Token") String token, @Body Supplier supplier);
+
+
+    //供应商列表
+    @POST("xgxshopsupplier/list")
+    Observable<BaseBean<List<Supplier>>> listSupplier(@Header("X-Nideshop-Token") String token);
 
 }

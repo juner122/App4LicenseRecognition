@@ -29,6 +29,7 @@ import com.eb.geaiche.buletooth.PrinterCommand;
 import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.mvp.contacts.FixInfoDesContacts;
 import com.eb.geaiche.mvp.model.FixInfoDesMdl;
+import com.eb.geaiche.util.BluetoothUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MathUtil;
@@ -86,6 +87,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     Long planInformTime;//预计完成时间
 
     Map<Integer, Boolean> pickMap;
+    boolean isConnectable;//是否可打印
 
 
     /**
@@ -99,6 +101,8 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         mdl = new FixInfoDesMdl(view.getSelfActivity());
         pickMap = new HashMap<>();
         phone = new AppPreferences(getView().getSelfActivity()).getString(Configure.moblie_s, "");
+        // //初始化蓝牙
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     }
 
     /**
@@ -107,22 +111,19 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     @Override
     public void setTipClickListener(List<TextView> textViews) {
 
-        View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String tip = ((TextView) view).getText().toString();
-                if (!pickMap.get(view.getTag())) {//选中
-                    view.setBackgroundResource(R.drawable.button_background_b);
-                    ((TextView) view).setTextColor(Color.parseColor("#ffffff"));
-                    getView().setTip(String.format("#%s#", tip));
-                    pickMap.put((Integer) view.getTag(), true);
-                } else {//取消选中
-                    view.setBackgroundResource(R.drawable.button_background_z);
-                    ((TextView) view).setTextColor(Color.parseColor("#111011"));
-                    tip = String.format("#%s#", tip);
-                    getView().cleanText(tip);
-                    pickMap.put((Integer) view.getTag(), false);
-                }
+        View.OnClickListener clickListener = view -> {
+            String tip = ((TextView) view).getText().toString();
+            if (!pickMap.get(view.getTag())) {//选中
+                view.setBackgroundResource(R.drawable.button_background_b);
+                ((TextView) view).setTextColor(Color.parseColor("#ffffff"));
+                getView().setTip(String.format("#%s#", tip));
+                pickMap.put((Integer) view.getTag(), true);
+            } else {//取消选中
+                view.setBackgroundResource(R.drawable.button_background_z);
+                ((TextView) view).setTextColor(Color.parseColor("#111011"));
+                tip = String.format("#%s#", tip);
+                getView().cleanText(tip);
+                pickMap.put((Integer) view.getTag(), false);
             }
         };
 
@@ -170,30 +171,23 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
     }
 
-
+    /**
+     * 连接蓝牙 ，分自动和手动连接
+     *
+     * @param isAuto 是否自动连接
+     */
     @Override
-    public void initBluetooth() {
+    public void connectBluetooth(boolean isAuto) {
+
         if (isConnectable) {
             ToastUtils.showToast("蓝牙已连接,请打印！");
-            return;
-        }
+        } else if (null != mBluetoothAdapter) {
+            if (mBluetoothAdapter.isEnabled())//蓝牙已打开
+                getDeviceList(isAuto);
+            else turnOnBluetooth();//未开蓝牙 打开系统设置
 
-        // Get the local Bluetooth adapter
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
-            ToastUtils.showToast("设备不支持Bluetooth");
-        } else {
-            // If BT is not on, request that it be enabled.
-            // setupChat() will then be called during onActivityResult
-            if (!mBluetoothAdapter.isEnabled()) {
+        } else ToastUtils.showToast("设备不支持Bluetooth");
 
-                turnOnBluetooth();
-
-            } else {
-                getDeviceList();
-            }
-        }
     }
 
     //票据打印
@@ -274,7 +268,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         else
             esc.addText("里程数：" + MyAppPreferences.getString(Configure.CAR_MILEAGE) + "km" + "\n");//打印里程数
 
-        esc.addText("车主姓名：" + userName.substring(0, 1) + "**" + "\n");//打印下单时间
+        esc.addText("车主姓名：" + userName + "\n");//打印下单时间
         esc.addText("接单时间：" + MathUtil.toNowDate() + "\n");//打印完成时间
 
 
@@ -339,36 +333,23 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
                 REQUEST_CODE_BLUETOOTH_ON);
     }
 
-    protected void getDeviceList() {
-
+    /**
+     * 连接蓝牙
+     *
+     * @param isAuto 是否自动连接
+     */
+    protected void getDeviceList(boolean isAuto) {
         Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
         // If there are paired devices, add each one to the ArrayAdapter
         if (pairedDevices.size() > 0) {
-//            for (BluetoothDevice device : pairedDevices) {
-//
-//                CameraThreadPool.execute(() -> {//生成一个线程去打开蓝牙端口
-//                    Looper.prepare();
-//
-//                    new DeviceConnFactoryManager.Build()
-//                            .setId(ID)
-//                            //设置连接方式
-//                            .setConnMethod(DeviceConnFactoryManager.CONN_METHOD.BLUETOOTH)
-//                            //设置连接的蓝牙mac地址
-//                            .setMacAddress(device.getAddress())
-//                            .build();
-//                    //打开端口
-//                    DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].openPort();
-//                    Looper.loop();// 进入loop中的循环，查看消息队列
-//                });
-//
-//                break;
-//            }
+            if (!isAuto)
+                new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, getView().getSelfActivity()).show();
+            else
+                BluetoothUtils.openPort(new ArrayList<>(pairedDevices).get(0).getAddress(), ID);
 
+        } else
+            mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
 
-            new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, getView().getSelfActivity()).show();
-        } else {
-            mHandler.obtainMessage(NO_DERVER).sendToTarget();
-        }
     }
 
 
@@ -463,7 +444,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         iv_lpv_url = url;
     }
 
-    boolean isConnectable;//是否可打印
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
