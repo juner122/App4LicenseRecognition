@@ -293,8 +293,6 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_car_info://车信息
 
-//              toActivity(CarInfoInputActivity.class, Configure.CARID, info.getOrderInfo().getCar_id());
-
                 Intent intent3 = new Intent(OrderInfoActivity.this, CarInfoInputActivity.class);
                 intent3.putExtra("result_code", 001);
                 intent3.putExtra(Configure.CARID, info.getOrderInfo().getCar_id());
@@ -387,7 +385,7 @@ public class OrderInfoActivity extends BaseActivity {
         // //初始化蓝牙
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //自动连接蓝牙
-        connectBluetooth(true);
+//        connectBluetooth(true);
 
 
     }
@@ -738,6 +736,7 @@ public class OrderInfoActivity extends BaseActivity {
                 case NO_DERVER:
 
                     ToastUtils.showToast(getString(R.string.no_dervier));
+                    tv_bluetooth.setText(getString(R.string.no_dervier));
                     break;
                 default:
                     break;

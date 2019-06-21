@@ -212,6 +212,10 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<OrderInfo>> orderDetail(@FieldMap Map<String, Object> maps);
 
+    //取消订单
+    @POST("order/cancle")
+    Observable<BaseBean<NullDataEntity>> orderDelete(@Header("X-Nideshop-Token") String token, @Body OrderInfoEntity order);
+
 
     //车况详情显示
     @POST("usercarcondition/info")

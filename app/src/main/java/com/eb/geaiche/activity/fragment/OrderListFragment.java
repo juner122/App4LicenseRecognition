@@ -1,9 +1,11 @@
 package com.eb.geaiche.activity.fragment;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 
@@ -11,6 +13,7 @@ import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.view.ConfirmDialogOrderDelete;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.MakeOrderSuccessActivity;
@@ -20,6 +23,7 @@ import com.eb.geaiche.activity.OrderPayActivity;
 import com.eb.geaiche.adapter.OrderListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 import com.eb.geaiche.util.ToastUtils;
@@ -108,39 +112,42 @@ public class OrderListFragment extends BaseFragment {
             }
         });
 
-        ola.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (list.get(position).isSelected()) {
-                    list.get(position).setSelected(false);
+        ola.setOnItemClickListener((adapter, view, position) -> {
+            if (list.get(position).isSelected()) {
+                list.get(position).setSelected(false);
 
-                } else {
-                    for (OrderInfoEntity o : list) {
-                        o.setSelected(false);
-                    }
-                    list.get(position).setSelected(true);
+            } else {
+                for (OrderInfoEntity o : list) {
+                    o.setSelected(false);
                 }
-                ola.notifyDataSetChanged();
+                list.get(position).setSelected(true);
             }
+            ola.notifyDataSetChanged();
         });
 
 
-        ola.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
+        ola.setOnItemChildClickListener((adapter, view, position) -> {
 
-                switch (view.getId()) {
-                    case R.id.button_show_details://查看订单
+            switch (view.getId()) {
+                case R.id.button_show_details://查看订单
 
-                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, list.get(position).getId());
+                    toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, list.get(position).getId());
 
-                        break;
-                    case R.id.button_action://动作按钮
+                    break;
+                case R.id.button_action://动作按钮
 
-                        orderDetail(list.get(position).getId());
+//                    orderDetail(list.get(position).getId());
 
-                        break;
-                }
+                    final ConfirmDialogOrderDelete dialogCanlce = new ConfirmDialogOrderDelete(getActivity());
+                    dialogCanlce.show();
+                    dialogCanlce.setClicklistener(postscript -> {
+                        dialogCanlce.dismiss();
+                        deleteOrder(list.get(position).getId(), postscript);
+
+                    });
+
+
+                    break;
             }
         });
 
@@ -198,6 +205,31 @@ public class OrderListFragment extends BaseFragment {
         });
     }
 
+
+    /**
+     * 删除订单
+     *
+     * @param id         订单id
+     * @param postscript 订单删除原因
+     */
+
+    private void deleteOrder(int id, String postscript) {
+
+        Api().orderDelete(id, postscript).subscribe(new RxSubscribe<NullDataEntity>(getActivity(), true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                ToastUtils.showToast("删除成功！");
+                getData();//刷新列表
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("删除失败！" + message);
+            }
+        });
+
+
+    }
 
     //查询订单
     private void orderDetail(int id) {

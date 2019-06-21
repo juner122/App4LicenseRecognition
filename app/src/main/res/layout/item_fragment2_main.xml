@@ -110,19 +110,19 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/button_show_details"
+                    android:id="@+id/button_action"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_background_f"
+                    android:background="@drawable/button_background_red"
                     android:gravity="center"
                     android:paddingLeft="35dp"
                     android:paddingTop="6dp"
                     android:paddingRight="35dp"
                     android:paddingBottom="6dp"
-                    android:text="查看详情"
-                    android:textColor="#ff000000"
+                    android:text="删除订单"
+                    android:textColor="#FF3900"
                     android:textSize="12sp" />
 
                 <View
@@ -135,19 +135,19 @@
                     android:background="#ffd9d9d9" />
 
                 <TextView
-                    android:id="@+id/button_action"
+                    android:id="@+id/button_show_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_background_b"
+                    android:background="@drawable/button_background_f"
                     android:gravity="center"
                     android:paddingLeft="35dp"
                     android:paddingTop="6dp"
                     android:paddingRight="35dp"
                     android:paddingBottom="6dp"
-                    android:text="完成订单"
-                    android:textColor="#ff000000"
+                    android:text="查看详情"
+                    android:textColor="#666666"
                     android:textSize="12sp" />
 
             </LinearLayout>

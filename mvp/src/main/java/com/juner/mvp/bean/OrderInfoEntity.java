@@ -26,7 +26,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String consignee;//
     String mobile;
     Integer car_id;
-    String postscript;
+    String postscript;//备注
     String order_status_text;//未付款
     String add_time;//
     String pay_time;//
@@ -375,6 +375,13 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public OrderInfoEntity() {
+    }
+
+    public OrderInfoEntity(int id, String postscript) {
+
+        this.id = id;
+        this.postscript = postscript;
+
     }
 
     public Integer getOs_type() {

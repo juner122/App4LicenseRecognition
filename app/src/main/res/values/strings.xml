@@ -44,7 +44,7 @@
     <string name="str_usb">USB</string>
     <string name="str_wifi">WIFI</string>
     <string name="str_conn_successful">连接成功！</string>
-    <string name="str_conn_fail">连接失败！</string>
+    <string name="str_conn_fail">蓝牙连接失败！</string>
     <string name="str_baudrate">波特率：</string>
     <string name="str_serialport_path">串口路径：</string>
     <string name="str_conn_devices">多设备</string>

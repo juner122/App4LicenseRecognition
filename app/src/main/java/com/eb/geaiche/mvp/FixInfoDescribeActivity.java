@@ -159,7 +159,7 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
 
         //自动连接
-        getPresenter().connectBluetooth(true);
+//        getPresenter().connectBluetooth(true);
 
     }
 

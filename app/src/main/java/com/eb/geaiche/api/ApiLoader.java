@@ -503,6 +503,19 @@ public class ApiLoader {
         return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
     }
 
+
+    /**
+     * 删除订单
+     *
+     * @returnD
+     */
+    public Observable<NullDataEntity> orderDelete(int id, String postscript) {
+
+
+        OrderInfoEntity infoEntity = new OrderInfoEntity(id, postscript);
+        return apiService.orderDelete(token, infoEntity).compose(RxHelper.observe());
+    }
+
     /**
      * 账单详情（同订单详情一个接口，入参不同）
      *
@@ -1456,7 +1469,6 @@ public class ApiLoader {
     }
 
     /**
-     *
      * 供应商列表
      */
     public Observable<List<Supplier>> listSupplier() {

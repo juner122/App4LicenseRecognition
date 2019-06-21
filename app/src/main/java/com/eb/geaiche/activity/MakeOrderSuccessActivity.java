@@ -159,7 +159,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // //初始化蓝牙
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //自动连接蓝牙
-        connectBluetooth(true);
+//        connectBluetooth(true);
 
 
     }
