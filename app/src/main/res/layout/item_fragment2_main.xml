@@ -121,7 +121,7 @@
                     android:paddingTop="6dp"
                     android:paddingRight="35dp"
                     android:paddingBottom="6dp"
-                    android:text="删除订单"
+                    android:text="取消订单"
                     android:textColor="#FF3900"
                     android:textSize="12sp" />
 

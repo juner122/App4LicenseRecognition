@@ -76,7 +76,7 @@ public class ConfirmDialogOrderDelete extends Dialog {
             switch (id) {
                 case R.id.tv_confirm:
                     if (TextUtils.isEmpty(tv_text.getText())) {
-                        ToastUtils.showToast("删除原因不能为空！");
+                        ToastUtils.showToast("取消原因不能为空！");
                         return;
                     }
 
