@@ -45,14 +45,23 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".stockControl.activity.StockOutActivity"></activity>
+        <activity android:name=".maneuver.activity.ManeuverInfoActivity"></activity>
+        <activity android:name=".maneuver.activity.ManeuverActivity" />
+        <activity android:name=".stockControl.activity.StockOutActivity" />
         <activity android:name=".stockControl.activity.SupplierAddOrFixActivity" />
         <activity android:name=".stockControl.activity.SupplierListActivity" />
-        <activity android:name=".stockControl.activity.StockAddStandardsActivity" />
-        <activity android:name=".stockControl.activity.StockAddGoodsActivity" />
+        <activity android:name=".stockControl.activity.StockAddStandardsActivity"
+            android:launchMode="singleTask"
+            />
+        <activity
+            android:name=".stockControl.activity.StockAddGoodsActivity"
+          />
         <activity android:name=".stockControl.activity.StockInOrOutRecordActivity" />
         <activity android:name=".stockControl.activity.StockInOrOutInfoActivity" />
-        <activity android:name=".stockControl.activity.StockInActivity" />
+        <activity
+            android:name=".stockControl.activity.StockInActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".stockControl.activity.StockControlActivity"
             android:screenOrientation="portrait"
@@ -256,6 +265,12 @@
         <activity
             android:name=".activity.CarVinDISActivity"
             android:launchMode="singleTask" />
+
+        <activity
+            android:name=".activity.CarVinDISActivity2"
+            android:launchMode="singleTask" />
+
+
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />
@@ -331,8 +346,6 @@
             android:launchMode="singleTask" />
         <activity android:name=".activity.StaffInfoFixActivity" />
         <activity android:name=".activity.WorkOrderListActivity" />
-
-
         <activity android:name=".activity.MemberInfoFixActivity" />
         <activity android:name=".activity.MemberRecordActivity" />
         <activity android:name=".activity.CarCheckResultListActivity" />

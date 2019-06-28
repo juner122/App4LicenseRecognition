@@ -313,7 +313,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
             esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), Configure.Goods_TYPE_3)) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                 esc.addText(ge.getGoods_name());
@@ -334,7 +334,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
 
             esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), Configure.Goods_TYPE_4)) {
 
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
@@ -355,7 +355,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         }
 
         if (null != info.getOrderInfo().getUserActivityList() || info.getOrderInfo().getUserActivityList().size() > 0) {
-            for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
+            for (GoodsEntity gu : info.getOrderInfo().getUserActivityListReverse()) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                 esc.addText(gu.getGoodsName());
@@ -524,7 +524,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
         double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
 
-        rv_goods.setLayoutManager(new LinearLayoutManager(this) {
+        rv_goods.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -533,7 +533,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         });
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
 
-        rv_act.setLayoutManager(new LinearLayoutManager(this) {
+        rv_act.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -542,7 +542,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         });
         rv_act.setAdapter(simpleActivityInfo2Adpter);
 
-        rv_servers.setLayoutManager(new LinearLayoutManager(this) {
+        rv_servers.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题

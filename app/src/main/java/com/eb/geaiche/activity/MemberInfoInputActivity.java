@@ -418,7 +418,7 @@ public class MemberInfoInputActivity extends BaseActivity {
 
             }
         }
-        MyAppPreferences.putString(Configure.CAR_MILEAGE, mileage);
+
 
 
         if (way == 0) {//检修下单
@@ -430,7 +430,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             intent2.putExtra(Configure.user_id, user_id);
             startActivity(intent2);
         } else {
-            toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number);
+            toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number,mileage);
         }
 
     }

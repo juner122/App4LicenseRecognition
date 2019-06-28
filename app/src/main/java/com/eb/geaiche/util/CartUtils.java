@@ -16,6 +16,10 @@ import com.google.gson.reflect.TypeToken;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static com.juner.mvp.Configure.Goods_TYPE_3;
@@ -27,7 +31,8 @@ public class CartUtils {
 
     private static CartUtils instance = null;
 
-    SparseArray data;
+    //    SparseArray data;
+    HashMap<Integer, GoodsEntity> data;
 
 
     Context context;
@@ -43,7 +48,8 @@ public class CartUtils {
 
     public CartUtils(Context context) {
 
-        data = new SparseArray<>(100);
+//        data = new SparseArray<>(100);
+        data = new LinkedHashMap<>(100);
         new AppPreferences(context).remove(JSON_CART);
         this.context = context;
     }
@@ -262,9 +268,6 @@ public class CartUtils {
         //把parseArray转换成list
         List<GoodsEntity> carts = sparsesToList();
 
-        Log.d("购物车：", "商品总个数:" + getTotalGoodsNumber() + "商品种型数为：" + carts.size() + "商品总价格:" + getProductPrice() + getServerPrice());
-
-
         //把转换成String
         String json = new Gson().toJson(carts);
         // 保存
@@ -319,9 +322,15 @@ public class CartUtils {
     private List<GoodsEntity> sparsesToList() {
         List<GoodsEntity> carts = new ArrayList<>();
         if (data != null && data.size() > 0) {
-            for (int i = 0; i < data.size(); i++) {
-                GoodsEntity shoppingCart = (GoodsEntity) data.valueAt(i);
-                carts.add(shoppingCart);
+//            for (int i = 0; i < data.size(); i++) {
+//                GoodsEntity shoppingCart = (GoodsEntity) data.valueAt(i);
+//                carts.add(shoppingCart);
+//            }
+            Collection<GoodsEntity> collection = data.values();
+            Iterator<GoodsEntity> iterator = collection.iterator();
+            while (iterator.hasNext()) {
+                GoodsEntity value = iterator.next();
+                carts.add(value);
             }
         }
         return carts;

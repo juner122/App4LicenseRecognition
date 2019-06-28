@@ -140,11 +140,23 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         startActivity(intent);
 
     }
+
+
     protected void toOrderList(int fragment_p) {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(Configure.show_fragment, fragment_p);
         intent.putExtra("type", "toOrder");
+        startActivity(intent);
+
+    }
+
+    protected void toOrderInfo(int fragment_p,int orderId) {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Configure.show_fragment, fragment_p);
+        intent.putExtra("type", "toOrderInfo");
+        intent.putExtra("orderId", orderId);
         startActivity(intent);
 
     }

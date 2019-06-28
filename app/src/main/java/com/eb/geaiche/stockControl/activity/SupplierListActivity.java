@@ -1,10 +1,12 @@
 package com.eb.geaiche.stockControl.activity;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.stockControl.adapter.SupplierListAdapter;
@@ -44,6 +46,14 @@ public class SupplierListActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
+        adapter.setOnItemClickListener((a, view, position) -> {
+
+            Intent intent = new Intent(this, StockAddStandardsActivity.class);
+            intent.putExtra("pick_type", 1);
+            intent.putExtra("supplier", adapter.getData().get(position));
+
+            startActivity(intent);
+        });
 
     }
 

@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
     tools:context=".stockControl.activity.StockInActivity">
 
     <include layout="@layout/head_view" />
@@ -112,6 +114,7 @@
             android:layout_marginTop="12dp"
             android:background="@drawable/button_background_z"
             android:gravity="top"
+
             android:hint="在此输入商品用途或者其他备注信息"
             android:padding="8dp"
             android:textSize="11sp" />

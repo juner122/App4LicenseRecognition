@@ -16,8 +16,8 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 34
-        versionName "1.4.17"
+        versionCode 35
+        versionName "1.4.18"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -196,4 +196,5 @@ dependencies {
     // 第三方文件下载 https://github.com/lingochamp/FileDownloader/blob/master/README-zh.md
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
     implementation files('libs/ocr-sdk.jar')
+    compile project(path: ':smartvisionlibrary')
 }

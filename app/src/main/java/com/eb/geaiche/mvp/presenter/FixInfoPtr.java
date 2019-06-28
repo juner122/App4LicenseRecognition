@@ -137,8 +137,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     @Override
     public void getInfo() {
-        int id = context.getIntent().getIntExtra("id", -1);
-        mdl.getInfo(id, new RxSubscribe<FixInfo>(context, true) {
+        mdl.getInfo(getView().getOrderId(), new RxSubscribe<FixInfo>(context, true) {
             @Override
             protected void _onNext(FixInfo fixInfo) {
                 entity = fixInfo.getQuotation();
@@ -277,7 +276,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         final RxSubscribe rxSubscribe = new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                getView().createOrderSuccess(0);//生成检修单
+                getView().createOrderSuccess(0, 0);//生成检修单
             }
 
             @Override
@@ -332,7 +331,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                         protected void _onNext(NullDataEntity nullDataEntity) {
                             ToastUtils.showToast("检修单已确认");
 
-                            getView().createOrderSuccess(2);//检修单已确认
+                            getView().createOrderSuccess(2, 0);//检修单已确认
                         }
 
                         @Override
@@ -351,7 +350,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             mdl.submit(createOrderObj(entity), new RxSubscribe<NullDataEntity>(context, true) {
                 @Override
                 protected void _onNext(NullDataEntity nullDataEntity) {
-                    getView().createOrderSuccess(1);//生成订单
+                    getView().createOrderSuccess(1, 0);//生成订单
                 }
 
                 @Override

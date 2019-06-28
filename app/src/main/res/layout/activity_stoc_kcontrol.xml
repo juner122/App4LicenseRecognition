@@ -9,7 +9,9 @@
 
     <include layout="@layout/head_view" />
 
-    <include layout="@layout/search_bar" />
+    <include
+        layout="@layout/search_bar"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

@@ -55,6 +55,8 @@ import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
+import com.juner.mvp.bean.Joiner;
+import com.juner.mvp.bean.Maneuver;
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.MyBalanceEntity;
@@ -1461,6 +1463,15 @@ public class ApiLoader {
 
 
     /**
+     * 添加库存商品
+     */
+    public Observable<NullDataEntity> addGoods(Goods goods) {
+
+        return apiService.addGoods(token, goods).compose(RxHelper.observe());
+    }
+
+
+    /**
      * 添加供应商
      */
     public Observable<NullDataEntity> addSupplier(Supplier supplier) {
@@ -1474,6 +1485,49 @@ public class ApiLoader {
     public Observable<List<Supplier>> listSupplier() {
 
         return apiService.listSupplier(token).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 活动列表
+     */
+    public Observable<List<Maneuver>> listShopunity() {
+
+        return apiService.listShopunity(token).compose(RxHelper.observe());
+    }
+
+    /**
+     * 活动详情页
+     */
+    public Observable<Maneuver> infoShopunity(String id) {
+
+        return apiService.infoShopunity(token,id).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 提交反馈
+     */
+    public Observable<NullDataEntity> askTo(Joiner joiner) {
+
+        return apiService.askTo(token,joiner).compose(RxHelper.observe());
+    }
+
+    /**
+     * 出入库记录列表
+     */
+    public Observable<List<StockInOrOut>> stockInOrOutRecordList(int type) {
+
+        return apiService.stockInOrOutRecordList(token,type).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 报名参加
+     */
+    public Observable<NullDataEntity> joinIn(Joiner joiner) {
+
+        return apiService.joinIn(token,joiner).compose(RxHelper.observe());
     }
 
 }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">哥爱车汽修</string>
+    <string name="company_name">广州新干线实业有限公司</string>
     <string name="result">"识别结果:"</string>
     <string name="time">"识别耗时:"</string>
     <string name="select">"选择图片"</string>

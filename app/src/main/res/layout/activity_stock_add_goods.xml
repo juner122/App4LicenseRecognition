@@ -5,14 +5,15 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:orientation="vertical"
+
     tools:context=".stockControl.activity.StockAddGoodsActivity">
 
     <include layout="@layout/head_view" />
 
     <androidx.core.widget.NestedScrollView
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +26,9 @@
                 android:layout_marginTop="10dp"
                 android:background="#fff"
                 android:gravity="center"
-                android:padding="15dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -44,17 +47,21 @@
                     android:textColor="#ffff3900"
                     android:textSize="13sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@null"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
                     android:gravity="end"
-                    android:hint="-"
+                    android:hint="请填写商品名称"
                     android:textColor="#333"
                     android:textColorHint="#666"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <View

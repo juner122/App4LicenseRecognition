@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.stockControl.bean.Supplier;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
@@ -28,15 +29,15 @@ public class StockAddStandardsActivity extends BaseActivity {
     @BindView(R.id.tv_price_in)
     EditText tv_price_in;//成本入库价
     @BindView(R.id.supplier)
-    TextView supplier;//供应商名
+    TextView supplier_name;//供应商名
 
-
-    String supplierId;
 
     int goodsId;
     String goodsTitle;
 
-    @OnClick({R.id.enter, R.id.reset})
+    Supplier supplier_pick;//选择了的供应商
+
+    @OnClick({R.id.enter, R.id.reset, R.id.pick_supplier})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -45,7 +46,10 @@ public class StockAddStandardsActivity extends BaseActivity {
                 break;
 
             case R.id.reset://重置
+                break;
 
+            case R.id.pick_supplier:
+                toActivity(SupplierListActivity.class);
 
                 break;
         }
@@ -54,7 +58,6 @@ public class StockAddStandardsActivity extends BaseActivity {
 
     @Override
     protected void init() {
-
 
         goodsId = getIntent().getIntExtra("goodsId", 0);
         goodsTitle = getIntent().getStringExtra("goodsTitle");
@@ -82,11 +85,20 @@ public class StockAddStandardsActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+        if (intent.getIntExtra("pick_type", -1) == 1) {//在供应商列表选择供应商后返回
+            supplier_pick = intent.getParcelableExtra("supplier");
+            supplier_name.setText(supplier_pick.getName());
+        }
+
 
     }
 
     //新增规格
     private void addStandard() {
+        if (null == supplier_pick) {
+            ToastUtils.showToast("请选择供应商！");
+            return;
+        }
 
         Api().addStandard(getStandard()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
@@ -107,14 +119,15 @@ public class StockAddStandardsActivity extends BaseActivity {
 
     private Goods.GoodsStandard getStandard() {
 
+
         Goods.GoodsStandard standard = new Goods.GoodsStandard();
         standard.setGoodsId(goodsId);
         standard.setGoodsStandardTitle(tv_standard.getText().toString());
         standard.setGoodsStandardPrice(tv_price.getText().toString());
         standard.setStockPrice(tv_price_in.getText().toString());
         standard.setStock("0");//库存数量
-        standard.setSupplierName(supplier.getText().toString());//供应商
-        standard.setSupplierId(supplierId);//供应商名
+        standard.setSupplierName(supplier_name.getText().toString());//供应商
+        standard.setSupplierId(supplier_pick.getId());//供应商名
 
         return standard;
 

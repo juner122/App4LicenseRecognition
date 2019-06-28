@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.eb.geaiche.util.MyAppPreferences;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.ApiLoader;
@@ -152,7 +153,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void toMakeOrder(int user_id, int car_id, String moblie, String user_name, String car_number) {
+    protected void toMakeOrder(int user_id, int car_id, String moblie, String user_name, String car_number,String mileage) {
 
 
         new AppPreferences(this).put(Configure.user_id, user_id);
@@ -160,7 +161,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         new AppPreferences(this).put(Configure.user_name, user_name);//选择车辆时更新car_no  保存到Preferences
         new AppPreferences(this).put(Configure.car_id, car_id);//选择车辆时更新car_no  保存到Preferences
         new AppPreferences(this).put(Configure.car_no, car_number);//选择车辆时更新car_no  保存到Preferences
-
+        MyAppPreferences.putString(Configure.CAR_MILEAGE, mileage);
 
         startActivity(new Intent(this, MakeOrderActivity.class));
 

@@ -42,10 +42,10 @@
             android:layout_weight="1"
             android:background="@null"
             android:gravity="end"
-            android:hint="-"
+            android:hint="供应商名称"
             android:textColor="#333"
-            android:textColorHint="#666"
-            android:textSize="14sp" />
+            android:textColorHint="#ff999999"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View

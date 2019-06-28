@@ -16,7 +16,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     int id;
     String goodsCode;
     String goodsTitle;
-    int goodsBrandId;
+    String goodsBrandId;
     String goodsBrandTitle;
     int firstCategoryId;
     String firstCategoryTitle;
@@ -30,6 +30,14 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     int activityStatus;
     int num;
 
+    //是否微信上架1是2否
+    private Integer wxType;
+    //库存提醒设置数字
+    private Integer remindLimit;
+
+    //库存备注
+    private String remarks;
+
     List<GoodsPic> goodsDetailsPojoList;//图片Banner
     List<GoodsStandard> xgxGoodsStandardPojoList;//规格
     List<GoodsInfoPic> goodsDetailsType2PojoList;//商品详情图片
@@ -40,6 +48,14 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     public boolean selectde() {
 
         return selected != 0;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public int getSelected() {
@@ -65,6 +81,22 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
 
     public void setGoodsInfoPicList(List<GoodsInfoPic> goodsInfoPicList) {
         this.goodsDetailsType2PojoList = goodsInfoPicList;
+    }
+
+    public Integer getWxType() {
+        return wxType;
+    }
+
+    public void setWxType(Integer wxType) {
+        this.wxType = wxType;
+    }
+
+    public Integer getRemindLimit() {
+        return remindLimit;
+    }
+
+    public void setRemindLimit(Integer remindLimit) {
+        this.remindLimit = remindLimit;
     }
 
     public int getNum() {
@@ -99,11 +131,11 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.goodsTitle = goodsTitle;
     }
 
-    public int getGoodsBrandId() {
+    public String getGoodsBrandId() {
         return goodsBrandId;
     }
 
-    public void setGoodsBrandId(int goodsBrandId) {
+    public void setGoodsBrandId(String goodsBrandId) {
         this.goodsBrandId = goodsBrandId;
     }
 
@@ -453,6 +485,9 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         }
     }
 
+    public Goods() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -463,7 +498,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         dest.writeInt(this.id);
         dest.writeString(this.goodsCode);
         dest.writeString(this.goodsTitle);
-        dest.writeInt(this.goodsBrandId);
+        dest.writeString(this.goodsBrandId);
         dest.writeString(this.goodsBrandTitle);
         dest.writeInt(this.firstCategoryId);
         dest.writeString(this.firstCategoryTitle);
@@ -476,21 +511,22 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         dest.writeInt(this.newStatus);
         dest.writeInt(this.activityStatus);
         dest.writeInt(this.num);
-        dest.writeInt(this.selected);
+        dest.writeValue(this.wxType);
+        dest.writeValue(this.remindLimit);
+        dest.writeString(this.remarks);
         dest.writeList(this.goodsDetailsPojoList);
-        dest.writeList(this.xgxGoodsStandardPojoList);
+        dest.writeTypedList(this.xgxGoodsStandardPojoList);
         dest.writeList(this.goodsDetailsType2PojoList);
-        dest.writeParcelable((Parcelable) this.goodsStandard, flags);
-    }
-
-    public Goods() {
+        dest.writeParcelable(this.goodsStandard, flags);
+        dest.writeInt(this.selected);
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
     }
 
     protected Goods(Parcel in) {
         this.id = in.readInt();
         this.goodsCode = in.readString();
         this.goodsTitle = in.readString();
-        this.goodsBrandId = in.readInt();
+        this.goodsBrandId = in.readString();
         this.goodsBrandTitle = in.readString();
         this.firstCategoryId = in.readInt();
         this.firstCategoryTitle = in.readString();
@@ -503,17 +539,20 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.newStatus = in.readInt();
         this.activityStatus = in.readInt();
         this.num = in.readInt();
-        this.selected = in.readInt();
+        this.wxType = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.remindLimit = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.remarks = in.readString();
         this.goodsDetailsPojoList = new ArrayList<GoodsPic>();
         in.readList(this.goodsDetailsPojoList, GoodsPic.class.getClassLoader());
-        this.xgxGoodsStandardPojoList = new ArrayList<GoodsStandard>();
-        in.readList(this.xgxGoodsStandardPojoList, GoodsStandard.class.getClassLoader());
+        this.xgxGoodsStandardPojoList = in.createTypedArrayList(GoodsStandard.CREATOR);
         this.goodsDetailsType2PojoList = new ArrayList<GoodsInfoPic>();
         in.readList(this.goodsDetailsType2PojoList, GoodsInfoPic.class.getClassLoader());
         this.goodsStandard = in.readParcelable(GoodsStandard.class.getClassLoader());
+        this.selected = in.readInt();
+        this.isSelected = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Goods> CREATOR = new Parcelable.Creator<Goods>() {
+    public static final Creator<Goods> CREATOR = new Creator<Goods>() {
         @Override
         public Goods createFromParcel(Parcel source) {
             return new Goods(source);

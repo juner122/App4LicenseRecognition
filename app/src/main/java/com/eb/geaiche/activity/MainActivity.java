@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tv_shopName:
-//                toActivity(StockControlActivity.class);//出入库
+                toActivity(StockControlActivity.class);//出入库
                 break;
 
         }
@@ -229,6 +229,9 @@ public class MainActivity extends BaseActivity {
 
         if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toOrder")) {
             toActivity(OrderListActivity.class);
+        }
+        if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toOrderInfo")) {
+            toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, intent.getIntExtra("orderId", -1));
         }
         if (null != intent.getStringExtra("type") && intent.getStringExtra("type").equals("toFix")) {
             toActivity(FixInfoListActivity.class);

@@ -172,6 +172,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         }
     }
 
+    int id;//订单id
 
     @Override
     public int setLayoutResourceID() {
@@ -181,15 +182,26 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     protected void init() {
         tv_title.setText("汽车检修单");
-
+        id = getIntent().getIntExtra("id", -1);
         getPresenter().initRecyclerView(rv, rv2);
-        getPresenter().getInfo();
+
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().getInfo();
+    }
 
     @Override
     public FixInfoContacts.FixInfoPtr onBindPresenter() {
         return new FixInfoPtr(this);
+    }
+
+    @Override
+    public int getOrderId() {
+        return id;
     }
 
     @Override
@@ -228,20 +240,22 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
     }
 
+    /**
+     * 处理订单状态改变的页面跳转
+     */
     @Override
-    public void createOrderSuccess(int i) {
+    public void createOrderSuccess(int i, int orderId) {
 
-//        finish();
 
         if (i == 0) {
-            toFixList(0);
             ToastUtils.showToast("检修单已生成！");
+            onResume();
         } else if (i == 1) {
             toOrderList(0);
             ToastUtils.showToast("订单已生成！");
         } else if (i == 2) {
-            toFixList(0);
             ToastUtils.showToast("检修单已确认！");
+            onResume();
         }
     }
 

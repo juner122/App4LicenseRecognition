@@ -194,7 +194,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
             case R.id.tv_new_order:
                 if (!isPerfect())
                     return;
-                toMakeOrder(user_id, car_id, moblie, user_name, car_number);
+                toMakeOrder(user_id, car_id, moblie, user_name, car_number,mileage);
 
                 break;
 

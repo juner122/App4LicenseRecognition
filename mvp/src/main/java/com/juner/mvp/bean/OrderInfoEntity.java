@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.List;
 
 public class OrderInfoEntity extends SelectedBean implements Parcelable {
@@ -131,8 +132,16 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     }
 
     public List<GoodsEntity> getUserActivityList() {
+
         return userActivityList;
     }
+
+    public List<GoodsEntity> getUserActivityListReverse() {
+        Collections.reverse(userActivityList);//反序
+
+        return userActivityList;
+    }
+
 
     public void setUserActivityList(List<GoodsEntity> userActivityList) {
         this.userActivityList = userActivityList;
@@ -221,6 +230,12 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
 
     public List<GoodsEntity> getGoodsList() {
+        return goodsList;
+    }
+
+    public List<GoodsEntity> getGoodsListReverse() {
+        Collections.reverse(goodsList);//反序
+
         return goodsList;
     }
 

@@ -2,6 +2,7 @@ package com.eb.geaiche.mvp.contacts;
 
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.juner.mvp.api.http.RxSubscribe;
@@ -26,7 +27,7 @@ public class FixInfoContacts {
         void setInfo(FixInfoEntity fixInfo);//设置页面信息
 
 
-        void createOrderSuccess(int i);//生成估价单成功
+        void createOrderSuccess(int i,int orderId);//生成估价单成功
 
         void setServicePrice(String price);//设置工时金额
 
@@ -52,6 +53,9 @@ public class FixInfoContacts {
         void setRTitle();
 
         String getDec();//
+
+        int getOrderId();
+
     }
 
     /**
@@ -104,8 +108,6 @@ public class FixInfoContacts {
         void replaceReback(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//店长跨客户回撤 （不需要凭证图片，报价单status=3状态下才可调用，将由status3->2）
 
         void replaceConfirm(FixInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//店长跨客户确认（需要凭证图片才能提。报价单status=2状态下才可调用，将由status2->3）
-
-
 
 
         void submit(OrderInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe);//报价单去生成订单

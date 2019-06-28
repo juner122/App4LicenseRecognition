@@ -1,10 +1,16 @@
 package com.eb.geaiche.stockControl.activity;
 
 
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
+import com.eb.geaiche.stockControl.adapter.StockControlInfoGoodAdapter;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.ToastUtils;
@@ -23,6 +29,9 @@ public class StockInOrOutInfoActivity extends BaseActivity {
     @BindView(R.id.name)
     TextView name;
 
+    @BindView(R.id.rv)
+    RecyclerView rv;
+
     @BindView(R.id.time)
     TextView time;
 
@@ -32,6 +41,7 @@ public class StockInOrOutInfoActivity extends BaseActivity {
     @BindView(R.id.title2)
     TextView title2;
 
+    StockControlInfoGoodAdapter adapter;
 
     @Override
     protected void init() {
@@ -51,7 +61,11 @@ public class StockInOrOutInfoActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        adapter = new StockControlInfoGoodAdapter(null,this);
 
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
     }
 
     @Override
@@ -62,14 +76,17 @@ public class StockInOrOutInfoActivity extends BaseActivity {
             protected void _onNext(StockInOrOut stockInOrOut) {
                 name.setText(stockInOrOut.getUserId());
                 time.setText(DateUtil.getFormatedDateTime(stockInOrOut.getAddTime()));
-
+                adapter.setNewData(stockInOrOut.getStockGoodsList());
             }
 
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast("详情查询失败！" + message);
+                finish();
             }
         });
+
+
 
     }
 

@@ -12,6 +12,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
+import com.eb.geaiche.activity.MallGoodsActivity;
+import com.eb.geaiche.activity.MallGoodsInfoActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.MealEntity;
@@ -47,19 +49,28 @@ public class StockControlActivity extends BaseActivity {
 
     public static StockCartUtils stockCartUtils;
 
-    @OnClick({R.id.stock_in, R.id.stock_out, R.id.iv_search, R.id.tv_back})
+    @OnClick({R.id.stock_in, R.id.stock_out, R.id.iv_search, R.id.tv_back, R.id.tv_title_r})
     public void onClick(View v) {
 
         switch (v.getId()) {
 
-            case R.id.stock_in:
+            case R.id.tv_title_r:
 
-                showStockIn();
 
+                if (view_type == 2) {//进入入库单页面
+                    toActivity(StockInActivity.class);
+                } else {//新增商品
+                    toActivity(StockAddGoodsActivity.class);
+                }
 
                 break;
-            case R.id.stock_out:
 
+            case R.id.stock_in:
+                //显示采购入库页面
+                showStockIn();
+                break;
+            case R.id.stock_out:
+                toActivity(StockOutActivity.class);
                 break;
             case R.id.iv_search:
 
@@ -79,11 +90,7 @@ public class StockControlActivity extends BaseActivity {
                 }
 
                 break;
-
-
         }
-
-
     }
 
 
@@ -100,7 +107,7 @@ public class StockControlActivity extends BaseActivity {
         view_type = 1;
         ll_button_view.setVisibility(View.VISIBLE);
         tv_title.setText("库存管理");
-        setRTitle("添加商品");
+        setRTitle("新增商品");
     }
 
     @Override
@@ -121,15 +128,15 @@ public class StockControlActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         adapter = new StockControlListAdapter(null, this);
+
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
-
-
 
     }
 
     @Override
     protected void setUpData() {
+
 
     }
 
@@ -160,8 +167,6 @@ public class StockControlActivity extends BaseActivity {
 
 
     private List<MultiItemEntity> generateData(List<Goods> list) {
-
-
         List<MultiItemEntity> res = new ArrayList<>();
         if (null == list || list.size() == 0) {
             return res;

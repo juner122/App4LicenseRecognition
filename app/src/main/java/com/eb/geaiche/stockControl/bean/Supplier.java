@@ -1,7 +1,11 @@
 package com.eb.geaiche.stockControl.bean;
 
-public class Supplier {
+import android.os.Parcel;
+import android.os.Parcelable;
 
+public class Supplier implements Parcelable {
+
+    private  String id;
     private String name;
     //联系电话
     private String mobile;
@@ -13,6 +17,14 @@ public class Supplier {
     private String operation;
     //
     private String addTime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -61,4 +73,45 @@ public class Supplier {
     public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.mobile);
+        dest.writeString(this.linkman);
+        dest.writeString(this.address);
+        dest.writeString(this.operation);
+        dest.writeString(this.addTime);
+    }
+
+    public Supplier() {
+    }
+
+    protected Supplier(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.mobile = in.readString();
+        this.linkman = in.readString();
+        this.address = in.readString();
+        this.operation = in.readString();
+        this.addTime = in.readString();
+    }
+
+    public static final Parcelable.Creator<Supplier> CREATOR = new Parcelable.Creator<Supplier>() {
+        @Override
+        public Supplier createFromParcel(Parcel source) {
+            return new Supplier(source);
+        }
+
+        @Override
+        public Supplier[] newArray(int size) {
+            return new Supplier[size];
+        }
+    };
 }

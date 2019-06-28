@@ -840,7 +840,7 @@ public class OrderInfoActivity extends BaseActivity {
         }
 
         if (null != info.getOrderInfo().getUserActivityList()) {
-            for (GoodsEntity gu : info.getOrderInfo().getUserActivityList()) {
+            for (GoodsEntity gu : info.getOrderInfo().getUserActivityListReverse()) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                 esc.addText(gu.getGoodsName());

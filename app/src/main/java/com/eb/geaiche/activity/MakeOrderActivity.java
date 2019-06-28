@@ -459,19 +459,6 @@ public class MakeOrderActivity extends BaseActivity {
                 popupWindow.showAsDropDown(view, 0, 0);
 
 
-//                Intent intent4 = new Intent(this, TechnicianListActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
-//                intent4.putExtras(bundle);
-//                startActivityForResult(intent4, new ResultBack() {
-//                    @Override
-//                    public void resultOk(Intent data) {
-//                        but_to_technician_list.setText("");
-//                        technicians = data.getParcelableArrayListExtra("Technician");
-//                        but_to_technician_list.setText(String2Utils.getString(technicians));
-//
-//                    }
-//                });
 
                 break;
 

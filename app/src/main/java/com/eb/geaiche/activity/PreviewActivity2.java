@@ -379,7 +379,7 @@ public class PreviewActivity2 extends BaseActivity {
                     @Override
                     protected void _onNext(Integer integer) {
 
-                        toMakeOrder(s.getUser_id(), integer, "", s.getUser_name(), car_no);
+                        toMakeOrder(s.getUser_id(), integer, "", s.getUser_name(), car_no,"0");
 
                     }
 

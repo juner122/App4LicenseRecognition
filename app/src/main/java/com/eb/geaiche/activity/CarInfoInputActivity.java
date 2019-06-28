@@ -35,6 +35,7 @@ import com.eb.geaiche.util.Auth;
 import com.eb.geaiche.util.CommonUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.FullyGridLayoutManager;
+import com.kernal.smartvision.activity.SmartvisionCameraActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
@@ -140,14 +141,14 @@ public class CarInfoInputActivity extends BaseActivity {
 
     boolean isrvShow1, isrvShow2, isrvShow3;
 
-    @OnClick({R.id.tv_enter_order, R.id.ll_car_model, R.id.ll_car_vin, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
+    @OnClick({R.id.tv_enter_order, R.id.ll_car_model, R.id.ll_car_vin, R.id.tv_car_vin, R.id.iv_scan, R.id.ll_rv_1, R.id.ll_rv_2, R.id.ll_rv_3, R.id.ll_check})
     public void onclick(View v) {
         switch (v.getId()) {
 
             case R.id.ll_car_model:
 
-                if (type_action == 2 && !TextUtils.isEmpty(tv_car_model.getText()))//不能修改车型
-                    return;
+//                if (type_action == 2 && !TextUtils.isEmpty(tv_car_model.getText()))//不能修改车型
+//                    return;
 
                 toActivity(AutoBrandActivity.class);
 
@@ -183,7 +184,10 @@ public class CarInfoInputActivity extends BaseActivity {
                     isrvShow3 = true;
                 }
                 break;
+
             case R.id.ll_car_vin:
+            case R.id.tv_car_vin:
+            case R.id.iv_scan:
                 Intent intent2 = new Intent(CarInfoInputActivity.this, CarVinDISActivity.class);
 
 
@@ -193,7 +197,6 @@ public class CarInfoInputActivity extends BaseActivity {
                 } else {
                     intent2.putExtra("isca", false);
                 }
-
 
                 startActivity(intent2);
                 break;
@@ -262,11 +265,11 @@ public class CarInfoInputActivity extends BaseActivity {
 
         }
 
-        if (null != autoModel)
-            tv_car_model.setText(selectAutoBrand.getName() + "\t" + autoModel.getName());
-        else if (null != selectAutoBrand && null == autoModel) {
-            tv_car_model.setText(selectAutoBrand.getName());
-        }
+        if (null != autoModel && autoModel.getId() != 0)
+            tv_car_model.setText(selectAutoBrand.getName() + " " + autoModel.getName());
+//        if (null != selectAutoBrand || selectAutoBrand.getId() != 0 && null == autoModel || autoModel.getId() == 0) {
+//            tv_car_model.setText(selectAutoBrand.getName());
+//        }
 
     }
 
@@ -281,11 +284,11 @@ public class CarInfoInputActivity extends BaseActivity {
 
                 if (null != o.getBrand() && !o.getBrand().equals("")) {
                     tv_car_model.setText(o.getBrand());
-                    tv_car_model_v.setVisibility(View.GONE);
+//                    tv_car_model_v.setVisibility(View.GONE);
                 }
                 if (null != o.getBrand() && !o.getBrand().equals("") && null != o.getName() && !o.getName().equals("")) {
-                    tv_car_model.setText(o.getBrand() + "\t" + o.getName());
-                    tv_car_model_v.setVisibility(View.GONE);
+                    tv_car_model.setText(o.getBrand() + "" + o.getName());
+//                    tv_car_model_v.setVisibility(View.GONE);
                 }
 
                 if ("".equals(o.getPostscript()))
@@ -297,10 +300,9 @@ public class CarInfoInputActivity extends BaseActivity {
                 autoModel = new AutoModel(o.getNameId(), o.getName());
 
 
-                if (null != carEntity.getVin()) {
+                if (null != carEntity.getVin() && !carEntity.getVin().equals("")) {
                     tv_car_vin.setText(carEntity.getVin());
-                    //隐藏图标
-                    iv_scan.setVisibility(View.GONE);
+
                 }
 
 
@@ -638,16 +640,24 @@ public class CarInfoInputActivity extends BaseActivity {
                     ToastUtils.showToast("请填写车架号！");
                     return;
                 }
+                if (TextUtils.isEmpty(tv_car_model.getText())) {
+                    ToastUtils.showToast("请选择车型!");
+                    return;
+                }
+                if (null != selectAutoBrand && selectAutoBrand.getId() == 0) {
+                    ToastUtils.showToast("请选择车品牌!");
+                }
+
+                if (null != autoModel && autoModel.getId() == 0) {
+                    ToastUtils.showToast("请选择车型!");
+                }
+
                 if (TextUtils.isEmpty(tv_car_mileage.getText())) {
                     ToastUtils.showToast("里程数不能为空!");
                     return;
                 }
 
 
-                if (TextUtils.isEmpty(tv_car_model.getText()) || tv_car_model.getText().toString().equals("null")) {
-                    ToastUtils.showToast("请选择车型!");
-                    return;
-                }
             }
 
             Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {

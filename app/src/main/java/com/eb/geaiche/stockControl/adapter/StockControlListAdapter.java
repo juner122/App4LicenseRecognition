@@ -12,6 +12,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.MallGoodsInfoActivity;
 import com.eb.geaiche.bean.MyMultipleItem;
 import com.eb.geaiche.stockControl.activity.StockAddStandardsActivity;
 import com.eb.geaiche.util.ImageUtils;
@@ -38,13 +39,19 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
     @Override
     protected void convert(BaseViewHolder helper, MultiItemEntity item) {
-        Goods goods = null;
+        Goods goods;
         switch (helper.getItemViewType()) {
             case MyMultipleItem.FIRST_TYPE:
                 goods = (Goods) item;
                 int goodsId = goods.getId();
                 String goodsTitle = goods.getGoodsTitle();
                 boolean isExpanded = goods.isExpanded();
+
+                helper.getView(R.id.tv_info).setOnClickListener(v -> {
+                    Intent intent = new Intent(context, MallGoodsInfoActivity.class);//查看商品详情
+                    intent.putExtra("goodsId", goods.getId());
+                    context.startActivity(intent);
+                });
 
 
                 helper.setText(R.id.tv_name, goods.getGoodsTitle());
@@ -56,7 +63,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                     helper.setText(R.id.tv_price, String.format("￥%s", goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice()));
 
 
-                String pic = "";
+                String pic;
 
                 if (goods.getGoodsDetailsPojoList().size() == 0)
                     pic = "";

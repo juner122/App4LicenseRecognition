@@ -8,17 +8,30 @@
     android:background="#fff"
     tools:context=".activity.MallGoodsActivity">
 
+    <View
+        android:id="@+id/view5"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#d9d9d9"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/iv_src"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:background="#FAFAFA"
         app:layout_constraintEnd_toStartOf="@+id/tv_price"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@id/v"
+        android:layout_width="wrap_content"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_src"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_price"
@@ -49,40 +62,38 @@
         app:layout_constraintTop_toTopOf="@+id/iv_src" />
 
 
-    <View
-        android:id="@+id/view5"
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:background="#d9d9d9"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
     <TextView
         android:id="@+id/tv_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
+        android:paddingLeft="25dp"
+        android:paddingTop="25dp"
         android:text="查看详情"
         android:textColor="#ff3789fa"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_src"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
         android:id="@+id/tv_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/button_background_bbb"
         android:gravity="center"
-        android:padding="4dp"
+        android:padding="5dp"
         android:text="新增规格"
         android:textColor="#ff4a9de3"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@id/iv_src" />
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/v" />
 
-
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#d9d9d9"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

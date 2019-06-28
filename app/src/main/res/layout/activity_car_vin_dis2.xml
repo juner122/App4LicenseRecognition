@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="#00000000"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/camera_re"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000">
+
+        <FrameLayout
+            android:id="@+id/camera_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000" />
+
+
+        <ImageView
+            android:id="@+id/iv_camera_back"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/camera_back"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_camera_flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/flash_off"
+            android:visibility="gone" />
+
+
+        <ImageView
+            android:id="@+id/camera_scanHorizontalLineImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/horizontal_line" />
+
+        <ImageButton
+            android:id="@+id/imbtn_takepic"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/take_pic_btn"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="230dp"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/input"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="60dp"
+                    android:background="@drawable/button_background_bb"
+                    android:gravity="center"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="18dp"
+
+                    android:paddingBottom="10dp"
+                    android:text="手动输入"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/photo"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background_b"
+                    android:gravity="center"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="18dp"
+                    android:paddingBottom="10dp"
+                    android:text="识     别"
+                    android:textColor="#fff"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.kernal.smartvision.view.ResultLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:box_draw_type="line"
+            app:draw_txt_size="13sp"
+            app:interval_width="2dp"
+            app:item_height="22dp"
+            app:item_width="18dp"
+            app:pass_leng="vin"
+            app:result_input_type="circle"
+            app:result_type="vin" />
+
+        <EditText
+            android:id="@+id/result_vin_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="车架号"
+            android:gravity="center"
+            android:letterSpacing="0.4"
+            android:maxLines="17"
+            android:padding="8dp"
+            android:textColor="#333"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/ll_tv_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingTop="3dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="3dp"
+            android:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="车架号"
+                android:textColor="#999"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入车架号"
+                android:letterSpacing="0.2"
+                android:maxLines="17"
+                android:padding="8dp"
+                android:textColor="#333"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_check"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/button_background_b"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="查询"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_mandatory_entry"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/button_background_b"
+                android:gravity="center"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:text="强制录入"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+
+        <ListView
+            android:padding="8dp"
+            android:id="@+id/result_vin_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="#00000000"
+            android:scrollbars="none"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
+    <include layout="@layout/head_view" />
+
+</RelativeLayout>

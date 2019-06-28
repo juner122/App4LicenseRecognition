@@ -37,6 +37,8 @@ import com.juner.mvp.bean.GoodsList;
 import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
+import com.juner.mvp.bean.Joiner;
+import com.juner.mvp.bean.Maneuver;
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
 import com.juner.mvp.bean.MessageRecordEntity;
@@ -711,6 +713,10 @@ public interface ApiService {
     @POST("xgxshopgoods/addStandard")
     Observable<BaseBean<NullDataEntity>> addStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
 
+    //添加库存商品
+    @POST("xgxshopgoods/addStock")
+    Observable<BaseBean<NullDataEntity>> addGoods(@Header("X-Nideshop-Token") String token, @Body Goods goods);
+
     //添加供应商
     @POST("xgxshopsupplier/save")
     Observable<BaseBean<NullDataEntity>> addSupplier(@Header("X-Nideshop-Token") String token, @Body Supplier supplier);
@@ -719,5 +725,32 @@ public interface ApiService {
     //供应商列表
     @POST("xgxshopsupplier/list")
     Observable<BaseBean<List<Supplier>>> listSupplier(@Header("X-Nideshop-Token") String token);
+
+
+    //活动列表
+    @POST("xgxshopunity/list")
+    Observable<BaseBean<List<Maneuver>>> listShopunity(@Header("X-Nideshop-Token") String token);
+
+
+    //
+    //活动详情页
+    @POST("xgxshopunity/list")
+    @FormUrlEncoded
+    Observable<BaseBean<Maneuver>> infoShopunity(@Header("X-Nideshop-Token") String token, @Field("id") String id);
+
+
+    //提交反馈
+    @POST("xgxshopunity/askTo")
+    Observable<BaseBean<NullDataEntity>> askTo(@Header("X-Nideshop-Token") String token, @Body Joiner joiner);
+
+    //报名参加
+    @POST("xgxshopunity/joinIn")
+    Observable<BaseBean<NullDataEntity>> joinIn(@Header("X-Nideshop-Token") String token, @Body Joiner joiner);
+
+
+    //出入库记录列表
+    @POST("xgxshopstocklog/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<StockInOrOut>>> stockInOrOutRecordList(@Header("X-Nideshop-Token") String token, @Field("type") int type);
 
 }

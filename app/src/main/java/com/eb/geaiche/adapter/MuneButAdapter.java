@@ -46,12 +46,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
         View ll = helper.getView(R.id.ll);
         ImageView icon = helper.getView(R.id.icon);
 
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toActivity(item.getAndroidInfo());
-            }
-        });
+        ll.setOnClickListener(view -> toActivity(item.getAndroidInfo()));
 
         Glide.with(activity)
                 .load(item.getIcon())
@@ -153,76 +148,5 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
     }
 
 
-    private Drawable getBackground(String perms) {
-        Drawable drawable = null;
-// 这一步必须要做,否则不会显示.
-        switch (perms) {
-            case "vip":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu1);
-                break;
-            case "user":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu2);
-                break;
-            case "card":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu3);
-                break;
-            case "service":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu4);
-                break;
-            case "order":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu5);
-                break;
-            case "quotation":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu6);
-                break;
-            case "stat":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu7);
-                break;
-            case "shopAd":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu8);
-                break;
-            case "sms":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu9);
-                break;
-            case "activity":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu10);
-                break;
-            case "online":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu11);
-                break;
-            case "offline":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu12);
-                break;
-            case "job":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu13);
-                break;
-            case "maket":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu14);
-                break;
-
-            case "store":
-                drawable = activity.getResources().getDrawable(
-                        R.mipmap.icon_home_menu15);
-                break;
-
-        }
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(),
-                drawable.getMinimumHeight());
-        return drawable;
-    }
 
 }
