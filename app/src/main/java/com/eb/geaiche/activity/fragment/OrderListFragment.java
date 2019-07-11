@@ -135,13 +135,19 @@ public class OrderListFragment extends BaseFragment {
 
                     break;
                 case R.id.button_action://动作按钮
+                    int os = list.get(position).getOrder_status();
 
-//                    orderDetail(list.get(position).getId());
+                    if (os == 2) {
+                        ToastUtils.showToast("当前订单不能取消！");
+                        return;
+                    }
 
                     final ConfirmDialogOrderDelete dialogCanlce = new ConfirmDialogOrderDelete(getActivity());
                     dialogCanlce.show();
                     dialogCanlce.setClicklistener(postscript -> {
                         dialogCanlce.dismiss();
+
+
                         deleteOrder(list.get(position).getId(), postscript);
 
                     });
@@ -218,13 +224,13 @@ public class OrderListFragment extends BaseFragment {
         Api().orderDelete(id, postscript).subscribe(new RxSubscribe<NullDataEntity>(getActivity(), true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                ToastUtils.showToast("删除成功！");
+                ToastUtils.showToast("取消成功！");
                 getData();//刷新列表
             }
 
             @Override
             protected void _onError(String message) {
-                ToastUtils.showToast("删除失败！" + message);
+                ToastUtils.showToast("取消失败！" + message);
             }
         });
 

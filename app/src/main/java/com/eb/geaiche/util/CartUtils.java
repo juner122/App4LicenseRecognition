@@ -322,10 +322,7 @@ public class CartUtils {
     private List<GoodsEntity> sparsesToList() {
         List<GoodsEntity> carts = new ArrayList<>();
         if (data != null && data.size() > 0) {
-//            for (int i = 0; i < data.size(); i++) {
-//                GoodsEntity shoppingCart = (GoodsEntity) data.valueAt(i);
-//                carts.add(shoppingCart);
-//            }
+
             Collection<GoodsEntity> collection = data.values();
             Iterator<GoodsEntity> iterator = collection.iterator();
             while (iterator.hasNext()) {

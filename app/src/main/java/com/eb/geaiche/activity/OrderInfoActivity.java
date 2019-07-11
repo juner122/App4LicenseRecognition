@@ -255,24 +255,29 @@ public class OrderInfoActivity extends BaseActivity {
 
                 break;
 
-            case R.id.tv_pick_technician://选择技师
+            case R.id.tv_pick_technician:
+                if (order_status == 2) {//查看绩效分配
+
+                    toActivity(MeritsDistributionActivity.class,"orderId",id);
+
+                } else {//选择技师
 
 
-                Intent intent4 = new Intent(this, TechnicianListActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
-                intent4.putExtras(bundle);
-                startActivityForResult(intent4, new ResultBack() {
-                    @Override
-                    public void resultOk(Intent data) {
-                        tv_technician.setText("");
-                        technicians = data.getParcelableArrayListExtra("Technician");
-                        tv_technician.setText(String2Utils.getString(technicians));
-                        info.getOrderInfo().setSysUserList(technicians);
-                        remake();
-                    }
-                });
-
+                    Intent intent4 = new Intent(this, TechnicianListActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
+                    intent4.putExtras(bundle);
+                    startActivityForResult(intent4, new ResultBack() {
+                        @Override
+                        public void resultOk(Intent data) {
+                            tv_technician.setText("");
+                            technicians = data.getParcelableArrayListExtra("Technician");
+                            tv_technician.setText(String2Utils.getString(technicians));
+                            info.getOrderInfo().setSysUserList(technicians);
+                            remake();
+                        }
+                    });
+                }
                 break;
             case R.id.ib_pick_date://选择预计完成时间
 

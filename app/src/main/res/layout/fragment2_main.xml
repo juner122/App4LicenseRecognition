@@ -25,10 +25,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingRight="15dp"
             android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="10dp"
 
             android:src="@mipmap/icon_search_black" />
 
@@ -131,7 +131,7 @@
         android:id="@+id/st"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="1dp"
         android:background="#fff"
         tl:tl_divider_color="#1A000000"
         tl:tl_divider_padding="10dp"

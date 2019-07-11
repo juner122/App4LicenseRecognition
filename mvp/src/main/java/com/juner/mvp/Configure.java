@@ -3,10 +3,9 @@ package com.juner.mvp;
 public class Configure {
 
 
-    public static final String BaseUrl = "http://222.111.88.214:8081/app/";//线下
-//    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
+//    public static final String BaseUrl = "http://222.111.88.158:8081/app/";//线下
+    public static final String BaseUrl = "https://business.xgxshop.com/app/";//线上
 //    public static final String BaseUrl = "http://192.168.1.105:8089/app/";//线下 强哥
-
     public static final int Goods_TYPE_1 = 1;//商城商品
     public static final int Goods_TYPE_3 = 3;//工时服务
     public static final int Goods_TYPE_4 = 4;//配件
@@ -17,13 +16,13 @@ public class Configure {
     public static final int STOCK_IN = 1;//入库
     public static final int STOCK_OUT = 2;//出库
 
-
     public static final String APP_ID = "wx6208849918d52d41";//微信支付APPID
 
-
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
+    public static final String carNumberRecognition2 = "http://anpr.sinosecu.com.cn/api/recogliu.do";//OCR文字识别-车牌识别2
     public static final String carVinRecognition = "https://vin.market.alicloudapi.com/api/predict/ocr_vin";//OCR文字识别-车辆vin识别
     public static final String carVinInfo = "https://ali-vin.showapi.com/vin";//OCR文字识别-车辆vin查询
+    public static final String carVinInfo2 = "http://www.easyepc123.com/api/111002";//OCR文字识别-车辆vin查询
     public static final String LinePathView_url = "/sdcard/qm.png";//用户签名图片
     public static final int limit_page = 20;//分页数量
 

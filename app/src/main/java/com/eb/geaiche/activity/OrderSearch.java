@@ -2,9 +2,11 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
@@ -13,15 +15,19 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.OrderListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.MyTimePickerView;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.OrderInfoEntity;
 
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.eb.geaiche.util.DateUtil.getFormatedDateTime;
 
 public class OrderSearch extends BaseActivity {
 
@@ -35,10 +41,19 @@ public class OrderSearch extends BaseActivity {
     @BindView(R.id.easylayout)
     EasyRefreshLayout easylayout;
 
+    MyTimePickerView pvTimeStart, pvTimeEnd;
+    Calendar startShowDate = Calendar.getInstance();
+    Calendar endShowDate = Calendar.getInstance();
+
+    @BindView(R.id.v_date1)
+    TextView v_date1;
+    @BindView(R.id.v_date2)
+    TextView v_date2;
 
     int page = 1;
 
     String name;//关键字
+    boolean isdate;
 
     @Override
     protected void init() {
@@ -49,38 +64,32 @@ public class OrderSearch extends BaseActivity {
         ola.setEmptyView(R.layout.order_list_empty_view, recyclerView);
 
 
-        ola.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (((OrderInfoEntity) adapter.getData().get(position)).isSelected()) {
-                    ((OrderInfoEntity) adapter.getData().get(position)).setSelected(false);
+        ola.setOnItemClickListener((adapter, view, position) -> {
+            if (((OrderInfoEntity) adapter.getData().get(position)).isSelected()) {
+                ((OrderInfoEntity) adapter.getData().get(position)).setSelected(false);
 
-                } else {
-                    for (OrderInfoEntity o : (List<OrderInfoEntity>) adapter.getData()) {
-                        o.setSelected(false);
-                    }
-                    ((OrderInfoEntity) adapter.getData().get(position)).setSelected(true);
+            } else {
+                for (OrderInfoEntity o : (List<OrderInfoEntity>) adapter.getData()) {
+                    o.setSelected(false);
                 }
-                ola.notifyDataSetChanged();
+                ((OrderInfoEntity) adapter.getData().get(position)).setSelected(true);
             }
+            ola.notifyDataSetChanged();
         });
 
-        ola.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, final int position) {
+        ola.setOnItemChildClickListener((adapter, view, position) -> {
 
-                switch (view.getId()) {
-                    case R.id.button_show_details://查看订单
+            switch (view.getId()) {
+                case R.id.button_show_details://查看订单
 
-                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, ((OrderInfoEntity) adapter.getData().get(position)).getId());
+                    toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, ((OrderInfoEntity) adapter.getData().get(position)).getId());
 
-                        break;
-                    case R.id.button_action://动作按钮
+                    break;
+                case R.id.button_action://动作按钮
 
-                        orderDetail(((OrderInfoEntity) adapter.getData().get(position)).getId());
+                    orderDetail(((OrderInfoEntity) adapter.getData().get(position)).getId());
 
-                        break;
-                }
+                    break;
             }
         });
 
@@ -105,6 +114,30 @@ public class OrderSearch extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        pvTimeStart = new MyTimePickerView(this);
+        pvTimeEnd = new MyTimePickerView(this);
+
+        startShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH), 1);
+        endShowDate.set(startShowDate.get(Calendar.YEAR), startShowDate.get(Calendar.MONTH), 31);
+
+        v_date1.setText(getFormatedDateTime(startShowDate.getTime()));
+        v_date2.setText(getFormatedDateTime(endShowDate.getTime()));
+
+
+        pvTimeStart.init(startShowDate, (date, v) -> {
+            ((TextView) v).setText(getFormatedDateTime(date));
+            startShowDate.setTime(date);
+            isdate = true;//设置时间后
+            searchData();
+        });
+
+        pvTimeEnd.init(endShowDate, (date, v) -> {
+
+            ((TextView) v).setText(getFormatedDateTime(date));
+            endShowDate.setTime(date);
+            isdate = true;//设置时间后
+            searchData();
+        });
 
     }
 
@@ -119,7 +152,7 @@ public class OrderSearch extends BaseActivity {
     }
 
 
-    @OnClick({R.id.iv_search, R.id.back})
+    @OnClick({R.id.iv_search, R.id.back, R.id.v_date1, R.id.v_date2})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -131,18 +164,28 @@ public class OrderSearch extends BaseActivity {
             case R.id.back:
                 finish();
                 break;
+            case R.id.v_date1:
+
+                pvTimeStart.show(v);
+                break;
+
+            case R.id.v_date2:
+
+                pvTimeEnd.show(v);
+
+                break;
         }
     }
 
     private void searchData() {
-        if (TextUtils.isEmpty(et.getText())) {
-            easylayout.refreshComplete();
-            easylayout.loadMoreComplete();
-            ToastUtils.showToast("请输入搜索内容！");
-            return;
-        }
+//        if (TextUtils.isEmpty(et.getText())) {
+//            easylayout.refreshComplete();
+//            easylayout.loadMoreComplete();
+//            ToastUtils.showToast("请输入搜索内容！");
+//            return;
+//        }
         name = et.getText().toString();
-        Api().orderList(name, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
+        Api().orderList(startShowDate.getTime(), endShowDate.getTime(), isdate, name, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> basePage) {
                 if (null == basePage.getList() || basePage.getList().size() == 0) {

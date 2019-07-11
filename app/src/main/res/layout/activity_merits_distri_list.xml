@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/head_view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_gravity="center"
+        android:background="#d9d9d9"
+        android:paddingTop="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_all1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="订单总计（月）"
+                android:textColor="#ff000000"
+                android:textSize="12sp"
+                tl:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/num1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:text="6729870"
+                android:textColor="#ff333333"
+                android:textSize="20sp"
+                tl:layout_constraintLeft_toLeftOf="@id/tv_all1"
+                tl:layout_constraintTop_toBottomOf="@id/tv_all1" />
+
+            <TextView
+                android:id="@+id/tv_y1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:text="元"
+                android:textColor="#ff333333"
+                android:textSize="12sp"
+                tl:layout_constraintBottom_toBottomOf="@id/num1"
+                tl:layout_constraintLeft_toRightOf="@id/num1" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#d9d9d9" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_all2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="绩效分配（月）"
+                android:textColor="#ff000000"
+                android:textSize="12sp"
+                tl:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/num2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:text="333"
+                android:textColor="#ff333333"
+                android:textSize="20sp"
+                tl:layout_constraintLeft_toLeftOf="@id/tv_all2"
+                tl:layout_constraintTop_toBottomOf="@id/tv_all2" />
+
+            <TextView
+                android:id="@+id/tv_y2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:text="元"
+                android:textColor="#ff333333"
+                android:textSize="12sp"
+                tl:layout_constraintBottom_toBottomOf="@id/num2"
+                tl:layout_constraintLeft_toRightOf="@id/num2" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tl_button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="0.5dp"
+        android:background="#ffffff"
+        android:visibility="visible"
+        tl:tl_indicator_color="#FFFF3900"
+        tl:tl_indicator_height="3dp"
+        tl:tl_indicator_style="NORMAL"
+        tl:tl_indicator_width="30dp"
+        tl:tl_textSelectColor="#020202"
+        tl:tl_textUnselectColor="#66000000"
+        tl:tl_textsize="14sp"
+        tl:tl_underline_color="#000"
+        tl:tl_underline_height="0dp" />
+
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/easylayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:nestedScrollingEnabled="false"
+            android:visibility="visible" />
+    </com.ajguan.library.EasyRefreshLayout>
+</LinearLayout>

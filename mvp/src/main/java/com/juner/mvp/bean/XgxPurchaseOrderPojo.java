@@ -9,6 +9,7 @@ public class XgxPurchaseOrderPojo {
     String discountPrice;//优惠金额
     String realPrice;//实付金额
     Integer id;
+    Integer pid;
     String orderSn;
     Integer userId;
     String createTime;
@@ -19,6 +20,14 @@ public class XgxPurchaseOrderPojo {
 
     public String getShipStatus() {
         return shipStatus;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
     public void setShipStatus(String shipStatus) {

@@ -258,18 +258,15 @@ public class CarInfoInputActivity extends BaseActivity {
 
 
             tv_car_vin.setText(carInfo.getVin());
+
+            tv_car_model.setText(selectAutoBrand.getName() + " " + autoModel.getName());
         } else {
 
             selectAutoBrand = intent.getParcelableExtra(Configure.brand);
             autoModel = intent.getParcelableExtra(Configure.brandModdel);
-
+            if (null != autoModel && autoModel.getId() != 0)
+                tv_car_model.setText(selectAutoBrand.getName() + " " + autoModel.getName());
         }
-
-        if (null != autoModel && autoModel.getId() != 0)
-            tv_car_model.setText(selectAutoBrand.getName() + " " + autoModel.getName());
-//        if (null != selectAutoBrand || selectAutoBrand.getId() != 0 && null == autoModel || autoModel.getId() == 0) {
-//            tv_car_model.setText(selectAutoBrand.getName());
-//        }
 
     }
 
@@ -665,7 +662,8 @@ public class CarInfoInputActivity extends BaseActivity {
                 protected void _onNext(Integer integer) {
 
                     new AppPreferences(getApplicationContext()).put(Configure.car_no, "");
-                    ToastUtils.showToast("操作成功");
+
+
                     int result_code = getIntent().getIntExtra("result_code", 0);
 
                     if (result_code == 1) {//用户信息页面传过来
@@ -735,7 +733,7 @@ public class CarInfoInputActivity extends BaseActivity {
             if (new_car_id != 0)//旧车 绑定新用户
                 parameters.setUserId(new AppPreferences(this).getString(Configure.user_id, ""));
             else {
-                parameters.setUserId(carEntity.getUserId());
+                parameters.setUserId(new AppPreferences(this).getString(Configure.user_id, ""));
                 parameters.setId(carEntity.getId());
             }
 

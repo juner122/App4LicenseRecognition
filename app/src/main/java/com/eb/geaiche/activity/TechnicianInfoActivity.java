@@ -56,6 +56,8 @@ public class TechnicianInfoActivity extends BaseActivity {
 
     @BindView(R.id.phone)
     TextView phone;
+    @BindView(R.id.percentage)
+    TextView percentage;//提成比例
 
     OrderOfTchnicianAdapter adapter;
 
@@ -143,6 +145,15 @@ public class TechnicianInfoActivity extends BaseActivity {
                 tv_address.setText(t.getShop().getAddress());
                 tv_name_s.setText(t.getSysUser().getNickName().substring(0, 1));
                 tv_type.setText(t.getSysUser().getRoleName());
+
+
+                String pc;
+                if (null == t.getSysUser().getPercentage())
+                    pc = "0";
+                else
+                    pc = t.getSysUser().getPercentage();
+                percentage.setText("提成比例" + pc + "%");
+
 
                 List<OrderInfoEntity> data = new ArrayList<>();
 

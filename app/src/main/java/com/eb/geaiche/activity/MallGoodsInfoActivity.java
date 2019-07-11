@@ -195,8 +195,6 @@ public class MallGoodsInfoActivity extends BaseActivity {
             protected void _onNext(CartList cartList) {
                 if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {
                     ToastUtils.showToast("添加失败！");
-
-
                 } else {
 
                     getShoppingCartInfo();

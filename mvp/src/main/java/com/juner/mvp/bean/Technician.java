@@ -18,7 +18,7 @@ public class Technician extends SelectedBean implements Parcelable {
     int createUserId;
     String username;//赋值mobile的同时把同样值给此字段
     String nickName;//代替了以前的姓名
-
+    String percentage;////提成比
 
     String password;
     String email;
@@ -26,6 +26,8 @@ public class Technician extends SelectedBean implements Parcelable {
     String roleName;
     List<Integer> roleList;
     String userSn;
+
+
 
     @Override
     public String toString() {
@@ -45,7 +47,13 @@ public class Technician extends SelectedBean implements Parcelable {
                 ", userSn='" + userSn + '\'' +
                 '}';
     }
+    public String getPercentage() {
+        return percentage;
+    }
 
+    public void setPercentage(String percentage) {
+        this.percentage = percentage;
+    }
     public String getNickName() {
         return null == nickName || nickName.equals("") ? "匿名" : nickName;
     }

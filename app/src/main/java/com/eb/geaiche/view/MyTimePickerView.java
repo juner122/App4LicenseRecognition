@@ -47,8 +47,8 @@ public class MyTimePickerView {
 
 
         t = new TimePickerBuilder(context, listener).setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
-                .setSubmitColor(Color.BLACK)//确定按钮文字颜色
-                .setCancelColor(Color.BLACK)//取消按钮文字颜色
+                .setSubmitColor(Color.WHITE)//确定按钮文字颜色
+                .setCancelColor(Color.WHITE)//取消按钮文字颜色
                 .setDate(nowDate)
                 .setRangDate(startDate, endDate)//起始终止年月日设定
                 .setTitleBgColor(context.getResources().getColor(R.color.appColor))//标题背景颜色 Night mode

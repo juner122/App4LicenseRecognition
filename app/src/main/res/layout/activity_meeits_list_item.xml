@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textSize="13sp"
+        android:text="星际年卡" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="12dp"
+        android:textSize="13sp"
+
+        android:hint="提成基数" />
+
+    <TextView
+        android:id="@+id/tv_meeits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="13sp"
+
+        android:padding="12dp"
+        android:hint="提成比" />
+
+    <TextView
+        android:id="@+id/tv_meeits_v"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textSize="13sp"
+
+        android:padding="12dp"
+        android:hint="提成额" />
+
+
+</LinearLayout>

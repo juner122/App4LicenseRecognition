@@ -102,28 +102,37 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
 
                 break;
-            case MyMultipleItem.SECOND_TYPE:
-                final Goods.GoodsStandard gs = (Goods.GoodsStandard) item;
+            case MyMultipleItem.SECOND_TYPE://商品下面的规格
+                Goods.GoodsStandard gs = (Goods.GoodsStandard) item;
 
                 TextView tv_button_name = helper.getView(R.id.button);
                 View ll_button = helper.getView(R.id.ll_button);
                 helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum()));
 
-                //规格添加入库按钮
+
+                if (gs.isSelected()) {
+                    tv_button_name.setText("已入库");
+                    tv_button_name.setBackgroundResource(R.drawable.button_background_ccc);
+                    tv_button_name.setTextColor(Color.parseColor("#999999"));
+
+                } else {
+                    tv_button_name.setText("添加入库");
+                    tv_button_name.setBackgroundResource(R.drawable.button_background_bbb);
+                    tv_button_name.setTextColor(Color.parseColor("#ff4a9de3"));
+//                        stockCartUtils.addDataNoCommit(goods, gs);
+                }
+
                 ll_button.setOnClickListener(v -> {
-                    if (gs.isSelected()) {
-                        gs.setSelected(false);
-                        tv_button_name.setText("已入库");
-                        tv_button_name.setBackgroundResource(R.drawable.button_background_ccc);
-                        tv_button_name.setTextColor(Color.parseColor("#999999"));
+                    if (((Goods.GoodsStandard) item).isSelected()) {
+                        ((Goods.GoodsStandard) item).setSelected(false);
+                        stockCartUtils.deleteGoodsStandard((Goods.GoodsStandard) item);
 
                     } else {
-                        gs.setSelected(true);
-                        tv_button_name.setText("添加入库");
-                        tv_button_name.setBackgroundResource(R.drawable.button_background_bbb);
-                        tv_button_name.setTextColor(Color.parseColor("#ff4a9de3"));
-//                        stockCartUtils.addDataNoCommit(goods, gs);
+                        ((Goods.GoodsStandard) item).setSelected(true);
+                        stockCartUtils.addGoodsStandard((Goods.GoodsStandard) item);
                     }
+                    notifyDataSetChanged();
+
                 });
 
 

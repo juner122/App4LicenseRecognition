@@ -3,8 +3,10 @@ package com.eb.geaiche.api;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,9 +17,11 @@ import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.bean.RecordMeal;
+import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.stockControl.bean.Supplier;
 import com.eb.geaiche.util.BitmapUtil;
+import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.MyAppPreferences;
@@ -37,7 +41,10 @@ import com.juner.mvp.bean.CarCheckResul;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
+import com.juner.mvp.bean.CarVin2;
+import com.juner.mvp.bean.CarVinRequest;
 import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.Carsinfo;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CategoryType;
@@ -56,6 +63,7 @@ import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
 import com.juner.mvp.bean.Joiner;
+import com.juner.mvp.bean.License;
 import com.juner.mvp.bean.Maneuver;
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
@@ -74,6 +82,7 @@ import com.juner.mvp.bean.ServerList;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.ShopCar;
 import com.juner.mvp.bean.ShopCarBane;
+import com.juner.mvp.bean.StaffPerformance;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
@@ -88,6 +97,7 @@ import com.juner.mvp.bean.XgxPurchaseOrderPojo;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -400,7 +410,7 @@ public class ApiLoader {
      */
     public Observable<BasePage<OrderInfoEntity>> orderList() {
 
-        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+        return apiService.orderList(map).compose(RxHelper.observe());
     }
 
 
@@ -445,12 +455,20 @@ public class ApiLoader {
      *
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderList(String name, int page) {
+    public Observable<BasePage<OrderInfoEntity>> orderList(Date after, Date before, boolean isdate, String name, int page) {
         map.clear();
         map.put("X-Nideshop-Token", token);
         map.put("limit", Configure.limit_page);
-        map.put("name", name);
+        if (!TextUtils.isEmpty(name))
+            map.put("name", name);
         map.put("page", page);
+
+        //选日期需要添加，不添加默认取本月	Date before, Date after
+        if (isdate) {
+            map.put("before", before.getTime());
+            map.put("after", after.getTime());
+        }
+
         return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
     }
 
@@ -952,7 +970,7 @@ public class ApiLoader {
      */
     public Observable<CarNumberRecogResult> carLicense(byte[] bytes, int vh) throws IOException {
 
-        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.webp";//存入到DOWNLOADS
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.jpg";//存入到DOWNLOADS
         File file = FileUtil.getFileFromBytes(bytes, outputFile);
 
         Bitmap bitmap = new Compressor(context)
@@ -964,6 +982,83 @@ public class ApiLoader {
 
         Log.d("扫描识别", "车牌图片\n" + pic);
         return apiService.carLicense(Configure.carNumberRecognition, pic).compose(RxHelper.observe2());
+    }
+
+    /**
+     * 车牌识别 Baidu
+     */
+    public void carLicenseBaidu(byte[] bytes, int vh, OnResultListener<OcrResponseResult> result) {
+
+        CameraThreadPool.execute(() -> {
+            String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.jpg";
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+                Bitmap bitmap = BitmapUtil.cropBitmap(new Compressor(context)
+                        .setQuality(100)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToBitmap(FileUtil.getFileFromBytes(bytes, outputFile)), vh);
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+
+                fileOutputStream.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // 车牌识别参数设置
+            OcrRequestParams param = new OcrRequestParams();
+            // 设置image参数
+            param.setImageFile(new File(outputFile));
+            // 调用车牌识别服务
+            OCR.getInstance(context).recognizeLicensePlate(param, result);
+
+        });
+
+
+    }
+
+    /**
+     * 车辆vin识别
+     */
+    public void carVinLicenseBaiDu(byte[] bytes, int vh) throws IOException {
+
+        CameraThreadPool.execute(() -> {
+            String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.jpg";
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+                Bitmap bitmap = BitmapUtil.cropBitmap(new Compressor(context)
+                        .setQuality(100)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToBitmap(FileUtil.getFileFromBytes(bytes, outputFile)), vh);
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+                fileOutputStream.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        });
+    }
+
+
+    /**
+     * 车牌识别
+     */
+    public Observable<Carsinfo> carLicense2(byte[] bytes, int vh) throws IOException {
+
+        String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_no.jpg";//存入到DOWNLOADS
+        File file = FileUtil.getFileFromBytes(bytes, outputFile);
+
+        Bitmap bitmap = new Compressor(context)
+                .setQuality(70)
+                .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                .compressToBitmap(file);
+
+        String pic = BitmapUtil.bitmapToString(BitmapUtil.cropBitmap(bitmap, vh));
+
+        Log.d("扫描识别", "车牌图片\n" + pic);
+        return apiService.carLicense2(Configure.carNumberRecognition2, pic).compose(RxHelper.observe3());
     }
 
 
@@ -994,6 +1089,22 @@ public class ApiLoader {
     public Observable<CarVin> carVinInfoQuery(String vin) {
 
         return apiService.carVinInfoQuery(Configure.carVinInfo, vin).compose(RxHelper.observeVin());
+    }
+
+    /**
+     * 车辆vin信息查询2
+     */
+    public Observable<CarVin2> carVinInfoQuery2(String vin) {
+
+        CarVinRequest request = new CarVinRequest();
+        CarVinRequest.Data data = new CarVinRequest.Data();
+
+        request.setUsername("15937699090");//接口账号名
+        request.setPassword("7caaea9901648c66c3e434b8a9cd58f7a5c211d8");//接口账号密码
+        data.setVinCode(vin);
+        request.setData(data);
+
+        return apiService.carVinInfoQuery2(Configure.carVinInfo2, request).compose(RxHelper.observeVin());
     }
 
 
@@ -1116,7 +1227,7 @@ public class ApiLoader {
      * 获取员工详情
      */
     public Observable<TechnicianInfo> sysuserDetail(int id) {
-        return apiService.sysuserDetail(token, id).compose(RxHelper.<TechnicianInfo>observe());
+        return apiService.sysuserDetail(token, id).compose(RxHelper.observe());
 
     }
 
@@ -1501,7 +1612,7 @@ public class ApiLoader {
      */
     public Observable<Maneuver> infoShopunity(String id) {
 
-        return apiService.infoShopunity(token,id).compose(RxHelper.observe());
+        return apiService.infoShopunity(token, id).compose(RxHelper.observe());
     }
 
 
@@ -1510,7 +1621,7 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> askTo(Joiner joiner) {
 
-        return apiService.askTo(token,joiner).compose(RxHelper.observe());
+        return apiService.askTo(token, joiner).compose(RxHelper.observe());
     }
 
     /**
@@ -1518,7 +1629,7 @@ public class ApiLoader {
      */
     public Observable<List<StockInOrOut>> stockInOrOutRecordList(int type) {
 
-        return apiService.stockInOrOutRecordList(token,type).compose(RxHelper.observe());
+        return apiService.stockInOrOutRecordList(token, type).compose(RxHelper.observe());
     }
 
 
@@ -1527,7 +1638,25 @@ public class ApiLoader {
      */
     public Observable<NullDataEntity> joinIn(Joiner joiner) {
 
-        return apiService.joinIn(token,joiner).compose(RxHelper.observe());
+        return apiService.joinIn(token, joiner).compose(RxHelper.observe());
+    }
+
+    /**
+     * 出库时匹配订单
+     */
+    public Observable<List<StockGoods>> matchOrder(int orderId) {
+
+        return apiService.matchOrder(token, orderId).compose(RxHelper.observe());
+    }
+
+
+    /**
+     *
+     * 查看已完成订单技师绩效分配
+     */
+    public Observable<List<StaffPerformance>> getOrderDeduction(int orderId) {
+
+        return apiService.getOrderDeduction(token, orderId).compose(RxHelper.observe());
     }
 
 }

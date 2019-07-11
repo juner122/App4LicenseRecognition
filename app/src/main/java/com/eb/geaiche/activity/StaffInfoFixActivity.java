@@ -41,6 +41,9 @@ public class StaffInfoFixActivity extends BaseActivity {
     @BindView(R.id.tv1)
     TextView tv1;
 
+    @BindView(R.id.tv_eduction)
+    EditText tv_eduction;//提成比例
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_staff_info_fix;
@@ -65,6 +68,7 @@ public class StaffInfoFixActivity extends BaseActivity {
             tv_phone.setText(sysUser.getMobile());
             tv_name.setText(sysUser.getNickName());
             tv_number.setText(sysUser.getUserSn());
+            tv_eduction.setText(sysUser.getPercentage());//提成比例
             roleList = sysUser.getRoleList();
         } else {
             tv_title.setText("添加员工信息");
@@ -173,15 +177,16 @@ public class StaffInfoFixActivity extends BaseActivity {
             ToastUtils.showToast("手机号不能为空！");
             return;
         }
-//        if (TextUtils.isEmpty(tv_number.getText())) {
-//            ToastUtils.showToast("工号不能为空！");
-//            return;
-//        }
+        if (TextUtils.isEmpty(tv_eduction.getText())) {
+            ToastUtils.showToast("提成比例不能为空！");
+            return;
+        }
 
         sysUser.setNickName(tv_name.getText().toString());
         sysUser.setMobile(tv_phone.getText().toString());
         sysUser.setUsername(tv_phone.getText().toString());
         sysUser.setUserSn(tv_number.getText().toString());
+        sysUser.setPercentage(tv_eduction.getText().toString());
         sysUser.setRoleList(roleList);
 
         if (type == 0)

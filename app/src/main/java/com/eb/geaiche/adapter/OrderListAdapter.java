@@ -30,7 +30,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
     protected void convert(BaseViewHolder helper, OrderInfoEntity item) {
 
 
-//        TextView button_action = helper.getView(R.id.button_action);
+        TextView button_action = helper.getView(R.id.button_action);
         TextView tv_order_state = helper.getView(R.id.tv_order_state);
 
         helper.setText(R.id.tv_plate_number, item.getCar_no());
@@ -52,29 +52,29 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
 
                 if (item.getPay_status() == 2) {
                     tv_order_state.setTextColor(Color.parseColor("#F23325"));
-//                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_x));
+                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
 //                    button_action.setText("开始服务");
-//                    button_action.setTextColor(Color.parseColor("#ffffff"));
+                    button_action.setTextColor(Color.parseColor("#FF3900"));
                 } else {
                     tv_order_state.setTextColor(Color.BLACK);
 
-//                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_f));
+                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
 //                    button_action.setText("前往下单");
-//                    button_action.setTextColor(Color.parseColor("#000000"));
+                    button_action.setTextColor(Color.parseColor("#FF3900"));
                 }
                 break;
             case 1://服务中
 
                 tv_order_state.setTextColor(Color.BLACK);
-//                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_f));
+                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
 //                button_action.setText("完成订单");
-//                button_action.setTextColor(Color.parseColor("#000000"));
+                button_action.setTextColor(Color.parseColor("#FF3900"));
                 break;
             case 2://完成
                 tv_order_state.setTextColor(Color.parseColor("#999999"));
-//                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_o));
+                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_f));
 //                button_action.setText("已完成");
-//                button_action.setTextColor(Color.parseColor("#666666"));
+                button_action.setTextColor(Color.parseColor("#666666"));
                 break;
 
         }

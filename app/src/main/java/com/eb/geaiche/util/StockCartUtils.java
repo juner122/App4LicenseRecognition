@@ -2,25 +2,18 @@ package com.eb.geaiche.util;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 
-import com.eb.geaiche.bean.MealEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
-import com.juner.mvp.bean.GoodsEntity;
+
 
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.juner.mvp.Configure.Goods_TYPE_3;
-import static com.juner.mvp.Configure.Goods_TYPE_4;
-import static com.juner.mvp.Configure.Goods_TYPE_5;
-import static com.juner.mvp.Configure.JSON_CART;
 import static com.juner.mvp.Configure.JSON_STOCK_CART;
 
 public class StockCartUtils {
@@ -50,13 +43,13 @@ public class StockCartUtils {
 
 
     //本地获取json数据，并且通过Gson解析成list列表数据
-    public List<Goods> getDataFromLocal() {
-        List<Goods> carts = new ArrayList<>();
+    public List<Goods.GoodsStandard> getDataFromLocal() {
+        List<Goods.GoodsStandard> carts = new ArrayList<>();
         //从本地获取缓存数据
         String savaJson = new AppPreferences(context).getString(JSON_STOCK_CART, "");
         if (!TextUtils.isEmpty(savaJson)) {
             //把数据转换成列表
-            carts = new Gson().fromJson(savaJson, new TypeToken<List<Goods>>() {
+            carts = new Gson().fromJson(savaJson, new TypeToken<List<Goods.GoodsStandard>>() {
             }.getType());
         }
         return carts;
@@ -66,32 +59,36 @@ public class StockCartUtils {
     /**
      * 添加一个商品规格
      *
-     * @param good 要添加规格的商品
-     * @param gs   要添加的规格
+     * @param gs 要添加的规格
      */
-    public void addDataNoCommit(Goods good, Goods.GoodsStandard gs) {
+    public void addGoodsStandard(Goods.GoodsStandard gs) {
 
-        int cart_id = good.getId();
-
+        int gsId = gs.getId();
 
         //添加数据
-        Goods tempCart = (Goods) data.get(cart_id);
-        if (tempCart != null) {//不等于空
-
-            List<Goods.GoodsStandard> gsl = tempCart.getXgxGoodsStandardPojoList();
-
-            gsl.add(gs);
-            tempCart.setXgxGoodsStandardPojoList(gsl);
-        } else {
-            List<Goods.GoodsStandard> gsl = new ArrayList<>();
-            gsl.add(gs);
-            good.setXgxGoodsStandardPojoList(gsl);
-
-            tempCart = good;
-
-
+        Goods.GoodsStandard tempCart = (Goods.GoodsStandard) data.get(gsId);
+        if (null == tempCart) {//不等于空
+            tempCart = gs;
+            data.put(gsId, tempCart);
         }
-        data.put(cart_id, tempCart);
+        commit();
+    }
+
+    /**
+     * 去掉一个商品规格
+     *
+     * @param gs 要添加的规格
+     */
+    public void deleteGoodsStandard(Goods.GoodsStandard gs) {
+
+        int gsId = gs.getId();
+
+        //添加数据
+        Goods.GoodsStandard tempCart = (Goods.GoodsStandard) data.get(gsId);
+        if (null != tempCart) {//不等于空
+            data.remove(gsId);
+        }
+        commit();
     }
 
 
@@ -137,13 +134,13 @@ public class StockCartUtils {
 
 
         //把parseArray转换成list
-        List<GoodsEntity> carts = sparsesToList();
+        List<Goods.GoodsStandard> carts = sparsesToList();
 
 
         //把转换成String
         String json = new Gson().toJson(carts);
         // 保存
-        new AppPreferences(context).put(JSON_CART, json);
+        new AppPreferences(context).put(JSON_STOCK_CART, json);
 
 
     }
@@ -151,22 +148,22 @@ public class StockCartUtils {
 
     //商品总数
     private int getTotalGoodsNumber() {
-        List<GoodsEntity> carts = sparsesToList();
+        List<Goods.GoodsStandard> carts = sparsesToList();
         int i = 0;
-        for (GoodsEntity g : carts) {
+        for (Goods.GoodsStandard g : carts) {
 
-            i = g.getNumber() + i;
+            i = g.getNum() + i;
         }
         return i;
     }
 
 
     //商品
-    private List<GoodsEntity> sparsesToList() {
-        List<GoodsEntity> carts = new ArrayList<>();
+    private List<Goods.GoodsStandard> sparsesToList() {
+        List<Goods.GoodsStandard> carts = new ArrayList<>();
         if (data != null && data.size() > 0) {
             for (int i = 0; i < data.size(); i++) {
-                GoodsEntity shoppingCart = (GoodsEntity) data.valueAt(i);
+                Goods.GoodsStandard shoppingCart = (Goods.GoodsStandard) data.valueAt(i);
                 carts.add(shoppingCart);
             }
         }

@@ -1,5 +1,7 @@
 package com.eb.geaiche.activity;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 
@@ -7,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +19,12 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 
+import com.baidu.ocr.sdk.OCR;
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.AccessToken;
+import com.baidu.ocr.sdk.model.OcrRequestParams;
+import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.adapter.UserlistListAdapter;
@@ -25,12 +35,15 @@ import com.eb.geaiche.view.AnimationUtil;
 
 import com.eb.geaiche.view.ScanCarConfirmDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.Gson;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.bean.BaiDuLicenseResponse;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 
 import com.juner.mvp.bean.CarNumberRecogResult;
+import com.juner.mvp.bean.Carsinfo;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.QueryByCarEntity;
 import com.eb.geaiche.util.ToastUtils;
@@ -53,6 +66,7 @@ import net.grandcentrix.tray.AppPreferences;
 
 import com.otaliastudios.cameraview.CameraView;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -287,6 +301,19 @@ public class PreviewActivity2 extends BaseActivity {
         });
 
 
+        OCR.getInstance(this).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken result) {
+                // 调用成功，返回AccessToken对象
+                String token = result.getAccessToken();
+            }
+
+            @Override
+            public void onError(OCRError error) {
+                // 调用失败，返回OCRError子类SDKError对象
+                ToastUtils.showToast(error.getMessage());
+            }
+        }, getApplicationContext());
     }
 
     @Override
@@ -305,8 +332,15 @@ public class PreviewActivity2 extends BaseActivity {
         });
     }
 
+
+    private ProgressDialog dialog;
+
     @Override
     protected void setUpData() {
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("车牌识别中...");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
 
     }
 
@@ -342,33 +376,6 @@ public class PreviewActivity2 extends BaseActivity {
     }
 
 
-    //弹出下单方式对话框
-    private void showDialog() {
-
-        ScanCarConfirmDialog confirmDialog = new ScanCarConfirmDialog(this);
-        confirmDialog.show();
-        confirmDialog.setClicklistener(new ScanCarConfirmDialog.ClickListenerInterface() {
-            @Override
-            public void doConfirm() {
-
-                //普通接单
-                toActivity(MemberInfoInputActivity.class);
-                finish();
-            }
-
-
-            @Override
-            public void doCancel() {
-                //快速接单
-
-//                ToastUtils.showToast("快速接单");
-                getAddUser(mInputView.getNumber());
-
-            }
-        });
-    }
-
-
     //快速接单 用“车牌号+车主”当用户名去生成用户id
     private void getAddUser(final String car_no) {
         Api().addUser("", car_no + "车主").subscribe(new RxSubscribe<SaveUserAndCarEntity>(this, false) {
@@ -379,7 +386,7 @@ public class PreviewActivity2 extends BaseActivity {
                     @Override
                     protected void _onNext(Integer integer) {
 
-                        toMakeOrder(s.getUser_id(), integer, "", s.getUser_name(), car_no,"0");
+                        toMakeOrder(s.getUser_id(), integer, "", s.getUser_name(), car_no, "0");
 
                     }
 
@@ -434,30 +441,75 @@ public class PreviewActivity2 extends BaseActivity {
             @Override
             public void onPictureTaken(PictureResult pictureResult) {
                 super.onPictureTaken(pictureResult);
+////
+//                try {
+//                    Api().carLicense(pictureResult.getData(), vh).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
+//                        @Override
+//                        protected void _onNext(CarNumberRecogResult c) {
+//
+//                            mPopupKeyboard.getController().updateNumber(c.getNumber());
+//                            mPopupKeyboard.dismiss(PreviewActivity2.this);
+//                        }
+//
+//                        @Override
+//                        protected void _onError(String message) {
+//                            ToastUtils.showToast(message);
+//                        }
+//                    });
+//
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 
-                try {
-                    Api().carLicense(pictureResult.getData(), vh).subscribe(new RxSubscribe<CarNumberRecogResult>(PreviewActivity2.this, true, "车牌识别中") {
-                        @Override
-                        protected void _onNext(CarNumberRecogResult c) {
 
-                            mPopupKeyboard.getController().updateNumber(c.getNumber());
-                            mPopupKeyboard.dismiss(PreviewActivity2.this);
-                        }
+                dialog.show();
 
-                        @Override
-                        protected void _onError(String message) {
-                            ToastUtils.showToast(message);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Api().carLicenseBaidu(pictureResult.getData(), vh, new OnResultListener<OcrResponseResult>() {
+                    @Override
+                    public void onResult(OcrResponseResult ocrResponseResult) {
+
+                        if (null != dialog)
+                            dialog.cancel();
+
+                        BaiDuLicenseResponse response = new Gson().fromJson(ocrResponseResult.getJsonRes(), BaiDuLicenseResponse.class);
+
+                        mPopupKeyboard.getController().updateNumber(response.getWords_result().getNumber());
+                        mPopupKeyboard.dismiss(PreviewActivity2.this);
+                    }
+
+                    @Override
+                    public void onError(OCRError ocrError) {
+                        if (null != dialog)
+                            dialog.cancel();
+                        Log.d("OCRError", ocrError.toString());
+                        Message msg = Message.obtain();
+                        msg.obj = "识别失败，请重试！";
+                        msg.what = 1;   //标志消息的标志
+                        handler.sendMessage(msg);
+
+                    }
+                });
+
             }
 
         });
 
     }
 
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {      //判断标志位
+                case 1:
+                    ToastUtils.showToast(msg.obj.toString());
+                    break;
+            }
+        }
+    };
 
     /**
      * 弹出用户列表

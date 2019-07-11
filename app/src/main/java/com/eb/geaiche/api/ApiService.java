@@ -2,6 +2,7 @@ package com.eb.geaiche.api;
 
 import com.eb.geaiche.bean.Meal2;
 import com.eb.geaiche.bean.RecordMeal;
+import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.stockControl.bean.Supplier;
 import com.juner.mvp.bean.ActivityEntity;
@@ -12,13 +13,17 @@ import com.juner.mvp.bean.BankList;
 import com.juner.mvp.bean.Banner;
 import com.juner.mvp.bean.BaseBean;
 import com.juner.mvp.bean.BaseBean2;
+import com.juner.mvp.bean.BaseBean3;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.BillEntity;
 import com.juner.mvp.bean.CarCheckResul;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
+import com.juner.mvp.bean.CarVin2;
+import com.juner.mvp.bean.CarVinRequest;
 import com.juner.mvp.bean.Card;
+import com.juner.mvp.bean.Carsinfo;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CategoryType;
@@ -38,6 +43,7 @@ import com.juner.mvp.bean.GoodsListEntity;
 import com.eb.geaiche.bean.Meal;
 
 import com.juner.mvp.bean.Joiner;
+import com.juner.mvp.bean.License;
 import com.juner.mvp.bean.Maneuver;
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberOrder;
@@ -59,6 +65,7 @@ import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.ShopCar;
 import com.juner.mvp.bean.ShopCarBane;
 import com.juner.mvp.bean.SmsTemplates;
+import com.juner.mvp.bean.StaffPerformance;
 import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
@@ -411,6 +418,21 @@ public interface ApiService {
 
 
     /**
+     * 车牌识别2 翔云-车牌识别API https://market.aliyun.com/products/57002002/cmapi025531.html?spm=5176.2020520132.101.8.737a7218kBVloz#sku=yuncode1953100000
+     *
+     * @param url http://anpr.sinosecu.com.cn/api/recogliu.do
+     * @param img 车牌图像Base64字符串
+     */
+    @Headers({
+            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
+            "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
+    })
+    @POST()
+    @FormUrlEncoded
+    Observable<BaseBean3<Carsinfo>> carLicense2(@Url String url, @Field("img") String img);
+
+
+    /**
      * 车辆vin识别
      *
      * @param url          https://market.aliyun.com/products/57124001/cmapi023049.html?spm=5176.2020520132.101.14.5d9a7218KamDd0#sku=yuncode1704900000
@@ -450,6 +472,19 @@ public interface ApiService {
     })
     @GET()
     Observable<CarVin> carVinInfoQuery(@Url String url, @Query("vin") String vin);
+
+
+
+    /**
+     * 车辆vin信息查询服务商  http://www.easyepc123.com/interface
+     *
+     * @param url 	http://www.easyepc123.com/api/111002
+     */
+    @POST()
+    Observable<CarVin2> carVinInfoQuery2(@Url String url, @Body CarVinRequest carVinRequest);
+
+
+
 
 
     //门店可录入套卡列表
@@ -752,5 +787,18 @@ public interface ApiService {
     @POST("xgxshopstocklog/list")
     @FormUrlEncoded
     Observable<BaseBean<List<StockInOrOut>>> stockInOrOutRecordList(@Header("X-Nideshop-Token") String token, @Field("type") int type);
+
+
+
+
+    //出库时匹配订单
+    @POST("xgxshopstocklog/matchOrder")
+    @FormUrlEncoded
+    Observable<BaseBean<List<StockGoods>>> matchOrder(@Header("X-Nideshop-Token") String token, @Field("order_id") int order_id);
+
+    //查看已完成订单技师绩效分配
+    @POST("order/selectOrderDeduction")
+    @FormUrlEncoded
+    Observable<BaseBean<List<StaffPerformance>>> getOrderDeduction(@Header("X-Nideshop-Token") String token, @Field("order_id") int order_id);
 
 }

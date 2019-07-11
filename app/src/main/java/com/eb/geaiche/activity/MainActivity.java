@@ -93,7 +93,7 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tv_shopName:
-                toActivity(StockControlActivity.class);//出入库
+//                toActivity(StockControlActivity.class);//出入库
                 break;
 
         }

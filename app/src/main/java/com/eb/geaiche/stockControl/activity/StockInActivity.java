@@ -1,5 +1,6 @@
 package com.eb.geaiche.stockControl.activity;
 
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,8 @@ import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.stockControl.adapter.StockInListAdapter;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
+import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
@@ -69,12 +72,21 @@ public class StockInActivity extends BaseActivity {
     @Override
     protected void setUpView() {
         adapter = new StockInListAdapter(null, this);
+        adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
+        tv_name.setText(MyAppPreferences.getString("shop_user_name"));
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        tv_time.setText(DateUtil.getDate("yyyy-MM-dd HH:mm:ss"));
     }
 
     @Override
@@ -113,7 +125,7 @@ public class StockInActivity extends BaseActivity {
     }
 
 
-    private List<MultiItemEntity> generateData(List<Goods> list) {
+    private List<MultiItemEntity> generateData(List<Goods.GoodsStandard> list) {
 
 
         List<MultiItemEntity> res = new ArrayList<>();
@@ -121,20 +133,36 @@ public class StockInActivity extends BaseActivity {
             return res;
         }
 
+        SparseArray gl = new SparseArray();//所有规格中有包含的商品
+
+
         for (int i = 0; i < list.size(); i++) {
-            Goods lv0 = list.get(i);
 
-            if (null != list.get(i).getXgxGoodsStandardPojoList() && list.get(i).getXgxGoodsStandardPojoList().size() > 0) {
-                for (Goods.GoodsStandard gs : list.get(i).getXgxGoodsStandardPojoList()) {
-                    if (null != gs) {
-                        gs.setGoodsTitle(list.get(i).getGoodsTitle());
-                        lv0.addSubItem(gs);
+            Goods.GoodsStandard item_gs = list.get(i);
 
-                    }
-                }
+            int gsId = item_gs.getGoodsId();
+            Goods lv0 = (Goods) gl.get(gsId);
+
+            if (null != lv0) {//不等于空
+                lv0.addSubItem(item_gs);
+            } else {
+                lv0 = new Goods();
+                lv0.setGoodsTitle(item_gs.getGoodsTitle());
+                lv0.setNum(item_gs.getNum());
+                lv0.setId(gsId);
+                lv0.addSubItem(item_gs);
             }
+            gl.put(gsId, lv0);
+        }
+
+
+        for (int i = 0; i < gl.size(); i++) {
+            Goods lv0 = (Goods) gl.valueAt(i);
+
             res.add(lv0);
+
         }
         return res;
     }
+
 }

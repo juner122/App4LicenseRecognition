@@ -150,7 +150,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 upPartsDataList(getfpType(entity.getOrderGoodsList(), Configure.Goods_TYPE_4), true);
 
                 //根据status改变页面
-                changeView(entity.getStatus());
+                changeView();
 
 
             }
@@ -165,8 +165,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
 
     //根据status改变页面
-    private void changeView(int status) {
-        switch (status) {
+    @Override
+    public void changeView() {
+        switch (entity.getStatus()) {
             case 0:
             case 1:
                 getView().showAddButton();

@@ -245,7 +245,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
      */
     @Override
     public void createOrderSuccess(int i, int orderId) {
-
+        getPresenter().changeView();
 
         if (i == 0) {
             ToastUtils.showToast("检修单已生成！");

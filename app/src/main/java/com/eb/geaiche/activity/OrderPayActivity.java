@@ -169,19 +169,16 @@ public class OrderPayActivity extends BaseActivity {
                 .setView(commonPopupRecyclerView)
                 .create();
 
-        cb_weixin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        cb_weixin.setOnCheckedChangeListener((compoundButton, b) -> {
 
-                if (b) {
-                    pay_type = 11;
-                    ll_card_num.setVisibility(View.GONE);
-                    tv_pick_pay_type.setText("收款方式");
-                } else
-                    pay_type = 0;
+            if (b) {
+                pay_type = 11;
+                ll_card_num.setVisibility(View.GONE);
+                tv_pick_pay_type.setText("收款方式");
+            } else
+                pay_type = 0;
 
 
-            }
         });
 
 

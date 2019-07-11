@@ -45,17 +45,17 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".maneuver.activity.ManeuverInfoActivity"></activity>
+        <activity android:name=".activity.MeritsDistriListActivity"></activity>
+        <activity android:name=".activity.MeritsDistributionActivity" />
+        <activity android:name=".maneuver.activity.ManeuverInfoActivity" />
         <activity android:name=".maneuver.activity.ManeuverActivity" />
         <activity android:name=".stockControl.activity.StockOutActivity" />
         <activity android:name=".stockControl.activity.SupplierAddOrFixActivity" />
         <activity android:name=".stockControl.activity.SupplierListActivity" />
-        <activity android:name=".stockControl.activity.StockAddStandardsActivity"
-            android:launchMode="singleTask"
-            />
         <activity
-            android:name=".stockControl.activity.StockAddGoodsActivity"
-          />
+            android:name=".stockControl.activity.StockAddStandardsActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".stockControl.activity.StockAddGoodsActivity" />
         <activity android:name=".stockControl.activity.StockInOrOutRecordActivity" />
         <activity android:name=".stockControl.activity.StockInOrOutInfoActivity" />
         <activity
@@ -265,12 +265,9 @@
         <activity
             android:name=".activity.CarVinDISActivity"
             android:launchMode="singleTask" />
-
         <activity
             android:name=".activity.CarVinDISActivity2"
             android:launchMode="singleTask" />
-
-
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />

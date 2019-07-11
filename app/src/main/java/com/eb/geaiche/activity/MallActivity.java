@@ -130,7 +130,7 @@ public class MallActivity extends BaseActivity {
 
         mallTypeGoodsListAdapter.setOnItemClickListener((adapter, view, position) -> toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, mallTypeGoodsListAdapter.getData().get(position).getId()));
 
-        mallTypeGoodsListAdapter.setOnItemChildClickListener((adapter, view, position) -> addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getId()));
+        mallTypeGoodsListAdapter.setOnItemChildClickListener((adapter, view, position) -> addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId()));
 
 
         mallTypeGoodsListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);

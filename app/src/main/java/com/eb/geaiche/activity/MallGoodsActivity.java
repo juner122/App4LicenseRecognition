@@ -2,6 +2,7 @@ package com.eb.geaiche.activity;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
@@ -47,13 +48,7 @@ public class MallGoodsActivity extends BaseActivity {
         rv.setLayoutManager(new GridLayoutManager(this, 2));
         rv.setAdapter(adapter);
         adapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter a, View view, int position) {
-
-                toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, adapter.getData().get(position).getId());
-            }
-        });
+        adapter.setOnItemClickListener((a, view, position) -> toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, adapter.getData().get(position).getId()));
         //一行代码开启动画 默认CUSTOM动画
         adapter.openLoadAnimation();
         easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
@@ -72,7 +67,8 @@ public class MallGoodsActivity extends BaseActivity {
         });
 
         //添加购物车监听器
-        adapter.setOnItemChildClickListener((a, view, position) -> addToShopCart(adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getId()));
+        adapter.setOnItemChildClickListener((a, view, position) -> addToShopCart(
+                adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId()));
 
 
     }

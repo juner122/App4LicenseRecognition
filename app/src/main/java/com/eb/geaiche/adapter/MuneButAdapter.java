@@ -19,6 +19,7 @@ import com.eb.geaiche.activity.OrderListActivity;
 import com.eb.geaiche.activity.ProductListActivity;
 import com.eb.geaiche.activity.RecruitActivity;
 import com.eb.geaiche.activity.StaffManagementActivity;
+import com.eb.geaiche.maneuver.activity.ManeuverActivity;
 import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
 import com.eb.geaiche.mvp.FixPickPartsActivity;
@@ -96,7 +97,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                 activity.startActivity(new Intent(activity, MessageMarketingActivity.class));
                 break;
             case "activity":
-                ToastUtils.showToast("无权限");
+                activity.startActivity(new Intent(activity, ManeuverActivity.class));
                 break;
             case "online":
 
@@ -126,10 +127,11 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
 
             default:
-//                if (perms.equals("com.eb.geaiche.mvp.MessageMarketingActivity")) {
-//                    ToastUtils.showToast("无权限");
-//                    return;
-//                }
+
+                if (perms.equals("com.eb.geaiche.maneuver.activity.ManeuverActivity")) {//活动管理
+                    ToastUtils.showToast("无权限");
+                    return;
+                }
 
                 try {
                     Class clazz = Class.forName(perms);
@@ -138,6 +140,7 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
+                    ToastUtils.showToast("类名错误,请联系管理员!");
                 }
 
                 break;

@@ -96,6 +96,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
+        <TextView
+            android:id="@+id/percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提成比例 5%"
+            android:textColor="#ffffffff"
+            android:textSize="9sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="3dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_price"
+            app:layout_constraintLeft_toRightOf="@id/tv_price" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"

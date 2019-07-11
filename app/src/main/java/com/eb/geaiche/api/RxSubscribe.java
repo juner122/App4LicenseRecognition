@@ -58,13 +58,10 @@ public abstract class RxSubscribe<T> implements Observer<T> {
             dialog.setMessage(msg);
             dialog.setIndeterminate(true);
             dialog.setCanceledOnTouchOutside(false);
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    // 对话框取消 直接停止执行请求
-                    if (!d.isDisposed()) {
-                        d.dispose();
-                    }
+            dialog.setOnCancelListener(dialogInterface -> {
+                // 对话框取消 直接停止执行请求
+                if (!d.isDisposed()) {
+                    d.dispose();
                 }
             });
             dialog.show();

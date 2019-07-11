@@ -36,9 +36,9 @@ public class StockInListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
         addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_stock_in_item);
         addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_stock_in_item_item);
         this.context = c;
-
-
     }
+
+
 
 
     @Override
@@ -49,11 +49,13 @@ public class StockInListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 goods = (Goods) item;
                 int goodsId = goods.getId();
                 String goodsTitle = goods.getGoodsTitle();
+
+
                 boolean isExpanded = goods.isExpanded();
 
 
                 helper.setText(R.id.tv_name, goods.getGoodsTitle());
-                if (goods.getXgxGoodsStandardPojoList().size() == 0)
+                if (null == goods.getXgxGoodsStandardPojoList() || goods.getXgxGoodsStandardPojoList().size() == 0)
                     helper.setText(R.id.tv_price, "暂无报价");
                 else
                     helper.setText(R.id.tv_price, String.format("￥%s", goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice()));
@@ -61,23 +63,26 @@ public class StockInListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
 
                 String pic = "";
 
-                if (goods.getGoodsDetailsPojoList().size() == 0)
+                if (null == goods.getGoodsDetailsPojoList() || goods.getGoodsDetailsPojoList().size() == 0)
                     pic = "";
                 else
                     pic = goods.getGoodsDetailsPojoList().get(0).getImage();
 
                 ImageUtils.load(context, pic, helper.getView(R.id.iv_src));
 
+//                if (isShow) {
+                    expandAll();
 
-                helper.itemView.setOnClickListener(v -> {
-                    int pos = helper.getAdapterPosition();
-                    if (isExpanded) {
-                        collapse(pos);
-                    } else {
-                        expand(pos);
-                    }
-                });
-
+//                } else {
+//                    helper.itemView.setOnClickListener(v -> {
+//                        int pos = helper.getAdapterPosition();
+//                        if (isExpanded) {
+//                            collapse(pos);
+//                        } else {
+//                            expand(pos);
+//                        }
+//                    });
+//                }
 
                 break;
             case MyMultipleItem.SECOND_TYPE:
@@ -105,11 +110,6 @@ public class StockInListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 });
 
                 helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum()));
-
-
-
-
-
 
 
                 break;

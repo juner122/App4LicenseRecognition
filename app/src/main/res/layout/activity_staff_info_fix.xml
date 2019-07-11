@@ -36,12 +36,12 @@
             android:layout_marginEnd="12dp"
             android:background="@null"
             android:gravity="end"
+            android:hint="请设置员手机号码"
             android:inputType="number"
             android:maxLength="11"
             android:text=""
-            android:hint="请设置员手机号码"
-            android:textColorHint="#ff999999"
             android:textColor="#ff333333"
+            android:textColorHint="#ff999999"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -69,8 +69,8 @@
             android:background="@null"
             android:gravity="end"
             android:hint="请设置员工姓名"
-            android:textColorHint="#ff999999"
             android:textColor="#ff333333"
+            android:textColorHint="#ff999999"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -105,6 +105,49 @@
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toBottomOf="@+id/view1" />
 
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:text="提成比例"
+            android:textColor="#ff666666"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <EditText
+            android:id="@+id/tv_eduction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@null"
+            android:gravity="end"
+            android:inputType="numberDecimal"
+            android:hint="请设置提成比例"
+            android:textColorHint="#ff999999"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv11"
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="12dp"
+            android:text="%"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,7 +157,8 @@
             android:textColor="#ff666666"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
+
 
         <TextView
             android:id="@+id/tv1"
@@ -129,7 +173,7 @@
             android:textColor="#ff333333"
             android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2" />
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <View
             android:id="@+id/view"
@@ -157,6 +201,15 @@
             android:layout_marginTop="12dp"
             android:background="#d9d9d9"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:background="#d9d9d9"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

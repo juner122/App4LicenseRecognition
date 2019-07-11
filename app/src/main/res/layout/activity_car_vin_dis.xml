@@ -369,9 +369,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="10dp"
-                    android:text="参数配置"
+                    android:paddingLeft="10dp"
+                    android:text="配置"
                     android:textColor="#999999"
                     android:textSize="12sp" />
 
@@ -380,8 +379,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="end"
                     android:padding="10dp"
+                    android:gravity="end"
                     android:text="-"
                     android:textColor="#333333"
                     android:textSize="12sp" />

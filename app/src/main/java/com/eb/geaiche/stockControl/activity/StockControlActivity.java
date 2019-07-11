@@ -113,17 +113,11 @@ public class StockControlActivity extends BaseActivity {
     @Override
     protected void init() {
 
-
         et_key.setHint("请输入你要查询的商品");
         stockCartUtils = StockCartUtils.getInstance(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getData("");
-        showMain();
-    }
+
 
     @Override
     protected void setUpView() {
@@ -136,7 +130,7 @@ public class StockControlActivity extends BaseActivity {
 
     @Override
     protected void setUpData() {
-
+        getData("");
 
     }
 
@@ -188,4 +182,10 @@ public class StockControlActivity extends BaseActivity {
         return res;
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stockCartUtils.deleteAllData();
+    }
 }

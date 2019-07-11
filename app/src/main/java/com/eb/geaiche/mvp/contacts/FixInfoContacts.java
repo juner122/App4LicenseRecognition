@@ -86,6 +86,7 @@ public class FixInfoContacts {
 
         void notice();//通知客户
 
+        void changeView();
     }
 
     /**

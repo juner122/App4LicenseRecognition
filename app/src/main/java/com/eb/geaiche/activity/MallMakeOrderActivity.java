@@ -161,8 +161,6 @@ public class MallMakeOrderActivity extends BaseActivity {
                 SystemUtil.isReLogin(message, MallMakeOrderActivity.this);
             }
         });
-
-
     }
 
     //生成下单对象
@@ -170,6 +168,7 @@ public class MallMakeOrderActivity extends BaseActivity {
         XgxPurchaseOrderPojo pojo = new XgxPurchaseOrderPojo();
         String price = upDataPrice(cartItems);
         pojo.setPayType(1);
+
         pojo.setShopId(shop.getShop().getId());
         pojo.setDiscountPrice(null);//优惠金额
         pojo.setOrderPrice(price);//订单价格
