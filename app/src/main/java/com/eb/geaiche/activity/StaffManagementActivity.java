@@ -32,13 +32,15 @@ public class StaffManagementActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("员工列表");
+        setRTitle("新增员工");
 
     }
 
-    @OnClick({R.id.tv_add})
+    @OnClick({R.id.tv_add,R.id.tv_title_r})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_add:
+            case R.id.tv_title_r:
                 Intent intent = new Intent(this, StaffInfoFixActivity.class);
 
                 intent.putExtra("type", 1);

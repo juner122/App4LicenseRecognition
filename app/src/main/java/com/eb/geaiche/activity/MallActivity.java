@@ -33,6 +33,7 @@ import butterknife.OnClick;
 public class MallActivity extends BaseActivity {
     public static final String categoryId = "categoryId";
     public static final String goodsTitle = "goodsTitle";
+    public static final String VIN = "Vin";
 
     @BindView(R.id.number)
     TextView number;//购物车商品数量
@@ -167,7 +168,6 @@ public class MallActivity extends BaseActivity {
         Api().xgxshopgoodsList(null, null, null, page, Configure.Goods_TYPE_1).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
-
 
                 mallTypeGoodsListAdapter.setNewData(goods.getList());
 

@@ -263,6 +263,8 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         // 打印文字
         esc.addText("手机号码：" + mobile + "\n");//打印下单时间
 
+
+
         if (null == MyAppPreferences.getString(Configure.CAR_MILEAGE) || "".equals(MyAppPreferences.getString(Configure.CAR_MILEAGE)))
             esc.addText("里程数：" + "未填写" + "\n");//打印里程数
         else

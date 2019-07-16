@@ -45,7 +45,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".activity.MeritsDistriListActivity"></activity>
+        <activity android:name=".activity.MallGoodsVinScanActivity"></activity>
+        <activity android:name=".activity.MeritsDistriListActivity" />
         <activity android:name=".activity.MeritsDistributionActivity" />
         <activity android:name=".maneuver.activity.ManeuverInfoActivity" />
         <activity android:name=".maneuver.activity.ManeuverActivity" />
@@ -359,7 +360,9 @@
             android:name=".activity.MallActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MallTypeActivity" />
+        <activity
+            android:name=".activity.MallTypeActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".activity.MallGoodsActivity" />
         <activity android:name=".activity.MallGoodsInfoActivity" />
         <activity

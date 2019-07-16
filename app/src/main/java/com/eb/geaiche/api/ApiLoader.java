@@ -1404,6 +1404,33 @@ public class ApiLoader {
         map.put("limit", Configure.limit_page);//页数
         map.put("page", page);
         map.put("type", type);
+
+        return apiService.xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe());
+    }
+
+    /**
+     * @param goodsTitle   商品名称
+     * @param goodsBrandId 商品品牌Id
+     * @param categoryId   商品分类Id
+     *                     查询商品（分页） 无参
+     * @param type         1是汽配商品,3是工时，4是配件
+     */
+    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId, int page, int type,String vin) {
+        if (null != goodsTitle)
+            map.put("goodsTitle", goodsTitle);
+        if (null != goodsBrandId)
+            map.put("goodsBrandId", goodsBrandId);
+        if (null != categoryId)
+            map.put("categoryId", categoryId);
+
+        if (null != vin)
+            map.put("vin", vin);
+
+        map.put("limit", Configure.limit_page);//页数
+        map.put("page", page);
+        map.put("type", type);
+
+
         return apiService.xgxshopgoodsList(map).compose(RxHelper.<GoodsList>observe());
     }
 

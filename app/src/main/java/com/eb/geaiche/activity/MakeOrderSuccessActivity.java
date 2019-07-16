@@ -165,8 +165,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     }
 
 
-
-
     /**
      * 弹出系统弹框提示用户打开 Bluetooth
      */
@@ -214,6 +212,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             }
         }
     }
+
     /**
      * 连接蓝牙
      *
@@ -231,7 +230,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         } else
             mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
     }
-
 
 
     //票据打印
@@ -280,6 +278,12 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
+
+        // 车型
+//        if (null == info.getUserCarCondition() || null == info.getUserCarCondition().getBrand() || "".equals(info.getUserCarCondition().getBrand()))
+//            esc.addText("车型：" + "-" + "\n");//打印里程数
+//        else
+//            esc.addText("车型：" + info.getUserCarCondition().getBrand() + info.getUserCarCondition().getName() + "\n");//打印里程数
 
         if (null == MyAppPreferences.getString(Configure.CAR_MILEAGE) || "".equals(MyAppPreferences.getString(Configure.CAR_MILEAGE)))
             esc.addText("里程数：" + "未填写" + "\n");//打印里程数
@@ -524,7 +528,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         double goodsPrice = String2Utils.getOrderGoodsPrice(info.getOrderInfo().getGoodsList());
         double ServerPrice = String2Utils.getOrderServicePrice(info.getOrderInfo().getSkillList());
 
-        rv_goods.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
+        rv_goods.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -533,7 +537,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         });
         rv_goods.setAdapter(simpleGoodInfo2Adpter);
 
-        rv_act.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
+        rv_act.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -542,7 +546,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         });
         rv_act.setAdapter(simpleActivityInfo2Adpter);
 
-        rv_servers.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true) {
+        rv_servers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true) {
             @Override
             public boolean canScrollVertically() {
                 //解决ScrollView里存在多个RecyclerView时滑动卡顿的问题
@@ -639,7 +643,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                     connectBluetooth(false);//连接蓝牙
 
 
-
                 break;
             case R.id.tv_title_r://蓝牙打印
 
@@ -667,6 +670,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         } else ToastUtils.showToast("设备不支持Bluetooth");
 
     }
+
     @Override
     public void onBackPressed() {
         // super.onBackPressed();//注释掉这行,back键不退出activity

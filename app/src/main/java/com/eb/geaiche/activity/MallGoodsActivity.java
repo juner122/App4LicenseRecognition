@@ -19,10 +19,13 @@ import com.juner.mvp.bean.GoodsList;
 
 import butterknife.BindView;
 
+import static com.eb.geaiche.activity.MallActivity.VIN;
+
 //商城商品列表
 public class MallGoodsActivity extends BaseActivity {
     public static final String goodsId = "goodsId";
 
+    String vin;//车辆vin码
 
     @Override
     public int setLayoutResourceID() {
@@ -39,6 +42,8 @@ public class MallGoodsActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("商品列表");
+
+        vin = getIntent().getStringExtra(VIN);
     }
 
     @Override
@@ -87,7 +92,7 @@ public class MallGoodsActivity extends BaseActivity {
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, Configure.Goods_TYPE_1).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
+        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, Configure.Goods_TYPE_1,vin).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
             @Override
             protected void _onNext(GoodsList goods) {
 

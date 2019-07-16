@@ -1,10 +1,16 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
@@ -20,10 +26,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.eb.geaiche.activity.MallActivity.VIN;
+import static com.eb.geaiche.activity.MallActivity.goodsTitle;
+
 //商城商品分类列表
 public class MallTypeActivity extends BaseActivity {
 
     public static final String goodsBrandId = "goodsBrandId";
+
+
+    String vin;//车辆vin码
 
     @Override
     public int setLayoutResourceID() {
@@ -38,23 +50,63 @@ public class MallTypeActivity extends BaseActivity {
     @BindView(R.id.ll_rv2)
     View ll_rv2;
 
+    @BindView(R.id.et_key)
+    EditText et_key;
+
     MallTypeListAdapter typeListAdapter;//商品分类
     MallTypeBrandListAdapter brandListAdapter;//商品品牌
 
 
-    @OnClick({R.id.back2})
+    boolean isshow;//品牌列表是否显示
+
+    @OnClick({R.id.back2, R.id.iv_scan, R.id.iv_search})
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.back2:
-                ll_rv2.setVisibility(View.GONE);
+                hideList();
+                break;
+
+            case R.id.iv_scan:
+                toActivity(MallGoodsVinScanActivity.class, MallActivity.VIN, vin);
+                break;
+            case R.id.iv_search:
+
+                if (TextUtils.isEmpty(et_key.getText())) {
+                    ToastUtils.showToast("搜索内容不能为空！");
+                    return;
+                }
+                Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
+                intent.putExtra(goodsTitle, et_key.getText().toString());
+                intent.putExtra(MallActivity.VIN, vin);
+                startActivity(intent);
                 break;
         }
+    }
+
+    private void showList() {
+        TranslateAnimation hideAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        hideAnim.setDuration(300);
+        ll_rv2.startAnimation(hideAnim);
+        ll_rv2.setVisibility(View.VISIBLE);
+        isshow = true;
+
+
+    }
+
+    private void hideList() {
+        TranslateAnimation hideAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        hideAnim.setDuration(300);
+        ll_rv2.startAnimation(hideAnim);
+        ll_rv2.setVisibility(View.GONE);
+        isshow = false;
+
     }
 
     @Override
     protected void init() {
         tv_title.setText("分类列表");
+        vin = getIntent().getStringExtra(VIN);
     }
 
     @Override
@@ -70,25 +122,17 @@ public class MallTypeActivity extends BaseActivity {
         rv2.setAdapter(brandListAdapter);
 
 
-        typeListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        typeListAdapter.setOnItemClickListener((adapter, view, position) -> getBrandList(typeListAdapter.getData().get(position).getCategoryId()));
 
-                getBrandList(typeListAdapter.getData().get(position).getCategoryId());
-            }
-        });
-
-        brandListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        brandListAdapter.setOnItemClickListener((adapter, view, position) -> {
 
 
-                Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
-                intent.putExtra(goodsBrandId, brandListAdapter.getData().get(position).getBrandId());
-                intent.putExtra(MallActivity.categoryId, brandListAdapter.getData().get(position).getCategoryId());
-                startActivity(intent);
+            Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
+            intent.putExtra(goodsBrandId, brandListAdapter.getData().get(position).getBrandId());
+            intent.putExtra(MallActivity.categoryId, brandListAdapter.getData().get(position).getCategoryId());
+            intent.putExtra(MallActivity.VIN, vin);
+            startActivity(intent);
 
-            }
         });
 
 
@@ -128,12 +172,15 @@ public class MallTypeActivity extends BaseActivity {
                 int size = goodsBrands.size();
                 if (size == 0) {
                     ToastUtils.showToast("该分类暂无商品！");
-                    ll_rv2.setVisibility(View.GONE);
+                    hideList();
                     return;
                 }
-
-                ll_rv2.setVisibility(View.VISIBLE);
                 brandListAdapter.setNewData(goodsBrands);
+
+
+                if (!isshow)
+                    showList();
+
             }
 
             @Override
@@ -143,7 +190,11 @@ public class MallTypeActivity extends BaseActivity {
             }
         });
 
-
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        vin = intent.getStringExtra(VIN);
+    }
 }

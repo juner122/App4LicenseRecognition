@@ -17,7 +17,7 @@
         android:layout_marginBottom="0.5dp"
         android:background="#ffffff"
         android:visibility="visible"
-        tl:tl_indicator_color="#FFFF3900"
+        tl:tl_indicator_color="#4a9de3"
         tl:tl_indicator_height="3dp"
         tl:tl_indicator_style="NORMAL"
         tl:tl_indicator_width="30dp"

@@ -643,10 +643,17 @@ public class CarInfoInputActivity extends BaseActivity {
                 }
                 if (null != selectAutoBrand && selectAutoBrand.getId() == 0) {
                     ToastUtils.showToast("请选择车品牌!");
+                    return;
                 }
 
                 if (null != autoModel && autoModel.getId() == 0) {
                     ToastUtils.showToast("请选择车型!");
+                    return;
+                }
+
+                if (tv_car_model.getText().toString().equals("") || tv_car_model.getText().toString().equals("null")) {
+                    ToastUtils.showToast("请选择车型!");
+                    return;
                 }
 
                 if (TextUtils.isEmpty(tv_car_mileage.getText())) {

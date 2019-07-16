@@ -16,8 +16,8 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 38
-        versionName "1.4.21"
+        versionCode 40
+        versionName "1.4.23"
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

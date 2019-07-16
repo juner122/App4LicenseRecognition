@@ -1,46 +1,32 @@
 package com.eb.geaiche.activity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.os.Environment;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
-import com.eb.geaiche.util.Base64;
-import com.eb.geaiche.util.BitmapUtil;
-import com.eb.geaiche.util.CameraThreadPool;
-import com.eb.geaiche.util.FileUtil;
-import com.eb.geaiche.util.ImageUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.AnimationUtil;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
-import com.juner.mvp.bean.CarVin2;
 import com.juner.mvp.bean.CarVinInfo;
 import com.juner.mvp.bean.CarVinResult;
 import com.otaliastudios.cameraview.CameraListener;
-import com.otaliastudios.cameraview.CameraOptions;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.Gesture;
 import com.otaliastudios.cameraview.GestureAction;
@@ -48,24 +34,16 @@ import com.otaliastudios.cameraview.Mode;
 import com.otaliastudios.cameraview.PictureResult;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-
-import androidx.annotation.NonNull;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import id.zelory.compressor.Compressor;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
-import static android.graphics.Bitmap.Config.RGB_565;
+import static com.eb.geaiche.activity.MallActivity.VIN;
 
-public class CarVinDISActivity extends BaseActivity {
+public class MallGoodsVinScanActivity extends BaseActivity {
+
     @BindView(R.id.camera)
     CameraView cameraKitView;
 
@@ -97,8 +75,7 @@ public class CarVinDISActivity extends BaseActivity {
     TextView tv_made_year;
     @BindView(R.id.tv_output_volume)
     TextView tv_output_volume;
-    @BindView(R.id.tv_mandatory_entry)
-    TextView tv_mandatory_entry;//强制录入
+
 
     @BindView(R.id.tv_check)
     TextView tv_check;//查询
@@ -114,9 +91,6 @@ public class CarVinDISActivity extends BaseActivity {
 
     CarInfoRequestParameters carInfo;//车况对象
 
-    boolean isCheckAction;//是否是查看车架号
-
-    private File file;
 
     Context context;
 
@@ -127,19 +101,18 @@ public class CarVinDISActivity extends BaseActivity {
         tv_title.setText("扫描车架号");
         et_vin.setTransformationMethod(new A2bigA());
 
-        isCheckAction = getIntent().getBooleanExtra("isca", false);
-
-        if (isCheckAction) {
-//            showInfo();//查看车架号
-            queryVinInfo(getIntent().getStringExtra(Configure.CAR_VIN));
-        }
-
 
         //图片截取框大小
         v_preview.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             vh = v_preview.getHeight();
         });
 
+        vin = getIntent().getStringExtra(VIN);
+        if (null != vin) {
+            et_vin.setText(vin);
+            ll_tv_check.setVisibility(View.VISIBLE);
+            queryVinInfo(vin);
+        }
     }
 
 
@@ -157,7 +130,7 @@ public class CarVinDISActivity extends BaseActivity {
                 super.onPictureTaken(pictureResult);
 
                 try {
-                    Api().carVinLicense(pictureResult.getData(), vh).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
+                    Api().carVinLicense(pictureResult.getData(), vh).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(context, true, "车架号识别中") {
                         @Override
                         protected void _onNext(CarNumberRecogResult c) {
                             ll_tv_check.setVisibility(View.VISIBLE);
@@ -212,10 +185,10 @@ public class CarVinDISActivity extends BaseActivity {
 
     @Override
     public int setLayoutResourceID() {
-        return R.layout.activity_car_vin_dis;
+        return R.layout.activity_mall_goods_vin_scan;
     }
 
-    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter, R.id.tv_title_r, R.id.tv_mandatory_entry})
+    @OnClick({R.id.photo, R.id.input, R.id.tv_check, R.id.re_photo, R.id.enter, R.id.tv_title_r})
     public void onClick(View v) {
 
 
@@ -224,24 +197,19 @@ public class CarVinDISActivity extends BaseActivity {
                 carVinLicense();
                 break;
             case R.id.input://手动输入
-//                tv_mandatory_entry.setVisibility(View.GONE);
                 tv_check.setVisibility(View.VISIBLE);
                 manualInput();
                 break;
 
-            case R.id.re_photo://重扫
+            case R.id.re_photo://还原不使用车架号
 
-                ll_tv_check.setVisibility(View.GONE);
-                sv_info.setVisibility(View.GONE);
-                ll1.setVisibility(View.VISIBLE);
 
-//                tv_mandatory_entry.setVisibility(View.GONE);
-                tv_check.setVisibility(View.VISIBLE);
+                toActivity(MallTypeActivity.class, VIN, null);
+
+
                 break;
-            case R.id.enter://确定
-
-                toActivity(CarInfoInputActivity.class, carInfo, "vinInfo");
-                finish();
+            case R.id.enter://返回页面
+                toActivity(MallTypeActivity.class, VIN, vin);
 
 
                 break;
@@ -288,7 +256,7 @@ public class CarVinDISActivity extends BaseActivity {
         et_vin.setFocusableInTouchMode(true);
         et_vin.requestFocus();
 
-        InputMethodManager imm = (InputMethodManager) CarVinDISActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         et_vin.setText("");
 
@@ -304,7 +272,7 @@ public class CarVinDISActivity extends BaseActivity {
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
+        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(context, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
 
@@ -316,6 +284,7 @@ public class CarVinDISActivity extends BaseActivity {
                 setCarInfo(carVin.getShowapi_res_body());
                 toCarInfo(carVin.getShowapi_res_body());
             }
+
             @Override
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);

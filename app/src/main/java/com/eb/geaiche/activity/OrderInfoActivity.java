@@ -258,7 +258,7 @@ public class OrderInfoActivity extends BaseActivity {
             case R.id.tv_pick_technician:
                 if (order_status == 2) {//查看绩效分配
 
-                    toActivity(MeritsDistributionActivity.class,"orderId",id);
+                    toActivity(MeritsDistributionActivity.class, "orderId", id);
 
                 } else {//选择技师
 
@@ -775,6 +775,13 @@ public class OrderInfoActivity extends BaseActivity {
 
         // 手机号码
         esc.addText("手机号码：" + info.getOrderInfo().getMobile() + "\n");
+
+        // 车型
+//        if (null == info.getUserCarCondition() || null == info.getUserCarCondition().getBrand() || "".equals(info.getUserCarCondition().getBrand()))
+//            esc.addText("车型：" + "-" + "\n");//打印里程数
+//        else
+//            esc.addText("车型：" + info.getUserCarCondition().getBrand() + info.getUserCarCondition().getName() + "\n");//打印里程数
+
 
         if (null == info.getUserCarCondition() || null == info.getUserCarCondition().getMileage() || "".equals(info.getUserCarCondition().getMileage()))
             esc.addText("里程数：" + "未填写" + "\n");//打印里程数

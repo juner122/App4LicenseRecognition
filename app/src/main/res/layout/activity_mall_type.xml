@@ -3,22 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".activity.MallTypeActivity">
 
     <include layout="@layout/head_view" />
 
-    <include
-        layout="@layout/search_bar"
-        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+
+        <ImageView
+            android:id="@+id/iv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:padding="8dp"
+            android:src="@mipmap/icon_scan" />
+
+        <LinearLayout
+            android:id="@+id/ll_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_background_search"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+
+            <EditText
+                android:id="@+id/et_key"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="请输入要查询的内容"
+                android:maxLength="11"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="12sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background_search_but"
+                android:padding="8dp"
+                android:src="@mipmap/icon_search" />
+        </LinearLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:background="#d9d9d9"
-        android:paddingTop="20dp" />
+        android:background="#d9d9d9" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,40 +72,48 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#fff" />
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/ll_rv2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="100dp"
-            android:background="#fff"
-            android:orientation="vertical"
+            android:layout_marginBottom="100dp"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/back2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:src="@mipmap/icon_enter" />
+            <LinearLayout
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginLeft="20dp"
-                android:background="#d9d9d9" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:background="#fff"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/back2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:src="@mipmap/icon_enter" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="#d9d9d9" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </FrameLayout>
 </LinearLayout>

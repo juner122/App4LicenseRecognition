@@ -110,7 +110,7 @@
         android:background="#fff"
         tl:tl_divider_color="#1A000000"
         tl:tl_divider_padding="10dp"
-        tl:tl_indicator_color="#FFF23325"
+        tl:tl_indicator_color="#4a9de3"
         tl:tl_indicator_height="2dp"
         tl:tl_indicator_width_equal_title="true"
         tl:tl_tab_padding="10dp"

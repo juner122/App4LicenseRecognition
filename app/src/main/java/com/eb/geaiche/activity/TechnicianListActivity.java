@@ -3,8 +3,10 @@ package com.eb.geaiche.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import android.widget.Toast;
@@ -58,24 +60,21 @@ public class TechnicianListActivity extends BaseActivity {
             }
         });
 
-        adpter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        adpter.setOnItemClickListener((adapter, view, position) -> {
 
-                if (null == pick_list) {
-                    pick_list = new ArrayList<>();
-                }
-                if (list.get(position).isSelected()) {
-                    list.get(position).setSelected(false);
-                    pick_list.remove(list.get(position));
-                } else {
-                    list.get(position).setSelected(true);
-                    pick_list.add(list.get(position));
-                }
-                adapter.notifyDataSetChanged();
-
-
+            if (null == pick_list) {
+                pick_list = new ArrayList<>();
             }
+            if (list.get(position).isSelected()) {
+                list.get(position).setSelected(false);
+                pick_list.remove(list.get(position));
+            } else {
+                list.get(position).setSelected(true);
+                pick_list.add(list.get(position));
+            }
+            adapter.notifyDataSetChanged();
+
+
         });
 
     }
@@ -103,14 +102,19 @@ public class TechnicianListActivity extends BaseActivity {
     @OnClick({R.id.but_enter})
     public void onClick(View view) {
 
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
-        intent.putExtras(bundle);
-        setResult(RESULT_OK, intent);
-        finish();
+        switch (view.getId()) {
+            case R.id.but_enter:
+
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
 
 
+        }
     }
 
 
