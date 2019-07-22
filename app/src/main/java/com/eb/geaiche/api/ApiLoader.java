@@ -50,6 +50,8 @@ import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
+import com.juner.mvp.bean.Coupon2;
+import com.juner.mvp.bean.CouponRecode;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
@@ -453,23 +455,28 @@ public class ApiLoader {
     /**
      * 任意条件订单列表 不同订单查询看备注
      *
+     * @param before 开始时间  毫秒数小
+     * @param after  结束时间  毫秒数大
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderList(Date after, Date before, boolean isdate, String name, int page) {
+    public Observable<BasePage<OrderInfoEntity>> orderList(Date before, Date after, boolean isdate, String name, int page) {
         map.clear();
         map.put("X-Nideshop-Token", token);
-        map.put("limit", Configure.limit_page);
+        if (isdate)
+            map.put("limit", 100);
+        else
+            map.put("limit", Configure.limit_page);
         if (!TextUtils.isEmpty(name))
             map.put("name", name);
         map.put("page", page);
 
         //选日期需要添加，不添加默认取本月	Date before, Date after
         if (isdate) {
-            map.put("before", before.getTime());
-            map.put("after", after.getTime());
+            map.put("dateStart", before.getTime());
+            map.put("dateEnd", after.getTime());
         }
 
-        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+        return apiService.orderList(map).compose(RxHelper.observe());
     }
 
     /**
@@ -1415,7 +1422,7 @@ public class ApiLoader {
      *                     查询商品（分页） 无参
      * @param type         1是汽配商品,3是工时，4是配件
      */
-    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId, int page, int type,String vin) {
+    public Observable<GoodsList> xgxshopgoodsList(String goodsTitle, String goodsBrandId, String categoryId, int page, int type, String vin) {
         if (null != goodsTitle)
             map.put("goodsTitle", goodsTitle);
         if (null != goodsBrandId)
@@ -1678,12 +1685,79 @@ public class ApiLoader {
 
 
     /**
-     *
      * 查看已完成订单技师绩效分配
      */
     public Observable<List<StaffPerformance>> getOrderDeduction(int orderId) {
 
         return apiService.getOrderDeduction(token, orderId).compose(RxHelper.observe());
+    }
+
+    /**
+     * 删除购物车商品
+     */
+    public Observable<NullDataEntity> deleteCard(int[] cartIds) {
+
+        return apiService.delete(token, cartIds).compose(RxHelper.observe());
+    }
+
+    /**
+     * 更新商品购物车数据
+     */
+    public Observable<NullDataEntity> shoppingCartUpdate(Integer goodsId, Integer productId, int number) {
+
+
+        if (null != goodsId)
+            map.put("goodsId", goodsId);
+        if (null != productId)
+            map.put("productId", productId);
+
+        map.put("number", number);
+
+        return apiService.shoppingCartUpdate(map).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 获取购物车信息
+     */
+    public Observable<CartList> getShoppingCartInfo() {
+
+
+        return apiService.getShoppingCart(token, "1", "1").compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 门店优惠券模板列表
+     */
+    public Observable<List<Coupon2>> shopCouponList() {
+
+        return apiService.shopCouponList(token).compose(RxHelper.observe());
+    }
+
+    /**
+     * 添加优惠模板
+     */
+    public Observable<NullDataEntity> addShopCoupon(Coupon2 coupon2) {
+
+        return apiService.addShopCoupon(token, coupon2).compose(RxHelper.observe());
+    }
+
+    /**
+     * 优惠券派发记录列表
+     */
+    public Observable<List<CouponRecode>> couponPostRecode() {
+
+        return apiService.couponPostRecode(token).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 派发优惠券
+     */
+    public Observable<NullDataEntity> pushCoupon(CouponRecode couponRecode) {
+
+        return apiService.pushCoupon(token, couponRecode).compose(RxHelper.observe());
     }
 
 }

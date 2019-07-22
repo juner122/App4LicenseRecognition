@@ -29,6 +29,8 @@ import com.juner.mvp.bean.CategoryBrandList;
 import com.juner.mvp.bean.CategoryType;
 import com.juner.mvp.bean.CheckOptions;
 import com.juner.mvp.bean.Coupon;
+import com.juner.mvp.bean.Coupon2;
+import com.juner.mvp.bean.CouponRecode;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseInfo;
 import com.juner.mvp.bean.CourseRecord;
@@ -474,17 +476,13 @@ public interface ApiService {
     Observable<CarVin> carVinInfoQuery(@Url String url, @Query("vin") String vin);
 
 
-
     /**
      * 车辆vin信息查询服务商  http://www.easyepc123.com/interface
      *
-     * @param url 	http://www.easyepc123.com/api/111002
+     * @param url http://www.easyepc123.com/api/111002
      */
     @POST()
     Observable<CarVin2> carVinInfoQuery2(@Url String url, @Body CarVinRequest carVinRequest);
-
-
-
 
 
     //门店可录入套卡列表
@@ -789,8 +787,6 @@ public interface ApiService {
     Observable<BaseBean<List<StockInOrOut>>> stockInOrOutRecordList(@Header("X-Nideshop-Token") String token, @Field("type") int type);
 
 
-
-
     //出库时匹配订单
     @POST("xgxshopstocklog/matchOrder")
     @FormUrlEncoded
@@ -800,5 +796,28 @@ public interface ApiService {
     @POST("order/selectOrderDeduction")
     @FormUrlEncoded
     Observable<BaseBean<List<StaffPerformance>>> getOrderDeduction(@Header("X-Nideshop-Token") String token, @Field("order_id") int order_id);
+
+
+    //门店优惠券模板列表
+    @POST("coupon/shopCouponList")
+    Observable<BaseBean<List<Coupon2>>> shopCouponList(@Header("X-Nideshop-Token") String token);
+
+    //添加优惠模板
+    @POST("coupon/addShopCoupon")
+    Observable<BaseBean<NullDataEntity>> addShopCoupon(@Header("X-Nideshop-Token") String token, @Body Coupon2 coupon2);
+
+    //优惠券派发记录列表
+    @POST("coupon/pushLogList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Coupon2>>> couponPostRecode(@Header("X-Nideshop-Token") String token, @Field("dateStart") String dateStart, @Field("dateEnd") String dateEnd, @Field("name") int name);
+
+    //优惠券派发记录列表
+    @POST("coupon/pushLogList")
+    Observable<BaseBean<List<CouponRecode>>> couponPostRecode(@Header("X-Nideshop-Token") String token);
+
+   //派发优惠券
+    @POST("coupon/pushCoupon")
+    Observable<BaseBean<NullDataEntity>> pushCoupon(@Header("X-Nideshop-Token") String token,@Body CouponRecode couponRecode);
+
 
 }

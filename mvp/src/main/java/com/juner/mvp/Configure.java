@@ -45,6 +45,7 @@ public class Configure {
     public static final String order_on = "order_on";//
 
     public static final String shop_name = "shop_name";//
+    public static final String shop_id = "id";//
     public static final String shop_address = "shop_address";//
     public static final String shop_phone = "shop_phone";//·
     public static final String shop_user_name = "shop_user_name";//

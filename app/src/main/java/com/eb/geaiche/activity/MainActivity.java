@@ -123,11 +123,7 @@ public class MainActivity extends BaseActivity {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
         }
         mFragments.add(new MainFragment1New());
-//        mFragments.add(new MainFragment2());
-//        mFragments.add(new MainFragment3());
         mFragments.add(new MainFragmentPlate());
-//        mFragments.add(new MainFragment4());
-//        mFragments.add(new MainFragment5());
         mFragments.add(new MainFragment5New());
         commonTabLayout.setTabData(mTabEntities, this, R.id.fragment, mFragments);
         setCurrentTab(0);

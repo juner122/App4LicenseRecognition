@@ -18,6 +18,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.AnimationUtil;
 import com.juner.mvp.Configure;
@@ -113,6 +114,7 @@ public class MallGoodsVinScanActivity extends BaseActivity {
             ll_tv_check.setVisibility(View.VISIBLE);
             queryVinInfo(vin);
         }
+
     }
 
 
@@ -205,12 +207,12 @@ public class MallGoodsVinScanActivity extends BaseActivity {
 
 
                 toActivity(MallTypeActivity.class, VIN, null);
-
+                finish();
 
                 break;
             case R.id.enter://返回页面
                 toActivity(MallTypeActivity.class, VIN, vin);
-
+                finish();
 
                 break;
             case R.id.tv_check://查询

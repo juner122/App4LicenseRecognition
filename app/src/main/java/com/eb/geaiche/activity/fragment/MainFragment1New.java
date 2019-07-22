@@ -70,7 +70,7 @@ public class MainFragment1New extends BaseFragment {
     }
 
 
-    public static final String TAG = "MainFragment1New";
+    public static final String TAG = "MallMainFragment";
 
     @Override
     protected String setTAG() {

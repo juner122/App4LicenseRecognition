@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/head_view"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="54dp" />
+
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tl_button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="#ffffff"
+        tl:layout_constraintBottom_toBottomOf="parent"
+        tl:tl_iconHeight="23dp"
+        tl:tl_iconWidth="23dp"
+        tl:tl_indicator_color="#2C97DE"
+        tl:tl_indicator_height="0dp"
+        tl:tl_textSelectColor="#4A9DE3"
+        tl:tl_textUnselectColor="#666"
+        tl:tl_textsize="12sp"
+        tl:tl_underline_color="#000"
+        tl:tl_underline_height="0dp" />
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#d9d9d9"
+        tl:layout_constraintBottom_toTopOf="@id/tl_button_bar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

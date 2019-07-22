@@ -14,7 +14,7 @@ public class MyAppPreferences {
     //获取门店类型
     public static boolean getShopType() {
         return new AppPreferences(MyApplication.getInstance()).getBoolean(SHOP_TYPE, true);//true 为联盟门店  f为直营
-    }
+}
 
 
     public static void putShopType(boolean isAlliance) {

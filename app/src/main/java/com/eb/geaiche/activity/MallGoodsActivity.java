@@ -3,11 +3,9 @@ package com.eb.geaiche.activity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
@@ -19,12 +17,12 @@ import com.juner.mvp.bean.GoodsList;
 
 import butterknife.BindView;
 
-import static com.eb.geaiche.activity.MallActivity.VIN;
+import static com.eb.geaiche.mall.fragment.MallMainFragment.VIN;
 
 //商城商品列表
 public class MallGoodsActivity extends BaseActivity {
     public static final String goodsId = "goodsId";
-
+    public static final String categoryId = "categoryId";
     String vin;//车辆vin码
 
     @Override

@@ -133,6 +133,8 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
                     return;
                 }
 
+
+
                 try {
                     Class clazz = Class.forName(perms);
                     activity.startActivity(new Intent(activity, clazz));

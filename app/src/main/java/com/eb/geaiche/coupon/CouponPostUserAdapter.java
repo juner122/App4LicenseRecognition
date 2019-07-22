@@ -1,4 +1,4 @@
-package com.eb.geaiche.adapter;
+package com.eb.geaiche.coupon;
 
 import androidx.annotation.Nullable;
 
@@ -9,19 +9,19 @@ import com.juner.mvp.bean.MemberEntity;
 
 import java.util.List;
 
-public class MemberListAdpter extends BaseQuickAdapter<MemberEntity, BaseViewHolder> {
+public class CouponPostUserAdapter extends BaseQuickAdapter<MemberEntity, BaseViewHolder> {
 
+    boolean isShowDel;
 
-
-    public MemberListAdpter(@Nullable List<MemberEntity> data) {
-        super(R.layout.activity_member_list_item, data);
-
+    public CouponPostUserAdapter(@Nullable List<MemberEntity> data, boolean isShowDel) {
+        super(R.layout.activity_coupon_post_user_item, data);
+        this.isShowDel = isShowDel;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MemberEntity item) {
-
         helper.setText(R.id.phone, item.getMobile());
+        helper.addOnClickListener(R.id.delete);
 
         if (null == item.getUsername() || item.getUsername().equals("")) {
             helper.setText(R.id.tv1, "匿");
@@ -41,8 +41,9 @@ public class MemberListAdpter extends BaseQuickAdapter<MemberEntity, BaseViewHol
             helper.setVisible(R.id.v, true);
         }
 
-
-
-
+        if (isShowDel)
+            helper.setVisible(R.id.delete, true);
+        else
+            helper.setVisible(R.id.delete, false);
     }
 }

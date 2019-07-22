@@ -1,12 +1,12 @@
-package com.eb.geaiche.activity;
+package com.eb.geaiche.mall;
+
+
 
 import androidx.fragment.app.Fragment;
 
-
 import com.eb.geaiche.R;
-import com.eb.geaiche.mall.fragment.MallCartFragment;
+import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.mall.fragment.MallMainFragment;
-import com.eb.geaiche.mall.fragment.MallOrderFragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -15,13 +15,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 
-//商城
-public class MallActivity extends BaseActivity {
-
-    public static final String categoryId = "categoryId";
-    public static final String goodsTitle = "goodsTitle";
-    public static final String VIN = "Vin";
-
+public class MallHomeActivity extends BaseActivity {
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
@@ -48,8 +42,8 @@ public class MallActivity extends BaseActivity {
         }
         mFragments.add(new MallMainFragment());
         mFragments.add(new MallMainFragment());
-        mFragments.add(new MallCartFragment());
-        mFragments.add(new MallOrderFragment());
+        mFragments.add(new MallMainFragment());
+        mFragments.add(new MallMainFragment());
         commonTabLayout.setTabData(mTabEntities, this, R.id.fragment, mFragments);
 
 
@@ -64,9 +58,6 @@ public class MallActivity extends BaseActivity {
             @Override
             public void onTabReselect(int position) {
 
-                if (position == 0) {
-                    finish();
-                }
             }
         });
         setCurrentTab(1);

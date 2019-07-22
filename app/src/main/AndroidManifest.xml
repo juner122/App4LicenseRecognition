@@ -45,7 +45,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".activity.MallGoodsVinScanActivity"></activity>
+        <activity android:name=".coupon.CouponPostActivity"></activity>
+        <activity android:name=".coupon.CouponPostRecordActivity" />
+        <activity android:name=".coupon.CouponNewActivity" />
+        <activity android:name=".coupon.CouponListActivity" />
+        <activity android:name=".mall.MallHomeActivity" />
+        <activity android:name=".activity.MallGoodsVinScanActivity" />
         <activity android:name=".activity.MeritsDistriListActivity" />
         <activity android:name=".activity.MeritsDistributionActivity" />
         <activity android:name=".maneuver.activity.ManeuverInfoActivity" />

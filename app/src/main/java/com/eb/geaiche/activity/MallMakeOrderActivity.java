@@ -15,6 +15,7 @@ import com.eb.geaiche.adapter.MallOrderGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 
 import com.eb.geaiche.util.MathUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 
@@ -50,6 +51,11 @@ public class MallMakeOrderActivity extends BaseActivity {
     @BindView(R.id.all_price)
     TextView all_price;
 
+    @BindView(R.id.ll_pay)
+    View ll_pay;
+    @BindView(R.id.ll_pay_t)
+    View ll_pay_t;
+
 
     MallOrderGoodsListAdapter adapter;
 
@@ -84,6 +90,15 @@ public class MallMakeOrderActivity extends BaseActivity {
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
         buyType = getIntent().getIntExtra("buyType", 1);
         all_price.setText("￥" + upDataPrice(cartItems));
+
+        if (MyAppPreferences.getShopType()) {
+            ll_pay.setVisibility(View.VISIBLE);
+            ll_pay_t.setVisibility(View.VISIBLE);
+        } else {
+            ll_pay.setVisibility(View.GONE);
+            ll_pay_t.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

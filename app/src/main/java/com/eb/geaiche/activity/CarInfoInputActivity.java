@@ -259,7 +259,7 @@ public class CarInfoInputActivity extends BaseActivity {
 
             tv_car_vin.setText(carInfo.getVin());
 
-            tv_car_model.setText(selectAutoBrand.getName() + " " + autoModel.getName());
+            tv_car_model.setText(selectAutoBrand.getName() + autoModel.getName());
         } else {
 
             selectAutoBrand = intent.getParcelableExtra(Configure.brand);
@@ -637,30 +637,15 @@ public class CarInfoInputActivity extends BaseActivity {
                     ToastUtils.showToast("请填写车架号！");
                     return;
                 }
-                if (TextUtils.isEmpty(tv_car_model.getText())) {
-                    ToastUtils.showToast("请选择车型!");
-                    return;
-                }
-                if (null != selectAutoBrand && selectAutoBrand.getId() == 0) {
-                    ToastUtils.showToast("请选择车品牌!");
-                    return;
-                }
 
-                if (null != autoModel && autoModel.getId() == 0) {
-                    ToastUtils.showToast("请选择车型!");
+                if (tv_car_model.getText().toString().equals("") || TextUtils.isEmpty(tv_car_model.getText()) || tv_car_model.getText().toString().equals("null")) {
+                    ToastUtils.showToast("请完善车型!");
                     return;
                 }
-
-                if (tv_car_model.getText().toString().equals("") || tv_car_model.getText().toString().equals("null")) {
-                    ToastUtils.showToast("请选择车型!");
-                    return;
-                }
-
                 if (TextUtils.isEmpty(tv_car_mileage.getText())) {
                     ToastUtils.showToast("里程数不能为空!");
                     return;
                 }
-
 
             }
 

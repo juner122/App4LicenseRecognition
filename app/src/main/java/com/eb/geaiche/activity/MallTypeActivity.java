@@ -12,7 +12,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallTypeBrandListAdapter;
 import com.eb.geaiche.adapter.MallTypeListAdapter;
@@ -26,14 +26,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.eb.geaiche.activity.MallActivity.VIN;
-import static com.eb.geaiche.activity.MallActivity.goodsTitle;
+import static com.eb.geaiche.mall.fragment.MallMainFragment.VIN;
+import static com.eb.geaiche.mall.fragment.MallMainFragment.goodsTitle;
 
 //商城商品分类列表
 public class MallTypeActivity extends BaseActivity {
 
     public static final String goodsBrandId = "goodsBrandId";
-
+    public static final String categoryId = "categoryId";
 
     String vin;//车辆vin码
 
@@ -68,7 +68,7 @@ public class MallTypeActivity extends BaseActivity {
                 break;
 
             case R.id.iv_scan:
-                toActivity(MallGoodsVinScanActivity.class, MallActivity.VIN, vin);
+                toActivity(MallGoodsVinScanActivity.class, VIN, vin);
                 break;
             case R.id.iv_search:
 
@@ -78,7 +78,7 @@ public class MallTypeActivity extends BaseActivity {
                 }
                 Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
                 intent.putExtra(goodsTitle, et_key.getText().toString());
-                intent.putExtra(MallActivity.VIN, vin);
+                intent.putExtra(VIN, vin);
                 startActivity(intent);
                 break;
         }
@@ -129,8 +129,8 @@ public class MallTypeActivity extends BaseActivity {
 
             Intent intent = new Intent(MallTypeActivity.this, MallGoodsActivity.class);
             intent.putExtra(goodsBrandId, brandListAdapter.getData().get(position).getBrandId());
-            intent.putExtra(MallActivity.categoryId, brandListAdapter.getData().get(position).getCategoryId());
-            intent.putExtra(MallActivity.VIN, vin);
+            intent.putExtra(categoryId, brandListAdapter.getData().get(position).getCategoryId());
+            intent.putExtra(VIN, vin);
             startActivity(intent);
 
         });
