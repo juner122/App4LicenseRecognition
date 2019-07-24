@@ -16,16 +16,21 @@ import com.eb.geaiche.api.RxSubscribe;
 
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.MyAppPreferences;
+import com.eb.geaiche.util.String2Utils;
 import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.CartItem;
 
 import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.XgxPurchaseOrderGoodsPojo;
 
 import com.juner.mvp.bean.XgxPurchaseOrderPojo;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -66,12 +71,22 @@ public class MallMakeOrderActivity extends BaseActivity {
 
     int buyType;//购买类型(1是通过购物车购买需清空购物车  2是直接购买 无需清购物车)
 
+
+    int user_role;//当前登录的员工岗位  是否店长
+
     @OnClick({R.id.enter_pay})
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.enter_pay://下单1
-                makeOrder();
+
+                if (user_role == 1)
+                    makeOrder();
+                else {
+                    ToastUtils.showToast("店长权限！");
+                }
+
+
                 break;
         }
     }
@@ -86,7 +101,7 @@ public class MallMakeOrderActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("确认订单");
-
+        user_role = MyAppPreferences.getInt(Configure.user_role);
         cartItems = getIntent().getParcelableArrayListExtra("cart_goods");
         buyType = getIntent().getIntExtra("buyType", 1);
         all_price.setText("￥" + upDataPrice(cartItems));
@@ -223,4 +238,6 @@ public class MallMakeOrderActivity extends BaseActivity {
             return MathUtil.twoDecimal(allPrice.doubleValue());
         }
     }
+
+
 }

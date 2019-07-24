@@ -2,13 +2,12 @@ package com.eb.geaiche.coupon;
 
 
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
@@ -30,11 +29,11 @@ public class CouponListActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.new_coupon:
-                toActivity(CouponNewActivity.class);
+                toActivity(CouponNewActivity.class,"view_type",1);
 
                 break;
             case R.id.tv_title_r:
-
+                toActivity(CouponPostRecordActivity.class);
                 break;
 
 
@@ -43,23 +42,33 @@ public class CouponListActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        tv_title.setText("优化劵管理");
+        tv_title.setText("优惠劵管理");
         setRTitle("派发记录");
     }
 
     @Override
     protected void setUpView() {
         couponAdapter = new CouponAdapter(null, this);
+
+        rv.setLayoutManager(new LinearLayoutManager(this));
+
         couponAdapter.setEmptyView(R.layout.order_list_empty_view_c, rv);
 
         couponAdapter.setOnItemClickListener((adapter, view, position) -> {
 
-            //派发
-            toCouponPostActivity(couponAdapter.getData().get(position));
+            //查看优惠劵信息
+
+            toActivity(CouponNewActivity.class);
+
 
         });
+        couponAdapter.setOnItemChildClickListener((adapter, view, position) -> {
 
-        rv.setLayoutManager(new LinearLayoutManager(this));
+            //派发
+            toCouponPostActivity(couponAdapter.getData().get(position));
+        });
+
+
         rv.setAdapter(couponAdapter);
 
     }
@@ -72,8 +81,10 @@ public class CouponListActivity extends BaseActivity {
         startActivity(intent);
     }
 
+
     @Override
-    protected void setUpData() {
+    protected void onResume() {
+        super.onResume();
         Api().shopCouponList().subscribe(new RxSubscribe<List<Coupon2>>(this, true) {
             @Override
             protected void _onNext(List<Coupon2> coupon2s) {
@@ -85,6 +96,10 @@ public class CouponListActivity extends BaseActivity {
                 ToastUtils.showToast("获取失败！" + message);
             }
         });
+    }
+
+    @Override
+    protected void setUpData() {
 
     }
 

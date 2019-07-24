@@ -31,6 +31,7 @@ public class CouponAdapter extends BaseQuickAdapter<Coupon2, BaseViewHolder> {
         helper.setText(R.id.price, String.format("￥%s", item.getType_money()));
         helper.setText(R.id.term, String.format("满%s可使用", item.getMin_amount()));
         helper.setText(R.id.name, item.getName());
-        helper.setText(R.id.time, String.format("有效期至：%s", item.getUse_end_date()));
+        helper.setText(R.id.time, String.format("有效期：%s天", item.getCycle()));
+        helper.addOnClickListener(R.id.post);
     }
 }

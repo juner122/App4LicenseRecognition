@@ -42,6 +42,8 @@ public class ChangeStoreActivity extends BaseActivity {
             protected void _onNext(Token token) {
                 new AppPreferences(ChangeStoreActivity.this).put(Configure.Token, token.getToken().getToken());
                 new AppPreferences(ChangeStoreActivity.this).put(Configure.moblie, storeListAdpter.getPickStore().getPhone());
+                new AppPreferences(ChangeStoreActivity.this).put(Configure.moblie_s, storeListAdpter.getPickStore().getPhone());
+
                 Toast.makeText(ChangeStoreActivity.this, "切换成功", Toast.LENGTH_SHORT).show();
                 toActivity(StartActivity.class);
             }

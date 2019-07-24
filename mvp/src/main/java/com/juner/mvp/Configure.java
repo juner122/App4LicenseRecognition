@@ -40,6 +40,7 @@ public class Configure {
     public static final String user_id = "user_id";//
     public static final String moblie = "moblie";//y
     public static final String moblie_s = "moblie_s";//
+    public static final String user_role = "user_role";//
     public static final String car_id = "car_id";//
     public static final String user_name = "user_name";//
     public static final String order_on = "order_on";//

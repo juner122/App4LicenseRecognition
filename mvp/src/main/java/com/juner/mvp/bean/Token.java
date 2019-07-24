@@ -8,6 +8,8 @@ public class Token {
     TokenEntity token;
     List<AppMenu> appMenuList;
     Integer shop_type;   //0直营1是加盟  默认为1
+    Integer user_role;   //0店员 1 店长
+
 
     public List<AppMenu> getAppMenuList() {
         return appMenuList;
@@ -27,6 +29,13 @@ public class Token {
     }
 
 
+    public Integer getUser_role() {
+        return user_role;
+    }
+
+    public void setUser_role(Integer user_role) {
+        this.user_role = user_role;
+    }
 
     public class TokenEntity {
 

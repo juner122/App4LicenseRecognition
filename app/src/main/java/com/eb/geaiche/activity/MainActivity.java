@@ -22,6 +22,7 @@ import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.activity.fragment.MainFragment1New;
 import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.coupon.CouponListActivity;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
 import com.eb.geaiche.stockControl.activity.StockControlActivity;
@@ -94,6 +95,7 @@ public class MainActivity extends BaseActivity {
 
             case R.id.tv_shopName:
 //                toActivity(StockControlActivity.class);//出入库
+                toActivity(CouponListActivity.class);//优惠劵管理
                 break;
 
         }

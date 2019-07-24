@@ -1,25 +1,32 @@
 package com.eb.geaiche.coupon;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.util.SystemUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.Coupon2;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Shop;
 
 import net.grandcentrix.tray.AppPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.juner.mvp.Configure.shop_address;
 import static com.juner.mvp.Configure.shop_id;
 import static com.juner.mvp.Configure.shop_name;
+import static com.juner.mvp.Configure.shop_phone;
+import static com.juner.mvp.Configure.shop_user_name;
 
 public class CouponNewActivity extends BaseActivity {
 
@@ -39,6 +46,10 @@ public class CouponNewActivity extends BaseActivity {
     @BindView(R.id.is_die_jia)
     Switch is_die_jia;//是否能叠加
 
+    int type;//1添加，2查看
+    int id;//优惠劵id
+    String dept_id;//门店id
+
     @OnClick({R.id.reset, R.id.enter})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -48,12 +59,57 @@ public class CouponNewActivity extends BaseActivity {
                 break;
 
             case R.id.enter:
-                addCoupon();
+                if (type == 1)
+                    addCoupon();
+                else
+                    fixCoupon();
                 break;
 
         }
     }
 
+
+    @Override
+    protected void init() {
+
+        type = getIntent().getIntExtra("view_type", -1);
+
+        if (type == 1)
+            tv_title.setText("添加优惠劵");
+        else {
+            tv_title.setText("优惠券详情");
+            getCouponInfo();
+
+        }
+    }
+
+    private void getCouponInfo() {
+        id = getIntent().getIntExtra("id", -1);
+
+
+        //获取优惠劵信息
+        Api().shopCouponInfo(id).subscribe(new RxSubscribe<Coupon2>(this, true) {
+            @Override
+            protected void _onNext(Coupon2 coupon2) {
+                name.setText(coupon2.getName());
+                tv_price.setText(coupon2.getType_money());
+                tv_price_in.setText(coupon2.getMin_amount());
+                time.setText(coupon2.getCycle());
+                is_die_jia.setChecked(coupon2.getSuperposition().equals("1"));
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("优惠劵信息获取失败！" + message);
+            }
+        });
+
+
+    }
+
+
+    //新增
     private void addCoupon() {
 
         if (TextUtils.isEmpty(name.getText())) {
@@ -72,6 +128,10 @@ public class CouponNewActivity extends BaseActivity {
             ToastUtils.showToast("有效天数不能为空！");
             return;
         }
+        if (TextUtils.isEmpty(dept_id)) {
+            ToastUtils.showToast("门店ID获取失败！");
+            return;
+        }
 
 
         Api().addShopCoupon(setCoupon()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
@@ -87,8 +147,26 @@ public class CouponNewActivity extends BaseActivity {
             }
         });
 
+    }
+
+    //修改
+    private void fixCoupon() {
+
+        Api().fixShopCoupon(setCoupon()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                ToastUtils.showToast("操作成功！");
+                finish();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("操作失败！" + message);
+            }
+        });
 
     }
+
 
     private Coupon2 setCoupon() {
         Coupon2 coupon2 = new Coupon2();
@@ -98,16 +176,14 @@ public class CouponNewActivity extends BaseActivity {
         coupon2.setCycle(time.getText().toString());
         coupon2.setType("1");
         coupon2.setSuperposition(is_die_jia.isChecked() ? "1" : "2");
-        coupon2.setDept_id(new AppPreferences(this).getString(shop_id, "-"));
+        coupon2.setDept_id(dept_id);
+
+        if (type != 1)
+            coupon2.setId(String.valueOf(id));
+
         return coupon2;
     }
 
-    @Override
-    protected void init() {
-
-        tv_title.setText("添加优惠劵");
-
-    }
 
     @Override
     protected void setUpView() {
@@ -116,11 +192,23 @@ public class CouponNewActivity extends BaseActivity {
 
     @Override
     protected void setUpData() {
+        Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, true) {
+            @Override
+            protected void _onNext(Shop shop) {
+                dept_id = shop.getShop().getId();
+            }
 
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("门店ID获取失败！"+message);
+            }
+        });
     }
 
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_coupon_new;
     }
+
+
 }

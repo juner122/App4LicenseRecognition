@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.util.MyAppPreferences;
+import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
 import com.juner.mvp.bean.NullDataEntity;
@@ -67,9 +68,13 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
                 getView().loginSuccess(token.getAppMenuList());
 
 
+                //保存门员类型
+
+
+                MyAppPreferences.putInt(Configure.user_role, null == token.getUser_role() ? 0 : token.getUser_role());
+
                 //保存门店类型
                 MyAppPreferences.putShopType(token.getShop_type() == 1);
-
             }
 
             @Override

@@ -3,6 +3,9 @@ package com.eb.geaiche.coupon;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,12 +14,18 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
+import com.eb.geaiche.activity.ResultBack;
+import com.eb.geaiche.activity.TechnicianListActivity;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.util.DateUtil;
+import com.eb.geaiche.util.String2Utils;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.Coupon2;
 import com.juner.mvp.bean.CouponRecode;
 import com.juner.mvp.bean.NullDataEntity;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,7 +69,7 @@ public class CouponPostActivity extends BaseActivity {
     int view_type;//页面类型 1：派发优惠劵，2：查看记录
     boolean withMsg;//是否短信通知
 
-    @OnClick({R.id.tv_total, R.id.iv_pick_all})
+    @OnClick({R.id.tv_total, R.id.iv_pick_all, R.id.tv_iv_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_total:
@@ -68,7 +77,10 @@ public class CouponPostActivity extends BaseActivity {
                 //派发
                 post();
                 break;
-
+            case R.id.tv_iv_r:
+                //添加用户
+                toActivity(CouponPickUserActivity.class, adapter.getData(), "Member");
+                break;
             case R.id.iv_pick_all:
                 if (withMsg) {
                     withMsg = false;
@@ -83,6 +95,46 @@ public class CouponPostActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        adapter.setNewData(intent.getParcelableArrayListExtra("Member"));
+    }
+
+    @Override
+    protected void init() {
+        view_type = getIntent().getIntExtra("view_type", -1);
+
+        if (view_type == 1) {
+            tv_title.setText("派发优惠劵");
+            IvRSetSrc(R.mipmap.icon_add2);
+            ll_post.setVisibility(View.VISIBLE);
+            coupon = getIntent().getParcelableExtra("Coupon");
+
+
+            price.setText(String.format("￥%s", coupon.getType_money()));
+            term.setText(String.format("满%s可使用", coupon.getMin_amount()));
+            name.setText(coupon.getName());
+            time.setText(String.format("有效期至：%s", coupon.getUse_end_date()));
+            adapter = new CouponPostUserAdapter(null, true);
+        } else {
+            tv_title.setText("派发记录");
+            ll_post.setVisibility(View.GONE);
+            couponRecode = getIntent().getParcelableExtra("CouponRecode");
+
+            price.setText(String.format("￥%s", couponRecode.getTypeMoney()));
+            term.setText(String.format("满%s可使用", couponRecode.getMinAmount()));
+            name.setText(couponRecode.getCouponName());
+            time.setText(String.format("有效期至：%s", DateUtil.getFormatedDateTime(couponRecode.getCreateTime())));
+            adapter = new CouponPostUserAdapter(couponRecode.getXgxCouponPushUsersList(), false);
+            setNum(adapter.getData().size());
+        }
+
+    }
+
+    public void setNum(int n) {
+        num.setText(String.format("是否短信通知%s位车主", n));
+    }
 
     private void post() {
         Api().pushCoupon(createRecode()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
@@ -103,13 +155,19 @@ public class CouponPostActivity extends BaseActivity {
     private CouponRecode createRecode() {
         CouponRecode recode = new CouponRecode();
 
-        recode.setXgxCouponPushUsersList(adapter.getData());
+
+        if (withMsg)
+            recode.setXgxCouponPushUsersList(adapter.getData());
+
+
         recode.setDeptId(coupon.getDept_id());
         recode.setCouponId(coupon.getId());
 
 
         recode.setUserId(coupon.getId());//操作人
         recode.setUserName(coupon.getId());//操作人
+
+
         recode.setCouponName(coupon.getName());//券名
         recode.setTypeMoney(coupon.getType_money());
         recode.setMinAmount(coupon.getMin_amount());
@@ -123,41 +181,6 @@ public class CouponPostActivity extends BaseActivity {
 
         return recode;
 
-    }
-
-
-    @Override
-    protected void init() {
-        view_type = getIntent().getIntExtra("view_type", -1);
-
-        if (view_type == 1) {
-            tv_title.setText("派发优惠劵");
-            ll_post.setVisibility(View.VISIBLE);
-            coupon = getIntent().getParcelableExtra("Coupon");
-
-
-            price.setText(String.format("￥%s", coupon.getType_money()));
-            term.setText(String.format("满%s可使用", coupon.getMin_amount()));
-            name.setText(coupon.getName());
-            time.setText(String.format("有效期至：%s", coupon.getUse_end_date()));
-            adapter = new CouponPostUserAdapter(null, view_type == 1);
-        } else {
-            tv_title.setText("派发记录");
-            ll_post.setVisibility(View.GONE);
-            couponRecode = getIntent().getParcelableExtra("CouponRecode");
-
-            price.setText(String.format("￥%s", couponRecode.getTypeMoney()));
-            term.setText(String.format("满%s可使用", couponRecode.getMinAmount()));
-            name.setText(couponRecode.getCouponName());
-            time.setText(String.format("有效期至：%s", DateUtil.getFormatedDateTime(couponRecode.getCreateTime())));
-            adapter = new CouponPostUserAdapter(couponRecode.getXgxCouponPushUsersList(), view_type == 1);
-            setNum(adapter.getData().size());
-        }
-
-    }
-
-    public void setNum(int n) {
-        num.setText(String.format("是否短信通知%s位车主", n));
     }
 
     @Override

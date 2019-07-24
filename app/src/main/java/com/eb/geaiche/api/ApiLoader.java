@@ -880,7 +880,7 @@ public class ApiLoader {
     public Observable<Token> login(String mobile, String et_car_code) {
         map.put("mobile", mobile);
         map.put("authCode", et_car_code);
-        return apiService.login(map).compose(RxHelper.<Token>observe());
+        return apiService.login(map).compose(RxHelper.observe());
     }
 
 
@@ -1744,6 +1744,14 @@ public class ApiLoader {
     }
 
     /**
+     * 修改优惠模板
+     */
+    public Observable<NullDataEntity> fixShopCoupon(Coupon2 coupon2) {
+
+        return apiService.fixShopCoupon(token, coupon2).compose(RxHelper.observe());
+    }
+
+    /**
      * 优惠券派发记录列表
      */
     public Observable<List<CouponRecode>> couponPostRecode() {
@@ -1758,6 +1766,14 @@ public class ApiLoader {
     public Observable<NullDataEntity> pushCoupon(CouponRecode couponRecode) {
 
         return apiService.pushCoupon(token, couponRecode).compose(RxHelper.observe());
+    }
+
+    /**
+     * 查看优惠券模板详情
+     */
+    public Observable<Coupon2> shopCouponInfo(int id) {
+
+        return apiService.shopCouponInfo(token, id).compose(RxHelper.observe());
     }
 
 }

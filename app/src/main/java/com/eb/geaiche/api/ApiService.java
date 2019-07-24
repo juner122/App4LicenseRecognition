@@ -806,6 +806,10 @@ public interface ApiService {
     @POST("coupon/addShopCoupon")
     Observable<BaseBean<NullDataEntity>> addShopCoupon(@Header("X-Nideshop-Token") String token, @Body Coupon2 coupon2);
 
+    //修改优惠模板
+    @POST("coupon/updateShopCoupon")
+    Observable<BaseBean<NullDataEntity>> fixShopCoupon(@Header("X-Nideshop-Token") String token, @Body Coupon2 coupon2);
+
     //优惠券派发记录列表
     @POST("coupon/pushLogList")
     @FormUrlEncoded
@@ -815,9 +819,14 @@ public interface ApiService {
     @POST("coupon/pushLogList")
     Observable<BaseBean<List<CouponRecode>>> couponPostRecode(@Header("X-Nideshop-Token") String token);
 
-   //派发优惠券
+    //派发优惠券
     @POST("coupon/pushCoupon")
-    Observable<BaseBean<NullDataEntity>> pushCoupon(@Header("X-Nideshop-Token") String token,@Body CouponRecode couponRecode);
+    Observable<BaseBean<NullDataEntity>> pushCoupon(@Header("X-Nideshop-Token") String token, @Body CouponRecode couponRecode);
+
+    //查看优惠券模板详情
+    @POST("coupon/shopCouponInfo")
+    @FormUrlEncoded
+    Observable<BaseBean<Coupon2>> shopCouponInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
 
 
 }

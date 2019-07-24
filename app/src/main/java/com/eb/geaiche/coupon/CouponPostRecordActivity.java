@@ -20,7 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-import static com.juner.mvp.Configure.shop_id;
+
 
 public class CouponPostRecordActivity extends BaseActivity {
 

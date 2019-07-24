@@ -1,24 +1,19 @@
-package com.eb.geaiche.activity;
-
+package com.eb.geaiche.coupon;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-
-import android.widget.Toast;
-
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
-import com.eb.geaiche.adapter.TechnicianAdpter;
+import com.eb.geaiche.activity.BaseActivity;
+
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
-import com.juner.mvp.bean.BasePage;
-
-import com.juner.mvp.bean.Technician;
+import com.juner.mvp.bean.Member;
+import com.juner.mvp.bean.MemberEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,32 +21,50 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TechnicianListActivity extends BaseActivity {
+public class CouponPickUserActivity extends BaseActivity {
 
     @BindView(R.id.rv)
     RecyclerView rv;
 
+    CouponPickUserAdpter adpter;
+    List<MemberEntity> list = new ArrayList<>();
+    List<MemberEntity> pick_list;
 
-    TechnicianAdpter adpter;
-    List<Technician> list = new ArrayList<>();
-    List<Technician> pick_list;
+    @OnClick({R.id.but_enter})
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.but_enter:
+
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("Member", (ArrayList) pick_list);
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+
+
+        }
+    }
 
     @Override
     protected void init() {
-        tv_title.setText("选择技师");
+        tv_title.setText("选择用户");
 
-        pick_list = getIntent().getParcelableArrayListExtra("Technician");
+        pick_list = getIntent().getParcelableArrayListExtra("Member");
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adpter = new TechnicianAdpter(list);
+        adpter = new CouponPickUserAdpter(list);
         rv.setAdapter(adpter);
 
-        Api().sysuserList().subscribe(new RxSubscribe<BasePage<Technician>>(this, true) {
+        Api().memberList(1, 200).subscribe(new RxSubscribe<Member>(this, true) {
             @Override
-            protected void _onNext(BasePage<Technician> t) {
-
-                list = t.getList();
+            protected void _onNext(Member member) {
+                list = member.getMemberList();
                 setPick();
                 adpter.setNewData(list);
+
+
             }
 
             @Override
@@ -77,11 +90,20 @@ public class TechnicianListActivity extends BaseActivity {
 
         });
 
+
     }
 
+    @Override
+    protected void setUpView() {
+
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
     //设置选择的项
     private void setPick() {
-
         if (null != pick_list && pick_list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
                 for (int p = 0; p < pick_list.size(); p++) {
@@ -94,42 +116,9 @@ public class TechnicianListActivity extends BaseActivity {
 
             }
         }
-
-
     }
-
-
-    @OnClick({R.id.but_enter})
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.but_enter:
-
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
-                intent.putExtras(bundle);
-                setResult(RESULT_OK, intent);
-                finish();
-                break;
-
-
-        }
-    }
-
-
-    @Override
-    protected void setUpView() {
-
-    }
-
-    @Override
-    protected void setUpData() {
-
-    }
-
     @Override
     public int setLayoutResourceID() {
-        return R.layout.activity_technician_list;
+        return R.layout.activity_coupon_pick_user;
     }
 }

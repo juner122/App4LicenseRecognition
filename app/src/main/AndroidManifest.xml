@@ -45,7 +45,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".coupon.CouponPostActivity"></activity>
+        <activity android:name=".coupon.CouponPickUserActivity"/>
+        <activity
+            android:name=".coupon.CouponPostActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".coupon.CouponPostRecordActivity" />
         <activity android:name=".coupon.CouponNewActivity" />
         <activity android:name=".coupon.CouponListActivity" />
