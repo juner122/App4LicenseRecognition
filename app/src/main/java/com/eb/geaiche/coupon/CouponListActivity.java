@@ -58,7 +58,7 @@ public class CouponListActivity extends BaseActivity {
 
             //查看优惠劵信息
 
-            toActivity(CouponNewActivity.class);
+            toActivity(CouponNewActivity.class,"id",couponAdapter.getData().get(position).getId());
 
 
         });

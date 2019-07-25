@@ -1,8 +1,5 @@
 package com.eb.geaiche.coupon;
 
-
-import android.content.Intent;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,11 +7,8 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.api.http.RxSubscribe;
-
-import com.juner.mvp.bean.Coupon2;
 import com.juner.mvp.bean.CouponRecode;
 
-import net.grandcentrix.tray.AppPreferences;
 
 import java.util.List;
 
@@ -42,17 +36,14 @@ public class CouponPostRecordActivity extends BaseActivity {
 
         adapter.setOnItemClickListener((a, view, position) -> {
 
-            CouponRecode cr = adapter.getData().get(position);
 
-
-            toActivity(CouponPostActivity.class, cr, "CouponRecode");
+            String id = adapter.getData().get(position).getId();
+            toActivity(CouponPostActivity.class, "id", id);
 
 
         });
 
     }
-
-
 
     @Override
     protected void setUpData() {

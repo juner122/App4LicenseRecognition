@@ -5,100 +5,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context=".maneuver.activity.ManeuverInfoActivity">
 
 
     <include layout="@layout/head_view" />
 
-    <ImageView
-        android:id="@+id/iv"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="12.12年终盛典"
-        android:textColor="#ff333333"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/explain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="为了借助社交产品的流量，让用户主动分享APP中的内容到社交平台来达到拉新和促活的目的，市场..."
-        android:textColor="#ff999999"
-        android:textSize="13sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#d9d9d9" />
-
-    <TextView
-        android:id="@+id/joinNum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="参与门店(20家)"
-        android:textColor="#ff333333"
-        android:textSize="12sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        tools:itemCount="1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#fff"
+                android:orientation="vertical">
 
 
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/tl_button_bar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginBottom="5dp"
-        android:background="#ffffff"
-        android:visibility="visible"
-        tl:tl_indicator_color="#FFFF3900"
-        tl:tl_indicator_height="3dp"
-        tl:tl_indicator_style="NORMAL"
-        tl:tl_indicator_width="30dp"
-        tl:tl_textSelectColor="#020202"
-        tl:tl_textUnselectColor="#66000000"
-        tl:tl_textsize="14sp"
-        tl:tl_underline_color="#000"
-        tl:tl_underline_height="0dp" />
+                <com.youth.banner.Banner
+                    android:id="@+id/iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        tools:itemCount="1" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_question"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:visibility="gone"
-        tools:itemCount="1" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="12.12年终盛典"
+                    android:textColor="#ff333333"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv" />
+
+                <TextView
+                    android:id="@+id/explain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="为了借助社交产品的流量，让用户主动分享APP中的内容到社交平台来达到拉新和促活的目的，市场..."
+                    android:textColor="#ff999999"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="#d9d9d9" />
+
+                <TextView
+                    android:id="@+id/joinNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="参与门店(20家)"
+                    android:textColor="#ff333333"
+                    android:textSize="12sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    tools:itemCount="1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#d9d9d9" />
+            </LinearLayout>
+
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/tl_button_bar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="#ffffff"
+                android:visibility="visible"
+                tl:tl_indicator_color="#FFFF3900"
+                tl:tl_indicator_height="3dp"
+                tl:tl_indicator_style="NORMAL"
+                tl:tl_indicator_width="30dp"
+                tl:tl_textSelectColor="#020202"
+                tl:tl_textUnselectColor="#66000000"
+                tl:tl_textsize="14sp"
+                tl:tl_underline_color="#000"
+                tl:tl_underline_height="0dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#d9d9d9" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_question"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/ll_button_view"

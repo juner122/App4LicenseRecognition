@@ -1,5 +1,7 @@
 package com.eb.geaiche.maneuver.activity;
 
+
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,12 +15,13 @@ import com.juner.mvp.bean.Maneuver;
 import java.util.List;
 
 import butterknife.BindView;
-
 public class ManeuverActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
     ManeuverAdapter adapter;
+
+
 
     @Override
     protected void init() {
@@ -59,6 +62,8 @@ public class ManeuverActivity extends BaseActivity {
                 ToastUtils.showToast("活动列表获取失败！" + message);
             }
         });
+
+
     }
 
     @Override

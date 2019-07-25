@@ -8,6 +8,7 @@ import com.eb.geaiche.stockControl.bean.Supplier;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.geaiche.bean.AutoBrand;
+import com.juner.mvp.bean.Ask;
 import com.juner.mvp.bean.AutoModel;
 import com.juner.mvp.bean.BankList;
 import com.juner.mvp.bean.Banner;
@@ -72,6 +73,7 @@ import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
+import com.juner.mvp.bean.UserEntity;
 import com.juner.mvp.bean.UserInfo;
 import com.juner.mvp.bean.VersionInfo;
 import com.juner.mvp.bean.Video;
@@ -767,18 +769,29 @@ public interface ApiService {
 
     //
     //活动详情页
-    @POST("xgxshopunity/list")
+    @POST("xgxshopunity/info")
     @FormUrlEncoded
     Observable<BaseBean<Maneuver>> infoShopunity(@Header("X-Nideshop-Token") String token, @Field("id") String id);
 
 
+    //反馈列表
+    @POST("xgxshopunity/askList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Ask>>> askList(@Header("X-Nideshop-Token") String token, @Field("unity_id") String unity_id);
+
+    //反馈列表
+    @POST("xgxshopunity/askList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Ask>>> askList(@Header("X-Nideshop-Token") String token, @Field("unity_id") String unity_id, @Field("user") String user);
+
+
     //提交反馈
     @POST("xgxshopunity/askTo")
-    Observable<BaseBean<NullDataEntity>> askTo(@Header("X-Nideshop-Token") String token, @Body Joiner joiner);
+    Observable<BaseBean<NullDataEntity>> askTo(@Header("X-Nideshop-Token") String token, @Body Ask ask);
 
     //报名参加
     @POST("xgxshopunity/joinIn")
-    Observable<BaseBean<NullDataEntity>> joinIn(@Header("X-Nideshop-Token") String token, @Body Joiner joiner);
+    Observable<BaseBean<NullDataEntity>> joinIn(@Header("X-Nideshop-Token") String token, @Body Ask ask);
 
 
     //出入库记录列表
@@ -810,7 +823,8 @@ public interface ApiService {
     @POST("coupon/updateShopCoupon")
     Observable<BaseBean<NullDataEntity>> fixShopCoupon(@Header("X-Nideshop-Token") String token, @Body Coupon2 coupon2);
 
-    //优惠券派发记录列表
+    //优惠券派发记录列表 搜索
+
     @POST("coupon/pushLogList")
     @FormUrlEncoded
     Observable<BaseBean<List<Coupon2>>> couponPostRecode(@Header("X-Nideshop-Token") String token, @Field("dateStart") String dateStart, @Field("dateEnd") String dateEnd, @Field("name") int name);
@@ -819,6 +833,11 @@ public interface ApiService {
     @POST("coupon/pushLogList")
     Observable<BaseBean<List<CouponRecode>>> couponPostRecode(@Header("X-Nideshop-Token") String token);
 
+    //派发优惠券记录详情
+    @POST("coupon/pushLogInfo")
+    @FormUrlEncoded
+    Observable<BaseBean<CouponRecode>> pushLogInfo(@Header("X-Nideshop-Token") String token, @Field("id") String id);
+
     //派发优惠券
     @POST("coupon/pushCoupon")
     Observable<BaseBean<NullDataEntity>> pushCoupon(@Header("X-Nideshop-Token") String token, @Body CouponRecode couponRecode);
@@ -826,7 +845,10 @@ public interface ApiService {
     //查看优惠券模板详情
     @POST("coupon/shopCouponInfo")
     @FormUrlEncoded
-    Observable<BaseBean<Coupon2>> shopCouponInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
+    Observable<BaseBean<Coupon2>> shopCouponInfo(@Header("X-Nideshop-Token") String token, @Field("id") String id);
 
+    //获取当前登录用户
+    @POST("/app/sysuser/getInfo")
+    Observable<BaseBean<UserEntity>> getInfo(@Header("X-Nideshop-Token") String token);
 
 }

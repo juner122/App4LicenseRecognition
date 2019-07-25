@@ -47,8 +47,11 @@ public class CouponNewActivity extends BaseActivity {
     Switch is_die_jia;//是否能叠加
 
     int type;//1添加，2查看
-    int id;//优惠劵id
+    String id;//优惠劵id
     String dept_id;//门店id
+
+    Coupon2 coupon2;//查看的优惠劵详情对象
+
 
     @OnClick({R.id.reset, R.id.enter})
     public void onClick(View v) {
@@ -84,13 +87,14 @@ public class CouponNewActivity extends BaseActivity {
     }
 
     private void getCouponInfo() {
-        id = getIntent().getIntExtra("id", -1);
+        id = getIntent().getStringExtra("id");
 
 
         //获取优惠劵信息
         Api().shopCouponInfo(id).subscribe(new RxSubscribe<Coupon2>(this, true) {
             @Override
-            protected void _onNext(Coupon2 coupon2) {
+            protected void _onNext(Coupon2 c) {
+                coupon2 = c;
                 name.setText(coupon2.getName());
                 tv_price.setText(coupon2.getType_money());
                 tv_price_in.setText(coupon2.getMin_amount());
@@ -169,19 +173,24 @@ public class CouponNewActivity extends BaseActivity {
 
 
     private Coupon2 setCoupon() {
-        Coupon2 coupon2 = new Coupon2();
-        coupon2.setName(name.getText().toString());
-        coupon2.setMin_amount(tv_price_in.getText().toString());
-        coupon2.setType_money(tv_price.getText().toString());
-        coupon2.setCycle(time.getText().toString());
-        coupon2.setType("1");
-        coupon2.setSuperposition(is_die_jia.isChecked() ? "1" : "2");
-        coupon2.setDept_id(dept_id);
+        Coupon2 c_new;
 
-        if (type != 1)
-            coupon2.setId(String.valueOf(id));
 
-        return coupon2;
+
+        if (type == 1)
+            c_new = new Coupon2();
+        else
+            c_new = coupon2;
+
+        c_new.setName(name.getText().toString());
+        c_new.setMin_amount(tv_price_in.getText().toString());
+        c_new.setType_money(tv_price.getText().toString());
+        c_new.setCycle(time.getText().toString());
+        c_new.setType("1");//劵分类,暂为默认为1 满减劵
+        c_new.setSuperposition(is_die_jia.isChecked() ? "1" : "0");
+        c_new.setDept_id(dept_id);
+
+        return c_new;
     }
 
 
@@ -200,7 +209,7 @@ public class CouponNewActivity extends BaseActivity {
 
             @Override
             protected void _onError(String message) {
-                ToastUtils.showToast("门店ID获取失败！"+message);
+                ToastUtils.showToast("门店信息获取失败！" + message);
             }
         });
     }

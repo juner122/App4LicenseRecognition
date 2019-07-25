@@ -35,13 +35,9 @@ public class CouponPickUserActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.but_enter:
+                //确认选择
+                toActivity(CouponPostActivity.class, pick_list, "Member");
 
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Member", (ArrayList) pick_list);
-                intent.putExtras(bundle);
-                setResult(RESULT_OK, intent);
-                finish();
                 break;
 
 
@@ -102,6 +98,7 @@ public class CouponPickUserActivity extends BaseActivity {
     protected void setUpData() {
 
     }
+
     //设置选择的项
     private void setPick() {
         if (null != pick_list && pick_list.size() > 0) {
@@ -117,6 +114,7 @@ public class CouponPickUserActivity extends BaseActivity {
             }
         }
     }
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_coupon_pick_user;

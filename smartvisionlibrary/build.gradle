@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 26
+        versionCode 1
+        versionName "2.5.0.0"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile files('src/main/jniLibs/android_auth.jar')
+    compile files('src/main/jniLibs/pki.jar')
+    compile files('src/main/jniLibs/SmartVisionOCR_sdk.jar')
+    //图片加载框架
+    compile files('src/main/jniLibs/universal-image-loader-1.9.5.jar')
+    implementation files('src/main/jniLibs/crop-image.jar')
+}

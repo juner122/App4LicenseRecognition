@@ -70,7 +70,6 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
 
                 //保存门员类型
 
-
                 MyAppPreferences.putInt(Configure.user_role, null == token.getUser_role() ? 0 : token.getUser_role());
 
                 //保存门店类型

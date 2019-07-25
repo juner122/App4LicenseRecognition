@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr format="reference" name="LoadingStyle"/>
+    <color name="add_download_info_background">#373d41</color>
+    <color name="alivc_barrage_switch_background">#80D8D8D8</color>
+    <color name="alivc_blue">#379DF2</color>
+    <color name="alivc_color_action_list_dialog_background">#1e2321</color>
+    <color name="alivc_color_gray">#D8D8D8</color>
+    <color name="alivc_color_player_background">#1e222d</color>
+    <color name="alivc_color_player_clear_logs">#373d41</color>
+    <color name="alivc_color_player_colorAccent">#00c1de</color>
+    <color name="alivc_color_player_colorPrimary">#00FFFF</color>
+    <color name="alivc_color_player_list_item_press">#2d3342</color>
+    <color name="alivc_color_player_manager_background">#373d41</color>
+    <color name="alivc_color_player_setting">#373d41</color>
+    <color name="alivc_color_player_setting_background">#1e222d</color>
+    <color name="alivc_color_player_tab_defaut">#D8D8D8</color>
+    <color name="alivc_color_player_tab_selected">#00FFFF</color>
+    <color name="alivc_color_rate_item">#4c000000</color>
+    <color name="alivc_dialog_bg_translucent">#E6373d41</color>
+    <color name="alivc_dialog_error_bg">#b2000000</color>
+    <color name="alivc_dialog_gesture_bg">#66ffffff</color>
+    <color name="alivc_gesture_text_color">#333333</color>
+    <color name="alivc_green">#57AB44</color>
+    <color name="alivc_info_text_duration">#9f9e9e</color>
+    <color name="alivc_orange">#EE7C33</color>
+    <color name="alivc_red">#E94033</color>
+    <color name="alivc_white">#e7e7e7</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#1e222d</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary_alpha_fifteen">#26ffffff</color>
+    <color name="colorPrimary_alpha_five">#1affffff</color>
+    <color name="colorPrimary_alpha_ten">#0cffffff</color>
+    <color name="delete_download_info_background">#373d41</color>
+    <dimen name="alivc_dialog_err_height">120dp</dimen>
+    <dimen name="alivc_dialog_err_width">220dp</dimen>
+    <dimen name="alivc_dialog_loading_height">200dp</dimen>
+    <dimen name="alivc_dialog_loading_width">200dp</dimen>
+    <dimen name="alivc_dialog_netchange_height">120dp</dimen>
+    <dimen name="alivc_dialog_netchange_width">280dp</dimen>
+    <dimen name="alivc_download_choose_quality_font">14sp</dimen>
+    <dimen name="alivc_download_dialog_height">275sp</dimen>
+    <dimen name="alivc_download_font_size">14sp</dimen>
+    <dimen name="alivc_download_title_font">16sp</dimen>
+    <dimen name="alivc_error_font_size">15sp</dimen>
+    <dimen name="alivc_error_retry_height">30dp</dimen>
+    <dimen name="alivc_error_retry_margin">10dp</dimen>
+    <dimen name="alivc_error_retry_padding">5dp</dimen>
+    <dimen name="alivc_error_retry_width">82dp</dimen>
+    <dimen name="alivc_gesture_dialog_size">155dp</dimen>
+    <dimen name="alivc_gesture_text_size">29sp</dimen>
+    <dimen name="alivc_info_bar_height">46dp</dimen>
+    <dimen name="alivc_info_large_rate_font_size">14sp</dimen>
+    <dimen name="alivc_info_seekbar_height">3dp</dimen>
+    <dimen name="alivc_info_seekbar_offset">8dp</dimen>
+    <dimen name="alivc_info_small_bottom_margin">7dp</dimen>
+    <dimen name="alivc_info_text_large_size">12sp</dimen>
+    <dimen name="alivc_info_text_small_size">10sp</dimen>
+    <dimen name="alivc_loading_font_size">14sp</dimen>
+    <dimen name="alivc_loading_height">120dp</dimen>
+    <dimen name="alivc_loading_pbar_height">28dp</dimen>
+    <dimen name="alivc_loading_width">130dp</dimen>
+    <dimen name="alivc_more_dialog_height">275sp</dimen>
+    <dimen name="alivc_more_features_font">12sp</dimen>
+    <dimen name="alivc_rate_item_height">32dp</dimen>
+    <dimen name="alivc_rete_font_size">14sp</dimen>
+    <dimen name="alivc_screen_lock_left_margin">10dp</dimen>
+    <dimen name="alivc_tips_height">50dp</dimen>
+    <dimen name="alivc_tips_width">90dp</dimen>
+    <dimen name="alivc_titlebar_font_size">18sp</dimen>
+    <dimen name="alivc_titlebar_title_left_margin">8dp</dimen>
+    <dimen name="alivc_titlebar_title_right_margin">16dp</dimen>
+    <item name="custom_id_min" type="id"/>
+    <string name="add_to_download">To add</string>
+    <string name="alivc_alivc_replay_msg">Video ended</string>
+    <string name="alivc_brightness">brightness</string>
+    <string name="alivc_center">center</string>
+    <string name="alivc_check_list_close">Close</string>
+    <string name="alivc_checkbox_all_select">Select All</string>
+    <string name="alivc_control"> control</string>
+    <string name="alivc_delete_confirm">Do you want to delete the selected video?</string>
+    <string name="alivc_dialog_cancle">Cancle</string>
+    <string name="alivc_dialog_sure">Ok</string>
+    <string name="alivc_download_delete">Delete</string>
+    <string name="alivc_download_edit">Edit</string>
+    <string name="alivc_download_video">download video</string>
+    <string name="alivc_error_code">Error code:</string>
+    <string name="alivc_error_msg">Error message</string>
+    <string name="alivc_left_side">left side</string>
+    <string name="alivc_loading">Loading...</string>
+    <string name="alivc_loading_tips">Video is loading...</string>
+    <string name="alivc_native_video">native video</string>
+    <string name="alivc_net_disable">The network is unreachable, please check network and replay latter</string>
+    <string name="alivc_net_state_mobile">The current network is cell-network, whether to continue?</string>
+    <string name="alivc_net_state_mobile_no">Exit</string>
+    <string name="alivc_net_state_mobile_yes">Resume</string>
+    <string name="alivc_player_settings_title">Player Settings</string>
+    <string name="alivc_progress">progress</string>
+    <string name="alivc_replay">Replay</string>
+    <string name="alivc_retry">Retry</string>
+    <string name="alivc_right_side">right side</string>
+    <string name="alivc_speed">speed</string>
+    <string name="alivc_speed_mode">Fast Speed Play</string>
+    <string name="alivc_speed_one_times">Normal</string>
+    <string name="alivc_speed_opt_times">1.5X</string>
+    <string name="alivc_speed_optf_times">1.25X</string>
+    <string name="alivc_speed_tips">the current video has switched to %1$s speed rate</string>
+    <string name="alivc_speed_twice_times">2.0X</string>
+    <string name="alivc_start_download">start download</string>
+    <string name="alivc_video_download_finish_tips">该视频下载完成</string>
+    <string name="alivc_video_downloading_tips">该视频正在下载</string>
+    <string name="alivc_volume">volume</string>
+    <string name="already_downloaded">Already Downloaded</string>
+    <string name="choose_a_definition_to_download">Please choose a definition to download</string>
+    <string name="choose_download_sharpness">Choose download sharpness</string>
+    <string name="choose_downloaditem">Choose download item</string>
+    <string name="clear_logs">clear logs</string>
+    <string name="download_caching">Caching</string>
+    <string name="download_downloading">downloading</string>
+    <string name="download_error">error</string>
+    <string name="download_no_downloaded">You haven’t downloaded the video yet</string>
+    <string name="download_no_downloaded_tips">You can click the download button to add video</string>
+    <string name="download_pause">pausing</string>
+    <string name="download_prepare">preparing</string>
+    <string name="download_wait">waiting</string>
+    <string name="encrypted">Encrypted</string>
+    <string name="encrypted_no">Unencrypted</string>
+    <string name="inout_accesskeyid_here">input accesskeyId here </string>
+    <string name="input_accesskeysecret_here">input accesskeySecret here</string>
+    <string name="input_securitytoken_here">input securityToken here </string>
+    <string name="input_url_here">input url here </string>
+    <string name="input_vid_here">Please input vid here</string>
+    <string name="kickalert">你被主播移出直播间，请注意言行！</string>
+    <string name="kickbt">Ok</string>
+    <string name="loading">正在加载</string>
+    <string name="log_change_quality_fail"> Video quality switched unsuccessfully</string>
+    <string name="log_change_quality_success"> Video quality switched successfully</string>
+    <string name="log_first_frame_played">  the first frame showed</string>
+    <string name="log_open_url_success">  open an url successfully</string>
+    <string name="log_play_completion"> video ended</string>
+    <string name="log_play_stopped"> play operation stopped</string>
+    <string name="log_player_create_success">  create a player successfully</string>
+    <string name="log_prepare_success">  prepared successfully</string>
+    <string name="log_request_stream_success">  get a streaming successfully</string>
+    <string name="log_seek_completed"> seek operation completed</string>
+    <string name="log_seek_start"> seek operation started</string>
+    <string name="log_start_get_data"> start to get a streaming</string>
+    <string name="log_start_open_stream">  start to open a streaming</string>
+    <string name="log_strart_play"> start to play</string>
+    <string name="no_download_right">No permission for downloading</string>
+    <string name="operate_fail">操作失败</string>
+    <string name="operate_success">操作成功</string>
+    <string name="play_url_null_toast">Play video URL cannot be null</string>
+    <string name="player_log">Player Logs：</string>
+    <string name="prepare_download_item">To prepare download-item</string>
+    <string name="request_vidsts_fail">Request a vidsts failed</string>
+    <string name="slivc_not_support_url">not support url download...</string>
+    <string name="start_player_setting">Setting</string>
+    <string name="start_player_ui">Open UI of player</string>
+    <string name="toast_play_compleion">video ended</string>
+    <string name="toast_prepare_success">Prepared successfully</string>
+    <style name="AlivcDialog.Dialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="BottomCheckDialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null
+        </item><!-- 为了避免在有 NavigationBar 的手机上 Dialog 从 NavigationBar 底部上来。去掉 Dialog 的动画，使用 View 的动画。-->
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="NoActionTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+    <style name="addDownloadDialog" parent="android:Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <!-- 为了避免在有 NavigationBar 的手机上 Dialog 从 NavigationBar 底部上来。去掉 Dialog 的动画，使用 View 的动画。-->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">0dp</item>
+    </style>
+    <style name="alivc_info_seekbar" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:maxHeight">@dimen/alivc_info_seekbar_height</item>
+        <item name="android:minHeight">@dimen/alivc_info_seekbar_height</item>
+        <item name="android:paddingLeft">@dimen/alivc_info_seekbar_offset</item>
+        <item name="android:paddingRight">@dimen/alivc_info_seekbar_offset</item>
+        <item name="android:thumbOffset">@dimen/alivc_info_seekbar_offset</item>
+    </style>
+    <style name="alivc_info_seekbar_blue" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:thumb">@drawable/alivc_seekbar_thumb_blue</item>
+    </style>
+    <style name="alivc_info_seekbar_blue_light" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:thumb">@drawable/alivc_dialog_seek_thumb</item>
+    </style>
+    <style name="alivc_info_seekbar_blue_voice" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_blue</item>
+        <item name="android:thumb">@drawable/alivc_dialog_seek_thumb</item>
+    </style>
+    <style name="alivc_info_seekbar_green" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_green</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_green</item>
+        <item name="android:thumb">@drawable/alivc_info_seekbar_thumb_green</item>
+    </style>
+    <style name="alivc_info_seekbar_orange" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_orange</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_orange</item>
+        <item name="android:thumb">@drawable/alivc_info_seekbar_thumb_orange</item>
+    </style>
+    <style name="alivc_info_seekbar_red" parent="alivc_info_seekbar">
+        <item name="android:progressDrawable">@drawable/alivc_info_seekbar_bg_red</item>
+        <item name="android:indeterminateDrawable">@drawable/alivc_info_seekbar_bg_red</item>
+        <item name="android:thumb">@drawable/alivc_info_seekbar_thumb_red</item>
+    </style>
+    <style name="barrage_switch_text_color" parent="@android:style/TextAppearance.Small">\
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+    <style name="btn_style" parent="@android:style/Widget.Button.Small">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/btn_round_bkg</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+    <style name="edit_5line_style" parent="edit_line_style">
+        <item name="android:maxLines">5</item>
+    </style>
+    <style name="edit_line_style" parent="@android:style/Widget.EditText">
+        <item name="android:padding">5dp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/edit_round_bkg</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="progress_style" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal</item>
+        <item name="android:maxHeight">2dp</item>
+        <item name="android:minHeight">2dp</item>
+        <item name="android:indeterminateOnly">false</item>
+    </style>
+    <declare-styleable name="LoadingView">
+        <attr format="dimension" name="loading_view_size"/>
+        <attr name="android:color"/>
+    </declare-styleable>
+</resources>

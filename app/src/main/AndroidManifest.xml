@@ -45,10 +45,13 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".coupon.CouponPickUserActivity"/>
+        <activity android:name=".maneuver.activity.MyAskActivity"></activity>
+        <activity android:name=".coupon.CouponPickUserActivity" />
         <activity
             android:name=".coupon.CouponPostActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".coupon.CouponPostRecordActivity" />
         <activity android:name=".coupon.CouponNewActivity" />
         <activity android:name=".coupon.CouponListActivity" />

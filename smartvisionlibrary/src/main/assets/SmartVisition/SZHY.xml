@@ -1,0 +1,1575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TemplateList>
+
+  <Template ID="SV_ID_COMMON" DigitalID="0" Name="通用" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="40"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="40"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-2" BottomPlus="2">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="10" MaxNum="32" MinWidth="10" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="0" MaxSpace="130" MinWHRatio="65" MaxWHRatio="145" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="95" Charset=""/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="500" Charset="一"/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="40" Charset="()（）"/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="0" IsMultiRow="1" IsMergeMultiRowResult="1" RecoConfidenceThreshold="32" Charset="" CharNum="0" Prefix="" Suffix="" MatchSuffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+
+      <ReplaceCharList>
+        <ReplaceChar NewChar="有限公司" OldChar="有*公司"/>
+        <ReplaceChar NewChar="科技有" OldChar="科*有"/>
+        <ReplaceChar NewChar="科技有" OldChar="*技有"/>
+        <ReplaceChar NewChar="中心" OldChar="申心"/>
+        <ReplaceChar NewChar="北京" OldChar="尔京"/>
+        <ReplaceChar NewChar="制品" OldChar="制晶"/>
+        <ReplaceChar NewChar="天津" OldChar="夫津"/>
+        <ReplaceChar NewChar="天津" OldChar="夭津"/>
+        <ReplaceChar NewChar="电子科技" OldChar="电*科技"/>
+        <ReplaceChar NewChar="广州市" OldChar=")州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="丿州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="广州巾"/>
+        <ReplaceChar NewChar="广州" OldChar="厂州"/>
+      </ReplaceCharList>
+
+    </PostProcessingList>
+  </Template>
+  
+  <Template ID="SV_ID_YYZZ_TYSHXYDM" DigitalID="1" Name="统一社会信用代码" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="30"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="30"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-2" BottomPlus="2">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="18" MaxNum="32" MinWidth="10" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="0" MaxSpace="40" MinWHRatio="25" MaxWHRatio="150" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="85" Charset=""/>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="80" Charset=""/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="500" Charset="一"/>
+          <!--数字1-->
+          <CharRatio CharType="6" WHRatio="40" Charset="1"/>
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="12" RecoConfidenceThreshold="" Charset="" CharNum="18,15" Prefix="统一社会信用代码,注册号" Suffix="" MatchSuffix="" MatchKeyChars="统一社会信用代码,注册号" CheckingRule="TYXYDM">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+      </TextLine>
+    </TextLineList>
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_YYZZ_MC" DigitalID="2" Name="公司名称" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="40"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="40"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+    
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-2" BottomPlus="2">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="10" MaxNum="32" MinWidth="10" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="0" MaxSpace="130" MinWHRatio="65" MaxWHRatio="145" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="95" Charset=""/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="500" Charset="一"/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="40" Charset="()（）"/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+   
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="0" IsMultiRow="1" IsMergeMultiRowResult="1" RecoConfidenceThreshold="32" Charset="" CharNum="0" Prefix="名称" Suffix="" MatchSuffix="公司,长,馆,部,行,中心,院,事务所,所,社,农场,基地,室,店,社,站,(合伙),(普通合伙),伙),(合作),作)">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+    
+    <!--后处理信息描述-->
+    <PostProcessingList>
+
+      <ReplaceCharList>
+        <ReplaceChar NewChar="有限公司" OldChar="有*公司"/>
+        <ReplaceChar NewChar="科技有" OldChar="科*有"/>
+        <ReplaceChar NewChar="科技有" OldChar="*技有"/>
+        <ReplaceChar NewChar="中心" OldChar="申心"/>
+        <ReplaceChar NewChar="北京" OldChar="尔京"/>
+        <ReplaceChar NewChar="制品" OldChar="制晶"/>
+        <ReplaceChar NewChar="天津" OldChar="夫津"/>
+        <ReplaceChar NewChar="天津" OldChar="夭津"/>
+        <ReplaceChar NewChar="电子科技" OldChar="电*科技"/>
+        <ReplaceChar NewChar="广州市" OldChar=")州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="丿州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="广州巾"/>
+        <ReplaceChar NewChar="广州" OldChar="厂州"/>
+      </ReplaceCharList>
+
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_BARCODE_QR" DigitalID="3" Name="QR码" TextType="2">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="1">
+      <ImageProcessingList ID="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <!--ImageProcessing Type="2">
+<GrayToBin Method="8" BlockNum="1"/>
+</ImageProcessing-->
+      </ImageProcessingList>
+    </ImagePreProcessingList>
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="20" MaxHeight="100" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="1024" MinWidth="15" MaxWidth="100" MinHeight="20" MaxHeight="100" MinSpace="0" MaxSpace="70" MinWHRatio="25" MaxWHRatio="150" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="3" SubType="1" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="85" Charset=""/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="500" Charset="一"/>
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="0" Charset="" CharNum="0" Prefix="" Suffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <!--FilterRule Type="3" Content="" Threshold="60"/-->
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+    </PostProcessingList>
+  </Template>
+
+ <Template ID="SV_ID_YYZZ_MOBILEPHONE" DigitalID="4" Name="手机" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="5">
+
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="25"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="5" Threshold="25"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+	  <ImageProcessingList Id="3">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="25"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="11" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+      <ImageProcessingList Id="4">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="30"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+	  
+      <ImageProcessingList Id="5">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="30"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="0" BottomPlus="0" IsTighten="1">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="1" MinNum="16" MaxNum="25" MinWidth="3" MaxWidth="160" MinHeight="6" MaxHeight="160" MinSpace="10" MaxSpace="130" MinWHRatio="10" MaxWHRatio="85" IsRemoveLine="0" LineType="1" IsRemoveNoise="1" IsAdjustTopBottomPos="1" IsAdjustLeftRightPos="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="76" Charset=""/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="1" RecoConfidenceThreshold="10" Charset="" CharNum="11" Prefix="" Suffix="" MatchPrefix="130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,166,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,198,199" MatchSuffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+	<!--重识别引擎描述,基本确定是手机号后，后处理用重识别引擎识别-->
+    <PostRecogEngineList>
+      <RecogEngine MainType="1" SubType="19" FilterType="65535" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="76" Charset=""/>
+        </CharRatioList>
+      </RecogEngine>
+    </PostRecogEngineList>
+	
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="\D{11}" Threshold="80"/>
+    </PostProcessingList>
+    
+  </Template>
+
+ <Template ID="SV_ID_VIN_CARWINDOW" DigitalID="5" Name="VIN码(车窗)" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="5">
+	  <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="0"/>
+        </ImageProcessing>
+		<!--<ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>-->
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+			<GrayToBin Method="6" BlockNum="1"/>               
+        </ImageProcessing>
+		<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+	  </ImageProcessingList>
+	  
+	  <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="11" BlockNum="1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+	  
+	  <ImageProcessingList Id="3">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="8" BlockNum="1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+	  
+      <ImageProcessingList Id="4">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+	  
+	  <ImageProcessingList Id="5">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="15"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="6">
+          <ImgFilter Method="1" RadiusNum ="3"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="10" BlockNum="1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="30" MinAngle="-30" MinSkewLimit="0.02" SkewMethod="1" MaxCCW="200" MaxCCH="200" MinCCW="10" MinCCH="10" MinCCWHR="0" MaxCCWHR="80"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="20" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="5" MaxWidth="160" MinHeight="10" MaxHeight="160" MinSpace="10" MaxSpace="140" MinWHRatio="25" MaxWHRatio="130" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    <!--识别引擎描述-->
+    <RecogEngineList>
+	
+	<RecogEngine MainType="1" SubType="20" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="50" Charset="1"/>
+        </CharRatioList>
+     </RecogEngine>
+	 
+     <RecogEngine MainType="1" SubType="11" FilterType="3" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="50" Charset="1"/>
+        </CharRatioList>
+      </RecogEngine>  
+	  
+	 <RecogEngine MainType="1" SubType="15" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="50" Charset="1"/>
+        </CharRatioList>
+      </RecogEngine>
+	  
+    </RecogEngineList>
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="12" RecoConfidenceThreshold="30" Charset="" CharNum="17" Prefix="" Suffix="" MatchSuffix="" CheckingRule="VIN">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_INVOICE_CODE" DigitalID="6" Name="发票代码" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="15" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="10" MaxSpace="130" MinWHRatio="25" MaxWHRatio="140" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+    
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="1" RecoConfidenceThreshold="10" Charset="" CharNum="10,12" Prefix="" Suffix="" MatchSuffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="\D{10}" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_INVOICE_NUMBER" DigitalID="7" Name="发票号码" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="15" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="10" MaxSpace="130" MinWHRatio="25" MaxWHRatio="140" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="12" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+    
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="1" RecoConfidenceThreshold="10" Charset="" CharNum="8" Prefix="" Suffix="" MatchSuffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="\D{8}" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_INVOICE_MONEY" DigitalID="8" Name="发票金额" TextType="1">
+    
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="0"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+		    <ImageProcessing Type="9">
+          <EraseTableLines Method="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="0"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+		    <ImageProcessing Type="9">
+          <EraseTableLines Method="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="15" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="10" MaxSpace="130" MinWHRatio="25" MaxWHRatio="140" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="90" Charset=""/>
+          <!--特殊字符-->
+          <CharRatio CharType="6" WHRatio="40" Charset="()"/>
+          <!--特殊字符-->
+          <CharRatio CharType="6" WHRatio="100" Charset="."/>
+          <!--特殊字符-->
+          <CharRatio CharType="6" WHRatio="300" Charset="-"/>
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+    
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="16" RecoConfidenceThreshold="5" Charset=".-" CharNum="0" Prefix="" Suffix="" MatchSuffix="">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="\D{}" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_INVOICE_DATE" DigitalID="9" Name="发票开票日期" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <!--图像清晰度阈值-->
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+   
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="15" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="10" MaxSpace="30" MinWHRatio="25" MaxWHRatio="130" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+   
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="85" Charset=""/>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--数字1-->
+          <CharRatio CharType="6" WHRatio="40" Charset="1"/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>
+   
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="0" CharFormat="1" RecoConfidenceThreshold="5" Charset="" CharNum="0" Prefix="" Suffix="" MatchSuffix="" MatchKeyChars="年,月,日">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="\D{4}年\D{2}月\D{2}日" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_INVOICE_BUYCOMPANYNAME" DigitalID="10" Name="发票买方单位名称" TextType="1">
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="2">
+
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="6" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="3">
+          <ImageDefinition Method="0" Threshold="2"/>
+        </ImageProcessing>
+        <ImageProcessing Type="7">
+          <ImgEnhance Method="1" Clahe_ClipLimit ="1.2" Clahe_Col="8" Clahe_Row="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="5" MinAngle="-5"/>
+        </ImageProcessing>
+      </ImageProcessingList>
+
+    </ImagePreProcessingList>
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="30" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-2" BottomPlus="2">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="10" MaxNum="32" MinWidth="10" MaxWidth="160" MinHeight="20" MaxHeight="160" MinSpace="0" MaxSpace="130" MinWHRatio="65" MaxWHRatio="145" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    <!--识别引擎描述-->
+    <RecogEngineList>
+      <RecogEngine MainType="1" SubType="7" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--汉字-->
+          <CharRatio CharType="4" WHRatio="95" Charset=""/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="500" Charset="一"/>
+          <!--汉字一-->
+          <CharRatio CharType="6" WHRatio="40" Charset="()（）"/>
+
+        </CharRatioList>
+      </RecogEngine>
+    </RecogEngineList>  
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="0" IsMultiRow="1" IsMergeMultiRowResult="1" RecoConfidenceThreshold="15" Charset="" CharNum="0" Prefix="名称" Suffix="" MatchSuffix="公司,长,个人,馆,部,行,中心,院,事务所,所,社,农场,基地,室,店,社,站,(合伙),(普通合伙),伙),(合作),作)">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+    <!--后处理信息描述-->
+    <PostProcessingList>
+
+      <ReplaceCharList>
+        <ReplaceChar NewChar="有限公司" OldChar="有*公司"/>
+        <ReplaceChar NewChar="科技有" OldChar="科*有"/>
+        <ReplaceChar NewChar="科技有" OldChar="*技有"/>
+        <ReplaceChar NewChar="中心" OldChar="申心"/>
+        <ReplaceChar NewChar="北京" OldChar="尔京"/>
+        <ReplaceChar NewChar="制品" OldChar="制晶"/>
+        <ReplaceChar NewChar="天津" OldChar="夫津"/>
+        <ReplaceChar NewChar="天津" OldChar="夭津"/>
+        <ReplaceChar NewChar="电子科技" OldChar="电*科技"/>
+        <ReplaceChar NewChar="广州市" OldChar=")州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="丿州市"/>
+        <ReplaceChar NewChar="广州市" OldChar="广州巾"/>
+        <ReplaceChar NewChar="广州" OldChar="厂州"/>
+      </ReplaceCharList>
+
+    </PostProcessingList>
+  </Template>
+  <Template ID="SV_ID_VIN_CLOUD" DigitalID="11" Name="VIN码(云端)" TextType="1">
+        <!--全图识别信息描述-->
+    <FullImageRecognizeInfo bResizeImage="1" bTiltCorrection="1" bAutoRotation="1" GrayMethod="0" BinMethod="6" bSupportDeepLearning="1" bSupportHorExpansion="0" bSupportRectExpansion="1">
+      <FullImageLayoutMethodList>
+        <FullImageLayoutMethod Type="1">
+        </FullImageLayoutMethod>
+      </FullImageLayoutMethodList>
+    </FullImageRecognizeInfo>
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="4">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+			<GrayToBin Method="6" BlockNum="1"/>                  
+        </ImageProcessing>
+		<!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+	  
+	  <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="3">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="11" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+	  
+      <ImageProcessingList Id="4">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="8" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="10" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5" IsTighten="0">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="5" MaxWidth="160" MinHeight="10" MaxHeight="160" MinSpace="1" MaxSpace="140" MinWHRatio="25" MaxWHRatio="130" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    <!--识别引擎描述-->
+    <RecogEngineList>
+	
+	<RecogEngine MainType="1" SubType="20" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="35" Charset="1"/>
+        </CharRatioList>
+     </RecogEngine>
+	 
+     <RecogEngine MainType="1" SubType="11" FilterType="3" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="35" Charset="1"/>
+        </CharRatioList>
+      </RecogEngine>  
+	  
+	 <RecogEngine MainType="1" SubType="15" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="35" Charset="1"/>
+        </CharRatioList>
+      </RecogEngine>
+	  
+    </RecogEngineList>
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="12" RecoConfidenceThreshold="30" Charset="" CharNum="17" Prefix="" Suffix="" MatchSuffix="" CheckingRule="VIN">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+
+  <Template ID="SV_ID_VIN_MOBILE" DigitalID="12" Name="VIN码(车窗)" TextType="1">
+      <!--全图识别信息描述-->
+    <FullImageRecognizeInfo bResizeImage="1" bTiltCorrection="1" bAutoRotation="1" GrayMethod="0" BinMethod="6" bSupportDeepLearning="0" bSupportHorExpansion="1" bSupportRectExpansion="1">
+      <FullImageLayoutMethodList>
+        <FullImageLayoutMethod Type="1">
+        </FullImageLayoutMethod>
+      </FullImageLayoutMethodList>
+    </FullImageRecognizeInfo>
+    <!--图像预处理信息描述-->
+    <ImagePreProcessingList PreProcMethodNum="4">
+      <ImageProcessingList Id="1">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+		<ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+			<GrayToBin Method="6" BlockNum="1"/>                  
+        </ImageProcessing>
+		<!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+	  
+	  <ImageProcessingList Id="2">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="3" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+
+      <ImageProcessingList Id="3">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="11" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+	  
+      <ImageProcessingList Id="4">
+        <ImageProcessing Type="1">
+          <ColorToGray ColorFilter="-1"/>
+        </ImageProcessing>
+        <ImageProcessing Type="51">
+          <ImgInverse ImgBit="8"/>
+        </ImageProcessing>
+        <ImageProcessing Type="2">
+          <GrayToBin Method="8" BlockNum="1"/>
+        </ImageProcessing>
+        <!--<ImageProcessing Type="4">
+          <SkewCorrrection MaxAngle="90" MinAngle="-90"/>
+        </ImageProcessing>-->
+      </ImageProcessingList>
+    </ImagePreProcessingList>
+
+    <!--行定位信息描述-->
+    <LineLocation MinNum="1" MaxNum="1" MinLength="300" MaxLength="1500" MinHeight="5" MaxHeight="160" MinSpace="10" MaxSpace="50" LeftPlus="-10" RightPlus="20" TopPlus="-5" BottomPlus="5">
+      <LineLocationMethodList>
+        <LineLocationMethod Type="1">
+        </LineLocationMethod>
+      </LineLocationMethodList>
+    </LineLocation>
+    <!--字符信息描述-->
+    <CharLocation IsSameSpace="0" IsSameWidth="0" IsSameHeight="0" MinNum="16" MaxNum="25" MinWidth="5" MaxWidth="160" MinHeight="10" MaxHeight="160" MinSpace="1" MaxSpace="140" MinWHRatio="25" MaxWHRatio="130" IsRemoveLine="0" LineType="1" IsRemoveNoise="1">
+      <CharLocationMethodList>
+        <CharLocationMethod Type="1">
+        </CharLocationMethod>
+      </CharLocationMethodList>
+    </CharLocation>
+    <!--识别引擎描述-->
+    <RecogEngineList>
+	
+	<RecogEngine MainType="1" SubType="20" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="35" Charset="1"/>
+		  <CharRatio CharType="6" WHRatio="110" Charset="MW"/>
+        </CharRatioList>
+     </RecogEngine>
+	 
+     <RecogEngine MainType="1" SubType="11" FilterType="3" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="35" Charset="1"/>
+		  <CharRatio CharType="6" WHRatio="110" Charset="MW"/>
+        </CharRatioList>
+      </RecogEngine>  
+	  
+	 <RecogEngine MainType="1" SubType="15" FilterType="1" FillingMethod="1" FilterPlus="" RecogType="1" RecogImageType="0">
+        <ImageProcessingList>
+          <ImageProcessing Type="1">
+            <ColorToGray ColorFilter="-1"/>
+          </ImageProcessing>
+        </ImageProcessingList>
+        <CharRatioList>
+          <!--数字-->
+          <CharRatio CharType="1" WHRatio="60" Charset=""/>
+          <!--大写字母-->
+          <CharRatio CharType="2" WHRatio="60" Charset=""/>
+          <!--特殊字符一-->
+          <CharRatio CharType="6" WHRatio="50" Charset="MW"/>
+		  <CharRatio CharType="6" WHRatio="110" Charset="MW"/>
+        </CharRatioList>
+      </RecogEngine>
+	  
+    </RecogEngineList>
+    <!--识别内容描述-->
+    <TextLineList>
+      <!--根据chartype prefix suffix决定使用的引擎情况-->
+      <!--CharNum 默认0表示不确定-->
+      <TextLine Index="1" CharType="12" RecoConfidenceThreshold="30" Charset="" CharNum="17" Prefix="" Suffix="" MatchSuffix="" CheckingRule="VIN">
+        <!--利用规则挑选期望的文本行-->
+        <FilterRuleList>
+          <FilterRule Type="3" Content="" Threshold="60"/>
+        </FilterRuleList>
+
+      </TextLine>
+    </TextLineList>
+
+    <!--后处理信息描述-->
+    <PostProcessingList>
+      <!--正则表达式匹配-->
+      <PostProcessing Type="1" Content="" Threshold="80"/>
+    </PostProcessingList>
+  </Template>
+  
+</TemplateList>

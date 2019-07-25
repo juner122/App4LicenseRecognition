@@ -1,5 +1,7 @@
 package com.juner.mvp.bean;
 
+import java.util.List;
+
 public class Maneuver {
 
 
@@ -13,6 +15,47 @@ public class Maneuver {
     String endTime;//活动结束时间
     Integer joinNum;////参加数
     Integer mommentNum;//评论数
+    List<ImgOneList> imgOneList;
+    List<ImgOneList> imgTwoList;
+
+    public List<ImgOneList> getImgOneList() {
+        return imgOneList;
+    }
+
+    public void setImgOneList(List<ImgOneList> imgOneList) {
+        this.imgOneList = imgOneList;
+    }
+
+    public List<ImgOneList> getImgTwoList() {
+        return imgTwoList;
+    }
+
+    public void setImgTwoList(List<ImgOneList> imgTwoList) {
+        this.imgTwoList = imgTwoList;
+    }
+
+    public class ImgOneList {
+
+        String img;
+        int type;
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getImg() {
+            return img;
+        }
+
+        public void setImg(String img) {
+            this.img = img;
+        }
+    }
+
 
     public String getId() {
         return id;

@@ -32,6 +32,7 @@ import com.juner.mvp.api.http.RxHelper;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.geaiche.bean.AutoBrand;
+import com.juner.mvp.bean.Ask;
 import com.juner.mvp.bean.AutoModel;
 import com.juner.mvp.bean.BankList;
 import com.juner.mvp.bean.Banner;
@@ -89,6 +90,7 @@ import com.juner.mvp.bean.Technician;
 import com.juner.mvp.bean.TechnicianInfo;
 import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
+import com.juner.mvp.bean.UserEntity;
 import com.juner.mvp.bean.VersionInfo;
 import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
@@ -1649,13 +1651,28 @@ public class ApiLoader {
         return apiService.infoShopunity(token, id).compose(RxHelper.observe());
     }
 
+    /**
+     * 反馈列表
+     */
+    public Observable<List<Ask>> askList(String unity_id) {
+        return apiService.askList(token, unity_id).compose(RxHelper.observe());
+    }
+
+    /**
+     * 反馈列表
+     */
+    public Observable<List<Ask>> askList(String unity_id, String user_id) {
+
+        return apiService.askList(token, unity_id, user_id).compose(RxHelper.observe());
+    }
+
 
     /**
      * 提交反馈
      */
-    public Observable<NullDataEntity> askTo(Joiner joiner) {
+    public Observable<NullDataEntity> askTo(Ask ask) {
 
-        return apiService.askTo(token, joiner).compose(RxHelper.observe());
+        return apiService.askTo(token, ask).compose(RxHelper.observe());
     }
 
     /**
@@ -1670,9 +1687,9 @@ public class ApiLoader {
     /**
      * 报名参加
      */
-    public Observable<NullDataEntity> joinIn(Joiner joiner) {
+    public Observable<NullDataEntity> joinIn(Ask ask) {
 
-        return apiService.joinIn(token, joiner).compose(RxHelper.observe());
+        return apiService.joinIn(token, ask).compose(RxHelper.observe());
     }
 
     /**
@@ -1759,6 +1776,14 @@ public class ApiLoader {
         return apiService.couponPostRecode(token).compose(RxHelper.observe());
     }
 
+    /**
+     * 派发优惠券记录详情
+     */
+    public Observable<CouponRecode> pushLogInfo(String id) {
+
+        return apiService.pushLogInfo(token, id).compose(RxHelper.observe());
+    }
+
 
     /**
      * 派发优惠券
@@ -1771,9 +1796,19 @@ public class ApiLoader {
     /**
      * 查看优惠券模板详情
      */
-    public Observable<Coupon2> shopCouponInfo(int id) {
+    public Observable<Coupon2> shopCouponInfo(String id) {
 
         return apiService.shopCouponInfo(token, id).compose(RxHelper.observe());
     }
+
+
+    /**
+     * 查看优惠券模板详情
+     */
+    public Observable<UserEntity> getInfo() {
+
+        return apiService.getInfo(token).compose(RxHelper.observe());
+    }
+
 
 }

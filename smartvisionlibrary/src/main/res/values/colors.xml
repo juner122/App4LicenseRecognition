@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+    <color name="viewfinder_frame">#f39912</color>
+    <color name="drawColor">#CC00FF</color>
+    <color name="typeIsSelected">#f39912</color>
+    <color name="typeIsNotSelected">#ffffff</color>
+    <color name="relativeLayout_bg">#000000</color>
+
+    <color name="pass_view_rect_input">#3DA3FF</color>
+    <color name="regi_line_color">#c8c8c8</color>
+    <color name="color_common_black">#000000</color>
+    <color name="color_common_gray">#c6c6c6</color>
+    <color name="background">#dddddd</color>
+    <color name="tv_feed_back">#ffb93221</color>
+
+    <color name="windowBackground">#1C1C1C</color>
+    <color name="colorButtonNormal">#FFFFFB</color>
+    <color name="textColorPrimary">#FFFFFB</color>
+    <color name="textColorPrimaryInverse">#1C1C1C</color>
+    <color name="overlay">#AA1C1C1C</color>
+    <color name="divider">#333333</color>
+    <color name="cropFrameColor">#5DAC81</color>
+    <color name="crop_image_hint">#D81B60</color>
+
+</resources>

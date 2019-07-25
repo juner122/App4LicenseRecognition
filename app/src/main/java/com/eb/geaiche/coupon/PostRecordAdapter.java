@@ -26,7 +26,7 @@ public class PostRecordAdapter extends BaseQuickAdapter<CouponRecode, BaseViewHo
     @Override
     protected void convert(BaseViewHolder helper, CouponRecode item) {
         helper.setText(R.id.name, item.getCouponName());
-        helper.setText(R.id.user, String.format("派发人%s", item.getUserName()));
+        helper.setText(R.id.user, String.format("派发人：%s", item.getUserName()));
         helper.setText(R.id.time, DateUtil.getFormatedDateTime(item.getCreateTime()));
         helper.setText(R.id.num, String.format("收券人数：%s", item.getDealNum()));
 

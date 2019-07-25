@@ -7,7 +7,7 @@ public class Coupon2 implements Parcelable {
 
     String id;
     String dept_id;//门店id
-    String superposition;//1可叠加
+    String superposition;//1可叠加//0不可叠加
     String name;
     String type;///类型1满减券
     String min_amount;//最少使用金额
