@@ -83,7 +83,7 @@ public class MallMakeOrderActivity extends BaseActivity {
                 if (user_role == 1)
                     makeOrder();
                 else {
-                    ToastUtils.showToast("店长权限！");
+                    ToastUtils.showToast("您不是店长，无权进行配件采购！");
                 }
 
 

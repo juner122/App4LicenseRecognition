@@ -1,4 +1,4 @@
-include ':app', ':picture_library', ':ucrop', ':mvp', ':smartvisionlibrary'
+include ':app', ':picture_library', ':ucrop', ':mvp'
 include ':AliyunVideoCommon'
 include ':Aliyunplayer:AlivcPlayer'
 include ':Aliyunplayer:AlivcReporter'

@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity {
                     protected void _onNext(Token token) {
                         new AppPreferences(LoginActivity.this).put(Configure.Token, token.getToken().getToken());
                         new AppPreferences(LoginActivity.this).put(Configure.moblie_s, phone);
-                        new AppPreferences(LoginActivity.this).put(Configure.user_role, token.getUser_role());
+//                        new AppPreferences(LoginActivity.this).put(Configure.user_role, token.getUser_role());
                         Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                         toActivity(MainActivity.class);
                         finish();

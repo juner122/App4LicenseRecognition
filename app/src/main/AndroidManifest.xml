@@ -277,9 +277,7 @@
         <activity
             android:name=".activity.CarVinDISActivity"
             android:launchMode="singleTask" />
-        <activity
-            android:name=".activity.CarVinDISActivity2"
-            android:launchMode="singleTask" />
+
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />

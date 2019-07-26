@@ -196,6 +196,5 @@ dependencies {
 
     // 第三方文件下载 https://github.com/lingochamp/FileDownloader/blob/master/README-zh.md
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
-    implementation files('libs/ocr-sdk.jar')
-    compile project(path: ':smartvisionlibrary')
+
 }

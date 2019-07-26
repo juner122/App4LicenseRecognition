@@ -35,7 +35,6 @@ import com.eb.geaiche.util.Auth;
 import com.eb.geaiche.util.CommonUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.FullyGridLayoutManager;
-import com.kernal.smartvision.activity.SmartvisionCameraActivity;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;

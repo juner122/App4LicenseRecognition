@@ -22,6 +22,7 @@ import androidx.core.content.FileProvider;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.util.FileUtil;
+import com.eb.geaiche.util.ToastUtils;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -56,10 +57,12 @@ public class DownLodingDialog extends Dialog {
     TextView tv_title, tv_text, tv_download_info;
     View ll_dlInfo;
 
-    ProgressBar progressBar;
-
+    ProgressBar progressBar, pb3;
+    View ll;
 
     BaseDownloadTask downloadTask;//下载task
+
+    boolean isDowning;//是否开始下载
 
     public DownLodingDialog(Context context) {
         super(context, R.style.my_dialog);
@@ -114,6 +117,8 @@ public class DownLodingDialog extends Dialog {
 
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
+        pb3 = view.findViewById(R.id.pb3);//
+        ll = view.findViewById(R.id.ll);
         tv_text = view.findViewById(R.id.tv_text);
         tv_title = view.findViewById(R.id.title);
         progressBar = view.findViewById(R.id.pb);
@@ -147,8 +152,10 @@ public class DownLodingDialog extends Dialog {
                 case R.id.tv_confirm:
                     if (FileUtil.isExistence(path)) {//是否已存在
                         openAPK();
-                    } else
-                        startDL();
+                    } else {
+                        if (!isDowning)//防止多次点击
+                            startDL();
+                    }
                     break;
                 case R.id.tv_cancel:
                     FileDownloader.getImpl().pauseAll();
@@ -164,6 +171,7 @@ public class DownLodingDialog extends Dialog {
     private void startDL() {
         progressBar.setVisibility(View.VISIBLE);
 
+        pb3.setVisibility(View.VISIBLE);
 
         downloadTask
                 .setPath(path)//下载文件的存储绝对路径
@@ -178,6 +186,10 @@ public class DownLodingDialog extends Dialog {
                         tv_text.setVisibility(View.GONE);
                         ll_dlInfo.setVisibility(View.VISIBLE);
                         tv_download_info.setText(soFarBytes + "B/" + totalBytes + "B");
+                        isDowning = true;
+                        pb3.setVisibility(View.GONE);
+
+
                     }
 
                     @Override
@@ -187,7 +199,7 @@ public class DownLodingDialog extends Dialog {
                         int progress = (int) ((new BigDecimal((float) soFarBytes / totalBytes).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue()) * 1000);
 
                         progressBar.setProgress(progress);
-                        Log.i("down", "下载中：" + soFarBytes + "B" + "     总大小：" + totalBytes + "百份比：" + progress + "%");
+
                         tv_download_info.setText(soFarBytes + "B/" + totalBytes + "B");
                     }
 
@@ -206,6 +218,7 @@ public class DownLodingDialog extends Dialog {
                         openAPK();
                         progressBar.setProgress(1000);
                         tv_title.setText("下载完成");
+
                     }
 
                     @Override
@@ -221,7 +234,7 @@ public class DownLodingDialog extends Dialog {
                     }
                 }).start();
 
-
+        isDowning = true;
     }
 
 

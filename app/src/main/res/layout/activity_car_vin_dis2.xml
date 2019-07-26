@@ -21,33 +21,6 @@
             android:background="#00000000" />
 
 
-        <ImageView
-            android:id="@+id/iv_camera_back"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/camera_back"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_camera_flash"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/flash_off"
-            android:visibility="gone" />
-
-
-        <ImageView
-            android:id="@+id/camera_scanHorizontalLineImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/horizontal_line" />
-
-        <ImageButton
-            android:id="@+id/imbtn_takepic"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@drawable/take_pic_btn"
-            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -109,18 +82,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.kernal.smartvision.view.ResultLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:box_draw_type="line"
-            app:draw_txt_size="13sp"
-            app:interval_width="2dp"
-            app:item_height="22dp"
-            app:item_width="18dp"
-            app:pass_leng="vin"
-            app:result_input_type="circle"
-            app:result_type="vin" />
+
 
         <EditText
             android:id="@+id/result_vin_view"

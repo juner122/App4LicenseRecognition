@@ -36,17 +36,7 @@ import androidx.core.content.ContextCompat;
 
 
 import com.eb.geaiche.R;
-import com.eb.geaiche.util.ToastUtils;
-import com.kernal.smartvision.adapter.VinParseResultAdapter;
-import com.kernal.smartvision.ocr.Devcode;
-import com.kernal.smartvision.ocr.OCRConfigParams;
-import com.kernal.smartvision.ocr.OcrTypeHelper;
-import com.kernal.smartvision.utils.PermissionUtils;
-import com.kernal.smartvision.view.RectFindView;
-import com.kernal.smartvision.view.ResultLayout;
-import com.kernal.smartvision.view.VinCameraPreView;
-import com.kernal.smartvisionocr.utils.SharedPreferencesHelper;
-import com.kernal.vinparseengine.VinParseInfo;
+
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -54,6 +44,8 @@ import java.util.List;
 
 
 /**
+ *
+ * 弃用
  * Created by WenTong on 2018/12/5.
  */
 
@@ -62,10 +54,8 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
     //Ocr 类型， 0：vin 和手机号都使用； 1：vin ；  2： 手机号；
     private int OcrType;
     //识别模板参数类，包括敏感区域位置等信息
-    private OcrTypeHelper ocrTypeHelper;
     //当前选中类型   1:使用 vin;     2: 使用手机号码。
     private int currentType;
-    private RectFindView rectFindView;
     private Animation verticalAnimation;
     private int srcWidth, srcHeight;//, screenWidth, screenHeight;
     private boolean isScreenPortrait = true;
@@ -83,7 +73,6 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
     private EditText result_view;
 
     private boolean isOpenFlash = false;
-    VinCameraPreView vinCameraPreView;
     private DisplayMetrics dm;
     private int defaultTextSize = 12;
     int statusHeight;
@@ -91,9 +80,6 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
     private float marginTop;
 
 
-    //VIN 码解析类
-    private VinParseInfo vpi;
-    private VinParseResultAdapter VPRadapter;
     private List<HashMap<String, String>> vinInfo;
 
     public static final String[] PERMISSION = new String[]{
@@ -146,47 +132,16 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
         result_vin_list = findViewById(R.id.result_vin_list);//车辆信息列表
         result_view = findViewById(R.id.result_vin_view);//车架号
 
-        scanHorizontalLineImageView = (ImageView) findViewById(R.id.camera_scanHorizontalLineImageView);
-        iv_camera_back = (ImageView) findViewById(R.id.iv_camera_back);
-        iv_camera_back.setOnClickListener(this);
-        iv_camera_flash = (ImageView) findViewById(R.id.iv_camera_flash);
-        iv_camera_flash.setOnClickListener(this);
-        imbtn_takepic = (ImageButton) findViewById(R.id.imbtn_takepic);
+
         imbtn_takepic.setOnClickListener(this);
         surfaceContainer = (FrameLayout) findViewById(R.id.camera_container);
         //动态创建 SurfaceView
-        vinCameraPreView = new VinCameraPreView(this, mHandler);
-        surfaceContainer.addView(vinCameraPreView);
 
 
-        OcrType = OCRConfigParams.getOcrType(this);
-        currentType = SharedPreferencesHelper.getInt(this, "currentType", 1);
-        //判断使用的是 vin 还是手机号
-        if (OcrType != 0) {
-
-            currentType = OcrType;
-            SharedPreferencesHelper.putInt(this, "currentType", currentType);
-        } else {
-            // 读取,默认 vin
-            currentType = SharedPreferencesHelper.getInt(this, "currentType", 1);
-        }
-
-
-        vinCameraPreView.setCurrentType(currentType);
     }
 
 
-    private void vinRefresh(String recogResult){
-
-        result_view.setText(recogResult);
-        vpi = new VinParseInfo(CarVinDISActivity2.this);
-        vinInfo = vpi.getVinParseInfo(Devcode.devcode, recogResult);
-        if (vinInfo != null) {
-            VPRadapter = new VinParseResultAdapter(CarVinDISActivity2.this, vinInfo, srcWidth, srcHeight);
-            result_vin_list.setAdapter(VPRadapter);
-        }else {
-            ToastUtils.showToast("信息查找失败，请检查车架号！");
-        }
+    private void vinRefresh(String recogResult) {
 
 
     }
@@ -207,18 +162,14 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
         }
 
         isResmue = true;
-        if (vinCameraPreView != null) {
-            vinCameraPreView.cameraOnResume();
-        }
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         isResmue = false;
-        if (vinCameraPreView != null) {
-            vinCameraPreView.cameraOnPause();
-        }
+
 
     }
 
@@ -246,52 +197,14 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
     private void layoutRectAndScanLineView() {
 
         //竖屏布局
-        if (isScreenPortrait) {
-            if (rectFindView != null) {
-                RemoveView();
-            }
-            ocrTypeHelper = new OcrTypeHelper(currentType, ScreentVertical).getOcr();
-            rectFindView = new RectFindView(this, ocrTypeHelper, srcWidth, srcHeight);
-            relativeLayout.addView(rectFindView);
-            scan_line_width = (int) (ocrTypeHelper.widthPercent * srcWidth);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(scan_line_width, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.leftMargin = 0;
-            scanHorizontalLineImageView.setLayoutParams(layoutParams);
-            verticalAnimation = new TranslateAnimation(ocrTypeHelper.leftPointXPercent * srcWidth, ocrTypeHelper.leftPointXPercent * srcWidth, ocrTypeHelper.leftPointYPercent * srcHeight - marginTop, (float) ((ocrTypeHelper.leftPointYPercent + ocrTypeHelper.heightPercent) * srcHeight) - marginTop);
-            verticalAnimation.setDuration(1500);
-            verticalAnimation.setRepeatCount(Animation.INFINITE);
-            scanHorizontalLineImageView.startAnimation(verticalAnimation);
 
-        } else {
-            //横屏布局
-            if (rectFindView != null) {
-                RemoveView();
-            }
-            ocrTypeHelper = new OcrTypeHelper(currentType, ScreenHorizontal).getOcr();
-            //扫描框
-            rectFindView = new RectFindView(this, ocrTypeHelper, srcWidth, srcHeight);
-            relativeLayout.addView(rectFindView);
-            scan_line_width = (int) (ocrTypeHelper.widthPercent * srcWidth);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(scan_line_width, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.leftMargin = 0;
-            scanHorizontalLineImageView.setLayoutParams(layoutParams);
-            verticalAnimation = new TranslateAnimation(ocrTypeHelper.leftPointXPercent * srcWidth, ocrTypeHelper.leftPointXPercent * srcWidth, ocrTypeHelper.leftPointYPercent * srcHeight - marginTop, (float) ((ocrTypeHelper.leftPointYPercent + ocrTypeHelper.heightPercent) * srcHeight) - marginTop);
-            verticalAnimation.setDuration(1500);
-            verticalAnimation.setRepeatCount(Animation.INFINITE);
-            scanHorizontalLineImageView.startAnimation(verticalAnimation);
-        }
     }
 
     /**
      * 动画销毁
      */
     private void RemoveView() {
-        if (rectFindView != null) {
-            rectFindView.destroyDrawingCache();
-            relativeLayout.removeView(rectFindView);
-            scanHorizontalLineImageView.clearAnimation();
-            rectFindView = null;
-        }
+
     }
 
     /**
@@ -410,54 +323,14 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        int i = v.getId();
-        //返回按钮
-        if (i == R.id.iv_camera_back) {
-            vinCameraPreView.finishRecognize();
-            finish();
-        } else if (i == R.id.iv_camera_flash) {
-            //操作闪光灯
-            if (isOpenFlash) {
-                isOpenFlash = false;
-                //关闭闪光灯
-                vinCameraPreView.operateFlash(false);
-                iv_camera_flash.setImageResource(R.drawable.flash_off);
-            } else {
-                isOpenFlash = true;
-                vinCameraPreView.operateFlash(true);
-                iv_camera_flash.setImageResource(R.drawable.flash_on);
-            }
 
-        } else if (i == R.id.imbtn_takepic) {
-            //拍照按钮
-            vinCameraPreView.setTakePicture();
-        } else if (i == R.id.camera_tv_vin) {
-            // 只有不是当前类型，才重新布局
-            if (currentType != 1) {
-                currentType = 1;
-                layoutView();
-                vinCameraPreView.setZoom(false);
-                vinCameraPreView.setCurrentType(currentType);
-            }
-            SharedPreferencesHelper.putInt(this, "currentType", currentType);
-
-        } else if (i == R.id.camera_tv_phone) {
-            if (currentType != 2) {
-                currentType = 2;
-                layoutView();
-                //手机号图像放大，识别效果会好一些
-                vinCameraPreView.setZoom(true);
-                vinCameraPreView.setCurrentType(currentType);
-            }
-            SharedPreferencesHelper.putInt(this, "currentType", currentType);
-        }
     }
 
     // 监听返回键事件
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            vinCameraPreView.finishRecognize();
+
             finish();
             return true;
         }
@@ -476,40 +349,16 @@ public class CarVinDISActivity2 extends AppCompatActivity implements View.OnClic
             }
         }
 
-        PermissionUtils.requestMultiPermissions(this, mPermissionGrant);
-        if (!isgranted) {
-            //没有授权
-            PermissionUtils.requestMultiPermissions(this, mPermissionGrant);
-        } else {
-            //已经授权
-            setContentView(R.layout.activity_car_vin_dis2);
-            initView();
-            layoutView();
-        }
+
     }
 
-    private PermissionUtils.PermissionGrant mPermissionGrant = new PermissionUtils.PermissionGrant() {
-        @Override
-        public void onPermissionGranted(int requestCode) {
-            switch (requestCode) {
-                case PermissionUtils.CODE_MULTI_PERMISSION:
-
-                    setContentView(R.layout.activity_car_vin_dis2);
-                    initView();
-                    layoutView();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
     /**
      * Callback received when a permissions request has been completed.
      */
     @Override
     public void onRequestPermissionsResult(final int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionUtils.requestPermissionsResult(this, requestCode, permissions, grantResults, mPermissionGrant);
+
     }
 
     @Override

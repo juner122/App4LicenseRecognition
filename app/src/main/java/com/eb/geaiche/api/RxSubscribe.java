@@ -77,6 +77,8 @@ public abstract class RxSubscribe<T> implements Observer<T> {
     @Override
     public void onError(Throwable e) {
 
+
+
         //把底层的一些错误翻译一下用户看不来
         if (e.getMessage() == null || e.getMessage().isEmpty()) {//未知错误
             _onError(mContext.getString(R.string.error_unknown));
@@ -94,7 +96,7 @@ public abstract class RxSubscribe<T> implements Observer<T> {
             //服务器内部错误
             _onError(mContext.getString(R.string.error_connect_server_timeout));
         } else {
-            _onError(e.getMessage());
+            _onError("服务器连接失败,请检查手机网络！");
         }
         if (isShow) {
             if (dialog != null)

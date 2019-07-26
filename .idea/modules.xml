@@ -12,7 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/mvp/mvp.iml" filepath="$PROJECT_DIR$/mvp/mvp.iml" />
       <module fileurl="file://$PROJECT_DIR$/picture_library/picture_library.iml" filepath="$PROJECT_DIR$/picture_library/picture_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/Aliyunplayer/player_demo/player_demo.iml" filepath="$PROJECT_DIR$/Aliyunplayer/player_demo/player_demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smartvisionlibrary/smartvisionlibrary.iml" filepath="$PROJECT_DIR$/smartvisionlibrary/smartvisionlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/ucrop/ucrop.iml" filepath="$PROJECT_DIR$/ucrop/ucrop.iml" />
     </modules>
   </component>
