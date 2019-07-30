@@ -12,6 +12,11 @@ public class Technician extends SelectedBean implements Parcelable {
 
 
     int userId;
+    private Integer id;
+    //订单id
+    private Integer orderId;
+    //技师id
+    private Integer sysuserId;
     int paremId;
     int status;
     int deptId;
@@ -27,26 +32,51 @@ public class Technician extends SelectedBean implements Parcelable {
     List<Integer> roleList;
     String userSn;
 
+    String deduction;
+    String deductionBase;
 
 
-    @Override
-    public String toString() {
-        return "Technician{" +
-                "userId=" + userId +
-                ", paremId=" + paremId +
-                ", status=" + status +
-                ", deptId=" + deptId +
-                ", createUserId=" + createUserId +
-                ", username='" + username + '\'' +
-                ", nickName='" + nickName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", roleName='" + roleName + '\'' +
-                ", roleList=" + roleList +
-                ", userSn='" + userSn + '\'' +
-                '}';
+    public Integer getId() {
+        return id;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getSysuserId() {
+        return sysuserId;
+    }
+
+    public void setSysuserId(Integer sysuserId) {
+        this.sysuserId = sysuserId;
+    }
+
+    public String getDeduction() {
+
+        return deduction;
+    }
+
+    public void setDeduction(String deduction) {
+        this.deduction = deduction;
+    }
+
+    public String getDeductionBase() {
+        return deductionBase;
+    }
+
+    public void setDeductionBase(String deductionBase) {
+        this.deductionBase = deductionBase;
+    }
+
     public String getPercentage() {
         return percentage;
     }
@@ -162,6 +192,25 @@ public class Technician extends SelectedBean implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "Technician{" +
+                "userId=" + userId +
+                ", paremId=" + paremId +
+                ", status=" + status +
+                ", deptId=" + deptId +
+                ", createUserId=" + createUserId +
+                ", username='" + username + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", roleName='" + roleName + '\'' +
+                ", roleList=" + roleList +
+                ", userSn='" + userSn + '\'' +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -169,28 +218,38 @@ public class Technician extends SelectedBean implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.userId);
+        dest.writeValue(this.id);
+        dest.writeValue(this.orderId);
+        dest.writeValue(this.sysuserId);
         dest.writeInt(this.paremId);
         dest.writeInt(this.status);
         dest.writeInt(this.deptId);
         dest.writeInt(this.createUserId);
         dest.writeString(this.username);
         dest.writeString(this.nickName);
+        dest.writeString(this.percentage);
         dest.writeString(this.password);
         dest.writeString(this.email);
         dest.writeString(this.mobile);
         dest.writeString(this.roleName);
         dest.writeList(this.roleList);
         dest.writeString(this.userSn);
+        dest.writeString(this.deduction);
+        dest.writeString(this.deductionBase);
     }
 
     protected Technician(Parcel in) {
         this.userId = in.readInt();
+        this.id = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.orderId = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.sysuserId = (Integer) in.readValue(Integer.class.getClassLoader());
         this.paremId = in.readInt();
         this.status = in.readInt();
         this.deptId = in.readInt();
         this.createUserId = in.readInt();
         this.username = in.readString();
         this.nickName = in.readString();
+        this.percentage = in.readString();
         this.password = in.readString();
         this.email = in.readString();
         this.mobile = in.readString();
@@ -198,6 +257,8 @@ public class Technician extends SelectedBean implements Parcelable {
         this.roleList = new ArrayList<Integer>();
         in.readList(this.roleList, Integer.class.getClassLoader());
         this.userSn = in.readString();
+        this.deduction = in.readString();
+        this.deductionBase = in.readString();
     }
 
     public static final Creator<Technician> CREATOR = new Creator<Technician>() {

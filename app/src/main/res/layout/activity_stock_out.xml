@@ -54,6 +54,7 @@
         android:background="#D9D9D9" />
 
     <LinearLayout
+        android:id="@+id/ll_pick_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
@@ -83,12 +84,11 @@
             android:layout_weight="1"
             android:background="@null"
             android:drawableRight="@mipmap/icon_enter"
-            android:drawablePadding="5dp"
+            android:drawablePadding="10dp"
             android:gravity="end"
-            android:text="非订单出库"
-            android:textColor="#333"
-            android:textColorHint="#666"
-            android:textSize="14sp" />
+            android:text="请选择订单"
+            android:textColor="#666"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <View
@@ -124,6 +124,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

@@ -1,5 +1,6 @@
 package com.eb.geaiche.activity.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.View;
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.stockControl.activity.StockOutActivity;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.eb.geaiche.view.ConfirmDialogOrderDelete;
 import com.juner.mvp.Configure;
@@ -32,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static com.eb.geaiche.activity.OrderListActivity.view_intent;
 
 public class OrderListFragment extends BaseFragment {
 
@@ -76,15 +80,10 @@ public class OrderListFragment extends BaseFragment {
 
 
         initData();
-
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
         getData();
 
     }
+
 
     private void initData() {
         ola = new OrderListAdapter(R.layout.item_fragment2_main, list, getContext());
@@ -113,16 +112,24 @@ public class OrderListFragment extends BaseFragment {
         });
 
         ola.setOnItemClickListener((adapter, view, position) -> {
-            if (list.get(position).isSelected()) {
-                list.get(position).setSelected(false);
+            if (view_intent == 0) {//正常打开子项
+                if (list.get(position).isSelected()) {
+                    list.get(position).setSelected(false);
 
-            } else {
-                for (OrderInfoEntity o : list) {
-                    o.setSelected(false);
+                } else {
+                    for (OrderInfoEntity o : list) {
+                        o.setSelected(false);
+                    }
+                    list.get(position).setSelected(true);
                 }
-                list.get(position).setSelected(true);
+                ola.notifyDataSetChanged();
+            } else {//返回出库页面
+                Intent intent = new Intent(getActivity(), StockOutActivity.class);
+                intent.putExtra(Configure.ORDERINFOID, list.get(position).getId());
+                intent.putExtra(Configure.ORDERINFOSN, list.get(position).getOrder_sn());
+                getActivity().startActivity(intent);
             }
-            ola.notifyDataSetChanged();
+
         });
 
 
@@ -151,7 +158,6 @@ public class OrderListFragment extends BaseFragment {
                         deleteOrder(list.get(position).getId(), postscript);
 
                     });
-
 
                     break;
             }
@@ -236,55 +242,6 @@ public class OrderListFragment extends BaseFragment {
 
 
     }
-
-    //查询订单
-    private void orderDetail(int id) {
-
-        Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(getContext(), true) {
-            @Override
-            protected void _onNext(final OrderInfo orderInfo) {
-                int order_staus = orderInfo.getOrderInfo().getOrder_status();
-                int pay_staus = orderInfo.getOrderInfo().getPay_status();
-
-                if (order_staus == 0)//未服务
-                    if (pay_staus == 2)
-                        sendOrderInfo(MakeOrderSuccessActivity.class, orderInfo);
-                    else
-                        toActivity(OrderInfoActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
-                else if (order_staus == 1) {//服务中
-                    if (pay_staus == 2) {
-                        //弹出对话框
-                        final ConfirmDialogCanlce confirmDialog = new ConfirmDialogCanlce(getContext(), "是否确认订单服务已完成");
-                        confirmDialog.show();
-                        confirmDialog.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
-                            @Override
-                            public void doConfirm() {
-                                confirmDialog.dismiss();
-                                toActivity(OrderDoneActivity.class, Configure.ORDERINFOID, orderInfo.getOrderInfo().getId());
-                            }
-
-                            @Override
-                            public void doCancel() {
-                                confirmDialog.dismiss();
-                            }
-                        });
-                    } else
-                        sendOrderInfo(OrderPayActivity.class, orderInfo);
-                } else
-
-                    ToastUtils.showToast("订单已完成");
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                Log.d(getTag(), message);
-                ToastUtils.showToast("查找订单失败");
-            }
-        });
-
-    }
-
 
     @Override
     protected String setTAG() {

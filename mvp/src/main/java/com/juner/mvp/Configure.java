@@ -75,6 +75,7 @@ public class Configure {
 
     public static final String ORDERINFO = "orderInfo";//
     public static final String ORDERINFOID = "orderInfoId";//
+    public static final String ORDERINFOSN = "orderInfoSN";//
     public static final String QUERYBYCARINFO = "QueryByCarInfo";//
 
 

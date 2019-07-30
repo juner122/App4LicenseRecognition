@@ -11,32 +11,25 @@ import android.os.Build;
 import android.os.Environment;
 
 import androidx.fragment.app.Fragment;
-import androidx.core.content.FileProvider;
 
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.activity.fragment.MainFragment1New;
 import com.eb.geaiche.activity.fragment.MainFragment5New;
 import com.eb.geaiche.api.RxSubscribe;
-import com.eb.geaiche.coupon.CouponListActivity;
-import com.eb.geaiche.maneuver.activity.ManeuverActivity;
 import com.eb.geaiche.mvp.FixInfoActivity;
 import com.eb.geaiche.mvp.FixInfoListActivity;
 import com.eb.geaiche.stockControl.activity.StockControlActivity;
-import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
-import com.eb.geaiche.view.ConfirmDialogCanlce;
+
 import com.eb.geaiche.view.DownLodingDialog;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 
-import com.eb.geaiche.activity.fragment.MainFragment5;
+
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.eb.geaiche.activity.fragment.MainFragmentPlate;
@@ -46,7 +39,6 @@ import com.juner.mvp.bean.PushMessage;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -95,9 +87,10 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.tv_shopName:
-//                toActivity(StockControlActivity.class);//出入库
-                //toActivity(CouponListActivity.class);//优惠劵管理
+                toActivity(StockControlActivity.class);//出入库
+//                toActivity(CouponListActivity.class);//优惠劵管理
 //                toActivity(ManeuverActivity.class);//活动管理
+//                toActivity(MeritsDistriListActivity.class);//绩效管理
                 break;
 
         }
@@ -354,9 +347,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
-
-
 
 
 }

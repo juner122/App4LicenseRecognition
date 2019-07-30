@@ -808,7 +808,11 @@ public interface ApiService {
     //查看已完成订单技师绩效分配
     @POST("order/selectOrderDeduction")
     @FormUrlEncoded
-    Observable<BaseBean<List<StaffPerformance>>> getOrderDeduction(@Header("X-Nideshop-Token") String token, @Field("order_id") int order_id);
+    Observable<BaseBean<List<Technician>>> getOrderDeduction(@Header("X-Nideshop-Token") String token, @Field("order_id") int order_id);
+
+    //设置员工绩效分配
+    @POST("order/setDeduction")
+    Observable<BaseBean<NullDataEntity>> setDeduction(@Header("X-Nideshop-Token") String token, @Body List<Technician> list);
 
 
     //门店优惠券模板列表

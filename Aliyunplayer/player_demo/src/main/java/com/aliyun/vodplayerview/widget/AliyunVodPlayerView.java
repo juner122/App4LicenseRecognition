@@ -428,7 +428,6 @@ public class AliyunVodPlayerView extends RelativeLayout implements ITheme {
      */
     private void changedToLandScape(boolean fromPort) {
 
-//        mControlView.showTitlebarBackBtn();
         //如果不是从竖屏变过来，也就是一直是横屏的时候，就不用操作了
         if (!fromPort) {
             return;

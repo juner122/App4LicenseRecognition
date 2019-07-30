@@ -128,10 +128,10 @@ public class MuneButAdapter extends BaseQuickAdapter<MenuBut, BaseViewHolder> {
 
             default:
 
-                if (perms.equals("com.eb.geaiche.maneuver.activity.ManeuverActivity")) {//活动管理
-                    ToastUtils.showToast("无权限");
-                    return;
-                }
+//                if (perms.equals("com.eb.geaiche.maneuver.activity.ManeuverActivity")) {//活动管理
+//                    ToastUtils.showToast("无权限");
+//                    return;
+//                }
 
 
 

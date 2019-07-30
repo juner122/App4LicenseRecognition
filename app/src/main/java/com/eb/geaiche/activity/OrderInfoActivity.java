@@ -524,7 +524,6 @@ public class OrderInfoActivity extends BaseActivity {
 
                 ll_pick_date.setVisibility(View.VISIBLE);
                 tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
-
                 tv_pick_technician.setVisibility(View.VISIBLE);
 
                 break;
@@ -538,10 +537,11 @@ public class OrderInfoActivity extends BaseActivity {
                     ll_price3.setVisibility(View.GONE);
                 } else {
                     tv_enter_order.setText("确认完成");
-                    tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
+
                     tv_price4.setText("￥" + MathUtil.twoDecimal(info.getOrderInfo().getActual_price()));
                     ll_price3.setVisibility(View.VISIBLE);
                 }
+//                tv_enter_order.setBackgroundColor(getResources().getColor(R.color.D9D9D9));
                 ll_pick_date.setVisibility(View.VISIBLE);
                 tv_pick_date.setText(getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
 

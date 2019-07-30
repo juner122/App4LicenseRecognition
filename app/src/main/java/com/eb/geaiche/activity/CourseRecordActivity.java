@@ -41,18 +41,15 @@ public class CourseRecordActivity extends BaseActivity {
         adapter = new CollegeRecordListAdapter(this, null);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        adapter.setOnItemClickListener((adapter, view, position) -> {
 
-                Intent intent = new Intent(CourseRecordActivity.this, CourseInfoActivity.class);
-                intent.putExtra("id", ((CourseRecord) adapter.getData().get(position)).getCourseId());
-                intent.putExtra("courseName", ((CourseRecord) adapter.getData().get(position)).getCourseName());
-                intent.putExtra("resourceId", ((CourseRecord) adapter.getData().get(position)).getResourceId());
-                intent.putExtra("pastTime", ((CourseRecord) adapter.getData().get(position)).getPastTime());
-                startActivity(intent);
+            Intent intent = new Intent(CourseRecordActivity.this, CourseInfoActivity.class);
+            intent.putExtra("id", ((CourseRecord) adapter.getData().get(position)).getCourseId());
+            intent.putExtra("courseName", ((CourseRecord) adapter.getData().get(position)).getCourseName());
+            intent.putExtra("resourceId", ((CourseRecord) adapter.getData().get(position)).getResourceId());
+            intent.putExtra("pastTime", ((CourseRecord) adapter.getData().get(position)).getPastTime());
+            startActivity(intent);
 
-            }
         });
     }
 

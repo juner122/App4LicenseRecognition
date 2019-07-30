@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import com.eb.geaiche.R;
 import com.eb.geaiche.util.SystemUtil;
 
+import java.net.UnknownHostException;
+
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
@@ -78,7 +80,6 @@ public abstract class RxSubscribe<T> implements Observer<T> {
     public void onError(Throwable e) {
 
 
-
         //把底层的一些错误翻译一下用户看不来
         if (e.getMessage() == null || e.getMessage().isEmpty()) {//未知错误
             _onError(mContext.getString(R.string.error_unknown));
@@ -96,7 +97,11 @@ public abstract class RxSubscribe<T> implements Observer<T> {
             //服务器内部错误
             _onError(mContext.getString(R.string.error_connect_server_timeout));
         } else {
-            _onError("服务器连接失败,请检查手机网络！");
+            if (e instanceof UnknownHostException) {
+                _onError("服务器超时，请检查手机网络！");
+            } else {
+                _onError(e.getMessage());
+            }
         }
         if (isShow) {
             if (dialog != null)

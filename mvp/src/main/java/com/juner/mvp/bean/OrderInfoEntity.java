@@ -56,6 +56,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     String deputy;
     String deputy_mobile;
 
+    String deduction_status;//是否分配过业绩，1是0否
+
     public String getDeputy() {
         return deputy;
     }
@@ -77,6 +79,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
             return "微信";
         else
             return null == pay_name || pay_name.equals("") ? "-" : pay_name;
+    }
+
+    public String getDeduction_status() {
+        return deduction_status;
+    }
+
+    public void setDeduction_status(String deduction_status) {
+        this.deduction_status = deduction_status;
     }
 
     public Long getPlanInformTime() {

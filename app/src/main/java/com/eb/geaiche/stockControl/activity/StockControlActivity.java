@@ -121,6 +121,7 @@ public class StockControlActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        showMain();
         adapter = new StockControlListAdapter(null, this);
 
         rv.setLayoutManager(new LinearLayoutManager(this));

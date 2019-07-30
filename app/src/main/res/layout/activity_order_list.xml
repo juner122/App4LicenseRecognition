@@ -8,7 +8,6 @@
 
     <include layout="@layout/head_view" />
 
-    <!--<include layout="@layout/head_date_view" />-->
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
@@ -102,11 +101,16 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#d9d9d9" />
+
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/st"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:background="#fff"
         tl:tl_divider_color="#1A000000"
         tl:tl_divider_padding="10dp"
@@ -124,5 +128,18 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+
+    <TextView
+        android:id="@+id/enter"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#ff4a9de3"
+        android:gravity="center"
+        android:text="非订单出库"
+        android:textColor="#ffffffff"
+        android:textSize="14sp" />
+
 </LinearLayout>

@@ -61,7 +61,9 @@
         <activity android:name=".activity.MeritsDistributionActivity" />
         <activity android:name=".maneuver.activity.ManeuverInfoActivity" />
         <activity android:name=".maneuver.activity.ManeuverActivity" />
-        <activity android:name=".stockControl.activity.StockOutActivity" />
+        <activity
+            android:name=".stockControl.activity.StockOutActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".stockControl.activity.SupplierAddOrFixActivity" />
         <activity android:name=".stockControl.activity.SupplierListActivity" />
         <activity

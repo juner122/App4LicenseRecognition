@@ -92,20 +92,17 @@ public class OrderList4DayActivity extends BaseActivity {
             }
         });
 
-        ola.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (((OrderInfoEntity) adapter.getData().get(position)).isSelected()) {
-                    ((OrderInfoEntity) adapter.getData().get(position)).setSelected(false);
+        ola.setOnItemClickListener((adapter, view, position) -> {
+            if (((OrderInfoEntity) adapter.getData().get(position)).isSelected()) {
+                ((OrderInfoEntity) adapter.getData().get(position)).setSelected(false);
 
-                } else {
-                    for (OrderInfoEntity o : (List<OrderInfoEntity>) adapter.getData()) {
-                        o.setSelected(false);
-                    }
-                    ((OrderInfoEntity) adapter.getData().get(position)).setSelected(true);
+            } else {
+                for (OrderInfoEntity o : (List<OrderInfoEntity>) adapter.getData()) {
+                    o.setSelected(false);
                 }
-                adapter.notifyDataSetChanged();
+                ((OrderInfoEntity) adapter.getData().get(position)).setSelected(true);
             }
+            adapter.notifyDataSetChanged();
         });
 
 

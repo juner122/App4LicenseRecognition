@@ -76,7 +76,7 @@ public class FixInfoMdl extends BaseModel implements FixInfoContacts.FixInfoMdl 
     //报价单去生成订单
     @Override
     public void submit(OrderInfoEntity infoEntity, RxSubscribe<NullDataEntity> rxSubscribe) {
-        sendRequest(HttpUtils.getFix().submit(getToken(context), infoEntity).compose(RxHelper.<NullDataEntity>observe()), rxSubscribe);
+        sendRequest(HttpUtils.getFix().submit(getToken( context), infoEntity).compose(RxHelper.observe()), rxSubscribe);
     }
 
 

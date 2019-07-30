@@ -19,7 +19,6 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
     Context context;
 
 
-
     public StockOutListAdapter(@Nullable List<StockGoods> data, Context c) {
         super(R.layout.activity_stock_out_item, data);
         this.context = c;
@@ -29,15 +28,8 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
     protected void convert(BaseViewHolder helper, StockGoods item) {
         helper.setText(R.id.name, item.getGoodsTitle());
         helper.setText(R.id.standards, item.getStandardTitle());
-        helper.setText(R.id.num, item.getNumber());
-        helper.setText(R.id.price, item.getPrice());
+        helper.setText(R.id.num, "x" + item.getNumber());
+        helper.setText(R.id.price, "￥" + item.getPrice());
 
-
-
-        ImageView iv = (ImageView) helper.getView(R.id.iv);
-        iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        Glide.with(context)
-                .load(item.getImage())
-                .into(iv);
     }
 }

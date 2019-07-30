@@ -10,9 +10,29 @@ public class BasePage<T> {
     int currPage;
     int dayTotal;
     int monthTotal;
+    String saleMoney;//订单总额
+    String deductionSum;//提成总额
+
 
 
     List<T> list;
+
+
+    public String getSaleMoney() {
+        return saleMoney;
+    }
+
+    public void setSaleMoney(String saleMoney) {
+        this.saleMoney = saleMoney;
+    }
+
+    public String getDeductionSum() {
+        return deductionSum;
+    }
+
+    public void setDeductionSum(String deductionSum) {
+        this.deductionSum = deductionSum;
+    }
 
     public int getTotalCount() {
         return totalCount;

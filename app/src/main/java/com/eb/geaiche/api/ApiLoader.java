@@ -451,7 +451,7 @@ public class ApiLoader {
 
         }
 
-        return apiService.orderList(map).compose(RxHelper.<BasePage<OrderInfoEntity>>observe());
+        return apiService.orderList(map).compose(RxHelper.observe());
     }
 
     /**
@@ -492,6 +492,25 @@ public class ApiLoader {
         map.put("limit", Configure.limit_page);
         map.put("page", page);
         map.put("user_id", user_id);
+        return apiService.orderList(map).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 任意条件订单列表 不同订单查询看备注
+     *
+     * @param deduction_status 是否分配过业绩，1是0否
+     * @return
+     */
+    public Observable<BasePage<OrderInfoEntity>> orderStatusList(String deduction_status) {
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+//        map.put("limit", Configure.limit_page);
+        map.put("limit", 100);
+        map.put("page", 1);
+        if (null != deduction_status)
+            map.put("deduction_status", deduction_status);
+
         return apiService.orderList(map).compose(RxHelper.observe());
     }
 
@@ -1520,7 +1539,6 @@ public class ApiLoader {
     }
 
 
-
     /**
      * 获取商城订单详情
      */
@@ -1705,9 +1723,17 @@ public class ApiLoader {
     /**
      * 查看已完成订单技师绩效分配
      */
-    public Observable<List<StaffPerformance>> getOrderDeduction(int orderId) {
+    public Observable<List<Technician>> getOrderDeduction(int orderId) {
 
         return apiService.getOrderDeduction(token, orderId).compose(RxHelper.observe());
+    }
+
+    /**
+     * 设置员工绩效分配
+     */
+    public Observable<NullDataEntity> setDeduction(List<Technician> list) {
+
+        return apiService.setDeduction(token, list).compose(RxHelper.observe());
     }
 
     /**

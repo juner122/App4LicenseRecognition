@@ -3,14 +3,17 @@ package com.eb.geaiche.activity;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
 import android.view.View;
 import android.widget.TextView;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.fragment.OrderListFragment;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.stockControl.activity.StockOutActivity;
 import com.eb.geaiche.util.SystemUtil;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.OrderInfoEntity;
 
@@ -35,6 +38,10 @@ public class OrderListActivity extends BaseActivity {
     TextView top_num2;
 
 
+    @BindView(R.id.enter)
+    View enter;//非订单出库按钮
+
+
     @BindView(R.id.st)
     SlidingTabLayout stl;
     @BindView(R.id.vp)
@@ -45,7 +52,10 @@ public class OrderListActivity extends BaseActivity {
     private String[] title = {"全部", "已预约", "待服务", "服务中", "已完成"};
 
 
-    @OnClick({R.id.ll_day, R.id.ll_moon,R.id.tv_iv_r})
+    public static int view_intent;//页面意图  0=正常查看订单，1=领料出库选择订单
+
+
+    @OnClick({R.id.ll_day, R.id.ll_moon, R.id.tv_iv_r, R.id.enter})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_day:
@@ -60,13 +70,24 @@ public class OrderListActivity extends BaseActivity {
             case R.id.tv_iv_r://搜索
                 toActivity(OrderSearch.class);
                 break;
+
+            case R.id.enter://非订单出库
+                toActivity(StockOutActivity.class, Configure.ORDERINFOID, -1);
+                break;
         }
     }
 
 
-
     @Override
     protected void setUpView() {
+
+
+        view_intent = getIntent().getIntExtra("view_intent", 0);
+        if (view_intent != 0) {//正常查看列表不显示按钮
+            enter.setVisibility(View.VISIBLE);
+        } else
+            enter.setVisibility(View.GONE);
+
 
         fragments.add(OrderListFragment.newInstance(0));
         fragments.add(OrderListFragment.newInstance(1));
@@ -97,6 +118,7 @@ public class OrderListActivity extends BaseActivity {
         });
         getData(0);
     }
+
     private void getData(int position) {
         Api().orderList(position, 1).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, false) {
             @Override
@@ -108,7 +130,7 @@ public class OrderListActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 //判断是否是401 token失效
-                SystemUtil.isReLogin(message,OrderListActivity.this);
+                SystemUtil.isReLogin(message, OrderListActivity.this);
             }
         });
     }

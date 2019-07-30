@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
+    android:gravity="center"
 
     android:orientation="horizontal">
 
@@ -17,27 +18,27 @@
         android:gravity="center"
         android:padding="12dp"
         android:textSize="13sp"
-        android:text="星际年卡" />
+        android:text="" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@null"
         android:gravity="center"
         android:padding="12dp"
         android:textSize="13sp"
-
         android:hint="提成基数" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_meeits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
         android:textSize="13sp"
-
+        android:background="@null"
         android:padding="12dp"
         android:hint="提成比" />
 

@@ -43,11 +43,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.juner.mvp.Configure.shop_address;
-import static com.juner.mvp.Configure.shop_id;
-import static com.juner.mvp.Configure.shop_name;
-import static com.juner.mvp.Configure.shop_phone;
-import static com.juner.mvp.Configure.shop_user_name;
 
 public class ManeuverInfoActivity extends BaseActivity {
 
