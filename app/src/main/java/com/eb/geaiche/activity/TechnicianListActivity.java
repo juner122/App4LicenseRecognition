@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.TechnicianAdpter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.mvp.FixInfoDescribeActivity;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.BasePage;
 
@@ -105,12 +106,21 @@ public class TechnicianListActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.but_enter:
 
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
-                intent.putExtras(bundle);
-                setResult(RESULT_OK, intent);
-                finish();
+                Intent intent;
+                if (getIntent().getIntExtra("type", -1) == 1) {
+                    intent = new Intent(this, OrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(this, FixInfoDescribeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("Technician", (ArrayList) pick_list);
+                    intent.putExtras(bundle);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 break;
 
 

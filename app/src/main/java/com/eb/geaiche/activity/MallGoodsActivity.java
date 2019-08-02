@@ -1,6 +1,7 @@
 package com.eb.geaiche.activity;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -46,9 +47,9 @@ public class MallGoodsActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-        adapter = new MallTypeGoodsListAdapter(null, this, R.layout.activity_mall_goods_item);
+        adapter = new MallTypeGoodsListAdapter(null, this, R.layout.activity_mall_goods_item2);
 
-        rv.setLayoutManager(new GridLayoutManager(this, 2));
+        rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
         adapter.setEmptyView(R.layout.order_list_empty_view_p, rv);
         adapter.setOnItemClickListener((a, view, position) -> toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, adapter.getData().get(position).getId()));

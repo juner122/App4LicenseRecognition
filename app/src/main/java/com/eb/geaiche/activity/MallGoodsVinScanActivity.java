@@ -137,8 +137,8 @@ public class MallGoodsVinScanActivity extends BaseActivity {
                         protected void _onNext(CarNumberRecogResult c) {
                             ll_tv_check.setVisibility(View.VISIBLE);
                             et_vin.setText(c.getVin());
-                            vin = c.getVin();
-                            queryVinInfo(vin);
+
+                            queryVinInfo(c.getVin());
                         }
 
                         @Override
@@ -217,7 +217,6 @@ public class MallGoodsVinScanActivity extends BaseActivity {
                 break;
             case R.id.tv_check://查询
 
-//                tv_mandatory_entry.setVisibility(View.GONE);
                 tv_check.setVisibility(View.VISIBLE);
 
                 if (TextUtils.isEmpty(et_vin.getText())) {
@@ -272,9 +271,9 @@ public class MallGoodsVinScanActivity extends BaseActivity {
 
 
     //查询vin信息
-    private void queryVinInfo(String vin) {
+    private void queryVinInfo(String v) {
 
-        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(context, true, "车辆信息查询中") {
+        Api().carVinInfoQuery(v).subscribe(new RxSubscribe<CarVin>(context, true, "车辆信息查询中") {
             @Override
             protected void _onNext(CarVin carVin) {
 
@@ -282,6 +281,8 @@ public class MallGoodsVinScanActivity extends BaseActivity {
                     ToastUtils.showToast("查询失败,请重新查询！");
                     return;
                 }
+
+                vin = v;
                 showInfo();
                 setCarInfo(carVin.getShowapi_res_body());
                 toCarInfo(carVin.getShowapi_res_body());
@@ -295,31 +296,6 @@ public class MallGoodsVinScanActivity extends BaseActivity {
             }
         });
 
-//
-//        Api().carVinInfoQuery2(vin).subscribe(new RxSubscribe<CarVin2>(CarVinDISActivity.this, true, "车辆信息查询中") {
-//            @Override
-//            protected void _onNext(CarVin2 carVin) {
-//
-//                if (carVin.getCode().equals("000000") && carVin.getResult().getVehicleList().size() > 0) {//成功
-//
-//                    showInfo();
-//                    setCarInfo(carVin.getResult().getVehicleList().get(0));
-//                    toCarInfo(carVin.getResult().getVehicleList().get(0));
-//
-//                } else {
-//                    ToastUtils.showToast(carVin.getMessage());
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                Log.e("车架号vin信息查询:", message);
-//
-//                ToastUtils.showToast("查询失败,请重新查询！");
-//            }
-//        });
 
     }
 

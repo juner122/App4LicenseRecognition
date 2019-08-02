@@ -265,18 +265,12 @@ public class OrderInfoActivity extends BaseActivity {
 
                     Intent intent4 = new Intent(this, TechnicianListActivity.class);
                     Bundle bundle = new Bundle();
+
                     bundle.putParcelableArrayList("Technician", (ArrayList<? extends Parcelable>) technicians);
                     intent4.putExtras(bundle);
-                    startActivityForResult(intent4, new ResultBack() {
-                        @Override
-                        public void resultOk(Intent data) {
-                            tv_technician.setText("");
-                            technicians = data.getParcelableArrayListExtra("Technician");
-                            tv_technician.setText(String2Utils.getString(technicians));
-                            info.getOrderInfo().setSysUserList(technicians);
-                            remake();
-                        }
-                    });
+                    intent4.putExtra("type", 1);
+                    startActivity(intent4);
+
                 }
                 break;
             case R.id.ib_pick_date://选择预计完成时间
@@ -395,6 +389,17 @@ public class OrderInfoActivity extends BaseActivity {
 
     }
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        tv_technician.setText("");
+        technicians = intent.getParcelableArrayListExtra("Technician");
+        tv_technician.setText(String2Utils.getString(technicians));
+        info.getOrderInfo().setSysUserList(technicians);
+        remake();
+    }
 
     //修改订单  显示控件
     private void onFixOrder() {
