@@ -8,19 +8,22 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.stockControl.adapter.StockInListAdapter;
+import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.DateUtil;
-import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
-import com.juner.mvp.Configure;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.UserEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,8 @@ public class StockInActivity extends BaseActivity {
     TextView enter;
 
     StockInListAdapter adapter;
+    UserEntity ue;
+    Shop shop;//当前登录的门店信息
 
     @OnClick({R.id.enter})
     public void onClick(View v) {
@@ -67,6 +72,8 @@ public class StockInActivity extends BaseActivity {
 
         tv_title.setText("采购入库");
         setRTitle("继续入库");
+
+
     }
 
     @Override
@@ -76,10 +83,23 @@ public class StockInActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        tv_name.setText(MyAppPreferences.getString("shop_user_name"));
-
-
-
+        all_price.setText(String.format("￥%s", getPrice()));
+        adapter.setOnItemChildClickListener((a, view, position) -> {
+            MultiItemEntity entity = adapter.getItem(position);
+            if (entity instanceof Goods.GoodsStandard) {
+                Goods.GoodsStandard gs = (Goods.GoodsStandard) entity;
+                int num = gs.getNum();
+                if (view.getId() == R.id.add) {
+                    gs.setNum(num + 1);
+                } else {
+                    if (num != 0) {
+                        gs.setNum(num - 1);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                all_price.setText(String.format("￥%s", getPrice()));
+            }
+        });
     }
 
     @Override
@@ -91,6 +111,35 @@ public class StockInActivity extends BaseActivity {
 
     @Override
     protected void setUpData() {
+
+        //获取当前登录员工
+        Api().getInfo().subscribe(new com.eb.geaiche.api.RxSubscribe<UserEntity>(this, true) {
+            @Override
+            protected void _onNext(UserEntity u) {
+                ue = u;
+                tv_name.setText(ue.getMobile());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("员工信息获取失败！" + message);
+            }
+        });
+
+
+        //当前门店
+        Api().shopInfo().subscribe(new com.eb.geaiche.api.RxSubscribe<Shop>(this, true) {
+            @Override
+            protected void _onNext(Shop s) {
+                shop = s;
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("门店信息获取失败！" + message);
+            }
+        });
+
 
     }
 
@@ -105,7 +154,7 @@ public class StockInActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 finish();
-                toActivity(StockInOrOutInfoActivity.class, "stockType", Configure.STOCK_IN);
+
             }
 
             @Override
@@ -120,21 +169,23 @@ public class StockInActivity extends BaseActivity {
 
         stock.setType("2");////1出库2入库
 
+        stock.setShopId(shop.getShop().getId());
+        stock.setUserId(String.valueOf(ue.getUserId()));
+        stock.setUserName(String.valueOf(ue.getUsername()));
+        stock.setRemarks(et_remarks.getText().toString());
+        stock.setTotalPrice(getPrice());
+        stock.setStockGoodsList(getStockGoodsList());
 
         return stock;
     }
 
 
     private List<MultiItemEntity> generateData(List<Goods.GoodsStandard> list) {
-
-
         List<MultiItemEntity> res = new ArrayList<>();
         if (null == list || list.size() == 0) {
             return res;
         }
-
         SparseArray gl = new SparseArray();//所有规格中有包含的商品
-
 
         for (int i = 0; i < list.size(); i++) {
 
@@ -150,6 +201,7 @@ public class StockInActivity extends BaseActivity {
                 lv0.setGoodsTitle(item_gs.getGoodsTitle());
                 lv0.setNum(item_gs.getNum());
                 lv0.setId(gsId);
+                lv0.setGoodsDetailsPojoList(item_gs.getGoodsDetailsPojoList());
                 lv0.addSubItem(item_gs);
             }
             gl.put(gsId, lv0);
@@ -163,6 +215,55 @@ public class StockInActivity extends BaseActivity {
 
         }
         return res;
+    }
+
+    //计算总价
+    public String getPrice() {
+
+
+        List<MultiItemEntity> data = adapter.getData();
+
+        BigDecimal totalprice = new BigDecimal(0);
+        for (MultiItemEntity entity : data) {
+            if (entity instanceof Goods.GoodsStandard) {
+                Goods.GoodsStandard goodsStandard = (Goods.GoodsStandard) entity;
+                BigDecimal num = new BigDecimal(goodsStandard.getNum());
+                BigDecimal price = new BigDecimal(null == goodsStandard.getStockPrice() ? "0" : goodsStandard.getStockPrice());
+                totalprice = totalprice.add(num.multiply(price));
+            }
+        }
+        return totalprice.toString();
+    }
+
+    //返回入库商品对象列表
+    public List<StockGoods> getStockGoodsList() {
+
+
+        List<MultiItemEntity> data = adapter.getData();
+        List<StockGoods> stockGoods = new ArrayList<>();
+
+
+        for (MultiItemEntity entity : data) {
+            if (entity instanceof Goods.GoodsStandard) {
+                Goods.GoodsStandard gs = (Goods.GoodsStandard) entity;
+
+                StockGoods sg = new StockGoods();
+                sg.setGoodsId(String.valueOf(gs.getGoodsId()));
+                sg.setGoodsTitle(gs.getGoodsTitle());
+                sg.setStandardId(String.valueOf(gs.getId()));
+                sg.setStandardTitle(gs.getGoodsStandardTitle());
+                sg.setPrice(gs.getGoodsStandardPrice());
+
+                sg.setSupplierId(gs.getSupplierId());
+                sg.setSupplierName(gs.getSupplierName());
+
+                sg.setNumber(gs.getNum());
+
+                if (null != gs.getGoodsDetailsPojoList() && gs.getGoodsDetailsPojoList().size() > 0)
+                    sg.setImage(gs.getGoodsDetailsPojoList().get(0).getImage());
+            }
+        }
+        return stockGoods;
     }
 
 }

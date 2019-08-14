@@ -18,7 +18,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     String goodsTitle;
     String goodsBrandId;
     String goodsBrandTitle;
-    int firstCategoryId;
+    String firstCategoryId;
     String firstCategoryTitle;
     int secondCategoryId;
     String secondCategoryTitle;
@@ -40,7 +40,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
 
     List<GoodsPic> goodsDetailsPojoList;//图片Banner
     List<GoodsStandard> xgxGoodsStandardPojoList;//规格
-    List<GoodsInfoPic> goodsDetailsType2PojoList;//商品详情图片
+    List<GoodsPic> goodsDetailsType2PojoList;//商品详情图片
     GoodsStandard goodsStandard;
 
     int selected;
@@ -75,11 +75,11 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.goodsStandard = goodsStandard;
     }
 
-    public List<GoodsInfoPic> getGoodsInfoPicList() {
+    public List<GoodsPic> getGoodsInfoPicList() {
         return goodsDetailsType2PojoList;
     }
 
-    public void setGoodsInfoPicList(List<GoodsInfoPic> goodsInfoPicList) {
+    public void setGoodsInfoPicList(List<GoodsPic> goodsInfoPicList) {
         this.goodsDetailsType2PojoList = goodsInfoPicList;
     }
 
@@ -147,11 +147,11 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.goodsBrandTitle = goodsBrandTitle;
     }
 
-    public int getFirstCategoryId() {
+    public String getFirstCategoryId() {
         return firstCategoryId;
     }
 
-    public void setFirstCategoryId(int firstCategoryId) {
+    public void setFirstCategoryId(String firstCategoryId) {
         this.firstCategoryId = firstCategoryId;
     }
 
@@ -262,7 +262,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
 
         public GoodsStandard() {
         }
-
+        List<GoodsPic> goodsDetailsPojoList;//图片Banner
         int id;
         Integer goodsStandardId;
         String goodsStandardTitle;
@@ -270,7 +270,6 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         String goodsTitle;
         String goodsStandardPrice;//价钱
         int num;
-
         String stockPrice;//成本入库价
 
         //供应商
@@ -279,9 +278,17 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         //库存数量
         private  String stock;
 
+
         //供应商名
         private String supplierName;
 
+        public List<GoodsPic> getGoodsDetailsPojoList() {
+            return goodsDetailsPojoList;
+        }
+
+        public void setGoodsDetailsPojoList(List<GoodsPic> goodsDetailsPojoList) {
+            this.goodsDetailsPojoList = goodsDetailsPojoList;
+        }
 
         public String getGoodsTitle() {
             return goodsTitle;
@@ -383,6 +390,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
+            dest.writeList(this.goodsDetailsPojoList);
             dest.writeInt(this.id);
             dest.writeValue(this.goodsStandardId);
             dest.writeString(this.goodsStandardTitle);
@@ -397,6 +405,8 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         }
 
         protected GoodsStandard(Parcel in) {
+            this.goodsDetailsPojoList = new ArrayList<GoodsPic>();
+            in.readList(this.goodsDetailsPojoList, GoodsPic.class.getClassLoader());
             this.id = in.readInt();
             this.goodsStandardId = (Integer) in.readValue(Integer.class.getClassLoader());
             this.goodsStandardTitle = in.readString();
@@ -424,7 +434,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
     }
 
 
-    public class GoodsPic {
+    public static class GoodsPic {
 
         int id;
         int goodsId;
@@ -472,9 +482,27 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.xgxGoodsStandardPojoList = xgxGoodsStandardPojoList;
     }
 
-    public class GoodsInfoPic {
+    public static class GoodsInfoPic {
 
         String image;
+        int id;
+        String goodsId;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getGoodsId() {
+            return goodsId;
+        }
+
+        public void setGoodsId(String goodsId) {
+            this.goodsId = goodsId;
+        }
 
         public String getImage() {
             return image;
@@ -500,7 +528,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         dest.writeString(this.goodsTitle);
         dest.writeString(this.goodsBrandId);
         dest.writeString(this.goodsBrandTitle);
-        dest.writeInt(this.firstCategoryId);
+        dest.writeString(this.firstCategoryId);
         dest.writeString(this.firstCategoryTitle);
         dest.writeInt(this.secondCategoryId);
         dest.writeString(this.secondCategoryTitle);
@@ -528,7 +556,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.goodsTitle = in.readString();
         this.goodsBrandId = in.readString();
         this.goodsBrandTitle = in.readString();
-        this.firstCategoryId = in.readInt();
+        this.firstCategoryId = in.readString();
         this.firstCategoryTitle = in.readString();
         this.secondCategoryId = in.readInt();
         this.secondCategoryTitle = in.readString();
@@ -545,7 +573,7 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         this.goodsDetailsPojoList = new ArrayList<GoodsPic>();
         in.readList(this.goodsDetailsPojoList, GoodsPic.class.getClassLoader());
         this.xgxGoodsStandardPojoList = in.createTypedArrayList(GoodsStandard.CREATOR);
-        this.goodsDetailsType2PojoList = new ArrayList<GoodsInfoPic>();
+        this.goodsDetailsType2PojoList = new ArrayList<GoodsPic>();
         in.readList(this.goodsDetailsType2PojoList, GoodsInfoPic.class.getClassLoader());
         this.goodsStandard = in.readParcelable(GoodsStandard.class.getClassLoader());
         this.selected = in.readInt();

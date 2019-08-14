@@ -56,6 +56,7 @@ import com.juner.mvp.bean.CouponRecode;
 import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
+import com.juner.mvp.bean.DisRecordList;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsBrand;
@@ -892,7 +893,7 @@ public class ApiLoader {
      * 银行卡验证短信
      */
     public Observable<NullDataEntity> sendBankSms() {
-        return apiService.sendBankSms(map).compose(RxHelper.<NullDataEntity>observe());
+        return apiService.sendBankSms(map).compose(RxHelper.observe());
     }
 
     /**
@@ -1493,7 +1494,15 @@ public class ApiLoader {
 
         map.put("id", id);
 
-        return apiService.shopcategoryInfo(map).compose(RxHelper.<List<GoodsBrand>>observe());
+        return apiService.shopcategoryInfo(map).compose(RxHelper.observe());
+    }
+
+    /**
+     * 库存管理新增商品里的查找所有品牌
+     */
+    public Observable<List<GoodsBrand>> brandGoodsList() {
+
+        return apiService.brandGoodsList(map).compose(RxHelper.observe());
     }
 
 
@@ -1504,7 +1513,7 @@ public class ApiLoader {
     public Observable<Goods> xgxshopgoodsInfo(int id) {
 
         map.put("id", id);
-        return apiService.xgxshopgoodsInfo(map).compose(RxHelper.<Goods>observe());
+        return apiService.xgxshopgoodsInfo(map).compose(RxHelper.observe());
     }
 
     /**
@@ -1613,7 +1622,7 @@ public class ApiLoader {
     /**
      * 出入库记录详情
      */
-    public Observable<StockInOrOut> stockInfo(int id) {
+    public Observable<StockInOrOut> stockInfo(String id) {
         map.put("id", id);
         return apiService.info(map).compose(RxHelper.observe());
     }
@@ -1631,9 +1640,34 @@ public class ApiLoader {
     /**
      * 添加库存商品
      */
-    public Observable<NullDataEntity> addGoods(Goods goods) {
+    public Observable<Integer> addGoods(Goods goods) {
 
         return apiService.addGoods(token, goods).compose(RxHelper.observe());
+    }
+
+    /**
+     * 编辑库存商品
+     */
+    public Observable<NullDataEntity> fixGoods(Goods goods) {
+
+        return apiService.fixGoods(token, goods).compose(RxHelper.observe());
+    }
+
+    /**
+     * 添加商品图片
+     */
+    public Observable<NullDataEntity> addDetails(Goods.GoodsPic goodsPic) {
+
+        return apiService.addDetails(token, goodsPic).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 删除商品图
+     */
+    public Observable<NullDataEntity> deleteDetails(String  id) {
+
+        return apiService.deleteDetails(token, id).compose(RxHelper.observe());
     }
 
 
@@ -1643,6 +1677,22 @@ public class ApiLoader {
     public Observable<NullDataEntity> addSupplier(Supplier supplier) {
 
         return apiService.addSupplier(token, supplier).compose(RxHelper.observe());
+    }
+
+    /**
+     * 修改供应商
+     */
+    public Observable<NullDataEntity> fixSupplier(Supplier supplier) {
+
+        return apiService.fixSupplier(token, supplier).compose(RxHelper.observe());
+    }
+
+    /**
+     * 供应商详情
+     */
+    public Observable<Supplier> infoSupplier(String id) {
+
+        return apiService.infoSupplier(token, id).compose(RxHelper.observe());
     }
 
     /**
@@ -1801,6 +1851,14 @@ public class ApiLoader {
     public Observable<List<CouponRecode>> couponPostRecode() {
 
         return apiService.couponPostRecode(token).compose(RxHelper.observe());
+    }
+
+    /**
+     * 提现记录
+     */
+    public Observable<DisRecordList> disRecode() {
+
+        return apiService.ceauthList(token).compose(RxHelper.observe());
     }
 
     /**

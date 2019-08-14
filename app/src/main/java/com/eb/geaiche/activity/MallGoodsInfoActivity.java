@@ -135,7 +135,7 @@ public class MallGoodsInfoActivity extends BaseActivity {
                     }
 
                     if (null != goods.getGoodsInfoPicList() || goods.getGoodsInfoPicList().size() > 0) {
-                        for (Goods.GoodsInfoPic goodsInfoPic : goods.getGoodsInfoPicList()) {
+                        for (Goods.GoodsPic goodsInfoPic : goods.getGoodsInfoPicList()) {
                             pic_url_info.add(goodsInfoPic.getImage());
                         }
                     }

@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.MallGoodsInfoActivity;
 import com.eb.geaiche.bean.MyMultipleItem;
+import com.eb.geaiche.stockControl.activity.StockAddGoodsActivity;
 import com.eb.geaiche.stockControl.activity.StockAddStandardsActivity;
 import com.eb.geaiche.util.ImageUtils;
 import com.juner.mvp.bean.Goods;
@@ -21,6 +22,7 @@ import com.juner.mvp.bean.Goods;
 import java.util.List;
 
 import static com.eb.geaiche.stockControl.activity.StockControlActivity.stockCartUtils;
+import static com.eb.geaiche.stockControl.activity.StockControlActivity.view_type;
 
 public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
@@ -48,9 +50,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 boolean isExpanded = goods.isExpanded();
 
                 helper.getView(R.id.tv_info).setOnClickListener(v -> {
-                    Intent intent = new Intent(context, MallGoodsInfoActivity.class);//查看商品详情
-                    intent.putExtra("goodsId", goods.getId());
-                    context.startActivity(intent);
+                    showInfo(goods);
                 });
 
 
@@ -74,11 +74,18 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
 
                 helper.itemView.setOnClickListener(v -> {
-                    int pos = helper.getAdapterPosition();
-                    if (isExpanded) {
-                        collapse(pos);
+                    if (view_type == 1) {//查看商品详情
+
+                        showInfo(goods);
                     } else {
-                        expand(pos);
+
+
+                        int pos = helper.getAdapterPosition();
+                        if (isExpanded) {
+                            collapse(pos);
+                        } else {
+                            expand(pos);
+                        }
                     }
                 });
 
@@ -107,7 +114,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
                 TextView tv_button_name = helper.getView(R.id.button);
                 View ll_button = helper.getView(R.id.ll_button);
-                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum()));
+                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, null == gs.getStock() ? "0" : gs.getStock());
 
 
                 if (gs.isSelected()) {
@@ -139,5 +146,14 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
                 break;
 
         }
+    }
+
+
+    //查看商品详情
+    private void showInfo(Goods goods) {
+
+        Intent intent = new Intent(context, StockAddGoodsActivity.class);
+        intent.putExtra("goodsId", goods.getId());
+        context.startActivity(intent);
     }
 }

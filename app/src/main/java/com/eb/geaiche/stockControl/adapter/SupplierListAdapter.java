@@ -29,7 +29,7 @@ public class SupplierListAdapter extends BaseQuickAdapter<Supplier, BaseViewHold
         helper.setText(R.id.name, item.getName());
         helper.setText(R.id.address, item.getAddress());
         helper.setText(R.id.operation, item.getOperation());
-
+        helper.addOnClickListener(R.id.iv2);
 
     }
 }

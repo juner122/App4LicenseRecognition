@@ -51,6 +51,16 @@ public class Card {
 
     private String authCode;
 
+    private String idCard;//身份证号码
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
     public String getBankNum() {
         return bankNum;
     }

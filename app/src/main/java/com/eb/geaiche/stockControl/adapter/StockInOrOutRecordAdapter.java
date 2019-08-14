@@ -27,10 +27,16 @@ public class StockInOrOutRecordAdapter extends BaseQuickAdapter<StockInOrOut, Ba
 
     @Override
     protected void convert(BaseViewHolder helper, StockInOrOut item) {
-        helper.setText(R.id.name, item.getUserId());
-        helper.setText(R.id.time, DateUtil.getFormatedDateTime(item.getAddTime()));
-        helper.setText(R.id.price, item.getTotalPrice());
+        helper.setText(R.id.name, item.getUserName());
+        helper.setText(R.id.time, null == item.getAddTime() ? "-" : DateUtil.getFormatedDateTime(item.getAddTime()));
+        helper.setText(R.id.price, null == item.getTotalPrice() ? "-" : String.format("￥%s", item.getTotalPrice()));
+        helper.setText(R.id.tv_sn, String.format("订单号：%s", item.getOrderSn()));
 
+        if (item.getType().equals("2")) {
+            helper.setVisible(R.id.tv_sn, false);
+
+        } else
+            helper.setVisible(R.id.tv_sn, true);
 
     }
 }

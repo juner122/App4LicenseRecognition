@@ -15,11 +15,18 @@ public class StockGoods {
 
     Integer type;  //暂时无用
 
-
     Integer status;    //无用
     String supplierName;
     String image;//图
+    String stock; //库存数量
 
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        stock = stock;
+    }
 
     public String getId() {
         return id;

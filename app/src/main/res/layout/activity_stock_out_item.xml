@@ -32,10 +32,10 @@
         android:id="@+id/num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:text="×2"
         android:textColor="#ff333333"
         android:textSize="13sp"
-        android:layout_marginTop="5dp"
         app:layout_constraintLeft_toLeftOf="@id/name"
 
         app:layout_constraintTop_toBottomOf="@id/standards" />
@@ -58,4 +58,77 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/lien"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+
+        android:layout_marginTop="10dp"
+        android:background="#D9D9D9"
+        app:layout_constraintTop_toBottomOf="@id/price" />
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/lien">
+
+        <ImageView
+            android:id="@+id/iv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_stock_out_s" />
+
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="已匹配商品" />
+
+        <TextView
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="库存:" />
+
+        <TextView
+            android:id="@+id/tv_stock_num"
+            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF3900"
+            android:layout_marginLeft="5dp"
+            android:text="12" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="，领料" />
+
+        <TextView
+            android:id="@+id/num_s"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_background_num"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="0"
+            android:textColor="#ff666666"
+            android:textSize="13sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

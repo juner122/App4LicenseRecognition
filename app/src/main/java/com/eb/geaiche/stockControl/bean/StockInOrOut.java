@@ -14,9 +14,17 @@ public class StockInOrOut {
     String addTime;
     String status;
     String remarks;//备注
+    String userName;
 
     List<StockGoods> stockGoodsList;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getId() {
         return id;

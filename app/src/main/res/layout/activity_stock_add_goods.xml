@@ -66,7 +66,7 @@
                         android:paddingBottom="15dp"
                         android:textColor="#333"
                         android:textColorHint="#666"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <View
@@ -205,19 +205,32 @@
                     android:layout_height="wrap_content"
                     android:background="#fff"
                     android:padding="15dp"
-                    android:text="商品图片"
+                    android:text="商品头部图片"
                     android:textColor="#ff666666"
                     android:textSize="13sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:padding="15dp"
+                    android:text="商品详情图片"
+                    android:textColor="#ff666666"
+                    android:textSize="13sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:padding="8dp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -251,7 +264,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="是否开启库存不足报警"
+                        android:text="是否开启库存不足报警(0为不开启)"
                         android:textColor="#ff666666"
                         android:textSize="13sp" />
 
@@ -290,6 +303,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+
         </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
@@ -310,7 +324,8 @@
             android:gravity="center"
             android:text="重置"
             android:textColor="#ffffffff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/enter"

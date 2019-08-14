@@ -1,13 +1,11 @@
 package com.eb.geaiche.stockControl.activity;
 
 
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.stockControl.adapter.StockControlInfoGoodAdapter;
@@ -71,7 +69,7 @@ public class StockInOrOutInfoActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
-        Api().stockInfo(getIntent().getIntExtra("id", 1)).subscribe(new RxSubscribe<StockInOrOut>(this, true) {
+        Api().stockInfo(getIntent().getStringExtra("id")).subscribe(new RxSubscribe<StockInOrOut>(this, true) {
             @Override
             protected void _onNext(StockInOrOut stockInOrOut) {
                 name.setText(stockInOrOut.getUserId());

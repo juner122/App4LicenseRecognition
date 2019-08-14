@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
+import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BankList;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.NullDataEntity;
 import com.eb.geaiche.util.ToastUtils;
+
+import net.grandcentrix.tray.AppPreferences;
 
 import java.util.concurrent.TimeUnit;
 
@@ -146,8 +149,8 @@ public class AuthenActivity extends BaseActivity {
                 break;
 
             case R.id.tv_code:
-
-                Api().sendBankSms().subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+                String user_phone = new AppPreferences(this).getString(Configure.moblie_s, "");//当前登录的手机号
+                Api().smsSendSms(user_phone, 3).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                     @Override
                     protected void _onNext(NullDataEntity nullDataEntity) {
                         ToastUtils.showToast("验证短信已发送到手机！");
@@ -156,31 +159,17 @@ public class AuthenActivity extends BaseActivity {
                                 .interval(0, 1, TimeUnit.SECONDS)
                                 .take(con)//次数
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
-                                    @Override
-                                    public void accept(Long aLong) {
-                                        Long l = con - aLong;
-                                        tv_code.setText(l + "s");
-                                    }
-                                }, new Consumer<Throwable>() {
-                                    @Override
-                                    public void accept(Throwable throwable) {
-                                        tv_code.setClickable(true);
-                                        throwable.printStackTrace();
-                                    }
-                                }, new Action() {
-                                    @Override
-                                    public void run() {
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+                                    Long l = con - aLong;
+                                    tv_code.setText(l + "s");
+                                }, throwable -> {
+                                    tv_code.setClickable(true);
+                                    throwable.printStackTrace();
+                                }, () -> {
 
-                                        tv_code.setText("获取验证码");
-                                        tv_code.setClickable(true);
-                                    }
-                                }, new Consumer<Disposable>() {
-                                    @Override
-                                    public void accept(Disposable disposable) {
-                                        tv_code.setClickable(false);
-                                    }
-                                });
+                                    tv_code.setText("获取验证码");
+                                    tv_code.setClickable(true);
+                                }, disposable -> tv_code.setClickable(false));
 
 
                     }
@@ -210,7 +199,7 @@ public class AuthenActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(et3.getText())) {
-            ToastUtils.showToast("开户行地址不能为空！");
+            ToastUtils.showToast("身份证号码不能为空！");
             return;
         }
 
@@ -226,7 +215,7 @@ public class AuthenActivity extends BaseActivity {
 
 
         card = new Card();
-        card.setBankOpenName(et3.getText().toString());
+        card.setIdCard(et3.getText().toString());
         card.setBankName(et2.getText().toString());
         card.setBankNum(et1.getText().toString());
         card.setBankTrueName(et4.getText().toString());
@@ -237,14 +226,14 @@ public class AuthenActivity extends BaseActivity {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
 
-                ToastUtils.showToast("认证成功！");
+                ToastUtils.showToast("申请成功！");
                 finish();
             }
 
             @Override
             protected void _onError(String message) {
 
-                ToastUtils.showToast("认证失败:" + message);
+                ToastUtils.showToast("申请失败:" + message);
             }
         });
 

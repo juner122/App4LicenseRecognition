@@ -5,8 +5,10 @@
     android:layout_height="wrap_content"
     android:background="#fff"
     android:gravity="center"
-    android:padding="14dp">
-
+    android:paddingLeft="15dp"
+    android:paddingTop="15dp"
+    android:paddingRight="15dp"
+    >
 
     <TextView
         android:id="@+id/name"
@@ -16,6 +18,18 @@
         android:textColor="#ff333333"
         android:textSize="13sp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_sn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="订单号：XGX235678"
+        android:textColor="#ff999999"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv2"
+        app:layout_constraintLeft_toRightOf="@id/name"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -48,4 +62,13 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/time"
         app:layout_constraintRight_toRightOf="@id/tv2" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_marginTop="20dp"
+        android:background="#d9d9d9"
+        app:layout_constraintBottom_toBottomOf="@id/price"
+        app:layout_constraintTop_toBottomOf="@id/time" />
 </androidx.constraintlayout.widget.ConstraintLayout>

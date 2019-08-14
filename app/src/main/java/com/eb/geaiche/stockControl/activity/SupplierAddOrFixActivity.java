@@ -32,26 +32,18 @@ public class SupplierAddOrFixActivity extends BaseActivity {
     EditText remarks;
 
 
+    String id = "";//供应商id;
+
     @OnClick({R.id.enter})
     public void onClick(View v) {
 
         switch (v.getId()) {
 
             case R.id.enter:
-
-                Api().addSupplier(getSupplier()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-                    @Override
-                    protected void _onNext(NullDataEntity nullDataEntity) {
-
-                        ToastUtils.showToast("添加成功！");
-                        finish();
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtils.showToast("添加失败！" + message);
-                    }
-                });
+                if (id.equals(""))
+                    addSupplier();
+                else
+                    fixSupplier();
                 break;
 
         }
@@ -60,7 +52,15 @@ public class SupplierAddOrFixActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        tv_title.setText("经销商添加/修改");
+
+
+        id = getIntent().getStringExtra("id");
+        if (id.equals("")) {
+            tv_title.setText("经销商添加");
+        } else {
+            tv_title.setText("经销商修改");
+            getInfo();
+        }
     }
 
     @Override
@@ -81,6 +81,8 @@ public class SupplierAddOrFixActivity extends BaseActivity {
         supplier.setAddTime(String.valueOf(System.currentTimeMillis()));
         supplier.setMobile(phone.getText().toString());
         supplier.setOperation(remarks.getText().toString());
+        if (!id.equals(""))
+            supplier.setId(id);
 
         return supplier;
 
@@ -89,5 +91,62 @@ public class SupplierAddOrFixActivity extends BaseActivity {
     @Override
     public int setLayoutResourceID() {
         return R.layout.activity_supplier_add_or_fix;
+    }
+
+
+    //新增
+    private void addSupplier() {
+
+        Api().addSupplier(getSupplier()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("添加成功！");
+                finish();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("添加失败！" + message);
+            }
+        });
+    }
+
+    //修改
+    private void fixSupplier() {
+
+        Api().fixSupplier(getSupplier()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("修改成功！");
+                finish();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("修改失败！" + message);
+            }
+        });
+    }
+
+    //供应商详情
+    private void getInfo() {
+        Api().infoSupplier(id).subscribe(new RxSubscribe<Supplier>(this, true) {
+            @Override
+            protected void _onNext(Supplier supplier) {
+                tv_name.setText(supplier.getName());
+                address.setText(supplier.getAddress());
+                tv_contact.setText(supplier.getLinkman());
+                phone.setText(supplier.getMobile());
+                remarks.setText(supplier.getOperation());
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("供应商详情查找失败！" + message);
+            }
+        });
     }
 }

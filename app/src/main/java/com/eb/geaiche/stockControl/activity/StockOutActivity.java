@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.activity.OrderListActivity;
@@ -18,6 +19,8 @@ import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialog2;
+import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.bean.NullDataEntity;
@@ -25,6 +28,7 @@ import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.UserEntity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,7 +54,7 @@ public class StockOutActivity extends BaseActivity {
     UserEntity ue;
     Shop shop;//当前登录的门店信息
 
-    @OnClick({R.id.ll_pick_order, R.id.enter})
+    @OnClick({R.id.ll_pick_order, R.id.enter, R.id.cancel})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_pick_order:
@@ -60,6 +64,10 @@ public class StockOutActivity extends BaseActivity {
             case R.id.enter://确认出库
 
                 stockOutEnter();
+                break;
+            case R.id.cancel://
+
+                finish();
                 break;
         }
     }
@@ -79,7 +87,7 @@ public class StockOutActivity extends BaseActivity {
         if (orderId == -1) {
             order.setText("非订单出库");
         } else {
-            orderSn = getIntent().getStringExtra(Configure.ORDERINFOSN);
+            orderSn = intent.getStringExtra(Configure.ORDERINFOSN);
             order.setText(orderSn);
             matchOrder(orderId);
         }
@@ -91,6 +99,32 @@ public class StockOutActivity extends BaseActivity {
         adapter = new StockOutListAdapter(null, this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+
+        adapter.setOnItemChildClickListener((a, view, position) -> {
+
+            TextView num_v = (TextView) view;
+
+            //弹出选择领料数量
+
+            final ConfirmDialogStockOut dialog = new ConfirmDialogStockOut(StockOutActivity.this, num_v.getText().toString());
+            dialog.show();
+            dialog.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
+                @Override
+                public void doConfirm(String code) {
+                    adapter.getData().get(position).setNumber(Integer.valueOf(code));
+
+                    adapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void doCancel() {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                }
+            });
+
+        });
 
 
     }
@@ -167,8 +201,11 @@ public class StockOutActivity extends BaseActivity {
         Api().inOrOut(getStock()).subscribe(new com.eb.geaiche.api.RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("出库成功！");
+
                 finish();
-                toActivity(StockInOrOutInfoActivity.class, "stockType", Configure.STOCK_IN);
+
             }
 
             @Override
@@ -186,10 +223,31 @@ public class StockOutActivity extends BaseActivity {
         stock.setShopId(shop.getShop().getId());
         stock.setOrderId(String.valueOf(orderId));
         stock.setUserId(String.valueOf(ue.getUserId()));
+        stock.setUserName(String.valueOf(ue.getUsername()));
         stock.setRemarks(et_remarks.getText().toString());
+        stock.setTotalPrice(getPrice());
         stock.setStockGoodsList(adapter.getData());
 
         return stock;
+    }
+
+
+    //计算总价
+    private String getPrice() {
+
+
+        List<StockGoods> data = adapter.getData();
+
+        BigDecimal totalprice = new BigDecimal(0);
+
+        for (StockGoods goods : data) {
+            BigDecimal num = new BigDecimal(goods.getNumber());
+            BigDecimal price = new BigDecimal(goods.getPrice());
+            totalprice = totalprice.add(num.multiply(price));
+        }
+
+
+        return totalprice.toString();
     }
 
 }

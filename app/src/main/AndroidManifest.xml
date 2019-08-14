@@ -45,7 +45,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".maneuver.activity.MyAskActivity"></activity>
+        <activity android:name=".activity.DiscountRecordActivity"></activity>
+        <activity android:name=".maneuver.activity.MyAskActivity" />
         <activity android:name=".coupon.CouponPickUserActivity" />
         <activity
             android:name=".coupon.CouponPostActivity"
@@ -279,7 +280,6 @@
         <activity
             android:name=".activity.CarVinDISActivity"
             android:launchMode="singleTask" />
-
         <activity android:name=".TestActivity" />
         <activity android:name=".mvp.MarketingToolsActivity" />
         <activity android:name=".mvp.MessageMarketingActivity" />

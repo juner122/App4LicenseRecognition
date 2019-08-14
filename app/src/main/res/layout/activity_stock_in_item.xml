@@ -5,12 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
+    android:layout_marginTop="5dp"
     tools:context=".activity.MallGoodsActivity">
 
     <ImageView
         android:id="@+id/iv_src"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -26,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:visibility="gone"
         android:text="¥95.00 "
         android:textColor="#ffff3900"
         android:textSize="16sp"
@@ -39,7 +41,6 @@
         android:layout_marginStart="8dp"
         android:text="库存10件"
         android:textColor="#ff999999"
-        android:layout_marginBottom="5dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_price"
         app:layout_constraintStart_toEndOf="@+id/iv_src" />

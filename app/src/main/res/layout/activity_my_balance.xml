@@ -135,4 +135,27 @@
             android:src="@mipmap/icon_enter" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_bill_list2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_check_selector"
+        android:padding="15dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="提现记录"
+            android:textColor="#ff000000"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_enter" />
+    </LinearLayout>
+
 </LinearLayout>

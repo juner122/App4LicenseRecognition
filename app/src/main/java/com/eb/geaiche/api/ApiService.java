@@ -36,6 +36,7 @@ import com.juner.mvp.bean.Course;
 import com.juner.mvp.bean.CourseInfo;
 import com.juner.mvp.bean.CourseRecord;
 import com.juner.mvp.bean.Courses;
+import com.juner.mvp.bean.DisRecordList;
 import com.juner.mvp.bean.FixInfoList;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsBrand;
@@ -663,6 +664,11 @@ public interface ApiService {
     @FormUrlEncoded
     Observable<BaseBean<List<GoodsBrand>>> shopcategoryInfo(@FieldMap Map<String, Object> maps);
 
+    //库存管理新增商品里的查找所有品牌
+    @POST("brandGoods/list")
+    @FormUrlEncoded
+    Observable<BaseBean<List<GoodsBrand>>> brandGoodsList(@FieldMap Map<String, Object> maps);
+
     //查询商品（分页）
     @POST("xgxshopgoods/list")
     @FormUrlEncoded
@@ -750,11 +756,34 @@ public interface ApiService {
 
     //添加库存商品
     @POST("xgxshopgoods/addStock")
-    Observable<BaseBean<NullDataEntity>> addGoods(@Header("X-Nideshop-Token") String token, @Body Goods goods);
+    Observable<BaseBean<Integer>> addGoods(@Header("X-Nideshop-Token") String token, @Body Goods goods);
+
+    //编辑库存商品
+    @POST("xgxshopgoods/update")
+    Observable<BaseBean<NullDataEntity>> fixGoods(@Header("X-Nideshop-Token") String token, @Body Goods goods);
+
+    //添加商品图片
+    @POST("xgxshopgoods/addDetails")
+    Observable<BaseBean<NullDataEntity>> addDetails(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsPic goodsPic);
+
+
+    //删除商品图
+    @POST("xgxshopgoods/deleteDetails")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> deleteDetails(@Header("X-Nideshop-Token") String token, @Field("id") String id);
 
     //添加供应商
     @POST("xgxshopsupplier/save")
     Observable<BaseBean<NullDataEntity>> addSupplier(@Header("X-Nideshop-Token") String token, @Body Supplier supplier);
+
+    //修改供应商
+    @POST("xgxshopsupplier/update")
+    Observable<BaseBean<NullDataEntity>> fixSupplier(@Header("X-Nideshop-Token") String token, @Body Supplier supplier);
+
+    //供应商详情
+    @POST("xgxshopsupplier/info")
+    @FormUrlEncoded
+    Observable<BaseBean<Supplier>> infoSupplier(@Header("X-Nideshop-Token") String token, @Field("id") String id);
 
 
     //供应商列表
@@ -836,6 +865,10 @@ public interface ApiService {
     //优惠券派发记录列表
     @POST("coupon/pushLogList")
     Observable<BaseBean<List<CouponRecode>>> couponPostRecode(@Header("X-Nideshop-Token") String token);
+
+    //提现申请列表
+    @POST("userbalanceauth/list")
+    Observable<BaseBean<DisRecordList>> ceauthList(@Header("X-Nideshop-Token") String token);
 
     //派发优惠券记录详情
     @POST("coupon/pushLogInfo")

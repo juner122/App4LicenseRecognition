@@ -3,6 +3,7 @@ package com.juner.mvp.bean;
 
 //商品品牌
 public class GoodsBrand {
+    String id;
     String brandTitle;
     String brandId;
     String categoryId;
@@ -38,5 +39,13 @@ public class GoodsBrand {
 
     public void setBrandLogo(String brandLogo) {
         this.brandLogo = brandLogo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

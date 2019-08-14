@@ -125,7 +125,7 @@ public class StockAddStandardsActivity extends BaseActivity {
         standard.setGoodsStandardTitle(tv_standard.getText().toString());
         standard.setGoodsStandardPrice(tv_price.getText().toString());
         standard.setStockPrice(tv_price_in.getText().toString());
-        standard.setStock("0");//库存数量
+//        standard.setStock("0");//库存数量
         standard.setSupplierName(supplier_name.getText().toString());//供应商
         standard.setSupplierId(supplier_pick.getId());//供应商名
 

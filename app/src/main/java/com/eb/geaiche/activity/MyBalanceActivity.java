@@ -30,7 +30,6 @@ public class MyBalanceActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("我的余额");
 
-
     }
 
     @Override
@@ -74,14 +73,18 @@ public class MyBalanceActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.tv_action_applied, R.id.ll_bill_list})
+    @OnClick({R.id.tv_action_applied, R.id.ll_bill_list, R.id.ll_bill_list2})
     public void onClick(View v) {
 
         switch (v.getId()) {
 
-            case R.id.ll_bill_list:
+            case R.id.ll_bill_list://账单列表
                 toActivity(BillListActivity.class, Configure.isShow, 1);
 
+                break;
+
+            case R.id.ll_bill_list2://提现记录
+                toActivity(DiscountRecordActivity.class);
                 break;
             case R.id.tv_action_applied:
 

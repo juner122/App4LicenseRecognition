@@ -28,8 +28,8 @@ public class StockControlInfoGoodAdapter extends BaseQuickAdapter<StockGoods, Ba
     @Override
     protected void convert(BaseViewHolder helper, StockGoods item) {
         helper.setText(R.id.tv_name, item.getGoodsTitle());
-        helper.setText(R.id.tv_price, item.getPrice());
-        helper.setText(R.id.num, item.getAfterNumber());
+        helper.setText(R.id.tv_price, "￥" + item.getPrice());
+        helper.setText(R.id.num, String.format("库存%s件", item.getAfterNumber()));
 
 
         ImageView iv = helper.getView(R.id.iv_src);

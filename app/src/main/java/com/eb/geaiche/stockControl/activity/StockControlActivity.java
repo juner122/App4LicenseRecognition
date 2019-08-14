@@ -1,6 +1,8 @@
 package com.eb.geaiche.stockControl.activity;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -43,11 +45,13 @@ public class StockControlActivity extends BaseActivity {
     @BindView(R.id.ll_button_view)
     View ll_button_view;
 
-    int view_type = 1;//当前Activity显示类型 1 库存管理，2 采购入库
+    public static int view_type = 1;//当前Activity显示类型 1 库存管理，2 采购入库
 
     StockControlListAdapter adapter;
 
     public static StockCartUtils stockCartUtils;
+
+    Context context;
 
     @OnClick({R.id.stock_in, R.id.stock_out, R.id.iv_search, R.id.tv_back, R.id.tv_title_r})
     public void onClick(View v) {
@@ -55,7 +59,6 @@ public class StockControlActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.tv_title_r:
-
 
                 if (view_type == 2) {//进入入库单页面
                     toActivity(StockInActivity.class);
@@ -115,8 +118,8 @@ public class StockControlActivity extends BaseActivity {
 
         et_key.setHint("请输入你要查询的商品");
         stockCartUtils = StockCartUtils.getInstance(this);
+        this.context = this;
     }
-
 
 
     @Override
@@ -126,12 +129,17 @@ public class StockControlActivity extends BaseActivity {
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData("");
     }
 
     @Override
     protected void setUpData() {
-        getData("");
+
 
     }
 
@@ -150,6 +158,7 @@ public class StockControlActivity extends BaseActivity {
         Api().xgxshopgoodsList(key, null, null, 1, Configure.Goods_TYPE_4).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
+
                 adapter.setNewData(generateData(goods.getList()));
             }
 
@@ -173,8 +182,9 @@ public class StockControlActivity extends BaseActivity {
             if (null != list.get(i).getXgxGoodsStandardPojoList() && list.get(i).getXgxGoodsStandardPojoList().size() > 0) {
                 for (Goods.GoodsStandard gs : list.get(i).getXgxGoodsStandardPojoList()) {
                     if (null != gs) {
+                        gs.setGoodsTitle(lv0.getGoodsTitle());
+                        gs.setGoodsDetailsPojoList(lv0.getGoodsDetailsPojoList());
                         lv0.addSubItem(gs);
-
                     }
                 }
             }

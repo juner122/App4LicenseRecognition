@@ -35,7 +35,7 @@ public class StockInOrOutRecordActivity extends BaseActivity {
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
-    private String[] mTitles = {"入库记录", "出库记录"};
+    private String[] mTitles = {"出库记录", "入库记录"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     StockInOrOutRecordAdapter adapter;
@@ -51,15 +51,15 @@ public class StockInOrOutRecordActivity extends BaseActivity {
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adapter);
 
-        adapter.setOnItemClickListener((a, view, position) -> {
-
-
-            Intent intent = new Intent(this, StockInOrOutInfoActivity.class);
-            intent.putExtra("id", adapter.getData().get(position).getId());
-            intent.putExtra("stockType", adapter.getData().get(position).getType());
-            startActivity(intent);
-
-        });
+//        adapter.setOnItemClickListener((a, view, position) -> {
+//
+//
+//            Intent intent = new Intent(this, StockInOrOutInfoActivity.class);
+//            intent.putExtra("id", adapter.getData().get(position).getId());
+//            intent.putExtra("stockType", adapter.getData().get(position).getType());
+//            startActivity(intent);
+//
+//        });
 
 
         for (int i = 0; i < mTitles.length; i++) {
@@ -72,7 +72,6 @@ public class StockInOrOutRecordActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 getList(position == 0 ? 1 : 2);//1出库2入库
-
             }
 
             @Override

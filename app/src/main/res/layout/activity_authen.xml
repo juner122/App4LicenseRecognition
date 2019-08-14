@@ -96,7 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开户行地址"
+            android:text="身份证号码"
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
@@ -108,7 +108,7 @@
             android:background="@null"
 
             android:gravity="end"
-            android:hint="请输入银联卡开户支行地址"
+            android:hint="请输入身份证号码"
             android:maxLines="1"
             android:paddingTop="15dp"
             android:paddingRight="15dp"

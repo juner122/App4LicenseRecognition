@@ -92,42 +92,6 @@ public class StockCartUtils {
     }
 
 
-    /**
-     * 设置商品规格数量
-     *
-     * @param gs     要设置规格
-     * @param num    设置数量
-     * @param goodId 要设置的商品
-     */
-    public void setNum(int goodId, Goods.GoodsStandard gs, int num) {
-
-        if (num <= 0) {
-
-            ToastUtils.showToast("数量不能为0！");
-            return;
-        }
-
-
-        //添加数据
-        Goods tempCart = (Goods) data.get(goodId);
-        if (tempCart != null) {//不等于空
-
-            List<Goods.GoodsStandard> gsl = tempCart.getXgxGoodsStandardPojoList();
-
-
-            for (int i = 0; i < gsl.size(); i++) {
-                if (gsl.get(i).getId() == gs.getId()) {
-                    tempCart.getXgxGoodsStandardPojoList().get(i).setNum(num);
-                    break;
-                }
-            }
-
-
-            data.put(goodId, tempCart);
-        }
-
-
-    }
 
 
     public void commit() {
