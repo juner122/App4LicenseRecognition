@@ -61,6 +61,11 @@ public class StockControlActivity extends BaseActivity {
             case R.id.tv_title_r:
 
                 if (view_type == 2) {//进入入库单页面
+
+                    if (stockCartUtils.getDataFromLocal().size() == 0) {
+                        ToastUtils.showToast("入库单为空！");
+                        return;
+                    }
                     toActivity(StockInActivity.class);
                 } else {//新增商品
                     toActivity(StockAddGoodsActivity.class);
@@ -70,6 +75,7 @@ public class StockControlActivity extends BaseActivity {
 
             case R.id.stock_in:
                 //显示采购入库页面
+
                 showStockIn();
                 break;
             case R.id.stock_out:

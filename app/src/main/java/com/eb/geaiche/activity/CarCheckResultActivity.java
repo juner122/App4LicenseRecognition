@@ -160,26 +160,23 @@ public class CarCheckResultActivity extends BaseActivity {
         carCheckItemAdapter = new CarCheckItemAdapter(null, isFix);
         rv.setAdapter(carCheckItemAdapter);
         if (isFix) {
-            carCheckItemAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+            carCheckItemAdapter.setOnItemClickListener((adapter, view, position) -> {
 
-                    int id = ((CheckOptions) adapter.getData().get(position)).getId();
-                    int selected = ((CheckOptions) adapter.getData().get(position)).getSelected();
-                    if (selected == 1) {
-                        selected = 0;
-                    } else {
-                        selected = 1;
-                    }
-
-                    for (int i = 0; i < list.size(); i++) {
-                        if (id == list.get(i).getId()) {
-                            list.get(i).setSelected(selected);
-                            break;
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
+                int id = ((CheckOptions) adapter.getData().get(position)).getId();
+                int selected = ((CheckOptions) adapter.getData().get(position)).getSelected();
+                if (selected == 1) {
+                    selected = 0;
+                } else {
+                    selected = 1;
                 }
+
+                for (int i = 0; i < list.size(); i++) {
+                    if (id == list.get(i).getId()) {
+                        list.get(i).setSelected(selected);
+                        break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
             });
         }
     }

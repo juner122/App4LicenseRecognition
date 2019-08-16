@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,6 +28,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:ellipsize="end"
+        android:background="@null"
         android:maxLines="1"
         android:text="松弛、龟裂、老化、导轮轴承是否有异响"
         android:textColor="#ff666666"

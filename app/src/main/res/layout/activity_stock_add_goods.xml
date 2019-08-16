@@ -169,6 +169,61 @@
                     android:layout_height="0.1dp"
                     android:background="#D9D9D9" />
 
+
+                <LinearLayout
+                    android:id="@+id/ll_add_standards"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff"
+                    android:gravity="center"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品规格"
+                        android:textColor="#ff666666"
+                        android:textSize="13sp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center"
+                        android:text="*"
+                        android:textColor="#ffff3900"
+                        android:textSize="13sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:drawableRight="@mipmap/icon_add2"
+                        android:drawablePadding="10dp"
+                        android:gravity="end"
+                        android:text=""
+                        android:textColor="#333"
+                        android:textColorHint="#666"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_standards"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#fff"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:background="#D9D9D9" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

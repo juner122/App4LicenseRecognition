@@ -36,7 +36,7 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
 
 
         int num = item.getNumber();//领料数量
-        int stock = Integer.valueOf(item.getStock());//库存数量
+        int stock = Integer.valueOf(null == item.getStock() ? "0" : item.getStock());//库存数量
 
 
         helper.setText(R.id.num, "x" + num);

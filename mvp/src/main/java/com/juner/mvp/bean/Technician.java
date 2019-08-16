@@ -22,11 +22,21 @@ public class Technician extends SelectedBean implements Parcelable {
     int deptId;
     int createUserId;
     String username;//赋值mobile的同时把同样值给此字段
+    String userName;//赋值mobile的同时把同样值给此字段
     String nickName;//代替了以前的姓名
     String percentage;////提成比
 
     String password;
     String email;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     String mobile;
     String roleName;
     List<Integer> roleList;
@@ -226,6 +236,7 @@ public class Technician extends SelectedBean implements Parcelable {
         dest.writeInt(this.deptId);
         dest.writeInt(this.createUserId);
         dest.writeString(this.username);
+        dest.writeString(this.userName);
         dest.writeString(this.nickName);
         dest.writeString(this.percentage);
         dest.writeString(this.password);
@@ -248,6 +259,7 @@ public class Technician extends SelectedBean implements Parcelable {
         this.deptId = in.readInt();
         this.createUserId = in.readInt();
         this.username = in.readString();
+        this.userName = in.readString();
         this.nickName = in.readString();
         this.percentage = in.readString();
         this.password = in.readString();

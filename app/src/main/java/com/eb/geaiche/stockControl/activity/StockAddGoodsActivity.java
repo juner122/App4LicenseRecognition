@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 
@@ -23,6 +24,7 @@ import com.eb.geaiche.adapter.GridImageAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.stockControl.adapter.PickBrandListAdapter;
 import com.eb.geaiche.stockControl.adapter.PickCategoryListAdapter;
+import com.eb.geaiche.stockControl.adapter.StandardsListAdapter;
 import com.eb.geaiche.util.Auth;
 import com.eb.geaiche.util.CommonUtil;
 import com.eb.geaiche.util.ToastUtils;
@@ -59,6 +61,10 @@ public class StockAddGoodsActivity extends BaseActivity {
     Switch sw;//是否推广
     @BindView(R.id.num)
     TextView num;//
+
+    @BindView(R.id.ll_add_standards)
+    View ll_add_standards;//
+
     @BindView(R.id.et_remarks)
     EditText et_remarks;//
 
@@ -71,6 +77,9 @@ public class StockAddGoodsActivity extends BaseActivity {
     @BindView(R.id.rv2)
     RecyclerView rv2;//
 
+    @BindView(R.id.rv_standards)
+    RecyclerView rv_standards;
+    StandardsListAdapter standardsListAdapter;
 
     @BindView(R.id.cv)
     CardView cv;//
@@ -108,7 +117,7 @@ public class StockAddGoodsActivity extends BaseActivity {
 
     int goodId;//商品id
 
-    @OnClick({R.id.enter, R.id.ll_pick_brand, R.id.ll_pick_category})
+    @OnClick({R.id.enter, R.id.ll_pick_brand, R.id.ll_pick_category, R.id.ll_add_standards})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.enter://新增商品
@@ -125,6 +134,14 @@ public class StockAddGoodsActivity extends BaseActivity {
             case R.id.ll_pick_category://选择分类
 
                 showRvCategory();
+                break;
+            case R.id.ll_add_standards://新增规格
+
+                Intent intent = new Intent(this, StockAddStandardsActivity.class);
+                intent.putExtra("goodsId", goodId);
+                intent.putExtra("goodsTitle", name.getText().toString());
+
+                startActivity(intent);
                 break;
 
         }
@@ -169,8 +186,10 @@ public class StockAddGoodsActivity extends BaseActivity {
         Api().addGoods(getGoods()).subscribe(new RxSubscribe<Integer>(this, true) {
             @Override
             protected void _onNext(Integer i) {
-                ToastUtils.showToast("操作成功！");
-                finish();
+                goodId = i;
+                ToastUtils.showToast("操作成功,现可添加规格！");
+                initViewType();
+
             }
 
             @Override
@@ -284,13 +303,6 @@ public class StockAddGoodsActivity extends BaseActivity {
     protected void init() {
         goodId = getIntent().getIntExtra("goodsId", -1);
 
-        if (goodId == -1)
-            tv_title.setText("新增商品");
-        else {
-            tv_title.setText("商品详情");
-            getGoodInfo();
-        }
-
 
         initPic();
     }
@@ -338,16 +350,43 @@ public class StockAddGoodsActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        standardsListAdapter = new StandardsListAdapter(null, this);
 
+        rv_standards.setLayoutManager(new LinearLayoutManager(this));
+        rv_standards.setAdapter(standardsListAdapter);
+        standardsListAdapter.setOnItemClickListener((adapter, view, position) -> {
+
+            Intent intent = new Intent(this, StockAddStandardsActivity.class);
+            intent.putExtra("goodsStandardId", standardsListAdapter.getData().get(position).getId());
+            intent.putExtra("goodsTitle", name.getText().toString());
+            startActivity(intent);
+
+        });
     }
 
     @Override
     protected void setUpData() {
 
-
         rv_category.setLayoutManager(new LinearLayoutManager(this));
 
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initViewType();
+
+    }
+
+    private void initViewType() {
+        if (goodId == -1) {
+            tv_title.setText("新增商品");
+            ll_add_standards.setVisibility(View.GONE);
+        } else {
+            tv_title.setText("商品详情");
+            ll_add_standards.setVisibility(View.VISIBLE);
+            getGoodInfo();
+        }
     }
 
     //获取商品信息
@@ -368,6 +407,7 @@ public class StockAddGoodsActivity extends BaseActivity {
                 firstCategoryId = goods.getFirstCategoryId();
                 firstCategoryTitle = goods.getFirstCategoryTitle();
 
+                standardsListAdapter.setNewData(goods.getXgxGoodsStandardPojoList());
 
                 for (Goods.GoodsPic pic : goods.getGoodsDetailsPojoList()) {
                     LocalMedia localMedia = new LocalMedia();

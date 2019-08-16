@@ -90,6 +90,7 @@ public class CouponPostActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         adapter.setNewData(intent.getParcelableArrayListExtra("Member"));
+        setNum(adapter.getData().size());
     }
 
     @Override

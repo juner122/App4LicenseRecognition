@@ -62,38 +62,6 @@ public class OrderList3Adapter extends BaseQuickAdapter<OrderInfoEntity, BaseVie
         }
 
 
-//        switch (item.getOrder_status()) {
-//            case 0://待服务
-//
-//                if (item.getPay_status() == 2) {
-//                    tv_order_state.setTextColor(Color.parseColor("#F23325"));
-//                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
-////                    button_action.setText("开始服务");
-//                    button_action.setTextColor(Color.parseColor("#FF3900"));
-//                } else {
-//                    tv_order_state.setTextColor(Color.BLACK);
-//
-//                    button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
-////                    button_action.setText("前往下单");
-//                    button_action.setTextColor(Color.parseColor("#FF3900"));
-//                }
-//                break;
-//            case 1://服务中
-//
-//                tv_order_state.setTextColor(Color.BLACK);
-//                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_red));
-////                button_action.setText("完成订单");
-//                button_action.setTextColor(Color.parseColor("#FF3900"));
-//                break;
-//            case 2://完成
-//                tv_order_state.setTextColor(Color.parseColor("#999999"));
-//                button_action.setBackground(context.getResources().getDrawable(R.drawable.button_background_f));
-////                button_action.setText("已完成");
-//                button_action.setTextColor(Color.parseColor("#666666"));
-//                break;
-//
-//        }
-
         ImageView imageView = (helper.getView(R.id.iv_icon));
 
         if (item.isSelected()) {

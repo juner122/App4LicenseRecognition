@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.OrderList3Adapter;
@@ -51,6 +52,8 @@ public class MeritsDistriListActivity extends BaseActivity {
 
     Context context;
 
+    String status;
+
     @Override
     protected void init() {
         tv_title.setText("订单绩效");
@@ -75,10 +78,11 @@ public class MeritsDistriListActivity extends BaseActivity {
             public void onTabSelect(int position) {
 
                 if (position == 0) {
-                    orderStatusList("1");
+                    status = "1";
                 } else {
-                    orderStatusList(null);
+                    status = "0";
                 }
+                orderStatusList();
             }
 
             @Override
@@ -125,28 +129,52 @@ public class MeritsDistriListActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         });
 
+
+
+        easylayout1.setLoadMoreModel(LoadModel.NONE);
+
+        easylayout1.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                easylayout1.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                orderStatusList();
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                easylayout1.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                orderStatusList();
+
+            }
+        });
     }
 
     @Override
     protected void setUpData() {
-
-        orderStatusList("1");
+        status = "1";
+        orderStatusList();
 
     }
 
 
     //是否分配过业绩，1是0否
-    private void orderStatusList(String status) {
+    private void orderStatusList() {
 
         Api().orderStatusList(status).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
             @Override
-            protected void _onNext(BasePage<OrderInfoEntity> infoEntityBasePage) {
+            protected void _onNext(BasePage<OrderInfoEntity> ib) {
 
-                ola.setNewData(infoEntityBasePage.getList());
-                num1.setText(infoEntityBasePage.getSaleMoney());
 
-                if (null != infoEntityBasePage.getDeductionSum())
-                    num2.setText(infoEntityBasePage.getDeductionSum());
+                easylayout1.refreshComplete();
+
+
+                ola.setNewData(ib.getList());
+                num1.setText(ib.getSaleMoney());
+
+                if (null != ib.getDeductionSum())
+                    num2.setText(ib.getDeductionSum());
+
 
             }
 

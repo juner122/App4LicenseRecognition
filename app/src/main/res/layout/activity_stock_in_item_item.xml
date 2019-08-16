@@ -14,6 +14,14 @@
         android:text="A8 4L全合成机油"
         android:textColor="#ff666666"
         android:textSize="12sp" />
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="￥10"
+        android:textColor="#FF3900"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/reduce"

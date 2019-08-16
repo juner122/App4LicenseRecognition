@@ -656,6 +656,17 @@ public class ApiLoader {
         return apiService.memberList(map).compose(RxHelper.<Member>observe());
     }
 
+    /**
+     * 会员管理页面数据
+     */
+    public Observable<Member> memberList(int page, String name, int limit) {
+
+        map.put("page", page);
+        map.put("limit", limit);
+        map.put("name", name);
+        return apiService.memberList(map).compose(RxHelper.<Member>observe());
+    }
+
 
     /**
      * 查看会员信息及订单记录
@@ -1636,6 +1647,30 @@ public class ApiLoader {
         return apiService.addStandard(token, goodsStandard).compose(RxHelper.observe());
     }
 
+    /**
+     * 修改某个规格详情
+     */
+    public Observable<NullDataEntity> updateStandard(Goods.GoodsStandard goodsStandard) {
+
+        return apiService.updateStandard(token, goodsStandard).compose(RxHelper.observe());
+    }
+
+    /**
+     * 库存商品删除某个规格
+     */
+    public Observable<NullDataEntity> deleteStandard(Goods.GoodsStandard goodsStandard) {
+
+        return apiService.deleteStandard(token, goodsStandard).compose(RxHelper.observe());
+    }
+
+    /**
+     * 查看每个规格详情
+     */
+    public Observable<Goods.GoodsStandard> standardInfo(int id) {
+
+        return apiService.standardInfo(token, id).compose(RxHelper.observe());
+    }
+
 
     /**
      * 添加库存商品
@@ -1665,7 +1700,7 @@ public class ApiLoader {
     /**
      * 删除商品图
      */
-    public Observable<NullDataEntity> deleteDetails(String  id) {
+    public Observable<NullDataEntity> deleteDetails(String id) {
 
         return apiService.deleteDetails(token, id).compose(RxHelper.observe());
     }

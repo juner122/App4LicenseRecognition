@@ -1,11 +1,14 @@
 package com.eb.geaiche.activity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MeeitsAdapter;
 import com.eb.geaiche.api.RxSubscribe;
@@ -15,6 +18,8 @@ import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.StaffPerformance;
 import com.juner.mvp.bean.Technician;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +44,7 @@ public class MeritsDistributionActivity extends BaseActivity {
     MeeitsAdapter adapter;
 
     List<Technician> sysUserList;//技师列表
-    boolean isShow;//true查看，f分配
+    boolean isShow;//true查看，分配
     int orderId;//订单id;
 
     @OnClick({R.id.enter, R.id.reset})
@@ -68,21 +73,36 @@ public class MeritsDistributionActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-        adapter = new MeeitsAdapter(null, this);
+        adapter = new MeeitsAdapter(null, this, isShow);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
 
     }
 
+    //计算提成额
+    private String calculation(String percentage, String deductionBase) {
+        String deduction;//提成额
+        if (null == percentage)
+            percentage = "0.0";
+
+
+        BigDecimal db = new BigDecimal(deductionBase);//基数
+        BigDecimal per = new BigDecimal(percentage);//百分比
+        deduction = (db.multiply(per)).divide(new BigDecimal(100), 2, RoundingMode.UP).toString();
+
+
+        return deduction;
+    }
+
     @Override
     protected void setUpData() {
 
 
-        if (!isShow) {
+        if (!isShow) {//分配绩效
             ll_button_view.setVisibility(View.VISIBLE);
-            orderInfo();
-        } else {
+            orderDeduction();
+        } else {//查看绩效
             ll_button_view.setVisibility(View.GONE);
             orderDeduction();
         }
@@ -100,6 +120,14 @@ public class MeritsDistributionActivity extends BaseActivity {
         Api().getOrderDeduction(getIntent().getIntExtra(ORDERINFOID, 0)).subscribe(new RxSubscribe<List<Technician>>(this, true) {
             @Override
             protected void _onNext(List<Technician> s) {
+//
+//                if (!isShow) {
+//                    adapter.setNewData(sysUserList);
+//                } else
+                if (s.size() == 0) {
+                    ToastUtils.showToast("该订单暂未分配员工！");
+                    return;
+                }
                 adapter.setNewData(s);
             }
 
@@ -136,15 +164,7 @@ public class MeritsDistributionActivity extends BaseActivity {
         Api().orderDetail(getIntent().getIntExtra(ORDERINFOID, 0)).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo oi) {
-                sysUserList = oi.getOrderInfo().getSysUserList();
-                orderId = oi.getOrderInfo().getId();
-                price.setText(String.format("提成总额:￥%s", oi.getOrderInfo().getOrder_price()));
 
-                for (Technician t : sysUserList) {
-                    t.setDeductionBase(String.valueOf(oi.getOrderInfo().getOrder_price()));
-                }
-
-                adapter.setNewData(sysUserList);
             }
 
             @Override
@@ -160,13 +180,11 @@ public class MeritsDistributionActivity extends BaseActivity {
 
         List<Technician> list = adapter.getData();
 
-        for(Technician t:list){
-            t.setOrderId(orderId);
-            t.setSysuserId(t.getUserId());
-            t.setUsername(t.getNickName());
+        for (Technician t : list) {
+//            t.setOrderId(orderId);
+//            t.setSysuserId(t.getUserId());
+//            t.setUserName(t.getNickName());
         }
-
-
 
 
         return list;

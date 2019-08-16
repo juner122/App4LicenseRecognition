@@ -1,8 +1,8 @@
 package com.eb.geaiche.coupon;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +12,7 @@ import com.eb.geaiche.activity.BaseActivity;
 
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
+
 import com.juner.mvp.bean.Member;
 import com.juner.mvp.bean.MemberEntity;
 
@@ -23,6 +24,8 @@ import butterknife.OnClick;
 
 public class CouponPickUserActivity extends BaseActivity {
 
+    int page = 1;//第一页
+
     @BindView(R.id.rv)
     RecyclerView rv;
 
@@ -30,13 +33,26 @@ public class CouponPickUserActivity extends BaseActivity {
     List<MemberEntity> list = new ArrayList<>();
     List<MemberEntity> pick_list;
 
-    @OnClick({R.id.but_enter})
+    @BindView(R.id.et_key)
+    EditText et;
+
+
+    @OnClick({R.id.but_enter, R.id.iv_search})
     public void onClick(View view) {
 
         switch (view.getId()) {
             case R.id.but_enter:
                 //确认选择
                 toActivity(CouponPostActivity.class, pick_list, "Member");
+
+                break;
+
+            case R.id.iv_search:
+                if (TextUtils.isEmpty(et.getText())) {
+                    ToastUtils.showToast("请输入搜索内容！");
+                    return;
+                }
+                getList(0, et.getText().toString());
 
                 break;
 
@@ -86,7 +102,7 @@ public class CouponPickUserActivity extends BaseActivity {
 
         });
 
-
+        getList(0, "");
     }
 
     @Override
@@ -98,6 +114,30 @@ public class CouponPickUserActivity extends BaseActivity {
     protected void setUpData() {
 
     }
+
+    private void getList(final int type, String name) {
+        if (type == 0)
+            page = 1;
+        else
+            page++;
+
+
+        Api().memberList(page, name, 200).subscribe(new RxSubscribe<Member>(this, true) {
+            @Override
+            protected void _onNext(Member member) {
+                list = member.getMemberList();
+                setPick();
+                adpter.setNewData(list);
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+    }
+
 
     //设置选择的项
     private void setPick() {
@@ -114,6 +154,30 @@ public class CouponPickUserActivity extends BaseActivity {
             }
         }
     }
+//
+//    private void refreshing(List<MemberEntity> ml) {
+//        easylayout.refreshComplete();
+//        list.clear();
+//        list = ml;
+//        adpter.setNewData(list);
+//
+//        if (list.size() < Configure.limit_page)//少于每页个数，不用加载更多
+//            easylayotu.setLoadMoreModel(LoadModel.NONE);
+//    }
+//
+//
+//    //加载更多
+//    private void loadMoreData(List<MemberEntity> ml) {
+//        easylayout.loadMoreComplete();
+//        if (ml.size() == 0) {
+//            ToastUtils.showToast("没有更多了！");
+//            easylayout.setLoadMoreModel(LoadModel.NONE);
+//            return;
+//        }
+//        list.addAll(ml);
+//        adpter.setNewData(list);
+//
+//    }
 
     @Override
     public int setLayoutResourceID() {

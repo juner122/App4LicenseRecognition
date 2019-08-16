@@ -8,13 +8,22 @@
 
     <include layout="@layout/head_view" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fff"
+        android:orientation="horizontal">
+
+        <include layout="@layout/search_bar" />
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
 
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
 
     <LinearLayout
@@ -28,10 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:visibility="gone"
             android:text="合计：￥200"
             android:textColor="#fff23325"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/but_enter"

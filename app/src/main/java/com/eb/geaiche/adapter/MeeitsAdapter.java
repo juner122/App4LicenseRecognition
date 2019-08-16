@@ -4,7 +4,9 @@ import android.content.Context;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
@@ -22,92 +24,21 @@ import java.util.List;
 public class MeeitsAdapter extends BaseQuickAdapter<Technician, BaseViewHolder> {
 
     Context context;
+    boolean isShow;//true查看，分配
 
 
-    public MeeitsAdapter(@Nullable List<Technician> data, Context c) {
+    public MeeitsAdapter(@Nullable List<Technician> data, Context c, boolean isShow) {
         super(R.layout.activity_meeits_list_item, data);
         this.context = c;
+        this.isShow = isShow;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, Technician item) {
-
-
-        String percentage;//百分比
-        String deduction;//提成额
-        String deductionBase;//提成基数
-
-
-        deductionBase = item.getDeductionBase();
-
-        if (null != item.getPercentage())
-            percentage = item.getPercentage();
-        else
-            percentage = "0.0";
-
-        if (null != item.getDeduction())
-            deduction = item.getDeduction();
-        else {
-            deduction = calculation(percentage, deductionBase);
-        }
-
-
-        EditText priceBase = helper.getView(R.id.tv_price);//基数
-        EditText meeits = helper.getView(R.id.tv_meeits);//比例
-
-
-        priceBase.addTextChangedListener(new TextWatcher() {//调整基数
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-
-
-                    helper.setText(R.id.tv_meeits_v, calculation(percentage, s.toString()));
-
-                } catch (Exception e) {
-                    ToastUtils.showToast("请输入正确的数值！");
-                    helper.setText(R.id.tv_meeits_v, "0.0");
-                }
-            }
-        });
-
-        meeits.addTextChangedListener(new TextWatcher() {//调整比例
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-
-                    helper.setText(R.id.tv_meeits_v, calculation(s.toString(), deductionBase));
-
-                } catch (Exception e) {
-                    ToastUtils.showToast("请输入正确的数值！");
-                    helper.setText(R.id.tv_meeits_v, "0.0");
-                }
-            }
-        });
-
+        helper.addOnClickListener(R.id.tv_cal);
 
         helper.setText(R.id.tv_name, item.getNickName());
-        helper.setText(R.id.tv_meeits_v, deduction);
-        helper.setText(R.id.tv_meeits, percentage);
-        helper.setText(R.id.tv_price, item.getDeductionBase());
+
     }
 
     /**
@@ -126,5 +57,125 @@ public class MeeitsAdapter extends BaseQuickAdapter<Technician, BaseViewHolder> 
 
 
         return deduction;
+    }
+
+    //设置绩效数据
+    private void setInfo(Technician item, String ded, String percentage, String deductionBase) {
+        item.setDeduction(ded);
+        item.setPercentage(percentage);
+        item.setDeductionBase(deductionBase);
+    }
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        Technician item = getData().get(position);
+
+
+        EditText priceBase = holder.getView(R.id.tv_price);
+        EditText meeits = holder.getView(R.id.tv_meeits);//比例
+        EditText tv_meeits_v = holder.getView(R.id.tv_meeits_v);//提成额
+        TextView calculation = holder.getView(R.id.tv_cal);//计算按钮
+
+        String percentage;//百分比
+        String deduction;//提成额
+        String deductionBase;//提成基数
+
+
+        deductionBase = null == item.getDeductionBase() ? "0" : item.getDeductionBase();
+        if (null != item.getPercentage())
+            percentage = item.getPercentage();
+        else
+            percentage = "0.0";
+
+        if (!isShow) {
+            deduction = calculation(percentage, deductionBase);
+        } else
+            deduction = item.getDeduction();
+
+
+        tv_meeits_v.setText(deduction);
+        meeits.setText(percentage);
+        priceBase.setText(deductionBase);
+
+
+        if (!isShow) {
+
+            priceBase.addTextChangedListener(new TextWatcher() {//调整基数
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    try {
+                        calculation.setVisibility(View.VISIBLE);
+                        tv_meeits_v.setVisibility(View.GONE);
+
+                        getData().get(position).setDeductionBase(s.toString());
+
+
+                    } catch (Exception e) {
+                        ToastUtils.showToast("请输入正确的数值！");
+
+                    }
+                }
+            });
+
+            meeits.addTextChangedListener(new TextWatcher() {//调整比例
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                    try {
+
+                        calculation.setVisibility(View.VISIBLE);
+                        tv_meeits_v.setVisibility(View.GONE);
+                        getData().get(position).setPercentage(s.toString());
+
+
+                    } catch (Exception e) {
+                        ToastUtils.showToast("请输入正确的数值！");
+
+                    }
+                }
+            });
+
+        } else {
+            priceBase.setFocusable(false);
+            priceBase.setFocusableInTouchMode(false);
+            meeits.setFocusableInTouchMode(false);
+            meeits.setFocusableInTouchMode(false);
+            tv_meeits_v.setFocusableInTouchMode(false);
+            tv_meeits_v.setFocusableInTouchMode(false);
+        }
+
+        calculation.setOnClickListener(v -> {
+            calculation.setVisibility(View.GONE);
+            tv_meeits_v.setVisibility(View.VISIBLE);
+            String d;
+            d = calculation(getData().get(position).getPercentage(), getData().get(position).getDeductionBase());
+
+            tv_meeits_v.setText(d);
+            getData().get(position).setDeduction(d);
+
+        });
+
+        getData().get(position).setDeduction(deduction);
+        getData().get(position).setPercentage(percentage);
     }
 }

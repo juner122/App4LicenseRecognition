@@ -176,7 +176,6 @@ public class CouponNewActivity extends BaseActivity {
         Coupon2 c_new;
 
 
-
         if (type == 1)
             c_new = new Coupon2();
         else
@@ -187,7 +186,7 @@ public class CouponNewActivity extends BaseActivity {
         c_new.setType_money(tv_price.getText().toString());
         c_new.setCycle(time.getText().toString());
         c_new.setType("1");//劵分类,暂为默认为1 满减劵
-        c_new.setSuperposition(is_die_jia.isChecked() ? "1" : "0");
+        c_new.setSuperposition("0");
         c_new.setDept_id(dept_id);
 
         return c_new;

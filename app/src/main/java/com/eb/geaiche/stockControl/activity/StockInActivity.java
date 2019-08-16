@@ -54,7 +54,7 @@ public class StockInActivity extends BaseActivity {
     UserEntity ue;
     Shop shop;//当前登录的门店信息
 
-    @OnClick({R.id.enter})
+    @OnClick({R.id.enter, R.id.tv_back})
     public void onClick(View v) {
 
         switch (v.getId()) {
@@ -62,6 +62,13 @@ public class StockInActivity extends BaseActivity {
             case R.id.enter:
                 stockInEnter();
 
+                break;
+
+            case R.id.tv_back:
+
+                //清空入库商品
+                stockCartUtils.deleteAllData();
+                finish();
                 break;
         }
 
@@ -71,7 +78,7 @@ public class StockInActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("采购入库");
-        setRTitle("继续入库");
+//        setRTitle("继续入库");
 
 
     }
@@ -253,7 +260,7 @@ public class StockInActivity extends BaseActivity {
                 sg.setStandardId(String.valueOf(gs.getId()));
                 sg.setStandardTitle(gs.getGoodsStandardTitle());
                 sg.setPrice(gs.getGoodsStandardPrice());
-
+                sg.setStock(gs.getStock());
                 sg.setSupplierId(gs.getSupplierId());
                 sg.setSupplierName(gs.getSupplierName());
 
@@ -261,6 +268,9 @@ public class StockInActivity extends BaseActivity {
 
                 if (null != gs.getGoodsDetailsPojoList() && gs.getGoodsDetailsPojoList().size() > 0)
                     sg.setImage(gs.getGoodsDetailsPojoList().get(0).getImage());
+
+                stockGoods.add(sg);
+
             }
         }
         return stockGoods;

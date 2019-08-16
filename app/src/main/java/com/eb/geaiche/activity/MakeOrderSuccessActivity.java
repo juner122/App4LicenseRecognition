@@ -593,20 +593,29 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 break;
             case R.id.tv_start_service:
 
-                Api().beginServe(info.getOrderInfo().getId(), info.getOrderInfo().getOrder_sn(), iv_lpv_url).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
-                    @Override
-                    protected void _onNext(NullDataEntity nullDataEntity) {
-                        finish();
-//                        toMain(0);
-                        toOrderList(0);
-                    }
 
-                    @Override
-                    protected void _onError(String message) {
-                        Log.d(TAG, message);
-                        ToastUtils.showToast(message);
-                    }
-                });
+                if (info.getOrderInfo().getPay_status() == 0) {
+                    //弹出对话框
+                    final ConfirmDialogCanlce c = new ConfirmDialogCanlce(this, "订单未付款，请确认是否同步erp！", "重要提示！");
+                    c.show();
+                    c.setClicklistener(new ConfirmDialogCanlce.ClickListenerInterface() {
+                        @Override
+                        public void doConfirm() {
+                            c.dismiss();
+                            beginServe();
+                        }
+
+                        @Override
+                        public void doCancel() {
+                            c.dismiss();
+
+                        }
+                    });
+                } else {
+                    beginServe();
+                }
+
+
                 break;
             case R.id.tv_back:
                 finish();
@@ -654,6 +663,23 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         }
 
     }
+
+    private void beginServe() {
+        Api().beginServe(info.getOrderInfo().getId(), info.getOrderInfo().getOrder_sn(), iv_lpv_url).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                finish();
+                toOrderList(0);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                Log.d(TAG, message);
+                ToastUtils.showToast(message);
+            }
+        });
+    }
+
 
     /**
      * 连接蓝牙 ，分自动和手动连接

@@ -37,9 +37,9 @@ public class MemberManagementActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
 
+
     @BindView(R.id.easylayout)
     EasyRefreshLayout easylayout;
-
     MemberListAdpter adpter;
     List<MemberEntity> list = new ArrayList<>();
     int page = 1;//第一页

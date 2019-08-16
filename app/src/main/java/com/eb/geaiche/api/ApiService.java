@@ -754,6 +754,19 @@ public interface ApiService {
     @POST("xgxshopgoods/addStandard")
     Observable<BaseBean<NullDataEntity>> addStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
 
+    //修改某个规格详情
+    @POST("xgxshopgoods/updateStandard")
+    Observable<BaseBean<NullDataEntity>> updateStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
+
+    //库存商品删除某个规格
+    @POST("xgxshopgoods/deleteStandard")
+    Observable<BaseBean<NullDataEntity>> deleteStandard(@Header("X-Nideshop-Token") String token, @Body Goods.GoodsStandard goodsStandard);
+
+    //查看每个规格详情
+    @POST("xgxshopgoods/standardInfo")
+    @FormUrlEncoded
+    Observable<BaseBean<Goods.GoodsStandard>> standardInfo(@Header("X-Nideshop-Token") String token, @Field("id") int id);
+
     //添加库存商品
     @POST("xgxshopgoods/addStock")
     Observable<BaseBean<Integer>> addGoods(@Header("X-Nideshop-Token") String token, @Body Goods goods);

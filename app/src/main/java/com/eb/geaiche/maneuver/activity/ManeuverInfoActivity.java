@@ -61,6 +61,9 @@ public class ManeuverInfoActivity extends BaseActivity {
     @BindView(R.id.joinNum)
     TextView joinNum;
 
+    @BindView(R.id.button2)
+    TextView button2;
+
 
     @BindView(R.id.rv_img)
     RecyclerView rv_img;
@@ -134,7 +137,7 @@ public class ManeuverInfoActivity extends BaseActivity {
         id = getIntent().getStringExtra("id");
 
 
-        Api().getInfo().subscribe(new RxSubscribe<UserEntity>(this, true) {
+        Api().getInfo().subscribe(new RxSubscribe<UserEntity>(this, false) {
             @Override
             protected void _onNext(UserEntity u) {
                 ue = u;
@@ -147,10 +150,12 @@ public class ManeuverInfoActivity extends BaseActivity {
         });
 
 
-        Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, true) {
+        Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
             @Override
             protected void _onNext(Shop s) {
                 shop = s;
+
+                getAskList();
             }
 
             @Override
@@ -243,6 +248,8 @@ public class ManeuverInfoActivity extends BaseActivity {
                 name.setText(maneuver.getName());
                 explain.setText(maneuver.getExplain());
                 joinNum.setText(String.format("参与门店(%s家)", maneuver.getJoinNum()));
+
+
             }
 
             @Override
@@ -252,7 +259,7 @@ public class ManeuverInfoActivity extends BaseActivity {
             }
         });
 
-        getAskList();
+
 
     }
 
@@ -262,6 +269,19 @@ public class ManeuverInfoActivity extends BaseActivity {
             @Override
             protected void _onNext(List<Ask> asks) {
                 askAdapter.setNewData(asks);
+
+                for (Ask ask : asks) {
+                    if (ask.getShopId().equals(shop.getShop().getId())) {
+                        button2.setText("我已报名");
+                        button2.setOnClickListener(null);
+                        return;
+                    } else {
+                        button2.setText("报名参加");
+                    }
+
+                }
+
+
             }
 
             @Override
