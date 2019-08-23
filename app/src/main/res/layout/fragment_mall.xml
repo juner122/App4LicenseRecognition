@@ -158,11 +158,20 @@
                 android:padding="12dp">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginRight="20dp"
                     android:text="商品分类"
                     android:textColor="#333" />
+
+                <TextView
+                    android:id="@+id/vin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="当前车架号："
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:layout_width="wrap_content"

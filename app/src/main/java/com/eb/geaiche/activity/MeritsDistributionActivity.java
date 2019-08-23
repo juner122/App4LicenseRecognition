@@ -1,5 +1,8 @@
 package com.eb.geaiche.activity;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -73,26 +76,35 @@ public class MeritsDistributionActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-        adapter = new MeeitsAdapter(null, this, isShow);
+        adapter = new MeeitsAdapter(null, this, isShow, mHandler);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-
     }
 
-    //计算提成额
-    private String calculation(String percentage, String deductionBase) {
-        String deduction;//提成额
-        if (null == percentage)
-            percentage = "0.0";
+    //新建Handler对象。
+    @SuppressLint("HandlerLeak")
+    Handler mHandler = new Handler() {
+
+        //handleMessage为处理消息的方法
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            calculation();
+        }
+    };
+
+    //计算提成总额
+    private void calculation() {
+
+        BigDecimal s = new BigDecimal(0);
+        for (Technician t : adapter.getData()) {
 
 
-        BigDecimal db = new BigDecimal(deductionBase);//基数
-        BigDecimal per = new BigDecimal(percentage);//百分比
-        deduction = (db.multiply(per)).divide(new BigDecimal(100), 2, RoundingMode.UP).toString();
-
-
-        return deduction;
+            if (null == t.getDeduction())
+                break;
+            s = s.add(new BigDecimal(t.getDeduction()));
+        }
+        price.setText(String.format("提成总额：￥%s", s.toString()));
     }
 
     @Override
@@ -105,6 +117,7 @@ public class MeritsDistributionActivity extends BaseActivity {
         } else {//查看绩效
             ll_button_view.setVisibility(View.GONE);
             orderDeduction();
+
         }
     }
 
@@ -120,15 +133,13 @@ public class MeritsDistributionActivity extends BaseActivity {
         Api().getOrderDeduction(getIntent().getIntExtra(ORDERINFOID, 0)).subscribe(new RxSubscribe<List<Technician>>(this, true) {
             @Override
             protected void _onNext(List<Technician> s) {
-//
-//                if (!isShow) {
-//                    adapter.setNewData(sysUserList);
-//                } else
+
                 if (s.size() == 0) {
                     ToastUtils.showToast("该订单暂未分配员工！");
                     return;
                 }
                 adapter.setNewData(s);
+                calculation();
             }
 
             @Override
@@ -153,24 +164,6 @@ public class MeritsDistributionActivity extends BaseActivity {
             @Override
             protected void _onError(String message) {
                 ToastUtils.showToast("分配绩效分配失败！" + message);
-            }
-        });
-    }
-
-
-    //查看 订单详情
-    private void orderInfo() {
-
-        Api().orderDetail(getIntent().getIntExtra(ORDERINFOID, 0)).subscribe(new RxSubscribe<OrderInfo>(this, true) {
-            @Override
-            protected void _onNext(OrderInfo oi) {
-
-            }
-
-            @Override
-            protected void _onError(String message) {
-                ToastUtils.showToast("订单详情获取失败！" + message);
-                finish();
             }
         });
     }

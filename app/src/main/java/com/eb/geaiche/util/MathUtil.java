@@ -2,11 +2,26 @@ package com.eb.geaiche.util;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MathUtil {
+    /**
+     * 设置每个阶段时间
+     */
+    private static final int seconds_of_1minute = 60;
+    private static final int seconds_of_30minutes = 30 * 60;
+    private static final int seconds_of_1hour = 60 * 60;
+    private static final int seconds_of_1day = 24 * 60 * 60;
+    private static final int seconds_of_15days = seconds_of_1day * 15;
+    private static final int seconds_of_30days = seconds_of_1day * 30;
+    private static final int seconds_of_6months = seconds_of_30days * 6;
+    private static final int seconds_of_1year = seconds_of_30days * 12;
 
+    /**
+     * 格式化时间	 * @param mTime	 * @return
+     */
 
     //显示两位小数
     public static String twoDecimal(double d) {
@@ -47,6 +62,62 @@ public class MathUtil {
 
         Date date = new Date();
         date.setTime(l);
+        return simpleDateFormat.format(date);
+
+    }
+
+
+    //与当前时间对比
+    public static String toDateFormNow(Long mTime) {
+
+
+        /**除以1000是为了转换成秒*/
+        long between = (System.currentTimeMillis() - mTime) / 1000;
+        int elapsedTime = (int) (between);
+        if (elapsedTime < seconds_of_1minute) {
+            return "刚刚";
+        }
+        if (elapsedTime < seconds_of_30minutes) {
+            return elapsedTime / seconds_of_1minute + "分钟前";
+        }
+        if (elapsedTime < seconds_of_1hour) {
+            return "半小时前";
+        }
+        if (elapsedTime < seconds_of_1day) {
+            return elapsedTime / seconds_of_1hour + "小时前";
+        } else {
+            return toDate(mTime);
+
+        }
+
+//
+//        if (elapsedTime < seconds_of_15days) {
+//            return elapsedTime / seconds_of_1day + "天前";
+//        }
+//        if (elapsedTime < seconds_of_30days) {
+//            return "半个月前";
+//        }
+//        if (elapsedTime < seconds_of_6months) {
+//            return elapsedTime / seconds_of_30days + "月前";
+//        }
+//        if (elapsedTime < seconds_of_1year) {
+//            return "半年前";
+//        }
+//        if (elapsedTime >= seconds_of_1year) {
+//            return elapsedTime / seconds_of_1year + "年前";
+//        }
+//        return "";
+    }
+
+
+    public static String toDate(String l) {
+        /**
+         * 直接用SimpleDateFormat格式化 Date对象，即可得到相应格式的日期 字符串。
+         */
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+
+        Date date = new Date();
+        date.setTime(Long.valueOf(l));
         return simpleDateFormat.format(date);
 
     }

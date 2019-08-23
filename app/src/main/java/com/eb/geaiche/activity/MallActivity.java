@@ -7,6 +7,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.mall.fragment.MallCartFragment;
 import com.eb.geaiche.mall.fragment.MallMainFragment;
 import com.eb.geaiche.mall.fragment.MallOrderFragment;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -57,7 +58,9 @@ public class MallActivity extends BaseActivity {
             @Override
             public void onTabSelect(int position) {
                 if (position == 0) {
+                    MyAppPreferences.remove(VIN);//退出商城页面时清空车架号
                     finish();
+
                 }
             }
 
@@ -65,6 +68,7 @@ public class MallActivity extends BaseActivity {
             public void onTabReselect(int position) {
 
                 if (position == 0) {
+                    MyAppPreferences.remove(VIN);//退出商城页面时清空车架号
                     finish();
                 }
             }

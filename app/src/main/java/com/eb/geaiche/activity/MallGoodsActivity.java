@@ -10,6 +10,7 @@ import com.ajguan.library.LoadModel;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartList;
@@ -42,7 +43,7 @@ public class MallGoodsActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("商品列表");
 
-        vin = getIntent().getStringExtra(VIN);
+        vin = MyAppPreferences.getString(VIN);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class MallGoodsActivity extends BaseActivity {
             page++;
 
         //查询商品
-        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, Configure.Goods_TYPE_1,vin).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
+        Api().xgxshopgoodsList(getIntent().getStringExtra(MallActivity.goodsTitle), getIntent().getStringExtra(MallTypeActivity.goodsBrandId), getIntent().getStringExtra(MallActivity.categoryId), page, Configure.Goods_TYPE_1, vin).subscribe(new RxSubscribe<GoodsList>(this, type == 0) {
             @Override
             protected void _onNext(GoodsList goods) {
 

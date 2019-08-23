@@ -22,6 +22,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.BasePage;
+import com.juner.mvp.bean.MemberEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.ArrayList;
@@ -129,26 +130,26 @@ public class MeritsDistriListActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
         });
 
-
-
-        easylayout1.setLoadMoreModel(LoadModel.NONE);
-
+        easylayout1.setLoadMoreModel(LoadModel.COMMON_MODEL);
         easylayout1.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
             @Override
             public void onLoadMore() {
-                easylayout1.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                page++;
                 orderStatusList();
             }
 
             @Override
             public void onRefreshing() {
 
-                easylayout1.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                page = 1;
+
                 orderStatusList();
 
             }
         });
     }
+
+    int page = 1;
 
     @Override
     protected void setUpData() {
@@ -161,19 +162,19 @@ public class MeritsDistriListActivity extends BaseActivity {
     //是否分配过业绩，1是0否
     private void orderStatusList() {
 
-        Api().orderStatusList(status).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
+        Api().orderStatusList(status, page).subscribe(new RxSubscribe<BasePage<OrderInfoEntity>>(this, true) {
             @Override
             protected void _onNext(BasePage<OrderInfoEntity> ib) {
-
-
-                easylayout1.refreshComplete();
-
-
-                ola.setNewData(ib.getList());
                 num1.setText(ib.getSaleMoney());
-
                 if (null != ib.getDeductionSum())
                     num2.setText(ib.getDeductionSum());
+
+
+                if (page == 1) {
+                    refreshing(ib.getList());
+                } else {
+                    loadMoreData(ib.getList());
+                }
 
 
             }
@@ -185,6 +186,27 @@ public class MeritsDistriListActivity extends BaseActivity {
         });
     }
 
+    private void refreshing(List<OrderInfoEntity> ml) {
+        easylayout1.refreshComplete();
+
+        ola.setNewData(ml);
+
+        if (ml.size() < Configure.limit_page)//少于每页个数，不用加载更多
+            easylayout1.setLoadMoreModel(LoadModel.NONE);
+    }
+
+    //加载更多
+    private void loadMoreData(List<OrderInfoEntity> ml) {
+        easylayout1.loadMoreComplete();
+        if (ml.size() == 0) {
+            ToastUtils.showToast("没有更多了！");
+            easylayout1.setLoadMoreModel(LoadModel.NONE);
+            return;
+        }
+
+        ola.addData(ml);
+        ola.notifyDataSetChanged();
+    }
 
     @Override
     public int setLayoutResourceID() {

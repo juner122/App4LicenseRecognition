@@ -10,6 +10,7 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Environment;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -22,6 +23,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.baidu.ocr.sdk.OnResultListener;
+import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.GeneralResult;
+import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
@@ -32,7 +37,10 @@ import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.ImageUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.AnimationUtil;
+import com.google.gson.Gson;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.BaiDuBasicResponse;
+import com.juner.mvp.bean.BaiDuLicenseResponse;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
@@ -155,7 +163,7 @@ public class CarVinDISActivity extends BaseActivity {
             @Override
             public void onPictureTaken(PictureResult pictureResult) {
                 super.onPictureTaken(pictureResult);
-
+//
                 try {
                     Api().carVinLicense(pictureResult.getData(), vh).observeOn(AndroidSchedulers.mainThread()).subscribe(new RxSubscribe<CarNumberRecogResult>(CarVinDISActivity.this, true, "车架号识别中") {
                         @Override
@@ -174,6 +182,32 @@ public class CarVinDISActivity extends BaseActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                //百度vin识别
+
+//                Api().carVinLicenseBaidu(pictureResult.getData(), vh, new OnResultListener<GeneralResult>() {
+//                    @Override
+//                    public void onResult(GeneralResult ocrResponseResult) {
+//
+//                        BaiDuBasicResponse response = new Gson().fromJson(ocrResponseResult.getJsonRes(), BaiDuBasicResponse.class);
+//                        if (!response.isVin()) {
+//                            ToastUtils.showToast("未能识到区域上有车架号！");
+//                            return;
+//                        }
+//
+//                        ll_tv_check.setVisibility(View.VISIBLE);
+//                        et_vin.setText(response.getVin());
+//                        vin = response.getVin();
+//                        queryVinInfo(vin);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(OCRError ocrError) {
+//
+//                        ToastUtils.showToast("识别失败,请重新扫描！" + ocrError.toString());
+//                    }
+//                });
 
             }
 
@@ -316,6 +350,7 @@ public class CarVinDISActivity extends BaseActivity {
                 setCarInfo(carVin.getShowapi_res_body());
                 toCarInfo(carVin.getShowapi_res_body());
             }
+
             @Override
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);

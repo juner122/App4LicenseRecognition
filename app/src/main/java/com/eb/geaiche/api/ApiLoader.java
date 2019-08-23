@@ -14,6 +14,8 @@ import android.widget.TextView;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.GeneralBasicParams;
+import com.baidu.ocr.sdk.model.GeneralResult;
 import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.bean.RecordMeal;
@@ -503,12 +505,12 @@ public class ApiLoader {
      * @param deduction_status 是否分配过业绩，1是0否
      * @return
      */
-    public Observable<BasePage<OrderInfoEntity>> orderStatusList(String deduction_status) {
+    public Observable<BasePage<OrderInfoEntity>> orderStatusList(String deduction_status, int page) {
         map.clear();
         map.put("X-Nideshop-Token", token);
-//        map.put("limit", Configure.limit_page);
-        map.put("limit", 100);
-        map.put("page", 1);
+        map.put("limit", Configure.limit_page);
+//        map.put("limit", 100);
+        map.put("page", page);
         if (null != deduction_status)
             map.put("deduction_status", deduction_status);
 
@@ -1053,9 +1055,39 @@ public class ApiLoader {
             OCR.getInstance(context).recognizeLicensePlate(param, result);
 
         });
-
-
     }
+
+    /**
+     * 车辆vin识别 baidu
+     */
+    public void carVinLicenseBaidu(byte[] bytes, int vh, OnResultListener<GeneralResult> result) {
+
+        CameraThreadPool.execute(() -> {
+            String outputFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + "car_vin.jpg";
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+                Bitmap bitmap = BitmapUtil.cropBitmap(new Compressor(context)
+                        .setQuality(100)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToBitmap(FileUtil.getFileFromBytes(bytes, outputFile)), vh);
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fileOutputStream);
+
+                fileOutputStream.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // 车牌识别参数设置
+            GeneralBasicParams param = new GeneralBasicParams();
+            // 设置image参数
+            param.setImageFile(new File(outputFile));
+            // 调用通用文字识别服务
+            OCR.getInstance(context).recognizeGeneralBasic(param, result);
+
+        });
+    }
+
 
     /**
      * 车辆vin识别
@@ -1463,7 +1495,7 @@ public class ApiLoader {
         if (null != categoryId)
             map.put("categoryId", categoryId);
 
-        if (null != vin)
+        if (null != vin && !vin.equals(""))
             map.put("vin", vin);
 
         map.put("limit", Configure.limit_page);//页数

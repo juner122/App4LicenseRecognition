@@ -16,6 +16,16 @@ public class XgxPurchaseOrderPojo {
     String shipStatus;//发货状态    发货状态  1为未发货 2为已发货  3为已收货订单生成后默认未发货
     int payStatus;//付款状态    支付状态  1为未付款 2为已付款 订单生成默认未付款
     int buyType;//购买类型(1是通过购物车购买需清空购物车  2是直接购买 无需清购物车)
+    String buyerMessage;
+
+    public String getBuyerMessage() {
+        return buyerMessage;
+    }
+
+    public void setBuyerMessage(String buyerMessage) {
+        this.buyerMessage = buyerMessage;
+    }
+
     List<XgxPurchaseOrderGoodsPojo> xgxPurchaseOrderGoodsPojoList;//下单商品List
 
     public String getShipStatus() {

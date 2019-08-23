@@ -458,7 +458,6 @@ public interface ApiService {
      * @param vinImageBody 车辆vin图像Base64字符串
      */
     @Headers({
-            "Authorization:APPCODE 5ae54531c09a4e79a5464422c9c1c907",
             "Content-Type:application/x-www-form-urlencoded;charset=utf-8"
     })
     @POST()

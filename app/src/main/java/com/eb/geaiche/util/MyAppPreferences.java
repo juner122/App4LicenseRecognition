@@ -32,6 +32,11 @@ public class MyAppPreferences {
         new AppPreferences(MyApplication.getInstance()).put(key, vlues);
     }
 
+    public static void remove(String key) {
+        new AppPreferences(MyApplication.getInstance()).remove(key);
+
+    }
+
     public static String getString(String key) {
         return new AppPreferences(MyApplication.getInstance()).getString(key, "");
     }

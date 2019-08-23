@@ -666,14 +666,20 @@ public class OrderInfoActivity extends BaseActivity {
 
 
     //获取商品或工时
-    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
+    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int type) {
         if (null == goodsEntities || goodsEntities.size() == 0) {
             return new ArrayList<>();
         }
         List<GoodsEntity> list = new ArrayList<>();
         for (GoodsEntity entity : goodsEntities) {
-            if (entity.getType() == Type) {
-                list.add(entity);
+            if (type == Configure.Goods_TYPE_4) {
+                if (entity.getType() == type || entity.getType() == 1 || entity.getType() == 2) {
+                    list.add(entity);
+                }
+            } else {
+                if (entity.getType() == type) {
+                    list.add(entity);
+                }
             }
         }
         return list;

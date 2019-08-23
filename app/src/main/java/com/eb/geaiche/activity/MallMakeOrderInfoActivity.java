@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,8 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
     @BindView(R.id.order_pay)
     TextView order_pay;//按钮
+    @BindView(R.id.et_postscript)
+    EditText et_postscript;//留言
 
     ShopEntity shop;
     int id;
@@ -143,6 +146,12 @@ public class MallMakeOrderInfoActivity extends BaseActivity {
 
                 order_sn.setText(x.getOrderSn());
                 order_time.setText(DateUtil.getFormatedDateTime(x.getCreateTime()));
+
+                if (null == x.getBuyerMessage() || x.getBuyerMessage().equals(""))
+                    et_postscript.setText("暂无留言");
+                else
+                    et_postscript.setText(x.getBuyerMessage());
+
 
                 payStatus = x.getPayStatus();
                 switch (payStatus) {

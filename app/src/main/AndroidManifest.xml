@@ -45,7 +45,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".activity.DiscountRecordActivity"></activity>
+        <activity android:name=".vehicleQueue.VehicleQueueActivity"></activity>
+        <activity android:name=".activity.DiscountRecordActivity" />
         <activity android:name=".maneuver.activity.MyAskActivity" />
         <activity android:name=".coupon.CouponPickUserActivity" />
         <activity
@@ -127,6 +128,7 @@
         <activity
             android:name=".activity.ActivityPackageListActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.BillListActivity"
             android:screenOrientation="portrait" />
@@ -346,6 +348,9 @@
             android:label="PushService"
             android:process=":pushservice" />
         <service android:name=".service.GeTuiIntentService" />
+
+
+
 
         <activity android:name=".activity.ProductMealActivity" />
         <activity android:name=".activity.RecruitActivity" />

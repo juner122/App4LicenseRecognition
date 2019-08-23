@@ -61,6 +61,9 @@ public class MallMakeOrderActivity extends BaseActivity {
     @BindView(R.id.ll_pay_t)
     View ll_pay_t;
 
+    @BindView(R.id.et_postscript)
+    TextView et_postscript;//留言
+
 
     MallOrderGoodsListAdapter adapter;
 
@@ -203,6 +206,7 @@ public class MallMakeOrderActivity extends BaseActivity {
         pojo.setDiscountPrice(null);//优惠金额
         pojo.setOrderPrice(price);//订单价格
         pojo.setRealPrice(price);//实付金额
+        pojo.setBuyerMessage(et_postscript.getText().toString());//留言
         List<XgxPurchaseOrderGoodsPojo> goodsPojoLists = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             XgxPurchaseOrderGoodsPojo goodsPojo = new XgxPurchaseOrderGoodsPojo();

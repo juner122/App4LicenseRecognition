@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.eb.geaiche.adapter.MallMuneButAdapter;
 import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.google.gson.Gson;
 import com.juner.mvp.Configure;
@@ -62,6 +64,8 @@ public class MallMainFragment extends BaseFragment {
 
     @BindView(R.id.iv_banner)
     ImageView iv_banner;
+    @BindView(R.id.vin)
+    TextView vin;//当前查询的车架号
 
 
     int page = 1;
@@ -75,7 +79,7 @@ public class MallMainFragment extends BaseFragment {
         switch (v.getId()) {
 
             case R.id.iv_scan:
-                toActivity(MallGoodsVinScanActivity.class, MallActivity.VIN, null);
+                toActivity(MallGoodsVinScanActivity.class);
                 break;
 
             case R.id.ll_more:
@@ -98,6 +102,16 @@ public class MallMainFragment extends BaseFragment {
         }
     }
 
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if (!MyAppPreferences.getString(VIN).equals("")) {
+            vin.setText(String.format("当前车架号：%s", MyAppPreferences.getString(VIN)));
+            vin.setVisibility(View.VISIBLE);
+        } else {
+            vin.setVisibility(View.INVISIBLE);
+        }
+    }
 
     @Override
     public int setLayoutResourceID() {

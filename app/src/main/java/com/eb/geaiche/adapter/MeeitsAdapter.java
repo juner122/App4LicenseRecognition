@@ -1,6 +1,8 @@
 package com.eb.geaiche.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,19 +27,20 @@ public class MeeitsAdapter extends BaseQuickAdapter<Technician, BaseViewHolder> 
 
     Context context;
     boolean isShow;//true查看，分配
+    Handler mHandler;
 
-
-    public MeeitsAdapter(@Nullable List<Technician> data, Context c, boolean isShow) {
+    public MeeitsAdapter(@Nullable List<Technician> data, Context c, boolean isShow, Handler mHandler) {
         super(R.layout.activity_meeits_list_item, data);
         this.context = c;
         this.isShow = isShow;
+        this.mHandler = mHandler;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, Technician item) {
         helper.addOnClickListener(R.id.tv_cal);
 
-        helper.setText(R.id.tv_name, item.getNickName());
+        helper.setText(R.id.tv_name, item.getUserName());
 
     }
 
@@ -172,7 +175,7 @@ public class MeeitsAdapter extends BaseQuickAdapter<Technician, BaseViewHolder> 
 
             tv_meeits_v.setText(d);
             getData().get(position).setDeduction(d);
-
+            mHandler.sendMessage(Message.obtain());
         });
 
         getData().get(position).setDeduction(deduction);

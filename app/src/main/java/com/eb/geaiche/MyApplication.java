@@ -10,6 +10,7 @@ import com.eb.geaiche.service.CrashHandler2;
 import com.eb.geaiche.service.GeTuiIntentService;
 import com.eb.geaiche.service.GeTuiPushService;
 import com.eb.geaiche.util.CartUtils;
+import com.eb.geaiche.vehicleQueue.VehicleQueueUtils;
 import com.igexin.sdk.PushManager;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
@@ -18,6 +19,7 @@ import com.umeng.socialize.PlatformConfig;
 public class MyApplication extends Application {
     private static MyApplication app;
     public static CartUtils cartUtils;
+    public static VehicleQueueUtils vehicleQueueUtils;//车辆进店队列
 
 
     public static MyApplication getInstance() {
@@ -30,6 +32,7 @@ public class MyApplication extends Application {
         super.onCreate();
         app = this;
         cartUtils = CartUtils.getInstance(this);
+        vehicleQueueUtils = VehicleQueueUtils.getInstance(this);
 
 
         //初始化播放器（只需调用一次即可，建议在application中初始化）  阿里播放器

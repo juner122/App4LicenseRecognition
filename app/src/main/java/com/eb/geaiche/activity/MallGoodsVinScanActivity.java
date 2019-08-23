@@ -88,7 +88,7 @@ public class MallGoodsVinScanActivity extends BaseActivity {
     @BindView(R.id.tv_engineSn)
     TextView tv_engineSn;
 
-    String vin;
+//    String vin;
 
     CarInfoRequestParameters carInfo;//车况对象
 
@@ -108,8 +108,8 @@ public class MallGoodsVinScanActivity extends BaseActivity {
             vh = v_preview.getHeight();
         });
 
-        vin = getIntent().getStringExtra(VIN);
-        if (null != vin) {
+        String vin = MyAppPreferences.getString(VIN);
+        if (null != vin && !vin.equals("")) {
             et_vin.setText(vin);
             ll_tv_check.setVisibility(View.VISIBLE);
             queryVinInfo(vin);
@@ -205,13 +205,13 @@ public class MallGoodsVinScanActivity extends BaseActivity {
 
             case R.id.re_photo://还原不使用车架号
 
-
-                toActivity(MallTypeActivity.class, VIN, null);
+                MyAppPreferences.remove(VIN);
+                toActivity(MallTypeActivity.class);
                 finish();
 
                 break;
             case R.id.enter://返回页面
-                toActivity(MallTypeActivity.class, VIN, vin);
+                toActivity(MallTypeActivity.class);
                 finish();
 
                 break;
@@ -282,7 +282,10 @@ public class MallGoodsVinScanActivity extends BaseActivity {
                     return;
                 }
 
-                vin = v;
+//                vin = v;
+                MyAppPreferences.putString(VIN, v);
+
+
                 showInfo();
                 setCarInfo(carVin.getShowapi_res_body());
                 toCarInfo(carVin.getShowapi_res_body());
@@ -319,18 +322,6 @@ public class MallGoodsVinScanActivity extends BaseActivity {
         tv_engineSn.setText(carVinInfo.getEngine_type());
     }
 
-    private void setCarInfo(CarVinResult carVinInfo) {
-        tv_brand_name.setText(carVinInfo.getBrandName());
-        tv_model_name.setText(carVinInfo.getFamilyName());
-        tv_sale_name.setText(carVinInfo.getVehicleName());
-        tv_car_type.setText(carVinInfo.getDrivenType());
-        tv_effluent_standard.setText(carVinInfo.getRemark());
-//        tv_guiding_price.setText(String.format("%s万", carVinInfo.getGuiding_price()));
-        tv_made_year.setText(carVinInfo.getYearPattern());
-        tv_output_volume.setText(carVinInfo.getDisplacement());
-        tv_engineSn.setText(carVinInfo.getEngineModel());
-    }
-
     private void toCarInfo(CarVinInfo carVinInfo) {
         carInfo = new CarInfoRequestParameters();
         carInfo.setBrand(carVinInfo.getBrand_name());
@@ -346,20 +337,6 @@ public class MallGoodsVinScanActivity extends BaseActivity {
         carInfo.setEngineSn(carVinInfo.getEngine_type());
     }
 
-    private void toCarInfo(CarVinResult carVinInfo) {
-        carInfo = new CarInfoRequestParameters();
-        carInfo.setBrand(carVinInfo.getBrandName());
-        carInfo.setName(carVinInfo.getFamilyName());
-        carInfo.setSaleName(carVinInfo.getVehicleName());
-        carInfo.setCarType(carVinInfo.getDrivenType());
-        carInfo.setEffluentStandard(carVinInfo.getRemark());
-        carInfo.setGuidingPrice(carVinInfo.getGuiding_price());
-        carInfo.setYear(carVinInfo.getYearPattern());
-        carInfo.setAllJson(carVinInfo.toString());
-        carInfo.setVin(et_vin.getText().toString());
-        carInfo.setOutputVolume(carVinInfo.getDisplacement());
-        carInfo.setEngineSn(carVinInfo.getEngineModel());
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

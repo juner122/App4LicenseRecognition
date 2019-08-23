@@ -17,6 +17,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.MallTypeBrandListAdapter;
 import com.eb.geaiche.adapter.MallTypeListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.bean.GoodsBrand;
 import com.juner.mvp.bean.GoodsCategory;
@@ -68,7 +69,7 @@ public class MallTypeActivity extends BaseActivity {
                 break;
 
             case R.id.iv_scan:
-                toActivity(MallGoodsVinScanActivity.class, VIN, vin);
+                toActivity(MallGoodsVinScanActivity.class);
                 break;
             case R.id.iv_search:
 
@@ -106,7 +107,8 @@ public class MallTypeActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("分类列表");
-        vin = getIntent().getStringExtra(VIN);
+        vin = MyAppPreferences.getString(VIN);
+//        setRTitle(String.format("当前车架号:%s", vin));
     }
 
     @Override
@@ -195,6 +197,7 @@ public class MallTypeActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        vin = intent.getStringExtra(VIN);
+        vin = MyAppPreferences.getString(VIN);
+//        setRTitle(String.format("当前车架号:%s", vin));
     }
 }
