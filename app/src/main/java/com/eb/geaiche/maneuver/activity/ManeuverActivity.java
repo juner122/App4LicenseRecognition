@@ -1,6 +1,7 @@
 package com.eb.geaiche.maneuver.activity;
 
 
+import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,8 @@ import com.juner.mvp.bean.Maneuver;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
 public class ManeuverActivity extends BaseActivity {
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -22,11 +25,21 @@ public class ManeuverActivity extends BaseActivity {
     ManeuverAdapter adapter;
 
 
+    @OnClick({R.id.tv_title_r})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_title_r:
+                //我已报名列表
+                toActivity(ManeuverJoinListActivity.class);
+                break;
+        }
+    }
 
     @Override
     protected void init() {
 
         tv_title.setText("活动管理");
+        setRTitle("我已报名");
     }
 
     @Override

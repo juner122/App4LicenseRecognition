@@ -28,6 +28,7 @@ import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
+import com.eb.geaiche.vehicleQueue.VehicleQueue;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
 import com.juner.mvp.api.http.RxHelper;
@@ -271,7 +272,7 @@ public class ApiLoader {
     public Observable<OrderInfo> submit(OrderInfoEntity infoEntity) {
 
 
-        return apiService.submit(token, infoEntity).compose(RxHelper.<OrderInfo>observe());
+        return apiService.submit(token, infoEntity).compose(RxHelper.observe());
     }
 
 
@@ -513,6 +514,10 @@ public class ApiLoader {
         map.put("page", page);
         if (null != deduction_status)
             map.put("deduction_status", deduction_status);
+
+
+        map.put("order_type", "2");//服务完成后的订单
+
 
         return apiService.orderList(map).compose(RxHelper.observe());
     }
@@ -1536,6 +1541,8 @@ public class ApiLoader {
     public Observable<List<GoodsBrand>> shopcategoryInfo(String id) {
 
         map.put("id", id);
+        map.put("limit", "1000");//页数
+
 
         return apiService.shopcategoryInfo(map).compose(RxHelper.observe());
     }
@@ -1574,11 +1581,11 @@ public class ApiLoader {
      * @param goodsId   商品id
      * @param productId 商品规格id
      */
-    public Observable<CartList> addToShoppingCart(int goodsId, int productId) {
+    public Observable<CartList> addToShoppingCart(int goodsId, int productId, int number) {
 
         map.put("goodsId", goodsId);
         map.put("productId", productId);
-//        map.put("number", number);
+        map.put("number", number);
         return apiService.addToShoppingCart(map).compose(RxHelper.<CartList>observe());
     }
 
@@ -1802,6 +1809,14 @@ public class ApiLoader {
         return apiService.askList(token, unity_id, user_id).compose(RxHelper.observe());
     }
 
+    /**
+     * 报名列表
+     */
+    public Observable<List<Joiner>> joinList(String shopId) {
+
+        return apiService.joinList(token, shopId).compose(RxHelper.observe());
+    }
+
 
     /**
      * 提交反馈
@@ -1960,6 +1975,66 @@ public class ApiLoader {
     public Observable<UserEntity> getInfo() {
 
         return apiService.getInfo(token).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 添加扫描车辆池
+     */
+    public Observable<NullDataEntity> savePlate(String plate) {
+        VehicleQueue vq = new VehicleQueue();
+        vq.setPlateNumber(plate);
+
+        return apiService.savePlate(token, vq).compose(RxHelper.observe());
+    }
+
+    /**
+     * 车辆池
+     */
+    public Observable<List<VehicleQueue>> platelist() {
+
+        return apiService.platelist(token).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 扫描车辆池改变接车状态
+     */
+    public Observable<NullDataEntity> plateUpdate(String id) {
+
+        return apiService.plateUpdate(token, id).compose(RxHelper.observe());
+    }
+
+    /**
+     * 车辆入店误扫操作
+     */
+    public Observable<NullDataEntity> updateUnable(String id, String changeReason) {
+
+        return apiService.updateUnable(token, id, changeReason).compose(RxHelper.observe());
+    }
+
+    /**
+     * 券码查券
+     */
+    public Observable<Coupon> queryByNumber(String couponNumber) {
+
+        return apiService.queryByNumber(token, couponNumber).compose(RxHelper.observe());
+    }
+
+    /**
+     * 核销券
+     */
+    public Observable<NullDataEntity> convertCoupon(String couponNumber) {
+
+        return apiService.convertCoupon(token, couponNumber).compose(RxHelper.observe());
+    }
+
+    /**
+     * 核销记录
+     */
+    public Observable<List<Coupon>> convertCouponLog() {
+
+        return apiService.convertCouponLog(token).compose(RxHelper.observe());
     }
 
 

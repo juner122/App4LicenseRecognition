@@ -32,7 +32,7 @@ public class StockAddStandardsActivity extends BaseActivity {
     TextView supplier_name;//供应商名
 
 
-    int goodsId;
+    Integer goodsId;
     int goodsStandardId;//规格id 修改时用
 
     Goods.GoodsStandard goodsStandard;//查询到的规格对象
@@ -152,7 +152,10 @@ public class StockAddStandardsActivity extends BaseActivity {
     private Goods.GoodsStandard getStandard() {
 
         Goods.GoodsStandard standard = new Goods.GoodsStandard();
-        standard.setGoodsId(goodsId);
+
+        if (null != goodsId)
+            standard.setGoodsId(goodsId);
+
         standard.setGoodsTitle(tv_name.getText().toString());
         standard.setGoodsStandardTitle(tv_standard.getText().toString());
         standard.setGoodsStandardPrice(tv_price.getText().toString());
@@ -163,6 +166,7 @@ public class StockAddStandardsActivity extends BaseActivity {
             standard.setSupplierId(supplier_pick.getId());//供应商名
 
         if (null != goodsStandard) {
+            standard.setGoodsId(goodsStandard.getGoodsId());
             standard.setId(goodsStandard.getId());
             standard.setGoodsStandardId(goodsStandard.getGoodsStandardId());
             if (null == supplier_pick) {

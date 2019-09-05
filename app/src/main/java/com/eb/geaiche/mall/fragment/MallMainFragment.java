@@ -25,8 +25,10 @@ import com.eb.geaiche.adapter.MallMuneButAdapter;
 import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
+import com.eb.geaiche.stockControl.activity.StockOutActivity;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.google.gson.Gson;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.AppMenu;
@@ -161,7 +163,30 @@ public class MallMainFragment extends BaseFragment {
 
         mallTypeGoodsListAdapter.setOnItemClickListener((adapter, view, position) -> toActivity(MallGoodsInfoActivity.class, MallGoodsActivity.goodsId, mallTypeGoodsListAdapter.getData().get(position).getId()));
 
-        mallTypeGoodsListAdapter.setOnItemChildClickListener((adapter, view, position) -> addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId()));
+        mallTypeGoodsListAdapter.setOnItemChildClickListener((adapter, view, position) ->
+
+
+        {
+            //弹出选择领料数量
+            final ConfirmDialogStockOut dialog = new ConfirmDialogStockOut(getActivity());
+            dialog.show();
+            dialog.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
+                @Override
+                public void doConfirm(String code) {
+
+                    addToShopCart(mallTypeGoodsListAdapter.getData().get(position).getId(), mallTypeGoodsListAdapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId(), Integer.valueOf(code));
+
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void doCancel() {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                }
+            });
+
+        });
 
 
         mallTypeGoodsListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
@@ -193,9 +218,9 @@ public class MallMainFragment extends BaseFragment {
 
 
     //添加商品到购物车
-    private void addToShopCart(int goodsId, int productId) {
+    private void addToShopCart(int goodsId, int productId, int number) {
 
-        Api().addToShoppingCart(goodsId, productId).subscribe(new RxSubscribe<CartList>(getActivity(), true) {
+        Api().addToShoppingCart(goodsId, productId, number).subscribe(new RxSubscribe<CartList>(getActivity(), true) {
             @Override
             protected void _onNext(CartList cartList) {
                 if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {

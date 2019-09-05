@@ -75,7 +75,7 @@ public class VehicleQueueUtils {
 
         VehicleQueue vehicleQueue = new VehicleQueue();
         vehicleQueue.setPlateNumber(number);
-        vehicleQueue.setTime(System.currentTimeMillis());
+        vehicleQueue.setTime(String.valueOf(System.currentTimeMillis()));
 
 
         data.put(plateNumber, vehicleQueue);

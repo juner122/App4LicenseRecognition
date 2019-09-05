@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.eb.geaiche.R;
 
-public class VehicleBroadcastReceiver extends BroadcastReceiver {
+public class    VehicleBroadcastReceiver extends BroadcastReceiver {
     public static final String STATICACTION = "VehicleBroadcastReceiver";
 
     @Override

@@ -73,8 +73,12 @@ import static com.eb.geaiche.buletooth.BuletoothUtil.REQUEST_CODE_BLUETOOTH_ON;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.CENTER;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.LEFT;
 import static com.gprinter.command.EscCommand.JUSTIFICATION.RIGHT;
+import static com.juner.mvp.Configure.Goods_TYPE;
+import static com.juner.mvp.Configure.Goods_TYPE_1;
+import static com.juner.mvp.Configure.Goods_TYPE_2;
 import static com.juner.mvp.Configure.Goods_TYPE_3;
 import static com.juner.mvp.Configure.Goods_TYPE_4;
+import static com.juner.mvp.Configure.Goods_TYPE_5;
 
 public class MakeOrderSuccessActivity extends BaseActivity {
 
@@ -788,7 +792,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = goodsEntities;
         for (GoodsEntity c : list) {
-            if (c.getType() == Goods_TYPE_4)
+            if (c.getType() == Goods_TYPE_4||c.getType()==Goods_TYPE_1||c.getType()==Goods_TYPE_5||c.getType()==Goods_TYPE_2)
                 carts.add(c);
         }
         return carts;

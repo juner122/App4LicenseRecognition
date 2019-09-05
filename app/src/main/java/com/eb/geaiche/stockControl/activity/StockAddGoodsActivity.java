@@ -122,10 +122,18 @@ public class StockAddGoodsActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.enter://新增商品
 
+                if (!isUpdata) {
+                    ToastUtils.showToast("请等待图片上传完成");
+                    return;
+                }
+
+
                 if (goodId != -1)
                     fixGood();
                 else
                     addGood();
+
+
                 break;
             case R.id.ll_pick_brand://选择品牌
 
@@ -368,15 +376,9 @@ public class StockAddGoodsActivity extends BaseActivity {
     protected void setUpData() {
 
         rv_category.setLayoutManager(new LinearLayoutManager(this));
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         initViewType();
-
     }
+
 
     private void initViewType() {
         if (goodId == -1) {
@@ -535,7 +537,6 @@ public class StockAddGoodsActivity extends BaseActivity {
                     infoAdapter.notifyDataSetChanged();
                     uploadImg2QiNiu2(selectList2, 2, "商品详情图");
                     break;
-
             }
 
         }

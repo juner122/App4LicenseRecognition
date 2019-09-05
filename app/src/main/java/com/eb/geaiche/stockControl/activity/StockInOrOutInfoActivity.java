@@ -21,7 +21,7 @@ import butterknife.BindView;
 public class StockInOrOutInfoActivity extends BaseActivity {
 
 
-    int stockType;//库操作类型
+    String stockType;//库操作类型
 
 
     @BindView(R.id.name)
@@ -43,9 +43,9 @@ public class StockInOrOutInfoActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        stockType = getIntent().getIntExtra("stockType", 1);
+        stockType = getIntent().getStringExtra("stockType");
 
-        if (stockType == Configure.STOCK_IN) {
+        if (stockType.equals(Configure.STOCK_IN)) {
             tv_title.setText("入库详情");
             title1.setText("入库人：");
             title2.setText("入库时间：");

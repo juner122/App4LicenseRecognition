@@ -18,6 +18,26 @@ public class Maneuver {
     List<ImgOneList> imgOneList;
     List<ImgOneList> imgTwoList;
 
+    List<Join> joinList;//已参加的门店列表
+
+    int myJoinStatus;//报名 1是审核中   2通过
+
+    public int getMyJoinStatus() {
+        return myJoinStatus;
+    }
+
+    public void setMyJoinStatus(int myJoinStatus) {
+        this.myJoinStatus = myJoinStatus;
+    }
+
+    public List<Join> getJoinList() {
+        return joinList;
+    }
+
+    public void setJoinList(List<Join> joinList) {
+        this.joinList = joinList;
+    }
+
     public List<ImgOneList> getImgOneList() {
         return imgOneList;
     }
@@ -55,6 +75,30 @@ public class Maneuver {
             this.img = img;
         }
     }
+
+    public class Join{
+
+        String unityImg;
+
+        int status;//1审核中2已通过3未通过
+
+        public String getUnityImg() {
+            return unityImg;
+        }
+
+        public void setUnityImg(String unityImg) {
+            this.unityImg = unityImg;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+    }
+
 
 
     public String getId() {

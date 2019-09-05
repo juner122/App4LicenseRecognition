@@ -45,7 +45,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme">
-        <activity android:name=".vehicleQueue.VehicleQueueActivity"></activity>
+        <activity android:name=".activity.CouponWriteRecordActivity"></activity>
+        <activity android:name=".activity.CouponWriteSuccessActivity" />
+        <activity android:name=".activity.CouponWriteActivity" />
+        <activity android:name=".stockControl.activity.UnOrderPickStockActivity" />
+        <activity android:name=".maneuver.activity.ManeuverJoinListActivity" />
+        <activity android:name=".vehicleQueue.VehicleQueueActivity" />
         <activity android:name=".activity.DiscountRecordActivity" />
         <activity android:name=".maneuver.activity.MyAskActivity" />
         <activity android:name=".coupon.CouponPickUserActivity" />
@@ -128,7 +133,6 @@
         <activity
             android:name=".activity.ActivityPackageListActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.BillListActivity"
             android:screenOrientation="portrait" />
@@ -349,9 +353,6 @@
             android:process=":pushservice" />
         <service android:name=".service.GeTuiIntentService" />
 
-
-
-
         <activity android:name=".activity.ProductMealActivity" />
         <activity android:name=".activity.RecruitActivity" />
         <activity android:name=".activity.TechnicianInfoActivity" />
@@ -394,6 +395,7 @@
         <activity android:name=".activity.OrderForFixActivity" />
         <activity android:name=".activity.MallOrderAllListActivity" />
         <activity android:name=".activity.PreviewZoomActivity" />
+        <activity android:name=".zbar.CaptureActivity" />
     </application>
 
 </manifest>

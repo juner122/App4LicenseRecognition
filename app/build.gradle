@@ -16,8 +16,8 @@ android {
         applicationId "com.eb.geaiche"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 45
-        versionName "1.4.28"
+        versionCode 47
+        versionName "1.4.30"
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,7 +52,7 @@ android {
         variant.outputs.all { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                outputFileName = "哥爱车汽修(联合版)" + "-v" + variant.versionCode + "-" + variant.versionName + "-" + output.baseName + ".apk"
+                outputFileName = "哥爱车汽修" + "-v" + variant.versionCode + "-" + variant.versionName + "-" + output.baseName + ".apk"
             }
         }
     }
@@ -65,11 +65,14 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('src/main/jar/AlprSDK.jar')
+    implementation files('libs/zbardecoder.jar')
+
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     testImplementation 'junit:junit:4.12'

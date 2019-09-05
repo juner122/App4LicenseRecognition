@@ -40,6 +40,12 @@ public class ConfirmDialogStockOut extends Dialog {
 
     }
 
+    public ConfirmDialogStockOut(Context context) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        num = "1";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub

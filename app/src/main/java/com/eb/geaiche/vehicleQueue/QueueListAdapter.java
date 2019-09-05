@@ -29,12 +29,12 @@ public class QueueListAdapter extends BaseQuickAdapter<VehicleQueue, BaseViewHol
 
         helper.setText(R.id.tv_info, item.getPlateNumber());
 
-        helper.setText(R.id.tv_time, MathUtil.toDateFormNow(item.getTime()));
+        helper.setText(R.id.tv_time, MathUtil.toDateFormNow(Long.valueOf(item.getTime())));
 
         ImageView iv = helper.getView(R.id.iv);
 
         iv.setImageResource(R.mipmap.icon_queue);
-
+        helper.addOnClickListener(R.id.tv_un);
 
     }
 }

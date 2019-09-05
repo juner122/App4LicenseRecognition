@@ -3,6 +3,7 @@ package com.eb.geaiche.stockControl.activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.activity.OrderListActivity;
@@ -23,16 +25,20 @@ import com.eb.geaiche.view.ConfirmDialog2;
 import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
+import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfo;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.UserEntity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.eb.geaiche.stockControl.activity.StockControlActivity.stockCartUtils;
 
 public class StockOutActivity extends BaseActivity {
 
@@ -53,8 +59,9 @@ public class StockOutActivity extends BaseActivity {
     String orderSn;//订单sn
     UserEntity ue;
     Shop shop;//当前登录的门店信息
+    List<StockGoods> sg;//非订单出库商品列表
 
-    @OnClick({R.id.ll_pick_order, R.id.enter, R.id.cancel})
+    @OnClick({R.id.ll_pick_order, R.id.enter, R.id.cancel, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_pick_order:
@@ -69,6 +76,11 @@ public class StockOutActivity extends BaseActivity {
 
                 finish();
                 break;
+
+            case R.id.tv_title_r://非订单出库
+
+                toActivity(UnOrderPickStockActivity.class);
+                break;
         }
     }
 
@@ -76,8 +88,9 @@ public class StockOutActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("领料出库");
-
+//        setRTitle("非订单出库");
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -86,6 +99,8 @@ public class StockOutActivity extends BaseActivity {
 
         if (orderId == -1) {
             order.setText("非订单出库");
+
+//            adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
         } else {
             orderSn = intent.getStringExtra(Configure.ORDERINFOSN);
             order.setText(orderSn);
@@ -105,7 +120,6 @@ public class StockOutActivity extends BaseActivity {
             TextView num_v = (TextView) view;
 
             //弹出选择领料数量
-
             final ConfirmDialogStockOut dialog = new ConfirmDialogStockOut(StockOutActivity.this, num_v.getText().toString());
             dialog.show();
             dialog.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
@@ -250,4 +264,38 @@ public class StockOutActivity extends BaseActivity {
         return totalprice.toString();
     }
 
+//    private List<StockGoods> generateData(List<Goods.GoodsStandard> list) {
+//        List<StockGoods> res = new ArrayList<>();
+//        if (null == list || list.size() == 0) {
+//            return res;
+//        }
+//        SparseArray gl = new SparseArray();//所有规格中有包含的商品
+//
+//        for (int i = 0; i < list.size(); i++) {
+//
+//            Goods.GoodsStandard item_gs = list.get(i);
+//            int gsId = item_gs.getGoodsId();
+//            Goods lv0 = (Goods) gl.get(gsId);
+//
+//            if (null != lv0) {//不等于空
+//                lv0.addSubItem(item_gs);
+//            } else {
+//                lv0 = new Goods();
+//                lv0.setGoodsTitle(item_gs.getGoodsTitle());
+//                lv0.setNum(item_gs.getNum());
+//                lv0.setId(gsId);
+//                lv0.setGoodsDetailsPojoList(item_gs.getGoodsDetailsPojoList());
+//                lv0.addSubItem(item_gs);
+//            }
+//            gl.put(gsId, lv0);
+//        }
+//
+//        for (int i = 0; i < gl.size(); i++) {
+//            Goods lv0 = (Goods) gl.valueAt(i);
+//
+//            res.add(lv0);
+//
+//        }
+//        return res;
+//    }
 }

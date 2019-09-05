@@ -23,10 +23,12 @@ import com.eb.geaiche.adapter.SimpleCarInfoAdpter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.MemberOrder;
+import com.juner.mvp.bean.NullDataEntity;
 
 import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,6 +56,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
 
     List<CarInfoRequestParameters> cars = new ArrayList<>();
 
+    String plateId;//自动识别车辆的进店队列id
 
     @Override
     protected void init() {
@@ -158,6 +161,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                             car_id = memberOrder.getCarList().get(i).getId();
 
                             new_car_number = "";//清空
+                            Collections.swap(cars, 0, i);//换位
                             break;
                         }
                     }
@@ -194,7 +198,10 @@ public class MemberManagementInfoActivity extends BaseActivity {
             case R.id.tv_new_order:
                 if (!isPerfect())
                     return;
-                toMakeOrder(user_id, car_id, moblie, user_name, car_number,mileage);
+
+
+                plateUpdate();
+                toMakeOrder(user_id, car_id, moblie, user_name, car_number, mileage);
 
                 break;
 
@@ -203,6 +210,7 @@ public class MemberManagementInfoActivity extends BaseActivity {
                 if (!isPerfect())
                     return;
 
+                plateUpdate();
                 Intent intent2 = new Intent(this, FixInfoDescribeActivity.class);
                 intent2.putExtra(Configure.car_no, car_number);
                 intent2.putExtra(Configure.car_id, car_id);
@@ -292,4 +300,25 @@ public class MemberManagementInfoActivity extends BaseActivity {
         return true;
 
     }
+
+    //扫描车辆池改变接车状态
+    private void plateUpdate() {
+
+        plateId = getIntent().getStringExtra("plateId");
+        if (null == plateId)
+            return;
+
+        Api().plateUpdate(plateId).subscribe(new RxSubscribe<NullDataEntity>(this, false) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+    }
+
 }

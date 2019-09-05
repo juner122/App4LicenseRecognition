@@ -117,4 +117,9 @@ public class MallActivity extends BaseActivity {
         commonTabLayout.setCurrentTab(i);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyAppPreferences.remove(VIN);
+    }
 }

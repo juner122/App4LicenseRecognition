@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_background_f"
-        android:hint="领料数量"
+        android:hint="输入数量"
         android:inputType="number"
         android:padding="5dp"
         android:textSize="13sp" />

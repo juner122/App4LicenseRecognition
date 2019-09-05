@@ -151,7 +151,7 @@
                 android:id="@+id/ll_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:background="#fff"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -197,7 +197,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="1dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv2"

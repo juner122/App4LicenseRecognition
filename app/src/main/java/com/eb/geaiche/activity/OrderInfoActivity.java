@@ -673,7 +673,7 @@ public class OrderInfoActivity extends BaseActivity {
         List<GoodsEntity> list = new ArrayList<>();
         for (GoodsEntity entity : goodsEntities) {
             if (type == Configure.Goods_TYPE_4) {
-                if (entity.getType() == type || entity.getType() == 1 || entity.getType() == 2) {
+                if (entity.getType() == type || entity.getType() == 1 || entity.getType() == 2 || entity.getType() == 5) {
                     list.add(entity);
                 }
             } else {

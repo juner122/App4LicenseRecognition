@@ -21,27 +21,42 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_shopName"
+                android:id="@+id/tv_is_new_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="8dp"
+                android:visibility="gone"
                 android:layout_marginBottom="8dp"
                 android:paddingLeft="8dp"
-                android:text="新干线"
+                android:text=""
                 android:textColor="#ff333333"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 tl:layout_constraintBottom_toBottomOf="parent"
                 tl:layout_constraintStart_toStartOf="parent"
                 tl:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_is_new_order"
+s
+            <ImageView
+                android:id="@+id/scan"
+                android:visibility="visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:padding="10dp"
+                android:src="@mipmap/icon_scan"
+                tl:layout_constraintBottom_toBottomOf="parent"
+                tl:layout_constraintStart_toStartOf="parent"
+                tl:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_shopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新干线"
                 android:textSize="15sp"
+                android:textColor="#ff333333"
                 tl:layout_constraintBottom_toBottomOf="parent"
                 tl:layout_constraintLeft_toLeftOf="parent"
                 tl:layout_constraintRight_toRightOf="parent"
@@ -81,7 +96,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="5dp"
                 android:src="@mipmap/icon_cartlist"
-                android:visibility="visible"
+                android:visibility="gone"
                 tl:layout_constraintBottom_toBottomOf="parent"
                 tl:layout_constraintRight_toLeftOf="@id/iv1"
                 tl:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +110,7 @@
                 android:text="10"
                 android:textColor="#fff"
                 android:textSize="10sp"
-                android:visibility="visible"
+                android:visibility="gone"
                 tl:layout_constraintLeft_toLeftOf="@id/iv2"
                 tl:layout_constraintTop_toTopOf="@id/iv2" />
 

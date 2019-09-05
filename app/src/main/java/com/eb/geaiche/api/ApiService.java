@@ -5,6 +5,7 @@ import com.eb.geaiche.bean.RecordMeal;
 import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.stockControl.bean.Supplier;
+import com.eb.geaiche.vehicleQueue.VehicleQueue;
 import com.juner.mvp.bean.ActivityEntity;
 import com.juner.mvp.bean.ActivityPage;
 import com.eb.geaiche.bean.AutoBrand;
@@ -834,6 +835,11 @@ public interface ApiService {
     @POST("xgxshopunity/joinIn")
     Observable<BaseBean<NullDataEntity>> joinIn(@Header("X-Nideshop-Token") String token, @Body Ask ask);
 
+    //报名列表
+    @POST("xgxshopunity/joinList")
+    @FormUrlEncoded
+    Observable<BaseBean<List<Joiner>>> joinList(@Header("X-Nideshop-Token") String token, @Field("shop_id") String unity_id);
+
 
     //出入库记录列表
     @POST("xgxshopstocklog/list")
@@ -897,7 +903,40 @@ public interface ApiService {
     Observable<BaseBean<Coupon2>> shopCouponInfo(@Header("X-Nideshop-Token") String token, @Field("id") String id);
 
     //获取当前登录用户
-    @POST("/app/sysuser/getInfo")
+    @POST("sysuser/getInfo")
     Observable<BaseBean<UserEntity>> getInfo(@Header("X-Nideshop-Token") String token);
+
+    //添加扫描车辆池
+    @POST("xgxshopcarpool/save")
+    Observable<BaseBean<NullDataEntity>> savePlate(@Header("X-Nideshop-Token") String token, @Body VehicleQueue vehicleQueue);
+
+    //添加扫描车辆池
+    @POST("xgxshopcarpool/list")
+    Observable<BaseBean<List<VehicleQueue>>> platelist(@Header("X-Nideshop-Token") String token);
+
+    //扫描车辆池改变接车状态
+    @POST("xgxshopcarpool/update")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> plateUpdate(@Header("X-Nideshop-Token") String token, @Field("id") String id);
+
+    //车辆入店误扫操作
+    @POST("xgxshopcarpool/updateUnable")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> updateUnable(@Header("X-Nideshop-Token") String token, @Field("id") String id, @Field("changeReason") String changeReason);
+
+    //券码查券
+    @POST("coupon/queryByNumber")
+    @FormUrlEncoded
+    Observable<BaseBean<Coupon>> queryByNumber(@Header("X-Nideshop-Token") String token, @Field("couponNumber") String id);
+
+
+    //核销券
+    @POST("coupon/convertCoupon")
+    @FormUrlEncoded
+    Observable<BaseBean<NullDataEntity>> convertCoupon(@Header("X-Nideshop-Token") String token, @Field("couponNumber") String id);
+
+    //核销记录
+    @POST("coupon/queryConvertLog")
+    Observable<BaseBean<List<Coupon>>> convertCouponLog(@Header("X-Nideshop-Token") String token);
 
 }

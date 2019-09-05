@@ -12,7 +12,52 @@ public class Coupon extends SelectedBean implements Parcelable {
     double type_money;
     double min_amount;
     String use_end_date;
-    int coupon_status;
+    int coupon_status;  //1可用，2已用，3过期
+    String coupon_number;
+    String used_time;
+    String convert_time;//核销时间
+    String username;
+    String mobile;
+
+    public String getConvert_time() {
+        return convert_time;
+    }
+
+    public void setConvert_time(String convert_time) {
+        this.convert_time = convert_time;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getUsed_time() {
+        return used_time;
+    }
+
+    public void setUsed_time(String used_time) {
+        this.used_time = used_time;
+    }
+
+    public String getCoupon_number() {
+        return coupon_number;
+    }
+
+    public void setCoupon_number(String coupon_number) {
+        this.coupon_number = coupon_number;
+    }
 
     public double getMin_amount() {
         return min_amount;
@@ -99,6 +144,11 @@ public class Coupon extends SelectedBean implements Parcelable {
         dest.writeDouble(this.min_amount);
         dest.writeString(this.use_end_date);
         dest.writeInt(this.coupon_status);
+        dest.writeString(this.coupon_number);
+        dest.writeString(this.used_time);
+        dest.writeString(this.convert_time);
+        dest.writeString(this.username);
+        dest.writeString(this.mobile);
     }
 
     protected Coupon(Parcel in) {
@@ -109,6 +159,11 @@ public class Coupon extends SelectedBean implements Parcelable {
         this.min_amount = in.readDouble();
         this.use_end_date = in.readString();
         this.coupon_status = in.readInt();
+        this.coupon_number = in.readString();
+        this.used_time = in.readString();
+        this.convert_time = in.readString();
+        this.username = in.readString();
+        this.mobile = in.readString();
     }
 
     public static final Creator<Coupon> CREATOR = new Creator<Coupon>() {

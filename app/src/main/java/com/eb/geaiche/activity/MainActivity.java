@@ -1,14 +1,18 @@
 package com.eb.geaiche.activity;
 
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -30,11 +34,12 @@ import com.eb.geaiche.util.SoundUtils;
 import com.eb.geaiche.util.StringUtil;
 import com.eb.geaiche.util.SystemUtil;
 
-import com.eb.geaiche.vehicleQueue.MyStreamDataCallBack;
+
 import com.eb.geaiche.vehicleQueue.StartAlprUtil;
 import com.eb.geaiche.vehicleQueue.VehicleBroadcastReceiver;
 import com.eb.geaiche.vehicleQueue.VehicleQueueActivity;
 import com.eb.geaiche.view.DownLodingDialog;
+import com.eb.geaiche.zbar.CaptureActivity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.google.gson.Gson;
 import com.juner.mvp.Configure;
@@ -50,6 +55,7 @@ import com.juner.mvp.bean.Plate;
 import com.juner.mvp.bean.PlateInfo;
 import com.juner.mvp.bean.PushMessage;
 import com.juner.mvp.bean.Shop;
+import com.juner.mvp.bean.UserEntity;
 import com.juner.mvp.bean.VersionInfo;
 import com.zkzh.alpr.jni.AlprSDK;
 import com.zkzh.alpr.jni.DEVINFO;
@@ -104,7 +110,7 @@ public class MainActivity extends BaseActivity {
             R.mipmap.icon_bottom_button1_select,
             R.color.fff, R.mipmap.icon_bottom_button5_select};
 
-    @OnClick({R.id.ll, R.id.ll2, R.id.iv1, R.id.iv2, R.id.tv_shopName})
+    @OnClick({R.id.ll, R.id.ll2, R.id.iv1, R.id.iv2, R.id.tv_shopName, R.id.scan})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll:
@@ -118,14 +124,36 @@ public class MainActivity extends BaseActivity {
                 toActivity(VehicleQueueActivity.class);//待服务车辆列表
                 break;
 
+            case R.id.scan:
+                //动态权限申请
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, 1);
+                } else {
+                    goScan();
+                }
+                break;
             case R.id.tv_shopName:
 //                toActivity(StockControlActivity.class);//出入库
 //                toActivity(CouponListActivity.class);//优惠劵管理
 //                toActivity(ManeuverActivity.class);//活动管理
 //                toActivity(MeritsDistriListActivity.class);//绩效管理
+
+
+                //模拟车牌识别成功
+//                savePlate("京A88888");
                 break;
 
         }
+    }
+
+
+    /**
+     * 跳转到扫码界面扫码
+     */
+    private void goScan() {
+        toActivity(CaptureActivity.class);
+
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -133,10 +161,22 @@ public class MainActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            needcartRead();
+
+            switch (msg.what) {
+                case 1://更新数量
+//                    needcartRead();
+                    break;
+                case 2://发送车到店广播
+                    savePlate((String) msg.obj);
+                    break;
+            }
+
 
         }
     };
+
+
+    static String shopId = "163";//黄村店id
 
 
     @Override
@@ -153,10 +193,6 @@ public class MainActivity extends BaseActivity {
             tv_is_new_order.setVisibility(View.GONE);
 
         cl.setVisibility(View.VISIBLE);
-
-
-        //注册车辆进店广播
-        registVehicleBroadcast();
 
 
     }
@@ -205,13 +241,21 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         needRead();
-        needcartRead();
+//        needcartRead();
 
         //获取门店信息
         Api().shopInfo().subscribe(new RxSubscribe<Shop>(this, false) {
             @Override
             protected void _onNext(Shop shop) {
                 tv_shopName.setText(shop.getShop().getShopName());
+
+
+                if (shopId.equals(shop.getShop().getId())) {//登录的是黄村才启动中控识别sdk
+                    //注册车辆进店广播
+                    registVehicleBroadcast();
+                    iv2.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -280,17 +324,18 @@ public class MainActivity extends BaseActivity {
             String plate_num = StringUtil.getMatcher(regex, r.toString());
 
             //匹配到车牌
-            if (!plate_num.equals(""))
-                sendVehicleBroadcast(plate_num);
-
+            if (!plate_num.equals("")) {
+                Message message = new Message();
+                message.what = 2;
+                message.obj = plate_num;
+                handler.sendMessage(message);
+            }
         }
     }
 
     //发送车辆入店广播
     public void sendVehicleBroadcast(String plate) {
 
-        //播放声音
-        SoundUtils.playSound(R.raw.soued);
 
         Intent intent = new Intent();
         //设置Action
@@ -303,12 +348,34 @@ public class MainActivity extends BaseActivity {
         sendOrderedBroadcast(intent, null);
 
 
-        //添加到等待服务车辆队列里
-        MyApplication.vehicleQueueUtils.addVehicleData(plate);
+//        //添加到等待服务车辆队列里
+//        MyApplication.vehicleQueueUtils.addVehicleData(plate);
 
 
         //更新数量
-        handler.sendMessage(Message.obtain());
+        Message message = new Message();
+        message.what = 1;
+        handler.sendMessage(message);
+
+    }
+
+    //添加车辆到的车辆池
+    private void savePlate(String plate) {
+
+        Api().savePlate(plate).subscribe(new RxSubscribe<NullDataEntity>(this, false) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+                //播放声音
+                SoundUtils.playSound(R.raw.soued);
+
+                sendVehicleBroadcast(plate);
+            }
+
+            @Override
+            protected void _onError(String message) {
+//                ToastUtils.showToast(message);
+            }
+        });
 
     }
 
@@ -339,20 +406,20 @@ public class MainActivity extends BaseActivity {
     }
 
     private void needcartRead() {
-        int i = MyApplication.vehicleQueueUtils.getDataFromLocal().size();
+//        int i = MyApplication.vehicleQueueUtils.getDataFromLocal().size();
         //待服务车辆数量
-        if (i > 0) {
-            if (i > 9)
-                number2.setText("...");
-            else
-                number2.setText(String.valueOf(i));
-
-            number2.setVisibility(View.VISIBLE);
-
-        } else {
-            number2.setVisibility(View.GONE);
-
-        }
+//        if (i > 0) {
+//            if (i > 9)
+//                number2.setText("...");
+//            else
+//                number2.setText(String.valueOf(i));
+//
+//            number2.setVisibility(View.VISIBLE);
+//
+//        } else {
+//            number2.setVisibility(View.GONE);
+//
+//        }
 
     }
 

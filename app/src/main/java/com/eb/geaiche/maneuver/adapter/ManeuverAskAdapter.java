@@ -29,7 +29,7 @@ public class ManeuverAskAdapter extends BaseQuickAdapter<Ask, BaseViewHolder> {
         helper.setText(R.id.time, DateUtil.getFormatedDateTime(item.getCreateTime()));
         helper.setText(R.id.content, item.getAskContent());
 
-//        ImageUtils.load(context, item.get(), helper.getView(R.id.iv));
+        ImageUtils.loadCircle(context, item.getUnityImg(), helper.getView(R.id.iv));
 
     }
 }

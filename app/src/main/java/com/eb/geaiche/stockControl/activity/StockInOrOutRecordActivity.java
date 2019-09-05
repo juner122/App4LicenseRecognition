@@ -51,15 +51,15 @@ public class StockInOrOutRecordActivity extends BaseActivity {
         rv1.setLayoutManager(new LinearLayoutManager(this));
         rv1.setAdapter(adapter);
 
-//        adapter.setOnItemClickListener((a, view, position) -> {
-//
-//
-//            Intent intent = new Intent(this, StockInOrOutInfoActivity.class);
-//            intent.putExtra("id", adapter.getData().get(position).getId());
-//            intent.putExtra("stockType", adapter.getData().get(position).getType());
-//            startActivity(intent);
-//
-//        });
+        adapter.setOnItemClickListener((a, view, position) -> {
+
+
+            Intent intent = new Intent(this, StockInOrOutInfoActivity.class);
+            intent.putExtra("id", adapter.getData().get(position).getId());
+            intent.putExtra("stockType", adapter.getData().get(position).getType());
+            startActivity(intent);
+
+        });
 
 
         for (int i = 0; i < mTitles.length; i++) {

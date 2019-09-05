@@ -3,13 +3,12 @@ package com.eb.geaiche.vehicleQueue;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.eb.geaiche.MyApplication;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.activity.MemberInfoInputActivity;
@@ -17,13 +16,19 @@ import com.eb.geaiche.activity.MemberManagementInfoActivity;
 
 import com.eb.geaiche.adapter.UserlistListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
+import com.eb.geaiche.maneuver.activity.ManeuverInfoActivity;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogEt;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.QueryByCarEntity;
 
 
 import net.grandcentrix.tray.AppPreferences;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -44,42 +49,78 @@ public class VehicleQueueActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
+        adapter = new QueueListAdapter(null, this);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setAdapter(adapter);
 
+        adapter.setOnItemClickListener((a, view, position) -> {
 
+            // 改变接车状态
+//            plateUpdate(adapter.getData().get(position).getId());
+
+            //前往
+            onQueryByCar(adapter.getData().get(position).getPlateNumber(), adapter.getData().get(position).getId());
+
+        });
+
+        adapter.setOnItemChildClickListener((a, view, position) -> {
+
+            final ConfirmDialogEt dialogCanlce = new ConfirmDialogEt(VehicleQueueActivity.this, "误扫操作", "请输入删除车辆原因!");
+            dialogCanlce.show();
+            dialogCanlce.setClicklistener((String postscript) -> {
+                dialogCanlce.dismiss();
+
+                updateUnable(adapter.getData().get(position).getId(), postscript);
+                getPlateList();
+            });
+
+        });
+    }
+
+    private void updateUnable(String id, String changeReason) {
+        Api().updateUnable(id, changeReason).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+
+                ToastUtils.showToast("操作成功");
+
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        adapter = new QueueListAdapter(MyApplication.vehicleQueueUtils.getDataFromLocal(), this);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(adapter);
-        adapter.setOnItemClickListener((a, view, position) -> {
-            //前往
-            onQueryByCar(adapter.getData().get(position).getPlateNumber());
-        });
+        getPlateList();
     }
 
     /**
      * type 0普通下单 1快速下单
+     *
+     * @param id 自动识别车辆的进店队列id
      */
-    private void onQueryByCar(String plate) {
+    private void onQueryByCar(String plate, String id) {
 
         Api().queryByCar(plate).subscribe(new RxSubscribe<QueryByCarEntity>(this, true) {
             @Override
             protected void _onNext(final QueryByCarEntity entity) {
                 new AppPreferences(VehicleQueueActivity.this).put(Configure.car_no, plate);//存入待服务车辆
-                //从进店车辆队列去除
-                MyApplication.vehicleQueueUtils.reduceData(plate);
+//                //从进店车辆队列去除
+//                MyApplication.vehicleQueueUtils.reduceData(plate);
 
                 if (null == entity.getUsers() || entity.getUsers().size() == 0) {
                     //普通接单
-                    toActivity(MemberInfoInputActivity.class);
+                    toActivity(MemberInfoInputActivity.class, "plateId", id);
                     finish();
                 } else {
                     //弹出用户列表
-                    showUserList(entity, plate);
+                    showUserList(entity, plate, id);
                 }
 
             }
@@ -95,7 +136,7 @@ public class VehicleQueueActivity extends BaseActivity {
      * 弹出用户列表
      */
 
-    private void showUserList(QueryByCarEntity entity, String plate) {
+    private void showUserList(QueryByCarEntity entity, String plate, String id) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.dialog_carlist);
 
@@ -112,6 +153,7 @@ public class VehicleQueueActivity extends BaseActivity {
             Intent intent = new Intent(this, MemberManagementInfoActivity.class);
             intent.putExtra(Configure.user_id, userlistListAdapter.getData().get(position).getUserId());
             intent.putExtra(Configure.car_no, plate);
+            intent.putExtra("plateId", id);
             startActivity(intent);
             finish();
         });
@@ -134,7 +176,34 @@ public class VehicleQueueActivity extends BaseActivity {
     @Override
     protected void setUpData() {
 
+
     }
+
+    //查询自动扫描待接车辆池
+    private void getPlateList() {
+
+        Api().platelist().subscribe(new RxSubscribe<List<VehicleQueue>>(this, true) {
+            @Override
+            protected void _onNext(List<VehicleQueue> list) {
+
+                List<VehicleQueue> list_not = new ArrayList<>();//未接车的才显示 status=0;
+
+                for (VehicleQueue v : list) {
+                    if (v.getStatus().equals("0")) {
+                        list_not.add(v);
+                    }
+                }
+                adapter.setNewData(list_not);
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("查询失败:" + message);
+            }
+        });
+
+    }
+
 
     @Override
     public int setLayoutResourceID() {

@@ -99,10 +99,11 @@ public abstract class RxSubscribe<T> implements Observer<T> {
         } else {
             if (e instanceof UnknownHostException) {
                 _onError("服务器超时，请检查手机网络！");
-            } else {
-                _onError(e.getMessage());
+            } else if (e instanceof NullPointerException) {
+                _onError("服务器返回数据有误！");
             }
         }
+        _onError(e.getMessage());
         if (isShow) {
             if (dialog != null)
                 dialog.dismiss();

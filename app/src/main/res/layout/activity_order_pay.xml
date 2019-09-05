@@ -84,11 +84,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
+
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="#D9D9D9" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
@@ -124,12 +126,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.1dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="#D9D9D9" />
 
             <LinearLayout
                 android:layout_width="match_parent"

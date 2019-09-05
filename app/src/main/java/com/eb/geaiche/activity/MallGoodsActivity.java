@@ -12,6 +12,7 @@ import com.eb.geaiche.adapter.MallTypeGoodsListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.juner.mvp.Configure;
 import com.juner.mvp.bean.CartList;
 import com.juner.mvp.bean.GoodsList;
@@ -72,8 +73,28 @@ public class MallGoodsActivity extends BaseActivity {
         });
 
         //添加购物车监听器
-        adapter.setOnItemChildClickListener((a, view, position) -> addToShopCart(
-                adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId()));
+        adapter.setOnItemChildClickListener((a, view, position) -> {
+
+
+            //弹出选择领料数量
+            final ConfirmDialogStockOut dialog = new ConfirmDialogStockOut(this);
+            dialog.show();
+            dialog.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
+                @Override
+                public void doConfirm(String code) {
+                    addToShopCart(
+                            adapter.getData().get(position).getId(), adapter.getData().get(position).getXgxGoodsStandardPojoList().get(0).getGoodsStandardId(), Integer.valueOf(code));
+
+                    dialog.dismiss();
+                }
+
+                @Override
+                public void doCancel() {
+                    // TODO Auto-generated method stub
+                    dialog.dismiss();
+                }
+            });
+        });
 
 
     }
@@ -123,9 +144,9 @@ public class MallGoodsActivity extends BaseActivity {
 
 
     //添加商品到购物车
-    private void addToShopCart(int goodsId, int productId) {
+    private void addToShopCart(int goodsId, int productId, int number) {
 
-        Api().addToShoppingCart(goodsId, productId).subscribe(new RxSubscribe<CartList>(this, true) {
+        Api().addToShoppingCart(goodsId, productId, number).subscribe(new RxSubscribe<CartList>(this, true) {
             @Override
             protected void _onNext(CartList cartList) {
                 if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {

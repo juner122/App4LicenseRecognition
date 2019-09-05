@@ -19,7 +19,7 @@ import com.umeng.socialize.PlatformConfig;
 public class MyApplication extends Application {
     private static MyApplication app;
     public static CartUtils cartUtils;
-    public static VehicleQueueUtils vehicleQueueUtils;//车辆进店队列
+//    public static VehicleQueueUtils vehicleQueueUtils;//车辆进店队列
 
 
     public static MyApplication getInstance() {
@@ -32,7 +32,7 @@ public class MyApplication extends Application {
         super.onCreate();
         app = this;
         cartUtils = CartUtils.getInstance(this);
-        vehicleQueueUtils = VehicleQueueUtils.getInstance(this);
+//        vehicleQueueUtils = VehicleQueueUtils.getInstance(this);
 
 
         //初始化播放器（只需调用一次即可，建议在application中初始化）  阿里播放器

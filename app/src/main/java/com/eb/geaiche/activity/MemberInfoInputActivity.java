@@ -419,7 +419,7 @@ public class MemberInfoInputActivity extends BaseActivity {
             }
         }
 
-
+        plateUpdate();
 
         if (way == 0) {//检修下单
             Intent intent2 = new Intent(MemberInfoInputActivity.this, FixInfoDescribeActivity.class);
@@ -430,9 +430,30 @@ public class MemberInfoInputActivity extends BaseActivity {
             intent2.putExtra(Configure.user_id, user_id);
             startActivity(intent2);
         } else {
-            toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number,mileage);
+            toMakeOrder(user_id, car_id, mobile, name.getText().toString(), car_number, mileage);
         }
 
     }
 
+    String plateId;//自动识别车辆的进店队列id
+
+    //扫描车辆池改变接车状态
+    private void plateUpdate() {
+
+        plateId = getIntent().getStringExtra("plateId");
+        if (null == plateId)
+            return;
+
+        Api().plateUpdate(plateId).subscribe(new RxSubscribe<NullDataEntity>(this, false) {
+            @Override
+            protected void _onNext(NullDataEntity nullDataEntity) {
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast(message);
+            }
+        });
+
+    }
 }

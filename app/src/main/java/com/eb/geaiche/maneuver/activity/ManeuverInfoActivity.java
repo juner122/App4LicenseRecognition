@@ -15,6 +15,7 @@ import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.adapter.GoodsPicListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.maneuver.adapter.ManeuverAskAdapter;
+import com.eb.geaiche.maneuver.adapter.ManeuverJoinAdapter;
 import com.eb.geaiche.util.ImageUtils;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SystemUtil;
@@ -34,8 +35,6 @@ import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.UserEntity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
-
-import net.grandcentrix.tray.AppPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +71,12 @@ public class ManeuverInfoActivity extends BaseActivity {
     @BindView(R.id.rv_question)
     RecyclerView rv_question;
 
+    @BindView(R.id.rv)
+    RecyclerView rv;//已参加门店列表
+
     GoodsPicListAdapter goodsPicListAdapter;//详情图片列表
     ManeuverAskAdapter askAdapter;//反馈列表
+    ManeuverJoinAdapter mjadapter;//已参加门店列表
 
     @BindView(R.id.tl_button_bar)
     CommonTabLayout commonTabLayout;
@@ -207,6 +210,10 @@ public class ManeuverInfoActivity extends BaseActivity {
             }
         });
 
+        mjadapter = new ManeuverJoinAdapter(null, this);
+
+        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rv.setAdapter(mjadapter);
     }
 
 
@@ -247,8 +254,24 @@ public class ManeuverInfoActivity extends BaseActivity {
 
                 name.setText(maneuver.getName());
                 explain.setText(maneuver.getExplain());
-                joinNum.setText(String.format("参与门店(%s家)", maneuver.getJoinNum()));
+                joinNum.setText(String.valueOf(maneuver.getJoinNum()));
 
+                mjadapter.setNewData(m.getJoinList());
+
+
+
+                if (maneuver.getMyJoinStatus() == 2) {
+                    button2.setText("已报名");
+                    button2.setOnClickListener(null);
+
+                }
+                if (maneuver.getMyJoinStatus() == 1) {
+                    button2.setText("审核中");
+                    button2.setOnClickListener(null);
+
+                } else {
+                    button2.setText("报名参加");
+                }
 
             }
 
@@ -260,7 +283,6 @@ public class ManeuverInfoActivity extends BaseActivity {
         });
 
 
-
     }
 
     //获取反馈列表
@@ -270,16 +292,16 @@ public class ManeuverInfoActivity extends BaseActivity {
             protected void _onNext(List<Ask> asks) {
                 askAdapter.setNewData(asks);
 
-                for (Ask ask : asks) {
-                    if (ask.getShopId().equals(shop.getShop().getId())) {
-                        button2.setText("我已报名");
-                        button2.setOnClickListener(null);
-                        return;
-                    } else {
-                        button2.setText("报名参加");
-                    }
-
-                }
+//                for (Ask ask : asks) {
+//                    if (ask.getShopId().equals(shop.getShop().getId())) {
+//                        button2.setText("我已报名");
+//                        button2.setOnClickListener(null);
+//                        return;
+//                    } else {
+//                        button2.setText("报名参加");
+//                    }
+//
+//                }
 
 
             }

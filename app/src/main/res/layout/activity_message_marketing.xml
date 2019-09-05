@@ -15,7 +15,7 @@
         android:id="@+id/tl_button_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="1dp"
         android:background="#ffffff"
         android:visibility="visible"
         tl:tl_indicator_color="#FFFF3900"

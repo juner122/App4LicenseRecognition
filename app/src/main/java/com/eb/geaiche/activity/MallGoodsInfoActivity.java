@@ -17,6 +17,7 @@ import com.eb.geaiche.adapter.GoodsPicListAdapter;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.mvp.ShoppingCartActivity;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.eb.geaiche.view.GlideImageLoader;
 import com.juner.mvp.bean.CartItem;
 import com.juner.mvp.bean.CartList;
@@ -72,13 +73,48 @@ public class MallGoodsInfoActivity extends BaseActivity {
                 break;
 
             case R.id.tv_add_cart://加入购物车
-                addToShopCart(getIntent().getIntExtra(MallGoodsActivity.goodsId, -1), productId);
+                //弹出选择领料数量
+                final ConfirmDialogStockOut dialog = new ConfirmDialogStockOut(this);
+                dialog.show();
+                dialog.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String code) {
+
+                        addToShopCart(getIntent().getIntExtra(MallGoodsActivity.goodsId, -1), productId, Integer.valueOf(code));
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        dialog.dismiss();
+                    }
+                });
+
+
                 break;
 
             case R.id.tv_buy://购买
 
+                //弹出选择领料数量
+                final ConfirmDialogStockOut dialog2 = new ConfirmDialogStockOut(this);
+                dialog2.show();
+                dialog2.setClicklistener(new ConfirmDialogStockOut.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String code) {
 
-                shopNow();
+                        shopNow(Integer.valueOf(code));
+                        dialog2.dismiss();
+                    }
+
+                    @Override
+                    public void doCancel() {
+                        // TODO Auto-generated method stub
+                        dialog2.dismiss();
+                    }
+                });
+
+
 
                 break;
 
@@ -188,9 +224,9 @@ public class MallGoodsInfoActivity extends BaseActivity {
     }
 
     //添加商品到购物车
-    private void addToShopCart(int goodsId, int productId) {
+    private void addToShopCart(int goodsId, int productId, int number) {
 
-        Api().addToShoppingCart(goodsId, productId).subscribe(new RxSubscribe<CartList>(this, true) {
+        Api().addToShoppingCart(goodsId, productId, number).subscribe(new RxSubscribe<CartList>(this, true) {
             @Override
             protected void _onNext(CartList cartList) {
                 if (null == cartList.getCartList() || cartList.getCartList().size() == 0) {
@@ -215,14 +251,14 @@ public class MallGoodsInfoActivity extends BaseActivity {
     }
 
     //现在购买
-    private void shopNow() {
+    private void shopNow(int number) {
 
 
         List<CartItem> cartItems = new ArrayList<>();
         CartItem cartItem = new CartItem();
         cartItem.setGoods_id(getIntent().getIntExtra(MallGoodsActivity.goodsId, -1));
         cartItem.setProduct_id(productId);
-        cartItem.setNumber(1);
+        cartItem.setNumber(number);
         cartItem.setRetail_product_price(price);
         cartItem.setGoodsStandardTitle(g.getXgxGoodsStandardPojoList().get(0).getGoodsStandardTitle());
         cartItem.setGoods_name(g.getGoodsTitle());

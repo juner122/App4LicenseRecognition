@@ -26,6 +26,9 @@ public class ConfirmDialogEt extends Dialog {
 
     EditText tv_text;
 
+    TextView e_title;
+    String title, hint;
+
     public interface ClickListenerInterface {
 
         void doConfirm(String str);
@@ -34,7 +37,15 @@ public class ConfirmDialogEt extends Dialog {
     public ConfirmDialogEt(Context context) {
         super(context, R.style.my_dialog);
         this.context = context;
+        title = "提问/反馈";
+        hint = "亲，有什么建议或问题请尽情提出来吧，我们会尽快给您回复。";
+    }
 
+    public ConfirmDialogEt(Context context, String title, String hint) {
+        super(context, R.style.my_dialog);
+        this.context = context;
+        this.title = title;
+        this.hint = hint;
     }
 
 
@@ -53,6 +64,10 @@ public class ConfirmDialogEt extends Dialog {
         TextView tv_cancel = view.findViewById(R.id.tv_cancel);
         TextView tv_confirm = view.findViewById(R.id.tv_confirm);
         tv_text = view.findViewById(R.id.tv_text);
+
+        tv_text.setHint(hint);
+        e_title = view.findViewById(R.id.title);
+        e_title.setText(title);
 
 
         tv_confirm.setOnClickListener(new clickListener());
