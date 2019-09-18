@@ -114,7 +114,7 @@ public class StockControlListAdapter extends BaseMultiItemQuickAdapter<MultiItem
 
                 TextView tv_button_name = helper.getView(R.id.button);
                 View ll_button = helper.getView(R.id.ll_button);
-                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, null == gs.getStock() ? "0" : gs.getStock());
+                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, null == gs.getStock() ? "库存：0" : "库存：" + gs.getStock());
 
 
                 if (gs.isSelected()) {

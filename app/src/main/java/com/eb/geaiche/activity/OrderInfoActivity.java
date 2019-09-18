@@ -430,7 +430,7 @@ public class OrderInfoActivity extends BaseActivity {
 //        if (MyAppPreferences.getShopType()) {//加盟店才能在订单详情打印凭证
         setRTitle("凭证打印");
         tv_bluetooth.setVisibility(View.VISIBLE);
-//        }
+
 
     }
 
@@ -452,6 +452,8 @@ public class OrderInfoActivity extends BaseActivity {
                 Log.i("OrderInfo订单信息：", o.getOrderInfo().toString());
                 info = o;
                 setInfo();
+
+
             }
 
             @Override

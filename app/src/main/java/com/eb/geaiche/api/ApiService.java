@@ -23,6 +23,7 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.CarVin2;
+import com.juner.mvp.bean.CarVinInfo2;
 import com.juner.mvp.bean.CarVinRequest;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.Carsinfo;
@@ -79,6 +80,7 @@ import com.juner.mvp.bean.UserEntity;
 import com.juner.mvp.bean.UserInfo;
 import com.juner.mvp.bean.VersionInfo;
 import com.juner.mvp.bean.Video;
+import com.juner.mvp.bean.Vin;
 import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
@@ -477,6 +479,18 @@ public interface ApiService {
     })
     @GET()
     Observable<CarVin> carVinInfoQuery(@Url String url, @Query("vin") String vin);
+
+   /**
+     * 车辆vin信息查询2
+     *
+//     * @param vin 车辆vin
+     */
+    @Headers({
+            "Content-Type:application/json; charset=utf-8",
+            "Authorization:8410f6aa-d702-40ba-a4c5-521f70a31832"
+    })
+    @POST()
+    Observable<CarVinInfo2> carVinInfoQuery2(@Url String url,@Body Vin vin);
 
 
     /**

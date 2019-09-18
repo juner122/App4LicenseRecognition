@@ -4,6 +4,8 @@ package com.juner.mvp.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 //检修单配件 显示，提交
 public class FixParts extends FixInfoItem implements Parcelable {
 
@@ -19,9 +21,26 @@ public class FixParts extends FixInfoItem implements Parcelable {
     String market_price;
     String retail_price;
     String goods_specifition_name_value;
+    String goods_specifition_ids;
     int type;
     String status;
+    List<Goods.GoodsStandard> xgxGoodsStandardPojoList;//规格
 
+    public List<Goods.GoodsStandard> getXgxGoodsStandardPojoList() {
+        return xgxGoodsStandardPojoList;
+    }
+
+    public void setXgxGoodsStandardPojoList(List<Goods.GoodsStandard> xgxGoodsStandardPojoList) {
+        this.xgxGoodsStandardPojoList = xgxGoodsStandardPojoList;
+    }
+
+    public String getGoods_specifition_ids() {
+        return goods_specifition_ids;
+    }
+
+    public void setGoods_specifition_ids(String goods_specifition_ids) {
+        this.goods_specifition_ids = goods_specifition_ids;
+    }
 
     public int getId() {
         return id;

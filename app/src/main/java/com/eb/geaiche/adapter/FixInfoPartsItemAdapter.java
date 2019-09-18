@@ -34,9 +34,13 @@ public class FixInfoPartsItemAdapter extends BaseQuickAdapter<FixParts, BaseView
 
 
         String tv1 = item.getGoods_name();
-        String tv2 = "-";
+        String tv2 = item.getGoods_specifition_name_value();
         String tv3 = "x" + item.getNumber();
         String tv4 = "￥" + MathUtil.twoDecimal((item).getRetail_price());
+
+
+
+
 
 
         helper.setText(R.id.tv1, tv1);

@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.eb.geaiche.activity.MainActivity;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.zkzh.alpr.jni.AlprSDK;
 import com.zkzh.alpr.jni.DEVINFO;
 import com.zkzh.alpr.jni.RecogAllInfoCallback;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import static com.juner.mvp.Configure.CAMERA_IP;
 
 //开启中控科技车牌识别sdk工具类
 public class StartAlprUtil {
@@ -97,6 +100,7 @@ public class StartAlprUtil {
                 DEVINFO devInfo = new DEVINFO();
                 devInfo.u16port = 80;
                 devInfo.ipAddr = "192.168.1.88";
+//                devInfo.ipAddr = MyAppPreferences.getString(CAMERA_IP);//动态ip
                 devInfo.ifOpenP2p = 0;
                 devInfo.devUid = "0bd30123d8f5e225bf67";
                 devInfo.lprDevType = 0;

@@ -393,6 +393,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="8dp"
                 android:paddingTop="3dp"
+                android:visibility="gone"
                 android:paddingRight="8dp"
                 android:paddingBottom="3dp">
 
@@ -424,6 +425,7 @@
                 android:orientation="horizontal"
                 android:paddingLeft="8dp"
                 android:paddingTop="3dp"
+                android:visibility="gone"
                 android:paddingRight="8dp"
                 android:paddingBottom="3dp">
 

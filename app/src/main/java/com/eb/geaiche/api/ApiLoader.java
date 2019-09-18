@@ -46,6 +46,7 @@ import com.juner.mvp.bean.CarInfoRequestParameters;
 import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.CarVin2;
+import com.juner.mvp.bean.CarVinInfo2;
 import com.juner.mvp.bean.CarVinRequest;
 import com.juner.mvp.bean.Card;
 import com.juner.mvp.bean.Carsinfo;
@@ -96,6 +97,7 @@ import com.juner.mvp.bean.Token;
 import com.juner.mvp.bean.UserBalanceAuthPojo;
 import com.juner.mvp.bean.UserEntity;
 import com.juner.mvp.bean.VersionInfo;
+import com.juner.mvp.bean.Vin;
 import com.juner.mvp.bean.VinImageBody;
 import com.juner.mvp.bean.WeixinCode;
 import com.juner.mvp.bean.WorkIndex;
@@ -1168,20 +1170,14 @@ public class ApiLoader {
         return apiService.carVinInfoQuery(Configure.carVinInfo, vin).compose(RxHelper.observeVin());
     }
 
+
     /**
-     * 车辆vin信息查询2
+     * 车辆vin信息查询
      */
-    public Observable<CarVin2> carVinInfoQuery2(String vin) {
+    public Observable<CarVinInfo2> carVinInfoQuery2(String vin) {
 
-        CarVinRequest request = new CarVinRequest();
-        CarVinRequest.Data data = new CarVinRequest.Data();
 
-        request.setUsername("15937699090");//接口账号名
-        request.setPassword("7caaea9901648c66c3e434b8a9cd58f7a5c211d8");//接口账号密码
-        data.setVinCode(vin);
-        request.setData(data);
-
-        return apiService.carVinInfoQuery2(Configure.carVinInfo2, request).compose(RxHelper.observeVin());
+        return apiService.carVinInfoQuery2(Configure.carVinInfo3, new Vin(vin)).compose(RxHelper.observeVin());
     }
 
 

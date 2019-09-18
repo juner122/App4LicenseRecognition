@@ -25,7 +25,7 @@ public class StockGoods {
     }
 
     public void setStock(String stock) {
-        stock = stock;
+        this.stock = stock;
     }
 
     public String getId() {

@@ -75,7 +75,7 @@ public class ProductListFragment extends BaseFragment {
     @Override
     protected void setUpView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        productListAdapter = new ProductListAdapter(this, goodsList, isShow);
+        productListAdapter = new ProductListAdapter(this.getActivity(), goodsList, isShow);
         recyclerView.setAdapter(productListAdapter);
         productListAdapter.setEmptyView(R.layout.order_list_empty_view_p, recyclerView);
 

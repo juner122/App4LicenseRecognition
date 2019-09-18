@@ -10,6 +10,8 @@ import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ajguan.library.EasyRefreshLayout;
+import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.eb.geaiche.R;
@@ -25,8 +27,10 @@ import com.eb.geaiche.util.SoftInputUtil;
 import com.eb.geaiche.util.StockCartUtils;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.BasePage;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsList;
+import com.juner.mvp.bean.OrderInfoEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +40,13 @@ import butterknife.OnClick;
 
 public class StockControlActivity extends BaseActivity {
 
+    public static int StockInDone = 101;//入库成功
+
     @BindView(R.id.rv)
     RecyclerView rv;
+
+    @BindView(R.id.easylayout)
+    EasyRefreshLayout easylayout;
 
     @BindView(R.id.et_key)
     EditText et_key;
@@ -84,7 +93,7 @@ public class StockControlActivity extends BaseActivity {
             case R.id.iv_search:
 
                 if (!TextUtils.isEmpty(et_key.getText())) {
-                    SoftInputUtil.hideSoftInput(StockControlActivity.this, v);
+                    SoftInputUtil.hideSoftInput(this, v);
                     getData(et_key.getText().toString());
                 } else
                     ToastUtils.showToast("请输入搜索关键字！");
@@ -99,6 +108,8 @@ public class StockControlActivity extends BaseActivity {
                 }
 
                 break;
+
+
         }
     }
 
@@ -125,8 +136,12 @@ public class StockControlActivity extends BaseActivity {
         et_key.setHint("请输入你要查询的商品");
         stockCartUtils = StockCartUtils.getInstance(this);
         this.context = this;
+
+
     }
 
+
+    int page = 1;//第一页
 
     @Override
     protected void setUpView() {
@@ -135,12 +150,32 @@ public class StockControlActivity extends BaseActivity {
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+
+
+        easylayout.addEasyEvent(new EasyRefreshLayout.EasyEvent() {
+            @Override
+            public void onLoadMore() {
+                page++;
+                loadMoreData();
+            }
+
+            @Override
+            public void onRefreshing() {
+
+                page = 1;
+                easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
+                getData("");
+
+            }
+        });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getData("");
+        et_key.setText("");
     }
 
     @Override
@@ -161,11 +196,15 @@ public class StockControlActivity extends BaseActivity {
      */
 
     private void getData(String key) {
-        Api().xgxshopgoodsList(key, null, null, 1, Configure.Goods_TYPE_4).subscribe(new RxSubscribe<GoodsList>(this, true) {
+        Api().xgxshopgoodsList(key, null, null, page, Configure.Goods_TYPE_4).subscribe(new RxSubscribe<GoodsList>(this, true) {
             @Override
             protected void _onNext(GoodsList goods) {
 
+                easylayout.refreshComplete();
                 adapter.setNewData(generateData(goods.getList()));
+
+                if (goods.getList().size() < Configure.limit_page)
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
             }
 
             @Override
@@ -175,6 +214,28 @@ public class StockControlActivity extends BaseActivity {
         });
     }
 
+    private void loadMoreData() {
+        Api().xgxshopgoodsList(et_key.getText().toString(), null, null, page, Configure.Goods_TYPE_4).subscribe(new RxSubscribe<GoodsList>(this, true) {
+            @Override
+            protected void _onNext(GoodsList goods) {
+
+                easylayout.loadMoreComplete();
+                if (goods.getList().size() == 0) {
+                    ToastUtils.showToast("没有更多了！");
+                    easylayout.setLoadMoreModel(LoadModel.NONE);
+                    return;
+                }
+
+
+                adapter.addData(goods.getList());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("配件列表获取失败！" + message);
+            }
+        });
+    }
 
     private List<MultiItemEntity> generateData(List<Goods> list) {
         List<MultiItemEntity> res = new ArrayList<>();
@@ -205,4 +266,14 @@ public class StockControlActivity extends BaseActivity {
         super.onDestroy();
         stockCartUtils.deleteAllData();
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getIntExtra("View_type", 0) == StockInDone) {
+            showMain();
+        }
+    }
+
+
 }

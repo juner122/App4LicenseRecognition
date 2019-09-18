@@ -63,6 +63,18 @@
             app:layout_constraintTop_toBottomOf="@id/lien" />
 
         <TextView
+            android:id="@+id/stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="库存：2"
+            android:textColor="#ff999999"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toRightOf="@id/info"
+            app:layout_constraintTop_toBottomOf="@id/lien" />
+
+        <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -9,7 +9,15 @@ public class Token {
     List<AppMenu> appMenuList;
     Integer shop_type;   //0直营1是加盟  默认为1
     Integer user_role;   //0店员 1 店长
+    String camera_ip;   //ip地址
 
+    public String getCamera_ip() {
+        return camera_ip;
+    }
+
+    public void setCamera_ip(String camera_ip) {
+        this.camera_ip = camera_ip;
+    }
 
     public List<AppMenu> getAppMenuList() {
         return appMenuList;

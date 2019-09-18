@@ -3,38 +3,16 @@ package com.eb.geaiche.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Matrix;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.os.Environment;
-import android.os.Message;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.TextureView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-
-import com.baidu.ocr.sdk.OnResultListener;
-import com.baidu.ocr.sdk.exception.OCRError;
-import com.baidu.ocr.sdk.model.GeneralResult;
-import com.baidu.ocr.sdk.model.OcrResponseResult;
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
-import com.eb.geaiche.util.Base64;
-import com.eb.geaiche.util.BitmapUtil;
-import com.eb.geaiche.util.CameraThreadPool;
-import com.eb.geaiche.util.FileUtil;
-import com.eb.geaiche.util.ImageUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.AnimationUtil;
 import com.google.gson.Gson;
@@ -46,6 +24,7 @@ import com.juner.mvp.bean.CarNumberRecogResult;
 import com.juner.mvp.bean.CarVin;
 import com.juner.mvp.bean.CarVin2;
 import com.juner.mvp.bean.CarVinInfo;
+import com.juner.mvp.bean.CarVinInfo2;
 import com.juner.mvp.bean.CarVinResult;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraOptions;
@@ -338,17 +317,40 @@ public class CarVinDISActivity extends BaseActivity {
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
-            @Override
-            protected void _onNext(CarVin carVin) {
+//        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
+//            @Override
+//            protected void _onNext(CarVin carVin) {
+//
+//                if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
+//                    ToastUtils.showToast("查询失败,请重新查询！");
+//                    return;
+//                }
+//                showInfo();
+//                setCarInfo(carVin.getShowapi_res_body());
+//                toCarInfo(carVin.getShowapi_res_body());
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                Log.e("车架号vin信息查询:", message);
+//
+//                ToastUtils.showToast("查询失败,请重新查询！");
+//            }
+//        });
 
-                if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
+
+        //新的vin码信息查询接口
+        Api().carVinInfoQuery2(vin).subscribe(new RxSubscribe<CarVinInfo2>(CarVinDISActivity.this, true, "车辆信息查询中") {
+            @Override
+            protected void _onNext(CarVinInfo2 carVin) {
+
+                if (null == carVin.getVehicles() || carVin.getVehicles().size() == 0) {
                     ToastUtils.showToast("查询失败,请重新查询！");
                     return;
                 }
                 showInfo();
-                setCarInfo(carVin.getShowapi_res_body());
-                toCarInfo(carVin.getShowapi_res_body());
+                setCarInfo(carVin.getVehicles().get(0));
+                toCarInfo(carVin.getVehicles().get(0));
             }
 
             @Override
@@ -359,31 +361,6 @@ public class CarVinDISActivity extends BaseActivity {
             }
         });
 
-//
-//        Api().carVinInfoQuery2(vin).subscribe(new RxSubscribe<CarVin2>(CarVinDISActivity.this, true, "车辆信息查询中") {
-//            @Override
-//            protected void _onNext(CarVin2 carVin) {
-//
-//                if (carVin.getCode().equals("000000") && carVin.getResult().getVehicleList().size() > 0) {//成功
-//
-//                    showInfo();
-//                    setCarInfo(carVin.getResult().getVehicleList().get(0));
-//                    toCarInfo(carVin.getResult().getVehicleList().get(0));
-//
-//                } else {
-//                    ToastUtils.showToast(carVin.getMessage());
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                Log.e("车架号vin信息查询:", message);
-//
-//                ToastUtils.showToast("查询失败,请重新查询！");
-//            }
-//        });
 
     }
 
@@ -407,16 +384,15 @@ public class CarVinDISActivity extends BaseActivity {
         tv_engineSn.setText(carVinInfo.getEngine_type());
     }
 
-    private void setCarInfo(CarVinResult carVinInfo) {
-        tv_brand_name.setText(carVinInfo.getBrandName());
-        tv_model_name.setText(carVinInfo.getFamilyName());
-        tv_sale_name.setText(carVinInfo.getVehicleName());
-        tv_car_type.setText(carVinInfo.getDrivenType());
-        tv_effluent_standard.setText(carVinInfo.getRemark());
-//        tv_guiding_price.setText(String.format("%s万", carVinInfo.getGuiding_price()));
-        tv_made_year.setText(carVinInfo.getYearPattern());
-        tv_output_volume.setText(carVinInfo.getDisplacement());
-        tv_engineSn.setText(carVinInfo.getEngineModel());
+    private void setCarInfo(CarVinInfo2.Vehicles vehicles) {
+        tv_brand_name.setText(vehicles.getBrand());
+        tv_model_name.setText(vehicles.getModel());
+        tv_sale_name.setText(vehicles.getSalesName());
+        tv_car_type.setText(vehicles.getVehicleType());
+//        tv_effluent_standard.setText(vehicles.getRemark());
+        tv_made_year.setText(vehicles.getModelYear());
+        tv_output_volume.setText(vehicles.getCapacityLitre());
+        tv_engineSn.setText(vehicles.getEngineCode());
     }
 
     private void toCarInfo(CarVinInfo carVinInfo) {
@@ -434,19 +410,19 @@ public class CarVinDISActivity extends BaseActivity {
         carInfo.setEngineSn(carVinInfo.getEngine_type());
     }
 
-    private void toCarInfo(CarVinResult carVinInfo) {
+    private void toCarInfo(CarVinInfo2.Vehicles carVinInfo) {
         carInfo = new CarInfoRequestParameters();
-        carInfo.setBrand(carVinInfo.getBrandName());
-        carInfo.setName(carVinInfo.getFamilyName());
-        carInfo.setSaleName(carVinInfo.getVehicleName());
-        carInfo.setCarType(carVinInfo.getDrivenType());
-        carInfo.setEffluentStandard(carVinInfo.getRemark());
-        carInfo.setGuidingPrice(carVinInfo.getGuiding_price());
-        carInfo.setYear(carVinInfo.getYearPattern());
+        carInfo.setBrand(carVinInfo.getBrand());
+        carInfo.setName(carVinInfo.getModel());
+        carInfo.setSaleName(carVinInfo.getSalesName());
+        carInfo.setCarType(carVinInfo.getModelYear());
+//        carInfo.setEffluentStandard(carVinInfo.getRemark());
+//        carInfo.setGuidingPrice(carVinInfo.getGuiding_price());
+        carInfo.setYear(carVinInfo.getModelYear());
         carInfo.setAllJson(carVinInfo.toString());
         carInfo.setVin(et_vin.getText().toString());
-        carInfo.setOutputVolume(carVinInfo.getDisplacement());
-        carInfo.setEngineSn(carVinInfo.getEngineModel());
+        carInfo.setOutputVolume(carVinInfo.getCapacityLitre());
+        carInfo.setEngineSn(carVinInfo.getEngineCode());
     }
 
     @Override

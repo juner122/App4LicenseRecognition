@@ -26,6 +26,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.juner.mvp.Configure.CAMERA_IP;
 import static com.juner.mvp.Configure.JSON_CART;
 import static com.juner.mvp.Configure.SHOP_TYPE;
 
@@ -74,6 +75,9 @@ public class LoginPtr extends BasePresenter<LoginContacts.LoginUI> implements Lo
 
                 //保存门店类型
                 MyAppPreferences.putShopType(token.getShop_type() == 1);
+
+                //保存门店扫描枪ip地址
+                MyAppPreferences.putString(CAMERA_IP, token.getCamera_ip());
             }
 
             @Override

@@ -16,6 +16,7 @@ import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.mvp.contacts.FixPickPartsContacts;
 import com.eb.geaiche.mvp.presenter.FixPickPartsPtr;
+import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.util.SoftInputUtil;
 import com.juner.mvp.Configure;
@@ -107,7 +108,7 @@ public class FixPickPartsActivity extends BaseActivity<FixPickPartsContacts.FixP
     protected void onResume() {
         super.onResume();
         getPresenter().onGetData(rg_type);
-
+      setPickAllPrice("已选择：￥" + MathUtil.twoDecimal(MyApplication.cartUtils.getProductPrice()));
     }
 
     @Override

@@ -88,7 +88,7 @@ public class StockOutActivity extends BaseActivity {
     protected void init() {
 
         tv_title.setText("领料出库");
-//        setRTitle("非订单出库");
+        setRTitle("非订单出库");
     }
 
 
@@ -100,7 +100,7 @@ public class StockOutActivity extends BaseActivity {
         if (orderId == -1) {
             order.setText("非订单出库");
 
-//            adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
+            adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
         } else {
             orderSn = intent.getStringExtra(Configure.ORDERINFOSN);
             order.setText(orderSn);
@@ -264,38 +264,32 @@ public class StockOutActivity extends BaseActivity {
         return totalprice.toString();
     }
 
-//    private List<StockGoods> generateData(List<Goods.GoodsStandard> list) {
-//        List<StockGoods> res = new ArrayList<>();
-//        if (null == list || list.size() == 0) {
-//            return res;
-//        }
-//        SparseArray gl = new SparseArray();//所有规格中有包含的商品
-//
-//        for (int i = 0; i < list.size(); i++) {
-//
-//            Goods.GoodsStandard item_gs = list.get(i);
-//            int gsId = item_gs.getGoodsId();
-//            Goods lv0 = (Goods) gl.get(gsId);
-//
-//            if (null != lv0) {//不等于空
-//                lv0.addSubItem(item_gs);
-//            } else {
-//                lv0 = new Goods();
-//                lv0.setGoodsTitle(item_gs.getGoodsTitle());
-//                lv0.setNum(item_gs.getNum());
-//                lv0.setId(gsId);
-//                lv0.setGoodsDetailsPojoList(item_gs.getGoodsDetailsPojoList());
-//                lv0.addSubItem(item_gs);
-//            }
-//            gl.put(gsId, lv0);
-//        }
-//
-//        for (int i = 0; i < gl.size(); i++) {
-//            Goods lv0 = (Goods) gl.valueAt(i);
-//
-//            res.add(lv0);
-//
-//        }
-//        return res;
-//    }
+    private List<StockGoods> generateData(List<Goods.GoodsStandard> list) {
+        List<StockGoods> stockGoodsList = new ArrayList<>();
+        if (null == list || list.size() == 0) {
+            return stockGoodsList;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            Goods.GoodsStandard item_gs = list.get(i);
+            StockGoods sg = new StockGoods();
+            sg.setGoodsId(String.valueOf(item_gs.getGoodsId()));
+            sg.setGoodsTitle(item_gs.getGoodsTitle());
+            sg.setStandardTitle(item_gs.getGoodsStandardTitle());
+            sg.setStandardId(String.valueOf(item_gs.getGoodsStandardId()));
+            sg.setPrice(item_gs.getGoodsStandardPrice());
+            sg.setNumber(1);
+            sg.setStock(item_gs.getStock());
+            sg.setSupplierId(item_gs.getSupplierId());
+            sg.setSupplierName(item_gs.getSupplierName());
+            stockGoodsList.add(sg);
+        }
+
+        return stockGoodsList;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stockCartUtils.deleteAllData();
+    }
 }

@@ -120,7 +120,8 @@ public class StockAddStandardsActivity extends BaseActivity {
             protected void _onNext(NullDataEntity nullDataEntity) {
 
                 ToastUtils.showToast("新增成功！");
-                finish();
+
+                toActivity(StockAddGoodsActivity.class);
             }
 
             @Override
@@ -138,7 +139,7 @@ public class StockAddStandardsActivity extends BaseActivity {
             protected void _onNext(NullDataEntity nullDataEntity) {
 
                 ToastUtils.showToast("修改成功！");
-                finish();
+                toActivity(StockAddGoodsActivity.class);
             }
 
             @Override
@@ -160,7 +161,7 @@ public class StockAddStandardsActivity extends BaseActivity {
         standard.setGoodsStandardTitle(tv_standard.getText().toString());
         standard.setGoodsStandardPrice(tv_price.getText().toString());
         standard.setStockPrice(tv_price_in.getText().toString());
-        standard.setStock("0");//库存数量
+        standard.setStock(null);//库存数量
         standard.setSupplierName(supplier_name.getText().toString());//供应商
         if (null != supplier_pick)
             standard.setSupplierId(supplier_pick.getId());//供应商名

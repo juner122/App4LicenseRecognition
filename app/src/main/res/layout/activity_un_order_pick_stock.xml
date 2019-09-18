@@ -9,10 +9,18 @@
     tools:context=".stockControl.activity.UnOrderPickStockActivity">
 
     <include layout="@layout/head_view" />
+    <include layout="@layout/search_bar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <com.ajguan.library.EasyRefreshLayout
+        android:id="@+id/easylayout"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </com.ajguan.library.EasyRefreshLayout>
 </LinearLayout>

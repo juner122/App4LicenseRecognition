@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.AutographActivity;
 
@@ -32,6 +33,7 @@ import com.juner.mvp.bean.FixInfoEntity;
 import com.juner.mvp.bean.FixInfoItem;
 import com.juner.mvp.bean.FixParts;
 import com.juner.mvp.bean.FixServie;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
 
@@ -422,7 +424,10 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
 
         List<FixServie> fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
-        List<FixParts> fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
+//        List<FixParts> fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
+        List<FixParts> fixParts = getFixParts(MyApplication.cartUtils.getProductList());
+
+
         if (null != fixServies) {
             for (int i = 0; i < fixServies.size(); i++) {
                 fixServies.get(i).setSelected(1);
@@ -447,6 +452,31 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
         });
 
 
+    }
+
+    private List<FixParts> getFixParts(List<GoodsEntity> pl) {
+
+        List<FixParts> fip = new ArrayList<>();
+        for (GoodsEntity ge : pl) {
+
+            FixParts fp = new FixParts();
+            fp.setGoods_name(ge.getGoodsName());
+
+            fp.setRetail_price(ge.getRetail_price());
+            fp.setGoods_id(ge.getGoodsId());
+            fp.setNumber(ge.getNumber());//数量
+            fp.setSelected(1);//默认选择中
+            fp.setType(ge.getType());
+            fp.setGoods_sn(ge.getGoods_sn());
+            fp.setId(ge.getGoodsId());
+            fp.setGoods_specifition_ids(String.valueOf(ge.getGoods_specifition_ids()));
+            fp.setGoods_specifition_name_value(ge.getGoods_specifition_name_value());
+            fip.add(fp);
+
+
+        }
+
+        return fip;
     }
 
     @Override

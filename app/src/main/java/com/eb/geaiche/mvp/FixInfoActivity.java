@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 
 import com.eb.geaiche.activity.CarCheckResultListActivity;
@@ -337,5 +338,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             getPresenter().handleCallback(intent);
         if (from == 101)//从授权凭证页面返回
             getPresenter().setlpvUrl(intent.getStringExtra(Configure.Domain));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MyApplication.cartUtils.deleteAllData();
     }
 }

@@ -134,7 +134,7 @@ public class ProductFragment extends BaseFragment {
         });
 
         rv1.setLayoutManager(new LinearLayoutManager(getContext()));
-        productListAdapter = new ProductListAdapter(this, null, isShow);
+        productListAdapter = new ProductListAdapter(this.getActivity(), null, isShow);
         rv1.setAdapter(productListAdapter);
         productListAdapter.setEmptyView(R.layout.order_list_empty_view_p, rv1);
 

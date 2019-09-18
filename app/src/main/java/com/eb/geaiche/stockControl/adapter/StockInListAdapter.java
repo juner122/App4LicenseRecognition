@@ -60,7 +60,7 @@ public class StockInListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntit
                 helper.addOnClickListener(R.id.reduce);
                 helper.addOnClickListener(R.id.add);
 
-                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum())).setText(R.id.price,String.format("￥%s",gs.getGoodsStandardPrice()));
+                helper.setText(R.id.name, gs.getGoodsStandardTitle()).setText(R.id.num, String.valueOf(gs.getNum())).setText(R.id.price,String.format("￥%s",gs.getGoodsStandardPrice())).setText(R.id.stock, null == gs.getStock() ? "库存:0" : "库存:" + gs.getStock());
                 break;
         }
     }

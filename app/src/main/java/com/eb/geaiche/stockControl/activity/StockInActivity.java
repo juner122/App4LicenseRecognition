@@ -30,6 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.eb.geaiche.stockControl.activity.StockControlActivity.StockInDone;
 import static com.eb.geaiche.stockControl.activity.StockControlActivity.stockCartUtils;
 
 public class StockInActivity extends BaseActivity {
@@ -160,8 +161,9 @@ public class StockInActivity extends BaseActivity {
         Api().inOrOut(getStock()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-                finish();
+//                finish();
 
+                toActivity(StockControlActivity.class,"View_type",StockInDone);
             }
 
             @Override
@@ -235,7 +237,7 @@ public class StockInActivity extends BaseActivity {
             if (entity instanceof Goods.GoodsStandard) {
                 Goods.GoodsStandard goodsStandard = (Goods.GoodsStandard) entity;
                 BigDecimal num = new BigDecimal(goodsStandard.getNum());
-                BigDecimal price = new BigDecimal(null == goodsStandard.getStockPrice() ? "0" : goodsStandard.getStockPrice());
+                BigDecimal price = new BigDecimal(null == goodsStandard.getGoodsStandardPrice() ? "0" : goodsStandard.getGoodsStandardPrice());
                 totalprice = totalprice.add(num.multiply(price));
             }
         }

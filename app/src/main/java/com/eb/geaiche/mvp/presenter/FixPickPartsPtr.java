@@ -6,14 +6,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.FixInfoPartsItemAdapter;
 
 import com.eb.geaiche.adapter.FixPickParts2ItemAdapter;
+import com.eb.geaiche.adapter.ProductListAdapter;
 import com.eb.geaiche.mvp.contacts.FixPickPartsContacts;
 
 import com.eb.geaiche.mvp.model.FixPickPartsMdl;
@@ -21,6 +24,7 @@ import com.eb.geaiche.mvp.model.FixPickPartsMdl;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.MyRadioButton;
+import com.eb.geaiche.view.ProductListDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
@@ -30,6 +34,7 @@ import com.juner.mvp.bean.FixPartsEntityList;
 import com.juner.mvp.bean.FixPartsSeek;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
 
 import java.util.ArrayList;
@@ -44,8 +49,8 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
 
     FixPickParts2ItemAdapter adapter_s2;//2级分类
-    FixInfoPartsItemAdapter adapter_item;//配件
-
+    FixInfoPartsItemAdapter adapter_item;//配件列表
+    ProductListAdapter productListAdapter; //配件列表 新
 
     HashSet<FixParts> pick_partsList;//点击配件
 
@@ -60,8 +65,10 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         mdl = new FixPickPartsMdl(view.getSelfActivity());
         pick_partsList = new HashSet<>();
         adapter_s2 = new FixPickParts2ItemAdapter(null);
-        adapter_item = new FixInfoPartsItemAdapter(null, layout);
 
+
+        adapter_item = new FixInfoPartsItemAdapter(null, layout);
+        productListAdapter = new ProductListAdapter(getView().getSelfActivity(), null, 1);
 
         adapter_s2.setOnItemClickListener((adapter, view1, position) -> {
             //查找配件 根据id
@@ -77,7 +84,6 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
                 ((FixParts) (adapter.getData().get(position))).setSelected(0);
             else
                 ((FixParts) (adapter.getData().get(position))).setSelected(1);
-
 
 
             adapter.notifyDataSetChanged();
@@ -138,8 +144,12 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     public void set2Data(List<FixParts> list) {
 
-
         adapter_item.setNewData(list);
+    }
+
+    public void set2Data2(List<Goods> list) {
+
+        productListAdapter.setNewData(list);
     }
 
     @Override
@@ -148,7 +158,8 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         rv_Parts.setLayoutManager(new LinearLayoutManager(getView().getSelfActivity()));
 
         rv_2item.setAdapter(adapter_s2);
-        rv_Parts.setAdapter(adapter_item);
+//        rv_Parts.setAdapter(adapter_item);
+        rv_Parts.setAdapter(productListAdapter);
         adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_Parts);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
         easylayout = e;
@@ -167,24 +178,106 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
             }
         });
+
+        productListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+
+            TextView tv_number = (TextView) adapter.getViewByPosition(rv_Parts, position, R.id.tv_number);
+            TextView view_value = (TextView) adapter.getViewByPosition(rv_Parts, position, R.id.tv_product_value);
+            View ib_reduce = adapter.getViewByPosition(rv_Parts, position, R.id.ib_reduce);//减号
+
+            List<Goods> goodsList = productListAdapter.getData();
+
+            int number = goodsList.get(position).getNum();//获取
+            switch (view.getId()) {
+                case R.id.ib_plus:
+                    if (null == goodsList.get(position).getGoodsStandard() || goodsList.get(position).getGoodsStandard().getId() == 0) {
+                        ToastUtils.showToast("请选择规格");
+                        return;
+                    }
+                    number++;
+                    if (number > 0) {
+                        ib_reduce.setVisibility(View.VISIBLE);//显示减号
+                        tv_number.setVisibility(View.VISIBLE);
+                    }
+
+                    MyApplication.cartUtils.addData(toGoodsEntity(goodsList.get(position)));
+                    tv_number.setText(String.valueOf(number));
+
+
+                    goodsList.get(position).setNum(number);//设置
+                    countPrice2();
+
+
+                    break;
+
+                case R.id.ib_reduce:
+                    number--;
+                    if (number == 0) {
+                        ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
+                        tv_number.setVisibility(View.INVISIBLE);
+                    }
+
+                    MyApplication.cartUtils.reduceData(toGoodsEntity(goodsList.get(position)));
+                    tv_number.setText(String.valueOf(number));
+
+
+                    goodsList.get(position).setNum(number);//设置
+                    countPrice2();
+
+
+                    break;
+
+                case R.id.tv_product_value:
+
+                    getProductValue(view_value, productListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, productListAdapter.getData().get(position));
+                    break;
+            }
+
+
+        });
+
+
     }
 
+    //获取规格列表
+    private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
+
+
+        final ProductListDialog confirmDialog = new ProductListDialog(getView().getSelfActivity(), goodsStandards, goods);
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
+            @Override
+            public void doConfirm(Goods.GoodsStandard pick_value) {
+                confirmDialog.dismiss();
+                view.setText(pick_value.getGoodsStandardTitle());
+
+                productListAdapter.getData().get(positions).setGoodsStandard(pick_value);
+                productListAdapter.getData().get(positions).setNum(pick_value.getNum());
+                productListAdapter.notifyDataSetChanged();
+                //按确认才保存
+                MyApplication.cartUtils.commit();
+
+                countPrice2();
+
+
+            }
+
+            @Override
+            public void doCancel() {
+                confirmDialog.dismiss();
+            }
+        });
+    }
 
     @Override
     public void confirm() {
-        List<FixParts> fixPartsList = new ArrayList<>();
-        for (FixParts fx : pick_partsList) {
-            if (fx.selectde())
-                fixPartsList.add(fx);
-        }
 
-        if (fixPartsList.size() == 0) {
+        if (MyApplication.cartUtils.getProductList().size() == 0) {
             ToastUtils.showToast("请最少选择一个项目！");
             return;
-
         }
 
-        getView().onConfirm(fixPartsList);
+        getView().onConfirm(null);
 
 
     }
@@ -243,6 +336,14 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
     }
 
+    //计算选择的总价格
+    private void countPrice2() {
+
+
+        getView().setPickAllPrice("已选择：￥" + MathUtil.twoDecimal(MyApplication.cartUtils.getProductPrice()));
+
+    }
+
     private List<FixParts> toFixPartsList(List<FixPartsSeek> fpsl) {
 
         List<FixParts> list1 = new ArrayList<>();
@@ -268,6 +369,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
                 if (page == 1) {//不等于1 显示更多
                     easylayout.refreshComplete();
                     adapter_item.setNewData(toFixParts(goodsList.getList()));
+                    productListAdapter.setNewData(goodsList.getList());
                     if (goodsList.getList().size() < Configure.limit_page)
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                 } else {
@@ -278,6 +380,7 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
                         return;
                     }
                     adapter_item.addData(toFixParts(goodsList.getList()));
+                    productListAdapter.addData(goodsList.getList());
                 }
             }
 
@@ -294,7 +397,18 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
         for (Goods goods : data) {
             FixParts fp = new FixParts();
             fp.setGoods_name(goods.getGoodsTitle());
-            fp.setRetail_price(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
+
+            if (null == goods.getXgxGoodsStandardPojoList() || goods.getGoodsDetailsPojoList().size() == 0) {
+                fp.setGoods_specifition_name_value(null == goods.getXgxGoodsStandardPojoList() || goods.getGoodsDetailsPojoList().size() == 0 ? "-" : goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardTitle());
+                fp.setRetail_price("0");
+                fp.setProduct_id(0);//规格id
+            } else {
+                fp.setXgxGoodsStandardPojoList(goods.getXgxGoodsStandardPojoList());
+                fp.setGoods_specifition_name_value(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardTitle());
+                fp.setRetail_price(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
+                fp.setProduct_id(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardId());//规格id
+            }
+
             fp.setGoods_id(goods.getId());
             fp.setNumber(1);//数量
 
@@ -317,5 +431,30 @@ public class FixPickPartsPtr extends BasePresenter<FixPickPartsContacts.FixPickP
 
         return parts;
 
+    }
+
+    private GoodsEntity toGoodsEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
+
+        goodsEntity.setGoodsId(goods.getId());
+
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setGoodsSn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
+        goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setGoods_specifition_ids(goods.getGoodsStandard().getId());
+        goodsEntity.setGoodsSpecifitionIds(goods.getGoodsStandard().getId());
+        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setMarketPrice(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetailPrice(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setGoodsSpecifitionNameValue(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
+        return goodsEntity;
     }
 }

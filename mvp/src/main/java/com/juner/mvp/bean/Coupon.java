@@ -18,6 +18,15 @@ public class Coupon extends SelectedBean implements Parcelable {
     String convert_time;//核销时间
     String username;
     String mobile;
+    String stock;
+
+    public String getStock() {
+        return stock;
+    }
+
+    public void setStock(String stock) {
+        this.stock = stock;
+    }
 
     public String getConvert_time() {
         return convert_time;

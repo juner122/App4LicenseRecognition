@@ -76,7 +76,7 @@
         <activity
             android:name=".stockControl.activity.StockAddStandardsActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".stockControl.activity.StockAddGoodsActivity" />
+        <activity android:name=".stockControl.activity.StockAddGoodsActivity"    android:launchMode="singleTask"/>
         <activity android:name=".stockControl.activity.StockInOrOutRecordActivity" />
         <activity android:name=".stockControl.activity.StockInOrOutInfoActivity" />
         <activity
@@ -86,6 +86,7 @@
         <activity
             android:name=".stockControl.activity.StockControlActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
         <provider

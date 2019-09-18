@@ -112,12 +112,12 @@ public class UnOrderPickStockListAdapter extends BaseMultiItemQuickAdapter<Multi
 
 
                 if (gs.isSelected()) {
-                    tv_button_name.setText("已入库");
+                    tv_button_name.setText("已出库");
                     tv_button_name.setBackgroundResource(R.drawable.button_background_ccc);
                     tv_button_name.setTextColor(Color.parseColor("#999999"));
 
                 } else {
-                    tv_button_name.setText("添加入库");
+                    tv_button_name.setText("添加出库");
                     tv_button_name.setBackgroundResource(R.drawable.button_background_bbb);
                     tv_button_name.setTextColor(Color.parseColor("#ff4a9de3"));
 //                        stockCartUtils.addDataNoCommit(goods, gs);

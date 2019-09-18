@@ -23,6 +23,8 @@ public class CouponWriteActivity extends BaseActivity {
     TextView info;//劵号
     @BindView(R.id.time)
     TextView time;//时间
+    @BindView(R.id.stock)
+    TextView stock;//库存
 
     @BindView(R.id.post)
     TextView post;//
@@ -69,7 +71,7 @@ public class CouponWriteActivity extends BaseActivity {
         name.setText(coupon.getName());
         info.setText("劵号：" + coupon.getCoupon_number());
         time.setText("有效期至：" + coupon.getUsed_time());
-
+        stock.setText("库存：" + coupon.getStock());
         switch (coupon.getCoupon_status()) { //1可用，2已用，3过期
             case 1:
                 post.setText("点击核销");
