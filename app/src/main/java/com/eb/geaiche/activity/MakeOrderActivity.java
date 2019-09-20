@@ -459,7 +459,6 @@ public class MakeOrderActivity extends BaseActivity {
                 popupWindow.showAsDropDown(view, 0, 0);
 
 
-
                 break;
 
             case R.id.but_set_date:
@@ -636,6 +635,10 @@ public class MakeOrderActivity extends BaseActivity {
             @Override
             protected void _onNext(GoodsListEntity goodsListEntity) {
                 goods_top = goodsListEntity.getGoodsList();
+                for (int i = 0; i < goods_top.size(); i++) {
+                    goods_top.get(i).setId(String.valueOf(goods_top.get(i).getGoods_id()));
+                }
+
                 try {
                     tv_top4.setText(goods_top.get(3).getGoods_name());
                     tv_top3.setText(goods_top.get(2).getGoods_name());
@@ -774,6 +777,8 @@ public class MakeOrderActivity extends BaseActivity {
         try {
             int type = goods_top.get(p).getType();
             if (type == Configure.Goods_TYPE_3 || type == Configure.Goods_TYPE_4) {
+
+
                 cartUtils.addDataOnly(goods_top.get(p));
                 refreshData();
             } else {

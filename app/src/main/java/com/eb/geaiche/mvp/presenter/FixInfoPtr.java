@@ -188,7 +188,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 getView().setButtonText("确认报价");
                 getView().showPostFixButton();
                 getView().setRTitle();
-
+                getView().hideSaveButton();
                 break;
             case 3:
                 getView().hideAddButton();
@@ -307,7 +307,6 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             });
 
         } else if (entity.getStatus() == 2) {
-//            ToastUtils.showToast("确认报价");
 
 
             if (createFixInfoEntityConfirm().getOrderGoodsList().size() == 0 && null == createFixInfoEntityConfirm().getDescribe() || "".equals(createFixInfoEntityConfirm().getDescribe())) {
@@ -423,8 +422,8 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     public void handleCallback(Intent intent) {
 
 
-        List<FixServie> fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
-//        List<FixParts> fixParts = intent.getParcelableArrayListExtra(TYPE_Parts);
+//        List<FixServie> fixServies = intent.getParcelableArrayListExtra(TYPE_Service);
+        List<FixServie> fixServies = getFixServies(MyApplication.cartUtils.getServerList());
         List<FixParts> fixParts = getFixParts(MyApplication.cartUtils.getProductList());
 
 
@@ -454,6 +453,29 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
     }
 
+    private List<FixServie> getFixServies(List<GoodsEntity> pl) {
+
+        List<FixServie> fip = new ArrayList<>();
+        for (GoodsEntity ge : pl) {
+
+            FixServie fp = new FixServie();
+            fp.setName(ge.getGoodsName());
+
+            fp.setPrice(ge.getRetail_price());
+            fp.setMarketPrice(ge.getRetail_price());
+            fp.setServiceId(ge.getGoodsId());
+            fp.setNumber(ge.getNumber());//数量
+            fp.setSelected(1);//默认选择中
+            fp.setType(ge.getType());
+            fp.setGoods_sn(ge.getGoods_sn());
+            fp.setId(ge.getGoodsId());
+            fp.setGoods_specifition_ids(String.valueOf(ge.getGoods_specifition_ids()));
+            fp.setGoods_specifition_name_value(ge.getGoods_specifition_name_value());
+            fip.add(fp);
+        }
+        return fip;
+    }
+
     private List<FixParts> getFixParts(List<GoodsEntity> pl) {
 
         List<FixParts> fip = new ArrayList<>();
@@ -472,10 +494,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fp.setGoods_specifition_ids(String.valueOf(ge.getGoods_specifition_ids()));
             fp.setGoods_specifition_name_value(ge.getGoods_specifition_name_value());
             fip.add(fp);
-
-
         }
-
         return fip;
     }
 
@@ -687,6 +706,10 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fp.setType(fs.getType());
             fp.setGoods_sn(fs.getGoods_sn());
             fp.setId(fs.getId());
+
+            fp.setGoods_specifition_name_value(fs.getGoods_specifition_name_value());
+            fp.setGoods_specifition_ids(fs.getGoods_specifition_ids());
+
             fixParts.add(fp);
         }
         return fixParts;
@@ -709,6 +732,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fp.setType(fs.getType());
             fp.setGoods_sn(fs.getGoods_sn());
             fp.setId(fs.getId());
+
+            fp.setGoods_specifition_name_value(fs.getGoods_specifition_name_value());
+            fp.setGoods_specifition_ids(fs.getGoods_specifition_ids());
             fixParts.add(fp);
         }
         return fixParts;
@@ -730,6 +756,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             fs.setType(fp.getType());
             fs.setGoods_sn(fp.getGoods_sn());
             fs.setId(fp.getId());
+
+            fs.setGoods_specifition_name_value(fp.getGoods_specifition_name_value());
+            fs.setGoods_specifition_ids(fp.getGoods_specifition_ids());
             fixServies.add(fs);
         }
         return fixServies;

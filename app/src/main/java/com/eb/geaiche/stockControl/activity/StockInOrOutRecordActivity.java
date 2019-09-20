@@ -57,6 +57,7 @@ public class StockInOrOutRecordActivity extends BaseActivity {
             Intent intent = new Intent(this, StockInOrOutInfoActivity.class);
             intent.putExtra("id", adapter.getData().get(position).getId());
             intent.putExtra("stockType", adapter.getData().get(position).getType());
+            intent.putExtra("phone", adapter.getData().get(position).getUserName());
             startActivity(intent);
 
         });

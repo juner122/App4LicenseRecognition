@@ -22,10 +22,17 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
 
     Context context;
 
+    boolean isHide = false;
 
     public StockOutListAdapter(@Nullable List<StockGoods> data, Context c) {
         super(R.layout.activity_stock_out_item, data);
         this.context = c;
+    }
+
+    public StockOutListAdapter(@Nullable List<StockGoods> data, Context c, boolean isHide) {
+        super(R.layout.activity_stock_out_item, data);
+        this.context = c;
+        this.isHide = isHide;
     }
 
     @Override
@@ -57,6 +64,12 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
             iv.setImageResource(R.mipmap.icon_stock_out_no);
         }
 
+
+        if (isHide) {
+            helper.setGone(R.id.ll, false);
+        } else {
+            helper.setGone(R.id.ll, true);
+        }
 
     }
 }

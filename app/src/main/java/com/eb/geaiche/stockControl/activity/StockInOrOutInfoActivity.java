@@ -9,11 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.stockControl.adapter.StockControlInfoGoodAdapter;
+import com.eb.geaiche.stockControl.adapter.StockOutListAdapter;
+import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
+import com.juner.mvp.bean.Goods;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,7 +45,7 @@ public class StockInOrOutInfoActivity extends BaseActivity {
     @BindView(R.id.title2)
     TextView title2;
 
-    StockControlInfoGoodAdapter adapter;
+    StockOutListAdapter adapter;
 
     @Override
     protected void init() {
@@ -59,11 +65,13 @@ public class StockInOrOutInfoActivity extends BaseActivity {
 
     @Override
     protected void setUpView() {
-        adapter = new StockControlInfoGoodAdapter(null,this);
+        adapter = new StockOutListAdapter(null,this,true);
 
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+
+        name.setText(getIntent().getStringExtra("phone"));
     }
 
     @Override
@@ -72,7 +80,7 @@ public class StockInOrOutInfoActivity extends BaseActivity {
         Api().stockInfo(getIntent().getStringExtra("id")).subscribe(new RxSubscribe<StockInOrOut>(this, true) {
             @Override
             protected void _onNext(StockInOrOut stockInOrOut) {
-                name.setText(stockInOrOut.getUserId());
+
                 time.setText(DateUtil.getFormatedDateTime(stockInOrOut.getAddTime()));
                 adapter.setNewData(stockInOrOut.getStockGoodsList());
             }
@@ -84,9 +92,10 @@ public class StockInOrOutInfoActivity extends BaseActivity {
             }
         });
 
-
-
     }
+
+
+
 
 
     @Override

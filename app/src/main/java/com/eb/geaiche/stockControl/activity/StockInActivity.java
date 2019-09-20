@@ -163,7 +163,7 @@ public class StockInActivity extends BaseActivity {
             protected void _onNext(NullDataEntity nullDataEntity) {
 //                finish();
 
-                toActivity(StockControlActivity.class,"View_type",StockInDone);
+                toActivity(StockControlActivity.class, "View_type", StockInDone);
             }
 
             @Override
@@ -199,7 +199,6 @@ public class StockInActivity extends BaseActivity {
         for (int i = 0; i < list.size(); i++) {
 
             Goods.GoodsStandard item_gs = list.get(i);
-
             int gsId = item_gs.getGoodsId();
             Goods lv0 = (Goods) gl.get(gsId);
 
@@ -209,6 +208,7 @@ public class StockInActivity extends BaseActivity {
                 lv0 = new Goods();
                 lv0.setGoodsTitle(item_gs.getGoodsTitle());
                 lv0.setNum(item_gs.getNum());
+//                lv0.setNum(1);//默认为1
                 lv0.setId(gsId);
                 lv0.setGoodsDetailsPojoList(item_gs.getGoodsDetailsPojoList());
                 lv0.addSubItem(item_gs);
@@ -240,6 +240,7 @@ public class StockInActivity extends BaseActivity {
                 BigDecimal price = new BigDecimal(null == goodsStandard.getGoodsStandardPrice() ? "0" : goodsStandard.getGoodsStandardPrice());
                 totalprice = totalprice.add(num.multiply(price));
             }
+
         }
         return totalprice.toString();
     }
@@ -256,6 +257,9 @@ public class StockInActivity extends BaseActivity {
             if (entity instanceof Goods.GoodsStandard) {
                 Goods.GoodsStandard gs = (Goods.GoodsStandard) entity;
 
+                if (gs.getNum() == 0)//数量为0则不提交
+                    continue;
+
                 StockGoods sg = new StockGoods();
                 sg.setGoodsId(String.valueOf(gs.getGoodsId()));
                 sg.setGoodsTitle(gs.getGoodsTitle());
@@ -270,6 +274,7 @@ public class StockInActivity extends BaseActivity {
 
                 if (null != gs.getGoodsDetailsPojoList() && gs.getGoodsDetailsPojoList().size() > 0)
                     sg.setImage(gs.getGoodsDetailsPojoList().get(0).getImage());
+
 
                 stockGoods.add(sg);
 

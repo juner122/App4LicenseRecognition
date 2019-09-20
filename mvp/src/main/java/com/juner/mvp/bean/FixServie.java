@@ -19,6 +19,26 @@ public class FixServie extends FixInfoItem implements Parcelable {
     int number = 1;
     String goods_sn;
 
+
+    String goods_specifition_name_value;
+    String goods_specifition_ids;
+
+    public String getGoods_specifition_name_value() {
+        return goods_specifition_name_value;
+    }
+
+    public void setGoods_specifition_name_value(String goods_specifition_name_value) {
+        this.goods_specifition_name_value = goods_specifition_name_value;
+    }
+
+    public String getGoods_specifition_ids() {
+        return goods_specifition_ids;
+    }
+
+    public void setGoods_specifition_ids(String goods_specifition_ids) {
+        this.goods_specifition_ids = goods_specifition_ids;
+    }
+
     public String getGoods_sn() {
         return goods_sn;
     }

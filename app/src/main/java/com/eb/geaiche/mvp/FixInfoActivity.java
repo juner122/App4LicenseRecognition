@@ -282,14 +282,14 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     public void showAddButton() {
         iv_add1.setVisibility(View.VISIBLE);
         iv_add2.setVisibility(View.VISIBLE);
-        ll_car_fix_list.setVisibility(View.VISIBLE);
+//        ll_car_fix_list.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideAddButton() {
         iv_add1.setVisibility(View.INVISIBLE);
         iv_add2.setVisibility(View.INVISIBLE);
-        ll_car_fix_list.setVisibility(View.GONE);
+//        ll_car_fix_list.setVisibility(View.GONE);
     }
 
     @Override
@@ -310,6 +310,11 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     @Override
     public void showSaveButton() {
         tv_save.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideSaveButton() {
+        tv_save.setVisibility(View.GONE);
     }
 
     @Override

@@ -50,7 +50,6 @@
         app:layout_constraintTop_toTopOf="@+id/iv_src" />
 
 
-
     <View
         android:id="@+id/view5"
         android:layout_width="match_parent"
@@ -70,4 +69,10 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_src"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/view5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

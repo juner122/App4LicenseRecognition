@@ -3,7 +3,7 @@ package com.juner.mvp;
 public class Configure {
 
 
-//        public static final String BaseUrl = "http://222.111.88.136:8081/app/";//线下
+//        public static final String BaseUrl = "http://222.111.88.211:8081/app/";//线下
     public static final String BaseUrl = "https://geaiche.changmeishi.com/app/";//线上 更新
     // public static final String BaseUrl = "http://192.168.1.105:8089/app/";//线下 强哥
     public static final int Goods_TYPE_1 = 1;//商城商品
@@ -18,9 +18,6 @@ public class Configure {
     public static final String STOCK_OUT = "1";//出库
 
     public static final String APP_ID = "wx6208849918d52d41";//微信支付APPID
-
-
-
 
     public static final String carNumberRecognition = "https://api03.aliyun.venuscn.com/ocr/car-license";//OCR文字识别-车牌识别
     public static final String carNumberRecognition2 = "http://anpr.sinosecu.com.cn/api/recogliu.do";//OCR文字识别-车牌识别2

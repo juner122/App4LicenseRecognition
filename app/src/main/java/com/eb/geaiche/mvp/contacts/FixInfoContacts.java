@@ -27,7 +27,7 @@ public class FixInfoContacts {
         void setInfo(FixInfoEntity fixInfo);//设置页面信息
 
 
-        void createOrderSuccess(int i,int orderId);//生成估价单成功
+        void createOrderSuccess(int i, int orderId);//生成估价单成功
 
         void setServicePrice(String price);//设置工时金额
 
@@ -46,6 +46,8 @@ public class FixInfoContacts {
         void onToCarInfoActivity(int car_id);//到车况信息页面
 
         void showSaveButton();//显示保存退出按钮
+
+        void hideSaveButton();//显示保存退出按钮
 
         void showPostFixButton();//显示提交修改按钮
 

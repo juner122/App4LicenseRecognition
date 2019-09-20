@@ -5,18 +5,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.FixInfoServiceItemAdapter;
 import com.eb.geaiche.adapter.FixPickService2ItemAdapter;
+import com.eb.geaiche.adapter.ProductListAdapter;
 import com.eb.geaiche.mvp.contacts.FixPickServiceContacts;
 import com.eb.geaiche.mvp.model.FixPickServiceMdl;
 import com.eb.geaiche.util.MathUtil;
 import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.MyRadioButton;
+import com.eb.geaiche.view.ProductListDialog;
 import com.juner.mvp.Configure;
 import com.juner.mvp.api.http.RxSubscribe;
 import com.juner.mvp.base.presenter.BasePresenter;
@@ -24,6 +28,7 @@ import com.juner.mvp.bean.FixService2item;
 import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.GoodsCategory;
+import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.GoodsList;
 
 import java.util.ArrayList;
@@ -39,10 +44,8 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
 
     FixPickService2ItemAdapter adapter_s2;//2级分类
-    FixInfoServiceItemAdapter adapter_item;//工时服务
+    ProductListAdapter productListAdapter; //配件列表 新
 
-
-    //    List<FixServie> pick_servieList;//点击过工时服务
     Set<FixServie> pick_servieList;//点击过工时服务
 
     int id = -1;//当前选择分类id
@@ -55,45 +58,25 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
         mdl = new FixPickServiceMdl(view.getSelfActivity());
         pick_servieList = new HashSet<>();
         adapter_s2 = new FixPickService2ItemAdapter(null);
-        adapter_item = new FixInfoServiceItemAdapter(null, layout);
-        adapter_s2.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                //查找配件 根据id
-                id = ((FixService2item) (adapter.getData().get(position))).getId();
 
 
-                List<FixServie> list = ((FixService2item) (adapter.getData().get(position))).getProjectList();
-                if (list.size() == 0) {
-                    ToastUtils.showToast("该类别暂无可选服务");
-                    return;
-                }
+        productListAdapter = new ProductListAdapter(getView().getSelfActivity(), null, 1);
+        adapter_s2.setOnItemClickListener((adapter, view1, position) -> {
+            //查找配件 根据id
+            id = ((FixService2item) (adapter.getData().get(position))).getId();
 
-                set2Data(list);
-                getView().showServiceList();
 
+            List<FixServie> list = ((FixService2item) (adapter.getData().get(position))).getProjectList();
+            if (list.size() == 0) {
+                ToastUtils.showToast("该类别暂无可选服务");
+                return;
             }
+
+            getView().showServiceList();
+
         });
 
-        adapter_item.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-
-                if (((FixServie) (adapter.getData().get(position))).selectde())//是否已选择
-                    ((FixServie) (adapter.getData().get(position))).setSelected(0);
-                else
-                    ((FixServie) (adapter.getData().get(position))).setSelected(1);
-                adapter.notifyDataSetChanged();
-
-                pick_servieList.add((FixServie) (adapter.getData().get(position)));
-
-
-                countPrice(); //计算选择的总价格
-
-
-            }
-        });
 
     }
 
@@ -131,15 +114,11 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
 
             final int finalI = i;
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    set1Data(list.get(finalI).getSonList());
-                    categoryId = list.get(finalI).getCategoryId();
-                    page = 1;
-                    getGoodList(null, page, categoryId);
+            radioButton.setOnClickListener(view -> {
+                categoryId = list.get(finalI).getCategoryId();
+                page = 1;
+                getGoodList(null, page, categoryId);
 
-                }
             });
 
             rg.addView(radioButton);
@@ -149,11 +128,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     }
 
 
-    public void set2Data(List<FixServie> list) {
 
-
-        adapter_item.setNewData(list);
-    }
 
     @Override
     public void initRecyclerView(RecyclerView rv_2item, RecyclerView rv_service, EasyRefreshLayout e) {
@@ -161,8 +136,9 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
         rv_service.setLayoutManager(new LinearLayoutManager(getView().getSelfActivity()));
 
         rv_2item.setAdapter(adapter_s2);
-        rv_service.setAdapter(adapter_item);
-        adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_service);
+//        rv_service.setAdapter(adapter_item);
+        rv_service.setAdapter(productListAdapter);
+//        adapter_item.setEmptyView(R.layout.order_list_empty_view_p, rv_service);
         adapter_s2.setEmptyView(R.layout.order_list_empty_view_p, rv_2item);
         easylayout = e;
         easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
@@ -178,6 +154,92 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
                 easylayout.setLoadMoreModel(LoadModel.COMMON_MODEL);
                 getData();
 
+            }
+        });
+        productListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+
+            TextView tv_number = (TextView) adapter.getViewByPosition(rv_service, position, R.id.tv_number);
+            TextView view_value = (TextView) adapter.getViewByPosition(rv_service, position, R.id.tv_product_value);
+            View ib_reduce = adapter.getViewByPosition(rv_service, position, R.id.ib_reduce);//减号
+
+            List<Goods> goodsList = productListAdapter.getData();
+
+            int number = goodsList.get(position).getNum();//获取
+            switch (view.getId()) {
+                case R.id.ib_plus:
+                    if (null == goodsList.get(position).getGoodsStandard() || goodsList.get(position).getGoodsStandard().getId() == 0) {
+                        ToastUtils.showToast("请选择规格");
+                        return;
+                    }
+                    number++;
+                    if (number > 0) {
+                        ib_reduce.setVisibility(View.VISIBLE);//显示减号
+                        tv_number.setVisibility(View.VISIBLE);
+                    }
+
+                    MyApplication.cartUtils.addData(toGoodsEntity(goodsList.get(position)));
+                    tv_number.setText(String.valueOf(number));
+
+
+                    goodsList.get(position).setNum(number);//设置
+                    countPrice2();
+
+
+                    break;
+
+                case R.id.ib_reduce:
+                    number--;
+                    if (number == 0) {
+                        ib_reduce.setVisibility(View.INVISIBLE);//隐藏减号
+                        tv_number.setVisibility(View.INVISIBLE);
+                    }
+
+                    MyApplication.cartUtils.reduceData(toGoodsEntity(goodsList.get(position)));
+                    tv_number.setText(String.valueOf(number));
+
+
+                    goodsList.get(position).setNum(number);//设置
+                    countPrice2();
+
+
+                    break;
+
+                case R.id.tv_product_value:
+
+                    getProductValue(view_value, productListAdapter.getData().get(position).getXgxGoodsStandardPojoList(), position, productListAdapter.getData().get(position));
+                    break;
+            }
+
+
+        });
+    }
+
+    //获取规格列表
+    private void getProductValue(final TextView view, final List<Goods.GoodsStandard> goodsStandards, final int positions, Goods goods) {
+
+
+        final ProductListDialog confirmDialog = new ProductListDialog(getView().getSelfActivity(), goodsStandards, goods);
+        confirmDialog.show();
+        confirmDialog.setClicklistener(new ProductListDialog.ClickListenerInterface() {
+            @Override
+            public void doConfirm(Goods.GoodsStandard pick_value) {
+                confirmDialog.dismiss();
+                view.setText(pick_value.getGoodsStandardTitle());
+
+                productListAdapter.getData().get(positions).setGoodsStandard(pick_value);
+                productListAdapter.getData().get(positions).setNum(pick_value.getNum());
+                productListAdapter.notifyDataSetChanged();
+                //按确认才保存
+                MyApplication.cartUtils.commit();
+
+                countPrice2();
+
+
+            }
+
+            @Override
+            public void doCancel() {
+                confirmDialog.dismiss();
             }
         });
     }
@@ -196,18 +258,12 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
     @Override
     public void confirm() {
-        List<FixServie> fixServieList = new ArrayList<>();
-        for (FixServie fx : pick_servieList) {
-            if (fx.selectde())
-                fixServieList.add(fx);
-        }
-
-        if (fixServieList.size() == 0) {
+        if (MyApplication.cartUtils.getServerList().size() == 0) {
             ToastUtils.showToast("请最少选择一个项目！");
             return;
-
         }
-        getView().onConfirm(fixServieList);
+
+        getView().onConfirm(null);
 
 
     }
@@ -225,17 +281,6 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     }
 
 
-    //计算选择的总价格
-    private void countPrice() {
-        Double allPrice = 0.00d;
-        for (FixServie fx : pick_servieList) {
-            if (fx.selectde())
-                allPrice = allPrice + fx.getPriceD();
-        }
-
-        getView().setPickAllPrice("已选择：￥" + MathUtil.twoDecimal(allPrice));
-
-    }
 
 
     //查找所有数据
@@ -246,7 +291,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
 
                 if (page == 1) {//不等于1 显示更多
                     easylayout.refreshComplete();
-                    adapter_item.setNewData(toFixParts(goodsList.getList()));
+                    productListAdapter.setNewData(goodsList.getList());
                     if (goodsList.getList().size() < Configure.limit_page)
                         easylayout.setLoadMoreModel(LoadModel.NONE);
                 } else {
@@ -258,7 +303,7 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
                         return;
                     }
 
-                    adapter_item.addData(toFixParts(goodsList.getList()));
+                    productListAdapter.addData(goodsList.getList());
                 }
             }
 
@@ -270,30 +315,36 @@ public class FixPickServicePtr extends BasePresenter<FixPickServiceContacts.FixP
     }
 
 
-    private List<FixServie> toFixParts(List<Goods> data) {
-        List<FixServie> parts = new ArrayList<>();
+    private GoodsEntity toGoodsEntity(Goods goods) {
+        GoodsEntity goodsEntity = new GoodsEntity();
 
-        for (Goods goods : data) {
-            FixServie fp = new FixServie();
-            fp.setName(goods.getGoodsTitle());
-            fp.setPrice(goods.getXgxGoodsStandardPojoList().get(0).getGoodsStandardPrice());
-            fp.setServiceId(goods.getId());
-            fp.setNumber(1);//数量
-            fp.setType(goods.getType());
-            fp.setGoods_sn(goods.getGoodsCode());
-            parts.add(fp);
-        }
-        //遍历选选择了的商品
-        for (FixServie parts1 : pick_servieList) {
-            for (int i = 0; i < parts.size(); i++) {
+        goodsEntity.setGoodsId(goods.getId());
 
-                if (parts1.getServiceId() == parts.get(i).getServiceId() && parts1.getSelected() == 1)
-                    parts.get(i).setSelected(1);
-            }
+        goodsEntity.setName(goods.getGoodsTitle());
+        goodsEntity.setGoods_name(goods.getGoodsTitle());
+        goodsEntity.setGoodsName(goods.getGoodsTitle());
+        goodsEntity.setGoods_sn(goods.getGoodsCode());
+        goodsEntity.setGoodsSn(goods.getGoodsCode());
+        goodsEntity.setType(goods.getType());
+        goodsEntity.setProduct_id(goods.getGoodsStandard().getId());
+        goodsEntity.setGoods_specifition_ids(goods.getGoodsStandard().getId());
+        goodsEntity.setGoodsSpecifitionIds(goods.getGoodsStandard().getId());
+        goodsEntity.setNumber(goods.getNum());
+        goodsEntity.setMarket_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetail_price(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setMarketPrice(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setRetailPrice(goods.getGoodsStandard().getGoodsStandardPrice());
+        goodsEntity.setGoods_specifition_name_value(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setGoodsSpecifitionNameValue(goods.getGoodsStandard().getGoodsStandardTitle());
+        goodsEntity.setFirstCategoryId(goods.getFirstCategoryId());
+        return goodsEntity;
+    }
+
+    //计算选择的总价格
+    private void countPrice2() {
 
 
-        }
-        return parts;
+        getView().setPickAllPrice("已选择：￥" + MathUtil.twoDecimal(MyApplication.cartUtils.getServerPrice()));
 
     }
 }

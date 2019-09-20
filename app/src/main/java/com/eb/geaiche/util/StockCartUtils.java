@@ -69,6 +69,7 @@ public class StockCartUtils {
         Goods.GoodsStandard tempCart = (Goods.GoodsStandard) data.get(gsId);
         if (null == tempCart) {//不等于空
             tempCart = gs;
+//            tempCart.setNum(1);//设置默认数量为1
             data.put(gsId, tempCart);
         }
         commit();
