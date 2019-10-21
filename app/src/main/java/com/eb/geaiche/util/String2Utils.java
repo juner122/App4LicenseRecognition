@@ -3,6 +3,8 @@ package com.eb.geaiche.util;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import com.juner.mvp.bean.FixParts;
+import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.MemberEntity;
 import com.juner.mvp.bean.Server;
@@ -58,15 +60,61 @@ public class String2Utils {
 
 
     //计算商品总价
-    public static double getOrderGoodsPrice(List<GoodsEntity> list) {
+    public static double getServiePrice(List<FixParts> list) {
 
         if (null == list || list.size() == 0) return 0.00;
 
         double totalPrice = 0.00d;
 
-        for (GoodsEntity g : list) {
+        for (FixParts g : list) {
 
-            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+            if (g.getType() == 3)
+                totalPrice = g.getNumber() * Double.valueOf(g.getRetail_priceD()) + totalPrice;
+        }
+        return totalPrice;
+
+    } //计算商品总价
+    public static double getServiePrice2(List<FixServie> list) {
+
+        if (null == list || list.size() == 0) return 0.00;
+
+        double totalPrice = 0.00d;
+
+        for (FixServie g : list) {
+
+            if (g.getType() == 3)
+                totalPrice = g.getNumber() * Double.valueOf(g.getPrice()) + totalPrice;
+        }
+        return totalPrice;
+
+    }
+
+    //计算商品总价
+    public static double getPrice(List<FixParts> list) {
+
+        if (null == list || list.size() == 0) return 0.00;
+
+        double totalPrice = 0.00d;
+
+        for (FixParts g : list) {
+
+            totalPrice = g.getNumber() * Double.valueOf(g.getRetail_priceD()) + totalPrice;
+        }
+        return totalPrice;
+
+    }
+
+    //计算商品总价
+    public static double getPartsPrice(List<FixParts> list) {
+
+        if (null == list || list.size() == 0) return 0.00;
+
+        double totalPrice = 0.00d;
+
+        for (FixParts g : list) {
+            if (g.getType() == 4)
+
+                totalPrice = g.getNumber() * Double.valueOf(g.getRetail_priceD()) + totalPrice;
         }
         return totalPrice;
 
@@ -87,6 +135,20 @@ public class String2Utils {
 
     }
 
+    //计算商品总价
+    public static double getOrderGoodsPrice(List<GoodsEntity> list) {
+
+        if (null == list || list.size() == 0) return 0.00;
+
+        double totalPrice = 0.00d;
+
+        for (GoodsEntity g : list) {
+
+            totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+        }
+        return totalPrice;
+
+    }
 
     public static boolean isNullCarNumber(EditText... editTexts) {
 

@@ -29,6 +29,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
     Integer car_id;
     String postscript;//备注
     String order_status_text;//未付款
+    String car_brand;//车品牌
     String add_time;//
     String pay_time;//
     String car_no;//
@@ -157,6 +158,14 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.userActivityList = userActivityList;
     }
 
+
+    public String getCar_brand() {
+        return car_brand;
+    }
+
+    public void setCar_brand(String car_brand) {
+        this.car_brand = car_brand;
+    }
 
     public double getYouweijie_price() {
         if (discount_price.equals("0.00")) {
@@ -409,6 +418,8 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
 
     }
 
+
+
     public Integer getOs_type() {
         return os_type;
     }
@@ -481,6 +492,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeValue(this.car_id);
         dest.writeString(this.postscript);
         dest.writeString(this.order_status_text);
+        dest.writeString(this.car_brand);
         dest.writeString(this.add_time);
         dest.writeString(this.pay_time);
         dest.writeString(this.car_no);
@@ -501,6 +513,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         dest.writeValue(this.os_type);
         dest.writeString(this.deputy);
         dest.writeString(this.deputy_mobile);
+        dest.writeString(this.deduction_status);
     }
 
     protected OrderInfoEntity(Parcel in) {
@@ -521,6 +534,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.car_id = (Integer) in.readValue(Integer.class.getClassLoader());
         this.postscript = in.readString();
         this.order_status_text = in.readString();
+        this.car_brand = in.readString();
         this.add_time = in.readString();
         this.pay_time = in.readString();
         this.car_no = in.readString();
@@ -541,6 +555,7 @@ public class OrderInfoEntity extends SelectedBean implements Parcelable {
         this.os_type = (Integer) in.readValue(Integer.class.getClassLoader());
         this.deputy = in.readString();
         this.deputy_mobile = in.readString();
+        this.deduction_status = in.readString();
     }
 
     public static final Creator<OrderInfoEntity> CREATOR = new Creator<OrderInfoEntity>() {

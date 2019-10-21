@@ -30,16 +30,23 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
+import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
 import com.eb.geaiche.activity.CouponWriteActivity;
 import com.eb.geaiche.activity.CouponWriteRecordActivity;
+import com.eb.geaiche.activity.MakeOrderActivity;
+import com.eb.geaiche.activity.MakeOrderSuccessActivity;
+import com.eb.geaiche.activity.OrderInfoActivity;
+import com.eb.geaiche.activity.OrderPayActivity;
 import com.eb.geaiche.api.ApiLoader;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmConperDialog;
 import com.eb.geaiche.zbar.camera.CameraManager;
 import com.eb.geaiche.zbar.decode.MainHandler;
 import com.eb.geaiche.zbar.utils.BeepManager;
 import com.juner.mvp.bean.Coupon;
+import com.juner.mvp.bean.GoodsEntity;
 
 
 import java.io.IOException;
@@ -74,6 +81,8 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
     EditText et_num;
     TextView enter;
 
+    int view_type;//0 主页面  1 美容下单  2 待服务页面新增套卡
+
 
     private boolean isHasSurface = false;
     private boolean isOpenCamera = false;
@@ -87,9 +96,15 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture);
+
+        view_type = getIntent().getIntExtra("view_type", 0);
+
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
         checkPermissionCamera();
+
+
     }
 
     private void initView() {
@@ -100,6 +115,11 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
         tv_record = (TextView) findViewById(R.id.tv_record);
         et_num = (EditText) findViewById(R.id.et_num);
         enter = (TextView) findViewById(R.id.enter);
+        TextView tv_record = (TextView) findViewById(R.id.tv_record);//核销记录
+
+        if (view_type == 0) tv_record.setVisibility(View.VISIBLE);
+        else tv_record.setVisibility(View.INVISIBLE);
+
 
         findViewById(R.id.capture_imageview_back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,26 +327,109 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback 
     //前往优惠劵核销页面
     private void toCoupon(String trim) {
 
+        switch (view_type) {
+            case 0://主页面
+                new ApiLoader(this).queryByNumber(trim).subscribe(new RxSubscribe<Coupon>(this, true) {
+                    @Override
+                    protected void _onNext(Coupon coupon) {
 
-        new ApiLoader(this).queryByNumber(trim).subscribe(new RxSubscribe<Coupon>(this, true) {
+                        Intent i = new Intent(CaptureActivity.this, CouponWriteActivity.class);
+                        i.putExtra("coupon", coupon);
+                        startActivity(i);
+                        finish();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        finish();
+                        ToastUtils.showToast(message);
+                    }
+                });
+                break;
+            case 1://下单页面添加套卡
+                new ApiLoader(this).activityqueryByNumber(trim, null).subscribe(new RxSubscribe<GoodsEntity>(this, true) {
+                    @Override
+                    protected void _onNext(GoodsEntity goodsEntity) {
+                        ToastUtils.showToast("扫码成功！");
+
+                        MyApplication.cartUtils.addMeal(goodsEntity);
+
+                        finish();
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast(message);
+                    }
+                });
+                break;
+            case 2://待服务页面添加套卡  扫描成功弹出套卡页面
+                new ApiLoader(this).activityqueryByNumber(trim, null).subscribe(new RxSubscribe<GoodsEntity>(this, true) {
+                    @Override
+                    protected void _onNext(GoodsEntity goodsEntity) {
+
+                        //扫描成功
+                        final ConfirmConperDialog dialog = new ConfirmConperDialog(CaptureActivity.this, goodsEntity.getActivityName(),goodsEntity.getGoodsName());
+                        dialog.show();
+                        dialog.setClicklistener(new ConfirmConperDialog.ClickListenerInterface() {
+                            @Override
+                            public void doConfirm() {
+                                dialog.dismiss();
+                                activityqueryByNumber(trim);
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtils.showToast(message);
+                    }
+                });
+
+                break;
+
+        }
+    }
+
+
+    //传入订单id
+    private void activityqueryByNumber(String trim) {
+        new ApiLoader(this).activityqueryByNumber(trim, getIntent().getStringExtra("id")).subscribe(new RxSubscribe<GoodsEntity>(this, true) {
             @Override
-            protected void _onNext(Coupon coupon) {
+            protected void _onNext(GoodsEntity goodsEntity) {
+                MyApplication.cartUtils.addMeal(goodsEntity);
 
-                Intent i = new Intent(CaptureActivity.this, CouponWriteActivity.class);
-                i.putExtra("coupon", coupon);
-                startActivity(i);
-                finish();
+
+                Intent intent;
+
+
+                switch (getIntent().getIntExtra("type", 0)) {
+
+                    case 0:
+
+                        intent = new Intent(CaptureActivity.this, MakeOrderSuccessActivity.class);
+                        intent.putExtra("CaptureActivity", true);
+                        startActivity(intent);
+                        break;
+
+                    case 1:
+                        intent = new Intent(CaptureActivity.this, OrderInfoActivity.class);
+                        intent.putExtra("CaptureActivity", true);
+                        startActivity(intent);
+                        break;
+                }
+
             }
 
             @Override
             protected void _onError(String message) {
-                finish();
                 ToastUtils.showToast(message);
             }
         });
 
     }
-
 
     //endregion
 

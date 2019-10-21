@@ -30,6 +30,7 @@ import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.CommonPopupWindow;
 import com.eb.geaiche.view.ConfirmDialog4;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.zbar.CaptureActivity;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.MyApplication;
 import com.eb.geaiche.R;
@@ -123,6 +124,9 @@ public class MakeOrderActivity extends BaseActivity {
 
     @BindView(R.id.tv_goods_price2)
     TextView tv_goods_price2;
+
+    @BindView(R.id.tv_goods_price3)
+    TextView tv_goods_price3;
 
     @BindView(R.id.tv_total_price)
     TextView tv_total_price;
@@ -317,7 +321,8 @@ public class MakeOrderActivity extends BaseActivity {
             ll_autograph.setVisibility(View.GONE);
 
         tv_title.setText("下单信息");
-        setRTitle("套卡下单");
+//        setRTitle("套卡下单");
+//        setRTitle("套卡扫码");
 
         car_number = new AppPreferences(this).getString(Configure.car_no, "null_car_no");
         user_id = new AppPreferences(this).getInt(Configure.user_id, 0);
@@ -419,20 +424,25 @@ public class MakeOrderActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+//        int type;
+//        type = getIntent().getIntExtra("view_type", 0);
+//        if (type == 1) {//套卡扫码
+//            sma = new SimpleMealInfoAdpter(cartUtils.getMealList());
 //
+//
+//        } else {
+
         Glide.with(this)
                 .asDrawable()
                 .load(intent.getStringExtra(Configure.Domain))
                 .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .apply(skipMemoryCacheOf(true))
                 .into(iv_lpv);
-
-
         iv_lpv_url = intent.getStringExtra(Configure.Domain);
-
+//        }
     }
 
-    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_title_r, R.id.ll_autograph})
+    @OnClick({R.id.but_product_list, R.id.but_meal_list, R.id.but_meal_list2, R.id.but_to_technician_list, R.id.but_set_date, R.id.but_enter_order, R.id.bto_top1, R.id.bto_top2, R.id.bto_top3, R.id.bto_top4, R.id.tv_title_r, R.id.ll_autograph})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_product_list:
@@ -452,6 +462,18 @@ public class MakeOrderActivity extends BaseActivity {
 
                 Intent intent2 = new Intent(this, ServeListActivity.class);
                 startActivity(intent2);
+
+                break;
+
+            case R.id.but_meal_list2://添加套卡
+
+//                toActivity(CaptureActivity.class, "view_type", 1);
+                Intent r = new Intent(this, ProductMealActivity.class);
+                r.putExtra(Configure.car_no, car_number);
+                r.putExtra(Configure.user_id, user_id);
+                r.putExtra("isShow", true);
+
+                startActivity(r);
 
                 break;
             case R.id.but_to_technician_list:
@@ -499,16 +521,19 @@ public class MakeOrderActivity extends BaseActivity {
                 pickTopGoods(3);
                 break;
 
-            case R.id.tv_title_r:
+            case R.id.tv_title_r://套卡扫码
+
+//
+//                Intent r = new Intent(this, ProductMealListActivity.class);
+//                r.putExtra(Configure.user_id, user_id);
+//                r.putExtra(Configure.car_no, car_number);
+//                r.putExtra("currentTab", 1);
+//
+//                r.putExtra(Configure.isFixOrder, false);
+//                startActivity(r);
 
 
-                Intent r = new Intent(this, ProductMealListActivity.class);
-                r.putExtra(Configure.user_id, user_id);
-                r.putExtra(Configure.car_no, car_number);
-                r.putExtra("currentTab", 1);
-
-                r.putExtra(Configure.isFixOrder, false);
-                startActivity(r);
+//                toActivity(CaptureActivity.class, "view_type", 1);
 
                 break;
 
@@ -559,7 +584,7 @@ public class MakeOrderActivity extends BaseActivity {
 
 
         infoEntity.setPostscript(et_postscript.getText().toString());
-        infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有
+        infoEntity.setGoodsList(cartUtils.getAllGoods());//设置所有 不包含套卡列表
 
         infoEntity.setSysUserList(technicians);
 
@@ -618,10 +643,12 @@ public class MakeOrderActivity extends BaseActivity {
 
         double goodsPrice = cartUtils.getProductPrice();
         double serverPrice = cartUtils.getServerPrice();
+//        double mealPrice = cartUtils.getMealPrice();
         double total = goodsPrice + serverPrice;
 
         tv_goods_price.setText("已选：￥" + MathUtil.twoDecimal(goodsPrice));
         tv_goods_price2.setText("已选：￥" + MathUtil.twoDecimal(serverPrice));
+//        tv_goods_price3.setText("已选：￥" + MathUtil.twoDecimal(mealPrice));
 
 
         tv_total_price.setText("已选：￥" + MathUtil.twoDecimal(total));
@@ -638,12 +665,26 @@ public class MakeOrderActivity extends BaseActivity {
                 for (int i = 0; i < goods_top.size(); i++) {
                     goods_top.get(i).setId(String.valueOf(goods_top.get(i).getGoods_id()));
                 }
-
                 try {
-                    tv_top4.setText(goods_top.get(3).getGoods_name());
-                    tv_top3.setText(goods_top.get(2).getGoods_name());
-                    tv_top2.setText(goods_top.get(1).getGoods_name());
+                if (null != goods_top.get(0)) {
                     tv_top1.setText(goods_top.get(0).getGoods_name());
+                }
+                if (null != goods_top.get(1)) {
+                    tv_top2.setText(goods_top.get(1).getGoods_name());
+                }
+                if (null != goods_top.get(2)) {
+                    tv_top3.setText(goods_top.get(2).getGoods_name());
+                }
+                if (null != goods_top.get(3)) {
+                    tv_top4.setText(goods_top.get(3).getGoods_name());
+                }
+
+//
+//                try {
+//                    tv_top4.setText(goods_top.get(3).getGoods_name());
+//                    tv_top3.setText(goods_top.get(2).getGoods_name());
+//                    tv_top2.setText(goods_top.get(1).getGoods_name());
+//                    tv_top1.setText(goods_top.get(0).getGoods_name());
                 } catch (Exception e) {
 
                 }

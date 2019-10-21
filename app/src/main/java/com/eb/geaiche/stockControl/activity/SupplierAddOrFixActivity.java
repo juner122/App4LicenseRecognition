@@ -32,7 +32,7 @@ public class SupplierAddOrFixActivity extends BaseActivity {
     EditText remarks;
 
 
-    String id = "";//供应商id;
+    String id;//供应商id;
 
     @OnClick({R.id.enter})
     public void onClick(View v) {
@@ -40,7 +40,7 @@ public class SupplierAddOrFixActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.enter:
-                if (id.equals(""))
+                if (null == id)
                     addSupplier();
                 else
                     fixSupplier();
@@ -55,7 +55,7 @@ public class SupplierAddOrFixActivity extends BaseActivity {
 
 
         id = getIntent().getStringExtra("id");
-        if (id.equals("")) {
+        if (null == id) {
             tv_title.setText("经销商添加");
         } else {
             tv_title.setText("经销商修改");
@@ -81,7 +81,7 @@ public class SupplierAddOrFixActivity extends BaseActivity {
         supplier.setAddTime(String.valueOf(System.currentTimeMillis()));
         supplier.setMobile(phone.getText().toString());
         supplier.setOperation(remarks.getText().toString());
-        if (!id.equals(""))
+        if (null != id)
             supplier.setId(id);
 
         return supplier;

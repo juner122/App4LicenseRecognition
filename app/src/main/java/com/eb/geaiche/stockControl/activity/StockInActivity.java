@@ -1,5 +1,9 @@
 package com.eb.geaiche.stockControl.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.EditText;
@@ -16,8 +20,10 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.stockControl.adapter.StockInListAdapter;
 import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
+import com.eb.geaiche.stockControl.bean.Supplier;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.ToastUtils;
+import com.eb.geaiche.view.ConfirmDialogStockOut;
 import com.juner.mvp.bean.Goods;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Shop;
@@ -75,6 +81,20 @@ public class StockInActivity extends BaseActivity {
 
     }
 
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {      //判断标志位
+                case 1:
+                    all_price.setText(String.format("￥%s", getPrice()));
+                    break;
+            }
+        }
+    };
+
+
     @Override
     protected void init() {
 
@@ -82,17 +102,20 @@ public class StockInActivity extends BaseActivity {
 //        setRTitle("继续入库");
 
 
+        tv_time.setText(DateUtil.getDate("yyyy-MM-dd HH:mm:ss"));
     }
 
     @Override
     protected void setUpView() {
-        adapter = new StockInListAdapter(null, this);
+        adapter = new StockInListAdapter(null, this, handler);
         adapter.setNewData(generateData(stockCartUtils.getDataFromLocal()));
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
         all_price.setText(String.format("￥%s", getPrice()));
         adapter.setOnItemChildClickListener((a, view, position) -> {
+
+
             MultiItemEntity entity = adapter.getItem(position);
             if (entity instanceof Goods.GoodsStandard) {
                 Goods.GoodsStandard gs = (Goods.GoodsStandard) entity;
@@ -107,15 +130,11 @@ public class StockInActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
                 all_price.setText(String.format("￥%s", getPrice()));
             }
+
+
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        tv_time.setText(DateUtil.getDate("yyyy-MM-dd HH:mm:ss"));
-    }
 
     @Override
     protected void setUpData() {
@@ -161,7 +180,6 @@ public class StockInActivity extends BaseActivity {
         Api().inOrOut(getStock()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
-//                finish();
 
                 toActivity(StockControlActivity.class, "View_type", StockInDone);
             }
@@ -265,10 +283,11 @@ public class StockInActivity extends BaseActivity {
                 sg.setGoodsTitle(gs.getGoodsTitle());
                 sg.setStandardId(String.valueOf(gs.getId()));
                 sg.setStandardTitle(gs.getGoodsStandardTitle());
-                sg.setPrice(gs.getGoodsStandardPrice());
+                sg.setPrice(gs.getGoodsStandardPrice());//销售价
                 sg.setStock(gs.getStock());
                 sg.setSupplierId(gs.getSupplierId());
                 sg.setSupplierName(gs.getSupplierName());
+                sg.setStockPrice(gs.getStockPrice());//入库价
 
                 sg.setNumber(gs.getNum());
 
@@ -283,4 +302,28 @@ public class StockInActivity extends BaseActivity {
         return stockGoods;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        int id = intent.getIntExtra("id", 0);
+        Supplier supplier = intent.getParcelableExtra("supplier");
+
+        List<MultiItemEntity> res = adapter.getData();
+        for (int i = 0; i < res.size(); i++) {
+            if (adapter.getData().get(i) instanceof Goods.GoodsStandard) {
+                if (((Goods.GoodsStandard) adapter.getData().get(i)).getId() == id) {
+                    ((Goods.GoodsStandard) adapter.getData().get(i)).setSupplierId(supplier.getId());
+                    ((Goods.GoodsStandard) adapter.getData().get(i)).setSupplierName(supplier.getName());
+                    adapter.notifyDataSetChanged();
+                    return;
+                }
+
+            }
+
+
+        }
+
+
+    }
 }

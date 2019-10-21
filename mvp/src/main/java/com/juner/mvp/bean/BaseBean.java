@@ -3,7 +3,7 @@ package com.juner.mvp.bean;
 public class BaseBean<T> {
 
 
-    int errno;
+    int errno = -1;
     String errmsg;
 
     T data;

@@ -19,6 +19,7 @@ import android.os.Parcelable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -37,7 +38,9 @@ import com.eb.geaiche.util.ButtonUtils;
 import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.BtConfirmDialog;
+import com.eb.geaiche.view.ConfirmDialogInfo;
 import com.eb.geaiche.view.NoticeDialog;
+import com.eb.geaiche.zbar.CaptureActivity;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
@@ -49,6 +52,7 @@ import com.eb.geaiche.api.RxSubscribe;
 import com.juner.mvp.bean.GoodsEntity;
 import com.juner.mvp.bean.OrderInfo;
 
+import com.juner.mvp.bean.OrderInfoEntity;
 import com.juner.mvp.bean.Technician;
 import com.eb.geaiche.util.DateUtil;
 import com.eb.geaiche.util.MathUtil;
@@ -201,7 +205,7 @@ public class OrderInfoActivity extends BaseActivity {
     List<Technician> technicians;
     String iv_lpv_url = "";//签名图片 七牛云url
 
-    @OnClick({R.id.tv_fix_order, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice, R.id.tv_back, R.id.tv_title_r, R.id.tv_bluetooth})
+    @OnClick({R.id.tv_fix_order, R.id.et_info, R.id.tv_enter_order, R.id.but_meal_list, R.id.but_product_list, R.id.tv_pick_technician, R.id.ib_pick_date, R.id.tv_car_info, R.id.tv_notice, R.id.tv_back, R.id.tv_title_r, R.id.tv_title_r2, R.id.tv_bluetooth})
     public void onClick(View v) {
 
         if (ButtonUtils.isFastDoubleClick(v.getId())) {//防止按钮多次重复点击
@@ -320,7 +324,7 @@ public class OrderInfoActivity extends BaseActivity {
             case R.id.tv_bluetooth://连接蓝牙
 
                 if (isConnectable) {
-                    ToastUtils.showToast("蓝牙已连接,请打印！");
+                    ToastUtils.showToast("打印机已连接,请打印！");
                 } else
                     connectBluetooth(false);//连接蓝牙
 
@@ -330,6 +334,30 @@ public class OrderInfoActivity extends BaseActivity {
 
                 btnReceiptPrint();//蓝牙打印
 
+                break;
+            case R.id.et_info://修改备注  弹出修改框
+
+                final ConfirmDialogInfo d = new ConfirmDialogInfo(this, et_info.getText().toString());
+                d.show();
+                d.setClicklistener(new ConfirmDialogInfo.ClickListenerInterface() {
+                    @Override
+                    public void doConfirm(String postscript) {
+                        d.dismiss();
+                        fixInfo(postscript);
+                    }
+
+
+                });
+
+                break;
+            case R.id.tv_title_r2://套卡录入
+
+                Intent i = new Intent(this, CaptureActivity.class);
+                i.putExtra("view_type", 2);
+                i.putExtra("type", 1);
+                i.putExtra("id", String.valueOf(info.getOrderInfo().getId()));
+
+                startActivity(i);
                 break;
 
             case R.id.ll_autograph://签名
@@ -372,7 +400,6 @@ public class OrderInfoActivity extends BaseActivity {
 
 
         id = getIntent().getIntExtra(Configure.ORDERINFOID, 0);
-        getOrderInfoData();
 
 
         if (MyAppPreferences.getShopType()) {
@@ -383,22 +410,42 @@ public class OrderInfoActivity extends BaseActivity {
 
         // //初始化蓝牙
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //自动连接蓝牙
-//        connectBluetooth(true);
 
 
+        getOrderInfoData();
+
+
+//        if (!TextUtils.isEmpty(MyAppPreferences.getString(Configure.BluetoothAddress))) {//有连接过的设备就自动连接
+//            //自动连接蓝牙
+//            connectBluetooth(true);
+//        }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!isConnectable && !TextUtils.isEmpty(MyAppPreferences.getString(Configure.BluetoothAddress))) {//有连接过的设备就自动连接
+            //自动连接蓝牙
+            connectBluetooth(true);
+        }
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        tv_technician.setText("");
-        technicians = intent.getParcelableArrayListExtra("Technician");
-        tv_technician.setText(String2Utils.getString(technicians));
-        info.getOrderInfo().setSysUserList(technicians);
-        remake();
+        if (intent.getBooleanExtra("CaptureActivity", false)) {
+            getOrderInfoData();
+        } else {
+
+
+            tv_technician.setText("");
+            technicians = intent.getParcelableArrayListExtra("Technician");
+            tv_technician.setText(String2Utils.getString(technicians));
+            info.getOrderInfo().setSysUserList(technicians);
+            remake();
+        }
     }
 
     //修改订单  显示控件
@@ -429,6 +476,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 //        if (MyAppPreferences.getShopType()) {//加盟店才能在订单详情打印凭证
         setRTitle("凭证打印");
+
         tv_bluetooth.setVisibility(View.VISIBLE);
 
 
@@ -453,7 +501,8 @@ public class OrderInfoActivity extends BaseActivity {
                 info = o;
                 setInfo();
 
-
+                if (MyAppPreferences.getShopType() && info.getOrderInfo().getOrder_status() != 2)
+                    setRTitle2("套卡扫码");
             }
 
             @Override
@@ -475,8 +524,8 @@ public class OrderInfoActivity extends BaseActivity {
         pay_status = info.getOrderInfo().getPay_status();
         order_status = info.getOrderInfo().getOrder_status();
 
-        productList = getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4);//
-        server = getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3);//服务
+        productList = getGoodsList(info.getOrderInfo().getGoodsList(), false);//
+        server = getGoodsList(info.getOrderInfo().getGoodsList(), true);//服务
 
         meal = info.getOrderInfo().getUserActivityList();
 
@@ -507,7 +556,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 
         if (null != info.getOrderInfo().getPay_type() && info.getOrderInfo().getPay_type() == 21) {//套卡核销加卡号
-            tv_pay_type.append(String.valueOf(":" + info.getOrderInfo().getProvince()));
+            tv_pay_type.setText(String.valueOf("支付方式：" + info.getOrderInfo().getProvince()));
         }
 
 
@@ -668,18 +717,22 @@ public class OrderInfoActivity extends BaseActivity {
 
 
     //获取商品或工时
-    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int type) {
+    /**
+     * @param isService 是否查工时
+     */
+    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, boolean isService) {
         if (null == goodsEntities || goodsEntities.size() == 0) {
             return new ArrayList<>();
         }
         List<GoodsEntity> list = new ArrayList<>();
         for (GoodsEntity entity : goodsEntities) {
-            if (type == Configure.Goods_TYPE_4) {
-                if (entity.getType() == type || entity.getType() == 1 || entity.getType() == 2 || entity.getType() == 5) {
+
+            if (isService) {
+                if (entity.getType() != Configure.Goods_TYPE_4) {
                     list.add(entity);
                 }
             } else {
-                if (entity.getType() == type) {
+                if (entity.getType() == Configure.Goods_TYPE_4) {
                     list.add(entity);
                 }
             }
@@ -822,15 +875,16 @@ public class OrderInfoActivity extends BaseActivity {
         esc.addText("================================\n");//打印完成时间
 
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
-            esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) {
+            esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), true)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), true)) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                 esc.addText(ge.getGoods_name());
                 esc.addPrintAndLineFeed();
                 esc.addSelectJustification(LEFT);
                 esc.addSetAbsolutePrintPosition((short) 7);
-                esc.addText("x1");
+//                esc.addText("x1");
+                esc.addText(ge.getNumberStringX());
                 esc.addSetAbsolutePrintPosition((short) 12);
                 esc.addSelectJustification(RIGHT);
                 esc.addText("" + ge.getRetail_price());
@@ -843,8 +897,8 @@ public class OrderInfoActivity extends BaseActivity {
 
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
 
-            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) {
+            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), false)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsList(), false)) {
 
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
@@ -873,8 +927,8 @@ public class OrderInfoActivity extends BaseActivity {
                 esc.addSelectJustification(LEFT);
 
                 esc.addSetAbsolutePrintPosition((short) 7);
-                esc.addText("x1");
-
+//                esc.addText("x1");
+                esc.addText(gu.getNumberStringX());
                 esc.addSetAbsolutePrintPosition((short) 12);
 
                 esc.addSelectJustification(RIGHT);
@@ -885,7 +939,8 @@ public class OrderInfoActivity extends BaseActivity {
         }
 
         esc.addSelectJustification(RIGHT);
-        esc.addText(tv_price4.getText().toString());
+        esc.addPrintAndLineFeed();
+        esc.addText("总计："+tv_price4.getText().toString());
         esc.addPrintAndLineFeed();
 
 
@@ -928,10 +983,10 @@ public class OrderInfoActivity extends BaseActivity {
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();
 
-
-        // 发送数据
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        for (int i = 0; i < Configure.Printing; i++) {
+            // 发送数据
+            DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        }
     }
 
     /**
@@ -969,7 +1024,7 @@ public class OrderInfoActivity extends BaseActivity {
             if (!isAuto)
                 new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
             else
-                BluetoothUtils.openPort(new ArrayList<>(pairedDevices).get(0).getAddress(), ID);
+                BluetoothUtils.openPort(MyAppPreferences.getString(Configure.BluetoothAddress), ID);
 
         } else
             mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
@@ -985,13 +1040,6 @@ public class OrderInfoActivity extends BaseActivity {
         registerReceiver(receiver, filter);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(receiver);
-
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -999,6 +1047,7 @@ public class OrderInfoActivity extends BaseActivity {
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
         CameraThreadPool.shutdownNow();
+        unregisterReceiver(receiver);
     }
 
 
@@ -1027,6 +1076,8 @@ public class OrderInfoActivity extends BaseActivity {
                                 tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
                             }
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
+
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
@@ -1036,12 +1087,14 @@ public class OrderInfoActivity extends BaseActivity {
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
                             tv_bluetooth.setText("打印机已连接");
                             isConnectable = true;
-                            ToastUtils.showToast("蓝牙已连接,请打印！");
+//                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
-                            ToastUtils.showToast(getString(R.string.str_conn_fail));
+//                            ToastUtils.showToast(getString(R.string.str_conn_fail));
                             tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
+
                             break;
                         default:
                             break;
@@ -1078,5 +1131,26 @@ public class OrderInfoActivity extends BaseActivity {
                     break;
             }
         }
+    }
+
+
+    //修改备注
+    private void fixInfo(String postscript) {
+
+
+        Api().remake(new OrderInfoEntity(info.getOrderInfo().getId(), postscript)).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+            @Override
+            protected void _onNext(OrderInfo o) {
+                ToastUtils.showToast("修改成功");
+
+                et_info.setText(o.getOrderInfo().getPostscript());
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("修改失败:" + message);
+            }
+        });
+
     }
 }

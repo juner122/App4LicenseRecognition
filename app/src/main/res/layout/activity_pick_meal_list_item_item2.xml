@@ -15,11 +15,10 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_marginRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:layout_height="wrap_content"
@@ -27,11 +26,13 @@
 
         <TextView
             android:id="@+id/tv_2"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
-            android:layout_marginRight="15dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="end"
             android:text="1x" />
+
 
     </LinearLayout>
 

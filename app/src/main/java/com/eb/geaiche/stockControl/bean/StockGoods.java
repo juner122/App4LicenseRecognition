@@ -8,7 +8,8 @@ public class StockGoods {
     String goodsTitle;
     String standardId;
     String standardTitle;
-    String price;//价格
+    String price;//销售价格
+    String stockPrice;//入库价格
     int number;//数量
     int afterNumber;//剩余库存
     String supplierId;//供应商
@@ -19,6 +20,14 @@ public class StockGoods {
     String supplierName;
     String image;//图
     String stock; //库存数量
+
+    public String getStockPrice() {
+        return stockPrice;
+    }
+
+    public void setStockPrice(String stockPrice) {
+        this.stockPrice = stockPrice;
+    }
 
     public String getStock() {
         return stock;

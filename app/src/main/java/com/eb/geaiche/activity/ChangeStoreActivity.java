@@ -92,14 +92,14 @@ public class ChangeStoreActivity extends BaseActivity {
         stores.add(new Store("法政店", "12345678906", "8888"));
         stores.add(new Store("童心店", "12345678907", "8888"));
         stores.add(new Store("天河店", "12345678908", "8888"));
-        stores.add(new Store("汽车港", "12345678909", "8888"));
+        stores.add(new Store("嘉禾店", "12345678909", "8888"));
         stores.add(new Store("海印又一城店", "12345678910", "8888"));
-        stores.add(new Store("临江店", "12345678911", "8888"));
+        stores.add(new Store("黄村店", "12345678911", "8888"));
         stores.add(new Store("周门店", "12345678912", "8888"));
         stores.add(new Store("江南西店", "12345678913", "8888"));
         stores.add(new Store("圣丰店", "12345678914", "8888"));
         stores.add(new Store("华南新城店", "12345678915", "8888"));
-        stores.add(new Store("顺德碧桂园店", "12345678916", "8888"));
+//        stores.add(new Store("顺德碧桂园店", "12345678916", "8888"));
         stores.add(new Store("东华南", "12345678917", "8888"));
 
         return stores;

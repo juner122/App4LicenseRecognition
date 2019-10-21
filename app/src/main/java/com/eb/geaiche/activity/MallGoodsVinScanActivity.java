@@ -278,7 +278,7 @@ public class MallGoodsVinScanActivity extends BaseActivity {
             protected void _onNext(CarVin carVin) {
 
                 if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
-                    ToastUtils.showToast("查询失败,请重新查询！");
+                    ToastUtils.showToast("车型查询失败,请强制录入车架号！");
                     return;
                 }
 
@@ -295,7 +295,7 @@ public class MallGoodsVinScanActivity extends BaseActivity {
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);
 
-                ToastUtils.showToast("查询失败,请重新查询！");
+                ToastUtils.showToast("查询失败,请检查车架号！" + message);
             }
         });
 

@@ -2,7 +2,9 @@ package com.eb.geaiche.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+
 import androidx.annotation.Nullable;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ public class OrderListAdapter extends BaseQuickAdapter<OrderInfoEntity, BaseView
         helper.setText(R.id.tv_order_number, String.format("订单号:%s", item.getOrder_sn()));
         helper.setText(R.id.tv_date, item.getAdd_time());
         helper.setText(R.id.tv_order_state, item.getOrder_status_text());
+        helper.setText(R.id.tv_brand, item.getCar_brand()); //车品牌
 
         if (item.getPay_status() == 0)
             helper.setText(R.id.tv_money, String.format("￥%s", MathUtil.twoDecimal(item.getOrder_price())));

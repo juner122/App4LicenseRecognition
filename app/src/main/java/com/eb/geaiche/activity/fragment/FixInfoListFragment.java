@@ -156,6 +156,7 @@ public class FixInfoListFragment extends BaseFragment {
 
             @Override
             protected void _onError(String message) {
+                ToastUtils.showToast("查询失败！"+message);
                 easylayout.refreshComplete();
             }
         });
@@ -182,6 +183,7 @@ public class FixInfoListFragment extends BaseFragment {
 
             @Override
             protected void _onError(String message) {
+                ToastUtils.showToast("查询失败！"+message);
                 easylayout.loadMoreComplete();
             }
         });

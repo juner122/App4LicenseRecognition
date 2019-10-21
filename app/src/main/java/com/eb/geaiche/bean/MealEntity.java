@@ -30,6 +30,8 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
     String carNo;
     String dealUserName;
     String activitySn;
+    String price;
+    String couponSn;//新增子项劵号
 
 
     //5.30号新增字段
@@ -52,6 +54,14 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
 
     public void setGoodsStandardTitle(String goodsStandardTitle) {
         this.goodsStandardTitle = goodsStandardTitle;
+    }
+
+    public String getCouponSn() {
+        return couponSn;
+    }
+
+    public void setCouponSn(String couponSn) {
+        this.couponSn = couponSn;
     }
 
     public int getId() {
@@ -190,14 +200,21 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.maxNum = maxNum;
     }
 
-    public String getGoods_sn() {
+    public String getGoodsCode() {
         return goodsCode;
     }
 
-    public void setGoods_sn(String goods_sn) {
-        this.goodsCode = goods_sn;
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public String getName() {
         return goodsTitle;
@@ -258,6 +275,7 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         dest.writeString(this.carNo);
         dest.writeString(this.dealUserName);
         dest.writeString(this.activitySn);
+        dest.writeString(this.price);
         dest.writeString(this.standardId);
         dest.writeString(this.goodsStandardTitle);
     }
@@ -283,6 +301,7 @@ public class MealEntity extends SelectedBean implements MultiItemEntity, Parcela
         this.carNo = in.readString();
         this.dealUserName = in.readString();
         this.activitySn = in.readString();
+        this.price = in.readString();
         this.standardId = in.readString();
         this.goodsStandardTitle = in.readString();
     }

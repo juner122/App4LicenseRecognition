@@ -47,6 +47,7 @@ import com.qiniu.android.storage.UploadOptions;
 import net.grandcentrix.tray.AppPreferences;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -648,6 +649,12 @@ public class CarInfoInputActivity extends BaseActivity {
 
             }
 
+            if (getPicNull(upDataPicEntities) || adapter.getItemCount() == 1) {
+                ToastUtils.showToast("仪表图片不能为空!");
+                return;
+            }
+
+
             Api().addCarInfo(makeParameters()).subscribe(new RxSubscribe<Integer>(this, true) {
                 @Override
                 protected void _onNext(Integer integer) {
@@ -678,6 +685,26 @@ public class CarInfoInputActivity extends BaseActivity {
             });
 
         } else {
+
+//            if (getPicNull(carEntity.getImagesList()) && getPicNull(upDataPicEntities)) {
+//                ToastUtils.showToast("仪表图片不能为空!");
+//                return;
+//            }
+
+            if (adapter.getItemCount() == 1) {
+                ToastUtils.showToast("仪表图片不能为空!");
+                return;
+            }
+
+            BigDecimal mileage = new BigDecimal(tv_car_mileage.getText().toString());//要修改的里程数
+            BigDecimal mileage_now = new BigDecimal(carEntity.getMileage());//当前车况里程数
+
+            if (mileage.compareTo(mileage_now) < 0) {
+                ToastUtils.showToast("要修改的里程数不能少于当前车况里程数！");
+                return;
+            }
+
+
             Api().fixCarInfo(makeParameters()).subscribe(new RxSubscribe<NullDataEntity>(this, true) {
                 @Override
                 protected void _onNext(NullDataEntity nullDataEntity) {
@@ -709,6 +736,45 @@ public class CarInfoInputActivity extends BaseActivity {
 
         }
 
+
+    }
+
+
+//    //判断里程数大小
+//
+//    private boolean isMileage() {
+//        try {
+//
+//
+//            BigDecimal mileage = new BigDecimal(tv_car_mileage.getText().toString());//要修改的里程数
+//            BigDecimal mileage_now = new BigDecimal(carInfo.getMileage());//当前车况里程数
+//
+//            if (mileage.compareTo(mileage_now) < 0) {
+//                ToastUtils.showToast("里程数不能少于当前车况里程数");
+//                return true;
+//            }
+//            return false;
+//        } catch (Exception e) {
+//            ToastUtils.showToast("里程数不能少于当前车况里程数");
+//            return true;
+//        }
+//    }
+
+
+    //判断仪表图是否为空
+    private boolean getPicNull(List<UpDataPicEntity> upDataPicEntities) {
+
+        int num = 0;//仪表图片数
+
+        for (int i = 0; i < upDataPicEntities.size(); i++) {
+
+            if (upDataPicEntities.get(i).getType() == 1) {
+                num = num + 1;
+            }
+
+        }
+
+        return num == 0;
 
     }
 

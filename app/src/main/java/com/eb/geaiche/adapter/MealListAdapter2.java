@@ -1,7 +1,11 @@
 package com.eb.geaiche.adapter;
 
 import androidx.annotation.Nullable;
+
+import android.graphics.Paint;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -34,21 +38,18 @@ public class MealListAdapter2 extends BaseMultiItemQuickAdapter<MultiItemEntity,
                 helper.setText(R.id.tv_time, String.format("有效期:%s", MathUtil.toDate4Day(m.getEndTime())));
 
                 //set view content
-                helper.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int pos = helper.getAdapterPosition();
-                        if (m.isExpanded()) {
-                            collapse(pos);
-                        } else {
-                            expand(pos);
-                        }
+                helper.itemView.setOnClickListener(v -> {
+                    int pos = helper.getAdapterPosition();
+                    if (m.isExpanded()) {
+                        collapse(pos);
+                    } else {
+                        expand(pos);
                     }
                 });
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, String.valueOf(me.getNumber() + "次"));
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, "劵号：" + (null == me.getCouponSn() ? "-" : me.getCouponSn()));
 
                 break;
 

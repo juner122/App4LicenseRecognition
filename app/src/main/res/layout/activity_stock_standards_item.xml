@@ -9,19 +9,28 @@
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:lines="1"
         android:text="A8 4L全合成机油"
+        android:ellipsize="end"
         android:textColor="#ff666666"
         android:textSize="12sp" />
 
+    <TextView
+        android:id="@+id/stock_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:text="库存：0"
+        android:textColor="#ff666666"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="right"
         android:text="￥99"
         android:textColor="#FF3900"

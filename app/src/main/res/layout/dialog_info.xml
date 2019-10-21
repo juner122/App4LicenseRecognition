@@ -14,7 +14,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="调整"
+        android:text="修改备注"
         android:textColor="#fff23325"
         android:textSize="14sp" />
 
@@ -25,16 +25,17 @@
         android:layout_marginBottom="15dp"
         android:background="#FFD9D9D9" />
 
+
+
     <EditText
         android:id="@+id/et_car_code"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_background_f"
-        android:hint="输入调整值"
-        android:inputType="number"
-        android:padding="5dp"
-        android:textSize="13sp" />
-
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/button_background_z"
+        android:gravity="top"
+        android:padding="8dp"
+        android:textSize="11sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

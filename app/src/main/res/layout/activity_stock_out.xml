@@ -14,12 +14,13 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
@@ -73,7 +74,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单号"
+                    android:text="订单号(可选)"
                     android:textColor="#ff666666"
                     android:textSize="13sp" />
 
@@ -97,6 +98,49 @@
                     android:drawablePadding="10dp"
                     android:gravity="end"
                     android:text="请选择订单"
+                    android:textColor="#666"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:background="#D9D9D9" />
+
+            <LinearLayout
+                android:id="@+id/ll_pick_order2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="入库单号(可选)"
+                    android:textColor="#ff666666"
+                    android:textSize="13sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="center"
+                    android:text="*"
+                    android:textColor="#ffff3900"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/order2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawableRight="@mipmap/icon_enter"
+                    android:drawablePadding="10dp"
+                    android:gravity="end"
+                    android:text="请选择入库单"
                     android:textColor="#666"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -136,8 +180,22 @@
                 android:id="@+id/rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp" />
 
+            <TextView
+                android:id="@+id/tv_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_background_a"
+                android:drawableRight="@mipmap/icon_add"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:visibility="gone"
+                android:text="添加出库配件"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

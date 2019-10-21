@@ -32,6 +32,8 @@ public class SupplierListActivity extends BaseActivity {
 
     boolean fix;//是否编辑
 
+    int view_type;// 0 规格页面，1 入库选择页面
+
     @OnClick({R.id.add, R.id.tv_title_r, R.id.tv_back})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -67,6 +69,7 @@ public class SupplierListActivity extends BaseActivity {
     protected void init() {
         tv_title.setText("供应商管理");
         setRTitle("编辑");
+        view_type = getIntent().getIntExtra("view_type", 0);
     }
 
     @Override
@@ -80,9 +83,16 @@ public class SupplierListActivity extends BaseActivity {
 
             if (fix) {
                 toActivity(SupplierAddOrFixActivity.class, "id", adapter.getData().get(position).getId());
-            } else {
+            } else if (view_type == 0) {
+
+
                 Intent intent = new Intent(this, StockAddStandardsActivity.class);
                 intent.putExtra("pick_type", 1);
+                intent.putExtra("supplier", adapter.getData().get(position));
+                startActivity(intent);
+            } else {//入库页面
+                Intent intent = new Intent(this, StockInActivity.class);
+                intent.putExtra("id", getIntent().getIntExtra("id", 0));//规格id
                 intent.putExtra("supplier", adapter.getData().get(position));
                 startActivity(intent);
             }

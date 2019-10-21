@@ -50,6 +50,7 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
 
 
     FixInfoEntity entity;//估价单对象
+    FixInfo fixInfo;//订单信息;
     String iv_lpv_url = "";//签名图片 七牛云url
 
 
@@ -141,7 +142,9 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
     public void getInfo() {
         mdl.getInfo(getView().getOrderId(), new RxSubscribe<FixInfo>(context, true) {
             @Override
-            protected void _onNext(FixInfo fixInfo) {
+            protected void _onNext(FixInfo info) {
+
+                fixInfo = info;
                 entity = fixInfo.getQuotation();
                 getView().setInfo(entity);
 
@@ -163,6 +166,21 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
             }
         });
 
+    }
+
+    @Override
+    public FixInfo putInfo() {
+        return fixInfo;
+    }
+
+    @Override
+    public List<FixServie> putServiceData() {
+        return adapter_service.getData();
+    }
+
+    @Override
+    public List<FixParts> putPartsData() {
+        return adapter_parts.getData();
     }
 
 
@@ -437,10 +455,14 @@ public class FixInfoPtr extends BasePresenter<FixInfoContacts.FixInfoUI> impleme
                 fixParts.get(i).setSelected(1);
             }
         }
+
+
+        MyApplication.cartUtils.deleteAllData();
         mdl.addGoodsOrProject(addFixInfoEntity(fixServies, fixParts), new RxSubscribe<NullDataEntity>(context, true) {
             @Override
             protected void _onNext(NullDataEntity nullDataEntity) {
                 ToastUtils.showToast("追加项目成功");
+
                 getInfo();//重新加载
             }
 

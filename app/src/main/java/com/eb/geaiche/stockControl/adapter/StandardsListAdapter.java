@@ -26,5 +26,6 @@ public class StandardsListAdapter extends BaseQuickAdapter<Goods.GoodsStandard, 
     protected void convert(BaseViewHolder helper, Goods.GoodsStandard item) {
         helper.setText(R.id.name, item.getGoodsStandardTitle());
         helper.setText(R.id.price, String.format("￥%s", item.getGoodsStandardPrice()));
+        helper.setText(R.id.stock_num, String.format("库存：%s", null == item.getStock() ? 0 : item.getStock()));
     }
 }

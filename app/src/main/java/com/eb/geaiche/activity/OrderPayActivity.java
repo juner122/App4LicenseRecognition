@@ -20,7 +20,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.eb.geaiche.mvp.ActivateCardActivity;
 import com.eb.geaiche.util.MathUtil;
+import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.zbar.CaptureActivity;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
 import com.eb.geaiche.adapter.Brandadapter2;
@@ -105,7 +107,12 @@ public class OrderPayActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("订单收款");
-        showRView("绑定套卡");
+
+
+        if (MyAppPreferences.getShopType())
+            showRView("套卡录入");
+        else
+            showRView("绑定套卡");
 //        et_car_code.setTransformationMethod(new A2bigA());
         olpy = PayTypeList.getList();
         infoEntity = getIntent().getParcelableExtra(Configure.ORDERINFO);
@@ -350,11 +357,28 @@ public class OrderPayActivity extends BaseActivity {
                 break;
 
             case R.id.tv_title_r:
-                //会员开卡
-                Intent intent = new Intent(OrderPayActivity.this, ActivateCardActivity.class);
-                intent.putExtra(Configure.moblie, infoEntity.getOrderInfo().getMobile());
-                intent.putExtra(Configure.user_name, "");
-                startActivity(intent);
+
+                if (MyAppPreferences.getShopType()) {
+                    //录入套卡
+                    Intent intent = new Intent(OrderPayActivity.this, CaptureActivity.class);
+                    intent.putExtra("view_type", 2);
+                    intent.putExtra("type", 0);
+                    intent.putExtra("id", String.valueOf(infoEntity.getOrderInfo().getId()));
+
+                    startActivity(intent);
+                } else {
+
+                    //会员开卡
+                    Intent intent = new Intent(OrderPayActivity.this, ActivateCardActivity.class);
+                    intent.putExtra(Configure.moblie, infoEntity.getOrderInfo().getMobile());
+                    intent.putExtra(Configure.user_name, "");
+                    startActivity(intent);
+                }
+//                Intent intent = new Intent(OrderPayActivity.this, CaptureActivity.class);
+//                intent.putExtra("view_type", 2);
+//                intent.putExtra("id", String.valueOf(infoEntity.getOrderInfo().getId()));
+//
+//                startActivity(intent);
                 break;
         }
 

@@ -480,17 +480,17 @@ public interface ApiService {
     @GET()
     Observable<CarVin> carVinInfoQuery(@Url String url, @Query("vin") String vin);
 
-   /**
+    /**
      * 车辆vin信息查询2
-     *
-//     * @param vin 车辆vin
+     * <p>
+     * //     * @param vin 车辆vin
      */
     @Headers({
             "Content-Type:application/json; charset=utf-8",
             "Authorization:8410f6aa-d702-40ba-a4c5-521f70a31832"
     })
     @POST()
-    Observable<CarVinInfo2> carVinInfoQuery2(@Url String url,@Body Vin vin);
+    Observable<CarVinInfo2> carVinInfoQuery2(@Url String url, @Body Vin vin);
 
 
     /**
@@ -588,6 +588,11 @@ public interface ApiService {
     //检查版本更新
     @POST("work/getAppVersion")
     Observable<BaseBean<VersionInfo>> checkVersionUpDate(@Header("X-Nideshop-Token") String token);
+
+    //记录用户更新
+    @POST("auth/updateAppLog")
+    @FormUrlEncoded
+    Observable<BaseBean<String>> updateAppLog(@Header("X-Nideshop-Token") String token,@Field("version") String version);
 
     //根据vid获取视频
     @POST("course/resourceUrl")
@@ -858,7 +863,7 @@ public interface ApiService {
     //出入库记录列表
     @POST("xgxshopstocklog/list")
     @FormUrlEncoded
-    Observable<BaseBean<List<StockInOrOut>>> stockInOrOutRecordList(@Header("X-Nideshop-Token") String token, @Field("type") int type);
+    Observable<BaseBean<List<StockInOrOut>>> stockInOrOutRecordList(@Header("X-Nideshop-Token") String token, @FieldMap Map<String, Object> maps);
 
 
     //出库时匹配订单
@@ -942,6 +947,11 @@ public interface ApiService {
     @POST("coupon/queryByNumber")
     @FormUrlEncoded
     Observable<BaseBean<Coupon>> queryByNumber(@Header("X-Nideshop-Token") String token, @Field("couponNumber") String id);
+
+    //套卡扫码
+    @POST("activity/queryByNumber")
+    @FormUrlEncoded
+    Observable<BaseBean<GoodsEntity>> activityqueryByNumber(@Header("X-Nideshop-Token") String token, @Field("couponNumber") String id, @Field("orderId") String orderId);
 
 
     //核销券

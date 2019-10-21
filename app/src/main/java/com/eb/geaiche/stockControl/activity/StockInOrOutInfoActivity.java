@@ -1,6 +1,7 @@
 package com.eb.geaiche.stockControl.activity;
 
 
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import com.eb.geaiche.R;
 import com.eb.geaiche.activity.BaseActivity;
 import com.eb.geaiche.stockControl.adapter.StockControlInfoGoodAdapter;
 import com.eb.geaiche.stockControl.adapter.StockOutListAdapter;
+import com.eb.geaiche.stockControl.adapter.StockOutListAdapter2;
 import com.eb.geaiche.stockControl.bean.StockGoods;
 import com.eb.geaiche.stockControl.bean.StockInOrOut;
 import com.eb.geaiche.util.DateUtil;
@@ -45,7 +47,10 @@ public class StockInOrOutInfoActivity extends BaseActivity {
     @BindView(R.id.title2)
     TextView title2;
 
-    StockOutListAdapter adapter;
+    @BindView(R.id.remarks)
+    TextView remarks;
+
+    StockOutListAdapter2 adapter;
 
     @Override
     protected void init() {
@@ -55,23 +60,24 @@ public class StockInOrOutInfoActivity extends BaseActivity {
             tv_title.setText("入库详情");
             title1.setText("入库人：");
             title2.setText("入库时间：");
+            adapter = new StockOutListAdapter2(null, this, 1);
         } else {
             tv_title.setText("出库详情");
             title1.setText("出库人：");
             title2.setText("出库时间：");
+            adapter = new StockOutListAdapter2(null, this, 0);
         }
 
     }
 
     @Override
     protected void setUpView() {
-        adapter = new StockOutListAdapter(null,this,true);
 
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
-        name.setText(getIntent().getStringExtra("phone"));
+
     }
 
     @Override
@@ -81,6 +87,15 @@ public class StockInOrOutInfoActivity extends BaseActivity {
             @Override
             protected void _onNext(StockInOrOut stockInOrOut) {
 
+                if (null == stockInOrOut.getRemarks() || stockInOrOut.getRemarks().equals("")) {
+                    remarks.setVisibility(View.GONE);
+                } else {
+                    remarks.setVisibility(View.VISIBLE);
+                    remarks.setText("备注：" + stockInOrOut.getRemarks());
+                }
+
+
+                name.setText(stockInOrOut.getUserName());
                 time.setText(DateUtil.getFormatedDateTime(stockInOrOut.getAddTime()));
                 adapter.setNewData(stockInOrOut.getStockGoodsList());
             }
@@ -93,9 +108,6 @@ public class StockInOrOutInfoActivity extends BaseActivity {
         });
 
     }
-
-
-
 
 
     @Override

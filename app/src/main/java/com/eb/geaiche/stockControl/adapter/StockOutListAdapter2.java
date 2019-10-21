@@ -1,31 +1,28 @@
 package com.eb.geaiche.stockControl.adapter;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.eb.geaiche.R;
 import com.eb.geaiche.stockControl.bean.StockGoods;
-import com.juner.mvp.bean.Goods;
 
 import java.util.List;
 
-public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHolder> {
+public class StockOutListAdapter2 extends BaseQuickAdapter<StockGoods, BaseViewHolder> {
 
     Context context;
 
+    int type;
 
-    public StockOutListAdapter(@Nullable List<StockGoods> data, Context c) {
-        super(R.layout.activity_stock_out_item, data);
+    public StockOutListAdapter2(@Nullable List<StockGoods> data, Context c, int type) {
+        super(R.layout.activity_stock_out_item2, data);
         this.context = c;
+        this.type = type;
     }
 
 
@@ -33,29 +30,30 @@ public class StockOutListAdapter extends BaseQuickAdapter<StockGoods, BaseViewHo
     protected void convert(BaseViewHolder helper, StockGoods item) {
         helper.setText(R.id.name, item.getGoodsTitle());
         helper.setText(R.id.standards, item.getStandardTitle());
-        helper.setText(R.id.price, item.getPrice());
+        helper.setText(R.id.price, "￥" + item.getPrice());
+        helper.setText(R.id.price_stock, "￥" + item.getStockPrice());
 
 
         int num = item.getNumber();//领料数量
-        int stock = Integer.valueOf(null == item.getStock() ? "0" : item.getStock());//库存数量
+        int stock = item.getAfterNumber();//库存数量
 
 
-        helper.setText(R.id.num, "x" + num);
-        helper.setText(R.id.num_s, String.valueOf(num));
+        helper.setText(R.id.num, String.valueOf(num));
+
         helper.setText(R.id.tv_stock_num, String.valueOf(stock));
 
         ImageView iv = helper.getView(R.id.iv_type);
         TextView tv = helper.getView(R.id.tv_type);
+        TextView tv_type = helper.getView(R.id.type);
 
 
-        helper.addOnClickListener(R.id.num_s);
+        tv.setText("已匹配商品");
+        iv.setImageResource(R.mipmap.icon_stock_out_s);
+        if (type == 0) {
+            tv_type.setText(",领料");
 
-        if (num <= stock) {
-            tv.setText("已匹配商品");
-            iv.setImageResource(R.mipmap.icon_stock_out_s);
         } else {
-            tv.setText("商品不足");
-            iv.setImageResource(R.mipmap.icon_stock_out_no);
+            tv_type.setText(",入库");
         }
 
 

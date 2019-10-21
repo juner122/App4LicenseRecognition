@@ -173,6 +173,9 @@ public class ActivateCardPtr extends BasePresenter<ActivityCardContacts.Activity
             rac.setGoodsName(m.getName());
             rac.setGoodsNum(m.getNumber());
 
+            rac.setGoodsCode(m.getGoodsCode());
+            rac.setPrice(m.getPrice());
+
             //5.30新加字段规格id和名字
             rac.setGoodsStandardTitle(m.getGoodsStandardTitle());
             rac.setStandarId(m.getStandarId());

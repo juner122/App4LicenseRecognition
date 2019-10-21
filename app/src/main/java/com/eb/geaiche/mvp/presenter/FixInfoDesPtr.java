@@ -180,7 +180,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
     public void connectBluetooth(boolean isAuto) {
 
         if (isConnectable) {
-            ToastUtils.showToast("蓝牙已连接,请打印！");
+            ToastUtils.showToast("打印机已连接,请打印！");
         } else if (null != mBluetoothAdapter) {
             if (mBluetoothAdapter.isEnabled())//蓝牙已打开
                 getDeviceList(isAuto);
@@ -264,7 +264,6 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         esc.addText("手机号码：" + mobile + "\n");//打印下单时间
 
 
-
         if (null == MyAppPreferences.getString(Configure.CAR_MILEAGE) || "".equals(MyAppPreferences.getString(Configure.CAR_MILEAGE)))
             esc.addText("里程数：" + "未填写" + "\n");//打印里程数
         else
@@ -307,9 +306,10 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
         // 加入查询打印机状态，打印完成后，此时会接收到GpCom.ACTION_DEVICE_STATUS广播
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();
-        // 发送数据
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        for (int i = 0; i < Configure.Printing; i++) {
+            // 发送数据
+            DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        }
     }
 
 
@@ -347,7 +347,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
             if (!isAuto)
                 new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, getView().getSelfActivity()).show();
             else
-                BluetoothUtils.openPort(new ArrayList<>(pairedDevices).get(0).getAddress(), ID);
+                BluetoothUtils.openPort(MyAppPreferences.getString(Configure.BluetoothAddress), ID);
 
         } else
             mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
@@ -470,6 +470,7 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 
                             }
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
@@ -479,12 +480,13 @@ public class FixInfoDesPtr extends BasePresenter<FixInfoDesContacts.FixInfoDesUI
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
                             getView().setBluetoothText("打印机已连接");
                             isConnectable = true;
-                            ToastUtils.showToast("蓝牙已连接,请打印！");
+//                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getView().getSelfActivity().getString(R.string.str_conn_fail));
                             getView().setBluetoothText(getView().getSelfActivity().getString(R.string.str_conn_state_disconnect));
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
                             break;
                         default:
                             break;

@@ -41,10 +41,15 @@ public class UnOrderPickStockActivity extends BaseActivity {
 
     UnOrderPickStockListAdapter adapter;
 
+
+    boolean isAdd;
+
     @Override
     protected void init() {
         tv_title.setText("商品出库");
         setRTitle("出库单");
+
+        isAdd = getIntent().getBooleanExtra("isAdd", false);
     }
 
     @OnClick({R.id.tv_title_r, R.id.iv_search})
@@ -53,7 +58,7 @@ public class UnOrderPickStockActivity extends BaseActivity {
         switch (v.getId()) {
 
             case R.id.tv_title_r://前往出库单
-                toActivity(StockOutActivity.class);
+                toActivity(StockOutActivity.class, "isAdd", isAdd);
 
                 break;
 

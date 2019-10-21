@@ -84,7 +84,7 @@ public class OrderListActivity extends BaseActivity {
 
         view_intent = getIntent().getIntExtra("view_intent", 0);
         if (view_intent != 0) {//正常查看列表不显示按钮
-            enter.setVisibility(View.VISIBLE);
+            enter.setVisibility(View.GONE);
         } else
             enter.setVisibility(View.GONE);
 

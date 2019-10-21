@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -159,8 +160,10 @@ public class FixInfoDescribeActivity extends BaseActivity<FixInfoDesContacts.Fix
 
 
         //自动连接
-//        getPresenter().connectBluetooth(true);
-
+        if (!TextUtils.isEmpty(MyAppPreferences.getString(Configure.BluetoothAddress))) {//有连接过的设备就自动连接
+            //自动连接蓝牙
+            getPresenter().connectBluetooth(true);
+        }
     }
 
 

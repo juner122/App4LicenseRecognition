@@ -5,14 +5,15 @@ import android.os.Parcelable;
 
 public class GoodsEntity implements Parcelable {
 
-    int type;//服务商品类型  1 商品，2工时服务
+    int type = -1;//服务商品类型  4 项目，非4为其他
     boolean isSet = true;
 
 
     String id;
     String name;
     String goods_sn;
-
+    String couponSn;//劵号
+    String goodsCode;//商品编码
 
 
     String goodsSn;//新的
@@ -44,7 +45,6 @@ public class GoodsEntity implements Parcelable {
     int goods_specifition_ids;
 
 
-
     //主推项目对象
     String goodsSpecifitionNameValue;
     int goodsSpecifitionIds;
@@ -61,6 +61,22 @@ public class GoodsEntity implements Parcelable {
     //5.30新加字段
     String standardId;//
     String goodsStandardTitle;//
+
+    public String getCouponSn() {
+        return couponSn;
+    }
+
+    public void setCouponSn(String couponSn) {
+        this.couponSn = couponSn;
+    }
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
 
     public String getId() {
         return id;
@@ -85,6 +101,7 @@ public class GoodsEntity implements Parcelable {
     public void setMarketPrice(String marketPrice) {
         this.marketPrice = marketPrice;
     }
+
     public String getStandarId() {
         return standardId;
     }
@@ -118,8 +135,6 @@ public class GoodsEntity implements Parcelable {
     public void setGoodsSn(String goodsSn) {
         this.goodsSn = goodsSn;
     }
-
-
 
 
     public int getGoods_id() {

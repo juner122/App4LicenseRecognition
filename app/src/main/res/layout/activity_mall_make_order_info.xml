@@ -31,7 +31,7 @@
                     android:id="@+id/order_sn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单编号：XGX10001010"
+                    android:text="订单编号："
                     android:textColor="#ff333333"
                     android:textSize="13sp" />
 

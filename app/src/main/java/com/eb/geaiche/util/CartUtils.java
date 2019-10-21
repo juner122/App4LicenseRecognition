@@ -99,6 +99,7 @@ public class CartUtils {
         List<GoodsEntity> carts = new ArrayList<>();
         carts.addAll(getProductList());
         carts.addAll(getServerList());
+//        carts.addAll(getMealList());
         return carts;
     }
 
@@ -131,6 +132,15 @@ public class CartUtils {
         good.setType(Goods_TYPE_5);
 //        addData(good);
         addDataNoCommit(good);//操作不保存
+    }
+
+    //套餐商品
+    public void addMeal(GoodsEntity good) {
+
+
+        good.setType(Goods_TYPE_5);
+        addDataNoCommit(good);//操作不保存
+        commit();
     }
 
     //套餐商品
@@ -292,6 +302,16 @@ public class CartUtils {
         double totalPrice = 0d;
         for (GoodsEntity g : carts) {
             totalPrice = g.getNumber() * g.getRetail_priceTodouble() + totalPrice;
+        }
+        return totalPrice;
+    }
+
+    //计算套卡项目总价格
+    public double getMealPrice() {
+        List<GoodsEntity> carts = getMealList();
+        double totalPrice = 0d;
+        for (GoodsEntity g : carts) {
+            totalPrice = g.getRetail_priceTodouble() + totalPrice;
         }
         return totalPrice;
     }

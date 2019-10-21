@@ -81,6 +81,7 @@
         <activity android:name=".stockControl.activity.StockInOrOutInfoActivity" />
         <activity
             android:name=".stockControl.activity.StockInActivity"
+            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
@@ -107,8 +108,7 @@
             android:value="gac" />
 
         <activity
-            android:name=".activity.StartActivity"
-            android:launchMode="singleTask">
+            android:name=".activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

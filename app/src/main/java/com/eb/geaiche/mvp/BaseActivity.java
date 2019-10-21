@@ -33,7 +33,8 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
     View head_view;
     @BindView(R.id.tv_title_r)
     protected TextView tv_title_r;
-
+    @BindView(R.id.tv_title_r2)
+    protected TextView tv_title_r2;
     @BindView(R.id.tv_title)
     protected TextView tv_title;
 
@@ -72,6 +73,12 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
     public void setRTitle(String str) {
         tv_title_r.setVisibility(View.VISIBLE);
         tv_title_r.setText(str);
+
+    }
+
+    public void setRTitle2(String str) {
+        tv_title_r2.setVisibility(View.VISIBLE);
+        tv_title_r2.setText(str);
     }
 
     protected void toActivity(Class c, String key, int str) {
@@ -132,6 +139,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         startActivity(intent2);
 
     }
+
     protected void toFixList(int fragment_p) {
 
         Intent intent = new Intent(this, MainActivity.class);
@@ -151,7 +159,7 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
 
     }
 
-    protected void toOrderInfo(int fragment_p,int orderId) {
+    protected void toOrderInfo(int fragment_p, int orderId) {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(Configure.show_fragment, fragment_p);
@@ -160,7 +168,6 @@ public abstract class BaseActivity<P extends IBasePresenter> extends BaseXActivi
         startActivity(intent);
 
     }
-
 
 
     private ArrayList<ResultBack> list = new ArrayList<>();//保存所有activity返回的回调，跟随activity生命周期

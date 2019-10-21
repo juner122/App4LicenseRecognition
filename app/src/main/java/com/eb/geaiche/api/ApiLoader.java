@@ -558,7 +558,7 @@ public class ApiLoader {
     public Observable<OrderInfo> orderDetail(int id) {
 
         map.put("id", id);
-        return apiService.orderDetail(map).compose(RxHelper.<OrderInfo>observe());
+        return apiService.orderDetail(map).compose(RxHelper.observe());
     }
 
 
@@ -1293,8 +1293,18 @@ public class ApiLoader {
      * 检查版本更新
      */
     public Observable<VersionInfo> checkVersionUpDate() {
-        return apiService.checkVersionUpDate(token).compose(RxHelper.<VersionInfo>observe());
+        return apiService.checkVersionUpDate(token).compose(RxHelper.observe());
     }
+
+    /**
+     * 记录用户更新
+     *
+     * @param version 版本号 ，用户看的
+     */
+    public Observable<String> updateAppLog(String version) {
+        return apiService.updateAppLog(token, version).compose(RxHelper.observe());
+    }
+
 
     /**
      * 获取员工详情
@@ -1825,9 +1835,15 @@ public class ApiLoader {
     /**
      * 出入库记录列表
      */
-    public Observable<List<StockInOrOut>> stockInOrOutRecordList(int type) {
+    public Observable<List<StockInOrOut>> stockInOrOutRecordList(String name, int type, int page) {
 
-        return apiService.stockInOrOutRecordList(token, type).compose(RxHelper.observe());
+        map.put("limit", Configure.limit_page);//页数
+        map.put("page", page);
+        map.put("type", type);
+        if (null != name)
+            map.put("name", name);
+
+        return apiService.stockInOrOutRecordList(token, map).compose(RxHelper.observe());
     }
 
 
@@ -2015,6 +2031,15 @@ public class ApiLoader {
     public Observable<Coupon> queryByNumber(String couponNumber) {
 
         return apiService.queryByNumber(token, couponNumber).compose(RxHelper.observe());
+    }
+
+
+    /**
+     * 套卡扫码
+     */
+    public Observable<GoodsEntity> activityqueryByNumber(String couponNumber, String orderId) {
+
+        return apiService.activityqueryByNumber(token, couponNumber, orderId).compose(RxHelper.observe());
     }
 
     /**

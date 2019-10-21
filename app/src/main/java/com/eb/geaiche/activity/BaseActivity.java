@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
 
 import android.widget.ImageView;
@@ -38,6 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected TextView tv_title;
     @BindView(R.id.tv_title_r)
     protected TextView tv_title_r;
+    @BindView(R.id.tv_title_r2)
+    protected TextView tv_title_r2;
     @BindView(R.id.iv_r)
     protected View iv_r;
     @BindView(R.id.tv_back)
@@ -97,6 +101,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         tv_title_r.setText(str);
     }
 
+    public void setRTitle2(String str) {
+        tv_title_r2.setVisibility(View.VISIBLE);
+        tv_title_r2.setText(str);
+    }
+
     public void shwoProgressBar() {
         iv_r.setVisibility(View.VISIBLE);
     }
@@ -153,7 +162,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    protected void toMakeOrder(int user_id, int car_id, String moblie, String user_name, String car_number,String mileage) {
+    protected void toMakeOrder(int user_id, int car_id, String moblie, String user_name, String car_number, String mileage) {
 
 
         new AppPreferences(this).put(Configure.user_id, user_id);
@@ -166,6 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(new Intent(this, MakeOrderActivity.class));
 
     }
+
     protected void toActivity(Class c, List p, String key) {
 
 
@@ -209,6 +219,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, c);
         intent.putExtra(key, str);
+        startActivity(intent);
+
+    }
+
+    protected void toActivity(Class c, String key, boolean b) {
+
+
+        Intent intent = new Intent(this, c);
+        intent.putExtra(key, b);
         startActivity(intent);
 
     }

@@ -49,7 +49,7 @@ public class ProductMealFragment extends BaseFragment {
 
     @Override
     protected void setUpView() {
-        mealListAdapter = new MealListAdapter(null);
+        mealListAdapter = new MealListAdapter(null,true);
 
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(mealListAdapter);

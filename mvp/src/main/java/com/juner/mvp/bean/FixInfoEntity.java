@@ -66,6 +66,14 @@ public class FixInfoEntity implements Parcelable {
     String deputy;
     String deputy_mobile;
 
+    public List<FixServie> getOrderProjectList() {
+        return orderProjectList;
+    }
+
+    public void setOrderProjectList(List<FixServie> orderProjectList) {
+        this.orderProjectList = orderProjectList;
+    }
+
     public String getDeputy() {
         return deputy;
     }

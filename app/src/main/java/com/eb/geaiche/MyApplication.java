@@ -61,6 +61,10 @@ public class MyApplication extends Application {
 //        CrashHandler2.getInstance().init(this);
 
 
+
+
+
+
     }
 
     @Override

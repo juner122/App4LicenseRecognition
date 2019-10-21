@@ -19,6 +19,10 @@ public class RemakeActCard {
 
     //商品名
     private String goodsName;
+    //商品编码
+    private String goodsCode;
+    //价格
+    private String price;
     //开始时间
     private Long addTime;
     //结束时间
@@ -45,6 +49,22 @@ public class RemakeActCard {
 
     public void setGoodsStandardTitle(String goodsStandardTitle) {
         this.goodsStandardTitle = goodsStandardTitle;
+    }
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public Long getAddTime() {

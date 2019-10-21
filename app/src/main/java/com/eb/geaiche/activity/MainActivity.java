@@ -181,6 +181,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init() {
+
+
+
         hideHeadView();
 
         toInfoActivity(getIntent());
@@ -472,6 +475,8 @@ public class MainActivity extends BaseActivity {
                         finish();
                     });
                     dialog.show();
+
+
                 }
             }
 
@@ -481,6 +486,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
 
 
     @Override

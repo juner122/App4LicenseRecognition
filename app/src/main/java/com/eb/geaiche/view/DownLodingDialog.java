@@ -21,8 +21,14 @@ import android.widget.TextView;
 import androidx.core.content.FileProvider;
 
 import com.eb.geaiche.R;
+import com.eb.geaiche.activity.MainActivity;
+import com.eb.geaiche.api.ApiLoader;
+import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.FileUtil;
 import com.eb.geaiche.util.ToastUtils;
+import com.juner.mvp.Configure;
+import com.juner.mvp.bean.NullDataEntity;
+import com.juner.mvp.bean.VersionInfo;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -52,6 +58,7 @@ public class DownLodingDialog extends Dialog {
     String string = "";
     String url;
     String path;//下载文件的存储绝对路径
+    String versionName;//app版本号
 
 
     TextView tv_title, tv_text, tv_download_info;
@@ -80,6 +87,7 @@ public class DownLodingDialog extends Dialog {
         super(context, R.style.my_dialog);
         this.context = context;
         string = str;
+        this.versionName = appVision;
         this.url = url;
 
 
@@ -154,7 +162,10 @@ public class DownLodingDialog extends Dialog {
                         openAPK();
                     } else {
                         if (!isDowning)//防止多次点击
-                            startDL();
+                        {
+//                            startDL();
+                            updateAppLog();
+                        }
                     }
                     break;
                 case R.id.tv_cancel:
@@ -165,6 +176,23 @@ public class DownLodingDialog extends Dialog {
             }
         }
 
+    }
+
+
+    //记录用户更新
+    private void updateAppLog() {
+
+        new ApiLoader(context).updateAppLog(versionName).subscribe(new RxSubscribe<String>(context, true) {
+            @Override
+            protected void _onNext(String nullDataEntity) {
+                startDL();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                ToastUtils.showToast("更新失败，请重试！" + message);
+            }
+        });
     }
 
     //开始下载

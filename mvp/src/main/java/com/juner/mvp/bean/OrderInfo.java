@@ -57,7 +57,11 @@ public class OrderInfo implements Parcelable {
     }
 
     public OrderInfo() {
+
+
     }
+
+
 
     @Override
     public int describeContents() {

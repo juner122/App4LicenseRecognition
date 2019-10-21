@@ -9,6 +9,8 @@ public class DateUtil {
     static String format = "yyyy-MM-dd HH:mm:ss";
 
     public static String getFormatedDateTime(String dateTime) {
+        if (null == dateTime)
+            dateTime = "0";
         Long l = Long.valueOf(dateTime);
 
         SimpleDateFormat sDateFormat = new SimpleDateFormat(format);

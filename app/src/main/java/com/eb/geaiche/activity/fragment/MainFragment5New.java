@@ -24,6 +24,7 @@ import com.eb.geaiche.util.ToastUtils;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
 import com.eb.geaiche.view.DownLodingDialog;
 import com.juner.mvp.Configure;
+import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.Shop;
 import com.juner.mvp.bean.VersionInfo;
 
@@ -58,6 +59,7 @@ public class MainFragment5New extends BaseFragment {
 
     @BindView(R.id.updata)
     TextView updata;//版本号
+
     @Override
     public int setLayoutResourceID() {
         return R.layout.fragment5_main_new;
@@ -109,7 +111,7 @@ public class MainFragment5New extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_my_balance,R.id.about, R.id.updata,R.id.rl_to_info, R.id.project, R.id.tv_out, R.id.tv_change_store, R.id.mystudy, R.id.my_cart, R.id.my_collection, R.id.my_youj, R.id.my_rowse_record, R.id.stay_pay, R.id.stay_send, R.id.stay_collect, R.id.after_sale, R.id.tv_all_order})
+    @OnClick({R.id.tv_my_balance, R.id.about, R.id.updata, R.id.rl_to_info, R.id.project, R.id.tv_out, R.id.tv_change_store, R.id.mystudy, R.id.my_cart, R.id.my_collection, R.id.my_youj, R.id.my_rowse_record, R.id.stay_pay, R.id.stay_send, R.id.stay_collect, R.id.after_sale, R.id.tv_all_order})
     public void onclick(View v) {
 
         switch (v.getId()) {
@@ -211,6 +213,7 @@ public class MainFragment5New extends BaseFragment {
                     dialog.setClicklistener(() -> dialog.dismiss());
                     dialog.show();
 
+
                 } else {
                     ToastUtils.showToast("当前已是最新版本");
                 }
@@ -224,4 +227,6 @@ public class MainFragment5New extends BaseFragment {
             }
         });
     }
+
+
 }

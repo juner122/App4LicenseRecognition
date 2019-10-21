@@ -1,7 +1,9 @@
 package com.eb.geaiche.adapter;
 
 import android.graphics.Paint;
+
 import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,12 +21,13 @@ import java.util.List;
 
 public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
 
+    boolean isShow;//是否显示选择按钮
 
-    public MealListAdapter(@Nullable List<MultiItemEntity> data) {
+    public MealListAdapter(@Nullable List<MultiItemEntity> data, boolean isShow) {
         super(data);
         addItemType(MyMultipleItem.FIRST_TYPE, R.layout.activity_product_meal_list_item);
         addItemType(MyMultipleItem.SECOND_TYPE, R.layout.activity_product_meal_list_item_item);
-
+        this.isShow = isShow;
     }
 
     @Override
@@ -47,11 +50,17 @@ public class MealListAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, 
                 break;
             case MyMultipleItem.SECOND_TYPE:
                 MealEntity me = (MealEntity) item;
-                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, me.getNumber() + "次");
+                helper.setText(R.id.tv_name, me.getGoodsName()).setText(R.id.tv_2, "劵号：" + (null == me.getCouponSn() ? "-" : me.getCouponSn()));
 
                 ImageView iv = helper.getView(R.id.iv);
                 TextView tv_goodName = helper.getView(R.id.tv_name);
 
+                if (isShow) {
+                    iv.setVisibility(View.VISIBLE);
+
+                } else {
+                    iv.setVisibility(View.INVISIBLE);
+                }
 
                 if (me.getNumber() > 0) {//可用次数不为0
                     helper.addOnClickListener(R.id.ll_item);

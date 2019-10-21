@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.eb.geaiche.R;
 import com.eb.geaiche.api.RxSubscribe;
 import com.eb.geaiche.util.A2bigA;
@@ -317,49 +318,49 @@ public class CarVinDISActivity extends BaseActivity {
     //查询vin信息
     private void queryVinInfo(String vin) {
 
-//        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
-//            @Override
-//            protected void _onNext(CarVin carVin) {
-//
-//                if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
-//                    ToastUtils.showToast("查询失败,请重新查询！");
-//                    return;
-//                }
-//                showInfo();
-//                setCarInfo(carVin.getShowapi_res_body());
-//                toCarInfo(carVin.getShowapi_res_body());
-//            }
-//
-//            @Override
-//            protected void _onError(String message) {
-//                Log.e("车架号vin信息查询:", message);
-//
-//                ToastUtils.showToast("查询失败,请重新查询！");
-//            }
-//        });
-
-
-        //新的vin码信息查询接口
-        Api().carVinInfoQuery2(vin).subscribe(new RxSubscribe<CarVinInfo2>(CarVinDISActivity.this, true, "车辆信息查询中") {
+        Api().carVinInfoQuery(vin).subscribe(new RxSubscribe<CarVin>(CarVinDISActivity.this, true, "车辆信息查询中") {
             @Override
-            protected void _onNext(CarVinInfo2 carVin) {
+            protected void _onNext(CarVin carVin) {
 
-                if (null == carVin.getVehicles() || carVin.getVehicles().size() == 0) {
-                    ToastUtils.showToast("查询失败,请重新查询！");
+                if (null == carVin.getShowapi_res_body() || null == carVin.getShowapi_res_body().getBrand_name() || carVin.getShowapi_res_body().getBrand_name().equals("")) {
+                    ToastUtils.showToast("车型查询失败,请强制录入车架号！");
                     return;
                 }
                 showInfo();
-                setCarInfo(carVin.getVehicles().get(0));
-                toCarInfo(carVin.getVehicles().get(0));
+                setCarInfo(carVin.getShowapi_res_body());
+                toCarInfo(carVin.getShowapi_res_body());
             }
 
             @Override
             protected void _onError(String message) {
                 Log.e("车架号vin信息查询:", message);
 
-                ToastUtils.showToast("查询失败,请重新查询！");
+                ToastUtils.showToast("查询失败,请检查车架号！" + message);
             }
         });
+
+
+//        //新的vin码信息查询接口
+//        Api().carVinInfoQuery2(vin).subscribe(new RxSubscribe<CarVinInfo2>(CarVinDISActivity.this, true, "车辆信息查询中") {
+//            @Override
+//            protected void _onNext(CarVinInfo2 carVin) {
+//
+//                if (null == carVin.getVehicles() || carVin.getVehicles().size() == 0) {
+//                    ToastUtils.showToast("查询失败,请重新查询！");
+//                    return;
+//                }
+//                showInfo();
+//                setCarInfo(carVin.getVehicles().get(0));
+//                toCarInfo(carVin.getVehicles().get(0));
+//            }
+//
+//            @Override
+//            protected void _onError(String message) {
+//                Log.e("车架号vin信息查询:", message);
+//
+//                ToastUtils.showToast("查询失败,请重新查询！" + message);
+//            }
+//        });
 
 
     }

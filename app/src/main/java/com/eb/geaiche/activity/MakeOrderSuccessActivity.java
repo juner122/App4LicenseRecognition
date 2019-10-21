@@ -18,6 +18,7 @@ import android.os.Message;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ import com.eb.geaiche.util.CameraThreadPool;
 import com.eb.geaiche.util.MyAppPreferences;
 import com.eb.geaiche.view.BtConfirmDialog;
 import com.eb.geaiche.view.ConfirmDialogCanlce;
+import com.eb.geaiche.zbar.CaptureActivity;
 import com.gprinter.command.EscCommand;
 import com.juner.mvp.Configure;
 import com.eb.geaiche.R;
@@ -142,9 +144,33 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         tv_title.setText("订单确认");
         setRTitle("凭证打印");
+
+
+        if (MyAppPreferences.getShopType())
+            setRTitle2("套卡扫码");
         info = getIntent().getParcelableExtra(Configure.ORDERINFO);
 
-        Api().orderDetail(info.getOrderInfo().getId()).subscribe(new RxSubscribe<OrderInfo>(this, true) {
+
+        // //初始化蓝牙
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+
+        orderDetail(info.getOrderInfo().getId());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!isConnectable && !TextUtils.isEmpty(MyAppPreferences.getString(Configure.BluetoothAddress))) {//有连接过的设备就自动连接
+            //自动连接蓝牙
+            connectBluetooth(true);
+        }
+    }
+
+    //获取订单信息
+    private void orderDetail(int id) {
+        Api().orderDetail(id).subscribe(new RxSubscribe<OrderInfo>(this, true) {
             @Override
             protected void _onNext(OrderInfo o) {
                 Log.i("OrderInfo订单信息：", o.getOrderInfo().toString());
@@ -159,13 +185,6 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
             }
         });
-
-        // //初始化蓝牙
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        //自动连接蓝牙
-//        connectBluetooth(true);
-
-
     }
 
 
@@ -229,7 +248,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             if (!isAuto)
                 new BtConfirmDialog(new ArrayList<>(pairedDevices), ID, this).show();
             else
-                BluetoothUtils.openPort(new ArrayList<>(pairedDevices).get(0).getAddress(), ID);
+                BluetoothUtils.openPort(MyAppPreferences.getString(Configure.BluetoothAddress), ID);
 
         } else
             mHandler.obtainMessage(NO_DERVER).sendToTarget();//没有可配对的设备
@@ -320,15 +339,16 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
-            esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_3)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), Configure.Goods_TYPE_3)) {
+            esc.addText("服务工时\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), true)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), true)) {
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                 esc.addText(ge.getGoods_name());
                 esc.addPrintAndLineFeed();
                 esc.addSelectJustification(LEFT);
                 esc.addSetAbsolutePrintPosition((short) 7);
-                esc.addText("x1");
+//                esc.addText("x1");
+                esc.addText(ge.getNumberStringX());
                 esc.addSetAbsolutePrintPosition((short) 12);
                 esc.addSelectJustification(RIGHT);
                 esc.addText("" + ge.getRetail_price());
@@ -341,8 +361,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         if (null != info.getOrderInfo().getGoodsList() || info.getOrderInfo().getGoodsList().size() > 0) {
 
-            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), Configure.Goods_TYPE_4)) + "\n");
-            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), Configure.Goods_TYPE_4)) {
+            esc.addText("商品项目\t小计:" + String2Utils.getOrderGoodsPrice(getGoodsList(info.getOrderInfo().getGoodsList(), false)) + "\n");
+            for (GoodsEntity ge : getGoodsList(info.getOrderInfo().getGoodsListReverse(), false)) {
 
                 esc.addSelectJustification(LEFT);
                 esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
@@ -371,8 +391,8 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 esc.addSelectJustification(LEFT);
 
                 esc.addSetAbsolutePrintPosition((short) 7);
-                esc.addText("x1");
-
+//                esc.addText("x1");
+                esc.addText(gu.getNumberStringX());
                 esc.addSetAbsolutePrintPosition((short) 12);
 
                 esc.addSelectJustification(RIGHT);
@@ -384,6 +404,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
         esc.addSelectJustification(RIGHT);
+        esc.addPrintAndLineFeed();
         esc.addText(all_price.getText().toString());
         esc.addPrintAndLineFeed();
 
@@ -426,22 +447,35 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         // 加入查询打印机状态，打印完成后，此时会接收到GpCom.ACTION_DEVICE_STATUS广播
         esc.addQueryPrinterStatus();
         Vector<Byte> datas = esc.getCommand();
-        // 发送数据
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
-        DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        for (int i = 0; i < Configure.Printing; i++) {
+            // 发送数据
+            DeviceConnFactoryManager.getDeviceConnFactoryManagers()[ID].sendDataImmediately(datas);
+        }
     }
 
 
     //获取商品或工时
-    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, int Type) {
+
+    /**
+     * @param isService 是否查工时
+     */
+    private List<GoodsEntity> getGoodsList(List<GoodsEntity> goodsEntities, boolean isService) {
         if (null == goodsEntities) {
             return null;
         }
         List<GoodsEntity> list = new ArrayList<>();
         for (GoodsEntity entity : goodsEntities) {
-            if (entity.getType() == Type) {
-                list.add(entity);
+
+            if (isService) {
+                if (entity.getType() != Configure.Goods_TYPE_4) {
+                    list.add(entity);
+                }
+            } else {
+                if (entity.getType() == Configure.Goods_TYPE_4) {
+                    list.add(entity);
+                }
             }
+
         }
         return list;
 
@@ -480,15 +514,20 @@ public class MakeOrderSuccessActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
-        Glide.with(this)
-                .asDrawable()
-                .load(Uri.fromFile(new File(Configure.LinePathView_url)))
-                .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .apply(skipMemoryCacheOf(true))
-                .into(iv_lpv);
+        if (intent.getBooleanExtra("CaptureActivity", false)) {
+            orderDetail(info.getOrderInfo().getId());
+        } else {
 
-        iv_lpv_url = intent.getStringExtra(Configure.Domain);
-        info.getOrderInfo().setDistrict(iv_lpv_url);//保存签名，防止用户直接支付
+            Glide.with(this)
+                    .asDrawable()
+                    .load(Uri.fromFile(new File(Configure.LinePathView_url)))
+                    .apply(diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .apply(skipMemoryCacheOf(true))
+                    .into(iv_lpv);
+
+            iv_lpv_url = intent.getStringExtra(Configure.Domain);
+            info.getOrderInfo().setDistrict(iv_lpv_url);//保存签名，防止用户直接支付
+        }
     }
 
     private void setInfo() {
@@ -504,11 +543,11 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
         iv_lpv_url = info.getOrderInfo().getDistrict();
 
-        tv_order_sn.append(info.getOrderInfo().getOrder_sn());
-        tv_car_no.append(info.getOrderInfo().getCar_no());
-        tv_make_date.append(info.getOrderInfo().getAdd_time());
+        tv_order_sn.setText("订单编号：" + info.getOrderInfo().getOrder_sn());
+        tv_car_no.setText("车牌号码：" + info.getOrderInfo().getCar_no());
+        tv_make_date.setText("下单时间：" + info.getOrderInfo().getAdd_time());
 
-        tv_expect_date.append(DateUtil.getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
+        tv_expect_date.setText("预计完成：" + DateUtil.getFormatedDateTime(info.getOrderInfo().getPlanfinishi_time()));
         tv_remarks.setText(info.getOrderInfo().getPostscript());
 
 
@@ -518,10 +557,10 @@ public class MakeOrderSuccessActivity extends BaseActivity {
             tv_now_pay.setVisibility(View.GONE);
 
 
-        tv_shopName.append(null == info.getShop().getShopName() ? "-" : info.getShop().getShopName());
-        tv_name.append(null == info.getShop().getName() ? "-" : info.getShop().getName());
-        tv_phone.append(null == info.getShop().getPhone() ? "-" : info.getShop().getPhone());
-        tv_address.append(null == info.getShop().getAddress() ? "-" : info.getShop().getAddress());
+        tv_shopName.setText(null == info.getShop().getShopName() ? "-" : info.getShop().getShopName());
+        tv_name.setText("门店店长：" + null == info.getShop().getName() ? "-" : info.getShop().getName());
+        tv_phone.setText("联系方式：" + null == info.getShop().getPhone() ? "-" : info.getShop().getPhone());
+        tv_address.setText("地        址：" + null == info.getShop().getAddress() ? "-" : info.getShop().getAddress());
 
 
         simpleGoodInfo2Adpter = new SimpleGoodInfo2Adpter(getGood(info.getOrderInfo().getGoodsList()));
@@ -560,7 +599,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         rv_servers.setAdapter(serverInfo2Adpter);
 
 
-        all_price.append(MathUtil.twoDecimal(goodsPrice + ServerPrice));
+        all_price.setText("总计：￥" + MathUtil.twoDecimal(goodsPrice + ServerPrice));
 
     }
 
@@ -580,7 +619,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         return R.layout.activity_make_order_success;
     }
 
-    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph, R.id.tv_title_r, R.id.tv_bluetooth})
+    @OnClick({R.id.tv_now_pay, R.id.tv_start_service, R.id.tv_back, R.id.ll_autograph, R.id.tv_title_r, R.id.tv_bluetooth, R.id.tv_title_r2})
     public void onClick(View view) {
 
         if (ButtonUtils.isFastDoubleClick(view.getId())) {//防止按钮多次重复点击
@@ -651,7 +690,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
 
                 if (isConnectable) {
-                    ToastUtils.showToast("蓝牙已连接,请打印！");
+                    ToastUtils.showToast("打印机已连接,请打印！");
                 } else
                     connectBluetooth(false);//连接蓝牙
 
@@ -662,6 +701,15 @@ public class MakeOrderSuccessActivity extends BaseActivity {
                 btnReceiptPrint();//蓝牙打印
 
 
+                break;
+            case R.id.tv_title_r2://套卡录入
+
+                Intent intent = new Intent(this, CaptureActivity.class);
+                intent.putExtra("view_type", 2);
+                intent.putExtra("type", 0);
+                intent.putExtra("id", String.valueOf(info.getOrderInfo().getId()));
+
+                startActivity(intent);
                 break;
 
         }
@@ -717,6 +765,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         Log.e(TAG, "onDestroy()");
         DeviceConnFactoryManager.closeAllPort();
         CameraThreadPool.shutdownNow();
+        unregisterReceiver(receiver);
     }
 
     boolean isConnectable;//是否可打印
@@ -744,6 +793,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 
                             }
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
                             break;
                         case DeviceConnFactoryManager.CONN_STATE_CONNECTING:
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connecting));
@@ -753,12 +803,13 @@ public class MakeOrderSuccessActivity extends BaseActivity {
 //                            tv_bluetooth.setText(getString(R.string.str_conn_state_connected));
                             tv_bluetooth.setText("打印机已连接");
                             isConnectable = true;
-                            ToastUtils.showToast("蓝牙已连接,请打印！");
+//                            ToastUtils.showToast("蓝牙已连接,请打印！");
                             break;
                         case CONN_STATE_FAILED:
                             ToastUtils.showToast(getString(R.string.str_conn_fail));
                             tv_bluetooth.setText(getString(R.string.str_conn_state_disconnect));
                             isConnectable = false;
+//                            MyAppPreferences.remove(Configure.BluetoothAddress);//删除蓝牙地址
                             break;
                         default:
                             break;
@@ -778,21 +829,23 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         registerReceiver(receiver, filter);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unregisterReceiver(receiver);
 
-    }
 
 
     //获取配件
     private List<GoodsEntity> getGood(List<GoodsEntity> goodsEntities) {
 
+//        List<GoodsEntity> carts = new ArrayList<>();
+//        List<GoodsEntity> list = goodsEntities;
+//        for (GoodsEntity c : list) {
+//            if (c.getType() == Goods_TYPE_4 || c.getType() == Goods_TYPE_1 || c.getType() == Goods_TYPE_5 || c.getType() == Goods_TYPE_2)
+//                carts.add(c);
+//        }
+//        return carts;
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = goodsEntities;
         for (GoodsEntity c : list) {
-            if (c.getType() == Goods_TYPE_4||c.getType()==Goods_TYPE_1||c.getType()==Goods_TYPE_5||c.getType()==Goods_TYPE_2)
+            if (c.getType() == Goods_TYPE_4)
                 carts.add(c);
         }
         return carts;
@@ -805,7 +858,7 @@ public class MakeOrderSuccessActivity extends BaseActivity {
         List<GoodsEntity> carts = new ArrayList<>();
         List<GoodsEntity> list = goodsEntities;
         for (GoodsEntity c : list) {
-            if (c.getType() == Goods_TYPE_3)
+            if (c.getType() != Goods_TYPE_4)
                 carts.add(c);
         }
         return carts;

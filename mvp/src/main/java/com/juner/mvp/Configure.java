@@ -3,7 +3,7 @@ package com.juner.mvp;
 public class Configure {
 
 
-//        public static final String BaseUrl = "http://222.111.88.211:8081/app/";//线下
+//        public static final String BaseUrl = "http://222.111.88.112:8081/app/";//线下
     public static final String BaseUrl = "https://geaiche.changmeishi.com/app/";//线上 更新
     // public static final String BaseUrl = "http://192.168.1.105:8089/app/";//线下 强哥
     public static final int Goods_TYPE_1 = 1;//商城商品
@@ -12,6 +12,7 @@ public class Configure {
     public static final int Goods_TYPE_4 = 4;//配件
     public static final int Goods_TYPE_5 = 5;//套卡
     public static final String Goods_TYPE = "Goods_TYPE";//套卡
+    public static final int Printing = 1;//凭证打印条数
 
 
     public static final String STOCK_IN = "2";//入库
@@ -37,6 +38,7 @@ public class Configure {
 
     public static final String Token = "Token";//Token
     public static final String Balance = "Balance";
+    public static final String BluetoothAddress = "BluetoothAddress";//蓝牙地址
 
 
     public static final String car_no = "car_no";//车牌号

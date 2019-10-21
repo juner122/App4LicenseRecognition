@@ -10,8 +10,12 @@ import com.juner.mvp.base.presenter.IBasePresenter;
 import com.juner.mvp.base.view.IBaseView;
 import com.juner.mvp.bean.FixInfo;
 import com.juner.mvp.bean.FixInfoEntity;
+import com.juner.mvp.bean.FixParts;
+import com.juner.mvp.bean.FixServie;
 import com.juner.mvp.bean.NullDataEntity;
 import com.juner.mvp.bean.OrderInfoEntity;
+
+import java.util.List;
 
 
 //汽车检修单信息页面
@@ -66,6 +70,9 @@ public class FixInfoContacts {
     public interface FixInfoPtr extends IBasePresenter {
 
         void getInfo();//获取页面数据
+        FixInfo putInfo();//
+        List<FixServie> putServiceData();//
+        List<FixParts> putPartsData();//
 
 
         void initRecyclerView(RecyclerView rv_service, RecyclerView rv_parts);
@@ -89,6 +96,8 @@ public class FixInfoContacts {
         void notice();//通知客户
 
         void changeView();
+
+
     }
 
     /**

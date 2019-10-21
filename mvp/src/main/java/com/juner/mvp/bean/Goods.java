@@ -282,6 +282,16 @@ public class Goods extends AbstractExpandableItem<Goods.GoodsStandard> implement
         //供应商名
         private String supplierName;
 
+        private int isShowItem;//是否显示子项
+
+        public int getIsShowItem() {
+            return isShowItem;
+        }
+
+        public void setIsShowItem(int isShowItem) {
+            this.isShowItem = isShowItem;
+        }
+
         public List<GoodsPic> getGoodsDetailsPojoList() {
             return goodsDetailsPojoList;
         }
