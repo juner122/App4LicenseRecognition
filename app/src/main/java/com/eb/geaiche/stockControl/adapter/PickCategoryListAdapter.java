@@ -17,7 +17,7 @@ public class PickCategoryListAdapter extends BaseQuickAdapter<GoodsCategory, Bas
 
 
     public PickCategoryListAdapter(@Nullable List<GoodsCategory> data, Context c) {
-        super(R.layout.activity_stock_add_pick_brand, data);
+        super(R.layout.activity_stock_add_pick_brand , data);
         this.context = c;
     }
 

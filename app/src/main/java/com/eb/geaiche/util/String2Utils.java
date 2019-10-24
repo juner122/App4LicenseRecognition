@@ -74,6 +74,7 @@ public class String2Utils {
         return totalPrice;
 
     } //计算商品总价
+
     public static double getServiePrice2(List<FixServie> list) {
 
         if (null == list || list.size() == 0) return 0.00;
@@ -98,7 +99,7 @@ public class String2Utils {
 
         for (FixParts g : list) {
 
-            totalPrice = g.getNumber() * Double.valueOf(g.getRetail_priceD()) + totalPrice;
+                totalPrice = g.getNumber() * Double.valueOf(g.getRetail_priceD()) + totalPrice;
         }
         return totalPrice;
 

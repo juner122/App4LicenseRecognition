@@ -36,7 +36,7 @@
                 tl:layout_constraintBottom_toBottomOf="parent"
                 tl:layout_constraintStart_toStartOf="parent"
                 tl:layout_constraintTop_toTopOf="parent" />
-s
+
             <ImageView
                 android:id="@+id/scan"
                 android:visibility="visible"

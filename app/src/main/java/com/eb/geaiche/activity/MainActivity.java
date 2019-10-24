@@ -195,10 +195,11 @@ public class MainActivity extends BaseActivity {
         if (MyAppPreferences.getShopType())
             tv_is_new_order.setVisibility(View.GONE);
 
-        cl.setVisibility(View.VISIBLE);
+
 
 
     }
+
 
 
     @Override
@@ -268,7 +269,7 @@ public class MainActivity extends BaseActivity {
                 SystemUtil.isReLogin(message, MainActivity.this);
             }
         });
-
+        cl.setVisibility(View.VISIBLE);
     }
 
 

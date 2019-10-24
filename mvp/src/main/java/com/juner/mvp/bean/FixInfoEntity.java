@@ -66,6 +66,16 @@ public class FixInfoEntity implements Parcelable {
     String deputy;
     String deputy_mobile;
 
+    String car_brand;//车品牌
+
+    public String getCar_brand() {
+        return car_brand;
+    }
+
+    public void setCar_brand(String car_brand) {
+        this.car_brand = car_brand;
+    }
+
     public List<FixServie> getOrderProjectList() {
         return orderProjectList;
     }
@@ -89,6 +99,7 @@ public class FixInfoEntity implements Parcelable {
     public void setDeputy_mobile(String deputy_mobile) {
         this.deputy_mobile = deputy_mobile;
     }
+
     public String getReplaceSignPic() {
         return replaceSignPic;
     }
@@ -279,7 +290,6 @@ public class FixInfoEntity implements Parcelable {
     }
 
 
-
     public void setSignPic(String signPic) {
         this.signPic = signPic;
     }
@@ -325,6 +335,9 @@ public class FixInfoEntity implements Parcelable {
 
     }
 
+    public FixInfoEntity() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -358,9 +371,7 @@ public class FixInfoEntity implements Parcelable {
         dest.writeString(this.replaceOterPic);
         dest.writeString(this.deputy);
         dest.writeString(this.deputy_mobile);
-    }
-
-    public FixInfoEntity() {
+        dest.writeString(this.car_brand);
     }
 
     protected FixInfoEntity(Parcel in) {
@@ -390,9 +401,10 @@ public class FixInfoEntity implements Parcelable {
         this.replaceOterPic = in.readString();
         this.deputy = in.readString();
         this.deputy_mobile = in.readString();
+        this.car_brand = in.readString();
     }
 
-    public static final Parcelable.Creator<FixInfoEntity> CREATOR = new Parcelable.Creator<FixInfoEntity>() {
+    public static final Creator<FixInfoEntity> CREATOR = new Creator<FixInfoEntity>() {
         @Override
         public FixInfoEntity createFromParcel(Parcel source) {
             return new FixInfoEntity(source);

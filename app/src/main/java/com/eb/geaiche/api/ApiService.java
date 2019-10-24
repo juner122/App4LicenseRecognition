@@ -592,7 +592,7 @@ public interface ApiService {
     //记录用户更新
     @POST("auth/updateAppLog")
     @FormUrlEncoded
-    Observable<BaseBean<String>> updateAppLog(@Header("X-Nideshop-Token") String token,@Field("version") String version);
+    Observable<BaseBean<String>> updateAppLog(@Header("X-Nideshop-Token") String token, @Field("version") String version);
 
     //根据vid获取视频
     @POST("course/resourceUrl")
@@ -646,6 +646,14 @@ public interface ApiService {
     //门店检修报告选项列表
     @POST("shop/queryCheckOptions")
     Observable<BaseBean<List<CheckOptions>>> queryCheckOptions(@Header("X-Nideshop-Token") String token);
+
+    //添加门店检修选项
+    @POST("shop/addCheckOptions")
+    Observable<BaseBean<NullDataEntity>> addCheckOptions(@Header("X-Nideshop-Token") String token, @Body CheckOptions checkOptions);
+
+    //修改门店检修选项
+    @POST("shop/updateCheckOptions")
+    Observable<BaseBean<NullDataEntity>> updateCheckOptions(@Header("X-Nideshop-Token") String token, @Body CheckOptions checkOptions);
 
 
     //暂存或者生成检测报告

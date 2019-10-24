@@ -1200,10 +1200,26 @@ public class ApiLoader {
      *
      * @param name 关键字
      */
-    public Observable<FixInfoList> quotationList(String name, int page) {
+    public Observable<FixInfoList> quotationList(Date before, Date after, boolean isdate, String name, int page) {
+
+        map.clear();
+        map.put("X-Nideshop-Token", token);
+        if (isdate)
+            map.put("limit", 100);
+        else
+            map.put("limit", Configure.limit_page);
+        if (!TextUtils.isEmpty(name))
+            map.put("name", name);
+        map.put("page", page);
+
+        //选日期需要添加，不添加默认取本月	Date before, Date after
+        if (isdate) {
+            map.put("dateStart", before.getTime());
+            map.put("dateEnd", after.getTime());
+        }
 
 
-        return apiService.quotationList(token, name, page, Configure.limit_page).compose(RxHelper.<FixInfoList>observe());
+        return apiService.quotationList(map).compose(RxHelper.<FixInfoList>observe());
     }
 
     /**
@@ -1404,7 +1420,23 @@ public class ApiLoader {
      */
     public Observable<List<CheckOptions>> queryCheckOptions() {
 
-        return apiService.queryCheckOptions(token).compose(RxHelper.<List<CheckOptions>>observe());
+        return apiService.queryCheckOptions(token).compose(RxHelper.observe());
+    }
+
+    /**
+     * 添加门店检修选项；
+     */
+    public Observable<NullDataEntity> addCheckOptions(CheckOptions checkOptions) {
+
+        return apiService.addCheckOptions(token,checkOptions).compose(RxHelper.observe());
+    }
+
+    /**
+     * 修改门店检修选项
+     */
+    public Observable<NullDataEntity> updateCheckOptions(CheckOptions checkOptions) {
+
+        return apiService.updateCheckOptions(token,checkOptions).compose(RxHelper.observe());
     }
 
 

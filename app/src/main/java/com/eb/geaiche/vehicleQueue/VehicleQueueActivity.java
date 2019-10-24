@@ -52,6 +52,7 @@ public class VehicleQueueActivity extends BaseActivity {
         adapter = new QueueListAdapter(null, this);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
+        adapter.setEmptyView(R.layout.order_list_empty_view, rv);
 
         adapter.setOnItemClickListener((a, view, position) -> {
 

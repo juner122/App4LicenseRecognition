@@ -466,7 +466,6 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
     }
 
 
-
     boolean isConnectable;//是否可打印
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -663,7 +662,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             esc.addText("服务工时\t" + tv_price1.getText().toString() + "\n");
             for (FixServie ge : fixServies) {
 
-                if (ge.getType() == 3 && ge.getSelected() == 1) {
+                if (ge.getType() == 3 && ge.getSelected() != 0) {
                     esc.addSelectJustification(LEFT);
                     esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                     esc.addText(ge.getName());
@@ -691,7 +690,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
             esc.addText("商品项目\t" + tv_price2.getText().toString() + "\n");
             for (FixParts ge : fixParts) {
 
-                if (ge.getType() == 4 && ge.getSelected() == 1) {
+                if (ge.getType() == 4 && ge.getSelected() != 0) {
                     esc.addSelectJustification(LEFT);
                     esc.addSetHorAndVerMotionUnits((byte) 7, (byte) 0);
                     esc.addText(ge.getGoods_name());
@@ -715,7 +714,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
 
 //
         esc.addSelectJustification(RIGHT);
-        esc.addText("总计：￥" + String2Utils.getPrice(fixParts));
+        esc.addText(tv_text.getText().toString());
         esc.addPrintAndLineFeed();
 
 
@@ -723,7 +722,7 @@ public class FixInfoActivity extends BaseActivity<FixInfoContacts.FixInfoPtr> im
         esc.addText("================================\n");//打印完成时间
         esc.addText("备注\n");
         esc.addText(tv_dec.getText().toString() + "\n");
-        esc.addText("--------------------------------\n");//打印完成时间
+        esc.addText("--------------------------------\n");
 
         esc.addPrintAndLineFeed();
 //        if (null != iv_lpv.getDrawable()) {

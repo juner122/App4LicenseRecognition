@@ -129,7 +129,7 @@ public class OrderSearch extends BaseActivity {
             startShowDate.setTime(date);
             isdate = true;//设置时间后
             searchData();
-            page=1;
+            page = 1;
         });
 
         pvTimeEnd.init(endShowDate, (date, v) -> {
@@ -138,7 +138,7 @@ public class OrderSearch extends BaseActivity {
             endShowDate.setTime(date);
             isdate = true;//设置时间后
             searchData();
-            page=1;
+            page = 1;
         });
 
     }

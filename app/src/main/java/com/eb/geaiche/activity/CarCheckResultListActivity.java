@@ -1,8 +1,10 @@
 package com.eb.geaiche.activity;
 
 import android.content.Intent;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -31,7 +33,7 @@ public class CarCheckResultListActivity extends BaseActivity {
     @Override
     protected void init() {
         tv_title.setText("车辆检查记录");
-
+        setRTitle("设置");
     }
 
     @BindView(R.id.rv)
@@ -39,12 +41,19 @@ public class CarCheckResultListActivity extends BaseActivity {
 
     CarCheckAdapter carCheckAdapter;
 
-    @OnClick({R.id.tv_add})
+    @OnClick({R.id.tv_add, R.id.tv_title_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add:
 
                 toInfoActivity(true);
+
+                break;
+
+
+            case R.id.tv_title_r:
+
+                toActivity(CarCheckSetingActivity.class);
 
                 break;
         }

@@ -29,6 +29,7 @@ public class FixInfoListAdapter extends BaseQuickAdapter<FixInfoEntity, BaseView
 
 
         helper.setText(R.id.tv_plate_number, item.getCarNo());
+        helper.setText(R.id.tv_brand, item.getCar_brand());
         helper.setText(R.id.tv_order_number, String.format("检修单号:%s", item.getQuotationSn()));
         helper.setText(R.id.tv_date, item.getAddTime());
         helper.setText(R.id.tv_order_state, item.getStatusText());

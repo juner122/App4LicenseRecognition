@@ -717,6 +717,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 
     //获取商品或工时
+
     /**
      * @param isService 是否查工时
      */
@@ -940,7 +941,7 @@ public class OrderInfoActivity extends BaseActivity {
 
         esc.addSelectJustification(RIGHT);
         esc.addPrintAndLineFeed();
-        esc.addText("总计："+tv_price4.getText().toString());
+        esc.addText("总计：" + tv_price4.getText().toString());
         esc.addPrintAndLineFeed();
 
 

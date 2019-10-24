@@ -54,9 +54,9 @@
         android:text="刚刚"
         android:textColor="#ff999999"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/tv_un"
-        app:layout_constraintTop_toTopOf="parent" />
+
+        app:layout_constraintBottom_toBottomOf="@id/tv_title"
+        app:layout_constraintRight_toLeftOf="@id/tv_un" />
 
     <View
         android:id="@+id/line"
